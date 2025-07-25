@@ -1,5 +1,5 @@
 // Service Worker for Te Kete Ako PWA
-const CACHE_NAME = 'te-kete-ako-v1.2.0';
+const CACHE_NAME = 'te-kete-ako-v1.3.0';
 const OFFLINE_URL = '/offline.html';
 
 // Core resources to cache for offline functionality
