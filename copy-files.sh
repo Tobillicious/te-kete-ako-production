@@ -6,8 +6,10 @@ set -e
 # Create the public directory if it doesn't exist
 mkdir -p public
 
-# Copy all top-level HTML files
+# Copy all top-level HTML files, including new ones
 cp *.html public/
+cp forgot-password.html public/
+cp reset-password.html public/
 
 # Copy essential manifest and service worker files
 cp manifest.json public/
