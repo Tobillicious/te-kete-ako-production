@@ -163,9 +163,14 @@
         </main>
     </div>
 
+    <!-- CRITICAL: Load Supabase client FIRST -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
+    
+    <!-- Load main functionality -->
     <script src="js/main.js"></script>
     <script>
-        // Login form handling
+        // Login form handling with Supabase
         document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -183,44 +188,35 @@
             messageDiv.style.display = 'none';
             
             try {
-                const response = await fetch('/.netlify/functions/auth-login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email, password })
+                // Use Supabase for authentication
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
                 });
                 
-                const result = await response.json();
+                if (error) {
+                    throw error;
+                }
                 
-                if (result.success) {
-                    // Store authentication data
-                    localStorage.setItem('teKeteAko_token', result.token);
-                    localStorage.setItem('teKeteAko_refreshToken', result.refresh_token);
-                    localStorage.setItem('teKeteAko_user', JSON.stringify(result.user));
-                    
+                if (data.user) {
                     // Show success message
                     messageDiv.textContent = 'Login successful! Redirecting...';
                     messageDiv.className = 'message success';
                     messageDiv.style.display = 'block';
                     
-                    // Redirect based on user role
+                    // Redirect to dashboard - for now, all users go to index
                     setTimeout(() => {
-                        if (result.user.role === 'teacher') {
-                            window.location.href = 'teacher-dashboard.html';
-                        } else {
-                            window.location.href = 'student-dashboard.html';
-                        }
+                        window.location.href = 'index.html';
                     }, 1500);
                     
                 } else {
-                    messageDiv.textContent = result.message || 'Login failed. Please check your credentials.';
+                    messageDiv.textContent = 'Login failed. Please check your credentials.';
                     messageDiv.className = 'message error';
                     messageDiv.style.display = 'block';
                 }
             } catch (error) {
                 console.error('Login error:', error);
-                messageDiv.textContent = 'An error occurred during login. Please try again.';
+                messageDiv.textContent = error.message || 'An error occurred during login. Please try again.';
                 messageDiv.className = 'message error';
                 messageDiv.style.display = 'block';
             } finally {
@@ -232,18 +228,16 @@
         });
         
         // Check if user is already logged in
-        window.addEventListener('load', () => {
-            const token = localStorage.getItem('teKeteAko_token');
-            const user = localStorage.getItem('teKeteAko_user');
-            
-            if (token && user) {
-                const userData = JSON.parse(user);
-                // Redirect to appropriate dashboard
-                if (userData.role === 'teacher') {
-                    window.location.href = 'teacher-dashboard.html';
-                } else {
-                    window.location.href = 'student-dashboard.html';
+        window.addEventListener('load', async () => {
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
+                
+                if (user) {
+                    // User is already logged in, redirect to homepage
+                    window.location.href = 'index.html';
                 }
+            } catch (error) {
+                console.log('No user session found');
             }
         });
     </script>

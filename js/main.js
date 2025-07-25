@@ -43,14 +43,28 @@ function initializeNavigation() {
 /**
  * Authentication helpers
  */
-function initializeAuth() {
-    // Check if user is logged in
-    const token = localStorage.getItem('teKeteAko_token');
-    const user = localStorage.getItem('teKeteAko_user');
+async function initializeAuth() {
+    // Wait for Supabase client to be available
+    if (typeof supabase === 'undefined') {
+        console.log('Supabase client not yet available, waiting...');
+        setTimeout(initializeAuth, 100);
+        return;
+    }
     
-    if (token && user) {
-        // User is logged in
-        updateAuthState(JSON.parse(user));
+    try {
+        // Check if user is logged in with Supabase
+        const { data: { user } } = await supabase.auth.getUser();
+        
+        if (user) {
+            // User is logged in
+            updateAuthState(user);
+        } else {
+            // User is not logged in
+            updateAuthState(null);
+        }
+    } catch (error) {
+        console.log('Auth check failed:', error);
+        updateAuthState(null);
     }
 }
 
@@ -60,13 +74,33 @@ function updateAuthState(user) {
     
     authNavItems.forEach(item => {
         if (user) {
-            // Replace login/register with user menu
+            // Replace login/register with user info and logout
             item.innerHTML = `
-                <a href="${user.role === 'student' ? 'student-dashboard.html' : 'teacher-dashboard.html'}">
+                <a href="#" onclick="window.TeKeteAko.logout(); return false;">
                     <span class="nav-icon">👤</span>
-                    <span class="nav-text-en">${user.display_name || user.email}</span>
+                    <span class="nav-text-en">${user.email.split('@')[0]}</span>
+                    <span class="nav-text-mi" lang="mi">Whakatere</span>
                 </a>
             `;
+        } else {
+            // Show login/register buttons for non-authenticated users
+            if (item.querySelector('.login-btn')) {
+                item.innerHTML = `
+                    <a href="login.html" class="login-btn">
+                        <span class="nav-icon">🔐</span>
+                        <span class="nav-text-en">Login</span>
+                        <span class="nav-text-mi" lang="mi">Takiuru</span>
+                    </a>
+                `;
+            } else if (item.querySelector('.register-btn')) {
+                item.innerHTML = `
+                    <a href="register.html" class="register-btn">
+                        <span class="nav-icon">📝</span>
+                        <span class="nav-text-en">Register</span>
+                        <span class="nav-text-mi" lang="mi">Rēhita</span>
+                    </a>
+                `;
+            }
         }
     });
 }
@@ -90,13 +124,24 @@ function initializePWA() {
 /**
  * Analytics initialization
  */
-function initializeAnalytics() {
+async function initializeAnalytics() {
     // Track page views and user interactions
-    const user = localStorage.getItem('teKeteAko_user');
-    
-    if (user) {
-        // Track authenticated user analytics
-        trackPageView(JSON.parse(user));
+    if (window.authHelpers) {
+        try {
+            const user = await window.authHelpers.getCurrentUser();
+            if (user) {
+                // Track authenticated user analytics
+                trackPageView(user);
+            } else {
+                // Track anonymous user analytics
+                trackPageView();
+            }
+        } catch (error) {
+            console.log('Analytics auth check failed:', error);
+            trackPageView();
+        }
+    } else {
+        trackPageView();
     }
     
     // Track general site usage
@@ -107,7 +152,7 @@ function trackPageView(user = null) {
     const pageData = {
         page: window.location.pathname,
         timestamp: new Date().toISOString(),
-        user_id: user ? JSON.parse(localStorage.getItem('teKeteAko_user')).id : null,
+        user_id: user ? user.id : null,
         device_type: /Mobile|Android|iPhone/i.test(navigator.userAgent) ? 'mobile' : 'desktop'
     };
     
@@ -180,42 +225,63 @@ function formatDate(dateString) {
 }
 
 // Check if user has specific role
-function hasRole(requiredRole) {
-    const user = localStorage.getItem('teKeteAko_user');
-    if (!user) return false;
-    
-    const userData = JSON.parse(user);
-    return userData.role === requiredRole;
+async function hasRole(requiredRole) {
+    try {
+        if (window.authHelpers) {
+            const user = await window.authHelpers.getCurrentUser();
+            if (!user) return false;
+            
+            // For now, we'll treat all authenticated users as teachers
+            // In future, this would check user metadata or a profiles table
+            return requiredRole === 'teacher';
+        }
+        return false;
+    } catch (error) {
+        console.error('Role check error:', error);
+        return false;
+    }
 }
 
 // Redirect based on user role
-function redirectToDashboard() {
-    const user = localStorage.getItem('teKeteAko_user');
-    if (!user) {
+async function redirectToDashboard() {
+    try {
+        if (window.authHelpers) {
+            const isLoggedIn = await window.authHelpers.isLoggedIn();
+            if (!isLoggedIn) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // For now, redirect all authenticated users to homepage
+            // In future, this would check user role from profiles table
+            window.location.href = 'index.html';
+        } else {
+            window.location.href = 'login.html';
+        }
+    } catch (error) {
+        console.error('Dashboard redirect error:', error);
         window.location.href = 'login.html';
-        return;
-    }
-    
-    const userData = JSON.parse(user);
-    if (userData.role === 'student') {
-        window.location.href = 'student-dashboard.html';
-    } else if (userData.role === 'teacher') {
-        window.location.href = 'teacher-dashboard.html';
-    } else {
-        window.location.href = 'index.html';
     }
 }
 
 // Logout function
-function logout() {
-    localStorage.removeItem('teKeteAko_token');
-    localStorage.removeItem('teKeteAko_refreshToken');
-    localStorage.removeItem('teKeteAko_user');
-    
-    showMessage('Successfully logged out', 'success');
-    setTimeout(() => {
-        window.location.href = 'index.html';
-    }, 1000);
+async function logout() {
+    try {
+        // Use Supabase auth helper
+        if (window.authHelpers) {
+            await window.authHelpers.signOut();
+        }
+        
+        showMessage('Successfully logged out', 'success');
+        updateAuthState(null);
+        
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 1000);
+    } catch (error) {
+        console.error('Logout error:', error);
+        showMessage('Error logging out', 'error');
+    }
 }
 
 // Global error handler
