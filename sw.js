@@ -1,5 +1,5 @@
 // Service Worker for Te Kete Ako PWA
-const CACHE_NAME = 'te-kete-ako-v1.3.0';
+const CACHE_NAME = 'te-kete-ako-v1.4.0';
 const OFFLINE_URL = '/offline.html';
 
 // Core resources to cache for offline functionality
@@ -64,8 +64,8 @@ self.addEventListener('install', (event) => {
                 return cache.addAll(CORE_CACHE);
             })
             .then(() => {
-                console.log('[SW] Core resources cached successfully');
-                return self.skipWaiting();
+                console.log('[SW] Core resources cached successfully. Forcing activation.');
+                return self.skipWaiting(); // Force activation
             })
             .catch((error) => {
                 console.error('[SW] Failed to cache core resources:', error);
@@ -89,7 +89,7 @@ self.addEventListener('activate', (event) => {
             );
         }).then(() => {
             console.log('[SW] Claiming clients');
-            return self.clients.claim();
+            return self.clients.claim(); // Take control immediately
         })
     );
 });
