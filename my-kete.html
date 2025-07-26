@@ -255,6 +255,9 @@
     <!-- Load simple authentication system -->
     <script src="js/simple-auth.js"></script>
     
+    <!-- Load bookmark functionality -->
+    <script src="js/simple-bookmarks.js"></script>
+    
     <!-- Load main functionality -->
     <script src="js/main.js"></script>
     
@@ -304,18 +307,36 @@
                 emptyElement.style.display = 'none';
                 gridElement.style.display = 'none';
 
-                // For now, show a placeholder message since we need the database migrations
-                // This will be replaced with actual Supabase queries once migrations are applied
+                // Wait a moment for bookmarks system to be ready
                 setTimeout(() => {
-                    loadingElement.style.display = 'none';
-                    emptyElement.style.display = 'block';
-                    
-                    // Update stats to show 0 for now
-                    document.getElementById('total-resources').textContent = '0';
-                    document.getElementById('handouts-count').textContent = '0';
-                    document.getElementById('lessons-count').textContent = '0';
-                    document.getElementById('games-count').textContent = '0';
-                }, 1500);
+                    if (window.simpleBookmarks) {
+                        const bookmarks = window.simpleBookmarks.getBookmarks();
+                        const stats = window.simpleBookmarks.getBookmarkStats();
+
+                        // Update statistics
+                        document.getElementById('total-resources').textContent = stats.total;
+                        document.getElementById('handouts-count').textContent = (stats.byType.resource || []).filter(b => b.url.includes('handouts')).length;
+                        document.getElementById('lessons-count').textContent = (stats.byType.resource || []).filter(b => b.url.includes('lessons')).length;
+                        document.getElementById('games-count').textContent = (stats.byType.resource || []).filter(b => b.url.includes('games')).length;
+
+                        loadingElement.style.display = 'none';
+
+                        if (bookmarks.length === 0) {
+                            emptyElement.style.display = 'block';
+                        } else {
+                            renderBookmarkedResources(bookmarks);
+                            gridElement.style.display = 'grid';
+                        }
+                    } else {
+                        // Fallback if bookmarks system not ready
+                        loadingElement.style.display = 'none';
+                        emptyElement.style.display = 'block';
+                        document.getElementById('total-resources').textContent = '0';
+                        document.getElementById('handouts-count').textContent = '0';
+                        document.getElementById('lessons-count').textContent = '0';
+                        document.getElementById('games-count').textContent = '0';
+                    }
+                }, 500);
 
                 console.log('My Kete page loaded successfully');
             } catch (error) {
@@ -326,6 +347,91 @@
                     </p>
                 `;
             }
+        }
+
+        function renderBookmarkedResources(bookmarks) {
+            const gridElement = document.getElementById('saved-resources-grid');
+            gridElement.innerHTML = '';
+
+            bookmarks.forEach(bookmark => {
+                const card = createBookmarkCard(bookmark);
+                gridElement.appendChild(card);
+            });
+        }
+
+        function createBookmarkCard(bookmark) {
+            const card = document.createElement('div');
+            card.className = 'resource-card';
+            card.style.cssText = `
+                background: white;
+                border: 1px solid #e1e5e9;
+                border-radius: 12px;
+                padding: 1.5rem;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+            `;
+
+            // Determine icon based on URL
+            let icon = '📄';
+            if (bookmark.url.includes('games')) icon = '🎮';
+            else if (bookmark.url.includes('lessons')) icon = '📖';
+            else if (bookmark.url.includes('activities')) icon = '⚡';
+            else if (bookmark.url.includes('handouts')) icon = '📄';
+            else if (bookmark.url.includes('unit-plans')) icon = '📚';
+
+            const savedDate = new Date(bookmark.savedAt).toLocaleDateString('en-NZ', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+
+            card.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                    <h3 style="margin: 0; color: var(--color-primary); font-size: 1.1rem;">
+                        ${icon} ${bookmark.title}
+                    </h3>
+                    <button class="remove-bookmark-btn" 
+                            data-url="${bookmark.url}"
+                            style="background: none; border: none; color: #dc3545; font-size: 1.2rem; cursor: pointer; padding: 0.2rem;"
+                            title="Remove from kete">
+                        🗑️
+                    </button>
+                </div>
+                
+                ${bookmark.description ? `<p style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.4; margin-bottom: 1rem;">${bookmark.description}</p>` : ''}
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 1rem;">
+                    <a href="${bookmark.url}" 
+                       style="background: var(--color-primary); color: white; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; font-weight: 500;">
+                        View Resource
+                    </a>
+                    <span style="font-size: 0.8rem; color: var(--color-text-secondary);">
+                        Saved ${savedDate}
+                    </span>
+                </div>
+            `;
+
+            // Add remove functionality
+            const removeBtn = card.querySelector('.remove-bookmark-btn');
+            removeBtn.addEventListener('click', () => {
+                if (confirm(`Remove "${bookmark.title}" from your kete?`)) {
+                    window.simpleBookmarks.removeBookmark(bookmark.url);
+                    loadSavedResources(); // Refresh the display
+                }
+            });
+
+            // Add hover effect
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-2px)';
+                card.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+                card.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+            });
+
+            return card;
         }
 
         // Listen for auth state changes
