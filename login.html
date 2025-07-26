@@ -133,7 +133,14 @@
 
             <div class="auth-container">
                 <h1 style="text-align: center; color: var(--color-primary); margin-bottom: 1.5rem;">Welcome Back to Te Kete Ako</h1>
-                <p style="text-align: center; color: var(--color-text-secondary); margin-bottom: 2rem;">Sign in to access your personalized learning dashboard</p>
+                <p style="text-align: center; color: var(--color-text-secondary); margin-bottom: 1rem;">Sign in to access your personalized learning dashboard</p>
+                
+                <!-- Demo Accounts Info -->
+                <div style="background: #e7f3ff; border: 1px solid #b3d9ff; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; font-size: 0.9rem;">
+                    <h4 style="margin: 0 0 0.5rem 0; color: var(--color-primary);">🧪 Try Demo Accounts:</h4>
+                    <p style="margin: 0.25rem 0;"><strong>teacher@tekete.nz</strong> / password123</p>
+                    <p style="margin: 0.25rem 0;"><strong>admin@tekete.nz</strong> / admin123</p>
+                </div>
                 
                 <div id="login-message" class="message" style="display: none;"></div>
                 
@@ -155,7 +162,7 @@
                 </form>
                 
                 <div class="auth-links">
-                    <p>Don't have an account? <a href="register.html">Register here</a></p>
+                    <p>Don't have an account? <a href="register-simple.html">Register here</a></p>
                     <p><a href="forgot-password.html">Forgot your password?</a></p>
                     <p><a href="index.html">← Back to Te Kete Ako</a></p>
                 </div>
@@ -163,14 +170,13 @@
         </main>
     </div>
 
-    <!-- CRITICAL: Load Supabase client FIRST -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-client.js"></script>
+    <!-- Load simple authentication system -->
+    <script src="js/simple-auth.js"></script>
     
     <!-- Load main functionality -->
     <script src="js/main.js"></script>
     <script>
-        // Login form handling with Supabase
+        // Login form handling with Simple Auth
         document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -188,29 +194,22 @@
             messageDiv.style.display = 'none';
             
             try {
-                // Use Supabase for authentication
-                const { data, error } = await supabase.auth.signInWithPassword({
-                    email: email,
-                    password: password
-                });
+                // Use Simple Auth for authentication
+                const result = await window.simpleAuth.login(email, password);
                 
-                if (error) {
-                    throw error;
-                }
-                
-                if (data.user) {
+                if (result.success) {
                     // Show success message
                     messageDiv.textContent = 'Login successful! Redirecting...';
                     messageDiv.className = 'message success';
                     messageDiv.style.display = 'block';
                     
-                    // Redirect to dashboard - for now, all users go to index
+                    // Redirect to homepage
                     setTimeout(() => {
                         window.location.href = 'index.html';
                     }, 1500);
                     
                 } else {
-                    messageDiv.textContent = 'Login failed. Please check your credentials.';
+                    messageDiv.textContent = result.error || 'Login failed. Please check your credentials.';
                     messageDiv.className = 'message error';
                     messageDiv.style.display = 'block';
                 }
@@ -228,16 +227,10 @@
         });
         
         // Check if user is already logged in
-        window.addEventListener('load', async () => {
-            try {
-                const { data: { user } } = await supabase.auth.getUser();
-                
-                if (user) {
-                    // User is already logged in, redirect to homepage
-                    window.location.href = 'index.html';
-                }
-            } catch (error) {
-                console.log('No user session found');
+        window.addEventListener('load', () => {
+            if (window.simpleAuth && window.simpleAuth.isLoggedIn()) {
+                // User is already logged in, redirect to homepage
+                window.location.href = 'index.html';
             }
         });
     </script>
