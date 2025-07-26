@@ -39,9 +39,10 @@ class SimpleBookmarks {
         }
     }
 
-    addBookmark(title, url, description = '', type = 'resource') {
+    async addBookmark(title, url, description = '', type = 'resource') {
         // Check if user is logged in
-        if (!window.simpleAuth || !window.simpleAuth.isLoggedIn()) {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
             this.showNotification('Please log in to save resources to your kete', 'info');
             return false;
         }
@@ -61,7 +62,7 @@ class SimpleBookmarks {
             description: description,
             type: type,
             savedAt: new Date().toISOString(),
-            savedBy: window.simpleAuth.getCurrentUser().email
+            savedBy: user.email
         };
 
         this.bookmarks.push(bookmark);
@@ -88,11 +89,11 @@ class SimpleBookmarks {
         return this.bookmarks.some(b => b.url === url);
     }
 
-    getBookmarks() {
+    async getBookmarks() {
+        const { data: { user } } = await supabase.auth.getUser();
         return this.bookmarks.filter(b => 
-            !window.simpleAuth || 
-            !window.simpleAuth.isLoggedIn() || 
-            b.savedBy === window.simpleAuth.getCurrentUser().email
+            !user || 
+            b.savedBy === user.email
         );
     }
 
@@ -107,7 +108,7 @@ class SimpleBookmarks {
             }
 
             // Extract resource info
-            const titleElement = card.querySelector('.resource-card-title, .card-title, 'h3');
+            const titleElement = card.querySelector('.resource-card-title, .card-title, h3');
             const descriptionElement = card.querySelector('.resource-card-description, .card-description');
             const linkElement = card.querySelector('a') || card;
 

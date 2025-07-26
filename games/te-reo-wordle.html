@@ -1435,5 +1435,28 @@
             originalNewGame();
         };
     </script>
+    
+    <!-- Load sharing system -->
+    <script src="../js/wordle-sharing.js"></script>
+    <script>
+        // Very carefully hook into game completion for sharing
+        document.addEventListener('DOMContentLoaded', () => {
+            // Wait for everything to load, then hook into existing updateStatsAfterGame
+            setTimeout(() => {
+                if (typeof updateStatsAfterGame === 'function') {
+                    const originalUpdateStats = updateStatsAfterGame;
+                    updateStatsAfterGame = function(won) {
+                        // Call original function first - preserve all existing functionality
+                        originalUpdateStats(won);
+                        
+                        // Add sharing modal after game completion
+                        if (window.wordleSharing && gameOver) {
+                            window.wordleSharing.onGameComplete();
+                        }
+                    };
+                }
+            }, 1000);
+        });
+    </script>
 </body>
 </html>

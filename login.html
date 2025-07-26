@@ -170,8 +170,12 @@
         </main>
     </div>
 
-    <!-- Load simple authentication system -->
-    <script src="js/simple-auth.js"></script>
+    <!-- Supabase CDN -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <!-- Supabase Client -->
+    <script src="js/supabase-client.js"></script>
+    <!-- Auth UI -->
+    <script src="js/auth-ui.js"></script>
     
     <!-- Load main functionality -->
     <script src="js/main.js"></script>
@@ -194,10 +198,17 @@
             messageDiv.style.display = 'none';
             
             try {
-                // Use Simple Auth for authentication
-                const result = await window.simpleAuth.login(email, password);
+                // Use Supabase for authentication
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
                 
-                if (result.success) {
+                if (error) {
+                    messageDiv.textContent = error.message;
+                    messageDiv.className = 'message error';
+                    messageDiv.style.display = 'block';
+                } else {
                     // Show success message
                     messageDiv.textContent = 'Login successful! Redirecting...';
                     messageDiv.className = 'message success';
@@ -207,11 +218,6 @@
                     setTimeout(() => {
                         window.location.href = 'index.html';
                     }, 1500);
-                    
-                } else {
-                    messageDiv.textContent = result.error || 'Login failed. Please check your credentials.';
-                    messageDiv.className = 'message error';
-                    messageDiv.style.display = 'block';
                 }
             } catch (error) {
                 console.error('Login error:', error);
@@ -227,8 +233,9 @@
         });
         
         // Check if user is already logged in
-        window.addEventListener('load', () => {
-            if (window.simpleAuth && window.simpleAuth.isLoggedIn()) {
+        window.addEventListener('load', async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
                 // User is already logged in, redirect to homepage
                 window.location.href = 'index.html';
             }
