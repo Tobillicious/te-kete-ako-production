@@ -461,8 +461,9 @@ class StreamlinedHeader {
         });
 
         // Check authentication status for nav items
-        if (window.simpleAuth) {
-            const isLoggedIn = window.simpleAuth.isLoggedIn();
+        const checkAuthStatus = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            const isLoggedIn = !!user;
             const myKeteLink = document.querySelector('.my-kete-link');
             const loginLink = document.querySelector('.login-link');
             const registerLink = document.querySelector('.register-link');
@@ -476,7 +477,9 @@ class StreamlinedHeader {
                 if (loginLink) loginLink.style.display = 'block';
                 if (registerLink) registerLink.style.display = 'block';
             }
-        }
+        };
+        
+        checkAuthStatus();
     }
 }
 

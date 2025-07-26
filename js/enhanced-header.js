@@ -89,11 +89,16 @@ class EnhancedHeader {
         this.addHeaderStyles();
     }
 
-    checkAuthenticationStatus() {
-        // Check with existing auth system
-        if (window.simpleAuth) {
-            this.isAuthenticated = window.simpleAuth.isLoggedIn();
-            this.currentUser = window.simpleAuth.currentUser;
+    async checkAuthenticationStatus() {
+        // Check with Supabase auth system
+        try {
+            const { data: { user } } = await supabase.auth.getUser();
+            this.isAuthenticated = !!user;
+            this.currentUser = user;
+        } catch (error) {
+            console.error('Error checking auth status:', error);
+            this.isAuthenticated = false;
+            this.currentUser = null;
         }
     }
 
@@ -1247,10 +1252,13 @@ class EnhancedHeader {
         }
     }
 
-    handleLogout() {
-        if (window.simpleAuth) {
-            window.simpleAuth.logout();
+    async handleLogout() {
+        try {
+            const { error } = await supabase.auth.signOut();
+            if (error) throw error;
             window.location.reload();
+        } catch (error) {
+            console.error('Error signing out:', error);
         }
     }
 

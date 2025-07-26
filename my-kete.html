@@ -252,8 +252,12 @@
         </main>
     </div>
 
-    <!-- Load simple authentication system -->
-    <script src="js/simple-auth.js"></script>
+    <!-- Supabase CDN -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <!-- Supabase Client -->
+    <script src="js/supabase-client.js"></script>
+    <!-- Auth UI -->
+    <script src="js/auth-ui.js"></script>
     
     <!-- Load bookmark functionality -->
     <script src="js/simple-bookmarks.js"></script>
@@ -272,13 +276,14 @@
 
         async function initMyKetePage() {
             try {
-                // Check authentication status with simple auth
-                if (!window.simpleAuth || !window.simpleAuth.isLoggedIn()) {
+                // Check authentication status with Supabase
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user) {
                     showAuthRequired();
                     return;
                 }
 
-                currentUser = window.simpleAuth.getCurrentUser();
+                currentUser = user;
                 showKeteContent();
                 await loadSavedResources();
             } catch (error) {
