@@ -304,14 +304,17 @@ class ActivityGenerator {
         
         const content = document.createElement('div');
         content.style.cssText = `
-            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-            border-radius: 20px;
-            padding: 2rem;
-            max-width: 600px;
-            color: white;
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            max-width: 500px;
+            width: 90%;
+            color: var(--color-text-primary);
             position: relative;
-            max-height: 80vh;
+            max-height: 75vh;
             overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            border: 1px solid var(--color-border-light);
         `;
         
         const closeModal = () => {
@@ -321,53 +324,55 @@ class ActivityGenerator {
         };
         
         content.innerHTML = `
-            <button id="close-btn-top" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; padding: 0.5rem;">×</button>
+            <button id="close-btn-top" style="position: absolute; top: 0.75rem; right: 0.75rem; background: none; border: none; color: #666; font-size: 1.3rem; cursor: pointer; padding: 0.25rem; border-radius: 4px; transition: all 0.2s ease;">×</button>
             
-            <h2 style="color: white; margin-bottom: 1rem;">⚡ Generated Activity</h2>
+            <div style="text-align: center; margin-bottom: 1.25rem;">
+                <h2 style="color: var(--color-primary); margin: 0; font-size: 1.4rem;">⚡ Generated Activity</h2>
+            </div>
             
-            <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;">
-                <h3 style="color: var(--color-secondary); margin-bottom: 0.5rem;">${activity.title}</h3>
-                <p style="opacity: 0.9; margin-bottom: 1rem;">${activity.description}</p>
+            <div style="background: var(--color-cultural-light); padding: 1.25rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid var(--color-secondary);">
+                <h3 style="color: var(--color-primary); margin: 0 0 0.5rem 0; font-size: 1.1rem;">${activity.title}</h3>
+                <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0; line-height: 1.4; font-size: 0.95rem;">${activity.description}</p>
                 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
-                    <div>
-                        <strong>Duration:</strong><br>
-                        <span style="color: var(--color-secondary);">${activity.duration}</span>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.85rem;">
+                    <div style="background: white; padding: 0.5rem 0.75rem; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <strong style="color: var(--color-text-primary);">Duration:</strong>
+                        <span style="color: var(--color-secondary); font-weight: 600; margin-left: 0.25rem;">${activity.duration}</span>
                     </div>
-                    <div>
-                        <strong>Year Levels:</strong><br>
-                        <span style="color: var(--color-secondary);">Years ${activity.yearLevels.join(', ')}</span>
+                    <div style="background: white; padding: 0.5rem 0.75rem; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <strong style="color: var(--color-text-primary);">Years:</strong>
+                        <span style="color: var(--color-secondary); font-weight: 600; margin-left: 0.25rem;">${activity.yearLevels.join(', ')}</span>
                     </div>
-                    <div>
-                        <strong>Subjects:</strong><br>
-                        <span style="color: var(--color-secondary);">${activity.subjects.join(', ')}</span>
+                    <div style="background: white; padding: 0.5rem 0.75rem; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <strong style="color: var(--color-text-primary);">Subjects:</strong>
+                        <span style="color: var(--color-secondary); font-weight: 600; margin-left: 0.25rem;">${activity.subjects.join(', ')}</span>
                     </div>
                 </div>
             </div>
             
-            <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;">
-                <h4 style="color: white; margin-bottom: 1rem;">📋 Implementation Guide</h4>
+            <div style="background: white; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border: 1px solid var(--color-border-light);">
+                <h4 style="color: var(--color-primary); margin: 0 0 0.75rem 0; font-size: 1rem;">📋 Implementation Guide</h4>
                 
-                <div style="margin-bottom: 1rem;">
-                    <strong style="color: var(--color-secondary);">Materials Needed:</strong>
-                    <p style="margin: 0.5rem 0;">${activity.materials}</p>
+                <div style="margin-bottom: 0.75rem;">
+                    <strong style="color: var(--color-secondary); font-size: 0.9rem;">Materials Needed:</strong>
+                    <p style="margin: 0.25rem 0 0 0; color: var(--color-text-secondary); font-size: 0.85rem; line-height: 1.3;">${activity.materials}</p>
                 </div>
                 
-                <div style="margin-bottom: 1rem;">
-                    <strong style="color: var(--color-secondary);">Instructions:</strong>
-                    <p style="margin: 0.5rem 0;">${activity.instructions}</p>
+                <div style="margin-bottom: 0.75rem;">
+                    <strong style="color: var(--color-secondary); font-size: 0.9rem;">Instructions:</strong>
+                    <p style="margin: 0.25rem 0 0 0; color: var(--color-text-secondary); font-size: 0.85rem; line-height: 1.3;">${activity.instructions}</p>
                 </div>
                 
                 <div>
-                    <strong style="color: var(--color-secondary);">Curriculum Links:</strong>
-                    <p style="margin: 0.5rem 0;">${activity.curriculumLinks.join(', ')}</p>
+                    <strong style="color: var(--color-secondary); font-size: 0.9rem;">Curriculum Links:</strong>
+                    <p style="margin: 0.25rem 0 0 0; color: var(--color-text-secondary); font-size: 0.85rem; line-height: 1.3;">${activity.curriculumLinks.join(', ')}</p>
                 </div>
             </div>
             
-            <div style="text-align: center; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                <button id="generate-another-btn" style="background: var(--color-secondary); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">🎲 Generate Another</button>
-                <button id="save-activity-btn" style="background: white; color: var(--color-primary); border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">💾 Save Activity</button>
-                <button id="close-btn-bottom" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer;">✕ Close</button>
+            <div style="text-align: center; display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;">
+                <button id="generate-another-btn" style="background: var(--color-secondary); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; font-size: 0.9rem; font-weight: 500; transition: all 0.2s ease;">🎲 Generate Another</button>
+                <button id="save-activity-btn" style="background: var(--color-accent); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; font-size: 0.9rem; font-weight: 500; transition: all 0.2s ease;">💾 Save Activity</button>
+                <button id="close-btn-bottom" style="background: #666; color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; font-size: 0.9rem; font-weight: 500; transition: all 0.2s ease;">Close</button>
             </div>
         `;
         
