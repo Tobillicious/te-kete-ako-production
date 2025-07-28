@@ -332,10 +332,10 @@
                         </a>
                     </li>
                     <li>
-                        <a href="../youtube.html">
-                            <span class="nav-icon">📺</span>
-                            <span class="nav-text-en">YouTube</span>
-                            <span class="nav-text-mi" lang="mi">YouTube</span>
+                        <a href="../other-resources.html">
+                            <span class="nav-icon">🔗</span>
+                            <span class="nav-text-en">Other Resources</span>
+                            <span class="nav-text-mi" lang="mi">Ētahi Atu Rauemi</span>
                         </a>
                     </li>
                     <li>
@@ -385,6 +385,9 @@
                 <div class="game-header">
                     <h1 class="game-title">Countdown Letters</h1>
                     <p class="game-subtitle">Build the longest words from 9 letters - Te Reo Māori earns double points!</p>
+                    <p class="daily-challenge" style="background: var(--color-accent); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: bold; margin-top: 1rem; display: inline-block;">
+                        🎯 Daily Challenge: Find the hidden 9-letter word for 50 bonus points!
+                    </p>
                 </div>
 
                 <div class="timer-container">
@@ -519,33 +522,40 @@
             'B': 1, 'D': 1, 'J': 1, 'Q': 1, 'V': 1, 'X': 1, 'Y': 1, 'Z': 1
         };
 
-        // Generate letters for the game
+        // Daily puzzle words - 9-letter words with good letter combinations
+        const DAILY_PUZZLES = [
+            'WHAKATANE', 'AROHANGIA', 'RANGITOTO', 'TAKITAHEA', 'WHAKATERE',
+            'NGATIPOROU', 'MAUIWHARE', 'TARANAKI', 'WAIKAMINO', 'TANGIHANG',
+            'KAITARARE', 'WHAKANERE', 'TORANGAPA', 'MAIGARETU', 'WAKATOIRE',
+            'RANGATAHE', 'WHAKAMANO', 'KAITANGA', 'TEKERATO', 'WAKAMETU'
+        ];
+
+        // Get daily puzzle based on date
+        function getDailyPuzzle() {
+            const today = new Date();
+            const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
+            const puzzleIndex = dayOfYear % DAILY_PUZZLES.length;
+            return DAILY_PUZZLES[puzzleIndex];
+        }
+
+        // Generate letters for daily puzzle
         function generateLetters() {
-            const letters = [];
-            const letterPool = [];
+            const dailyWord = getDailyPuzzle();
+            const letters = dailyWord.split('');
             
-            // Build weighted letter pool
-            for (const [letter, frequency] of Object.entries(LETTER_FREQUENCIES)) {
-                for (let i = 0; i < frequency; i++) {
-                    letterPool.push(letter);
-                }
-            }
-            
-            // Ensure we have some vowels and common Māori letters
-            const essentialLetters = ['A', 'E', 'I', 'N', 'G'];
-            essentialLetters.forEach(letter => {
-                if (letters.length < 9) {
-                    letters.push(letter);
-                }
-            });
-            
-            // Fill remaining spots randomly
-            while (letters.length < 9) {
-                const randomLetter = letterPool[Math.floor(Math.random() * letterPool.length)];
-                letters.push(randomLetter);
+            // Shuffle the letters to make it challenging
+            for (let i = letters.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [letters[i], letters[j]] = [letters[j], letters[i]];
             }
             
             return letters;
+        }
+
+        // Check if word uses all 9 letters (the daily word solution)
+        function isDailySolution(word) {
+            const dailyWord = getDailyPuzzle();
+            return word.toUpperCase() === dailyWord;
         }
 
         // Initialize game
@@ -628,15 +638,20 @@
             
             // Calculate points
             const isMaori = MAORI_WORDS.includes(currentWord.toLowerCase());
+            const isDailyWord = isDailySolution(currentWord);
             let points = calculatePoints(currentWord.length);
+            
+            // Apply bonuses
             if (isMaori) points *= 2;
+            if (isDailyWord) points += 50; // Big bonus for the daily solution!
             
             // Add to found words
             const wordObj = {
                 word: currentWord.toLowerCase(),
                 length: currentWord.length,
                 points: points,
-                isMaori: isMaori
+                isMaori: isMaori,
+                isDailyWord: isDailyWord
             };
             foundWords.push(wordObj);
             score += points;
@@ -648,10 +663,15 @@
                 tile.classList.remove('selected');
             });
             
-            // Show success message
-            const message = isMaori ? 
-                `Ka rawe! "${currentWord}" is Te Reo Māori - ${points} points (doubled)!` :
-                `Great! "${currentWord}" - ${points} points!`;
+            // Show success message with special celebration for daily word
+            let message;
+            if (isDailyWord) {
+                message = `🎉 DAILY WORD SOLVED! "${currentWord}" - ${points} points (includes 50 bonus points)!`;
+            } else if (isMaori) {
+                message = `Ka rawe! "${currentWord}" is Te Reo Māori - ${points} points (doubled)!`;
+            } else {
+                message = `Great! "${currentWord}" - ${points} points!`;
+            }
             showMessage(message, 'success');
             
             // Reset for next word
