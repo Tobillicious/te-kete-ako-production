@@ -92,10 +92,10 @@ Building on today's incredible GraphRAG foundation (250 resources, 24 concepts, 
 ## 🛠 **TECHNICAL IMPLEMENTATION ROADMAP**
 
 ### **Phase A: Morning (High-Impact UX)** ⏰ 9-12pm
-1. **GraphRAG Search Interface** - Beautiful, culturally-responsive portal
-2. **Live Demo Enhancement** - Interactive examples showcasing 250+ resources
-3. **Mobile Optimization** - Tablet-first design for classroom use
-4. **Cultural Design Integration** - Te Ao Māori visual elements throughout
+1. **NAVIGATION OVERHAUL** - Include all 250+ discovered resources in site navigation
+2. **RESOURCE LINKING SYSTEM** - Connect enriched versions with original resources within units
+3. **SITE-WIDE STYLING CONSISTENCY** - Unified design system across all content
+4. **Cultural Design Framework** - Cohesive Te Ao Māori visual identity throughout platform
 
 ### **Phase B: Afternoon (AI Intelligence)** ⏰ 1-4pm  
 1. **Advanced Query Engine** - Natural language processing upgrades
@@ -190,10 +190,10 @@ Building on today's incredible GraphRAG foundation (250 resources, 24 concepts, 
 ## 🎯 **TOMORROW'S EXECUTION PRIORITIES**
 
 ### **Must Do (Critical Path)**
-1. ✅ **Beautiful GraphRAG Search Interface** - Core user experience
-2. ✅ **Advanced Query Examples** - Demonstrating 250+ resource power
-3. ✅ **Mobile Optimization** - Classroom tablet compatibility
-4. ✅ **Documentation & Guides** - Teacher onboarding materials
+1. ✅ **NAVIGATION SYSTEM REBUILD** - Make all 250+ resources discoverable through site navigation
+2. ✅ **RESOURCE VERSION LINKING** - Connect original and enriched versions within logical units
+3. ✅ **SITE-WIDE DESIGN CONSISTENCY** - Unified styling across entire platform
+4. ✅ **Beautiful GraphRAG Search Interface** - Core user experience with unified design
 
 ### **Should Do (High Value)**
 1. 🔄 **API Development** - External platform integration capability
