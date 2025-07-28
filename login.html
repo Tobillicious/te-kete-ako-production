@@ -213,62 +213,59 @@
         </main>
     </div>
 
+<<<<<<< HEAD
     <!-- Simple Local Auth System (Working Alternative) -->
     <script src="js/simple-local-auth.js"></script>
+=======
+    <!-- Supabase CDN -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <!-- Supabase Client -->
+    <script src="js/supabase-client.js"></script>
+    <!-- Global Feedback System -->
+    <script src="js/global-feedback.js"></script>
+    <!-- Auth UI -->
+    <script src="js/auth-ui.js"></script>
+>>>>>>> 06e7cfef711729a3add29302b87b8fd780c2514c
     
     <!-- Load main functionality -->
     <script src="js/main.js"></script>
     <script>
-        // Login form handling with Simple Auth
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
+        // Enhanced login form with professional feedback system
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.getElementById('login-form');
             
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const messageDiv = document.getElementById('login-message');
-            const loginButton = document.getElementById('login-button');
-            const loginSpinner = document.getElementById('login-spinner');
-            const loginText = document.getElementById('login-text');
-            
-            // Show loading state
-            loginButton.disabled = true;
-            loginSpinner.style.display = 'inline-block';
-            loginText.textContent = 'Signing in...';
-            messageDiv.style.display = 'none';
-            
-            try {
-                // Use Supabase for authentication
-                const { data, error } = await supabase.auth.signInWithPassword({
-                    email: email,
-                    password: password
-                });
+            // Use our new professional form handling system
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
                 
-                if (error) {
-                    messageDiv.textContent = error.message;
-                    messageDiv.className = 'message error';
-                    messageDiv.style.display = 'block';
-                } else {
-                    // Show success message
-                    messageDiv.textContent = 'Login successful! Redirecting...';
-                    messageDiv.className = 'message success';
-                    messageDiv.style.display = 'block';
+                await handleFormSubmission(loginForm, async (form) => {
+                    const formData = new FormData(form);
+                    const email = formData.get('email');
+                    const password = formData.get('password');
                     
-                    // Redirect to homepage
+                    // Use Supabase for authentication
+                    const { data, error } = await supabase.auth.signInWithPassword({
+                        email: email,
+                        password: password
+                    });
+                    
+                    if (error) {
+                        throw new Error(error.message);
+                    }
+                    
+                    // Success - redirect to my kete
                     setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 1500);
-                }
-            } catch (error) {
-                console.error('Login error:', error);
-                messageDiv.textContent = error.message || 'An error occurred during login. Please try again.';
-                messageDiv.className = 'message error';
-                messageDiv.style.display = 'block';
-            } finally {
-                // Reset loading state
-                loginButton.disabled = false;
-                loginSpinner.style.display = 'none';
-                loginText.textContent = 'Sign In';
-            }
+                        window.location.href = 'my-kete.html';
+                    }, 1000);
+                    
+                    return { success: true };
+                }, {
+                    loadingText: 'Signing in...',
+                    successMessage: 'Kia ora! Welcome back. Redirecting to your kete...',
+                    errorMessage: 'Sign in failed. Please check your email and password.',
+                    resetForm: false
+                });
+            });
         });
         
         // Check if user is already logged in
