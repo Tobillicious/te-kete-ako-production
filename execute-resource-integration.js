@@ -56,108 +56,235 @@ async function executeResourceIntegration() {
             break;
         }
         
-        // Alternative approach: Manual resource insertion using the Supabase client
-        console.log('🔄 Switching to manual resource insertion...');
+        // Alternative approach: Comprehensive resource discovery and insertion
+        console.log('🔄 Starting comprehensive resource discovery and integration...');
         
-        const resources = [
-            {
-                title: 'Classroom Leaderboard System',
-                description: 'Comprehensive gamification and student progress tracking system with cultural achievement levels and Te Reo learning metrics',
-                path: 'classroom-leaderboard.html',
-                type: 'interactive',
-                subject: 'All Subjects',
-                level: 'All Levels',
-                featured: true,
-                tags: ['gamification', 'progress-tracking', 'student-motivation', 'cultural-levels', 'te-reo-learning', 'analytics'],
-                curriculum_alignment: {
-                    achievement_objectives: ['Cross-curricular engagement and motivation'],
-                    curriculum_areas: ['All'],
-                    key_competencies: ['Managing self', 'Participating and contributing']
-                },
-                cultural_elements: {
-                    maori_concepts: ['progression from Tamaiti to Kaiako'],
-                    cultural_integration: 'high',
-                    te_reo_usage: 'high',
-                    cultural_levels: true
-                },
-                difficulty_level: 'intermediate',
-                estimated_duration_minutes: 30,
-                author: 'Te Kete Ako Team'
-            },
-            {
-                title: 'Digital Pūrākau Interactive Storytelling',
-                description: 'Revolutionary interactive Māori storytelling platform with choice-driven narratives, Te Reo pronunciation practice, and cross-curricular integration',
-                path: 'digital-purakau.html',
-                type: 'interactive',
-                subject: 'Te Reo Māori',
-                level: 'All Levels',
-                featured: true,
-                tags: ['storytelling', 'interactive', 'te-reo-maori', 'cultural-learning', 'pronunciation', 'purakau', 'immersive'],
-                curriculum_alignment: {
-                    achievement_objectives: ['Te Reo Māori levels 1-4: Communicate in te reo Māori', 'Social Sciences: Cultural identity and heritage'],
-                    curriculum_areas: ['Te Reo Māori', 'Social Sciences'],
-                    key_competencies: ['Using language, symbols, and texts', 'Relating to others']
-                },
-                cultural_elements: {
-                    maori_concepts: ['purakau', 'whakapapa', 'cultural narratives'],
-                    cultural_integration: 'essential',
-                    te_reo_usage: 'immersive',
-                    cultural_validation: 'kaumatua_involved'
-                },
-                difficulty_level: 'advanced',
-                estimated_duration_minutes: 45,
-                author: 'Te Kete Ako Team'
-            },
-            {
-                title: 'Living Whakapapa Project',
-                description: 'Comprehensive multimedia connection mapping system with 6-agent teacher coordination framework for cultural identity and genealogical learning',
-                path: 'living-whakapapa.html',
-                type: 'unit-plan',
-                subject: 'Te Ao Māori',
-                level: 'All Levels',
-                featured: true,
-                tags: ['whakapapa', 'genealogy', 'cultural-identity', 'multimedia', 'teacher-coordination', 'community-engagement'],
-                curriculum_alignment: {
-                    achievement_objectives: ['Social Sciences Level 4: Identity, culture, and organisation', 'Te Ao Māori: Whakapapa connections'],
-                    curriculum_areas: ['Social Sciences', 'Te Ao Māori'],
-                    key_competencies: ['Relating to others', 'Participating and contributing']
-                },
-                cultural_elements: {
-                    maori_concepts: ['whakapapa', 'whakatohea', 'manaakitanga', 'kaitiakitanga'],
-                    cultural_integration: 'essential',
-                    te_reo_usage: 'high',
-                    community_involvement: true
-                },
-                difficulty_level: 'advanced',
-                estimated_duration_minutes: 960,
-                author: 'Te Kete Ako Team'
-            },
-            {
-                title: 'Virtual Marae Training Protocol',
-                description: 'Immersive VR/AR cultural education system for marae protocol learning with 6-stage preparation and community partnerships',
-                path: 'virtual-marae.html',
-                type: 'interactive',
-                subject: 'Te Ao Māori',
-                level: 'All Levels',
-                featured: true,
-                tags: ['virtual-reality', 'marae-protocol', 'cultural-training', 'immersive-learning', 'community-partnerships', 'te-reo-integration'],
-                curriculum_alignment: {
-                    achievement_objectives: ['Te Ao Māori: Cultural protocols and practices', 'Social Sciences: Participation in cultural contexts'],
-                    curriculum_areas: ['Te Ao Māori', 'Social Sciences'],
-                    key_competencies: ['Relating to others', 'Participating and contributing']
-                },
-                cultural_elements: {
-                    maori_concepts: ['marae protocol', 'powhiri', 'hongi', 'karakia'],
-                    cultural_integration: 'essential',
-                    te_reo_usage: 'immersive',
-                    real_world_preparation: true
-                },
-                difficulty_level: 'advanced',
-                estimated_duration_minutes: 120,
-                author: 'Te Kete Ako Team'
+        // Helper function to scan directories for HTML files
+        const { glob } = require('glob');
+        const path = require('path');
+        
+        // Scan for all HTML educational resources
+        const htmlFiles = glob.sync('**/*.html', {
+            ignore: ['node_modules/**', 'public/**', '.git/**'],
+            cwd: process.cwd()
+        });
+        
+        console.log(`📊 Discovered ${htmlFiles.length} HTML files for analysis...`);
+        
+        const resources = [];
+        const seenPaths = new Set();
+        
+        for (const filePath of htmlFiles) {
+            // Skip duplicates and non-educational files
+            if (seenPaths.has(filePath) || 
+                filePath.includes('index.html') && !filePath.includes('lessons/') ||
+                filePath.includes('public/') ||
+                filePath.includes('node_modules/')) {
+                continue;
             }
-            // Add more resources here... (continuing with the other 10 resources)
-        ];
+            
+            seenPaths.add(filePath);
+            
+            try {
+                const fileContent = fs.readFileSync(filePath, 'utf8');
+                const title = extractTitle(fileContent, filePath);
+                const description = extractDescription(fileContent, filePath);
+                
+                if (!title || title.length < 3) continue; // Skip files without proper titles
+                
+                const resource = {
+                    title: title,
+                    description: description,
+                    path: filePath,
+                    type: determineResourceType(filePath, fileContent),
+                    subject: determineSubject(filePath, fileContent),
+                    level: determineLevel(filePath, fileContent),
+                    featured: isSpecialResource(filePath),
+                    tags: extractTags(filePath, fileContent),
+                    curriculum_alignment: extractCurriculumAlignment(filePath, fileContent),
+                    cultural_elements: extractCulturalElements(filePath, fileContent),
+                    difficulty_level: assessDifficulty(filePath, fileContent),
+                    estimated_duration_minutes: estimateDuration(filePath, fileContent),
+                    author: 'Te Kete Ako Team'
+                };
+                
+                resources.push(resource);
+                
+            } catch (error) {
+                console.warn(`⚠️ Could not process ${filePath}: ${error.message}`);
+            }
+        }
+        
+        // Helper functions for resource analysis
+        function extractTitle(content, filePath) {
+            // Try multiple title extraction methods
+            let title = '';
+            
+            // Method 1: <title> tag
+            const titleMatch = content.match(/<title[^>]*>(.*?)<\/title>/i);
+            if (titleMatch) {
+                title = titleMatch[1].replace(/^\s*Te Kete Ako\s*[-|]\s*/, '').trim();
+            }
+            
+            // Method 2: <h1> tag
+            if (!title || title.length < 3) {
+                const h1Match = content.match(/<h1[^>]*>(.*?)<\/h1>/i);
+                if (h1Match) {
+                    title = h1Match[1].replace(/<[^>]*>/g, '').trim();
+                }
+            }
+            
+            // Method 3: filename fallback
+            if (!title || title.length < 3) {
+                title = path.basename(filePath, '.html')
+                    .replace(/-/g, ' ')
+                    .replace(/([a-z])([A-Z])/g, '$1 $2')
+                    .split(' ')
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(' ');
+            }
+            
+            return title;
+        }
+        
+        function extractDescription(content, filePath) {
+            // Try meta description first
+            const metaMatch = content.match(/<meta[^>]*name=["\']description["\'][^>]*content=["\']([^"']*)["\'][^>]*>/i);
+            if (metaMatch) return metaMatch[1];
+            
+            // Try first paragraph
+            const pMatch = content.match(/<p[^>]*>(.*?)<\/p>/i);
+            if (pMatch) {
+                const desc = pMatch[1].replace(/<[^>]*>/g, '').trim();
+                if (desc.length > 20) return desc.substring(0, 200) + '...';
+            }
+            
+            // Fallback based on file path
+            if (filePath.includes('handouts/')) return 'Educational handout with structured learning activities';
+            if (filePath.includes('lessons/')) return 'Comprehensive lesson plan with learning objectives';
+            if (filePath.includes('games/')) return 'Interactive educational game for engaging learning';
+            if (filePath.includes('units/')) return 'Complete unit plan with multiple lessons and activities';
+            
+            return 'Te Kete Ako educational resource';
+        }
+        
+        function determineResourceType(filePath, content) {
+            if (filePath.includes('games/')) return 'game';
+            if (filePath.includes('lessons/')) return 'lesson';
+            if (filePath.includes('handouts/')) return 'handout';
+            if (filePath.includes('units/')) return 'unit-plan';
+            if (content.includes('interactive') || content.includes('click') || content.includes('button')) return 'interactive';
+            return 'resource';
+        }
+        
+        function determineSubject(filePath, content) {
+            const pathAndContent = (filePath + ' ' + content.substring(0, 500)).toLowerCase();
+            
+            if (pathAndContent.includes('te-reo') || pathAndContent.includes('māori') || pathAndContent.includes('maori')) return 'Te Reo Māori';
+            if (pathAndContent.includes('writing') || pathAndContent.includes('essay') || pathAndContent.includes('english')) return 'English';
+            if (pathAndContent.includes('social') || pathAndContent.includes('systems') || pathAndContent.includes('society')) return 'Social Studies';
+            if (pathAndContent.includes('science') || pathAndContent.includes('stem')) return 'Science';
+            if (pathAndContent.includes('math') || pathAndContent.includes('probability')) return 'Mathematics';
+            if (pathAndContent.includes('history') || pathAndContent.includes('treaty')) return 'New Zealand History';
+            if (pathAndContent.includes('ai') || pathAndContent.includes('digital') || pathAndContent.includes('technology')) return 'Digital Technologies';
+            
+            return 'Cross-curricular';
+        }
+        
+        function determineLevel(filePath, content) {
+            if (filePath.includes('y8') || content.includes('Year 8')) return 'Year 8';
+            if (filePath.includes('y7') || content.includes('Year 7')) return 'Year 7';
+            if (filePath.includes('y9') || content.includes('Year 9')) return 'Year 9';
+            if (filePath.includes('y10') || content.includes('Year 10')) return 'Year 10';
+            return 'All Levels';
+        }
+        
+        function isSpecialResource(filePath) {
+            const specialResources = [
+                'digital-purakau.html',
+                'living-whakapapa.html', 
+                'virtual-marae.html',
+                'classroom-leaderboard.html',
+                'ai-hub.html'
+            ];
+            return specialResources.some(special => filePath.includes(special));
+        }
+        
+        function extractTags(filePath, content) {
+            const tags = [];
+            const pathAndContent = (filePath + ' ' + content.substring(0, 1000)).toLowerCase();
+            
+            // Cultural tags
+            if (pathAndContent.includes('māori') || pathAndContent.includes('maori')) tags.push('māori-culture');
+            if (pathAndContent.includes('te reo')) tags.push('te-reo-māori');
+            if (pathAndContent.includes('whakapapa')) tags.push('whakapapa');
+            if (pathAndContent.includes('cultural')) tags.push('cultural-learning');
+            
+            // Activity tags
+            if (pathAndContent.includes('interactive')) tags.push('interactive');
+            if (pathAndContent.includes('game')) tags.push('game');
+            if (pathAndContent.includes('writing')) tags.push('writing');
+            if (pathAndContent.includes('reading')) tags.push('reading');
+            if (pathAndContent.includes('assessment')) tags.push('assessment');
+            
+            // Subject tags
+            if (filePath.includes('handouts/')) tags.push('handout');
+            if (filePath.includes('lessons/')) tags.push('lesson-plan');
+            if (filePath.includes('units/')) tags.push('unit-plan');
+            
+            return tags.length > 0 ? tags : ['educational-resource'];
+        }
+        
+        function extractCurriculumAlignment(filePath, content) {
+            // Basic curriculum alignment based on content analysis
+            const subject = determineSubject(filePath, content);
+            return {
+                achievement_objectives: [`${subject} curriculum objectives`],
+                curriculum_areas: [subject],
+                key_competencies: ['Using language, symbols, and texts', 'Thinking', 'Relating to others']
+            };
+        }
+        
+        function extractCulturalElements(filePath, content) {
+            const pathAndContent = (filePath + ' ' + content.substring(0, 1000)).toLowerCase();
+            
+            const culturalConcepts = [];
+            if (pathAndContent.includes('whakapapa')) culturalConcepts.push('whakapapa');
+            if (pathAndContent.includes('manaakitanga')) culturalConcepts.push('manaakitanga');
+            if (pathAndContent.includes('kaitiakitanga')) culturalConcepts.push('kaitiakitanga');
+            if (pathAndContent.includes('tino rangatiratanga')) culturalConcepts.push('tino rangatiratanga');
+            
+            let culturalIntegration = 'low';
+            let teReoUsage = 'low';
+            
+            if (pathAndContent.includes('māori') || pathAndContent.includes('maori') || pathAndContent.includes('te reo')) {
+                culturalIntegration = 'high';
+                teReoUsage = 'medium';
+            }
+            if (pathAndContent.includes('cultural') || culturalConcepts.length > 0) {
+                culturalIntegration = 'medium';
+            }
+            
+            return {
+                maori_concepts: culturalConcepts,
+                cultural_integration: culturalIntegration,
+                te_reo_usage: teReoUsage
+            };
+        }
+        
+        function assessDifficulty(filePath, content) {
+            if (filePath.includes('introduction') || filePath.includes('basic')) return 'beginner';
+            if (filePath.includes('advanced') || filePath.includes('complex')) return 'advanced';
+            return 'intermediate';
+        }
+        
+        function estimateDuration(filePath, content) {
+            if (filePath.includes('games/')) return 15;
+            if (filePath.includes('handouts/')) return 30;
+            if (filePath.includes('lessons/')) return 45;
+            if (filePath.includes('units/')) return 180;
+            return 30;
+        }
         
         console.log(`📦 Inserting ${resources.length} critical resources...`);
         
