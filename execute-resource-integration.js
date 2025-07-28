@@ -6,12 +6,34 @@ const fs = require('fs');
 const supabaseUrl = 'https://nlgldaqtubrlcqddppbq.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
 
-const supabase = createClient(supabaseUrl, supabaseKey);
+// Create client with service role key for admin operations
+const supabase = createClient(supabaseUrl, supabaseKey, {
+    auth: {
+        autoRefreshToken: false,
+        persistSession: false
+    }
+});
 
 async function executeResourceIntegration() {
     console.log('🚀 Starting Resource Integration...');
     
     try {
+        // First, test database connectivity and check existing resources
+        console.log('🔍 Testing database connection...');
+        const { data: existingResources, error: fetchError } = await supabase
+            .from('resources')
+            .select('title, path')
+            .limit(5);
+            
+        if (fetchError) {
+            console.error('❌ Database connection failed:', fetchError);
+            return;
+        }
+        
+        console.log(`✅ Database connected! Found ${existingResources?.length || 0} existing resources`);
+        if (existingResources?.length > 0) {
+            console.log('📋 Sample existing resources:', existingResources.map(r => r.title));
+        }
         // Read the corrected SQL file
         const sqlContent = fs.readFileSync('./CORRECTED_SUPABASE_RESOURCE_INTEGRATION.sql', 'utf8');
         
