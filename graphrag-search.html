@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Te Kete Ako - Intelligent Resource Discovery | GraphRAG Search</title>
+    <meta name="description" content="AI-powered intelligent resource discovery using semantic search and knowledge graphs for culturally responsive education">
+    
+    <style>
+        :root {
+            --primary-color: #2E8B57;
+            --secondary-color: #FF6B35;
+            --cultural-gold: #DAA520;
+            --text-dark: #2C3E50;
+            --text-light: #7F8C8D;
+            --background-light: #F8F9FA;
+            --cultural-light: rgba(218, 165, 32, 0.1);
+            --success-green: #27AE60;
+            --border-light: #E1E8ED;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--text-dark);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .header .description {
+            font-size: 1rem;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .search-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 2rem;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            border: 2px solid var(--border-light);
+            border-radius: 50px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.1);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background: #236A49;
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .search-examples {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .example-tag {
+            background: var(--cultural-light);
+            color: var(--cultural-gold);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid var(--cultural-gold);
+        }
+
+        .example-tag:hover {
+            background: var(--cultural-gold);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .results-container {
+            display: none;
+        }
+
+        .results-section {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, var(--primary-color), #45a066);
+            color: white;
+            padding: 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .section-header .count {
+            background: rgba(255,255,255,0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin-left: 1rem;
+        }
+
+        .results-grid {
+            padding: 1.5rem;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .resource-card {
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-color: var(--primary-color);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-tag {
+            background: var(--background-light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .similarity-score {
+            background: var(--success-green);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .cultural-indicator {
+            background: var(--cultural-gold);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .card-description {
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .connection-info {
+            background: var(--cultural-light);
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--cultural-gold);
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #236A49;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--background-light);
+            color: var(--text-dark);
+            border: 1px solid var(--border-light);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-light);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: white;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .stats-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .search-examples {
+                justify-content: flex-start;
+            }
+            
+            .card-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .card-actions {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Te Kete Ako GraphRAG</h1>
+            <div class="subtitle">Intelligent Resource Discovery</div>
+            <div class="description">
+                Advanced AI-powered search combining semantic understanding with cultural knowledge graphs 
+                to discover the perfect educational resources for your teaching needs.
+            </div>
+        </div>
+
+        <div class="stats-section">
+            <h3>System Knowledge Base</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">250+</div>
+                    <div class="stat-label">Educational Resources</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24</div>
+                    <div class="stat-label">Key Concepts</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">297</div>
+                    <div class="stat-label">Intelligent Connections</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">62</div>
+                    <div class="stat-label">Cultural Resources</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" class="search-input" id="searchInput" 
+                       placeholder="Describe what you're looking for... (e.g., 'Māori culture and traditions', 'essay writing skills', 'systems thinking')"
+                       maxlength="200">
+                <button class="search-btn" onclick="performGraphRAGSearch()">
+                    🔍 Search
+                </button>
+            </div>
+            
+            <div class="search-examples">
+                <div class="example-tag" onclick="setSearchQuery('Māori culture and traditions')">
+                    🌿 Māori Culture & Traditions
+                </div>
+                <div class="example-tag" onclick="setSearchQuery('essay writing skills')">
+                    ✍️ Essay Writing Skills
+                </div>
+                <div class="example-tag" onclick="setSearchQuery('systems thinking social studies')">
+                    🔄 Systems Thinking
+                </div>
+                <div class="example-tag" onclick="setSearchQuery('AI ethics and digital citizenship')">
+                    🤖 AI Ethics
+                </div>
+                <div class="example-tag" onclick="setSearchQuery('Treaty of Waitangi')">
+                    📜 Treaty of Waitangi
+                </div>
+            </div>
+        </div>
+
+        <div id="loadingSection" class="loading" style="display: none;">
+            <div class="loading-spinner"></div>
+            <h3>🧠 GraphRAG Intelligence Processing...</h3>
+            <p>Analyzing semantic patterns • Traversing knowledge graphs • Finding cultural connections</p>
+        </div>
+
+        <div id="resultsContainer" class="results-container">
+            <!-- Semantic Search Results -->
+            <div class="results-section">
+                <div class="section-header">
+                    🎯 Semantic Matches
+                    <span class="count" id="semanticCount">0 resources</span>
+                </div>
+                <div class="results-grid" id="semanticResults">
+                    <!-- Results will be inserted here -->
+                </div>
+            </div>
+
+            <!-- Conceptual Connections -->
+            <div class="results-section">
+                <div class="section-header">
+                    🧠 Conceptual Connections
+                    <span class="count" id="conceptualCount">0 resources</span>
+                </div>
+                <div class="results-grid" id="conceptualResults">
+                    <!-- Results will be inserted here -->
+                </div>
+            </div>
+
+            <!-- Learning Progressions -->
+            <div class="results-section">
+                <div class="section-header">
+                    📚 Learning Progressions
+                    <span class="count" id="progressionCount">0 resources</span>
+                </div>
+                <div class="results-grid" id="progressionResults">
+                    <!-- Results will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Demo data - in production this would call the actual GraphRAG API
+        const demoResults = {
+            "māori culture and traditions": {
+                semantic: [
+                    {
+                        title: "Digital Pūrākau Interactive Storytelling",
+                        path: "digital-purakau.html",
+                        type: "interactive",
+                        subject: "Te Reo Māori",
+                        similarity: 0.89,
+                        cultural_level: "essential",
+                        description: "Revolutionary interactive Māori storytelling platform with choice-driven narratives, Te Reo pronunciation practice, and cross-curricular integration."
+                    },
+                    {
+                        title: "Living Whakapapa Project",
+                        path: "living-whakapapa.html", 
+                        type: "unit-plan",
+                        subject: "Te Ao Māori",
+                        similarity: 0.85,
+                        cultural_level: "essential",
+                        description: "Comprehensive multimedia connection mapping system with 6-agent teacher coordination framework for cultural identity and genealogical learning."
+                    },
+                    {
+                        title: "Virtual Marae Training Protocol",
+                        path: "virtual-marae.html",
+                        type: "interactive",
+                        subject: "Te Ao Māori", 
+                        similarity: 0.82,
+                        cultural_level: "essential",
+                        description: "Immersive VR/AR cultural education system for marae protocol learning with 6-stage preparation and community partnerships."
+                    }
+                ],
+                conceptual: [
+                    {
+                        title: "The Role of Haka Reading Comprehension",
+                        path: "handouts/haka-comprehension-handout.html",
+                        type: "handout",
+                        subject: "Te Ao Māori",
+                        connection: "Connected through concept: haka",
+                        cultural_level: "high",
+                        description: "Deep dive into the cultural significance and contemporary relevance of haka in Māori society."
+                    },
+                    {
+                        title: "Unit 1 Lesson 3: Haka & Cultural Expression",
+                        path: "units/unit-1-lesson-3.html",
+                        type: "lesson",
+                        subject: "Te Ao Māori",
+                        connection: "Connected through concept: cultural expression",
+                        cultural_level: "high", 
+                        description: "Voice, Power & Identity through traditional Māori performance arts."
+                    },
+                    {
+                        title: "Māori Astronomy and Navigation Handout",
+                        path: "handouts/maori-astronomy-navigation-handout.html",
+                        type: "handout",
+                        subject: "Te Ao Māori",
+                        connection: "Connected through concept: traditional knowledge",
+                        cultural_level: "high",
+                        description: "Traditional Māori navigation techniques and astronomical knowledge systems."
+                    }
+                ],
+                progressions: [
+                    {
+                        title: "Unit 1 Lesson 1: Ko Wai Au? - Personal Whakapapa Exploration",
+                        path: "units/unit-1-lesson-1.html",
+                        type: "lesson",
+                        subject: "Te Ao Māori",
+                        progression: "Te Ao Māori sequence - Foundation",
+                        difficulty: "beginner",
+                        description: "Foundation lesson exploring personal identity through whakapapa connections."
+                    },
+                    {
+                        title: "Unit 1 Lesson 2: Mātauranga Māori - Traditional Knowledge Systems",
+                        path: "units/unit-1-lesson-2.html", 
+                        type: "lesson",
+                        subject: "Te Ao Māori",
+                        progression: "Te Ao Māori sequence - Building",
+                        difficulty: "intermediate",
+                        description: "Understanding traditional Māori knowledge systems and their contemporary relevance."
+                    }
+                ]
+            }
+        };
+
+        function setSearchQuery(query) {
+            document.getElementById('searchInput').value = query;
+            performGraphRAGSearch();
+        }
+
+        function performGraphRAGSearch() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (!query) return;
+
+            // Show loading
+            document.getElementById('loadingSection').style.display = 'block';
+            document.getElementById('resultsContainer').style.display = 'none';
+
+            // Simulate API call delay
+            setTimeout(() => {
+                displayResults(query);
+                document.getElementById('loadingSection').style.display = 'none';
+                document.getElementById('resultsContainer').style.display = 'block';
+            }, 2000);
+        }
+
+        function displayResults(query) {
+            // For demo purposes, use the demo data
+            // In production, this would make actual API calls
+            const results = demoResults["māori culture and traditions"] || {
+                semantic: [],
+                conceptual: [], 
+                progressions: []
+            };
+
+            displaySemanticResults(results.semantic);
+            displayConceptualResults(results.conceptual);
+            displayProgressionResults(results.progressions);
+        }
+
+        function displaySemanticResults(results) {
+            const container = document.getElementById('semanticResults');
+            const count = document.getElementById('semanticCount');
+            
+            count.textContent = `${results.length} resources`;
+            container.innerHTML = '';
+
+            results.forEach(resource => {
+                const card = createResourceCard(resource, 'semantic');
+                container.appendChild(card);
+            });
+        }
+
+        function displayConceptualResults(results) {
+            const container = document.getElementById('conceptualResults');
+            const count = document.getElementById('conceptualCount');
+            
+            count.textContent = `${results.length} resources`;
+            container.innerHTML = '';
+
+            results.forEach(resource => {
+                const card = createResourceCard(resource, 'conceptual');
+                container.appendChild(card);
+            });
+        }
+
+        function displayProgressionResults(results) {
+            const container = document.getElementById('progressionResults');
+            const count = document.getElementById('progressionCount');
+            
+            count.textContent = `${results.length} resources`;
+            container.innerHTML = '';
+
+            results.forEach(resource => {
+                const card = createResourceCard(resource, 'progression');
+                container.appendChild(card);
+            });
+        }
+
+        function createResourceCard(resource, type) {
+            const card = document.createElement('div');
+            card.className = 'resource-card';
+
+            let connectionInfo = '';
+            if (type === 'conceptual' && resource.connection) {
+                connectionInfo = `<div class="connection-info">🔗 ${resource.connection}</div>`;
+            } else if (type === 'progression' && resource.progression) {
+                connectionInfo = `<div class="connection-info">📈 ${resource.progression}</div>`;
+            }
+
+            let similarityScore = '';
+            if (type === 'semantic' && resource.similarity) {
+                const percentage = Math.round(resource.similarity * 100);
+                similarityScore = `<div class="similarity-score">${percentage}% Match</div>`;
+            }
+
+            let culturalIndicator = '';
+            if (resource.cultural_level === 'essential' || resource.cultural_level === 'high') {
+                culturalIndicator = `<div class="cultural-indicator">🌿 ${resource.cultural_level === 'essential' ? 'Essential' : 'High'} Cultural</div>`;
+            }
+
+            card.innerHTML = `
+                <div class="card-header">
+                    <div class="card-title">${resource.title}</div>
+                </div>
+                <div class="card-meta">
+                    <div class="meta-tag">${resource.type}</div>
+                    <div class="meta-tag">${resource.subject}</div>
+                    ${similarityScore}
+                    ${culturalIndicator}
+                </div>
+                ${connectionInfo}
+                <div class="card-description">${resource.description}</div>
+                <div class="card-actions">
+                    <a href="${resource.path}" class="btn btn-primary" target="_blank">Open Resource</a>
+                    <button class="btn btn-secondary" onclick="showResourceDetails('${resource.title}')">View Details</button>
+                </div>
+            `;
+
+            return card;
+        }
+
+        function showResourceDetails(title) {
+            alert(`Resource details for: ${title}\n\nIn a full implementation, this would show detailed curriculum alignment, cultural elements, usage guidelines, and related resources.`);
+        }
+
+        // Enable Enter key search
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performGraphRAGSearch();
+            }
+        });
+
+        // Auto-focus search input
+        document.getElementById('searchInput').focus();
+    </script>
+</body>
+</html>
