@@ -41,4 +41,7 @@ cp -r units/* public/units/
 mkdir -p public/y8-systems
 cp -r y8-systems/* public/y8-systems/
 
+mkdir -p public/guided-inquiry-unit
+cp -r guided-inquiry-unit/* public/guided-inquiry-unit/
+
 echo "All files copied to /public directory."
