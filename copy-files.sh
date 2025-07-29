@@ -44,4 +44,20 @@ cp -r y8-systems/* public/y8-systems/
 mkdir -p public/guided-inquiry-unit
 cp -r guided-inquiry-unit/* public/guided-inquiry-unit/
 
-echo "All files copied to /public directory."
+# Copy educational content from old-lessons (includes interactive literacy site)
+mkdir -p public/old-lessons
+cp -r old-lessons/* public/old-lessons/
+
+# Copy curriculum data for alignment features
+mkdir -p public/data
+cp -r data/* public/data/
+
+# Copy agent knowledge hub for teacher resources
+mkdir -p public/agent-knowledge-hub  
+cp -r agent-knowledge-hub/* public/agent-knowledge-hub/
+
+# Copy utility scripts that might be needed
+mkdir -p public/scripts
+cp -r scripts/* public/scripts/
+
+echo "All files copied to /public directory including previously missing educational content."
