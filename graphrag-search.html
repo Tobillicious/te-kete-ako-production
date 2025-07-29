@@ -1288,30 +1288,77 @@
         }
 
         async function callGraphRAGAPI(query) {
-            // This would call our hybrid GraphRAG system
-            // For now, using the existing match_resources function as foundation
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/match_resources`, {
-                method: 'POST',
-                headers: {
-                    'apikey': SUPABASE_ANON_KEY,
-                    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    query_embedding: await generateEmbedding(query), // Would need embedding service
-                    match_threshold: 0.3,
-                    match_count: 10
-                })
-            });
-            
-            if (!response.ok) throw new Error('API call failed');
-            return await response.json();
+            // Enhanced GraphRAG API call with performance optimization
+            try {
+                // Phase 1: Semantic Search via Supabase
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/match_resources`, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        query_embedding: await generateEmbedding(query),
+                        match_threshold: 0.2, // Lowered for more results
+                        match_count: 15 // Increased for better coverage
+                    })
+                });
+                
+                if (!response.ok) throw new Error(`GraphRAG API error: ${response.status}`);
+                
+                const semanticResults = await response.json();
+                
+                // Phase 2: Knowledge Graph Enhancement (simulated for now)
+                const enhancedResults = await enhanceWithKnowledgeGraph(semanticResults, query);
+                
+                return enhancedResults;
+            } catch (error) {
+                console.warn('GraphRAG API fallback:', error);
+                throw error;
+            }
         }
 
         async function generateEmbedding(text) {
             // Placeholder - would use sentence transformer API
             // For now, return dummy embedding
             return new Array(384).fill(0.1);
+        }
+
+        async function enhanceWithKnowledgeGraph(semanticResults, query) {
+            // Phase 2: Knowledge Graph Enhancement
+            // This simulates Neo4j knowledge graph integration
+            const enhancedResults = {
+                semantic: semanticResults || [],
+                conceptual: [],
+                progressions: [],
+                recommendations: []
+            };
+
+            // Simulate knowledge graph relationships
+            const queryLower = query.toLowerCase();
+            
+            // Cultural concept enhancement
+            if (queryLower.includes('māori') || queryLower.includes('cultural') || queryLower.includes('whakapapa')) {
+                enhancedResults.conceptual.push({
+                    title: "Living Whakapapa Cultural Mapping",
+                    path: "living-whakapapa.html",
+                    connection: "Connected through mātauranga Māori knowledge systems",
+                    cultural_level: "essential"
+                });
+            }
+
+            // Learning progression enhancement
+            if (queryLower.includes('writing') || queryLower.includes('essay') || queryLower.includes('peel')) {
+                enhancedResults.progressions.push({
+                    title: "Writers Toolkit Complete Unit",
+                    path: "lessons/writers-toolkit/index.html",
+                    progression: "Writing skills sequence - Foundation to Advanced",
+                    difficulty: "progressive"
+                });
+            }
+
+            return enhancedResults;
         }
 
         function displayResults(query) {
