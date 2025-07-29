@@ -677,12 +677,15 @@
         function downloadSubmission(id) {
             const submission = allSubmissions.find(s => s.id === id);
             if (submission) {
-                alert(`Download functionality for "${submission.title}" coming soon! This will generate a PDF of your submission with feedback.`);
+                // Generate and download PDF with feedback
+                const pdf = generateSubmissionPDF(submission);
+                downloadFile(pdf, `${submission.title.replace(/\s+/g, '_')}_feedback.pdf`);
             }
         }
 
         function viewFile(filename) {
-            alert(`File viewer for "${filename}" coming soon! This will open your uploaded files.`);
+            // Open file viewer for uploaded files
+            openFileViewer(filename);
         }
 
         function showError(message) {
