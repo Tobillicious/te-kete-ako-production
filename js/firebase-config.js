@@ -12,7 +12,12 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+try {
+  firebase.initializeApp(firebaseConfig);
+  console.log('Firebase initialized successfully');
+} catch (error) {
+  console.error('Firebase initialization failed:', error);
+}
 
 // Get Firebase Auth instance
 const auth = firebase.auth();
@@ -24,9 +29,12 @@ window.firebaseAuth = auth;
 window.firebaseAuthHelpers = {
   async signInWithEmail(email, password) {
     try {
+      console.log('Attempting Firebase sign in...');
       const userCredential = await auth.signInWithEmailAndPassword(email, password);
+      console.log('Firebase sign in successful:', userCredential.user.email);
       return { user: userCredential.user, error: null };
     } catch (error) {
+      console.error('Firebase sign in error:', error);
       return { user: null, error: error.message };
     }
   },
