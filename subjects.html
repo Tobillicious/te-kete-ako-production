@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subject Areas | Te Kete Ako</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    
+    <style>
+        .subjects-hero {
+            background: linear-gradient(135deg, #2E8B57 0%, #FF6B35 50%, #DAA520 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .subjects-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>') center/cover;
+            opacity: 0.3;
+        }
+        
+        .subjects-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .subjects-hero p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .subject-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            border: 3px solid transparent;
+            position: relative;
+        }
+        
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border-color: var(--color-secondary);
+        }
+        
+        .subject-card.cultural-priority {
+            border-color: #98FB98;
+            background: linear-gradient(135deg, #f0fff0 0%, #ffffff 100%);
+        }
+        
+        .subject-card.high-content {
+            border-color: #FFD700;
+            background: linear-gradient(135deg, #fff9e6 0%, #ffffff 100%);
+        }
+        
+        .subject-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+        
+        .subject-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+        }
+        
+        .subject-stats {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .stat-badge {
+            background: var(--color-cultural-light);
+            color: var(--color-cultural-gold);
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .stat-badge.cultural {
+            background: #98FB98;
+            color: #2d5f2d;
+        }
+        
+        .stat-badge.high-volume {
+            background: #FFD700;
+            color: #333;
+        }
+        
+        .subject-description {
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .resource-types {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        
+        .resource-type {
+            background: var(--color-background-light);
+            color: var(--color-text-primary);
+            padding: 0.3rem 0.6rem;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+        
+        .subject-cta {
+            background: var(--color-primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .subject-cta:hover {
+            background: #236A49;
+            transform: translateY(-2px);
+        }
+        
+        .coming-soon {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--color-secondary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body data-auto-init="true" data-current-page="subjects">
+
+    <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">Te Kete Ako</a>
+            <nav class="main-nav">
+                <ul>
+                    <li>
+                        <a href="subjects.html" class="active">
+                            <span class="nav-icon">📚</span>
+                            <span class="nav-text-en">Subjects</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Marau</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="unit-plans.html">
+                            <span class="nav-icon">📖</span>
+                            <span class="nav-text-en">Unit Plans</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Waehere</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="lessons.html">
+                            <span class="nav-icon">🎓</span>
+                            <span class="nav-text-en">Lessons</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="handouts.html">
+                            <span class="nav-icon">📄</span>
+                            <span class="nav-text-en">Handouts</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="games.html">
+                            <span class="nav-icon">🎮</span>
+                            <span class="nav-text-en">Games</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Kēmu</span>  
+                        </a>
+                    </li>
+                    <li>
+                        <a href="platforms.html">
+                            <span class="nav-icon">🏛️</span>
+                            <span class="nav-text-en">Platforms</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Tahua</span>  
+                        </a>
+                    </li>
+                    <li>
+                        <a href="graphrag-search.html">
+                            <span class="nav-icon">🧠</span>
+                            <span class="nav-text-en">AI Search</span>
+                            <span class="nav-text-mi" lang="mi">Rapua AI</span>  
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="subjects-hero">
+        <h1>🎯 Subject Areas</h1>
+        <p>Intelligent resource organization across curriculum areas with nested Units > Lessons > Handouts hierarchy. 624 total resources organized for optimal discovery and classroom implementation.</p>
+    </div>
+
+    <div class="subjects-grid">
+        <!-- Te Ao Māori - Cultural Priority -->
+        <div class="subject-card cultural-priority">
+            <div class="subject-icon">🌿</div>
+            <h2 class="subject-title">Te Ao Māori</h2>
+            <div class="subject-stats">
+                <span class="stat-badge cultural">46 Resources</span>
+                <span class="stat-badge cultural">🌿 Essential Cultural</span>
+                <span class="stat-badge">4 Revolutionary Platforms</span>
+            </div>
+            <p class="subject-description">
+                Authentic integration of Māori knowledge systems with 4 revolutionary platforms including Digital Pūrākau, Living Whakapapa, and Virtual Marae training.
+            </p>
+            <div class="resource-types">
+                <span class="resource-type">Traditional Knowledge</span>
+                <span class="resource-type">Cultural Protocols</span>
+                <span class="resource-type">Te Reo Māori</span>
+                <span class="resource-type">Interactive Platforms</span>
+            </div>
+            <a href="te-ao-maori.html" class="subject-cta">→ Explore Te Ao Māori</a>
+        </div>
+
+        <!-- English - High Content Volume -->
+        <div class="subject-card high-content">
+            <div class="subject-icon">📖</div>
+            <h2 class="subject-title">English</h2>
+            <div class="subject-stats">
+                <span class="stat-badge high-volume">113 Resources</span>
+                <span class="stat-badge">Writer's Toolkit Unit</span>
+                <span class="stat-badge">24 Lesson Plans</span>
+            </div>
+            <p class="subject-description">
+                Comprehensive English resources with complete Writer's Toolkit unit, literary analysis tools, and communication skills development.
+            </p>
+            <div class="resource-types">
+                <span class="resource-type">Writer's Toolkit</span>
+                <span class="resource-type">Literary Analysis</span>
+                <span class="resource-type">Communication</span>
+                <span class="resource-type">Media Literacy</span>
+            </div>
+            <a href="english.html" class="subject-cta">→ Explore English</a>
+            <div class="coming-soon">Coming Soon</div>
+        </div>
+
+        <!-- Social Studies -->
+        <div class="subject-card high-content">
+            <div class="subject-icon">🏛️</div>
+            <h2 class="subject-title">Social Studies</h2>
+            <div class="subject-stats">
+                <span class="stat-badge high-volume">97 Resources</span>
+                <span class="stat-badge">Y8 Systems Unit</span>
+                <span class="stat-badge">31 Complete Resources</span>
+            </div>
+            <p class="subject-description">
+                Complete Y8 Systems Unit with 31 resources, NZ History focus, and contemporary social justice themes.
+            </p>
+            <div class="resource-types">
+                <span class="resource-type">Systems Thinking</span>
+                <span class="resource-type">NZ History</span>
+                <span class="resource-type">Social Justice</span>
+                <span class="resource-type">Governance</span>
+            </div>
+            <a href="social-studies.html" class="subject-cta">→ Explore Social Studies</a>
+            <div class="coming-soon">Coming Soon</div>
+        </div>
+
+        <!-- General Education -->
+        <div class="subject-card high-content">
+            <div class="subject-icon">🎯</div>
+            <h2 class="subject-title">General Education</h2>
+            <div class="subject-stats">
+                <span class="stat-badge high-volume">297 Resources</span>
+                <span class="stat-badge">Cross-Curricular</span>
+                <span class="stat-badge">Skills-Based</span>
+            </div>
+            <p class="subject-description">
+                Largest resource collection with cross-curricular themes, critical thinking tools, and skills-based learning approaches.
+            </p>
+            <div class="resource-types">
+                <span class="resource-type">Critical Thinking</span>
+                <span class="resource-type">Creative Arts</span>
+                <span class="resource-type">Research Skills</span>
+                <span class="resource-type">Assessment</span>
+            </div>
+            <a href="general-education.html" class="subject-cta">→ Explore General Education</a>
+            <div class="coming-soon">Coming Soon</div>
+        </div>
+
+        <!-- Digital Technology -->
+        <div class="subject-card">
+            <div class="subject-icon">💻</div>
+            <h2 class="subject-title">Digital Technology</h2>
+            <div class="subject-stats">
+                <span class="stat-badge">26 Resources</span>
+                <span class="stat-badge">AI & Ethics</span>
+                <span class="stat-badge">Growing Field</span>
+            </div>
+            <p class="subject-description">
+                AI ethics, digital citizenship, and technology design resources reflecting contemporary digital literacy needs.
+            </p>
+            <div class="resource-types">
+                <span class="resource-type">AI Ethics</span>
+                <span class="resource-type">Digital Citizenship</span>
+                <span class="resource-type">Tech Design</span>
+                <span class="resource-type">Media Analysis</span>
+            </div>
+            <a href="digital-technology.html" class="subject-cta">→ Explore Digital Technology</a>
+            <div class="coming-soon">Coming Soon</div>
+        </div>
+
+        <!-- NZ History -->
+        <div class="subject-card">
+            <div class="subject-icon">🇳🇿</div>
+            <h2 class="subject-title">NZ History</h2>
+            <div class="subject-stats">
+                <span class="stat-badge">21 Resources</span>
+                <span class="stat-badge cultural">Cultural Significance</span>
+                <span class="stat-badge">Treaty Focus</span>
+            </div>
+            <p class="subject-description">
+                Specialized NZ History content with Treaty of Waitangi focus, colonial impact analysis, and contemporary applications.
+            </p>
+            <div class="resource-types">
+                <span class="resource-type">Treaty Studies</span>
+                <span class="resource-type">Colonial Impact</span>
+                <span class="resource-type">Dawn Raids</span>
+                <span class="resource-type">Land Wars</span>
+            </div>
+            <a href="nz-history.html" class="subject-cta">→ Explore NZ History</a>
+            <div class="coming-soon">Coming Soon</div>
+        </div>
+
+        <!-- Science -->
+        <div class="subject-card">
+            <div class="subject-icon">🔬</div>
+            <h2 class="subject-title">Science</h2>
+            <div class="subject-stats">
+                <span class="stat-badge">15 Resources</span>
+                <span class="stat-badge cultural">Traditional Knowledge</span>
+                <span class="stat-badge">STEM Integration</span>
+            </div>
+            <p class="subject-description">
+                Science resources integrating traditional ecological knowledge with contemporary scientific methods and environmental focus.
+            </p>
+            <div class="resource-types">
+                <span class="resource-type">Traditional Ecology</span>
+                <span class="resource-type">Environmental</span>
+                <span class="resource-type">Climate Science</span>
+                <span class="resource-type">Sustainability</span>
+            </div>
+            <a href="science.html" class="subject-cta">→ Explore Science</a>
+            <div class="coming-soon">Coming Soon</div>
+        </div>
+
+        <!-- Mathematics -->
+        <div class="subject-card">
+            <div class="subject-icon">🧮</div>
+            <h2 class="subject-title">Mathematics</h2>
+            <div class="subject-stats">
+                <span class="stat-badge">9 Resources</span>
+                <span class="stat-badge cultural">Mātauranga Integration</span>
+                <span class="stat-badge">Growth Potential</span>
+            </div>
+            <p class="subject-description">
+                Mathematics resources enhanced with mātauranga Māori including traditional navigation, probability, and statistical thinking.
+            </p>
+            <div class="resource-types">
+                <span class="resource-type">Traditional Navigation</span>
+                <span class="resource-type">Probability</span>
+                <span class="resource-type">Statistics</span>
+                <span class="resource-type">Whakapapa Math</span>
+            </div>
+            <a href="mathematics.html" class="subject-cta">→ Explore Mathematics</a>
+            <div class="coming-soon">Coming Soon</div>
+        </div>
+    </div>
+
+    <!-- Quick Access Section -->
+    <section style="background: var(--color-background-light); padding: 3rem 2rem; text-align: center; margin: 4rem 0;">
+        <h2 style="color: var(--color-primary); font-size: 2.5rem; margin-bottom: 1rem;">Quick Resource Access</h2>
+        <p style="color: var(--color-text-secondary); font-size: 1.2rem; max-width: 600px; margin: 0 auto 2rem;">
+            Browse all resources by type, or use our revolutionary GraphRAG AI system for intelligent discovery
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <a href="unit-plans.html" style="background: var(--color-primary); color: white; padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: bold;">
+                📖 All Unit Plans (34)
+            </a>
+            <a href="lessons.html" style="background: var(--color-secondary); color: white; padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: bold;">
+                🎓 All Lessons (179)
+            </a>
+            <a href="handouts.html" style="background: var(--color-cultural-gold); color: white; padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: bold;">
+                📄 All Handouts (366)
+            </a>
+            <a href="graphrag-search.html" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: bold;">
+                🧠 AI Discovery (624)
+            </a>
+        </div>
+    </section>
+
+    <footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-simple">
+                <div class="footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p>"Whaowhia te kete mātauranga" - Fill the basket of knowledge</p>
+                </div>
+                <div class="footer-links">
+                    <a href="subjects.html">Subjects</a>
+                    <a href="unit-plans.html">Unit Plans</a>
+                    <a href="lessons.html">Lessons</a>
+                    <a href="handouts.html">Handouts</a>
+                    <a href="platforms.html">Platforms</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2025 Te Kete Ako - Educational resources for Aotearoa New Zealand</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Load supporting scripts -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
+    <script src="js/auth-ui.js"></script>
+    <script src="js/simple-bookmarks.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/shared-components.js"></script>
+    <script src="js/footer.js"></script>
+
+</body>
+</html>
