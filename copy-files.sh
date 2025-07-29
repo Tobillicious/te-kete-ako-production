@@ -17,4 +17,4 @@ cp register-simple.html public/
 echo "📁 Syncing updated files..."
 rsync -av --exclude='public' --exclude='node_modules' --exclude='.git' --exclude='previews' . public/
 
-echo "✅ Build complete! Files ready for Netlify deployment."
+echo "✅ Build complete! Files ready for Netlify deployment with Firebase Auth."
