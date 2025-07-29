@@ -50,3 +50,4 @@ To effectively contribute to this project, an AI agent should:
 2.  **Use Shared Components:** The `js/shared-components.js` script likely handles common elements like headers and footers. New pages should be built to work with this script.
 3.  **Maintain the Style:** Adhere to the visual style defined in `css/main.css`.
 4.  **Update Navigation:** When adding new top-level pages or resources, consider if updates are needed to navigation menus in the main `.html` files.
+PREVIEWS FOLDER REMOVED - Tue Jul 29 23:25:03 NZST 2025
