@@ -229,18 +229,17 @@
         </main>
     </div>
 
-<<<<<<< HEAD
-    <!-- Simple Local Auth System (Working Alternative) -->
-    <script src="js/simple-local-auth.js"></script>
-=======
-    <!-- Supabase CDN -->
+    <!-- Firebase CDN -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <!-- Firebase Config -->
+    <script src="js/firebase-config.js"></script>
+    <!-- Keep Supabase for data -->
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <!-- Supabase Client -->
     <script src="js/supabase-client.js"></script>
     <script src="js/global-feedback.js"></script>
     <!-- Auth UI -->
     <script src="js/auth-ui.js"></script>
->>>>>>> 06e7cfef711729a3add29302b87b8fd780c2514c
     
     <!-- Load main functionality -->
     <script src="js/main.js"></script>
@@ -264,16 +263,8 @@
             messageDiv.style.display = 'none';
             
             try {
-                // Use Supabase for registration
-                const { data, error } = await supabase.auth.signUp({
-                    email: email,
-                    password: password,
-                    options: {
-                        data: {
-                            full_name: name
-                        }
-                    }
-                });
+                // Use Firebase for registration
+                const { user, error } = await window.firebaseAuthHelpers.signUpWithEmail(email, password);
                 
                 if (!error) {
                     messageDiv.textContent = 'Registration successful! You are now logged in. Redirecting...';
@@ -305,12 +296,13 @@
         });
         
         // Check if user is already logged in
-        window.addEventListener('load', async () => {
-            const { data: { user } } = await supabase.auth.getUser();
-            if (user) {
-                // User is already logged in, redirect to homepage
-                window.location.href = 'index.html';
-            }
+        window.addEventListener('load', () => {
+            window.firebaseAuthHelpers.onAuthStateChanged((user) => {
+                if (user) {
+                    // User is already logged in, redirect to homepage
+                    window.location.href = 'index.html';
+                }
+            });
         });
     </script>
 </body>
