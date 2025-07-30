@@ -483,13 +483,15 @@ class StreamlinedHeader {
     }
 }
 
-// Auto-initialize streamlined header
+// Auto-initialize streamlined header - DISABLED 
+// Navigation now handled by static HTML for better consistency
 document.addEventListener('DOMContentLoaded', () => {
-    // Only initialize if we don't already have a clean header
-    const existingNav = document.querySelector('.nav-link-main');
-    if (!existingNav) {
-        window.streamlinedHeader = new StreamlinedHeader();
-    }
+    // DISABLED: This was overriding the standardized navigation
+    // const existingNav = document.querySelector('.nav-link-main');
+    // if (!existingNav) {
+    //     window.streamlinedHeader = new StreamlinedHeader();
+    // }
+    console.log('Streamlined header initialization disabled - using static navigation');
 });
 
 // Make available globally
