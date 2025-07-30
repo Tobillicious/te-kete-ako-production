@@ -587,7 +587,174 @@ function saveActivity(title) {
     generator.saveActivity(title);
 }
 
+// URL Parameter Filtering System for Activities Page
+function initializeActivityFiltering() {
+    // Check for URL parameters to filter activities
+    const urlParams = new URLSearchParams(window.location.search);
+    const activityType = urlParams.get('type');
+    const subject = urlParams.get('subject');
+    
+    if (activityType || subject) {
+        filterActivitiesOnPage(activityType, subject);
+    }
+    
+    // Initialize filter dropdown handlers
+    initializeFilterDropdowns();
+}
+
+function filterActivitiesOnPage(activityType, subject) {
+    const activityCards = document.querySelectorAll('.activity-card');
+    let visibleCount = 0;
+    
+    activityCards.forEach(card => {
+        const cardType = card.getAttribute('data-activity-type');
+        const cardSubject = card.getAttribute('data-subject');
+        
+        let shouldShow = true;
+        
+        // Filter by activity type (warmup, review, discussion)
+        if (activityType && cardType !== activityType) {
+            shouldShow = false;
+        }
+        
+        // Filter by subject
+        if (subject && cardSubject !== subject && cardSubject !== 'all') {
+            shouldShow = false;
+        }
+        
+        if (shouldShow) {
+            card.style.display = 'block';
+            visibleCount++;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+    
+    // Update page title and description based on filter
+    updatePageContentForFilter(activityType, subject, visibleCount);
+}
+
+function updatePageContentForFilter(activityType, subject, count) {
+    const pageTitle = document.querySelector('.content-area h1');
+    const pageSubtitle = document.querySelector('.content-area p');
+    
+    if (activityType === 'warmup') {
+        if (pageTitle) pageTitle.textContent = '🔥 5-Minute Warm-up Activities';
+        if (pageSubtitle) pageSubtitle.textContent = `${count} quick starter activities to energize your class from the moment students walk in.`;
+    } else if (activityType === 'review') {
+        if (pageTitle) pageTitle.textContent = '🧠 Deep Thinking Activities';
+        if (pageSubtitle) pageSubtitle.textContent = `${count} thought-provoking activities for extended engagement and reflection.`;
+    } else if (activityType === 'discussion') {
+        if (pageTitle) pageTitle.textContent = '💬 Discussion Starter Activities';
+        if (pageSubtitle) pageSubtitle.textContent = `${count} activities designed to spark meaningful classroom conversations.`;
+    }
+    
+    // Update sidebar links to reflect current filter
+    updateSidebarForFilter(activityType, count);
+}
+
+function updateSidebarForFilter(activityType, count) {
+    const sidebar = document.querySelector('.cultural-accent ul');
+    if (sidebar && activityType) {
+        const warmupLink = sidebar.querySelector('a[href*="type=warmup"]');
+        const reviewLink = sidebar.querySelector('a[href*="type=review"]');
+        const discussionLink = sidebar.querySelector('a[href*="type=discussion"]');
+        
+        // Update the count in the active filter link
+        if (activityType === 'warmup' && warmupLink) {
+            warmupLink.innerHTML = `5-Minute Warm-ups (${count})`;
+            warmupLink.style.fontWeight = 'bold';
+            warmupLink.style.color = 'var(--color-primary)';
+        }
+        if (activityType === 'review' && reviewLink) {
+            reviewLink.innerHTML = `Deep Thinking (${count})`;
+            reviewLink.style.fontWeight = 'bold';
+            reviewLink.style.color = 'var(--color-primary)';
+        }
+        if (activityType === 'discussion' && discussionLink) {
+            discussionLink.innerHTML = `Discussion Starters (${count})`;
+            discussionLink.style.fontWeight = 'bold';
+            discussionLink.style.color = 'var(--color-primary)';
+        }
+    }
+}
+
+function initializeFilterDropdowns() {
+    const subjectFilter = document.getElementById('subject-filter');
+    const durationFilter = document.getElementById('duration-filter');
+    
+    if (subjectFilter) {
+        subjectFilter.addEventListener('change', () => {
+            const selectedSubject = subjectFilter.value;
+            const currentType = new URLSearchParams(window.location.search).get('type');
+            
+            if (selectedSubject === 'all') {
+                filterActivitiesOnPage(currentType, null);
+            } else {
+                filterActivitiesOnPage(currentType, selectedSubject);
+            }
+        });
+    }
+    
+    if (durationFilter) {
+        durationFilter.addEventListener('change', () => {
+            const selectedDuration = durationFilter.value;
+            filterActivitiesByDuration(selectedDuration);
+        });
+    }
+}
+
+function filterActivitiesByDuration(duration) {
+    const activityCards = document.querySelectorAll('.activity-card');
+    
+    activityCards.forEach(card => {
+        const durationElement = card.querySelector('.activity-duration');
+        const cardDuration = durationElement ? durationElement.textContent : '';
+        
+        let shouldShow = true;
+        
+        if (duration !== 'all') {
+            if (duration === 'quick' && !cardDuration.includes('2-') && !cardDuration.includes('3-')) {
+                shouldShow = false;
+            } else if (duration === 'standard' && !cardDuration.includes('5-') && !cardDuration.includes('7-')) {
+                shouldShow = false;
+            } else if (duration === 'extended' && !cardDuration.includes('8-') && !cardDuration.includes('10-')) {
+                shouldShow = false;
+            }
+        }
+        
+        card.style.display = shouldShow ? 'block' : 'none';
+    });
+}
+
+// Clear all filters and show all activities
+function clearAllFilters() {
+    const activityCards = document.querySelectorAll('.activity-card');
+    activityCards.forEach(card => {
+        card.style.display = 'block';
+    });
+    
+    // Reset dropdowns
+    const subjectFilter = document.getElementById('subject-filter');
+    const durationFilter = document.getElementById('duration-filter');
+    
+    if (subjectFilter) subjectFilter.value = 'all';
+    if (durationFilter) durationFilter.value = 'all';
+    
+    // Reset page title
+    const pageTitle = document.querySelector('.content-area h1');
+    const pageSubtitle = document.querySelector('.content-area p');
+    
+    if (pageTitle) pageTitle.textContent = 'Do Now Activities';
+    if (pageSubtitle) pageSubtitle.textContent = 'Quick starter activities to get classes engaged from the moment students walk in.';
+}
+
 // Initialize when DOM loads
 document.addEventListener('DOMContentLoaded', () => {
     window.activityGenerator = new ActivityGenerator();
+    
+    // Initialize filtering if we're on the activities page
+    if (document.body.getAttribute('data-current-page') === 'activities') {
+        initializeActivityFiltering();
+    }
 });
