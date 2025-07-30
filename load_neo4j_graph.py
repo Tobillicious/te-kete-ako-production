@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from load_env import load_env
+load_env()
 """
 Te Kete Ako - GraphRAG Phase 2: Neo4j Graph Database Loader
 Loads the extracted knowledge graph into Neo4j for relationship-based queries.
@@ -260,7 +262,7 @@ class Neo4jGraphLoader:
                 for row in data[:3]:  # Show first 3 results
                     logger.info(f"   {row['row']}")
             else:
-                logger.warning(f"   No results or query failed")
+                logger.warning("   No results or query failed")
 
 def main():
     """Main execution function."""
@@ -270,7 +272,10 @@ def main():
     # Neo4j AuraDB connection details
     NEO4J_URI = "neo4j+s://cd5763ca.databases.neo4j.io"
     NEO4J_USER = "neo4j" 
-    NEO4J_PASSWORD = "te0kutquDw1nIft0mcrvxOn_TEEtybBzM9IYf_IQa88"
+    import os
+    NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD")
+    if not NEO4J_PASSWORD:
+        raise ValueError("NEO4J_PASSWORD environment variable is required")
     
     if "your-instance" in NEO4J_URI:
         print("⚠️  Neo4j credentials not configured!")

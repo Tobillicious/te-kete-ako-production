@@ -7,6 +7,10 @@ Loads our knowledge graph using the official Neo4j Python driver.
 import json
 from neo4j import GraphDatabase
 import logging
+from load_env import load_env
+
+# Load environment variables
+load_env()
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -70,7 +74,7 @@ class Neo4jKnowledgeLoader:
                 for constraint in constraints:
                     try:
                         session.run(constraint)
-                        logger.info(f"✅ Created constraint")
+                        logger.info("✅ Created constraint")
                     except Exception as e:
                         if "already exists" in str(e).lower():
                             logger.info("✅ Constraint already exists")
@@ -216,7 +220,7 @@ class Neo4jKnowledgeLoader:
     
     def load_development_discoveries(self, discoveries_file):
         """Load development discoveries as Knowledge nodes."""
-        logger.info("🔍 Loading development discoveries...")
+        logger.info(f"🔍 Loading development discoveries from {discoveries_file}...")
         
         try:
             with open(discoveries_file, 'r', encoding='utf-8') as f:
@@ -317,10 +321,14 @@ def main():
     print("🧠 Te Kete Ako - Neo4j Knowledge Graph Loader")
     print("=" * 60)
     
-    # Neo4j connection details
-    NEO4J_URI = "neo4j+s://cd5763ca.databases.neo4j.io"
-    NEO4J_USER = "neo4j"
-    NEO4J_PASSWORD = "te0kutquDw1nIft0mcrvxOn_TEEtybBzM9IYf_IQa88"
+    # Neo4j connection details from environment variables
+    import os
+    NEO4J_URI = os.getenv("NEO4J_URI", "neo4j+s://cd5763ca.databases.neo4j.io")
+    NEO4J_USER = os.getenv("NEO4J_USERNAME", "neo4j")
+    NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD")
+    
+    if not NEO4J_PASSWORD:
+        raise ValueError("NEO4J_PASSWORD environment variable is required")
     
     # Load knowledge graph from file
     try:

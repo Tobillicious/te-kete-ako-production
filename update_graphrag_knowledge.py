@@ -4,18 +4,25 @@ Update GraphRAG with Development Discoveries
 Integrates session learning into the persistent knowledge base.
 """
 
-import json
 import sys
 from neo4j_loader_official import Neo4jKnowledgeLoader
+from load_env import load_env
+
+# Load environment variables
+load_env()
 
 def update_development_knowledge():
     """Update GraphRAG with our development discoveries."""
     print("🧠 Updating GraphRAG with development discoveries...")
     
-    # Neo4j connection details (from neo4j_loader_official.py)
-    uri = "neo4j+s://cd5763ca.databases.neo4j.io"
-    username = "neo4j"
-    password = "te0kutquDw1nIft0mcrvxOn_TEEtybBzM9IYf_IQa88"
+    # Neo4j connection details from environment variables
+    import os
+    uri = os.getenv("NEO4J_URI", "neo4j+s://cd5763ca.databases.neo4j.io")
+    username = os.getenv("NEO4J_USERNAME", "neo4j") 
+    password = os.getenv("NEO4J_PASSWORD")
+    
+    if not password:
+        raise ValueError("NEO4J_PASSWORD environment variable is required")
     
     loader = None
     try:
@@ -27,8 +34,22 @@ def update_development_knowledge():
             print("❌ Failed to connect to Neo4j")
             return False
         
-        # Load our development discoveries
+        # Load our development discoveries from multiple sessions
         loader.load_development_discoveries('development_knowledge_updates.json')
+        
+        # Load session 2 discoveries if exists
+        try:
+            loader.load_development_discoveries('development_knowledge_updates_session2.json')
+            print("✅ Session 2 discoveries loaded")
+        except FileNotFoundError:
+            print("ℹ️ No session 2 discoveries file found")
+        
+        # Load Gemini's audit discoveries
+        try:
+            loader.load_development_discoveries('gemini_audit_discoveries.json')
+            print("✅ Gemini audit discoveries loaded")
+        except FileNotFoundError:
+            print("ℹ️ No Gemini audit discoveries file found")
         
         # Test that our knowledge was added
         print("\n🔍 Verifying knowledge integration...")
