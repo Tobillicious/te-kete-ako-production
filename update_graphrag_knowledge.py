@@ -51,6 +51,13 @@ def update_development_knowledge():
         except FileNotFoundError:
             print("ℹ️ No Gemini audit discoveries file found")
         
+        # Load session 3 discoveries
+        try:
+            loader.load_development_discoveries('development_knowledge_updates_session3.json')
+            print("✅ Session 3 discoveries loaded")
+        except FileNotFoundError:
+            print("ℹ️ No session 3 discoveries file found")
+        
         # Test that our knowledge was added
         print("\n🔍 Verifying knowledge integration...")
         with loader.driver.session() as session:
