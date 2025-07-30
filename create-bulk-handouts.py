@@ -4,10 +4,8 @@ Te Kete Ako Bulk Handout Generator
 Creates template handouts for Gemini to populate
 """
 
-import os
 import json
 from pathlib import Path
-from datetime import datetime
 
 class HandoutGenerator:
     def __init__(self, root_dir):
@@ -310,8 +308,8 @@ def main():
     batch_file = generator.save_gemini_batch(all_prompts)
     
     print(f"📝 Generated {len(all_prompts)} handout prompts for Gemini")
-    print(f"📁 Templates available: general, writers-toolkit, comprehension, analysis, cultural")
-    print(f"🎯 Ready for Gemini content generation!")
+    print("📁 Templates available: general, writers-toolkit, comprehension, analysis, cultural")
+    print("🎯 Ready for Gemini content generation!")
     
     return batch_file
 

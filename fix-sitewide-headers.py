@@ -158,7 +158,7 @@ class HeaderConsistencyFixer:
                 f.write(new_content)
                 
             self.pages_fixed += 1
-            print(f"  ✅ Header added successfully")
+            print("  ✅ Header added successfully")
             
         except Exception as e:
             print(f"  ❌ Error processing {file_path}: {e}")
@@ -190,10 +190,10 @@ class HeaderConsistencyFixer:
         print(f"   🎉 Success rate: {((self.pages_skipped + self.pages_fixed) / self.pages_analyzed * 100):.1f}%")
         
         if self.pages_fixed > 0:
-            print(f"\n✨ Sitewide header consistency achieved!")
+            print("\n✨ Sitewide header consistency achieved!")
             print("All pages now have professional navigation headers.")
         else:
-            print(f"\n✅ All pages already had consistent headers!")
+            print("\n✅ All pages already had consistent headers!")
 
 def main():
     """Run the header consistency system"""

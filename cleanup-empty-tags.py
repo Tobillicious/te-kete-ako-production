@@ -4,7 +4,6 @@ Te Kete Ako Empty Tag Cleanup
 Removes empty paragraph tags and other placeholder content
 """
 
-import os
 import re
 from pathlib import Path
 
@@ -94,7 +93,7 @@ class EmptyTagCleaner:
             if file_path.is_file():
                 self.process_file(file_path)
         
-        print(f"\n📊 Empty Tag Cleanup Report:")
+        print("\n📊 Empty Tag Cleanup Report:")
         print(f"   Files cleaned: {self.cleaned_files}")
         print(f"   Empty tags removed: {self.tags_removed}")
 

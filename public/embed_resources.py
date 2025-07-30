@@ -4,7 +4,6 @@ Te Kete Ako - GraphRAG Phase 1: Resource Embedding Generation
 Creates vector embeddings for all educational resources to enable semantic search.
 """
 
-import os
 import sys
 from supabase import create_client, Client
 from sentence_transformers import SentenceTransformer
@@ -115,7 +114,7 @@ def create_embeddings():
     
     # Final report
     logger.info("=" * 60)
-    logger.info(f"🎉 Embedding Generation Complete!")
+    logger.info("🎉 Embedding Generation Complete!")
     logger.info(f"✅ Successfully processed: {success_count} resources")
     logger.info(f"❌ Errors encountered: {error_count} resources")
     logger.info(f"📊 Total resources: {len(resources)}")

@@ -1244,6 +1244,33 @@ const comprehensiveResources = {
                 description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for forgot password with focus on general education learning."
             },
             {
+                title: "About",
+                path: "about.html",
+                type: "handout",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for about with focus on general education learning."
+            },
+            {
+                title: "Social Studies",
+                path: "social-studies.html",
+                type: "handout",
+                subject: "Social Studies",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for social studies with focus on social studies learning."
+            },
+            {
+                title: "Contact",
+                path: "contact.html",
+                type: "handout",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for contact with focus on general education learning."
+            },
+            {
                 title: "Student Dashboard",
                 path: "student-dashboard.html",
                 type: "handout",
@@ -1289,6 +1316,15 @@ const comprehensiveResources = {
                 description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for curriculum v2 with focus on general education learning."
             },
             {
+                title: "Subjects",
+                path: "subjects.html",
+                type: "handout",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for subjects with focus on general education learning."
+            },
+            {
                 title: "Reset Password",
                 path: "reset-password.html",
                 type: "handout",
@@ -1325,6 +1361,15 @@ const comprehensiveResources = {
                 description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for youtube with focus on general education learning."
             },
             {
+                title: "English",
+                path: "english.html",
+                type: "handout",
+                subject: "English",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for english with focus on english learning."
+            },
+            {
                 title: "Teacher Dashboard",
                 path: "teacher-dashboard.html",
                 type: "handout",
@@ -1359,6 +1404,15 @@ const comprehensiveResources = {
                 similarity: 0.85,
                 cultural_level: "low",
                 description: "📄 EDUCATIONAL RESOURCE: Complete unit covering unit plans with focus on general education learning."
+            },
+            {
+                title: "Tools",
+                path: "tools.html",
+                type: "interactive",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Interactive tool for tools with focus on general education learning."
             },
             {
                 title: "Index New",
@@ -2432,6 +2486,15 @@ const comprehensiveResources = {
                 description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for forgot password with focus on general education learning."
             },
             {
+                title: "Social Studies",
+                path: "public/social-studies.html",
+                type: "handout",
+                subject: "Social Studies",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for social studies with focus on social studies learning."
+            },
+            {
                 title: "Student Dashboard",
                 path: "public/student-dashboard.html",
                 type: "handout",
@@ -2477,6 +2540,15 @@ const comprehensiveResources = {
                 description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for curriculum v2 with focus on general education learning."
             },
             {
+                title: "Subjects",
+                path: "public/subjects.html",
+                type: "handout",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for subjects with focus on general education learning."
+            },
+            {
                 title: "Reset Password",
                 path: "public/reset-password.html",
                 type: "handout",
@@ -2511,6 +2583,15 @@ const comprehensiveResources = {
                 similarity: 0.85,
                 cultural_level: "low",
                 description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for youtube with focus on general education learning."
+            },
+            {
+                title: "English",
+                path: "public/english.html",
+                type: "handout",
+                subject: "English",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for english with focus on english learning."
             },
             {
                 title: "Teacher Dashboard",
@@ -4139,6 +4220,15 @@ const comprehensiveResources = {
                 description: "🌿 ESSENTIAL CULTURAL RESOURCE: Complete unit covering unit 1 te ao māori with focus on te ao māori learning."
             },
             {
+                title: "Te Ao Māori",
+                path: "te-ao-maori.html",
+                type: "handout",
+                subject: "Te Ao Māori",
+                similarity: 0.85,
+                cultural_level: "essential",
+                description: "🌿 ESSENTIAL CULTURAL RESOURCE: Comprehensive resource for te ao māori with focus on te ao māori learning."
+            },
+            {
                 title: "Māori Astronomy Navigation",
                 path: "handouts/maori-astronomy-navigation-handout.html",
                 type: "handout",
@@ -4200,6 +4290,15 @@ const comprehensiveResources = {
                 similarity: 0.85,
                 cultural_level: "essential",
                 description: "🌿 ESSENTIAL CULTURAL RESOURCE: Complete unit covering unit 1 te ao māori with focus on te ao māori learning."
+            },
+            {
+                title: "Te Ao Māori",
+                path: "public/te-ao-maori.html",
+                type: "handout",
+                subject: "Te Ao Māori",
+                similarity: 0.85,
+                cultural_level: "essential",
+                description: "🌿 ESSENTIAL CULTURAL RESOURCE: Comprehensive resource for te ao māori with focus on te ao māori learning."
             },
             {
                 title: "Māori Astronomy Navigation",

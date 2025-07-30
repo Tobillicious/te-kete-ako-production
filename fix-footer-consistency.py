@@ -4,7 +4,6 @@ Te Kete Ako Footer Consistency Script
 Adds consistent site footer to pages missing it
 """
 
-import os
 import re
 from pathlib import Path
 
@@ -103,7 +102,7 @@ class FooterInjector:
             if file_path not in processed_files:
                 self.process_file(file_path)
         
-        print(f"\n📊 Footer Consistency Report:")
+        print("\n📊 Footer Consistency Report:")
         print(f"   Files processed: {self.processed}")
         print(f"   Footers added: {self.added_footer}")
 

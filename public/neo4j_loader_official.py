@@ -70,7 +70,7 @@ class Neo4jKnowledgeLoader:
                 for constraint in constraints:
                     try:
                         session.run(constraint)
-                        logger.info(f"✅ Created constraint")
+                        logger.info("✅ Created constraint")
                     except Exception as e:
                         if "already exists" in str(e).lower():
                             logger.info("✅ Constraint already exists")
