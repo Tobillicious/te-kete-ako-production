@@ -92,9 +92,15 @@ class FooterInjector:
         for pattern in priority_patterns:
             priority_files.extend(self.root_dir.glob(pattern))
         
-        # Process priority files first
-        for file_path in priority_files[:50]:  # Limit to prevent overwhelming
+        # Process all priority files
+        for file_path in priority_files:
             if file_path.is_file():
+                self.process_file(file_path)
+        
+        # Process remaining HTML files
+        processed_files = set(priority_files)
+        for file_path in html_files:
+            if file_path not in processed_files:
                 self.process_file(file_path)
         
         print(f"\n📊 Footer Consistency Report:")
