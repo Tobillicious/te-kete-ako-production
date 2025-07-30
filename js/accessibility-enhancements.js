@@ -83,7 +83,8 @@ class AccessibilityEnhancer {
         this.shortcuts.set('Alt+M', () => this.focusMainContent());
         this.shortcuts.set('Alt+N', () => this.focusNavigation());
         this.shortcuts.set('Alt+P', () => this.togglePreferencesPanel());
-        this.shortcuts.set('Ctrl+/', () => this.showKeyboardShortcuts());
+        // Keyboard shortcuts modal disabled
+        // this.shortcuts.set('Ctrl+/', () => this.showKeyboardShortcuts());
         this.shortcuts.set('Escape', () => this.handleEscape());
 
         document.addEventListener('keydown', (event) => {
@@ -523,11 +524,8 @@ class AccessibilityEnhancer {
     }
 
     showKeyboardShortcuts() {
-        const modal = document.getElementById('keyboard-shortcuts-modal');
-        modal.classList.add('show');
-        modal.setAttribute('aria-hidden', 'false');
-        modal.querySelector('.modal-close').focus();
-        this.announce('Keyboard shortcuts help opened');
+        // Keyboard shortcuts modal disabled for cleaner UX
+        return;
     }
 
     closeModal(modal) {
