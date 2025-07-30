@@ -7,7 +7,7 @@ using our existing Supabase infrastructure.
 
 import json
 from sentence_transformers import SentenceTransformer
-from supabase import create_client, Client
+from supabase import create_client
 import logging
 
 # Configure logging
@@ -181,7 +181,7 @@ class HybridGraphRAG:
         related_resources = self.find_related_by_concepts(initial_resources)
         
         if related_resources:
-            print(f"\n🧠 CONCEPTUALLY RELATED RESOURCES:")
+            print("\n🧠 CONCEPTUALLY RELATED RESOURCES:")
             for i, resource in enumerate(related_resources[:5], 1):
                 print(f"{i}. {resource['title']}")
                 print(f"   Connected through: {resource['related_through_concept']}")
@@ -191,7 +191,7 @@ class HybridGraphRAG:
         progressions = self.find_learning_progressions(initial_resources)
         
         if progressions:
-            print(f"\n📚 LEARNING PROGRESSION SUGGESTIONS:")
+            print("\n📚 LEARNING PROGRESSION SUGGESTIONS:")
             for i, resource in enumerate(progressions, 1):
                 print(f"{i}. {resource['title']}")
                 print(f"   Progression: {resource['progression_type']}")
@@ -199,7 +199,7 @@ class HybridGraphRAG:
         
         # Summary
         total_recommendations = len(initial_resources) + len(related_resources) + len(progressions)
-        print(f"\n🎯 SUMMARY:")
+        print("\n🎯 SUMMARY:")
         print(f"   • {len(initial_resources)} semantically similar resources")
         print(f"   • {len(related_resources)} conceptually related resources")
         print(f"   • {len(progressions)} learning progression suggestions")

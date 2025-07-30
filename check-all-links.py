@@ -4,10 +4,8 @@ Te Kete Ako Link Validation System
 Quick check for broken internal links
 """
 
-import os
 import re
 from pathlib import Path
-from urllib.parse import urljoin, urlparse
 import json
 
 class LinkChecker:
@@ -93,14 +91,14 @@ def main():
     checker = LinkChecker("/Users/admin/Documents/te-kete-ako-clean")
     results = checker.check_links()
     
-    print(f"\n📊 LINK CHECK RESULTS")
+    print("\n📊 LINK CHECK RESULTS")
     print("=" * 30)
     print(f"✅ Valid links: {results['valid_links']}")
     print(f"❌ Broken links: {results['broken_links']}")
     print(f"📄 Files checked: {results['total_files']}")
     
     if results['broken_links'] > 0:
-        print(f"\n🔗 BROKEN LINKS (showing first 10):")
+        print("\n🔗 BROKEN LINKS (showing first 10):")
         for link in results['broken_details'][:10]:
             print(f"   • {link['source_file']} → {link['broken_link']}")
     
@@ -108,7 +106,7 @@ def main():
     with open('link_check_results.json', 'w') as f:
         json.dump(results, f, indent=2)
     
-    print(f"\n📄 Full results saved to link_check_results.json")
+    print("\n📄 Full results saved to link_check_results.json")
     return results
 
 if __name__ == "__main__":

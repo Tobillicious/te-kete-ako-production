@@ -4,7 +4,6 @@ Te Kete Ako Content Gap Analysis
 Identifies missing resources and TODO items for Gemini to fill
 """
 
-import os
 import re
 from pathlib import Path
 from collections import defaultdict
@@ -314,11 +313,11 @@ def main():
             print(f"   • {todo['file']}: {todo['description']}")
     
     if report['broken_links']:
-        print(f"\n🔗 MISSING RESOURCES (showing first 5):")
+        print("\n🔗 MISSING RESOURCES (showing first 5):")
         for link in report['broken_links'][:5]:
             print(f"   • {link['missing_link']} (referenced in {link['source_file']})")
     
-    print(f"\n✨ Ready for Gemini content generation!")
+    print("\n✨ Ready for Gemini content generation!")
     return report_path
 
 if __name__ == "__main__":

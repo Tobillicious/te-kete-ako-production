@@ -5,11 +5,10 @@ Automatically scans the file system and generates a complete resource database
 for the GraphRAG search system, ensuring no educational resource is left hidden.
 """
 
-import os
 import json
 import re
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List
 
 class TeKeteResourceIndexer:
     """Automatically discover and index all educational resources."""
@@ -254,10 +253,10 @@ class TeKeteResourceIndexer:
         
         for category, resources in categories.items():
             js_code += f'    "{category}": {{\n'
-            js_code += f'        semantic: [\n'
+            js_code += '        semantic: [\n'
             
             for resource in resources['semantic']:
-                js_code += f'            {{\n'
+                js_code += '            {\n'
                 js_code += f'                title: "{resource["title"]}",\n'
                 js_code += f'                path: "{resource["path"]}",\n'
                 js_code += f'                type: "{resource["type"]}",\n'
@@ -265,12 +264,12 @@ class TeKeteResourceIndexer:
                 js_code += f'                similarity: {resource["similarity"]},\n'
                 js_code += f'                cultural_level: "{resource["cultural_level"]}",\n'
                 js_code += f'                description: "{resource["description"]}"\n'
-                js_code += f'            }},\n'
+                js_code += '            },\n'
             
-            js_code += f'        ],\n'
-            js_code += f'        conceptual: [],\n'
-            js_code += f'        progressions: []\n'
-            js_code += f'    }},\n'
+            js_code += '        ],\n'
+            js_code += '        conceptual: [],\n'
+            js_code += '        progressions: []\n'
+            js_code += '    },\n'
         
         js_code += "};"
         
@@ -340,15 +339,15 @@ def main():
         subjects[resource['subject']] = subjects.get(resource['subject'], 0) + 1
         cultural_levels[resource['cultural_level']] = cultural_levels.get(resource['cultural_level'], 0) + 1
     
-    print(f"📋 Resource Types:")
+    print("📋 Resource Types:")
     for type_name, count in sorted(types.items()):
         print(f"   {type_name}: {count}")
     
-    print(f"\n📚 Subject Areas:")
+    print("\n📚 Subject Areas:")
     for subject, count in sorted(subjects.items()):
         print(f"   {subject}: {count}")
     
-    print(f"\n🌿 Cultural Integration:")
+    print("\n🌿 Cultural Integration:")
     for level, count in sorted(cultural_levels.items()):
         print(f"   {level}: {count}")
     

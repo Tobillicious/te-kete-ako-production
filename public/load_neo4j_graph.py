@@ -260,7 +260,7 @@ class Neo4jGraphLoader:
                 for row in data[:3]:  # Show first 3 results
                     logger.info(f"   {row['row']}")
             else:
-                logger.warning(f"   No results or query failed")
+                logger.warning("   No results or query failed")
 
 def main():
     """Main execution function."""

@@ -4,11 +4,10 @@ Te Kete Ako - GraphRAG Phase 2: Knowledge Graph Construction
 Extracts entities and relationships from educational resources to build an intelligent knowledge graph.
 """
 
-import os
 import re
 import json
-from typing import List, Dict, Set, Tuple
-from supabase import create_client, Client
+from typing import List, Dict
+from supabase import create_client
 import logging
 
 # Configure logging

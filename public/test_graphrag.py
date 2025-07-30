@@ -3,9 +3,7 @@
 Test the GraphRAG Phase 1 implementation
 """
 
-import requests
-import json
-from supabase import create_client, Client
+from supabase import create_client
 
 # Configuration
 SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co'
