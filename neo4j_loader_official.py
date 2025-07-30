@@ -214,6 +214,58 @@ class Neo4jKnowledgeLoader:
         except Exception as e:
             logger.error(f"❌ Failed to load relationships: {e}")
     
+    def load_development_discoveries(self, discoveries_file):
+        """Load development discoveries as Knowledge nodes."""
+        logger.info("🔍 Loading development discoveries...")
+        
+        try:
+            with open(discoveries_file, 'r', encoding='utf-8') as f:
+                discoveries_data = json.load(f)
+            
+            with self.driver.session() as session:
+                # Create session knowledge node
+                session_query = """
+                MERGE (s:DevelopmentSession {date: $date, agent: $agent})
+                RETURN s
+                """
+                session.run(session_query, 
+                    date=discoveries_data.get('session_date'),
+                    agent=discoveries_data.get('agent'))
+                
+                # Create discovery nodes
+                for discovery in discoveries_data.get('critical_discoveries', []):
+                    discovery_query = """
+                    MERGE (d:Knowledge {id: $id})
+                    SET d.title = $title,
+                        d.type = $type,
+                        d.description = $description,
+                        d.status = $status,
+                        d.priority = $priority,
+                        d.solution = $solution,
+                        d.root_cause = $root_cause,
+                        d.session_date = $session_date
+                    
+                    WITH d
+                    MATCH (s:DevelopmentSession {date: $session_date})
+                    MERGE (s)-[:DISCOVERED]->(d)
+                    """
+                    
+                    session.run(discovery_query, 
+                        id=discovery.get('id'),
+                        title=discovery.get('title'),
+                        type=discovery.get('type'),
+                        description=discovery.get('description'),
+                        status=discovery.get('status'),
+                        priority=discovery.get('priority'),
+                        solution=discovery.get('solution', ''),
+                        root_cause=discovery.get('root_cause', ''),
+                        session_date=discoveries_data.get('session_date'))
+                
+                logger.info("✅ Development discoveries loaded into knowledge graph")
+                
+        except Exception as e:
+            logger.error(f"❌ Failed to load development discoveries: {e}")
+    
     def run_test_queries(self):
         """Run test queries to verify the graph."""
         logger.info("🧪 Running test queries...")
