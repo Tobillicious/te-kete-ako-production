@@ -699,22 +699,12 @@
             { word: 'KINA', meaning: 'Sea urchin', example: 'He kina - Sea urchin', category: 'food' }
         ];
 
-        // Comprehensive list of valid 5-letter Māori words for guess validation
+        // CULTURAL AUTHENTICITY: This list is now DEPRECATED for validation
+        // Only the authenticated dictionary API words are accepted to prevent fake Māori words
         const VALID_MAORI_WORDS = [
-            // From the main word list
-            'AROHA', 'WHARE', 'MAURI', 'TAIAO', 'RANGI', 'MOANA', 'MANA', 'WAIRUA',
-            'MATUA', 'WHAEA', 'HONGI', 'HANGI', 'KAURI', 'HAERE', 'NOHO', 'WHERO',
-            'MANGU', 'KINA', 'PIPI',
-            
-            // Additional common 5-letter words
-            'MARAE', 'MAORI', 'NGATI', 'HAPUU', 'RONGO', 'REHUA', 'RAKAU', 'POAKA',
-            'HUNGA', 'KAWE', 'AWHI', 'KATA', 'KETE', 'KORU', 'RATA', 'RIMU',
-            'TANE', 'HINE', 'PAPA', 'NUKU', 'RAUA', 'MAHI', 'HORA', 'RAHI',
-            'PAUA', 'TUNA', 'MAKO', 'HOKI', 'TAPU', 'NOKO',
-            'KURU', 'PURE', 'PARA', 'KAHA', 'KINO', 'NGARO', 'RURU', 'KIWI', 
-            'TITI', 'KAKA', 'HUHU', 'WETA', 'PEPE', 'TERA', 'TENEI', 'KOIA', 
-            'RANEI', 'PUKU', 'MATA', 'RINGA', 'WAHA', 'HOPE', 'MOKO',
-            'KEKE', 'KOPE', 'KETE', 'MIRO', 'TARO', 'KONO', 'KURA', 'HAKA'
+            // NOTE: This array is kept for backward compatibility but is no longer used for validation
+            // All word validation now goes through the authentic Māori dictionary API
+            // which contains verified Te Reo Māori words with cultural context
         ];
 
         // Function to normalize Māori text (handle macrons)
@@ -731,10 +721,10 @@
         // Function to validate if a word is a legitimate Māori word using the dictionary API
         async function isValidMaoriWord(word) {
             if (!window.maoriDictionaryAPI) {
-                console.warn('Māori Dictionary API not loaded, using fallback validation');
-                const normalizedWord = normalizeMaoriText(word);
-                const normalizedValidWords = VALID_MAORI_WORDS.map(w => normalizeMaoriText(w));
-                return normalizedValidWords.includes(normalizedWord);
+                console.error('CULTURAL SAFETY: Māori Dictionary API not loaded. Cannot validate Te Reo Māori words safely.');
+                // CRITICAL: Never accept words without proper validation
+                // This prevents fake words that "look Māori" from being accepted
+                return false;
             }
             
             return await window.maoriDictionaryAPI.validateMaoriWord(word);
@@ -794,10 +784,18 @@
 
         // Select word based on NZ date for consistency (UTC+12/+13)
         function selectDailyWord() {
-            // Get current time in New Zealand timezone
+            // CULTURAL AUTHENTICITY: Ensure consistent daily word in NZ timezone
+            // This prevents multiple games per day and maintains cultural integrity
             const now = new Date();
             const nzTime = new Date(now.toLocaleString("en-US", {timeZone: "Pacific/Auckland"}));
-            const seed = nzTime.getFullYear() * 1000 + nzTime.getMonth() * 100 + nzTime.getDate();
+            
+            // Create consistent seed that changes only once per day in NZ
+            const year = nzTime.getFullYear();
+            const month = nzTime.getMonth() + 1; // Month is 0-indexed, make it 1-12
+            const day = nzTime.getDate();
+            const seed = year * 10000 + month * 100 + day; // YYYYMMDD format
+            
+            console.log(`Cultural Safety: Daily word selected for NZ date: ${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')} (seed: ${seed})`);
             
             // Use dictionary API for word selection if available
             if (window.maoriDictionaryAPI) {
