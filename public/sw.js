@@ -1,0 +1,1 @@
+// This service worker has been intentionally left empty to disable it.

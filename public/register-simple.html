@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Te Kete Ako</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        .auth-container {
+            max-width: 500px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .form-group label {
+            font-weight: bold;
+            color: var(--color-primary);
+        }
+        .form-group input {
+            padding: 0.75rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--color-secondary);
+        }
+        .auth-button {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .auth-button:hover {
+            transform: translateY(-2px);
+        }
+        .auth-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+        .auth-links {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .auth-links a {
+            color: var(--color-secondary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .auth-links a:hover {
+            text-decoration: underline;
+        }
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #ffffff;
+            border-top: 3px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 0.5rem;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .demo-accounts {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        .demo-accounts h4 {
+            margin: 0 0 0.5rem 0;
+            color: var(--color-primary);
+        }
+    </style>
+</head>
+<body data-auto-init="true" data-current-page="register">
+
+        <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">Te Kete Ako</a>
+            <nav class="main-nav">
+                <ul>
+                    <li>
+                        <a href="unit-plans.html">
+                            <span class="nav-icon">📚</span>
+                            <span class="nav-text-en">Unit Plans</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Waehere</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="lessons.html">
+                            <span class="nav-icon">🎓</span>
+                            <span class="nav-text-en">Lessons</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="handouts.html">
+                            <span class="nav-icon">📄</span>
+                            <span class="nav-text-en">Handouts</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="games.html">
+                            <span class="nav-icon">🎮</span>
+                            <span class="nav-text-en">Games</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Kēmu</span>  
+                        </a>
+                    </li>
+                    <li class="auth-nav my-kete-link" style="display: none;">
+                        <a href="my-kete.html">
+                            <span class="nav-icon">🧺</span>
+                            My Kete
+                        </a>
+                    </li>
+                    <li class="auth-nav">
+                        <a href="login.html" class="login-btn">
+                            <span class="nav-icon">👤</span>
+                            Login
+                        </a>
+                    </li>
+                    <li class="auth-nav" style="display: none;">
+                        <a href="register-simple.html" class="register-btn">
+                            <span class="nav-icon">📝</span>
+                            Register
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <main class="content-area">
+            <div class="cultural-opening" style="background: var(--color-cultural-light); border-left: 4px solid var(--color-secondary); padding: 1.5rem; margin-bottom: 2rem; border-radius: 8px;">
+                <h2 style="color: var(--color-primary); margin-bottom: 0.5rem; font-size: 1.1rem;">Whakataukī | Proverb</h2>
+                <p style="font-style: italic; color: var(--color-primary); margin-bottom: 0.5rem; font-size: 1.1rem;">"Mā te huruhuru ka rere ai te manu"</p>
+                <p style="color: var(--color-text-secondary); font-size: 0.95rem;">Adorn the bird with feathers so it may fly.</p>
+                <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">Equip yourself with knowledge so you may soar in learning.</p>
+            </div>
+
+            <div class="auth-container">
+                <h1 style="text-align: center; color: var(--color-primary); margin-bottom: 1.5rem;">Join Te Kete Ako</h1>
+                <p style="text-align: center; color: var(--color-text-secondary); margin-bottom: 2rem;">Create your account to access personalized learning features</p>
+                
+                <!-- Demo Accounts Info -->
+                <div class="demo-accounts">
+                    <h4>🧪 Working Demo Accounts Available:</h4>
+                    <p><strong>teacher@tekete.nz</strong> / password123 (Teacher Role)</p>
+                    <p><strong>admin@tekete.nz</strong> / admin123 (Admin Role)</p>
+                    <p><strong>student@tekete.nz</strong> / student123 (Student Role)</p>
+                    <p style="font-style: italic; margin-top: 0.5rem;">✅ These actually work! Or create your own account below.</p>
+                </div>
+                
+                <div id="register-message" class="message" style="display: none;"></div>
+                
+                <form id="register-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="name">Full Name:</label>
+                        <input type="text" id="name" name="name" required placeholder="Your full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address:</label>
+                        <input type="email" id="email" name="email" required placeholder="your.email@school.nz">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required placeholder="Create a secure password" minlength="6">
+                    </div>
+                    
+                    <button type="submit" class="auth-button" id="register-button">
+                        <div class="loading-spinner" id="register-spinner"></div>
+                        <span id="register-text">Create Account</span>
+                    </button>
+                </form>
+                
+                <div class="auth-links">
+                    <p>Already have an account? <a href="login.html">Sign in here</a></p>
+                    <p><a href="index.html">← Back to Te Kete Ako</a></p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Firebase CDN -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <!-- Firebase Config -->
+    <script src="js/firebase-config.js"></script>
+    <!-- Keep Supabase for data -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
+    <script src="js/global-feedback.js"></script>
+    <!-- Auth UI -->
+    <script src="js/auth-ui.js"></script>
+    
+    <!-- Load main functionality -->
+    <script src="js/main.js"></script>
+    <script>
+        // Registration form handling with Simple Auth
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const messageDiv = document.getElementById('register-message');
+            const registerButton = document.getElementById('register-button');
+            const registerSpinner = document.getElementById('register-spinner');
+            const registerText = document.getElementById('register-text');
+            
+            // Show loading state
+            registerButton.disabled = true;
+            registerSpinner.style.display = 'inline-block';
+            registerText.textContent = 'Creating account...';
+            messageDiv.style.display = 'none';
+            
+            try {
+                // Use Firebase for registration
+                const { user, error } = await window.firebaseAuthHelpers.signUpWithEmail(email, password);
+                
+                if (!error) {
+                    messageDiv.textContent = 'Registration successful! You are now logged in. Redirecting...';
+                    messageDiv.className = 'message success';
+                    messageDiv.style.display = 'block';
+                    
+                    // Clear form and redirect to homepage
+                    document.getElementById('register-form').reset();
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+                    
+                } else {
+                    messageDiv.textContent = error.message || 'Registration failed. Please try again.';
+                    messageDiv.className = 'message error';
+                    messageDiv.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                messageDiv.textContent = 'An error occurred during registration. Please try again.';
+                messageDiv.className = 'message error';
+                messageDiv.style.display = 'block';
+            } finally {
+                // Reset loading state
+                registerButton.disabled = false;
+                registerSpinner.style.display = 'none';
+                registerText.textContent = 'Create Account';
+            }
+        });
+        
+        // Check if user is already logged in
+        window.addEventListener('load', () => {
+            window.firebaseAuthHelpers.onAuthStateChanged((user) => {
+                if (user) {
+                    // User is already logged in, redirect to homepage
+                    window.location.href = 'index.html';
+                }
+            });
+        });
+    </script>    <footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-simple">
+                <div class="footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p>"Whaowhia te kete mātauranga" - Fill the basket of knowledge</p>
+                </div>
+                <div class="footer-links">
+                    <a href="unit-plans.html">Unit Plans</a>
+                    <a href="lessons.html">Lessons</a>
+                    <a href="handouts.html">Handouts</a>
+                    <a href="my-kete.html">My Kete</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2025 Te Kete Ako - Educational resources for Aotearoa New Zealand</span>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
