@@ -176,12 +176,12 @@
                 <h1 style="text-align: center; color: var(--color-primary); margin-bottom: 1.5rem;">Welcome Back to Te Kete Ako</h1>
                 <p style="text-align: center; color: var(--color-text-secondary); margin-bottom: 1rem;">Sign in to access your personalized learning dashboard</p>
                 
-                <!-- Firebase Auth Info -->
+                <!-- Supabase Auth Info -->
                 <div style="background: #e8f5e8; border: 1px solid #4CAF50; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; font-size: 0.9rem;">
-                    <h4 style="margin: 0 0 0.5rem 0; color: #2E7D32;">🔥 Secure Firebase Authentication</h4>
-                    <p style="margin: 0.25rem 0; color: #555;">✅ Reliable Google Firebase Auth system</p>
+                    <h4 style="margin: 0 0 0.5rem 0; color: #2E7D32;">🔐 Secure Supabase Authentication</h4>
+                    <p style="margin: 0.25rem 0; color: #555;">✅ Reliable Supabase Auth with educational profiles</p>
                     <p style="margin: 0.25rem 0; color: #555;">✅ Create your account or sign in with existing credentials</p>
-                    <p style="margin: 0.25rem 0; color: #555;">✅ Secure access to all 624+ educational resources</p>
+                    <p style="margin: 0.25rem 0; color: #555;">✅ Secure access to all 163+ educational resources</p>
                 </div>
                 
                 <div id="login-message" class="message" style="display: none;"></div>
@@ -212,14 +212,8 @@
         </main>
     </div>
 
-    <!-- Firebase CDN -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
-    <!-- Firebase Config -->
-    <script src="js/firebase-config.js"></script>
-    <!-- Keep Supabase for data -->
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-client.js"></script>
+    <!-- Supabase Authentication -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <!-- Global Feedback System -->
     <script src="js/global-feedback.js"></script>
     <!-- Auth UI -->
@@ -228,11 +222,11 @@
     <!-- Load main functionality -->
     <script src="js/main.js"></script>
     <script>
-        // Enhanced login form with Firebase Auth + professional feedback system
+        // Enhanced login form with Supabase Auth + professional feedback system
         document.addEventListener('DOMContentLoaded', () => {
             const loginForm = document.getElementById('login-form');
             
-            // Use Firebase Auth with professional form handling system
+            // Use Supabase Auth with professional form handling system
             loginForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
@@ -241,8 +235,15 @@
                     const email = formData.get('email');
                     const password = formData.get('password');
                     
-                    // Use Firebase for authentication
-                    const { user, error } = await window.firebaseAuthHelpers.signInWithEmail(email, password);
+                    // Use Supabase for authentication
+                    const supabaseUrl = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+                    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjE5NTgzOTIsImV4cCI6MjAzNzUzNDM5Mn0.atrHoU6v4q7B7Yg6XJN0hK4uXUoSbQgzrFwKfW9Jlvg';
+                    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+                    const { data, error } = await supabase.auth.signInWithPassword({
+                        email: email,
+                        password: password
+                    });
+                    const user = data?.user;
                     
                     if (error) {
                         throw new Error(error);
@@ -264,13 +265,15 @@
         });
         
         // Check if user is already logged in
-        window.addEventListener('load', () => {
-            window.firebaseAuthHelpers.onAuthStateChanged((user) => {
-                if (user) {
-                    // User is already logged in, redirect to homepage
-                    window.location.href = 'index.html';
-                }
-            });
+        window.addEventListener('load', async () => {
+            const supabaseUrl = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+            const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjE9NTgzOTIsImV4cCI6MjAzNzUzNDM5Mn0.atrHoU6v4q7B7Yg6XJN0hK4uXUoSbQgzrFwKfW9Jlvg';
+            const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session?.user) {
+                // User is already logged in, redirect to homepage
+                window.location.href = 'index.html';
+            }
         });
     </script>    <footer class="site-footer no-print">
         <div class="footer-content">
