@@ -1002,28 +1002,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /**
  * =================================================================
- * FIREBASE AUTHENTICATION MODULE
+ * SUPABASE AUTHENTICATION MODULE
  * =================================================================
  * 
  * Provides secure authentication functionality for Te Kete Ako platform
- * Integrates with Firebase Auth for user management, progress tracking,
+ * Integrates with Supabase Auth for user management, progress tracking,
  * and personalized learning experiences.
  * 
  * Features:
  * - Secure sign-in/sign-up with email/password
- * - Social authentication (Google, GitHub)
- * - User profile management
+ * - User profile management with education metadata
  * - Learning progress tracking
  * - Cultural safety and privacy protection
+ * - Integration with Te Kete Ako profile system
  * =================================================================
  */
 
-class TeKeteFirebaseAuth {
+class TeKeteSupabaseAuth {
     constructor() {
         this.user = null;
-        this.auth = null;
+        this.supabase = null;
         this.initialized = false;
-        this.firebaseConfig = null;
         
         // Cultural greeting messages
         this.culturalGreetings = [
@@ -1032,94 +1031,69 @@ class TeKeteFirebaseAuth {
             { en: 'Ready to learn?', maori: 'Kei te reri koe ki te ako?' }
         ];
         
-        this.initializeFirebaseSDK();
+        this.initializeSupabaseSDK();
     }
     
-    async initializeFirebaseSDK() {
+    async initializeSupabaseSDK() {
         try {
-            // Check if Firebase is already loaded
-            if (typeof firebase !== 'undefined') {
-                this.setupFirebase();
+            // Check if Supabase is already loaded
+            if (typeof window.supabase !== 'undefined') {
+                this.supabase = window.supabase;
+                this.setupSupabase();
                 return;
             }
             
-            // Load Firebase SDK dynamically if not present
-            await this.loadFirebaseSDK();
-            this.setupFirebase();
+            // Load Supabase SDK dynamically if not present
+            await this.loadSupabaseSDK();
+            this.setupSupabase();
             
         } catch (error) {
-            console.warn('Firebase SDK not available:', error.message);
+            console.warn('Supabase SDK not available:', error.message);
             this.showFallbackAuth();
         }
     }
     
-    async loadFirebaseSDK() {
+    async loadSupabaseSDK() {
         return new Promise((resolve, reject) => {
-            // Load Firebase core
-            const firebaseScript = document.createElement('script');
-            firebaseScript.src = 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js';
-            firebaseScript.onload = () => {
-                // Load Firebase Auth
-                const authScript = document.createElement('script');
-                authScript.src = 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js';
-                authScript.onload = resolve;
-                authScript.onerror = reject;
-                document.head.appendChild(authScript);
+            // Load Supabase client
+            const supabaseScript = document.createElement('script');
+            supabaseScript.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
+            supabaseScript.onload = () => {
+                // Initialize Supabase client with your credentials
+                const supabaseUrl = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+                const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjIwNDk0MzQsImV4cCI6MjAzNzYyNTQzNH0.x8VqTJXhkGqoYnJjKYJfKOi_7t7qrLZkwsJ7tVX8k-4'; // This would normally come from environment
+                
+                this.supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+                resolve();
             };
-            firebaseScript.onerror = reject;
-            document.head.appendChild(firebaseScript);
+            supabaseScript.onerror = reject;
+            document.head.appendChild(supabaseScript);
         });
     }
     
-    setupFirebase() {
-        // Firebase configuration would come from environment variables
-        // For security, this should be loaded from a secure endpoint
-        this.loadFirebaseConfig()
-            .then(config => {
-                if (config && !firebase.apps.length) {
-                    firebase.initializeApp(config);
-                    this.auth = firebase.auth();
-                    this.initialized = true;
-                    this.setupAuthStateListener();
-                    this.createAuthUI();
-                }
-            })
-            .catch(error => {
-                console.warn('Firebase configuration not available:', error.message);
-                this.showFallbackAuth();
-            });
-    }
-    
-    async loadFirebaseConfig() {
-        // In production, this would fetch from a secure endpoint
-        // For now, we'll check for a global config or return null
-        if (window.teKeteFirebaseConfig) {
-            return window.teKeteFirebaseConfig;
-        }
-        
-        // Alternatively, could fetch from a secure API endpoint
-        try {
-            const response = await fetch('/.netlify/functions/firebase-config');
-            if (response.ok) {
-                return await response.json();
-            }
-        } catch (error) {
-            console.log('No Firebase config endpoint available');
-        }
-        
-        return null;
+    setupSupabase() {
+        this.initialized = true;
+        this.setupAuthStateListener();
+        this.createAuthUI();
     }
     
     setupAuthStateListener() {
-        this.auth.onAuthStateChanged((user) => {
-            this.user = user;
+        // Listen for auth state changes
+        this.supabase.auth.onAuthStateChange((event, session) => {
+            this.user = session?.user || null;
             this.updateAuthUI();
             
-            if (user) {
-                this.onUserSignedIn(user);
-            } else {
+            if (event === 'SIGNED_IN') {
+                this.onUserSignedIn(this.user);
+            } else if (event === 'SIGNED_OUT') {
                 this.onUserSignedOut();
             }
+        });
+        
+        // Check current session
+        this.supabase.auth.getSession().then(({ data: { session } }) => {
+            this.user = session?.user || null;
+            this.updateAuthUI();
         });
     }
     
@@ -1267,26 +1241,40 @@ class TeKeteFirebaseAuth {
     // Authentication methods
     async signInWithEmail(email, password) {
         try {
-            const userCredential = await this.auth.signInWithEmailAndPassword(email, password);
+            const { data, error } = await this.supabase.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+            
+            if (error) throw error;
+            
             this.showNotification('Welcome back! / Nau mai hoki mai!', 'success');
-            return userCredential.user;
+            return data.user;
         } catch (error) {
             this.showNotification(`Sign in failed: ${error.message}`, 'error');
             throw error;
         }
     }
     
-    async signUpWithEmail(email, password, displayName) {
+    async signUpWithEmail(email, password, displayName, schoolName, yearLevel, role = 'student') {
         try {
-            const userCredential = await this.auth.createUserWithEmailAndPassword(email, password);
+            const { data, error } = await this.supabase.auth.signUp({
+                email: email,
+                password: password,
+                options: {
+                    data: {
+                        display_name: displayName,
+                        school_name: schoolName,
+                        year_level: yearLevel,
+                        role: role
+                    }
+                }
+            });
             
-            // Update profile with display name
-            if (displayName) {
-                await userCredential.user.updateProfile({ displayName });
-            }
+            if (error) throw error;
             
-            this.showNotification('Account created successfully! / Kua oti te hanga!', 'success');
-            return userCredential.user;
+            this.showNotification('Account created successfully! Check your email to verify. / Kua oti te hanga!', 'success');
+            return data.user;
         } catch (error) {
             this.showNotification(`Sign up failed: ${error.message}`, 'error');
             throw error;
@@ -1295,7 +1283,9 @@ class TeKeteFirebaseAuth {
     
     async signOut() {
         try {
-            await this.auth.signOut();
+            const { error } = await this.supabase.auth.signOut();
+            if (error) throw error;
+            
             this.showNotification('Signed out successfully / Ka kite ano!', 'success');
         } catch (error) {
             this.showNotification(`Sign out failed: ${error.message}`, 'error');
@@ -1311,7 +1301,14 @@ class TeKeteFirebaseAuth {
     
     showSignUp() {
         const modal = this.createAuthModal('Create Account', (formData) => {
-            return this.signUpWithEmail(formData.email, formData.password, formData.displayName);
+            return this.signUpWithEmail(
+                formData.email, 
+                formData.password, 
+                formData.displayName,
+                formData.schoolName,
+                parseInt(formData.yearLevel) || null,
+                formData.role
+            );
         }, true);
     }
     
@@ -1353,15 +1350,48 @@ class TeKeteFirebaseAuth {
         const form = document.createElement('form');
         
         if (includeDisplayName) {
+            // Sign-up form with educational fields
             const nameField = this.createFormField('displayName', 'text', 'Your Name', true);
             form.appendChild(nameField);
+            
+            const emailField = this.createFormField('email', 'email', 'Email Address', true);
+            form.appendChild(emailField);
+            
+            const passwordField = this.createFormField('password', 'password', 'Password (min 8 characters)', true);
+            passwordField.querySelector('input').minLength = 8;
+            form.appendChild(passwordField);
+            
+            const schoolField = this.createFormField('schoolName', 'text', 'School Name', false);
+            form.appendChild(schoolField);
+            
+            const yearField = this.createSelectField('yearLevel', 'Year Level', [
+                { value: '', text: 'Select Year Level...' },
+                { value: '7', text: 'Year 7' },
+                { value: '8', text: 'Year 8' },
+                { value: '9', text: 'Year 9' },
+                { value: '10', text: 'Year 10' },
+                { value: '11', text: 'Year 11' },
+                { value: '12', text: 'Year 12' },
+                { value: '13', text: 'Year 13' },
+                { value: 'teacher', text: 'Teacher' },
+                { value: 'other', text: 'Other' }
+            ]);
+            form.appendChild(yearField);
+            
+            const roleField = this.createSelectField('role', 'Role', [
+                { value: 'student', text: 'Student' },
+                { value: 'teacher', text: 'Teacher' },
+                { value: 'whānau', text: 'Whānau/Family' }
+            ]);
+            form.appendChild(roleField);
+        } else {
+            // Sign-in form
+            const emailField = this.createFormField('email', 'email', 'Email Address', true);
+            const passwordField = this.createFormField('password', 'password', 'Password', true);
+            
+            form.appendChild(emailField);
+            form.appendChild(passwordField);
         }
-        
-        const emailField = this.createFormField('email', 'email', 'Email Address', true);
-        const passwordField = this.createFormField('password', 'password', 'Password', true);
-        
-        form.appendChild(emailField);
-        form.appendChild(passwordField);
         
         // Form buttons
         const buttonContainer = document.createElement('div');
@@ -1442,6 +1472,47 @@ class TeKeteFirebaseAuth {
         });
         
         fieldContainer.appendChild(input);
+        return fieldContainer;
+    }
+    
+    createSelectField(name, label, options) {
+        const fieldContainer = document.createElement('div');
+        fieldContainer.style.cssText = 'margin-bottom: 1rem;';
+        
+        const labelElement = document.createElement('label');
+        labelElement.textContent = label;
+        labelElement.style.cssText = 'display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--color-primary);';
+        
+        const select = document.createElement('select');
+        select.name = name;
+        select.style.cssText = `
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            font-size: 1rem;
+            background: white;
+            transition: border-color 0.2s ease;
+        `;
+        
+        options.forEach(option => {
+            const optionElement = document.createElement('option');
+            optionElement.value = option.value;
+            optionElement.textContent = option.text;
+            select.appendChild(optionElement);
+        });
+        
+        select.addEventListener('focus', () => {
+            select.style.borderColor = 'var(--color-primary)';
+            select.style.outline = 'none';
+        });
+        
+        select.addEventListener('blur', () => {
+            select.style.borderColor = 'var(--color-border)';
+        });
+        
+        fieldContainer.appendChild(labelElement);
+        fieldContainer.appendChild(select);
         return fieldContainer;
     }
     
@@ -1572,10 +1643,10 @@ class TeKeteFirebaseAuth {
     }
 }
 
-// Initialize Firebase Authentication
+// Initialize Supabase Authentication
 function initializeFirebaseAuth() {
     if (typeof window !== 'undefined') {
-        window.teKeteAuth = new TeKeteFirebaseAuth();
+        window.teKeteAuth = new TeKeteSupabaseAuth();
         
         // Add to shared components export
         if (window.SharedComponents) {
