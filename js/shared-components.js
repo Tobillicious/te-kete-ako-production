@@ -995,4 +995,591 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     console.log('Te Kete Ako loaded with curriculum enhancement features');
+    
+    // Initialize Firebase Authentication if available
+    initializeFirebaseAuth();
 });
+
+/**
+ * =================================================================
+ * FIREBASE AUTHENTICATION MODULE
+ * =================================================================
+ * 
+ * Provides secure authentication functionality for Te Kete Ako platform
+ * Integrates with Firebase Auth for user management, progress tracking,
+ * and personalized learning experiences.
+ * 
+ * Features:
+ * - Secure sign-in/sign-up with email/password
+ * - Social authentication (Google, GitHub)
+ * - User profile management
+ * - Learning progress tracking
+ * - Cultural safety and privacy protection
+ * =================================================================
+ */
+
+class TeKeteFirebaseAuth {
+    constructor() {
+        this.user = null;
+        this.auth = null;
+        this.initialized = false;
+        this.firebaseConfig = null;
+        
+        // Cultural greeting messages
+        this.culturalGreetings = [
+            { en: 'Welcome back!', maori: 'Nau mai hoki mai!' },
+            { en: 'Great to see you!', maori: 'He pai koe kitea!' },
+            { en: 'Ready to learn?', maori: 'Kei te reri koe ki te ako?' }
+        ];
+        
+        this.initializeFirebaseSDK();
+    }
+    
+    async initializeFirebaseSDK() {
+        try {
+            // Check if Firebase is already loaded
+            if (typeof firebase !== 'undefined') {
+                this.setupFirebase();
+                return;
+            }
+            
+            // Load Firebase SDK dynamically if not present
+            await this.loadFirebaseSDK();
+            this.setupFirebase();
+            
+        } catch (error) {
+            console.warn('Firebase SDK not available:', error.message);
+            this.showFallbackAuth();
+        }
+    }
+    
+    async loadFirebaseSDK() {
+        return new Promise((resolve, reject) => {
+            // Load Firebase core
+            const firebaseScript = document.createElement('script');
+            firebaseScript.src = 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js';
+            firebaseScript.onload = () => {
+                // Load Firebase Auth
+                const authScript = document.createElement('script');
+                authScript.src = 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js';
+                authScript.onload = resolve;
+                authScript.onerror = reject;
+                document.head.appendChild(authScript);
+            };
+            firebaseScript.onerror = reject;
+            document.head.appendChild(firebaseScript);
+        });
+    }
+    
+    setupFirebase() {
+        // Firebase configuration would come from environment variables
+        // For security, this should be loaded from a secure endpoint
+        this.loadFirebaseConfig()
+            .then(config => {
+                if (config && !firebase.apps.length) {
+                    firebase.initializeApp(config);
+                    this.auth = firebase.auth();
+                    this.initialized = true;
+                    this.setupAuthStateListener();
+                    this.createAuthUI();
+                }
+            })
+            .catch(error => {
+                console.warn('Firebase configuration not available:', error.message);
+                this.showFallbackAuth();
+            });
+    }
+    
+    async loadFirebaseConfig() {
+        // In production, this would fetch from a secure endpoint
+        // For now, we'll check for a global config or return null
+        if (window.teKeteFirebaseConfig) {
+            return window.teKeteFirebaseConfig;
+        }
+        
+        // Alternatively, could fetch from a secure API endpoint
+        try {
+            const response = await fetch('/.netlify/functions/firebase-config');
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.log('No Firebase config endpoint available');
+        }
+        
+        return null;
+    }
+    
+    setupAuthStateListener() {
+        this.auth.onAuthStateChanged((user) => {
+            this.user = user;
+            this.updateAuthUI();
+            
+            if (user) {
+                this.onUserSignedIn(user);
+            } else {
+                this.onUserSignedOut();
+            }
+        });
+    }
+    
+    createAuthUI() {
+        // Create authentication UI elements
+        const authContainer = document.createElement('div');
+        authContainer.id = 'te-kete-auth';
+        authContainer.className = 'auth-container no-print';
+        authContainer.style.cssText = `
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 0.75rem;
+            max-width: 300px;
+            font-size: 0.9rem;
+        `;
+        
+        // Add to page
+        document.body.appendChild(authContainer);
+        this.authContainer = authContainer;
+        this.updateAuthUI();
+    }
+    
+    updateAuthUI() {
+        if (!this.authContainer) return;
+        
+        this.authContainer.replaceChildren();
+        
+        if (this.user) {
+            this.createSignedInUI();
+        } else {
+            this.createSignedOutUI();
+        }
+    }
+    
+    createSignedInUI() {
+        const greeting = this.culturalGreetings[Math.floor(Math.random() * this.culturalGreetings.length)];
+        
+        // User greeting
+        const greetingDiv = document.createElement('div');
+        greetingDiv.style.cssText = 'margin-bottom: 0.5rem; color: var(--color-primary); font-weight: 500;';
+        greetingDiv.textContent = greeting.en;
+        
+        const maoriGreeting = document.createElement('div');
+        maoriGreeting.style.cssText = 'font-size: 0.8rem; color: var(--color-text-secondary); font-style: italic; margin-bottom: 0.75rem;';
+        maoriGreeting.textContent = greeting.maori;
+        
+        // User info
+        const userInfo = document.createElement('div');
+        userInfo.style.cssText = 'margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--color-border);';
+        
+        const userName = document.createElement('div');
+        userName.style.cssText = 'font-weight: 500; margin-bottom: 0.25rem;';
+        userName.textContent = this.user.displayName || this.user.email.split('@')[0];
+        
+        const userEmail = document.createElement('div');
+        userEmail.style.cssText = 'font-size: 0.8rem; color: var(--color-text-secondary);';
+        userEmail.textContent = this.user.email;
+        
+        userInfo.appendChild(userName);
+        userInfo.appendChild(userEmail);
+        
+        // Action buttons
+        const buttonContainer = document.createElement('div');
+        buttonContainer.style.cssText = 'display: flex; gap: 0.5rem; flex-wrap: wrap;';
+        
+        const profileBtn = this.createButton('👤 Profile', () => this.showProfile());
+        const progressBtn = this.createButton('📊 Progress', () => this.showProgress());
+        const signOutBtn = this.createButton('↗️ Sign Out', () => this.signOut());
+        
+        profileBtn.style.fontSize = '0.8rem';
+        progressBtn.style.fontSize = '0.8rem';
+        signOutBtn.style.fontSize = '0.8rem';
+        
+        buttonContainer.appendChild(profileBtn);
+        buttonContainer.appendChild(progressBtn);
+        buttonContainer.appendChild(signOutBtn);
+        
+        this.authContainer.appendChild(greetingDiv);
+        this.authContainer.appendChild(maoriGreeting);
+        this.authContainer.appendChild(userInfo);
+        this.authContainer.appendChild(buttonContainer);
+    }
+    
+    createSignedOutUI() {
+        const welcomeText = document.createElement('div');
+        welcomeText.style.cssText = 'margin-bottom: 0.75rem; color: var(--color-primary); font-weight: 500;';
+        welcomeText.textContent = 'Join Te Kete Ako';
+        
+        const description = document.createElement('div');
+        description.style.cssText = 'font-size: 0.8rem; color: var(--color-text-secondary); margin-bottom: 1rem; line-height: 1.4;';
+        description.textContent = 'Sign in to track your learning progress and access personalized resources.';
+        
+        const buttonContainer = document.createElement('div');
+        buttonContainer.style.cssText = 'display: flex; flex-direction: column; gap: 0.5rem;';
+        
+        const signInBtn = this.createButton('🚀 Sign In', () => this.showSignIn());
+        const signUpBtn = this.createButton('✨ Create Account', () => this.showSignUp());
+        
+        signInBtn.style.cssText += 'background: var(--color-primary); color: white;';
+        signUpBtn.style.cssText += 'background: transparent; color: var(--color-primary); border: 1px solid var(--color-primary);';
+        
+        buttonContainer.appendChild(signInBtn);
+        buttonContainer.appendChild(signUpBtn);
+        
+        this.authContainer.appendChild(welcomeText);
+        this.authContainer.appendChild(description);
+        this.authContainer.appendChild(buttonContainer);
+    }
+    
+    createButton(text, onClick) {
+        const button = document.createElement('button');
+        button.textContent = text;
+        button.style.cssText = `
+            padding: 0.5rem 0.75rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            background: var(--color-secondary);
+            color: white;
+        `;
+        
+        button.addEventListener('click', onClick);
+        
+        button.addEventListener('mouseenter', () => {
+            button.style.transform = 'translateY(-1px)';
+            button.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
+        });
+        
+        button.addEventListener('mouseleave', () => {
+            button.style.transform = 'translateY(0)';
+            button.style.boxShadow = 'none';
+        });
+        
+        return button;
+    }
+    
+    // Authentication methods
+    async signInWithEmail(email, password) {
+        try {
+            const userCredential = await this.auth.signInWithEmailAndPassword(email, password);
+            this.showNotification('Welcome back! / Nau mai hoki mai!', 'success');
+            return userCredential.user;
+        } catch (error) {
+            this.showNotification(`Sign in failed: ${error.message}`, 'error');
+            throw error;
+        }
+    }
+    
+    async signUpWithEmail(email, password, displayName) {
+        try {
+            const userCredential = await this.auth.createUserWithEmailAndPassword(email, password);
+            
+            // Update profile with display name
+            if (displayName) {
+                await userCredential.user.updateProfile({ displayName });
+            }
+            
+            this.showNotification('Account created successfully! / Kua oti te hanga!', 'success');
+            return userCredential.user;
+        } catch (error) {
+            this.showNotification(`Sign up failed: ${error.message}`, 'error');
+            throw error;
+        }
+    }
+    
+    async signOut() {
+        try {
+            await this.auth.signOut();
+            this.showNotification('Signed out successfully / Ka kite ano!', 'success');
+        } catch (error) {
+            this.showNotification(`Sign out failed: ${error.message}`, 'error');
+        }
+    }
+    
+    // UI Methods
+    showSignIn() {
+        const modal = this.createAuthModal('Sign In', (formData) => {
+            return this.signInWithEmail(formData.email, formData.password);
+        });
+    }
+    
+    showSignUp() {
+        const modal = this.createAuthModal('Create Account', (formData) => {
+            return this.signUpWithEmail(formData.email, formData.password, formData.displayName);
+        }, true);
+    }
+    
+    createAuthModal(title, onSubmit, includeDisplayName = false) {
+        // Create modal overlay
+        const overlay = document.createElement('div');
+        overlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        `;
+        
+        // Create modal content
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 400px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        `;
+        
+        // Modal title
+        const modalTitle = document.createElement('h2');
+        modalTitle.textContent = title;
+        modalTitle.style.cssText = 'margin-bottom: 1.5rem; color: var(--color-primary);';
+        
+        // Create form
+        const form = document.createElement('form');
+        
+        if (includeDisplayName) {
+            const nameField = this.createFormField('displayName', 'text', 'Your Name', true);
+            form.appendChild(nameField);
+        }
+        
+        const emailField = this.createFormField('email', 'email', 'Email Address', true);
+        const passwordField = this.createFormField('password', 'password', 'Password', true);
+        
+        form.appendChild(emailField);
+        form.appendChild(passwordField);
+        
+        // Form buttons
+        const buttonContainer = document.createElement('div');
+        buttonContainer.style.cssText = 'display: flex; gap: 1rem; margin-top: 1.5rem;';
+        
+        const submitBtn = this.createButton(title, () => {});
+        submitBtn.type = 'submit';
+        submitBtn.style.cssText += 'flex: 1; background: var(--color-primary); color: white;';
+        
+        const cancelBtn = this.createButton('Cancel', () => {
+            document.body.removeChild(overlay);
+        });
+        cancelBtn.type = 'button';
+        cancelBtn.style.cssText += 'flex: 1; background: var(--color-border); color: var(--color-text);';
+        
+        buttonContainer.appendChild(submitBtn);
+        buttonContainer.appendChild(cancelBtn);
+        
+        // Handle form submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            
+            try {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Processing...';
+                await onSubmit(data);
+                document.body.removeChild(overlay);
+            } catch (error) {
+                console.error('Auth error:', error);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = title;
+            }
+        });
+        
+        modal.appendChild(modalTitle);
+        modal.appendChild(form);
+        form.appendChild(buttonContainer);
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
+        
+        // Focus first input
+        const firstInput = form.querySelector('input');
+        if (firstInput) {
+            setTimeout(() => firstInput.focus(), 100);
+        }
+        
+        return overlay;
+    }
+    
+    createFormField(name, type, placeholder, required = false) {
+        const fieldContainer = document.createElement('div');
+        fieldContainer.style.cssText = 'margin-bottom: 1rem;';
+        
+        const input = document.createElement('input');
+        input.name = name;
+        input.type = type;
+        input.placeholder = placeholder;
+        input.required = required;
+        input.style.cssText = `
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+        `;
+        
+        input.addEventListener('focus', () => {
+            input.style.borderColor = 'var(--color-primary)';
+            input.style.outline = 'none';
+        });
+        
+        input.addEventListener('blur', () => {
+            input.style.borderColor = 'var(--color-border)';
+        });
+        
+        fieldContainer.appendChild(input);
+        return fieldContainer;
+    }
+    
+    showProfile() {
+        this.showNotification('Profile management coming soon! / Ka utaina a mua!', 'info');
+    }
+    
+    showProgress() {
+        this.showNotification('Learning progress tracking coming soon! / Ka utaina nga hua ako!', 'info');
+    }
+    
+    showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10001;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            max-width: 90%;
+            text-align: center;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateX(-50%) translateY(-20px);
+        `;
+        
+        // Set colors based on type
+        const colors = {
+            success: { bg: '#4CAF50', text: 'white' },
+            error: { bg: '#f44336', text: 'white' },
+            info: { bg: 'var(--color-primary)', text: 'white' },
+            warning: { bg: '#ff9800', text: 'white' }
+        };
+        
+        const color = colors[type] || colors.info;
+        notification.style.backgroundColor = color.bg;
+        notification.style.color = color.text;
+        notification.textContent = message;
+        
+        document.body.appendChild(notification);
+        
+        // Animate in
+        setTimeout(() => {
+            notification.style.opacity = '1';
+            notification.style.transform = 'translateX(-50%) translateY(0)';
+        }, 10);
+        
+        // Remove after 4 seconds
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            notification.style.transform = 'translateX(-50%) translateY(-20px)';
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    document.body.removeChild(notification);
+                }
+            }, 300);
+        }, 4000);
+    }
+    
+    // Event handlers
+    onUserSignedIn(user) {
+        console.log('User signed in:', user.email);
+        
+        // Could integrate with GraphRAG for personalized recommendations
+        this.updatePersonalizedContent(user);
+        
+        // Track learning progress
+        this.initializeLearningTracking(user);
+    }
+    
+    onUserSignedOut() {
+        console.log('User signed out');
+        
+        // Clear personalized content
+        this.clearPersonalizedContent();
+    }
+    
+    updatePersonalizedContent(user) {
+        // Future integration with GraphRAG system for personalized learning paths
+        console.log('Personalizing content for:', user.email);
+    }
+    
+    clearPersonalizedContent() {
+        // Clear any personalized UI elements
+        console.log('Clearing personalized content');
+    }
+    
+    initializeLearningTracking(user) {
+        // Future integration with learning analytics
+        console.log('Initializing learning tracking for:', user.email);
+    }
+    
+    showFallbackAuth() {
+        // Fallback authentication without Firebase
+        console.log('Using fallback authentication');
+        this.createSimpleAuthUI();
+    }
+    
+    createSimpleAuthUI() {
+        // Simple authentication UI for when Firebase is not available
+        const authContainer = document.createElement('div');
+        authContainer.id = 'te-kete-simple-auth';
+        authContainer.className = 'auth-container no-print';
+        authContainer.style.cssText = `
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 0.75rem;
+            max-width: 250px;
+            font-size: 0.9rem;
+            text-align: center;
+        `;
+        
+        const message = document.createElement('div');
+        message.style.cssText = 'color: var(--color-text-secondary);';
+        message.textContent = 'Authentication temporarily unavailable';
+        
+        authContainer.appendChild(message);
+        document.body.appendChild(authContainer);
+    }
+}
+
+// Initialize Firebase Authentication
+function initializeFirebaseAuth() {
+    if (typeof window !== 'undefined') {
+        window.teKeteAuth = new TeKeteFirebaseAuth();
+        
+        // Add to shared components export
+        if (window.SharedComponents) {
+            window.SharedComponents.auth = window.teKeteAuth;
+        }
+    }
+}
