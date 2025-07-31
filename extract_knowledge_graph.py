@@ -6,6 +6,7 @@ Extracts entities and relationships from educational resources to build an intel
 
 import re
 import json
+import sys
 from typing import List, Dict
 from supabase import create_client
 import logging
@@ -14,9 +15,20 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# Supabase configuration
-SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co'
-SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
+# Supabase configuration - SECURE: Using environment variables
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+SUPABASE_URL = os.getenv('SUPABASE_URL')
+SUPABASE_KEY = os.getenv('SUPABASE_ANON_KEY')
+
+if not SUPABASE_URL or not SUPABASE_KEY:
+    logger.error("❌ Missing required environment variables. Please check your .env file.")
+    logger.error("Required: SUPABASE_URL, SUPABASE_ANON_KEY")
+    sys.exit(1)
 
 class TeKeteKnowledgeExtractor:
     """Extract structured knowledge from Te Kete Ako educational resources."""

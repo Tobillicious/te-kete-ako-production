@@ -3,11 +3,22 @@
 Test the GraphRAG Phase 1 implementation
 """
 
+import os
+import sys
 from supabase import create_client
+from dotenv import load_dotenv
 
-# Configuration
-SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co'
-SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
+# Load environment variables
+load_dotenv()
+
+# Configuration - SECURE: Using environment variables
+SUPABASE_URL = os.getenv('SUPABASE_URL')
+SUPABASE_KEY = os.getenv('SUPABASE_ANON_KEY')
+
+if not SUPABASE_URL or not SUPABASE_KEY:
+    print("❌ Missing required environment variables. Please check your .env file.")
+    print("Required: SUPABASE_URL, SUPABASE_ANON_KEY")
+    sys.exit(1)
 
 def test_direct_sql_function():
     """Test the match_resources SQL function directly"""
