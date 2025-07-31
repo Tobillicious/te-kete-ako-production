@@ -715,38 +715,102 @@ function initializeMCPSearch(containerId, searchableItems, options = {}) {
     const container = document.getElementById(containerId);
     if (!container) return;
     
-    // Create search interface
-    const searchHTML = `
-        <div class="mcp-search-interface">
-            ${generateMCPAgentFilters(options)}
-            
-            <div style="margin-bottom: 1rem;">
-                <input type="search" id="mcp-search-input" placeholder="Search across all learning areas..." 
-                       style="width: 100%; padding: 0.75rem; border: 2px solid var(--color-border); border-radius: 8px; 
-                              font-size: 1rem; background: white;">
-            </div>
-            
-            <div id="search-results" class="search-results">
-                <div id="results-container"></div>
-                <div id="no-results" style="display: none; text-align: center; padding: 2rem; color: var(--color-text-secondary);">
-                    <p>No resources found matching your search criteria.</p>
-                    <p style="font-size: 0.9rem;">Try different keywords or remove some filters.</p>
-                </div>
-            </div>
-        </div>
-    `;
+    // Create search interface using safe DOM methods
     
-    container.innerHTML = searchHTML;
+    // Safe DOM creation instead of innerHTML
+    container.replaceChildren();
+    const tempDiv = document.createElement('div');
+    tempDiv.className = 'mcp-search-interface';
     
-    // Initialize search functionality
-    const searchInput = document.getElementById('mcp-search-input');
-    const resultsContainer = document.getElementById('results-container');
-    const noResults = document.getElementById('no-results');
+    // Create agent filters section
+    const filtersSection = document.createElement('div');
+    filtersSection.className = 'mcp-agent-filters';
+    filtersSection.style.cssText = 'margin-bottom: 1.5rem; padding: 1rem; background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%); border-radius: 8px;';
+    
+    const filtersTitle = document.createElement('h3');
+    filtersTitle.textContent = '🤖 Filter by MCP Agent Specialization';
+    filtersTitle.style.cssText = 'color: white; margin-bottom: 1rem; font-size: 1.1rem;';
+    filtersSection.appendChild(filtersTitle);
+    
+    const filterButtonsContainer = document.createElement('div');
+    filterButtonsContainer.style.cssText = 'display: flex; flex-wrap: wrap; gap: 0.5rem;';
+    
+    // Create filter buttons safely
+    Object.entries(MCP_SEARCH_CATEGORIES).forEach(([key, category]) => {
+        const btn = document.createElement('button');
+        btn.className = 'agent-filter-btn';
+        btn.dataset.agent = key;
+        btn.style.cssText = `padding: 0.5rem 1rem; border: 2px solid white; background: transparent; color: white; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; font-size: 0.8rem; font-weight: bold;`;
+        
+        const labelSpan = document.createElement('span');
+        labelSpan.textContent = category.label;
+        btn.appendChild(labelSpan);
+        
+        const agentSpan = document.createElement('span');
+        agentSpan.textContent = `(${category.agent})`;
+        agentSpan.style.cssText = 'font-size: 0.7rem; opacity: 0.8;';
+        btn.appendChild(agentSpan);
+        
+        filterButtonsContainer.appendChild(btn);
+    });
+    
+    filtersSection.appendChild(filterButtonsContainer);
+    
+    const clearFiltersContainer = document.createElement('div');
+    clearFiltersContainer.style.marginTop = '1rem';
+    const clearBtn = document.createElement('button');
+    clearBtn.id = 'clear-agent-filters';
+    clearBtn.textContent = 'Clear All Filters';
+    clearBtn.style.cssText = 'padding: 0.25rem 0.75rem; background: rgba(255,255,255,0.2); border: 1px solid white; color: white; border-radius: 4px; cursor: pointer; font-size: 0.8rem;';
+    clearFiltersContainer.appendChild(clearBtn);
+    filtersSection.appendChild(clearFiltersContainer);
+    
+    tempDiv.appendChild(filtersSection);
+    
+    // Create search input section
+    const searchInputContainer = document.createElement('div');
+    searchInputContainer.style.marginBottom = '1rem';
+    const searchInput = document.createElement('input');
+    searchInput.type = 'search';
+    searchInput.id = 'mcp-search-input';
+    searchInput.placeholder = 'Search across all learning areas...';
+    searchInput.style.cssText = 'width: 100%; padding: 0.75rem; border: 2px solid var(--color-border); border-radius: 8px; font-size: 1rem; background: white;';
+    searchInputContainer.appendChild(searchInput);
+    tempDiv.appendChild(searchInputContainer);
+    
+    // Create results section
+    const searchResults = document.createElement('div');
+    searchResults.id = 'search-results';
+    searchResults.className = 'search-results';
+    
+    const resultsContainer = document.createElement('div');
+    resultsContainer.id = 'results-container';
+    searchResults.appendChild(resultsContainer);
+    
+    const noResults = document.createElement('div');
+    noResults.id = 'no-results';
+    noResults.style.cssText = 'display: none; text-align: center; padding: 2rem; color: var(--color-text-secondary);';
+    const noResultsP1 = document.createElement('p');
+    noResultsP1.textContent = 'No resources found matching your search criteria.';
+    const noResultsP2 = document.createElement('p');
+    noResultsP2.textContent = 'Try different keywords or remove some filters.';
+    noResultsP2.style.fontSize = '0.9rem';
+    noResults.appendChild(noResultsP1);
+    noResults.appendChild(noResultsP2);
+    searchResults.appendChild(noResults);
+    
+    tempDiv.appendChild(searchResults);
+    container.appendChild(tempDiv);
+    
+    // Initialize search functionality - use existing DOM elements
+    const searchInputElement = document.getElementById('mcp-search-input');
+    const resultsContainerElement = document.getElementById('results-container');
+    const noResultsElement = document.getElementById('no-results');
     
     let currentFilters = [];
     
     function performSearch() {
-        const query = searchInput.value;
+        const query = searchInputElement.value;
         let filteredItems = searchableItems;
         
         // Apply agent filters
@@ -766,35 +830,68 @@ function initializeMCPSearch(containerId, searchableItems, options = {}) {
     
     function displaySearchResults(results) {
         if (results.length === 0) {
-            resultsContainer.style.display = 'none';
-            noResults.style.display = 'block';
+            resultsContainerElement.style.display = 'none';
+            noResultsElement.style.display = 'block';
             return;
         }
         
-        noResults.style.display = 'none';
-        resultsContainer.style.display = 'block';
+        noResultsElement.style.display = 'none';
+        resultsContainerElement.style.display = 'block';
         
-        const resultsHTML = results.map(item => {
-            const agentBadges = item.agentMatches ? 
-                item.agentMatches.map(agent => `<span class="agent-badge" style="background: var(--color-secondary); color: white; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.7rem; margin-right: 0.25rem;">${agent}</span>`).join('') : '';
+        // Removed unused resultsHTML variable - now using safe DOM creation below
+        
+        // Safe DOM creation for search results instead of innerHTML
+        resultsContainerElement.replaceChildren();
+        
+        results.forEach(item => {
+            const resultItem = document.createElement('div');
+            resultItem.className = 'search-result-item';
+            resultItem.style.cssText = 'border: 1px solid var(--color-border); border-radius: 8px; padding: 1rem; margin-bottom: 1rem; background: white;';
             
-            return `
-                <div class="search-result-item" style="border: 1px solid var(--color-border); border-radius: 8px; padding: 1rem; margin-bottom: 1rem; background: white;">
-                    <h4 style="margin-bottom: 0.5rem;"><a href="${item.href || '#'}" style="color: var(--color-primary); text-decoration: none;">${item.title || 'Untitled'}</a></h4>
-                    <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem; line-height: 1.5;">${item.description || ''}</p>
-                    <div style="display: flex; align-items: center; justify-content: space-between;">
-                        <div class="agent-matches">${agentBadges}</div>
-                        <div style="font-size: 0.8rem; color: var(--color-text-secondary);">Relevance: ${item.searchScore || 0}</div>
-                    </div>
-                </div>
-            `;
-        }).join('');
-        
-        resultsContainer.innerHTML = resultsHTML;
+            const title = document.createElement('h4');
+            title.style.marginBottom = '0.5rem';
+            const titleLink = document.createElement('a');
+            titleLink.href = item.href || '#';
+            titleLink.style.cssText = 'color: var(--color-primary); text-decoration: none;';
+            titleLink.textContent = item.title || 'Untitled';
+            title.appendChild(titleLink);
+            resultItem.appendChild(title);
+            
+            if (item.description) {
+                const description = document.createElement('p');
+                description.style.cssText = 'color: var(--color-text-secondary); margin-bottom: 0.5rem; line-height: 1.5;';
+                description.textContent = item.description;
+                resultItem.appendChild(description);
+            }
+            
+            const footer = document.createElement('div');
+            footer.style.cssText = 'display: flex; align-items: center; justify-content: space-between;';
+            
+            const agentMatches = document.createElement('div');
+            agentMatches.className = 'agent-matches';
+            if (item.agentMatches) {
+                item.agentMatches.forEach(agent => {
+                    const badge = document.createElement('span');
+                    badge.className = 'agent-badge';
+                    badge.style.cssText = 'background: var(--color-secondary); color: white; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.7rem; margin-right: 0.25rem;';
+                    badge.textContent = agent;
+                    agentMatches.appendChild(badge);
+                });
+            }
+            footer.appendChild(agentMatches);
+            
+            const relevance = document.createElement('div');
+            relevance.style.cssText = 'font-size: 0.8rem; color: var(--color-text-secondary);';
+            relevance.textContent = `Relevance: ${item.searchScore || 0}`;
+            footer.appendChild(relevance);
+            
+            resultItem.appendChild(footer);
+            resultsContainerElement.appendChild(resultItem);
+        });
     }
     
     // Event listeners
-    searchInput.addEventListener('input', performSearch);
+    searchInputElement.addEventListener('input', performSearch);
     
     // Agent filter event listeners
     document.querySelectorAll('.agent-filter-btn').forEach(btn => {
@@ -854,9 +951,12 @@ function initializeCurriculumEnhancedFilter() {
         resourceCards.forEach(card => {
             if (selectedValue === 'curriculum-enhanced') {
                 // Show only curriculum-enhanced resources
-                const hasCurriculumSection = card.innerHTML.includes('curriculum-alignment.html') || 
-                                           card.innerHTML.includes('Achievement Objective') ||
-                                           card.innerHTML.includes('NZ Curriculum');
+                // Safe text content checking instead of innerHTML
+                const cardText = card.textContent || '';
+                const hasCurriculumSection = cardText.includes('curriculum-alignment.html') || 
+                                           cardText.includes('Achievement Objective') ||
+                                           cardText.includes('NZ Curriculum') ||
+                                           card.querySelector('a[href*="curriculum-alignment"]') !== null;
                 
                 if (hasCurriculumSection) {
                     card.style.display = 'block';
