@@ -5,17 +5,27 @@ Creates vector embeddings for all educational resources to enable semantic searc
 """
 
 import sys
+import os
 from supabase import create_client, Client
 from sentence_transformers import SentenceTransformer
 import logging
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# Supabase configuration
-SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co'
-SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
+# Supabase configuration - SECURE: Using environment variables
+SUPABASE_URL = os.getenv('SUPABASE_URL')
+SUPABASE_KEY = os.getenv('SUPABASE_ANON_KEY')
+
+if not SUPABASE_URL or not SUPABASE_KEY:
+    logger.error("❌ Missing required environment variables. Please check your .env file.")
+    logger.error("Required: SUPABASE_URL, SUPABASE_ANON_KEY")
+    sys.exit(1)
 
 def create_embeddings():
     """Generate and store embeddings for all educational resources."""

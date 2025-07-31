@@ -505,9 +505,15 @@
 
             emptyState.style.display = 'none';
             submissionsList.style.display = 'grid';
+            submissionsList.innerHTML = ''; // Clear existing content
 
-            submissionsList.innerHTML = submissions.map(submission => `
-                <div class="submission-card" data-status="${submission.status}" data-type="${submission.projectType}">
+            submissions.forEach(submission => {
+                const card = document.createElement('div');
+                card.className = 'submission-card';
+                card.dataset.status = submission.status;
+                card.dataset.type = submission.projectType;
+
+                card.innerHTML = `
                     <div class="submission-header">
                         <h3 class="submission-title">${submission.title}</h3>
                         <span class="submission-type">${formatProjectType(submission.projectType)}</span>
@@ -547,43 +553,61 @@
                             </div>
                         </div>
                     ` : ''}
-                    
-                    ${submission.fileAttachments && submission.fileAttachments.length > 0 ? `
-                        <div class="file-attachments">
-                            <h5>📎 Files</h5>
-                            <div class="file-list">
-                                ${submission.fileAttachments.map(file => 
-                                    `<a href="#" class="file-link" onclick="viewFile('${file.name}')">${file.name}</a>`
-                                ).join('')}
-                            </div>
-                        </div>
-                    ` : ''}
-                    
-                    ${submission.teacherFeedback ? `
-                        <div class="teacher-feedback">
-                            <h5>💬 Teacher Feedback</h5>
-                            <p>${submission.teacherFeedback}</p>
-                            ${submission.grade ? `<p><strong>Grade:</strong> ${submission.grade}</p>` : ''}
-                        </div>
-                    ` : ''}
-                    
-                    <div class="submission-actions">
-                        <button class="btn btn-primary" onclick="viewSubmission('${submission.id}')">
-                            👁️ View Details
+                `;
+
+                if (submission.fileAttachments && submission.fileAttachments.length > 0) {
+                    const attachmentsDiv = document.createElement('div');
+                    attachmentsDiv.className = 'file-attachments';
+                    attachmentsDiv.innerHTML = '<h5>📎 Files</h5>';
+                    const fileList = document.createElement('div');
+                    fileList.className = 'file-list';
+                    submission.fileAttachments.forEach(file => {
+                        const fileLink = document.createElement('a');
+                        fileLink.href = '#';
+                        fileLink.className = 'file-link';
+                        fileLink.textContent = file.name;
+                        fileLink.onclick = (e) => {
+                            e.preventDefault();
+                            viewFile(file.name);
+                        };
+                        fileList.appendChild(fileLink);
+                    });
+                    attachmentsDiv.appendChild(fileList);
+                    card.appendChild(attachmentsDiv);
+                }
+
+                if (submission.teacherFeedback) {
+                    const feedbackDiv = document.createElement('div');
+                    feedbackDiv.className = 'teacher-feedback';
+                    feedbackDiv.innerHTML = `
+                        <h5>💬 Teacher Feedback</h5>
+                        <p>${submission.teacherFeedback}</p>
+                        ${submission.grade ? `<p><strong>Grade:</strong> ${submission.grade}</p>` : ''}
+                    `;
+                    card.appendChild(feedbackDiv);
+                }
+
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'submission-actions';
+                actionsDiv.innerHTML = `
+                    <button class="btn btn-primary" onclick="viewSubmission('${submission.id}')">
+                        👁️ View Details
+                    </button>
+                    ${submission.status === 'draft' || submission.status === 'needs_revision' ? `
+                        <button class="btn btn-secondary" onclick="editSubmission('${submission.id}')">
+                            ✏️ Edit
                         </button>
-                        ${submission.status === 'draft' || submission.status === 'needs_revision' ? `
-                            <button class="btn btn-secondary" onclick="editSubmission('${submission.id}')">
-                                ✏️ Edit
-                            </button>
-                        ` : ''}
-                        ${submission.status === 'reviewed' || submission.status === 'approved' ? `
-                            <button class="btn btn-outline" onclick="downloadSubmission('${submission.id}')">
-                                📥 Download
-                            </button>
-                        ` : ''}
-                    </div>
-                </div>
-            `).join('');
+                    ` : ''}
+                    ${submission.status === 'reviewed' || submission.status === 'approved' ? `
+                        <button class="btn btn-outline" onclick="downloadSubmission('${submission.id}')">
+                            📥 Download
+                        </button>
+                    ` : ''}
+                `;
+                card.appendChild(actionsDiv);
+
+                submissionsList.appendChild(card);
+            });
         }
 
         function filterSubmissions() {

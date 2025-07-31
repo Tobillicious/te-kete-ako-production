@@ -2,9 +2,16 @@
 const { createClient } = require('@supabase/supabase-js');
 const fs = require('fs');
 
-// Supabase configuration (from the existing client)
-const supabaseUrl = 'https://nlgldaqtubrlcqddppbq.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+// Supabase configuration - SECURE: Using environment variables
+require('dotenv').config();
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+    console.error('❌ Missing required environment variables. Please check your .env file.');
+    console.error('Required: SUPABASE_URL, SUPABASE_ANON_KEY');
+    process.exit(1);
+}
 
 // Create client with service role key for admin operations
 const supabase = createClient(supabaseUrl, supabaseKey, {

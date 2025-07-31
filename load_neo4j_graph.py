@@ -269,9 +269,9 @@ def main():
     print("🧠 Te Kete Ako - Neo4j Graph Database Loader")
     print("=" * 60)
     
-    # Neo4j AuraDB connection details
-    NEO4J_URI = "neo4j+s://cd5763ca.databases.neo4j.io"
-    NEO4J_USER = "neo4j" 
+    # Neo4j AuraDB connection details - SECURE: Using environment variables
+    NEO4J_URI = os.getenv("NEO4J_URI", "neo4j+s://your-instance.databases.neo4j.io")
+    NEO4J_USER = os.getenv("NEO4J_USERNAME", "neo4j") 
     import os
     NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD")
     if not NEO4J_PASSWORD:
