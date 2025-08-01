@@ -55,14 +55,16 @@ class HybridGraphRAG:
         # Index resources
         for resource in self.knowledge_graph['resources']:
             resource_id = resource['id']
-            self.resource_subjects[resource_id] = resource['subject_area']
+            # Handle subject_areas (plural) from actual data structure
+            subject_areas = resource.get('subject_areas', [])
+            self.resource_subjects[resource_id] = subject_areas[0] if subject_areas else 'General'
             self.resource_concepts[resource_id] = []
         
         # Index relationships
         for rel in self.knowledge_graph['relationships']:
             if rel['from_type'] == 'resource' and rel['to_type'] == 'concept':
-                resource_id = rel['from_id']
-                concept_name = rel['to_name']
+                resource_id = rel['from']  # Using 'from' not 'from_id'
+                concept_name = rel['to']   # Using 'to' not 'to_name'
                 
                 # Add concept to resource
                 if resource_id not in self.resource_concepts:
@@ -129,7 +131,8 @@ class HybridGraphRAG:
                             related_resources.append({
                                 **resource_info,
                                 'related_through_concept': concept,
-                                'connection_strength': 0.7  # Could be calculated
+                                'connection_strength': 0.7,  # Could be calculated
+                                'subject_area': resource_info.get('subject_areas', ['General'])[0] if resource_info.get('subject_areas') else 'General'
                             })
                             seen_ids.add(resource_id)
         
@@ -153,7 +156,7 @@ class HybridGraphRAG:
         for subject in subjects:
             subject_resources = [
                 r for r in self.knowledge_graph['resources'] 
-                if r['subject_area'] == subject and 'lesson' in r['path'].lower()
+                if subject in r.get('subject_areas', []) and 'lesson' in r['path'].lower()
             ]
             
             # Sort by path to find sequences
@@ -164,7 +167,9 @@ class HybridGraphRAG:
                     progressions.append({
                         **resource,
                         'progression_type': f'{subject} sequence',
-                        'connection_strength': 0.8
+                        'connection_strength': 0.8,
+                        'subject_area': resource.get('subject_areas', ['General'])[0] if resource.get('subject_areas') else 'General',
+                        'difficulty_level': 'intermediate'  # Default value
                     })
         
         logger.info(f"📈 Found {len(progressions)} progression resources")

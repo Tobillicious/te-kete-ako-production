@@ -1060,8 +1060,8 @@ class TeKeteSupabaseAuth {
             supabaseScript.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
             supabaseScript.onload = () => {
                 // Initialize Supabase client with your credentials
-                const supabaseUrl = 'https://nlgldaqtubrlcqddppbq.supabase.co';
-                const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjIwNDk0MzQsImV4cCI6MjAzNzYyNTQzNH0.x8VqTJXhkGqoYnJjKYJfKOi_7t7qrLZkwsJ7tVX8k-4'; // This would normally come from environment
+                const supabaseUrl = window.ENV?.SUPABASE_URL || 'ENVIRONMENT_VARIABLE_REQUIRED';
+                const supabaseKey = window.ENV?.SUPABASE_ANON_KEY || 'ENVIRONMENT_VARIABLE_REQUIRED';
                 
                 this.supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
                 resolve();
