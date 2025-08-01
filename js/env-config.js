@@ -15,7 +15,7 @@ function loadEnvironmentConfig() {
     
     if (isDevelopment) {
         // Development environment - load from .env equivalent
-        window.ENV.SUPABASE_URL = 'https://kpawkfxdqzhrhumlutjw.supabase.co';
+        window.ENV.SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
         window.ENV.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtwYXdrZnhkcXpocmh1bWx1dGp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjE3ODE0MzUsImV4cCI6MjAzNzM1NzQzNX0.te0kutquDw1nIft0mcrvxOn_TEEtybBzM9IYf_IQa88';
         window.ENV.NEO4J_URI = 'neo4j+s://cd5763ca.databases.neo4j.io';
         window.ENV.NODE_ENV = 'development';

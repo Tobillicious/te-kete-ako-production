@@ -105,7 +105,7 @@ pip install supabase sentence-transformers python-dotenv neo4j torch
 ### Environment Variables (.env)
 ```bash
 # Supabase Configuration
-SUPABASE_URL=https://kpawkfxdqzhrhumlutjw.supabase.co
+SUPABASE_URL=https://nlgldaqtubrlcqddppbq.supabase.co
 SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
