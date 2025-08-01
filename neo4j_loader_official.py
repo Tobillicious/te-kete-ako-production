@@ -115,9 +115,10 @@ class Neo4jKnowledgeLoader:
                     SET r.title = $title,
                         r.type = $type,
                         r.path = $path,
-                        r.subject_area = $subject_area,
+                        r.subject_areas = $subject_areas,
                         r.cultural_level = $cultural_level,
-                        r.difficulty_level = $difficulty_level
+                        r.file_size = $file_size,
+                        r.last_modified = $last_modified
                     """
                     
                     session.run(query, 
@@ -125,9 +126,10 @@ class Neo4jKnowledgeLoader:
                         title=resource['title'],
                         type=resource['type'],
                         path=resource['path'],
-                        subject_area=resource['subject_area'],
+                        subject_areas=resource.get('subject_areas', []),
                         cultural_level=resource['cultural_level'],
-                        difficulty_level=resource['difficulty_level']
+                        file_size=resource.get('file_size', 0),
+                        last_modified=resource.get('last_modified', '')
                     )
             
             logger.info("✅ Resources loaded")
@@ -173,13 +175,13 @@ class Neo4jKnowledgeLoader:
                         query = f"""
                         MATCH (r:Resource {{id: $from_id}})
                         MATCH (c:Concept {{name: $to_name}})
-                        MERGE (r)-[rel:{rel['relationship_type']}]->(c)
+                        MERGE (r)-[rel:{rel['relationship']}]->(c)
                         SET rel.strength = $strength
                         """
                         
                         session.run(query,
-                            from_id=rel['from_id'],
-                            to_name=rel['to_name'],
+                            from_id=rel['from'],
+                            to_name=rel['to'],
                             strength=rel['strength']
                         )
                         
@@ -188,13 +190,13 @@ class Neo4jKnowledgeLoader:
                         query = f"""
                         MATCH (c1:Concept {{name: $from_name}})
                         MATCH (c2:Concept {{name: $to_name}})
-                        MERGE (c1)-[rel:{rel['relationship_type']}]->(c2)
+                        MERGE (c1)-[rel:{rel['relationship']}]->(c2)
                         SET rel.strength = $strength
                         """
                         
                         session.run(query,
-                            from_name=rel['from_name'],
-                            to_name=rel['to_name'], 
+                            from_name=rel['from'],
+                            to_name=rel['to'], 
                             strength=rel['strength']
                         )
                         
@@ -203,13 +205,13 @@ class Neo4jKnowledgeLoader:
                         query = f"""
                         MATCH (r1:Resource {{id: $from_id}})
                         MATCH (r2:Resource {{id: $to_id}})
-                        MERGE (r1)-[rel:{rel['relationship_type']}]->(r2)
+                        MERGE (r1)-[rel:{rel['relationship']}]->(r2)
                         SET rel.strength = $strength
                         """
                         
                         session.run(query,
-                            from_id=rel['from_id'],
-                            to_id=rel['to_id'],
+                            from_id=rel['from'],
+                            to_id=rel['to'],
                             strength=rel['strength']
                         )
             

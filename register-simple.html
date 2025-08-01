@@ -258,8 +258,8 @@
             
             try {
                 // Use Supabase for registration
-                const supabaseUrl = 'https://nlgldaqtubrlcqddppbq.supabase.co';
-                const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjE5NTgzOTIsImV4cCI6MjAzNzUzNDM5Mn0.atrHoU6v4q7B7Yg6XJN0hK4uXUoSbQgzrFwKfW9Jlvg';
+                const supabaseUrl = window.ENV?.SUPABASE_URL || 'ENVIRONMENT_VARIABLE_REQUIRED';
+                const supabaseKey = window.ENV?.SUPABASE_ANON_KEY || 'ENVIRONMENT_VARIABLE_REQUIRED';
                 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
                 const { data, error } = await supabase.auth.signUp({
                     email: email,
@@ -304,8 +304,8 @@
         
         // Check if user is already logged in
         window.addEventListener('load', async () => {
-            const supabaseUrl = 'https://nlgldaqtubrlcqddppbq.supabase.co';
-            const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjE5NTgzOTIsImV4cCI6MjAzNzUzNDM5Mn0.atrHoU6v4q7B7Yg6XJN0hK4uXUoSbQgzrFwKfW9Jlvg';
+            const supabaseUrl = window.ENV?.SUPABASE_URL || 'ENVIRONMENT_VARIABLE_REQUIRED';
+            const supabaseKey = window.ENV?.SUPABASE_ANON_KEY || 'ENVIRONMENT_VARIABLE_REQUIRED';
             const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
             const { data: { session } } = await supabase.auth.getSession();
             if (session?.user) {

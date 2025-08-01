@@ -219,5 +219,32 @@
         </div>
     </footer>
 
+<script>
+
+// Filtering functionality for unit plans
+function filterUnits(type) {
+    const units = document.querySelectorAll('.unit-card');
+    units.forEach(unit => {
+        const category = unit.dataset.subject || '';
+        if (type === 'all' || category === type) {
+            unit.style.display = 'block';
+        } else {
+            unit.style.display = 'none';
+        }
+    });
+    
+    // Update active filter button
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelector(`[onclick="filterUnits('${type}')"]`)?.classList.add('active');
+}
+
+// Initialize filtering on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const filterType = urlParams.get('type') || 'all';
+    filterUnits(filterType);
+});
+
+</script>
 </body>
 </html>
