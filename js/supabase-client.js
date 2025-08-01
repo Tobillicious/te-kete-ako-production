@@ -2,7 +2,7 @@
 // CRITICAL: This file must be loaded AFTER the Supabase CDN script but BEFORE any dependent scripts
 
 // Initialize Supabase client - using environment variables for security
-const supabaseUrl = window.ENV?.SUPABASE_URL || 'https://kpawkfxdqzhrhumlutjw.supabase.co';
+const supabaseUrl = window.ENV?.SUPABASE_URL || 'https://nlgldaqtubrlcqddppbq.supabase.co';
 const supabaseKey = window.ENV?.SUPABASE_ANON_KEY || 'ENVIRONMENT_VARIABLE_REQUIRED';
 
 // Create the global supabase client using the CDN-loaded library
