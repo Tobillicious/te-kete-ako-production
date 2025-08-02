@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Pathways | Te Kete Ako</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        .pathway-hero {
+            background: linear-gradient(135deg, #2E8B57 0%, #1a5f3f 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .pathway-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .pathway-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .goldmine-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .goldmine-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            padding: 2rem;
+            border-left: 6px solid #CC0000;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .goldmine-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 48px rgba(0,0,0,0.15);
+        }
+        
+        .goldmine-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, rgba(46,139,87,0.1) 0%, rgba(204,0,0,0.1) 100%);
+            border-radius: 0 0 0 100px;
+        }
+        
+        .goldmine-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .goldmine-icon {
+            font-size: 2.5rem;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
+        }
+        
+        .goldmine-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2E8B57;
+            margin: 0;
+        }
+        
+        .goldmine-stats {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+        
+        .stat-badge {
+            background: #DAA520;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .pathway-connections {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 3rem 0;
+            border: 2px solid #DAA520;
+        }
+        
+        .connection-map {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .connection-node {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid #2E8B57;
+            text-align: center;
+            position: relative;
+        }
+        
+        .connection-node h4 {
+            color: #2E8B57;
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+        }
+        
+        .journey-pathways {
+            margin: 3rem 0;
+        }
+        
+        .pathway-track {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-left: 6px solid #CC0000;
+        }
+        
+        .pathway-steps {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .pathway-step {
+            flex: 1;
+            min-width: 200px;
+            background: linear-gradient(135deg, #2E8B57 0%, #1a5f3f 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .pathway-step:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: #2E8B57;
+            font-weight: bold;
+        }
+        
+        .quick-access {
+            background: linear-gradient(135deg, #CC0000 0%, #990000 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 3rem 0;
+        }
+        
+        .access-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .access-button {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .access-button:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">Te Kete Ako</a>
+            <nav class="main-nav">
+                <ul>
+                    <li>
+                        <a href="unit-plans.html">
+                            <span class="nav-icon">📚</span>
+                            <span class="nav-text-en">Unit Plans</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Waehere</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="lessons.html">
+                            <span class="nav-icon">🎓</span>
+                            <span class="nav-text-en">Lessons</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="handouts.html">
+                            <span class="nav-icon">📄</span>
+                            <span class="nav-text-en">Handouts</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="games.html">
+                            <span class="nav-icon">🎮</span>
+                            <span class="nav-text-en">Games</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Kēmu</span>  
+                        </a>
+                    </li>
+                    <li class="auth-nav my-kete-link" style="display: none;">
+                        <a href="my-kete.html">
+                            <span class="nav-icon">🧺</span>
+                            My Kete
+                        </a>
+                    </li>
+                    <li class="auth-nav">
+                        <a href="login.html" class="login-btn">
+                            <span class="nav-icon">👤</span>
+                            Login
+                        </a>
+                    </li>
+                    <li class="auth-nav" style="display: none;">
+                        <a href="register-simple.html" class="register-btn">
+                            <span class="nav-icon">📝</span>
+                            Register
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> > 
+            <span>Learning Pathways</span>
+        </div>
+
+        <section class="pathway-hero">
+            <h1>🌟 Discover Your Learning Journey</h1>
+            <p>Explore our interconnected educational ecosystem - from cultural foundations to advanced systems thinking. Every pathway leads to meaningful learning that honors Te Ao Māori while building 21st-century skills.</p>
+        </section>
+
+        <section class="container">
+            <h2>🏆 Hidden Goldmines - World-Class Resources</h2>
+            <p>Our AI-powered discovery system has revealed comprehensive educational resources that match international best practices. Each "goldmine" represents hundreds of hours of expert curriculum development.</p>
+            
+            <div class="goldmine-showcase">
+                <div class="goldmine-card">
+                    <div class="goldmine-header">
+                        <span class="goldmine-icon">⭐</span>
+                        <h3 class="goldmine-title">Y8 Systems Unit</h3>
+                    </div>
+                    <p>The <strong>proven gold standard</strong> - 10 comprehensive lessons with 22 supporting materials, station rotations, and culturally responsive assessment.</p>
+                    <div class="goldmine-stats">
+                        <span class="stat-badge">10 Lessons</span>
+                        <span class="stat-badge">22 Resources</span>
+                        <span class="stat-badge">Print-Ready</span>
+                        <span class="stat-badge">Māori Values</span>
+                    </div>
+                    <a href="y8-systems/" class="btn btn-primary" style="margin-top: 1rem; display: inline-block;">Explore Y8 Systems →</a>
+                </div>
+
+                <div class="goldmine-card">
+                    <div class="goldmine-header">
+                        <span class="goldmine-icon">🚀</span>
+                        <h3 class="goldmine-title">Guided Inquiry Unit</h3>
+                    </div>
+                    <p><strong>47,470 bytes</strong> of sophisticated society design methodology with interactive tools and systematic inquiry processes.</p>
+                    <div class="goldmine-stats">
+                        <span class="stat-badge">6 Weeks</span>
+                        <span class="stat-badge">Interactive Tool</span>
+                        <span class="stat-badge">Systems Thinking</span>
+                        <span class="stat-badge">Collaborative</span>
+                    </div>
+                    <a href="guided-inquiry-unit/" class="btn btn-primary" style="margin-top: 1rem; display: inline-block;">Discover Guided Inquiry →</a>
+                </div>
+
+                <div class="goldmine-card">
+                    <div class="goldmine-header">
+                        <span class="goldmine-icon">🌿</span>
+                        <h3 class="goldmine-title">Unit 1 Te Ao Māori</h3>
+                    </div>
+                    <p><strong>Newly transformed</strong> to Y8-Systems depth with 4-station rotations, holistic assessment, and authentic cultural integration.</p>
+                    <div class="goldmine-stats">
+                        <span class="stat-badge">5 Resources</span>
+                        <span class="stat-badge">4 Stations</span>
+                        <span class="stat-badge">Cultural Authentic</span>
+                        <span class="stat-badge">Portfolio Assessment</span>
+                    </div>
+                    <a href="units/" class="btn btn-primary" style="margin-top: 1rem; display: inline-block;">Enter Te Ao Māori →</a>
+                </div>
+
+                <div class="goldmine-card">
+                    <div class="goldmine-header">
+                        <span class="goldmine-icon">✍️</span>
+                        <h3 class="goldmine-title">Writers Toolkit</h3>
+                    </div>
+                    <p><strong>11 complete lesson plans</strong> with sophisticated pedagogical approaches including PEEL method and rhetorical devices.</p>
+                    <div class="goldmine-stats">
+                        <span class="stat-badge">11 Lessons</span>
+                        <span class="stat-badge">PEEL Method</span>
+                        <span class="stat-badge">Revision Process</span>
+                        <span class="stat-badge">Cross-Curricular</span>
+                    </div>
+                    <a href="writers-toolkit/" class="btn btn-primary" style="margin-top: 1rem; display: inline-block;">Access Writers Toolkit →</a>
+                </div>
+
+                <div class="goldmine-card">
+                    <div class="goldmine-header">
+                        <span class="goldmine-icon">🌈</span>
+                        <h3 class="goldmine-title">Experiences Platform</h3>
+                    </div>
+                    <p><strong>Revolutionary learning platforms:</strong> Virtual Marae, Digital Pūrākau, Adaptive Pathways, and Cultural Assessment systems.</p>
+                    <div class="goldmine-stats">
+                        <span class="stat-badge">VR Training</span>
+                        <span class="stat-badge">AI-Powered</span>
+                        <span class="stat-badge">Interactive Stories</span>
+                        <span class="stat-badge">Holistic Assessment</span>
+                    </div>
+                    <a href="experiences/" class="btn btn-primary" style="margin-top: 1rem; display: inline-block;">Experience Innovation →</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="pathway-connections container">
+            <h2>🔗 The Interconnected Ecosystem</h2>
+            <p>These resources aren't isolated - they form a complete educational ecosystem where each component enhances the others. Our GraphRAG system has mapped the connections:</p>
+            
+            <div class="connection-map">
+                <div class="connection-node">
+                    <h4>🌿 Cultural Foundation</h4>
+                    <p>Te Ao Māori provides authentic cultural grounding for all learning</p>
+                </div>
+                <div class="connection-node">
+                    <h4>⚙️ Systems Thinking</h4>
+                    <p>Y8 Systems develops analytical and collaborative skills</p>
+                </div>
+                <div class="connection-node">
+                    <h4>🏛️ Design Thinking</h4>
+                    <p>Guided Inquiry builds creation and innovation capabilities</p>
+                </div>
+                <div class="connection-node">
+                    <h4>✍️ Communication</h4>
+                    <p>Writers Toolkit ensures ideas can be expressed powerfully</p>
+                </div>
+                <div class="connection-node">
+                    <h4>🌈 Advanced Learning</h4>
+                    <p>Experiences provide cutting-edge extension opportunities</p>
+                </div>
+                <div class="connection-node">
+                    <h4>📊 Holistic Assessment</h4>
+                    <p>Culturally responsive evaluation across all pathways</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="journey-pathways container">
+            <h2>🎯 Recommended Learning Journeys</h2>
+            
+            <div class="pathway-track">
+                <h3>🌱 Foundation to Systems (Years 7-8)</h3>
+                <p>Perfect for students beginning their secondary education journey, building cultural identity while developing analytical thinking.</p>
+                <div class="pathway-steps">
+                    <div class="pathway-step">
+                        <h4>Start Here</h4>
+                        <p>Unit 1 Te Ao Māori<br>Cultural foundation & identity</p>
+                    </div>
+                    <div class="pathway-step">
+                        <h4>Build Skills</h4>
+                        <p>Writers Toolkit<br>Communication & expression</p>
+                    </div>
+                    <div class="pathway-step">
+                        <h4>Apply Learning</h4>
+                        <p>Y8 Systems<br>Collaborative analysis</p>
+                    </div>
+                    <div class="pathway-step">
+                        <h4>Extend Experience</h4>
+                        <p>Virtual Marae<br>Immersive cultural learning</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pathway-track">
+                <h3>🚀 Innovation to Leadership (Years 9-10)</h3>
+                <p>For students ready to tackle complex challenges, design solutions, and lead community change.</p>
+                <div class="pathway-steps">
+                    <div class="pathway-step">
+                        <h4>Design Thinking</h4>
+                        <p>Guided Inquiry<br>Society creation & systems</p>
+                    </div>
+                    <div class="pathway-step">
+                        <h4>Advanced Communication</h4>
+                        <p>Writers Toolkit Advanced<br>Persuasion & rhetoric</p>
+                    </div>
+                    <div class="pathway-step">
+                        <h4>Real-World Application</h4>
+                        <p>Y8 Systems Advanced<br>Community problem-solving</p>
+                    </div>
+                    <div class="pathway-step">
+                        <h4>Leadership Platform</h4>
+                        <p>Adaptive Pathways<br>Personalized challenges</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pathway-track">
+                <h3>💪 Mastery to Mentorship (Years 11-13)</h3>
+                <p>Senior students become knowledge creators and cultural ambassadors, contributing to their communities.</p>
+                <div class="pathway-steps">
+                    <div class="pathway-step">
+                        <h4>Cultural Leadership</h4>
+                        <p>Te Ao Māori Advanced<br>Mentoring & guidance</p>
+                    </div>
+                    <div class="pathway-step">
+                        <h4>Content Creation</h4>
+                        <p>Digital Pūrākau<br>Storytelling & media</p>
+                    </div>
+                    <div class="pathway-step">
+                        <h4>Systems Innovation</h4>
+                        <p>Guided Inquiry Facilitator<br>Leading younger students</p>
+                    </div>
+                    <div class="pathway-step">
+                        <h4>Community Impact</h4>
+                        <p>Real-world projects<br>Authentic contribution</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="quick-access container">
+            <h2>🎯 Quick Access - Everything You Need</h2>
+            <p>Jump directly to comprehensive lesson packages. Each link provides everything needed for world-class, culturally responsive education.</p>
+            
+            <div class="access-grid">
+                <a href="y8-systems/" class="access-button">
+                    <h4>⭐ Y8 Systems</h4>
+                    <p>10 lessons + 22 resources<br>Government & civic engagement</p>
+                </a>
+                <a href="guided-inquiry-unit/" class="access-button">
+                    <h4>🚀 Guided Inquiry</h4>
+                    <p>6-week society design<br>Interactive creation tool</p>
+                </a>
+                <a href="units/" class="access-button">
+                    <h4>🌿 Te Ao Māori</h4>
+                    <p>Cultural foundation unit<br>4-station rotations</p>
+                </a>
+                <a href="writers-toolkit/" class="access-button">
+                    <h4>✍️ Writers Toolkit</h4>
+                    <p>11 comprehensive lessons<br>PEEL method & rhetoric</p>
+                </a>
+                <a href="experiences/" class="access-button">
+                    <h4>🌈 Experiences</h4>
+                    <p>4 revolutionary platforms<br>VR, AI, storytelling</p>
+                </a>
+                <a href="handouts.html" class="access-button">
+                    <h4>📄 All Handouts</h4>
+                    <p>216+ ready-to-print resources<br>Searchable & organized</p>
+                </a>
+            </div>
+        </section>
+
+        <section class="container" style="background: linear-gradient(135deg, #f0f8f4 0%, #e8f5e8 100%); padding: 2rem; border-radius: 16px; margin: 3rem 0; border-left: 6px solid #2E8B57;">
+            <h2>💡 Why This Approach Works</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 2rem 0;">
+                <div>
+                    <h3>🌿 Cultural Authenticity</h3>
+                    <p>Te Ao Māori isn't an add-on - it's woven throughout every resource, creating authentic contexts that enhance rather than limit academic excellence.</p>
+                </div>
+                <div>
+                    <h3>🧠 Systems Thinking</h3>
+                    <p>Students learn to see connections, understand complexity, and think holistically - essential skills for navigating modern challenges.</p>
+                </div>
+                <div>
+                    <h3>🤝 Collaborative Learning</h3>
+                    <p>Station rotations, group inquiry, and peer mentoring build social skills while deepening understanding through shared discovery.</p>
+                </div>
+                <div>
+                    <h3>📊 Holistic Assessment</h3>
+                    <p>Portfolio-based, culturally responsive evaluation that builds student mana while providing meaningful feedback on learning growth.</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin: 2rem 0; padding: 2rem; background: white; border-radius: 12px; border: 2px solid #DAA520;">
+                <h3 style="color: #2E8B57; margin-bottom: 1rem;">🏆 The Result</h3>
+                <p style="font-size: 1.1rem; font-weight: 600; color: #333;">Students who are culturally grounded, academically excellent, and equipped with 21st-century skills to transform their communities.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-simple">
+                <div class="footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p>"Whaowhia te kete mātauranga" - Fill the basket of knowledge</p>
+                </div>
+                <div class="footer-links">
+                    <a href="unit-plans.html">Unit Plans</a>
+                    <a href="lessons.html">Lessons</a>
+                    <a href="handouts.html">Handouts</a>
+                    <a href="my-kete.html">My Kete</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2025 Te Kete Ako - Educational resources for Aotearoa New Zealand</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

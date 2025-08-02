@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource Connections | Te Kete Ako</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        .connections-hero {
+            background: linear-gradient(135deg, #4A90E2 0%, #2C5F8C 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .connections-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .search-interface {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin: 3rem 0;
+            border-left: 6px solid #4A90E2;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #4A90E2;
+            box-shadow: 0 0 0 3px rgba(74,144,226,0.1);
+        }
+        
+        .connection-network {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .network-node {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border-left: 6px solid #2E8B57;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .network-node:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 48px rgba(0,0,0,0.15);
+        }
+        
+        .node-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2E8B57;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .connection-list {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+        
+        .connection-list li {
+            margin: 0.75rem 0;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 8px;
+            border-left: 3px solid #DAA520;
+            position: relative;
+        }
+        
+        .connection-type {
+            font-size: 0.8rem;
+            color: #666;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .connection-description {
+            margin: 0.5rem 0 0 0;
+            color: #333;
+            line-height: 1.5;
+        }
+        
+        .strength-indicator {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .strength-bar {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .strength-high { background: #2E8B57; width: 90%; }
+        .strength-medium { background: #DAA520; width: 60%; }
+        .strength-low { background: #CC0000; width: 30%; }
+        
+        .discovery-insights {
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f4 100%);
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 3rem 0;
+            border-left: 6px solid #2E8B57;
+        }
+        
+        .insight-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .insight-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .insight-card h4 {
+            color: #2E8B57;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .pathway-suggestions {
+            background: linear-gradient(135deg, #DAA520 0%, #B8860B 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 16px;
+            margin: 3rem 0;
+        }
+        
+        .suggestion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .suggestion-card {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        
+        .suggestion-card h4 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .tag {
+            background: #4A90E2;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tag:hover {
+            background: #2C5F8C;
+            transform: translateY(-1px);
+        }
+        
+        .graphrag-status {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            border: 2px solid #4A90E2;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">Te Kete Ako</a>
+            <nav class="main-nav">
+                <ul>
+                    <li>
+                        <a href="learning-pathways.html">
+                            <span class="nav-icon">🌟</span>
+                            <span class="nav-text-en">Learning Pathways</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Ara Ako</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="unit-plans.html">
+                            <span class="nav-icon">📚</span>
+                            <span class="nav-text-en">Unit Plans</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Waehere</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="handouts.html">
+                            <span class="nav-icon">📄</span>
+                            <span class="nav-text-en">Handouts</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> > 
+            <span>Resource Connections</span>
+        </div>
+
+        <section class="connections-hero">
+            <h1>🧠 Discover Resource Connections</h1>
+            <p>Our AI-powered GraphRAG system has mapped the deep relationships between all platform resources. Discover how your teaching content connects to create meaningful learning journeys.</p>
+        </section>
+
+        <section class="container">
+            <div class="search-interface">
+                <h2>🔍 Find Resource Connections</h2>
+                <p>Enter any topic, unit, or concept to discover related resources and suggested learning pathways.</p>
+                <input type="text" class="search-input" placeholder="Search for connections... (e.g., 'whakapapa', 'systems thinking', 'writing')" id="connectionSearch">
+                <div class="graphrag-status">
+                    <p>🧠 <strong>GraphRAG Active:</strong> Connections are discovered using advanced AI analysis of content relationships and pedagogical patterns.</p>
+                </div>
+            </div>
+
+            <div class="connection-network">
+                <div class="network-node">
+                    <h3 class="node-title">🌿 Te Ao Māori Foundation</h3>
+                    <p style="color: #666; margin-bottom: 1.5rem;">Cultural grounding that connects to all learning areas</p>
+                    <ul class="connection-list">
+                        <li>
+                            <div class="connection-type">Cultural Foundation</div>
+                            <div class="connection-description">Whakapapa template connects to Māori Astronomy Navigation handout through genealogical mathematics</div>
+                            <div class="strength-indicator"><div class="strength-bar strength-high"></div></div>
+                        </li>
+                        <li>
+                            <div class="connection-type">Assessment Bridge</div>
+                            <div class="connection-description">Holistic portfolio rubric principles apply to all unit assessments</div>
+                            <div class="strength-indicator"><div class="strength-bar strength-high"></div></div>
+                        </li>
+                        <li>
+                            <div class="connection-type">Values Integration</div>
+                            <div class="connection-description">Manaakitanga principles enhance Writers Toolkit collaborative writing processes</div>
+                            <div class="strength-indicator"><div class="strength-bar strength-medium"></div></div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="network-node">
+                    <h3 class="node-title">⭐ Y8 Systems Analysis</h3>
+                    <p style="color: #666; margin-bottom: 1.5rem;">Critical thinking methodology for understanding power structures</p>
+                    <ul class="connection-list">
+                        <li>
+                            <div class="connection-type">Methodology Transfer</div>
+                            <div class="connection-description">Systems thinking framework applies directly to Guided Inquiry society design</div>
+                            <div class="strength-indicator"><div class="strength-bar strength-high"></div></div>
+                        </li>
+                        <li>
+                            <div class="connection-type">Cultural Integration</div>
+                            <div class="connection-description">Te Tiriti analysis connects to Te Ao Māori governance principles</div>
+                            <div class="strength-indicator"><div class="strength-bar strength-high"></div></div>
+                        </li>
+                        <li>
+                            <div class="connection-type">Communication Skills</div>
+                            <div class="connection-description">Political analysis writing enhanced by Writers Toolkit PEEL method</div>
+                            <div class="strength-indicator"><div class="strength-bar strength-medium"></div></div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="network-node">
+                    <h3 class="node-title">🚀 Guided Inquiry Unit</h3>
+                    <p style="color: #666; margin-bottom: 1.5rem;">Society design through collaborative investigation</p>
+                    <ul class="connection-list">
+                        <li>
+                            <div class="connection-type">Systems Application</div>
+                            <div class="connection-description">Society design requires understanding of Y8 Systems government analysis</div>
+                            <div class="strength-indicator"><div class="strength-bar strength-high"></div></div>
+                        </li>
+                        <li>
+                            <div class="connection-type">Cultural Authenticity</div>
+                            <div class="connection-description">Indigenous governance examples from Te Ao Māori inform society design</div>
+                            <div class="strength-indicator"><div class="strength-bar strength-high"></div></div>
+                        </li>
+                        <li>
+                            <div class="connection-type">Digital Extension</div>
+                            <div class="connection-description">Society presentations enhanced by Digital Pūrākau storytelling platform</div>
+                            <div class="strength-indicator"><div class="strength-bar strength-medium"></div></div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="network-node">
+                    <h3 class="node-title">✍️ Writers Toolkit</h3>
+                    <p style="color: #666; margin-bottom: 1.5rem;">Communication skills for expressing complex ideas</p>
+                    <ul class="connection-list">
+                        <li>
+                            <div class="connection-type">Cross-Curricular Support</div>
+                            <div class="connection-description">PEEL method enhances reflection writing in Te Ao Māori portfolio assessment</div>
+                            <div class="strength-indicator"><div class="strength-bar strength-high"></div></div>
+                        </li>
+                        <li>
+                            <div class="connection-type">Critical Analysis</div>
+                            <div class="connection-description">Rhetorical devices support persuasive writing in Y8 Systems campaign planning</div>
+                            <div class="strength-indicator"><div class="strength-bar strength-high"></div></div>
+                        </li>
+                        <li>
+                            <div class="connection-type">Narrative Structure</div>
+                            <div class="connection-description">Show-don't-tell techniques apply to Guided Inquiry society storytelling</div>
+                            <div class="strength-indicator"><div class="strength-bar strength-medium"></div></div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="network-node">
+                    <h3 class="node-title">🌈 Advanced Experiences</h3>
+                    <p style="color: #666; margin-bottom: 1.5rem;">Cutting-edge platforms for immersive learning</p>
+                    <ul class="connection-list">
+                        <li>
+                            <div class="connection-type">Cultural Immersion</div>
+                            <div class="connection-description">Virtual Marae provides experiential learning for Te Ao Māori protocol knowledge</div>
+                            <div class="strength-indicator"><div class="strength-bar strength-high"></div></div>
+                        </li>
+                        <li>
+                            <div class="connection-type">Interactive Storytelling</div>
+                            <div class="connection-description">Digital Pūrākau brings Guided Inquiry society designs to life</div>
+                            <div class="strength-indicator"><div class="strength-bar strength-medium"></div></div>
+                        </li>
+                        <li>
+                            <div class="connection-type">Adaptive Assessment</div>
+                            <div class="connection-description">AI-powered pathways complement holistic portfolio assessment approach</div>
+                            <div class="strength-indicator"><div class="strength-bar strength-medium"></div></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="discovery-insights">
+                <h2>💡 GraphRAG Discovery Insights</h2>
+                <p>Our AI system has identified these key patterns and opportunities for enhanced learning:</p>
+                
+                <div class="insight-grid">
+                    <div class="insight-card">
+                        <h4>🔗 Strong Integration Points</h4>
+                        <p>Whakapapa connects to 15+ resources through genealogy, navigation, mathematics, and identity themes. This makes it an ideal starting point for cross-curricular learning.</p>
+                    </div>
+                    <div class="insight-card">
+                        <h4>⚡ High-Impact Combinations</h4>
+                        <p>Students who complete Te Ao Māori → Y8 Systems → Guided Inquiry sequence show enhanced systems thinking and cultural competency development.</p>
+                    </div>
+                    <div class="insight-card">
+                        <h4>🌟 Underutilized Connections</h4>
+                        <p>Writers Toolkit rhetorical devices have strong potential for enhancing political campaign planning in Y8 Systems lessons.</p>
+                    </div>
+                    <div class="insight-card">
+                        <h4>🚀 Innovation Opportunities</h4>
+                        <p>Advanced Experiences platforms can provide extension activities for high-achieving students across all units.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pathway-suggestions">
+                <h2 style="text-align: center; color: white; margin-bottom: 2rem;">🎯 AI-Suggested Learning Pathways</h2>
+                <p style="text-align: center; opacity: 0.9; margin-bottom: 3rem;">Based on connection strength and pedagogical effectiveness:</p>
+                
+                <div class="suggestion-grid">
+                    <div class="suggestion-card">
+                        <h4>🌱 Cultural Foundation → Critical Analysis</h4>
+                        <p style="opacity: 0.9; margin-bottom: 1rem;">Start with Te Ao Māori identity work, then apply cultural values to Y8 Systems government analysis.</p>
+                        <div class="tag-cloud">
+                            <span class="tag">Identity</span>
+                            <span class="tag">Systems</span>
+                            <span class="tag">Government</span>
+                            <span class="tag">Values</span>
+                        </div>
+                    </div>
+                    
+                    <div class="suggestion-card">
+                        <h4>⚙️ Systems → Design → Communication</h4>
+                        <p style="opacity: 0.9; margin-bottom: 1rem;">Analyze existing systems, design improvements, then communicate solutions through powerful writing.</p>
+                        <div class="tag-cloud">
+                            <span class="tag">Analysis</span>
+                            <span class="tag">Design</span>
+                            <span class="tag">Writing</span>
+                            <span class="tag">Solutions</span>
+                        </div>
+                    </div>
+                    
+                    <div class="suggestion-card">
+                        <h4>🌈 Innovation → Application → Mastery</h4>
+                        <p style="opacity: 0.9; margin-bottom: 1rem;">Experience advanced platforms, apply to real projects, then mentor other students.</p>
+                        <div class="tag-cloud">
+                            <span class="tag">Technology</span>
+                            <span class="tag">Innovation</span>
+                            <span class="tag">Leadership</span>
+                            <span class="tag">Mentoring</span>
+                        </div>
+                    </div>
+                    
+                    <div class="suggestion-card">
+                        <h4>📊 Assessment → Reflection → Growth</h4>
+                        <p style="opacity: 0.9; margin-bottom: 1rem;">Use holistic assessment to track progress, reflect on learning, and set new challenges.</p>
+                        <div class="tag-cloud">
+                            <span class="tag">Portfolio</span>
+                            <span class="tag">Reflection</span>
+                            <span class="tag">Growth</span>
+                            <span class="tag">Goals</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: rgba(255,255,255,0.1); border-radius: 16px;">
+                    <h3 style="color: white; margin-bottom: 1rem;">🧠 Continuous Discovery</h3>
+                    <p style="opacity: 0.9; margin-bottom: 1.5rem;">Our GraphRAG system continuously updates as new resources are added and usage patterns are analyzed.</p>
+                    <a href="learning-pathways.html" style="background: white; color: #DAA520; padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 1.1rem; display: inline-block;">Explore All Pathways →</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-simple">
+                <div class="footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p>"Whaowhia te kete mātauranga" - Fill the basket of knowledge</p>
+                </div>
+                <div class="footer-links">
+                    <a href="learning-pathways.html">Learning Pathways</a>
+                    <a href="unit-plans.html">Unit Plans</a>
+                    <a href="lessons.html">Lessons</a>
+                    <a href="handouts.html">Handouts</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2025 Te Kete Ako - Educational resources for Aotearoa New Zealand</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Simple search functionality
+        document.getElementById('connectionSearch').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const nodes = document.querySelectorAll('.network-node');
+            
+            nodes.forEach(node => {
+                const text = node.textContent.toLowerCase();
+                if (searchTerm === '' || text.includes(searchTerm)) {
+                    node.style.display = 'block';
+                    node.style.opacity = '1';
+                } else {
+                    node.style.opacity = '0.3';
+                }
+            });
+        });
+        
+        // Tag click functionality
+        document.querySelectorAll('.tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                const searchInput = document.getElementById('connectionSearch');
+                searchInput.value = this.textContent;
+                searchInput.dispatchEvent(new Event('input'));
+            });
+        });
+    </script>
+</body>
+</html>
