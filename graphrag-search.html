@@ -1395,9 +1395,22 @@
         }
 
         async function generateEmbedding(text) {
-            // Placeholder - would use sentence transformer API
-            // For now, return dummy embedding
-            return new Array(384).fill(0.1);
+            // Uses local GraphRAG query system with semantic search
+            try {
+                const response = await fetch('/netlify/functions/graphrag-query', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        query: text,
+                        matchThreshold: 0.3,
+                        matchCount: 15 
+                    })
+                });
+                return await response.json();
+            } catch (error) {
+                console.warn('GraphRAG embedding failed, using fallback');
+                return new Array(384).fill(0.1);
+            }
         }
 
         async function enhanceWithNeo4j(semanticResults, query) {
