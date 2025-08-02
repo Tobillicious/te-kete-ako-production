@@ -212,66 +212,81 @@
         </main>
     </div>
 
-    <!-- Supabase Authentication -->
-    <!-- Firebase Authentication -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="js/firebase-config.js"></script>
-    <!-- Global Feedback System -->
-    <script src="js/global-feedback.js"></script>
-    <!-- Auth UI -->
-    <script src="js/auth-ui.js"></script>
-    
-    <!-- Load main functionality -->
+    <!-- Load main functionality and authentication -->
     <script src="js/main.js"></script>
+    
     <script>
-        // Enhanced login form with Supabase Auth + professional feedback system
-        document.addEventListener('DOMContentLoaded', () => {
-            const loginForm = document.getElementById('login-form');
+        // Login form handling with Supabase Auth
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
             
-            // Use Supabase Auth with professional form handling system
-            loginForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const messageDiv = document.getElementById('login-message');
+            const loginButton = document.getElementById('login-button');
+            const loginSpinner = document.getElementById('login-spinner');
+            const loginText = document.getElementById('login-text');
+            
+            // Show loading state
+            loginButton.disabled = true;
+            loginSpinner.style.display = 'inline-block';
+            loginText.textContent = 'Signing in...';
+            messageDiv.style.display = 'none';
+            
+            try {
+                console.log('Starting Supabase login...');
                 
-                await handleFormSubmission(loginForm, async (form) => {
-                    const formData = new FormData(form);
-                    const email = formData.get('email');
-                    const password = formData.get('password');
+                // Get Supabase client from shared components  
+                const supabase = window.getSupabaseClient();
+                
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+                
+                if (error) {
+                    console.error('Login failed:', error);
+                    messageDiv.textContent = error.message || 'Login failed. Please check your email and password.';
+                    messageDiv.className = 'message error';
+                    messageDiv.style.display = 'block';
+                } else if (data.user) {
+                    console.log('Login successful:', data.user.email);
+                    messageDiv.textContent = 'Kia ora! Welcome back. Redirecting to your kete...';
+                    messageDiv.className = 'message success';  
+                    messageDiv.style.display = 'block';
                     
-                    // Use Firebase for authentication
-                    console.log('Starting Firebase login...');
-                    const result = await window.firebaseAuthHelpers.signInWithEmail(email, password);
-                    
-                    if (result.error) {
-                        throw new Error(result.error);
-                    }
-                    
-                    console.log('Login successful:', result.user.email);
-                    
-                    // Success - redirect to my kete
+                    // Clear form and redirect to my kete
+                    document.getElementById('login-form').reset();
                     setTimeout(() => {
                         window.location.href = 'my-kete.html';
                     }, 1000);
-                    
-                    return { success: true };
-                }, {
-                    loadingText: 'Signing in...',
-                    successMessage: 'Kia ora! Welcome back. Redirecting to your kete...',
-                    errorMessage: 'Sign in failed. Please check your email and password.',
-                    resetForm: false
-                });
-            });
+                }
+                
+            } catch (error) {
+                console.error('Login error:', error);
+                messageDiv.textContent = 'An error occurred during login. Please try again.';
+                messageDiv.className = 'message error';
+                messageDiv.style.display = 'block';
+            } finally {
+                // Reset loading state
+                loginButton.disabled = false;
+                loginSpinner.style.display = 'none';
+                loginText.textContent = 'Sign In';
+            }
         });
         
         // Check if user is already logged in
         window.addEventListener('load', async () => {
-            // Wait for Firebase to initialize then check auth state
-            setTimeout(() => {
-                if (window.firebaseAuthHelpers?.isLoggedIn()) {
+            try {
+                const supabase = window.getSupabaseClient();
+                const { data: { session } } = await supabase.auth.getSession();
+                if (session?.user) {
                     console.log('User already logged in, redirecting...');
                     window.location.href = 'index.html';
                 }
-            }, 1000);
+            } catch (error) {
+                console.log('Session check failed:', error);
+            }
         });
     </script>    <footer class="site-footer no-print">
         <div class="footer-content">
