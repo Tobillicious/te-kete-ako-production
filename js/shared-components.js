@@ -1038,9 +1038,15 @@ class TeKeteSupabaseAuth {
         try {
             // Check if Supabase is already loaded
             if (typeof window.supabase !== 'undefined') {
-                this.supabase = window.supabase;
-                this.setupSupabase();
-                return;
+                // Use existing Supabase but create proper client with config
+                const supabaseUrl = window.ENV?.SUPABASE_URL || 'https://nlgldaqtubrlcqddppbq.supabase.co';
+                const supabaseKey = window.ENV?.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+                
+                if (supabaseUrl && supabaseKey) {
+                    this.supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+                    this.setupSupabase();
+                    return;
+                }
             }
             
             // Load Supabase SDK dynamically if not present
