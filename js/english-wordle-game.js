@@ -9,60 +9,68 @@ class EnglishWordleGame {
         
         // Common 5-letter English words for educational purposes
         this.wordList = [
-            'ABOUT', 'ABOVE', 'ABUSE', 'ACTOR', 'ACUTE', 'ADMIT', 'ADOPT', 'ADULT', 'AFTER', 'AGAIN',
-            'AGENT', 'AGREE', 'AHEAD', 'ALARM', 'ALBUM', 'ALERT', 'ALIEN', 'ALIGN', 'ALIKE', 'ALIVE',
-            'ALLOW', 'ALONE', 'ALONG', 'ALTER', 'AMONG', 'ANGER', 'ANGLE', 'ANGRY', 'APART', 'APPLE',
-            'APPLY', 'ARENA', 'ARGUE', 'ARISE', 'ARRAY', 'ASIDE', 'ASSET', 'AUDIO', 'AVOID', 'AWAKE',
-            'AWARD', 'AWARE', 'BADLY', 'BASIC', 'BEACH', 'BEGAN', 'BEGIN', 'BEING', 'BELOW', 'BENCH',
-            'BILLY', 'BIRTH', 'BLACK', 'BLAME', 'BLANK', 'BLAST', 'BLIND', 'BLOCK', 'BLOOD', 'BOARD',
-            'BOAST', 'BOOST', 'BOOTH', 'BOUND', 'BRAIN', 'BRAND', 'BRASS', 'BRAVE', 'BREAD', 'BREAK',
-            'BREED', 'BRIEF', 'BRING', 'BROAD', 'BROKE', 'BROWN', 'BUILD', 'BUILT', 'BURST', 'BUYER',
-            'CABLE', 'CARRY', 'CATCH', 'CAUSE', 'CHAIN', 'CHAIR', 'CHAOS', 'CHARM', 'CHART', 'CHASE',
-            'CHEAP', 'CHECK', 'CHEST', 'CHILD', 'CHINA', 'CHOSE', 'CIVIL', 'CLAIM', 'CLASS', 'CLEAN',
-            'CLEAR', 'CLICK', 'CLIMB', 'CLOCK', 'CLOSE', 'CLOUD', 'COACH', 'COAST', 'COULD', 'COUNT',
-            'COURT', 'COVER', 'CRAFT', 'CRASH', 'CRAZY', 'CREAM', 'CRIME', 'CROSS', 'CROWD', 'CROWN',
-            'CRUDE', 'CURVE', 'CYCLE', 'DAILY', 'DANCE', 'DATED', 'DEALT', 'DEATH', 'DEBUT', 'DELAY',
-            'DEPTH', 'DOING', 'DOUBT', 'DOZEN', 'DRAFT', 'DRAMA', 'DRANK', 'DRAWN', 'DREAM', 'DRESS',
-            'DRILL', 'DRINK', 'DRIVE', 'DROVE', 'DYING', 'EAGER', 'EARLY', 'EARTH', 'EIGHT', 'ELITE',
-            'EMPTY', 'ENEMY', 'ENJOY', 'ENTER', 'ENTRY', 'EQUAL', 'ERROR', 'EVENT', 'EVERY', 'EXACT',
-            'EXIST', 'EXTRA', 'FAITH', 'FALSE', 'FAULT', 'FIBER', 'FIELD', 'FIFTH', 'FIFTY', 'FIGHT',
-            'FINAL', 'FIRST', 'FIXED', 'FLASH', 'FLEET', 'FLOOR', 'FLUID', 'FOCUS', 'FORCE', 'FORTH',
-            'FORTY', 'FORUM', 'FOUND', 'FRAME', 'FRANK', 'FRAUD', 'FRESH', 'FRONT', 'FROST', 'FUNNY',
-            'GHOST', 'GIANT', 'GIVEN', 'GLASS', 'GLOBE', 'GLORY', 'GOODS', 'GRACE', 'GRADE', 'GRAIN',
-            'GRAND', 'GRANT', 'GRASS', 'GRAVE', 'GREAT', 'GREEN', 'GROSS', 'GROUP', 'GROWN', 'GUARD',
-            'GUESS', 'GUEST', 'GUIDE', 'HAPPY', 'HARSH', 'HEART', 'HEAVY', 'HENCE', 'HORSE', 'HOTEL',
-            'HOUSE', 'HUMAN', 'IDEAL', 'IMAGE', 'INDEX', 'INNER', 'INPUT', 'ISSUE', 'JAPAN', 'JOINT',
-            'JUDGE', 'KNIFE', 'KNOCK', 'KNOWN', 'LABEL', 'LARGE', 'LASER', 'LATER', 'LAUGH', 'LAYER',
-            'LEARN', 'LEASE', 'LEAST', 'LEAVE', 'LEGAL', 'LEVEL', 'LIGHT', 'LIMIT', 'LIVED', 'LOCAL',
-            'LOOSE', 'LOWER', 'LUCKY', 'LUNCH', 'LYING', 'MAGIC', 'MAJOR', 'MAKER', 'MARCH', 'MATCH',
-            'MAYBE', 'MAYOR', 'MEANT', 'MEDAL', 'MEDIA', 'METAL', 'METER', 'MIGHT', 'MINOR', 'MINUS',
-            'MIXED', 'MODEL', 'MONEY', 'MONTH', 'MORAL', 'MOTOR', 'MOUNT', 'MOUSE', 'MOUTH', 'MOVED',
-            'MOVIE', 'MUSIC', 'NEEDS', 'NEVER', 'NEWLY', 'NIGHT', 'NOISE', 'NORTH', 'NOTED', 'NOVEL',
-            'NURSE', 'OCEAN', 'OFFER', 'OFTEN', 'ORDER', 'OTHER', 'OUGHT', 'PAINT', 'PANEL', 'PAPER',
-            'PARTY', 'PEACE', 'PETER', 'PHASE', 'PHONE', 'PHOTO', 'PIANO', 'PIECE', 'PILOT', 'PITCH',
-            'PLACE', 'PLAIN', 'PLANE', 'PLANT', 'PLATE', 'POINT', 'POUND', 'POWER', 'PRESS', 'PRICE',
-            'PRIDE', 'PRIME', 'PRINT', 'PRIOR', 'PRIZE', 'PROOF', 'PROUD', 'PROVE', 'QUEEN', 'QUICK',
-            'QUIET', 'QUITE', 'RADIO', 'RAISE', 'RANGE', 'RAPID', 'RATIO', 'REACH', 'READY', 'REALM',
-            'REBEL', 'REFER', 'RELAX', 'REPAY', 'REPLY', 'RIGHT', 'RIGID', 'RIVAL', 'RIVER', 'ROBOT',
-            'ROCKY', 'ROMAN', 'ROUGH', 'ROUND', 'ROUTE', 'ROYAL', 'RURAL', 'SCALE', 'SCENE', 'SCOPE',
-            'SCORE', 'SENSE', 'SERVE', 'SETUP', 'SEVEN', 'SHALL', 'SHAPE', 'SHARE', 'SHARP', 'SHEET',
-            'SHELF', 'SHELL', 'SHIFT', 'SHINE', 'SHIRT', 'SHOCK', 'SHOOT', 'SHORT', 'SHOWN', 'SIGHT',
-            'SILLY', 'SINCE', 'SIXTH', 'SIXTY', 'SIZED', 'SKILL', 'SLEEP', 'SLIDE', 'SMALL', 'SMART',
-            'SMILE', 'SMOKE', 'SNAKE', 'SNOW', 'SOLID', 'SOLVE', 'SORRY', 'SOUND', 'SOUTH', 'SPACE',
-            'SPARE', 'SPEAK', 'SPEED', 'SPEND', 'SPENT', 'SPLIT', 'SPOKE', 'SPORT', 'STAFF', 'STAGE',
-            'STAKE', 'STAND', 'START', 'STATE', 'STEAM', 'STEEL', 'STEEP', 'STICK', 'STILL', 'STOCK',
-            'STONE', 'STOOD', 'STORE', 'STORM', 'STORY', 'STRIP', 'STUCK', 'STUDY', 'STUFF', 'STYLE',
-            'SUGAR', 'SUITE', 'SUPER', 'SWEET', 'SWIFT', 'SWING', 'SWORD', 'TABLE', 'TAKEN', 'TASTE',
-            'TAXES', 'TEACH', 'TEAMS', 'TEETH', 'TEMPO', 'TENDS', 'TERMS', 'TESTS', 'THANK', 'THEFT',
-            'THEIR', 'THEME', 'THERE', 'THESE', 'THICK', 'THING', 'THINK', 'THIRD', 'THOSE', 'THREE',
-            'THREW', 'THROW', 'THUMB', 'TIGHT', 'TILED', 'TIMER', 'TIMES', 'TIRED', 'TITLE', 'TODAY',
-            'TOKEN', 'TOTAL', 'TOUCH', 'TOUGH', 'TOWER', 'TRACK', 'TRADE', 'TRAIN', 'TREAT', 'TREND',
-            'TRIAL', 'TRIBE', 'TRICK', 'TRIED', 'TRIES', 'TRULY', 'TRUNK', 'TRUST', 'TRUTH', 'TWICE',
-            'TWIST', 'TYPED', 'UNDER', 'UNDUE', 'UNION', 'UNITY', 'UNTIL', 'UPPER', 'UPSET', 'URBAN',
-            'USAGE', 'USUAL', 'VALUE', 'VIDEO', 'VIRUS', 'VISIT', 'VITAL', 'VOCAL', 'VOICE', 'WASTE',
-            'WATCH', 'WATER', 'WHEEL', 'WHERE', 'WHICH', 'WHILE', 'WHITE', 'WHOLE', 'WHOSE', 'WOMAN',
-            'WOMEN', 'WORLD', 'WORRY', 'WORSE', 'WORST', 'WORTH', 'WOULD', 'WRITE', 'WRONG', 'WROTE',
-            'YOUNG', 'YOUTH'
+            'ERUPT', 'ESSAY', 'ETHER', 'ETHIC', 'ETHOS', 'ETHYL', 'ETUDE', 'EUROS', 'EVADE', 'EVENS', 
+            'EVENT', 'EVERY', 'EVICT', 'EVILS', 'EVOKE', 'EWERS', 'EXACT', 'EXALT', 'EXAMS', 'EXCEL', 
+            'EXECS', 'EXERT', 'EXILE', 'EXIST', 'EXITS', 'EXPAT', 'EXPEL', 'EXPOS', 'EXTOL', 'EXTRA', 
+            'EXUDE', 'EXULT', 'EXURB', 'EYING', 'EYRIE', 'FABLE', 'FACED', 'FACER', 'FACES', 'FACET', 
+            'FACIA', 'FACTS', 'FADED', 'FADER', 'FADES', 'FAERY', 'FAILS', 'FAINT', 'FAIRS', 'FAIRY', 
+            'FAITH', 'FAKED', 'FAKER', 'FAKES', 'FAKIE', 'FAKIR', 'FALLS', 'FAMED', 'FANCY', 'FANGS', 
+            'FANNY', 'FARCE', 'FARED', 'FARES', 'FARMS', 'FARTS', 'FASTS', 'FATAL', 'FATED', 'FATES', 
+            'FATSO', 'FATTY', 'FATWA', 'FAULT', 'FAUNA', 'FAUNS', 'FAVAS', 'FAVES', 'FAVOR', 'FAWNS', 
+            'FAXED', 'FAXES', 'FAZED', 'FAZES', 'FEARS', 'FEAST', 'FEATS', 'FECAL', 'FECES', 'FEEDS', 
+            'FEELS', 'FEIGN', 'FEINT', 'FELLA', 'FELLS', 'FELON', 'FELTS', 'FEMME', 'FEMUR', 'FENCE', 
+            'FENDS', 'FERAL', 'FERIA', 'FERNS', 'FERNY', 'FERRY', 'FESTS', 'FETAL', 'FETCH', 'FETED', 
+            'FETES', 'FETID', 'FETUS', 'FEUDS', 'FEVER', 'FEWER', 'FIATS', 'FIBER', 'FIBRE', 'FICHE', 
+            'FICUS', 'FIEFS', 'FIELD', 'FIEND', 'FIERY', 'FIFES', 'FIFTH', 'FIFTY', 'FIGHT', 'FILCH', 
+            'FILED', 'FILER', 'FILES', 'FILET', 'FILLS', 'FILLY', 'FILMS', 'FILMY', 'FILTH', 'FINAL', 
+            'FINCA', 'FINCH', 'FINDS', 'FINED', 'FINER', 'FINES', 'FINIS', 'FINKS', 'FIORD', 'FIRED', 
+            'FIRES', 'FIRMS', 'FIRST', 'FISHY', 'FISTS', 'FITLY', 'FIVER', 'FIVES', 'FIXED', 'FIXER', 
+            'FIXES', 'FIZZY', 'FJORD', 'FLACK', 'FLAGS', 'FLAIL', 'FLAIR', 'FLAKE', 'FLAKY', 'FLAME', 
+            'FLANK', 'FLANS', 'FLAPS', 'FLARE', 'FLASH', 'FLASK', 'FLATS', 'FLAWS', 'FLAYS', 'FLEAS', 
+            'FLECK', 'FLEES', 'FLEET', 'FLESH', 'FLICK', 'FLIER', 'FLIES', 'FLING', 'FLOAT', 'FLOOD', 
+            'FLOOR', 'FLOUR', 'FLOWN', 'FLOWS', 'FLUID', 'FLYER', 'FOCAL', 'FOCUS', 'FOLKS', 'FONTS', 
+            'FOODS', 'FORCE', 'FORMS', 'FORTH', 'FORTY', 'FORUM', 'FOUND', 'FRAME', 'FRAUD', 'FRESH', 
+            'FRIED', 'FRIES', 'FRONT', 'FROST', 'FRUIT', 'FUELS', 'FULLY', 'FUNDS', 'FUNNY', 'GAINS', 
+            'GAMES', 'GAMMA', 'GASES', 'GATES', 'GAUGE', 'GEARS', 'GENES', 'GENRE', 'GHOST', 'GIANT', 
+            'GIFTS', 'GIRLS', 'GIVEN', 'GIVES', 'GLAND', 'GLASS', 'GLOBE', 'GLORY', 'GLOSS', 'GLOVE', 
+            'GLUED', 'GOALS', 'GOATS', 'GOING', 'GOODS', 'GRACE', 'GRADE', 'GRAIN', 'GRAMS', 'GRAND', 
+            'GRANT', 'GRAPE', 'GRAPH', 'GRASP', 'GRASS', 'GRAVE', 'GREAT', 'GREEK', 'GREEN', 'GREET', 
+            'GRIEF', 'GRILL', 'GRIND', 'GRIPS', 'GROSS', 'GROUP', 'GROVE', 'GROWN', 'GROWS', 'GUARD', 
+            'GUESS', 'GUEST', 'GUIDE', 'GUILD', 'GUILT', 'HABIT', 'HAIRS', 'HALLS', 'HANDS', 'HANDY', 
+            'HANGS', 'HAPPY', 'HARSH', 'HATED', 'HATES', 'HAVEN', 'HAWKS', 'HEADS', 'HEARD', 'HEART', 
+            'HEAVY', 'HEDGE', 'HEELS', 'HELLO', 'HELPS', 'HENCE', 'HERBS', 'HIGHS', 'HILLS', 'HINTS', 
+            'HIRED', 'HOBBY', 'HOLDS', 'HOLES', 'HOLLY', 'HOMES', 'HONEY', 'HONOR', 'HOOKS', 'HOPED', 
+            'HOPES', 'HORNS', 'HORSE', 'HOSTS', 'HOTEL', 'HOURS', 'HOUSE', 'HOVER', 'HUMAN', 'HUMOR', 
+            'XENIC', 'XENON', 'XERIC', 'XEROX', 'XERUS', 'XOANA', 'XRAYS', 'XYLAN', 'XYLEM', 'XYLIC', 
+            'XYLOL', 'XYLYL', 'XYSTI', 'XYSTS', 'YAARS', 'YABAS', 'YABBA', 'YABBY', 'YACCA', 'YACHT', 
+            'YACKA', 'YACKS', 'YAFFS', 'YAGER', 'YAGES', 'YAGIS', 'YAHOO', 'YAIRD', 'YAKKA', 'YAKOW', 
+            'YALES', 'YAMEN', 'YAMPY', 'YAMUN', 'YANGS', 'YANKS', 'YAPOK', 'YAPON', 'YAPPS', 'YAPPY', 
+            'YARAK', 'YARCO', 'YARDS', 'YARER', 'YARFA', 'YARKS', 'YARNS', 'YARRS', 'YARTA', 'YARTO', 
+            'YATES', 'YAUDS', 'YAULD', 'YAUPS', 'YAWED', 'YAWEY', 'YAWLS', 'YAWNS', 'YAWNY', 'YAWPS', 
+            'YBORE', 'YCLAD', 'YCLED', 'YCOND', 'YDRAD', 'YDRED', 'YEADS', 'YEAHS', 'YEALM', 'YEANS', 
+            'YEARD', 'YEARN', 'YEARS', 'YEAST', 'YECCH', 'YECHS', 'YECHY', 'YEDES', 'YEEDS', 'YEESH', 
+            'YEGGS', 'YELKS', 'YELLS', 'YELMS', 'YELPS', 'YELTS', 'YENTA', 'YENTE', 'YERBA', 'YERDS', 
+            'YERKS', 'YESES', 'YESKS', 'YESTS', 'YESTY', 'YETIS', 'YETTS', 'YEUKS', 'YEUKY', 'YEVEN', 
+            'YEVES', 'YEWEN', 'YEXED', 'YEXES', 'YFERE', 'YIELD', 'YIKED', 'YIKES', 'YILLS', 'YINCE', 
+            'YIPES', 'YIPPY', 'YIRDS', 'YIRKS', 'YIRRS', 'YIRTH', 'YITES', 'YITIE', 'YLEMS', 'YLIKE', 
+            'YLKES', 'YMOLT', 'YMPES', 'YOBBO', 'YOBBY', 'YOCKS', 'YODEL', 'YODHS', 'YODLE', 'YOGAS', 
+            'YOGEE', 'YOGHS', 'YOGIC', 'YOGIN', 'YOGIS', 'YOICK', 'YOJAN', 'YOKED', 'YOKEL', 'YOKER', 
+            'YOKES', 'YOKUL', 'YOLKS', 'YOLKY', 'YOMIM', 'YOMPS', 'YONIC', 'YONIS', 'YONKS', 'YOOFS', 
+            'YOOPS', 'YORES', 'YORKS', 'YORPS', 'YOUKS', 'YOUNG', 'YOURN', 'YOURS', 'YOURT', 'YOUSE', 
+            'YOUTH', 'YOWED', 'YOWES', 'YOWIE', 'YOWLS', 'YOWZA', 'YRAPT', 'YRENT', 'YRIVD', 'YRNEH', 
+            'YSAME', 'YTOST', 'YUANS', 'YUCAS', 'YUCCA', 'YUCCH', 'YUCKO', 'YUCKS', 'YUCKY', 'YUFTS', 
+            'YUGAS', 'YUKED', 'YUKES', 'YUKKY', 'YUKOS', 'YULAN', 'YULES', 'YUMMO', 'YUMMY', 'YUMPS', 
+            'YUPON', 'YUPPY', 'YURTA', 'YURTS', 'YUZUS', 'ZABRA', 'ZACKS', 'ZAIDA', 'ZAIDY', 'ZAIRE', 
+            'ZAKAT', 'ZAMAN', 'ZAMBO', 'ZAMIA', 'ZANJA', 'ZANTE', 'ZANZA', 'ZANZE', 'ZAPPY', 'ZARFS', 
+            'ZARIS', 'ZATIS', 'ZAXES', 'ZAYIN', 'ZAZEN', 'ZEALS', 'ZEBEC', 'ZEBRA', 'ZEBUB', 'ZEBUS', 
+            'ZEDAS', 'ZEINS', 'ZENDO', 'ZERDA', 'ZERKS', 'ZEROS', 'ZESTS', 'ZESTY', 'ZETAS', 'ZEXES', 
+            'ZEZES', 'ZHOMO', 'ZIBET', 'ZIFFS', 'ZIGAN', 'ZILAS', 'ZILCH', 'ZILLA', 'ZILLS', 'ZIMBI', 
+            'ZIMBS', 'ZINCO', 'ZINCS', 'ZINCY', 'ZINEB', 'ZINES', 'ZINGS', 'ZINGY', 'ZINKE', 'ZINKY', 
+            'ZIPPO', 'ZIPPY', 'ZIRAM', 'ZITIS', 'ZIZEL', 'ZIZIT', 'ZLOTE', 'ZLOTY', 'ZOAEA', 'ZOBOS', 
+            'ZOBUS', 'ZOCCO', 'ZOEAE', 'ZOEAL', 'ZOEAS', 'ZOISM', 'ZOIST', 'ZOMBI', 'ZONAE', 'ZONAL', 
+            'ZONDA', 'ZONED', 'ZONER', 'ZONES', 'ZONKS', 'ZOOEA', 'ZOOEY', 'ZOOID', 'ZOOKS', 'ZOOMS', 
+            'ZOONS', 'ZOOTY', 'ZOPPA', 'ZOPPO', 'ZORIL', 'ZORIS', 'ZORRO', 'ZOUKS', 'ZOWEE', 'ZOWIE', 
+            'ZULUS', 'ZUPAN', 'ZUPAS', 'ZUPPA', 'ZURFS', 'ZUZIM', 'ZYGAL', 'ZYGON', 'ZYMES', 'ZYMIC'
         ];
         
         // Word definitions
@@ -818,13 +826,25 @@ class EnglishWordleGame {
         }
     }
     
-    showWordDefinition() {
+    async showWordDefinition() {
         const definitionDiv = document.getElementById('word-definition');
         const definitionText = document.getElementById('definition-text');
-        
-        const definition = this.definitions[this.targetWord] || 'Definition not available.';
-        definitionText.innerHTML = `<strong>${this.targetWord}:</strong> ${definition}`;
-        definitionDiv.style.display = 'block';
+
+        try {
+            const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${this.targetWord}`);
+            if (!response.ok) {
+                throw new Error('Definition not found');
+            }
+            const data = await response.json();
+            const definition = data[0]?.meanings[0]?.definitions[0]?.definition || 'Definition not available.';
+            definitionText.innerHTML = `<strong>${this.targetWord}:</strong> ${definition}`;
+        } catch (error) {
+            console.error('Error fetching definition:', error);
+            const definition = this.definitions[this.targetWord] || 'Definition not available.';
+            definitionText.innerHTML = `<strong>${this.targetWord}:</strong> ${definition}`;
+        } finally {
+            definitionDiv.style.display = 'block';
+        }
     }
     
     showMessage(text, type) {
