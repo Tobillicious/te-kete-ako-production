@@ -22,14 +22,26 @@ Error: HTTPStatusError: Server error '500 Internal Server Error'
 Exception: gotrue.errors.AuthApiError: Database error saving new user
 ```
 
-## Required Fix
-**This needs manual Supabase dashboard intervention:**
+## ACTUAL PROBLEM IDENTIFIED
+**Row Level Security (RLS) is blocking profile creation during signup**
 
-1. Go to Supabase dashboard → `nlgldaqtubrlcqddppbq` project
-2. Check **Authentication** → **Settings**
-3. Check **Database** → **Extensions** (ensure auth extensions enabled)
-4. Check **Database** → **Tables** (ensure auth.users table exists)
-5. Check **Authentication** → **Policies** (RLS may be blocking)
+The trigger tries to insert into `profiles` table but RLS policies reject it.
+
+## SIMPLE FIX - Run this SQL in Supabase:
+```sql
+-- Allow the signup trigger to work
+CREATE POLICY "Allow signup trigger" ON public.profiles
+  FOR INSERT WITH CHECK (true);
+
+-- Allow users to manage their own profiles  
+CREATE POLICY "Users can view own profile" ON public.profiles
+  FOR SELECT USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can update own profile" ON public.profiles  
+  FOR UPDATE USING (auth.uid() = user_id);
+```
+
+**OR use the complete fix in `AUTHENTICATION_SIMPLE_FIX.sql`**
 
 ## For Next Agent
 **DO NOT** assume authentication works just because:
