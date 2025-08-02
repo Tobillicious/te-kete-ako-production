@@ -75,12 +75,12 @@ def main():
         # Add keyword results
         for result in results.get('keyword_results', []):
             formatted_results.append({
-                'id': result['id'],
-                'title': result['title'],
-                'type': result['type'],
-                'path': result['path'],
-                'similarity': result['similarity'],
-                'cultural_level': result.get('cultural_level', 'unknown'),
+                'id': result.get('id', result.get('path', 'unknown')),
+                'title': result.get('title', 'Unknown Resource'),
+                'type': result.get('type', 'resource'),
+                'path': result.get('path', result.get('id', 'unknown')),
+                'similarity': result.get('similarity', 0.0),
+                'cultural_level': result.get('cultural_level', 'unknown'), 
                 'subject_areas': result.get('subject_areas', [])
             })
         
