@@ -229,18 +229,11 @@
         </main>
     </div>
 
-    <!-- Firebase Authentication -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="js/firebase-config.js"></script>
-    <script src="js/global-feedback.js"></script>
-    <!-- Auth UI -->
-    <script src="js/auth-ui.js"></script>
-    
-    <!-- Load main functionality -->
+    <!-- Load main functionality and authentication -->
     <script src="js/main.js"></script>
+    
     <script>
-        // Registration form handling with Simple Auth
+        // Registration form handling with Supabase Auth
         document.getElementById('register-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -259,18 +252,29 @@
             messageDiv.style.display = 'none';
             
             try {
-                // Use Firebase for registration - DEPLOYMENT TEST
-                console.log('Starting Firebase registration with deployed update...');
+                console.log('Starting Supabase registration...');
                 
-                const result = await window.firebaseAuthHelpers.signUpWithEmail(email, password);
+                // Get Supabase client from shared components
+                const supabase = window.getSupabaseClient();
                 
-                if (result.user && !result.error) {
-                    // Update user profile with display name
-                    await result.user.updateProfile({
-                        displayName: name
-                    });
-                    
-                    console.log('Registration successful:', result.user.email);
+                const { data, error } = await supabase.auth.signUp({
+                    email: email,
+                    password: password,
+                    options: {
+                        data: {
+                            full_name: name,
+                            display_name: name
+                        }
+                    }
+                });
+                
+                if (error) {
+                    console.error('Registration failed:', error);
+                    messageDiv.textContent = error.message || 'Registration failed. Please try again.';
+                    messageDiv.className = 'message error';
+                    messageDiv.style.display = 'block';
+                } else if (data.user) {
+                    console.log('Registration successful:', data.user.email);
                     messageDiv.textContent = 'Registration successful! You are now logged in. Redirecting...';
                     messageDiv.className = 'message success';
                     messageDiv.style.display = 'block';
@@ -280,13 +284,8 @@
                     setTimeout(() => {
                         window.location.href = 'index.html';
                     }, 1500);
-                    
-                } else {
-                    console.error('Registration failed:', result.error);
-                    messageDiv.textContent = result.error || 'Registration failed. Please try again.';
-                    messageDiv.className = 'message error';
-                    messageDiv.style.display = 'block';
                 }
+                
             } catch (error) {
                 console.error('Registration error:', error);
                 messageDiv.textContent = 'An error occurred during registration. Please try again.';
@@ -302,13 +301,15 @@
         
         // Check if user is already logged in
         window.addEventListener('load', async () => {
-            const supabaseUrl = window.ENV?.SUPABASE_URL || 'ENVIRONMENT_VARIABLE_REQUIRED';
-            const supabaseKey = window.ENV?.SUPABASE_ANON_KEY || 'ENVIRONMENT_VARIABLE_REQUIRED';
-            const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-            const { data: { session } } = await supabase.auth.getSession();
-            if (session?.user) {
-                // User is already logged in, redirect to homepage
-                window.location.href = 'index.html';
+            try {
+                const supabase = window.getSupabaseClient();
+                const { data: { session } } = await supabase.auth.getSession();
+                if (session?.user) {
+                    // User is already logged in, redirect to homepage
+                    window.location.href = 'index.html';
+                }
+            } catch (error) {
+                console.log('Session check failed:', error);
             }
         });
     </script>    <footer class="site-footer no-print">
