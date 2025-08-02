@@ -69,6 +69,10 @@ def main():
         with contextlib.redirect_stdout(f):
             results = system.contextual_recommendations(query)
         
+        # Handle case where results is None
+        if results is None:
+            results = {'keyword_results': [], 'related_resources': []}
+        
         # Format results to match Supabase structure
         formatted_results = []
         
