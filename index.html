@@ -17,7 +17,16 @@
     <meta name="apple-mobile-web-app-title" content="Te Kete Ako">
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
 </head>
-<body data-auto-init="true" data-current-page="home">
+<body>
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display: none;">
+        <defs>
+            <filter id="gooey">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
+                <feBlend in="SourceGraphic" in2="goo" />
+            </filter>
+        </defs>
+    </svg>
 
         <header class="site-header no-print">
         <div class="nav-container">
@@ -413,6 +422,7 @@
     
     <!-- Load supporting components -->
     <script src="js/shared-components.js"></script>
+    <script src="js/gooey-nav.js"></script>
     <script src="js/footer.js"></script>
     <script src="js/advanced-search.js"></script>
     <script src="js/analytics-dashboard.js"></script>

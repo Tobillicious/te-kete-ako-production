@@ -213,7 +213,10 @@
     </div>
 
     <!-- Supabase Authentication -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <!-- Firebase Authentication -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
     <!-- Global Feedback System -->
     <script src="js/global-feedback.js"></script>
     <!-- Auth UI -->
@@ -235,19 +238,15 @@
                     const email = formData.get('email');
                     const password = formData.get('password');
                     
-                    // Use Supabase for authentication
-                    const supabaseUrl = window.ENV?.SUPABASE_URL || 'ENVIRONMENT_VARIABLE_REQUIRED';
-                    const supabaseKey = window.ENV?.SUPABASE_ANON_KEY || 'ENVIRONMENT_VARIABLE_REQUIRED';
-                    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-                    const { data, error } = await supabase.auth.signInWithPassword({
-                        email: email,
-                        password: password
-                    });
-                    const user = data?.user;
+                    // Use Firebase for authentication
+                    console.log('Starting Firebase login...');
+                    const result = await window.firebaseAuthHelpers.signInWithEmail(email, password);
                     
-                    if (error) {
-                        throw new Error(error);
+                    if (result.error) {
+                        throw new Error(result.error);
                     }
+                    
+                    console.log('Login successful:', result.user.email);
                     
                     // Success - redirect to my kete
                     setTimeout(() => {
@@ -266,14 +265,13 @@
         
         // Check if user is already logged in
         window.addEventListener('load', async () => {
-            const supabaseUrl = window.ENV?.SUPABASE_URL || 'ENVIRONMENT_VARIABLE_REQUIRED';
-            const supabaseKey = window.ENV?.SUPABASE_ANON_KEY || 'ENVIRONMENT_VARIABLE_REQUIRED';
-            const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-            const { data: { session } } = await supabase.auth.getSession();
-            if (session?.user) {
-                // User is already logged in, redirect to homepage
-                window.location.href = 'index.html';
-            }
+            // Wait for Firebase to initialize then check auth state
+            setTimeout(() => {
+                if (window.firebaseAuthHelpers?.isLoggedIn()) {
+                    console.log('User already logged in, redirecting...');
+                    window.location.href = 'index.html';
+                }
+            }, 1000);
         });
     </script>    <footer class="site-footer no-print">
         <div class="footer-content">
