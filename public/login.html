@@ -176,15 +176,16 @@
                 <h1 style="text-align: center; color: var(--color-primary); margin-bottom: 1.5rem;">Welcome Back to Te Kete Ako</h1>
                 <p style="text-align: center; color: var(--color-text-secondary); margin-bottom: 1rem;">Sign in to access your personalized learning dashboard</p>
                 
-                <!-- Supabase Auth Info -->
+                <!-- Firebase Auth Info -->
                 <div style="background: #e8f5e8; border: 1px solid #4CAF50; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; font-size: 0.9rem;">
-                    <h4 style="margin: 0 0 0.5rem 0; color: #2E7D32;">🔐 Secure Supabase Authentication</h4>
-                    <p style="margin: 0.25rem 0; color: #555;">✅ Reliable Supabase Auth with educational profiles</p>
+                    <h4 style="margin: 0 0 0.5rem 0; color: #2E7D32;">🔥 Secure Firebase Authentication</h4>
+                    <p style="margin: 0.25rem 0; color: #555;">✅ Reliable Firebase Auth with email verification</p>
                     <p style="margin: 0.25rem 0; color: #555;">✅ Create your account or sign in with existing credentials</p>
-                    <p style="margin: 0.25rem 0; color: #555;">✅ Secure access to all 163+ educational resources</p>
+                    <p style="margin: 0.25rem 0; color: #555;">✅ Secure access to all educational resources + GRAPHRAG</p>
                 </div>
                 
-                <div id="login-message" class="message" style="display: none;"></div>
+                <div id="error-message" class="message error" style="display: none;"></div>
+                <div id="success-message" class="message success" style="display: none;"></div>
                 
                 <form id="login-form" class="auth-form">
                     <div class="form-group">
@@ -197,9 +198,8 @@
                         <input type="password" id="password" name="password" required placeholder="Enter your password">
                     </div>
                     
-                    <button type="submit" class="auth-button" id="login-button">
-                        <div class="loading-spinner" id="login-spinner"></div>
-                        <span id="login-text">Sign In</span>
+                    <button type="submit" class="auth-button" id="login-btn">
+                        Sign In
                     </button>
                 </form>
                 
@@ -212,83 +212,8 @@
         </main>
     </div>
 
-    <!-- Load main functionality and authentication -->
-    <script src="js/main.js"></script>
-    
-    <script>
-        // Login form handling with Supabase Auth
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const messageDiv = document.getElementById('login-message');
-            const loginButton = document.getElementById('login-button');
-            const loginSpinner = document.getElementById('login-spinner');
-            const loginText = document.getElementById('login-text');
-            
-            // Show loading state
-            loginButton.disabled = true;
-            loginSpinner.style.display = 'inline-block';
-            loginText.textContent = 'Signing in...';
-            messageDiv.style.display = 'none';
-            
-            try {
-                console.log('Starting Supabase login...');
-                
-                // Get Supabase client from shared components  
-                const supabase = window.getSupabaseClient();
-                
-                const { data, error } = await supabase.auth.signInWithPassword({
-                    email: email,
-                    password: password
-                });
-                
-                if (error) {
-                    console.error('Login failed:', error);
-                    messageDiv.textContent = error.message || 'Login failed. Please check your email and password.';
-                    messageDiv.className = 'message error';
-                    messageDiv.style.display = 'block';
-                } else if (data.user) {
-                    console.log('Login successful:', data.user.email);
-                    messageDiv.textContent = 'Kia ora! Welcome back. Redirecting to your kete...';
-                    messageDiv.className = 'message success';  
-                    messageDiv.style.display = 'block';
-                    
-                    // Clear form and redirect to my kete
-                    document.getElementById('login-form').reset();
-                    setTimeout(() => {
-                        window.location.href = 'my-kete.html';
-                    }, 1000);
-                }
-                
-            } catch (error) {
-                console.error('Login error:', error);
-                messageDiv.textContent = 'An error occurred during login. Please try again.';
-                messageDiv.className = 'message error';
-                messageDiv.style.display = 'block';
-            } finally {
-                // Reset loading state
-                loginButton.disabled = false;
-                loginSpinner.style.display = 'none';
-                loginText.textContent = 'Sign In';
-            }
-        });
-        
-        // Check if user is already logged in
-        window.addEventListener('load', async () => {
-            try {
-                const supabase = window.getSupabaseClient();
-                const { data: { session } } = await supabase.auth.getSession();
-                if (session?.user) {
-                    console.log('User already logged in, redirecting...');
-                    window.location.href = 'index.html';
-                }
-            } catch (error) {
-                console.log('Session check failed:', error);
-            }
-        });
-    </script>    <footer class="site-footer no-print">
+    <!-- Load Firebase Authentication -->
+    <script type="module" src="js/firebase-auth.js"></script>    <footer class="site-footer no-print">
         <div class="footer-content">
             <div class="footer-simple">
                 <div class="footer-brand">

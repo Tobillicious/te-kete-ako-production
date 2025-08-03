@@ -31,14 +31,14 @@
             font-weight: bold;
             color: var(--color-primary);
         }
-        .form-group input {
+        .form-group input, .form-group select {
             padding: 0.75rem;
             border: 2px solid #e1e5e9;
             border-radius: 8px;
             font-size: 1rem;
             transition: border-color 0.3s ease;
         }
-        .form-group input:focus {
+        .form-group input:focus, .form-group select:focus {
             outline: none;
             border-color: var(--color-secondary);
         }
@@ -193,12 +193,13 @@
                     <p style="color: var(--color-primary); font-weight: 500;">Create your account to access personalized learning features and save your progress</p>
                 </div>
                 
-                <div id="register-message" class="message" style="display: none;"></div>
+                <div id="error-message" class="message error" style="display: none;"></div>
+                <div id="success-message" class="message success" style="display: none;"></div>
                 
                 <form id="register-form" class="auth-form">
                     <div class="form-group">
-                        <label for="name">Full Name:</label>
-                        <input type="text" id="name" name="name" required placeholder="Your full name">
+                        <label for="display-name">Full Name:</label>
+                        <input type="text" id="display-name" name="display-name" required placeholder="Your full name">
                     </div>
                     
                     <div class="form-group">
@@ -219,9 +220,13 @@
                         <input type="password" id="password" name="password" required placeholder="Create a secure password" minlength="6">
                     </div>
                     
-                    <button type="submit" class="auth-button" id="register-button">
-                        <div class="loading-spinner" id="register-spinner"></div>
-                        <span id="register-text">Create Account</span>
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm Password:</label>
+                        <input type="password" id="confirm-password" name="confirm-password" required placeholder="Confirm your password" minlength="6">
+                    </div>
+                    
+                    <button type="submit" class="auth-button" id="signup-btn">
+                        Create Account
                     </button>
                 </form>
                 
@@ -233,93 +238,8 @@
         </main>
     </div>
 
-    <!-- Load main functionality and authentication -->
-    <script src="js/main.js"></script>
-    
-    <script>
-        // Registration form handling with Supabase Auth
-        document.getElementById('register-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const name = document.getElementById('name').value;
-            const role = document.getElementById('role').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const messageDiv = document.getElementById('register-message');
-            const registerButton = document.getElementById('register-button');
-            const registerSpinner = document.getElementById('register-spinner');
-            const registerText = document.getElementById('register-text');
-            
-            // Show loading state
-            registerButton.disabled = true;
-            registerSpinner.style.display = 'inline-block';
-            registerText.textContent = 'Creating account...';
-            messageDiv.style.display = 'none';
-            
-            try {
-                console.log('Starting Supabase registration...');
-                
-                // Get Supabase client from shared components
-                const supabase = window.getSupabaseClient();
-                
-                const { data, error } = await supabase.auth.signUp({
-                    email: email,
-                    password: password,
-                    options: {
-                        data: {
-                            full_name: name,
-                            display_name: name,
-                            role: role,
-                            account_type: role
-                        }
-                    }
-                });
-                
-                if (error) {
-                    console.error('Registration failed:', error);
-                    messageDiv.textContent = error.message || 'Registration failed. Please try again.';
-                    messageDiv.className = 'message error';
-                    messageDiv.style.display = 'block';
-                } else if (data.user) {
-                    console.log('Registration successful:', data.user.email);
-                    messageDiv.textContent = 'Registration successful! You are now logged in. Redirecting...';
-                    messageDiv.className = 'message success';
-                    messageDiv.style.display = 'block';
-                    
-                    // Clear form and redirect to homepage
-                    document.getElementById('register-form').reset();
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 1500);
-                }
-                
-            } catch (error) {
-                console.error('Registration error:', error);
-                messageDiv.textContent = 'An error occurred during registration. Please try again.';
-                messageDiv.className = 'message error';
-                messageDiv.style.display = 'block';
-            } finally {
-                // Reset loading state
-                registerButton.disabled = false;
-                registerSpinner.style.display = 'none';
-                registerText.textContent = 'Create Account';
-            }
-        });
-        
-        // Check if user is already logged in
-        window.addEventListener('load', async () => {
-            try {
-                const supabase = window.getSupabaseClient();
-                const { data: { session } } = await supabase.auth.getSession();
-                if (session?.user) {
-                    // User is already logged in, redirect to homepage
-                    window.location.href = 'index.html';
-                }
-            } catch (error) {
-                console.log('Session check failed:', error);
-            }
-        });
-    </script>    <footer class="site-footer no-print">
+    <!-- Load Firebase Authentication -->
+    <script type="module" src="js/firebase-auth.js"></script>    <footer class="site-footer no-print">
         <div class="footer-content">
             <div class="footer-simple">
                 <div class="footer-brand">
