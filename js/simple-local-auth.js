@@ -14,30 +14,9 @@ class SimpleAuth {
             return JSON.parse(stored);
         }
         
-        // Default demo users
-        const defaultUsers = {
-            'teacher@tekete.nz': {
-                email: 'teacher@tekete.nz',
-                password: 'password123',
-                name: 'Demo Teacher',
-                role: 'teacher',
-                created: new Date().toISOString()
-            },
-            'admin@tekete.nz': {
-                email: 'admin@tekete.nz', 
-                password: 'admin123',
-                name: 'Demo Admin',
-                role: 'admin',
-                created: new Date().toISOString()
-            },
-            'student@tekete.nz': {
-                email: 'student@tekete.nz',
-                password: 'student123', 
-                name: 'Demo Student',
-                role: 'student',
-                created: new Date().toISOString()
-            }
-        };
+        // Production authentication - no hardcoded demo users
+        // Users will be created through proper registration process
+        const defaultUsers = {};
         
         this.saveUsers(defaultUsers);
         return defaultUsers;
@@ -266,6 +245,6 @@ window.supabase = {
 
 console.log('Simple Local Auth System initialized successfully');
 console.log('Demo accounts available:');
-console.log('- teacher@tekete.nz / password123');
-console.log('- admin@tekete.nz / admin123');
-console.log('- student@tekete.nz / student123');
+console.log('- Create new accounts using the registration page');
+console.log('- Authentication system is ready for production use');
+console.log('- Ready to accept new user registrations');

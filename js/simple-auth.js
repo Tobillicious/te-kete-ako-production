@@ -4,66 +4,86 @@
 class SimpleAuth {
     constructor() {
         this.currentUser = null;
-        this.testUsers = [
-            { email: 'teacher@tekete.nz', password: 'password123', name: 'Test Teacher' },
-            { email: 'admin@tekete.nz', password: 'admin123', name: 'Admin User' }
-        ];
+        this.supabase = null;
         this.init();
     }
 
-    init() {
-        // Check if user is stored in localStorage
-        const storedUser = localStorage.getItem('tekete_user');
-        if (storedUser) {
-            this.currentUser = JSON.parse(storedUser);
-            this.updateUI();
+    async init() {
+        try {
+            // Wait for Supabase client to be available
+            await this.waitForSupabase();
+            
+            // Check current session
+            const { data: { session } } = await this.supabase.auth.getSession();
+            if (session?.user) {
+                this.currentUser = session.user;
+                this.updateUI();
+            }
+            
+            // Listen for auth state changes
+            this.supabase.auth.onAuthStateChange((event, session) => {
+                this.currentUser = session?.user || null;
+                this.updateUI();
+            });
+            
+            console.log('Unified Supabase Auth initialized');
+        } catch (error) {
+            console.error('Auth initialization failed:', error);
         }
-        console.log('Simple Auth initialized');
     }
 
     async login(email, password) {
-        // Check against test users
-        const user = this.testUsers.find(u => u.email === email && u.password === password);
-        
-        if (user) {
-            this.currentUser = {
-                email: user.email,
-                name: user.name,
-                id: user.email.replace('@', '_').replace('.', '_')
-            };
+        try {
+            const { data, error } = await this.supabase.auth.signInWithPassword({
+                email,
+                password
+            });
             
-            // Store in localStorage
-            localStorage.setItem('tekete_user', JSON.stringify(this.currentUser));
-            this.updateUI();
-            return { success: true, user: this.currentUser };
-        } else {
-            return { success: false, error: 'Invalid email or password' };
+            if (error) {
+                return { success: false, error: error.message };
+            }
+            
+            return { success: true, user: data.user };
+        } catch (error) {
+            return { success: false, error: 'Login failed. Please try again.' };
         }
     }
 
-    async register(email, password, name) {
-        // Simple registration (in real app, this would save to database)
-        if (email && password && name) {
-            const newUser = {
-                email: email,
-                name: name,
-                id: email.replace('@', '_').replace('.', '_')
-            };
+    async register(email, password, name, role = 'student') {
+        try {
+            const { data, error } = await this.supabase.auth.signUp({
+                email,
+                password,
+                options: {
+                    data: {
+                        full_name: name,
+                        display_name: name,
+                        role: role, // 'student' or 'teacher'
+                        account_type: role
+                    }
+                }
+            });
             
-            this.currentUser = newUser;
-            localStorage.setItem('tekete_user', JSON.stringify(this.currentUser));
-            this.updateUI();
-            return { success: true, user: newUser };
-        } else {
-            return { success: false, error: 'Please fill in all fields' };
+            if (error) {
+                return { success: false, error: error.message };
+            }
+            
+            return { success: true, user: data.user };
+        } catch (error) {
+            return { success: false, error: 'Registration failed. Please try again.' };
         }
     }
 
-    logout() {
-        this.currentUser = null;
-        localStorage.removeItem('tekete_user');
-        this.updateUI();
-        return { success: true };
+    async logout() {
+        try {
+            const { error } = await this.supabase.auth.signOut();
+            if (error) {
+                return { success: false, error: error.message };
+            }
+            return { success: true };
+        } catch (error) {
+            return { success: false, error: 'Logout failed. Please try again.' };
+        }
     }
 
     isLoggedIn() {
@@ -99,7 +119,7 @@ class SimpleAuth {
                             gap: 0.5rem;
                         ">
                             <span class="nav-icon">👤</span>
-                            <span class="nav-text-en">${this.currentUser.name || this.currentUser.email.split('@')[0]}</span>
+                            <span class="nav-text-en">${this.getUserDisplayName()}</span>
                             <span style="font-size: 0.8em;">▼</span>
                         </button>
                         <div class="user-dropdown" style="
@@ -116,8 +136,8 @@ class SimpleAuth {
                             margin-top: 0.5rem;
                         ">
                             <div style="padding: 1rem; border-bottom: 1px solid #eee;">
-                                <div style="font-weight: bold; color: var(--color-primary);">${this.currentUser.name || 'User'}</div>
-                                <div style="font-size: 0.85em; color: #666;">${this.currentUser.email}</div>
+                                <div style="font-weight: bold; color: var(--color-primary);">${this.getUserDisplayName()}</div>
+                                <div style="font-size: 0.85em; color: #666;">${this.currentUser?.email}</div>
                             </div>
                             <a href="my-kete.html" style="
                                 display: block;
@@ -201,13 +221,17 @@ class SimpleAuth {
         // Logout button
         const logoutBtn = document.querySelector('.logout-btn');
         if (logoutBtn) {
-            logoutBtn.addEventListener('click', (e) => {
+            logoutBtn.addEventListener('click', async (e) => {
                 e.preventDefault();
-                this.logout();
-                this.showNotification('You have been signed out', 'info');
-                // Redirect to homepage if on protected page
-                if (window.location.pathname.includes('my-kete')) {
-                    window.location.href = 'index.html';
+                const result = await this.logout();
+                if (result.success) {
+                    this.showNotification('You have been signed out', 'info');
+                    // Redirect to homepage if on protected page
+                    if (window.location.pathname.includes('my-kete')) {
+                        window.location.href = 'index.html';
+                    }
+                } else {
+                    this.showNotification(result.error, 'error');
                 }
             });
         }
@@ -296,11 +320,82 @@ style.textContent = `
     .user-dropdown button:hover {
         background-color: #f8f9fa;
     }
+
+    // Get user display name helper
+    getUserDisplayName() {
+        if (!this.currentUser) return 'User';
+        
+        // Try user metadata first (from registration)
+        if (this.currentUser.user_metadata?.full_name) {
+            return this.currentUser.user_metadata.full_name;
+        }
+        
+        // Fallback to email prefix
+        if (this.currentUser.email) {
+            return this.currentUser.email.split('@')[0];
+        }
+        
+        return 'User';
+    }
+
+    // Wait for Supabase to be available
+    async waitForSupabase() {
+        // First check if getSupabaseClient exists (from shared-components.js)
+        if (typeof window.getSupabaseClient === 'function') {
+            this.supabase = window.getSupabaseClient();
+            return;
+        }
+        
+        // If not, wait for shared-components.js to load
+        return new Promise((resolve, reject) => {
+            const checkInterval = setInterval(() => {
+                if (typeof window.getSupabaseClient === 'function') {
+                    clearInterval(checkInterval);
+                    this.supabase = window.getSupabaseClient();
+                    resolve();
+                }
+            }, 100);
+            
+            // Timeout after 10 seconds
+            setTimeout(() => {
+                clearInterval(checkInterval);
+                
+                // Try direct Supabase if available
+                if (typeof window.supabase !== 'undefined' && window.supabase.createClient) {
+                    const url = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+                    const key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+                    this.supabase = window.supabase.createClient(url, key);
+                    resolve();
+                } else {
+                    reject(new Error('Supabase client not available'));
+                }
+            }, 10000);
+        });
+    }
+}
+
+// Add CSS for animations
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideInRight {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes slideOutRight {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+    }
+    
+    .user-dropdown a:hover,
+    .user-dropdown button:hover {
+        background-color: #f8f9fa;
+    }
 `;
 document.head.appendChild(style);
 
 // Initialize simple auth
 window.simpleAuth = new SimpleAuth();
 
-console.log('Simple Auth system loaded');
-console.log('Test accounts: teacher@tekete.nz / password123, admin@tekete.nz / admin123');
+console.log('Unified Supabase Auth system loaded');
+console.log('Authentication ready - fully integrated with Supabase');

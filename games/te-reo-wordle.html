@@ -740,22 +740,24 @@
     </footer>
 
     <script src="../js/maori-dictionary-api.js"></script>
+    <script src="../js/comprehensive-maori-dictionary.js"></script>
     <script src="../js/gamification-system.js"></script>
     <script src="../js/adaptive-difficulty-system.js"></script>
     <script>
-        // Te Reo Māori word database with meanings and cultural context
-        const MAORI_WORDS = [
-            // Basic vocabulary - everyday words
-            { word: 'AROHA', meaning: 'Love, compassion, empathy', example: 'Aroha atu ki a koe - Love to you', category: 'emotions' },
-            { word: 'WHARE', meaning: 'House, building, home', example: 'Kei te whare au - I am at home', category: 'places' },
-            { word: 'MAURI', meaning: 'Life force, vital essence', example: 'Kia mauri ora - Be well, be healthy', category: 'spiritual' },
-            { word: 'TAIAO', meaning: 'Environment, natural world', example: 'Tiaki i te taiao - Care for the environment', category: 'nature' },
-            { word: 'KAIAKO', meaning: 'Teacher, educator', example: 'He kaiako pai ia - They are a good teacher', category: 'people' },
-            { word: 'RANGI', meaning: 'Sky, heaven, day', example: 'He rangi ataahua - A beautiful day', category: 'nature' },
-            { word: 'MOANA', meaning: 'Ocean, sea, large lake', example: 'Kei te moana mātou - We are at the ocean', category: 'nature' },
-            { word: 'MANA', meaning: 'Power, authority, prestige', example: 'He mana tō - You have power/authority', category: 'spiritual' },
-            { word: 'TAONGA', meaning: 'Treasure, precious thing', example: 'He taonga tēnei - This is a treasure', category: 'cultural' },
-            { word: 'WAIRUA', meaning: 'Spirit, soul', example: 'He wairua pai - A good spirit', category: 'spiritual' },
+        // Use comprehensive dictionary if available, fallback to basic list
+        const MAORI_WORDS = window.ComprehensiveMaoriDictionary ? 
+            window.ComprehensiveMaoriDictionary.words : [
+            // Core vocabulary - spiritual and cultural
+            { word: 'AROHA', meaning: 'Love, compassion, empathy, affectionate regard', example: 'Aroha atu ki a koe - Love to you', category: 'emotions' },
+            { word: 'WHARE', meaning: 'House, building, home, dwelling', example: 'Kei te whare au - I am at home', category: 'places' },
+            { word: 'MAURI', meaning: 'Life force, vital essence, life principle', example: 'Kia mauri ora - Be well, be healthy', category: 'spiritual' },
+            { word: 'TAIAO', meaning: 'Environment, natural world, nature', example: 'Tiaki i te taiao - Care for the environment', category: 'nature' },
+            { word: 'RANGI', meaning: 'Sky, heaven, day, heavens', example: 'He rangi ataahua - A beautiful day', category: 'nature' },
+            { word: 'MOANA', meaning: 'Ocean, sea, large lake, deep water', example: 'Kei te moana mātou - We are at the ocean', category: 'nature' },
+            { word: 'MAUNGA', meaning: 'Mountain, large hill', example: 'Te maunga - The mountain', category: 'nature' },
+            { word: 'WHENUA', meaning: 'Land, country, birth place, placenta', example: 'Taku whenua - My land', category: 'nature' },
+            { word: 'TAONGA', meaning: 'Treasure, precious thing, valuable possession', example: 'He taonga tēnei - This is a treasure', category: 'cultural' },
+            { word: 'WAIRUA', meaning: 'Spirit, soul, spiritual essence', example: 'He wairua pai - A good spirit', category: 'spiritual' },
             
             // Family and relationships - whānau
             { word: 'MATUA', meaning: 'Parent, father, elder', example: 'Ko taku matua - My father', category: 'whanau' },
@@ -784,8 +786,41 @@
             { word: 'MANGU', meaning: 'Black', example: 'He mangu - Black', category: 'colors' },
             
             // Food - kai
-            { word: 'PIPI', meaning: 'Small shellfish', example: 'Ngā pipi - The pipi', category: 'food' },
-            { word: 'KINA', meaning: 'Sea urchin', example: 'He kina - Sea urchin', category: 'food' }
+            
+            // Family and relationships
+            { word: 'MATUA', meaning: 'Parent, father, elder, adult', example: 'Ko taku matua - My father', category: 'whanau' },
+            { word: 'WHAEA', meaning: 'Mother, aunt, female elder', example: 'Ko taku whaea - My mother', category: 'whanau' },
+            { word: 'WHANAU', meaning: 'Family, extended family group, to be born', example: 'Ko taku whānau - My family', category: 'whanau' },
+            
+            // Cultural practices
+            { word: 'HONGI', meaning: 'Traditional greeting - touching noses and foreheads', example: 'Hongi mai - Come and hongi', category: 'cultural' },
+            { word: 'HANGI', meaning: 'Earth oven, traditional cooking method', example: 'Hangi kai - Earth oven food', category: 'cultural' },
+            { word: 'MARAE', meaning: 'Ceremonial grounds, sacred meeting place', example: 'Ki te marae - To the marae', category: 'cultural' },
+            
+            // Nature and environment
+            { word: 'KOWHAI', meaning: 'Golden native tree, yellow', example: 'He rākau kōwhai - A kowhai tree', category: 'nature' },
+            { word: 'KAURI', meaning: 'Native tree species, ancient forest giant', example: 'He kauri rākau - A kauri tree', category: 'nature' },
+            
+            // Actions and movement
+            { word: 'HAERE', meaning: 'Go, come, travel, proceed', example: 'Haere mai - Come here/welcome', category: 'actions' },
+            { word: 'NOHO', meaning: 'Sit, stay, remain, live', example: 'Noho mai - Stay here', category: 'actions' },
+            { word: 'TITIRO', meaning: 'Look, watch, observe', example: 'Titiro mai - Look here', category: 'actions' },
+            { word: 'RONGO', meaning: 'News, information, to hear', example: 'Kua rongo au - I have heard', category: 'actions' },
+            
+            // Colors
+            { word: 'WHERO', meaning: 'Red, crimson', example: 'He whero - Red', category: 'colors' },
+            { word: 'MANGU', meaning: 'Black, dark', example: 'He mangu - Black', category: 'colors' },
+            
+            // Food and kai moana
+            { word: 'PIPI', meaning: 'Small edible shellfish', example: 'Ngā pipi - The pipi', category: 'food' },
+            { word: 'KINA', meaning: 'Sea urchin, spiny sea creature', example: 'He kina - Sea urchin', category: 'food' },
+            { word: 'PAUA', meaning: 'Abalone, edible sea snail', example: 'He paua - Abalone', category: 'food' },
+            
+            // Additional authentic words
+            { word: 'KOHIA', meaning: 'Gather, collect, pick', example: 'Kohia ngā hua - Gather the fruit', category: 'actions' },
+            { word: 'PUNGA', meaning: 'Anchor, to anchor', example: 'Te punga - The anchor', category: 'objects' },
+            { word: 'WHAAA', meaning: 'What? (emphatic)', example: 'Whaaa? - What?', category: 'expressions' },
+            { word: 'NANA', meaning: 'His/hers, look! behold!', example: 'Nana te mea - There is the thing', category: 'expressions' }
         ];
 
         // CULTURAL AUTHENTICITY: This list is now DEPRECATED for validation
