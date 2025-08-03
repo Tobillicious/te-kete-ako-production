@@ -188,13 +188,9 @@
                 <h1 style="text-align: center; color: var(--color-primary); margin-bottom: 1.5rem;">Join Te Kete Ako</h1>
                 <p style="text-align: center; color: var(--color-text-secondary); margin-bottom: 2rem;">Create your account to access personalized learning features</p>
                 
-                <!-- Demo Accounts Info -->
-                <div class="demo-accounts">
-                    <h4>🧪 Working Demo Accounts Available:</h4>
-                    <p><strong>teacher@tekete.nz</strong> / password123 (Teacher Role)</p>
-                    <p><strong>admin@tekete.nz</strong> / admin123 (Admin Role)</p>
-                    <p><strong>student@tekete.nz</strong> / student123 (Student Role)</p>
-                    <p style="font-style: italic; margin-top: 0.5rem;">✅ These actually work! Or create your own account below.</p>
+                <!-- Welcome Message -->
+                <div class="welcome-message" style="background: var(--color-cultural-light); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: center;">
+                    <p style="color: var(--color-primary); font-weight: 500;">Create your account to access personalized learning features and save your progress</p>
                 </div>
                 
                 <div id="register-message" class="message" style="display: none;"></div>
@@ -203,6 +199,14 @@
                     <div class="form-group">
                         <label for="name">Full Name:</label>
                         <input type="text" id="name" name="name" required placeholder="Your full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="role">Account Type:</label>
+                        <select id="role" name="role" required>
+                            <option value="student">Student</option>
+                            <option value="teacher">Teacher</option>
+                        </select>
                     </div>
                     
                     <div class="form-group">
@@ -238,6 +242,7 @@
             e.preventDefault();
             
             const name = document.getElementById('name').value;
+            const role = document.getElementById('role').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const messageDiv = document.getElementById('register-message');
@@ -263,7 +268,9 @@
                     options: {
                         data: {
                             full_name: name,
-                            display_name: name
+                            display_name: name,
+                            role: role,
+                            account_type: role
                         }
                     }
                 });
