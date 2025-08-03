@@ -310,7 +310,25 @@ async function fetchWithAuth(url, options = {}) {
 }
 
 /**
- * Auth state listener
+ * Check if current page should be protected
+ */
+function shouldProtectPage() {
+    const currentPath = window.location.pathname;
+    const publicPages = [
+        '/login.html',
+        '/register-simple.html', 
+        '/register.html',
+        '/forgot-password.html',
+        '/verify-email.html',
+        '/index.html',
+        '/'
+    ];
+    
+    return !publicPages.some(page => currentPath.endsWith(page));
+}
+
+/**
+ * Auth state listener with protection
  */
 onAuthStateChanged(auth, (user) => {
     currentUser = user;
@@ -320,6 +338,13 @@ onAuthStateChanged(auth, (user) => {
         document.body.classList.add('logged-in');
         document.body.classList.remove('logged-out');
         
+        // Check email verification for protected pages
+        if (shouldProtectPage() && !user.emailVerified) {
+            console.log('Email not verified, redirecting...');
+            window.location.href = '/verify-email.html';
+            return;
+        }
+        
         // Update UI elements
         updateAuthUI(user);
         
@@ -327,6 +352,13 @@ onAuthStateChanged(auth, (user) => {
         console.log('User signed out');
         document.body.classList.add('logged-out');
         document.body.classList.remove('logged-in');
+        
+        // Redirect to login if on protected page
+        if (shouldProtectPage()) {
+            console.log('Protected page, redirecting to login...');
+            window.location.href = '/login.html';
+            return;
+        }
         
         // Clear UI
         updateAuthUI(null);

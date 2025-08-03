@@ -201,6 +201,45 @@
                 </div>
             </section>
 
+            <!-- New Features Banner -->
+            <section class="features-banner" style="background: linear-gradient(135deg, #2c5aa0 0%, #8b4513 100%); margin: 2rem 0; padding: 2rem; border-radius: 12px; color: white; position: relative; overflow: hidden;">
+                <div style="position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 50%; transform: translate(30px, -30px);"></div>
+                <div style="position: absolute; bottom: 0; left: 0; width: 80px; height: 80px; background: rgba(255,255,255,0.1); border-radius: 50%; transform: translate(-20px, 20px);"></div>
+                
+                <div style="position: relative; z-index: 2;">
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <h2 style="font-size: 2rem; margin: 0 0 0.5rem 0; color: white;">🚀 Enhanced with AI Intelligence</h2>
+                        <p style="font-size: 1.1rem; opacity: 0.95; margin: 0;">Powered by Firebase Authentication + Supabase GRAPHRAG + EXA.ai Resource Discovery</p>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                        <div style="background: rgba(255,255,255,0.15); padding: 1.5rem; border-radius: 8px; backdrop-filter: blur(10px);">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔥</div>
+                            <h3 style="margin: 0 0 0.5rem 0; color: white;">Secure Authentication</h3>
+                            <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">Firebase-powered login with email verification and password reset</p>
+                        </div>
+                        
+                        <div style="background: rgba(255,255,255,0.15); padding: 1.5rem; border-radius: 8px; backdrop-filter: blur(10px);">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🧠</div>
+                            <h3 style="margin: 0 0 0.5rem 0; color: white;">Knowledge Graph</h3>
+                            <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">AI-powered connections between concepts, lessons, and resources</p>
+                        </div>
+                        
+                        <div style="background: rgba(255,255,255,0.15); padding: 1.5rem; border-radius: 8px; backdrop-filter: blur(10px);">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌐</div>
+                            <h3 style="margin: 0 0 0.5rem 0; color: white;">Smart Resource Discovery</h3>
+                            <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">EXA.ai automatically finds relevant NZ educational resources</p>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <a href="register-simple.html" style="background: white; color: #2c5aa0; padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: bold; display: inline-block; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                            ✨ Experience the Future of Education
+                        </a>
+                    </div>
+                </div>
+            </section>
+
             <!-- What's New Section -->
             <section class="whats-new-section">
                 <div class="section-header">
@@ -397,41 +436,16 @@
         </div>
     </footer>
 
-    <!-- Supabase CDN -->
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <!-- Supabase Client -->
-    <script src="js/supabase-client.js"></script>
-    <!-- Auth UI -->
-    <script src="js/auth-ui.js"></script>
+    <!-- Load Firebase Authentication -->
+    <script type="module" src="js/firebase-auth.js"></script>
     
-    <!-- Load bookmark functionality -->
-    <script src="js/simple-bookmarks.js"></script>
-    
-    <!-- Load main functionality -->
-    <script src="js/main.js"></script>
-    
-    <!-- Load new enhancement systems -->
-    <script src="js/quick-wins.js"></script>
-    <script src="js/ai-teaching-assistant.js"></script>
-    <script src="js/lesson-builder.js"></script>
-    <script src="js/automated-games.js"></script>
-    <script src="js/learning-analytics.js"></script>
-    <script src="js/floating-button-manager.js"></script>
-    <script src="js/bug-fixes.js"></script>
-    <script src="js/homepage.js"></script>
-    
-    <!-- Load supporting components -->
-    <script src="js/shared-components.js"></script>
-    <script src="js/gooey-nav.js"></script>
-    <script src="js/footer.js"></script>
-    <script src="js/advanced-search.js"></script>
-    <script src="js/analytics-dashboard.js"></script>
-    <script src="js/advanced-analytics.js"></script>
-    <script src="js/content-recommendation-engine.js"></script>
-    <!-- <script src="js/accessibility-enhancements.js"></script> -->
-    <script src="js/pwa-registration.js"></script>
-    
-    <!-- Load streamlined header system -->
-    <script src="js/streamlined-header.js"></script>
+    <!-- PWA Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(reg => console.log('SW registered'))
+                .catch(err => console.log('SW registration failed'));
+        }
+    </script>
 </body>
 </html><!-- GitHub Pages deployment trigger Wed Jul 23 08:24:16 NZST 2025 -->
