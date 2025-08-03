@@ -1,0 +1,109 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "**/.git/**",
+      "**/README.md",
+      "**/package*.json",
+      "**/archives/**",
+      "**/archived-bloat/**",
+      "**/agent-docs/**",
+      "**/*.py",
+      "**/*.sh",
+      "**/supabase/**",
+      "**/netlify/**",
+      "**/templates/**",
+      "**/*.sql",
+      "**/*.log",
+      "**/*.json",
+      "**/DEPLOYMENT_*.txt",
+      "**/*_REQUIRED.md",
+      "**/*_HANDOFF_*.md",
+      "**/*_UPDATE_*.md",
+      "**/enrichment_backups/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/api/**",
+        "function": "api"
+      }
+    ],
+    "redirects": [
+      {
+        "source": "/curriculum",
+        "destination": "/curriculum-alignment.html",
+        "type": 301
+      },
+      {
+        "source": "/maori-wordle",
+        "destination": "/games/te-reo-wordle.html",
+        "type": 301
+      },
+      {
+        "source": "/activities",
+        "destination": "/activities.html",
+        "type": 301
+      },
+      {
+        "source": "/subjects",
+        "destination": "/subjects.html",
+        "type": 200
+      },
+      {
+        "source": "/unit-plans",
+        "destination": "/unit-plans.html",
+        "type": 200
+      },
+      {
+        "source": "/lessons",
+        "destination": "/lessons.html",
+        "type": 200
+      },
+      {
+        "source": "/handouts",
+        "destination": "/handouts.html",
+        "type": 200
+      }
+    ],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "X-Frame-Options",
+            "value": "DENY"
+          },
+          {
+            "key": "X-XSS-Protection",
+            "value": "1; mode=block"
+          },
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, no-store, must-revalidate"
+          },
+          {
+            "key": "Content-Security-Policy",
+            "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co https://api.exa.ai; frame-ancestors 'none'; base-uri 'self'; object-src 'none';"
+          },
+          {
+            "key": "Referrer-Policy",
+            "value": "strict-origin-when-cross-origin"
+          },
+          {
+            "key": "Permissions-Policy",
+            "value": "geolocation=(), microphone=(), camera=()"
+          }
+        ]
+      }
+    ],
+    "cleanUrls": true,
+    "trailingSlash": false
+  }
+}
