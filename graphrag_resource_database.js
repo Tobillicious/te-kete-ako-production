@@ -146,6 +146,15 @@ const comprehensiveResources = {
                 description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for writers toolkit peel argument with focus on english learning."
             },
             {
+                title: "Unit 2 Technology Definition Challenge",
+                path: "handouts/unit-2-technology-definition-challenge.html",
+                type: "handout",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for unit 2 technology definition challenge with focus on general education learning."
+            },
+            {
                 title: "Microplastics Comprehension",
                 path: "handouts/microplastics-comprehension-handout.html",
                 type: "handout",
@@ -198,6 +207,24 @@ const comprehensiveResources = {
                 similarity: 0.85,
                 cultural_level: "low",
                 description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for land wars strategy with focus on nz history learning."
+            },
+            {
+                title: "Unit 2 Modern Applications Connection",
+                path: "handouts/unit-2-modern-applications-connection.html",
+                type: "handout",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for unit 2 modern applications connection with focus on general education learning."
+            },
+            {
+                title: "Unit 2 Traditional Science Primary Sources",
+                path: "handouts/unit-2-traditional-science-primary-sources.html",
+                type: "handout",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "high",
+                description: "🔍 CULTURALLY INTEGRATED: Comprehensive resource for unit 2 traditional science primary sources with focus on general education learning."
             },
             {
                 title: "Treaty Of Waitangi",
@@ -297,6 +324,15 @@ const comprehensiveResources = {
                 similarity: 0.85,
                 cultural_level: "low",
                 description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for writers toolkit tone with focus on english learning."
+            },
+            {
+                title: "Unit 2 Innovation Domains Comparison",
+                path: "handouts/unit-2-innovation-domains-comparison.html",
+                type: "handout",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for unit 2 innovation domains comparison with focus on general education learning."
             },
             {
                 title: "Writers Toolkit Conclusion",
@@ -405,6 +441,15 @@ const comprehensiveResources = {
                 similarity: 0.85,
                 cultural_level: "low",
                 description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for environmental text analysis with focus on science learning."
+            },
+            {
+                title: "Unit 2 Pre Colonial Innovation Deep Dive",
+                path: "handouts/unit-2-pre-colonial-innovation-deep-dive.html",
+                type: "handout",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for unit 2 pre colonial innovation deep dive with focus on general education learning."
             },
             {
                 title: "Misleading Graphs Comprehension",
@@ -549,6 +594,15 @@ const comprehensiveResources = {
                 similarity: 0.85,
                 cultural_level: "low",
                 description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for writers toolkit show dont tell with focus on english learning."
+            },
+            {
+                title: "Unit 2 Lesson 1",
+                path: "lessons/unit-2-lesson-1.html",
+                type: "lesson",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Complete lesson plan exploring unit 2 lesson 1 with focus on general education learning."
             },
             {
                 title: "Brain Break Wordsearch",
@@ -918,6 +972,15 @@ const comprehensiveResources = {
                 similarity: 0.85,
                 cultural_level: "low",
                 description: "📄 EDUCATIONAL RESOURCE: Complete lesson plan exploring unit 1 lesson 2 tikanga scenarios with focus on general education learning."
+            },
+            {
+                title: "Unit 2 Assessment Portfolio Rubric",
+                path: "units/resources/unit-2-assessment-portfolio-rubric.html",
+                type: "unit-plan",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Complete unit covering unit 2 assessment portfolio rubric with focus on general education learning."
             },
             {
                 title: "Unit 1 Assessment Portfolio Rubric",
@@ -1397,6 +1460,15 @@ const comprehensiveResources = {
                 description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for activities with focus on general education learning."
             },
             {
+                title: "Curriculum Science",
+                path: "curriculum-science.html",
+                type: "handout",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for curriculum science with focus on general education learning."
+            },
+            {
                 title: "Graphrag Search",
                 path: "graphrag-search.html",
                 type: "handout",
@@ -1514,6 +1586,15 @@ const comprehensiveResources = {
                 description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for platforms with focus on general education learning."
             },
             {
+                title: "Curriculum Mathematics",
+                path: "curriculum-mathematics.html",
+                type: "handout",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for curriculum mathematics with focus on general education learning."
+            },
+            {
                 title: "Project Submission",
                 path: "project-submission.html",
                 type: "handout",
@@ -1604,6 +1685,24 @@ const comprehensiveResources = {
                 description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for teacher dashboard with focus on general education learning."
             },
             {
+                title: "Curriculum English",
+                path: "curriculum-english.html",
+                type: "handout",
+                subject: "English",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for curriculum english with focus on english learning."
+            },
+            {
+                title: "Critical Thinking Unit",
+                path: "critical-thinking-unit.html",
+                type: "unit-plan",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Complete unit covering critical thinking unit with focus on general education learning."
+            },
+            {
                 title: "Digital Purakau",
                 path: "digital-purakau.html",
                 type: "major-platform",
@@ -1665,6 +1764,15 @@ const comprehensiveResources = {
                 similarity: 0.85,
                 cultural_level: "low",
                 description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for search with focus on general education learning."
+            },
+            {
+                title: "Curriculum Social Sciences",
+                path: "curriculum-social-sciences.html",
+                type: "handout",
+                subject: "Social Studies",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for curriculum social sciences with focus on social studies learning."
             },
             {
                 title: "Auth Diagnostics",
@@ -1991,6 +2099,15 @@ const comprehensiveResources = {
                 description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for writers toolkit peel argument with focus on english learning."
             },
             {
+                title: "Unit 2 Technology Definition Challenge",
+                path: "handouts/unit-2-technology-definition-challenge.html",
+                type: "handout",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for unit 2 technology definition challenge with focus on general education learning."
+            },
+            {
                 title: "Microplastics Comprehension",
                 path: "handouts/microplastics-comprehension-handout.html",
                 type: "handout",
@@ -2043,6 +2160,24 @@ const comprehensiveResources = {
                 similarity: 0.85,
                 cultural_level: "low",
                 description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for land wars strategy with focus on nz history learning."
+            },
+            {
+                title: "Unit 2 Modern Applications Connection",
+                path: "handouts/unit-2-modern-applications-connection.html",
+                type: "handout",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for unit 2 modern applications connection with focus on general education learning."
+            },
+            {
+                title: "Unit 2 Traditional Science Primary Sources",
+                path: "handouts/unit-2-traditional-science-primary-sources.html",
+                type: "handout",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "high",
+                description: "🔍 CULTURALLY INTEGRATED: Comprehensive resource for unit 2 traditional science primary sources with focus on general education learning."
             },
             {
                 title: "Treaty Of Waitangi",
@@ -2142,6 +2277,15 @@ const comprehensiveResources = {
                 similarity: 0.85,
                 cultural_level: "low",
                 description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for writers toolkit tone with focus on english learning."
+            },
+            {
+                title: "Unit 2 Innovation Domains Comparison",
+                path: "handouts/unit-2-innovation-domains-comparison.html",
+                type: "handout",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for unit 2 innovation domains comparison with focus on general education learning."
             },
             {
                 title: "Writers Toolkit Conclusion",
@@ -2250,6 +2394,15 @@ const comprehensiveResources = {
                 similarity: 0.85,
                 cultural_level: "low",
                 description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for environmental text analysis with focus on science learning."
+            },
+            {
+                title: "Unit 2 Pre Colonial Innovation Deep Dive",
+                path: "handouts/unit-2-pre-colonial-innovation-deep-dive.html",
+                type: "handout",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for unit 2 pre colonial innovation deep dive with focus on general education learning."
             },
             {
                 title: "Misleading Graphs Comprehension",
@@ -2396,33 +2549,6 @@ const comprehensiveResources = {
                 description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for writers toolkit show dont tell with focus on english learning."
             },
             {
-                title: "Basic",
-                path: "archived-bloat/scripts/node_modules/htmlparser2/src/__fixtures__/Documents/Basic.html",
-                type: "handout",
-                subject: "General Education",
-                similarity: 0.85,
-                cultural_level: "low",
-                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for basic with focus on general education learning."
-            },
-            {
-                title: "Attributes",
-                path: "archived-bloat/scripts/node_modules/htmlparser2/src/__fixtures__/Documents/Attributes.html",
-                type: "handout",
-                subject: "General Education",
-                similarity: 0.85,
-                cultural_level: "low",
-                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for attributes with focus on general education learning."
-            },
-            {
-                title: "Svg",
-                path: "archived-bloat/scripts/node_modules/htmlparser2/src/__fixtures__/Documents/Svg.html",
-                type: "handout",
-                subject: "General Education",
-                similarity: 0.85,
-                cultural_level: "low",
-                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for svg with focus on general education learning."
-            },
-            {
                 title: "Unit 4 Economic Justice",
                 path: "units/unit-4-economic-justice.html",
                 type: "unit-plan",
@@ -2502,6 +2628,15 @@ const comprehensiveResources = {
                 similarity: 0.85,
                 cultural_level: "low",
                 description: "📄 EDUCATIONAL RESOURCE: Complete lesson plan exploring unit 1 lesson 2 tikanga scenarios with focus on general education learning."
+            },
+            {
+                title: "Unit 2 Assessment Portfolio Rubric",
+                path: "units/resources/unit-2-assessment-portfolio-rubric.html",
+                type: "unit-plan",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Complete unit covering unit 2 assessment portfolio rubric with focus on general education learning."
             },
             {
                 title: "Unit 1 Assessment Portfolio Rubric",
@@ -2871,6 +3006,15 @@ const comprehensiveResources = {
                 similarity: 0.85,
                 cultural_level: "low",
                 description: "📄 EDUCATIONAL RESOURCE: Major educational platform for virtual marae with focus on general education learning."
+            },
+            {
+                title: "Unit 2 Lesson 1",
+                path: "lessons/unit-2-lesson-1.html",
+                type: "lesson",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Complete lesson plan exploring unit 2 lesson 1 with focus on general education learning."
             },
             {
                 title: "Brain Break Wordsearch",
@@ -3587,6 +3731,15 @@ const comprehensiveResources = {
                 description: "📄 EDUCATIONAL RESOURCE: Interactive educational game focusing on spelling bee with focus on general education learning."
             },
             {
+                title: "Te Reo Māori Wordle Unlimited",
+                path: "games/te-reo-wordle-unlimited.html",
+                type: "game",
+                subject: "Te Ao Māori",
+                similarity: 0.85,
+                cultural_level: "essential",
+                description: "🌿 ESSENTIAL CULTURAL RESOURCE: Interactive educational game focusing on te reo māori wordle unlimited with focus on te ao māori learning."
+            },
+            {
                 title: "English Wordle",
                 path: "games/english-wordle.html",
                 type: "game",
@@ -3612,6 +3765,15 @@ const comprehensiveResources = {
                 similarity: 0.85,
                 cultural_level: "essential",
                 description: "🌿 ESSENTIAL CULTURAL RESOURCE: Interactive educational game focusing on te reo māori wordle with focus on te ao māori learning."
+            },
+            {
+                title: "Te Reo Māori Wordle 6 Unlimited",
+                path: "games/te-reo-wordle-6-unlimited.html",
+                type: "game",
+                subject: "Te Ao Māori",
+                similarity: 0.85,
+                cultural_level: "essential",
+                description: "🌿 ESSENTIAL CULTURAL RESOURCE: Interactive educational game focusing on te reo māori wordle 6 unlimited with focus on te ao māori learning."
             },
             {
                 title: "Countdown Letters",
@@ -3650,6 +3812,15 @@ const comprehensiveResources = {
                 description: "📄 EDUCATIONAL RESOURCE: Interactive educational game focusing on spelling bee with focus on general education learning."
             },
             {
+                title: "Te Reo Māori Wordle Unlimited",
+                path: "games/te-reo-wordle-unlimited.html",
+                type: "game",
+                subject: "Te Ao Māori",
+                similarity: 0.85,
+                cultural_level: "essential",
+                description: "🌿 ESSENTIAL CULTURAL RESOURCE: Interactive educational game focusing on te reo māori wordle unlimited with focus on te ao māori learning."
+            },
+            {
                 title: "English Wordle",
                 path: "games/english-wordle.html",
                 type: "game",
@@ -3675,6 +3846,15 @@ const comprehensiveResources = {
                 similarity: 0.85,
                 cultural_level: "essential",
                 description: "🌿 ESSENTIAL CULTURAL RESOURCE: Interactive educational game focusing on te reo māori wordle with focus on te ao māori learning."
+            },
+            {
+                title: "Te Reo Māori Wordle 6 Unlimited",
+                path: "games/te-reo-wordle-6-unlimited.html",
+                type: "game",
+                subject: "Te Ao Māori",
+                similarity: 0.85,
+                cultural_level: "essential",
+                description: "🌿 ESSENTIAL CULTURAL RESOURCE: Interactive educational game focusing on te reo māori wordle 6 unlimited with focus on te ao māori learning."
             },
             {
                 title: "Countdown Letters",
