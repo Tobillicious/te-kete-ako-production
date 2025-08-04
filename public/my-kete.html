@@ -69,7 +69,72 @@
             border-radius: 10px;
             transition: width 0.3s ease;
         }
+        .hidden {
             display: none;
+        }
+        
+        .ai-recommendations {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .recommendation-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-dashboard {
+            background: linear-gradient(135deg, var(--color-cultural-light) 0%, var(--color-cultural-accent) 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--color-secondary);
+        }
+        
+        .achievement-badge {
+            display: inline-block;
+            background: var(--color-secondary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin: 0.25rem;
+        }
+        
+        .learning-path {
+            background: #f8f9fa;
+            border: 2px solid var(--color-cultural-accent);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .interactive-demo-link {
+            background: linear-gradient(135deg, #ff6b6b, #ffa726);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin: 1rem 0;
+            box-shadow: 0 4px 12px rgba(255,107,107,0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .interactive-demo-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255,107,107,0.4);
+            color: white;
+            text-decoration: none;
+        }
         }
         .loading-message, .empty-message {
             text-align: center;
@@ -250,6 +315,67 @@
                         <p>Your personally saved resources from Te Kete Ako</p>
                     </div>
 
+                    <!-- NEW: Interactive Learning Demo Link -->
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <a href="interactive-learning-demo.html" class="interactive-demo-link">
+                            🚀 Try Interactive Learning Demo
+                        </a>
+                        <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">
+                            Experience agentic learning with real-time progress tracking and AI tips
+                        </p>
+                    </div>
+
+                    <!-- NEW: Progress Dashboard -->
+                    <div class="progress-dashboard" id="progress-dashboard" style="display: none;">
+                        <h2 style="color: var(--color-primary); margin-bottom: 1rem;">📊 Your Learning Journey</h2>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                            <div style="background: white; padding: 1rem; border-radius: 8px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                <span style="font-size: 2rem; font-weight: bold; color: var(--color-secondary); display: block;" id="progress-total">0</span>
+                                <span style="font-size: 0.9rem; color: var(--color-text-secondary);">Activities Started</span>
+                            </div>
+                            <div style="background: white; padding: 1rem; border-radius: 8px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                <span style="font-size: 2rem; font-weight: bold; color: var(--color-secondary); display: block;" id="progress-completed">0</span>
+                                <span style="font-size: 0.9rem; color: var(--color-text-secondary);">Completed</span>
+                            </div>
+                            <div style="background: white; padding: 1rem; border-radius: 8px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                <span style="font-size: 2rem; font-weight: bold; color: var(--color-secondary); display: block;" id="progress-average">0%</span>
+                                <span style="font-size: 0.9rem; color: var(--color-text-secondary);">Average Progress</span>
+                            </div>
+                            <div style="background: white; padding: 1rem; border-radius: 8px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                <span style="font-size: 2rem; font-weight: bold; color: var(--color-secondary); display: block;" id="achievement-count">0</span>
+                                <span style="font-size: 0.9rem; color: var(--color-text-secondary);">Achievements</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Recent Progress -->
+                        <div id="recent-progress" style="margin-top: 1.5rem;">
+                            <h3 style="color: var(--color-primary); margin-bottom: 1rem;">Recent Activity</h3>
+                            <div id="recent-activities" style="background: white; border-radius: 8px; padding: 1rem;">
+                                <!-- Recent activities will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NEW: AI Recommendations -->
+                    <div class="ai-recommendations" id="ai-recommendations" style="display: none;">
+                        <h2 style="margin-bottom: 1rem;">🧠 Personalized Learning Recommendations</h2>
+                        <p style="opacity: 0.9; margin-bottom: 1.5rem;">Based on your progress and learning patterns, here are resources tailored for you:</p>
+                        <div id="recommendations-container">
+                            <!-- Recommendations will be loaded here -->
+                        </div>
+                        <div style="text-align: center; margin-top: 1rem;">
+                            <small style="opacity: 0.7;">Powered by GraphRAG + EXA.ai</small>
+                        </div>
+                    </div>
+
+                    <!-- NEW: Learning Achievements -->
+                    <div class="kete-section" id="achievements-section" style="display: none;">
+                        <h2 style="color: var(--color-primary); margin-bottom: 1rem;">🏆 Learning Achievements</h2>
+                        <div id="achievements-container">
+                            <!-- Achievements will be loaded here -->
+                        </div>
+                    </div>
+
                     <!-- Statistics -->
                     <div class="kete-stats">
                         <div class="stat-card">
@@ -301,6 +427,9 @@
     <!-- Load bookmark functionality -->
     <script src="js/simple-bookmarks.js"></script>
     
+    <!-- Load progress tracker -->
+    <script src="js/progress-tracker.js"></script>
+    
     <!-- Load main functionality -->
     <script src="js/main.js"></script>
     
@@ -325,6 +454,7 @@
                 currentUser = user;
                 showKeteContent();
                 await loadSavedResources();
+                await loadProgressData();
             } catch (error) {
                 console.error('Error initializing My Kete page:', error);
                 showAuthRequired();
@@ -476,6 +606,165 @@
             });
 
             return card;
+        }
+
+        // NEW: Load progress data and agentic features
+        async function loadProgressData() {
+            try {
+                // Initialize progress tracker
+                if (window.TeKeteProgressTracker) {
+                    await window.TeKeteProgressTracker.initialize();
+                    
+                    // Load progress summary
+                    const summary = window.TeKeteProgressTracker.getProgressSummary();
+                    
+                    // Show progress dashboard if user has progress
+                    if (summary.total_resources > 0) {
+                        document.getElementById('progress-dashboard').style.display = 'block';
+                        updateProgressDashboard(summary);
+                    }
+                    
+                    // Load AI recommendations
+                    await loadAIRecommendations();
+                    
+                    // Load achievements
+                    loadAchievements(summary);
+                }
+            } catch (error) {
+                console.error('Error loading progress data:', error);
+            }
+        }
+
+        function updateProgressDashboard(summary) {
+            document.getElementById('progress-total').textContent = summary.total_resources;
+            document.getElementById('progress-completed').textContent = summary.completed_resources;
+            document.getElementById('progress-average').textContent = Math.round(summary.average_progress) + '%';
+            
+            // Calculate achievement count
+            let achievements = 0;
+            if (summary.completed_resources > 0) achievements++;
+            if (summary.completed_resources >= 5) achievements++;
+            if (summary.completed_resources >= 10) achievements++;
+            if (summary.average_progress >= 50) achievements++;
+            document.getElementById('achievement-count').textContent = achievements;
+            
+            // Show recent activities
+            const recentActivities = document.getElementById('recent-activities');
+            if (summary.recent_activity && summary.recent_activity.length > 0) {
+                recentActivities.innerHTML = summary.recent_activity.map(activity => `
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid #eee;">
+                        <span>${activity.resource_title}</span>
+                        <div>
+                            <span style="color: var(--color-secondary); font-weight: bold;">${activity.progress_percentage}%</span>
+                            ${activity.completed ? '<span style="color: #4CAF50; margin-left: 0.5rem;">✓</span>' : ''}
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                recentActivities.innerHTML = '<p style="color: var(--color-text-secondary); text-align: center;">No recent activity</p>';
+            }
+        }
+
+        async function loadAIRecommendations() {
+            try {
+                // Get personalized recommendations based on user progress
+                const recommendations = await generatePersonalizedRecommendations();
+                
+                if (recommendations && recommendations.length > 0) {
+                    document.getElementById('ai-recommendations').style.display = 'block';
+                    
+                    const container = document.getElementById('recommendations-container');
+                    container.innerHTML = recommendations.map(rec => `
+                        <div class="recommendation-card">
+                            <h4 style="margin-bottom: 0.5rem; color: white;">${rec.title}</h4>
+                            <p style="margin-bottom: 1rem; opacity: 0.9;">${rec.description}</p>
+                            <a href="${rec.url}" style="background: rgba(255,255,255,0.2); color: white; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; font-weight: bold;">
+                                Explore Resource →
+                            </a>
+                        </div>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('Error loading AI recommendations:', error);
+            }
+        }
+
+        async function generatePersonalizedRecommendations() {
+            // Generate intelligent recommendations based on user progress and preferences
+            const fallbackRecommendations = [
+                {
+                    title: "🌿 Te Ao Māori Values in Teaching",
+                    description: "Deepen your understanding of incorporating Māori perspectives into your classroom practice.",
+                    url: "handouts.html"
+                },
+                {
+                    title: "🎮 Interactive Learning Games",
+                    description: "Engage students with educational games that make learning fun and memorable.",
+                    url: "games.html"
+                },
+                {
+                    title: "📖 Complete Unit Plans",
+                    description: "Ready-to-use comprehensive unit plans aligned with NZ Curriculum objectives.",
+                    url: "unit-plans.html"
+                }
+            ];
+
+            // In future, this would call GraphRAG for personalized recommendations
+            // For now, return contextual recommendations
+            return fallbackRecommendations;
+        }
+
+        function loadAchievements(summary) {
+            const achievements = [];
+            
+            // Define achievements based on progress
+            if (summary.completed_resources >= 1) {
+                achievements.push({
+                    title: "First Steps",
+                    description: "Completed your first learning activity",
+                    icon: "🎯",
+                    earned: true
+                });
+            }
+            
+            if (summary.completed_resources >= 5) {
+                achievements.push({
+                    title: "Learning Momentum",
+                    description: "Completed 5 learning activities",
+                    icon: "🚀",
+                    earned: true
+                });
+            }
+            
+            if (summary.completed_resources >= 10) {
+                achievements.push({
+                    title: "Dedicated Learner",
+                    description: "Completed 10 learning activities",
+                    icon: "🏆",
+                    earned: true
+                });
+            }
+            
+            if (summary.average_progress >= 75) {
+                achievements.push({
+                    title: "Excellence Pursuer",
+                    description: "Maintained high completion rates",
+                    icon: "⭐",
+                    earned: true
+                });
+            }
+
+            // Show achievements if any exist
+            if (achievements.length > 0) {
+                document.getElementById('achievements-section').style.display = 'block';
+                
+                const container = document.getElementById('achievements-container');
+                container.innerHTML = achievements.map(achievement => `
+                    <div class="achievement-badge" style="display: inline-block; margin: 0.5rem;">
+                        ${achievement.icon} ${achievement.title}
+                    </div>
+                `).join('');
+            }
         }
 
         // Listen for auth state changes

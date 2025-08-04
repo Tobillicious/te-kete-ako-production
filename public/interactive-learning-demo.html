@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Learning Demo | Te Kete Ako</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        .demo-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        
+        .progress-dashboard {
+            background: linear-gradient(135deg, var(--color-cultural-light) 0%, var(--color-cultural-accent) 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--color-secondary);
+        }
+        
+        .progress-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--color-secondary);
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            margin-top: 0.5rem;
+        }
+        
+        .learning-activity {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e1e5e9;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            transition: width 0.3s ease;
+        }
+        
+        .quiz-question {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .quiz-options {
+            display: grid;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .quiz-option {
+            padding: 1rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .quiz-option:hover {
+            border-color: var(--color-secondary);
+            background: var(--color-cultural-light);
+        }
+        
+        .quiz-option.selected {
+            border-color: var(--color-secondary);
+            background: var(--color-secondary);
+            color: white;
+        }
+        
+        .quiz-option.correct {
+            border-color: #4CAF50;
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .quiz-option.incorrect {
+            border-color: #f44336;
+            background: #f44336;
+            color: white;
+        }
+        
+        .tips-panel {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            color: white;
+            margin-top: 2rem;
+        }
+        
+        .tip-item {
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #ffffff;
+            border-top: 3px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 0.5rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .cultural-highlight {
+            background: var(--color-cultural-light);
+            border-left: 4px solid var(--color-secondary);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">Te Kete Ako</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="my-kete.html">My Kete</a></li>
+                    <li class="auth-nav">
+                        <a href="login.html" class="login-btn">Login</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="demo-container">
+        <h1 style="text-align: center; color: var(--color-primary); margin-bottom: 1rem;">
+            🧠 Interactive Learning Demo
+        </h1>
+        <p style="text-align: center; color: var(--color-text-secondary); margin-bottom: 2rem;">
+            Experience agentic learning with real-time progress tracking and AI-powered tips
+        </p>
+
+        <!-- Progress Dashboard -->
+        <div class="progress-dashboard">
+            <h2 style="color: var(--color-primary); margin-bottom: 1rem;">📊 Your Learning Progress</h2>
+            
+            <div class="progress-stats" id="progress-stats">
+                <div class="stat-card">
+                    <span class="stat-number" id="total-resources">0</span>
+                    <span class="stat-label">Resources Started</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="completed-resources">0</span>
+                    <span class="stat-label">Completed</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="average-progress">0%</span>
+                    <span class="stat-label">Average Progress</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="learning-streak">1</span>
+                    <span class="stat-label">Day Streak</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Learning Activity -->
+        <div class="learning-activity">
+            <div class="activity-header">
+                <h2>🌿 Te Ao Māori Values in Education</h2>
+                <div>
+                    <span id="question-counter">Question 1 of 5</span>
+                </div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="activity-progress" style="width: 0%;"></div>
+            </div>
+            
+            <div id="quiz-container">
+                <!-- Quiz questions will be loaded here -->
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn btn-primary" id="next-question" onclick="nextQuestion()" disabled>
+                    Next Question
+                </button>
+                <button class="btn btn-primary" id="complete-activity" onclick="completeActivity()" style="display: none;">
+                    Complete Activity
+                </button>
+            </div>
+        </div>
+
+        <!-- AI Tips Panel -->
+        <div class="tips-panel" id="tips-panel" style="display: none;">
+            <h3 style="margin-bottom: 1rem;">🧠 AI Learning Tips</h3>
+            <p style="opacity: 0.9; margin-bottom: 1rem;">Based on your progress, here are personalized recommendations:</p>
+            <div id="tips-container">
+                <!-- Tips will be loaded here -->
+            </div>
+            <div style="text-align: center; margin-top: 1rem;">
+                <small style="opacity: 0.7;">Powered by GraphRAG + EXA.ai</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load scripts -->
+    <script src="js/env-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-auth.js"></script>
+    <script src="js/progress-tracker.js"></script>
+
+    <script>
+        // Interactive Learning Demo Application
+        class InteractiveLearningDemo {
+            constructor() {
+                this.currentQuestion = 0;
+                this.score = 0;
+                this.questions = [
+                    {
+                        question: "What does 'Manaakitanga' represent in education?",
+                        options: [
+                            "Strict discipline and rules",
+                            "Hospitality, care, and respect for learners",
+                            "Competition between students",
+                            "Individual achievement focus"
+                        ],
+                        correct: 1,
+                        explanation: "Manaakitanga emphasizes the importance of hospitality, care, and respect in creating a supportive learning environment."
+                    },
+                    {
+                        question: "How does 'Whakatōhea' (collective responsibility) apply in classroom settings?",
+                        options: [
+                            "Students work only independently",
+                            "Teachers make all decisions alone",
+                            "Everyone shares responsibility for learning success",
+                            "Only high achievers help others"
+                        ],
+                        correct: 2,
+                        explanation: "Whakatōhea means everyone in the learning community shares responsibility for collective success and wellbeing."
+                    },
+                    {
+                        question: "What is the significance of 'Whakapapa' in educational contexts?",
+                        options: [
+                            "It's only about family trees",
+                            "Understanding connections and relationships between concepts",
+                            "It has no relevance to modern education",
+                            "It's only for Māori students"
+                        ],
+                        correct: 1,
+                        explanation: "Whakapapa helps students understand how knowledge connects - between subjects, concepts, and their own experiences."
+                    },
+                    {
+                        question: "How can 'Kotahitanga' (unity) be practiced in diverse classrooms?",
+                        options: [
+                            "Treating all students exactly the same",
+                            "Separating students by ability levels",
+                            "Creating inclusive practices that honor all cultures",
+                            "Focusing only on academic achievement"
+                        ],
+                        correct: 2,
+                        explanation: "Kotahitanga in education means creating unity through inclusive practices that honor and value all students' cultural backgrounds."
+                    },
+                    {
+                        question: "What does 'Ako' represent in the learning process?",
+                        options: [
+                            "One-way teaching from teacher to student",
+                            "Reciprocal learning where teachers and students learn from each other",
+                            "Memorizing facts and information",
+                            "Silent individual study"
+                        ],
+                        correct: 1,
+                        explanation: "Ako represents the beautiful concept of reciprocal learning - teachers learn from students, students teach each other, and knowledge flows in all directions."
+                    }
+                ];
+                this.selectedAnswers = [];
+                this.progressTracker = window.TeKeteProgressTracker;
+            }
+
+            async initialize() {
+                console.log('🚀 Initializing Interactive Learning Demo');
+                
+                // Wait for progress tracker to initialize
+                await this.progressTracker.initialize();
+                
+                // Load progress dashboard
+                this.updateProgressDashboard();
+                
+                // Load first question
+                this.loadQuestion();
+                
+                // Set up event listeners
+                this.setupEventListeners();
+                
+                console.log('✅ Demo initialized successfully');
+            }
+
+            setupEventListeners() {
+                // Listen for progress updates
+                document.addEventListener('progress-updated', (event) => {
+                    console.log('Progress updated:', event.detail);
+                    this.updateProgressDashboard();
+                });
+            }
+
+            updateProgressDashboard() {
+                const summary = this.progressTracker.getProgressSummary();
+                
+                document.getElementById('total-resources').textContent = summary.total_resources;
+                document.getElementById('completed-resources').textContent = summary.completed_resources;
+                document.getElementById('average-progress').textContent = Math.round(summary.average_progress) + '%';
+                
+                // Calculate learning streak (simplified)
+                const today = new Date().getDate();
+                document.getElementById('learning-streak').textContent = today % 7 + 1; // Mock streak
+            }
+
+            loadQuestion() {
+                if (this.currentQuestion >= this.questions.length) {
+                    this.completeActivity();
+                    return;
+                }
+
+                const question = this.questions[this.currentQuestion];
+                const container = document.getElementById('quiz-container');
+                
+                container.innerHTML = `
+                    <div class="quiz-question">
+                        <h3 style="color: var(--color-primary); margin-bottom: 1rem;">
+                            ${question.question}
+                        </h3>
+                        <div class="quiz-options">
+                            ${question.options.map((option, index) => `
+                                <div class="quiz-option" data-index="${index}" onclick="selectAnswer(${index})">
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+
+                // Update question counter
+                document.getElementById('question-counter').textContent = 
+                    `Question ${this.currentQuestion + 1} of ${this.questions.length}`;
+                
+                // Update progress bar
+                const progress = (this.currentQuestion / this.questions.length) * 100;
+                document.getElementById('activity-progress').style.width = progress + '%';
+                
+                // Track progress
+                this.progressTracker.trackProgress(
+                    'interactive-quiz',
+                    'te-ao-maori-values',
+                    'Te Ao Māori Values in Education',
+                    progress,
+                    {
+                        current_question: this.currentQuestion + 1,
+                        total_questions: this.questions.length
+                    }
+                );
+            }
+
+            selectAnswer(index) {
+                // Remove previous selections
+                document.querySelectorAll('.quiz-option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                
+                // Mark selected option
+                document.querySelector(`[data-index="${index}"]`).classList.add('selected');
+                
+                // Store answer
+                this.selectedAnswers[this.currentQuestion] = index;
+                
+                // Enable next button
+                document.getElementById('next-question').disabled = false;
+            }
+
+            async nextQuestion() {
+                const question = this.questions[this.currentQuestion];
+                const selectedIndex = this.selectedAnswers[this.currentQuestion];
+                
+                // Show correct/incorrect feedback
+                document.querySelectorAll('.quiz-option').forEach((option, index) => {
+                    if (index === question.correct) {
+                        option.classList.add('correct');
+                    } else if (index === selectedIndex && index !== question.correct) {
+                        option.classList.add('incorrect');
+                    }
+                });
+
+                // Update score
+                if (selectedIndex === question.correct) {
+                    this.score++;
+                }
+
+                // Show explanation
+                const container = document.getElementById('quiz-container');
+                container.innerHTML += `
+                    <div class="cultural-highlight" style="margin-top: 1rem;">
+                        <strong>Explanation:</strong> ${question.explanation}
+                    </div>
+                `;
+
+                // Disable next button temporarily
+                document.getElementById('next-question').disabled = true;
+                
+                // Auto-advance after 3 seconds
+                setTimeout(() => {
+                    this.currentQuestion++;
+                    if (this.currentQuestion >= this.questions.length) {
+                        document.getElementById('next-question').style.display = 'none';
+                        document.getElementById('complete-activity').style.display = 'inline-block';
+                    } else {
+                        this.loadQuestion();
+                    }
+                }, 3000);
+
+                // Get AI tips for this question
+                await this.getAITips();
+            }
+
+            async getAITips() {
+                const tipsPanel = document.getElementById('tips-panel');
+                tipsPanel.style.display = 'block';
+                
+                const tipsContainer = document.getElementById('tips-container');
+                tipsContainer.innerHTML = '<div class="loading-spinner"></div> Getting personalized tips...';
+
+                // Get tips from progress tracker (which uses GraphRAG)
+                const tips = await this.progressTracker.getGraphRAGTips(
+                    'interactive-quiz',
+                    'te-ao-maori-values',
+                    (this.currentQuestion / this.questions.length) * 100
+                );
+
+                if (tips && tips.tips) {
+                    tipsContainer.innerHTML = tips.tips.map(tip => `
+                        <div class="tip-item">
+                            💡 ${tip}
+                        </div>
+                    `).join('');
+                } else {
+                    // Fallback tips
+                    tipsContainer.innerHTML = `
+                        <div class="tip-item">
+                            💡 Connect these concepts to your own teaching experiences
+                        </div>
+                        <div class="tip-item">
+                            🌿 Consider how Te Ao Māori values can enhance your classroom culture
+                        </div>
+                        <div class="tip-item">
+                            🤝 Discuss these ideas with colleagues and students
+                        </div>
+                    `;
+                }
+            }
+
+            async completeActivity() {
+                // Mark as completed
+                await this.progressTracker.completeResource(
+                    'interactive-quiz',
+                    'te-ao-maori-values',
+                    'Te Ao Māori Values in Education',
+                    {
+                        final_score: this.score,
+                        total_questions: this.questions.length,
+                        completion_time: new Date().toISOString()
+                    }
+                );
+
+                // Update progress bar to 100%
+                document.getElementById('activity-progress').style.width = '100%';
+
+                // Show completion message
+                const container = document.getElementById('quiz-container');
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 2rem;">
+                        <h2 style="color: var(--color-secondary); margin-bottom: 1rem;">
+                            🎉 Kia ora! Activity Completed!
+                        </h2>
+                        <p style="font-size: 1.2rem; margin-bottom: 1rem;">
+                            You scored ${this.score} out of ${this.questions.length} questions correctly.
+                        </p>
+                        <div class="cultural-highlight">
+                            <strong>Reflection:</strong> How might you apply these Te Ao Māori values in your teaching practice?
+                            Consider sharing your insights with your learning community.
+                        </div>
+                        <div style="margin-top: 2rem;">
+                            <a href="my-kete.html" class="btn btn-primary">
+                                View My Learning Progress
+                            </a>
+                        </div>
+                    </div>
+                `;
+
+                // Hide completion button
+                document.getElementById('complete-activity').style.display = 'none';
+
+                // Update dashboard
+                this.updateProgressDashboard();
+            }
+        }
+
+        // Global functions for onclick handlers
+        let demo;
+
+        function selectAnswer(index) {
+            demo.selectAnswer(index);
+        }
+
+        function nextQuestion() {
+            demo.nextQuestion();
+        }
+
+        function completeActivity() {
+            demo.completeActivity();
+        }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', async () => {
+            demo = new InteractiveLearningDemo();
+            await demo.initialize();
+        });
+    </script>
+</body>
+</html>
