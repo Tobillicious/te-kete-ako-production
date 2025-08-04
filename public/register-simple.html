@@ -300,12 +300,44 @@
                         const result = await response.json();
                         
                         if (result.success) {
-                            showSuccess('Account created successfully! You can now log in.');
+                            showSuccess('Account created successfully! Logging you in...');
                             
-                            // Redirect to login after delay
-                            setTimeout(() => {
-                                window.location.href = '/login.html';
-                            }, 2000);
+                            // Auto-login the user after successful registration
+                            setTimeout(async () => {
+                                try {
+                                    const loginResponse = await fetch('/.netlify/functions/auth-login', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({
+                                            email: formData.email,
+                                            password: formData.password
+                                        })
+                                    });
+                                    
+                                    const loginResult = await loginResponse.json();
+                                    
+                                    if (loginResult.success) {
+                                        // Store auth token for Supabase client
+                                        if (window.supabase) {
+                                            await window.supabase.auth.setSession({
+                                                access_token: loginResult.token,
+                                                refresh_token: loginResult.refresh_token
+                                            });
+                                        }
+                                        
+                                        // Redirect to My Kete dashboard
+                                        window.location.href = '/my-kete.html';
+                                    } else {
+                                        // If auto-login fails, redirect to manual login
+                                        window.location.href = '/login.html';
+                                    }
+                                } catch (error) {
+                                    console.error('Auto-login failed:', error);
+                                    window.location.href = '/login.html';
+                                }
+                            }, 1500);
                         } else {
                             showError(result.message || 'Registration failed. Please try again.');
                         }
