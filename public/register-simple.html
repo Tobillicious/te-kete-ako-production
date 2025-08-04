@@ -241,9 +241,99 @@
     <!-- Load Environment Config -->
     <script src="js/env-config.js"></script>
     <!-- Load Supabase CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Load Unified Supabase Authentication -->
-    <script src="js/supabase-auth.js"></script>    <footer class="site-footer no-print">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> 
+    
+    <script>
+        // Direct registration using Netlify functions
+        document.addEventListener('DOMContentLoaded', () => {
+            const registerForm = document.getElementById('register-form');
+            if (registerForm) {
+                registerForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    const formData = {
+                        email: document.getElementById('email').value,
+                        password: document.getElementById('password').value,
+                        confirmPassword: document.getElementById('confirm-password').value,
+                        displayName: document.getElementById('display-name').value,
+                        role: document.getElementById('role').value,
+                        schoolName: 'Te Kete Ako School', // Default
+                        yearLevel: document.getElementById('role').value === 'student' ? 'Y8' : null
+                    };
+                    
+                    // Clear previous messages
+                    document.getElementById('error-message').style.display = 'none';
+                    document.getElementById('success-message').style.display = 'none';
+                    
+                    // Validation
+                    if (!formData.email || !formData.password || !formData.displayName) {
+                        showError('Please fill in all required fields.');
+                        return;
+                    }
+                    
+                    if (formData.password !== formData.confirmPassword) {
+                        showError('Passwords do not match.');
+                        return;
+                    }
+                    
+                    if (formData.password.length < 6) {
+                        showError('Password must be at least 6 characters long.');
+                        return;
+                    }
+                    
+                    // Show loading state
+                    const submitBtn = document.getElementById('signup-btn');
+                    const originalText = submitBtn.textContent;
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Creating Account...';
+                    
+                    try {
+                        // Call Netlify function
+                        const response = await fetch('/.netlify/functions/auth-register', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(formData)
+                        });
+                        
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            showSuccess('Account created successfully! You can now log in.');
+                            
+                            // Redirect to login after delay
+                            setTimeout(() => {
+                                window.location.href = '/login.html';
+                            }, 2000);
+                        } else {
+                            showError(result.message || 'Registration failed. Please try again.');
+                        }
+                        
+                    } catch (error) {
+                        console.error('Registration error:', error);
+                        showError('Network error. Please check your connection and try again.');
+                    } finally {
+                        // Restore button state
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = originalText;
+                    }
+                });
+            }
+        });
+        
+        function showError(message) {
+            const errorElement = document.getElementById('error-message');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+        
+        function showSuccess(message) {
+            const successElement = document.getElementById('success-message');
+            successElement.textContent = message;
+            successElement.style.display = 'block';
+        }
+    </script>    <footer class="site-footer no-print">
         <div class="footer-content">
             <div class="footer-simple">
                 <div class="footer-brand">
