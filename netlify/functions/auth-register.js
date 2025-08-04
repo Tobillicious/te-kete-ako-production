@@ -33,7 +33,7 @@ exports.handler = async (event) => {
       process.env.SUPABASE_SERVICE_ROLE_KEY
     );
 
-    // Create user with Supabase Auth. The trigger will handle the profile.
+    // Create user with Supabase Auth
     const { data: authData, error: authError } = await supabase.auth.admin.createUser({
       email,
       password,
@@ -49,6 +49,24 @@ exports.handler = async (event) => {
     if (authError) {
       console.error('Auth error:', authError);
       return { statusCode: 400, headers, body: JSON.stringify({ success: false, message: authError.message }) };
+    }
+
+    // Create profile entry explicitly
+    const { data: profileData, error: profileError } = await supabase
+      .from('profiles')
+      .insert({
+        user_id: authData.user.id,
+        role,
+        display_name: displayName || email.split('@')[0],
+        school_name: schoolName || 'Mangakōtukutuku College',
+        year_level: role === 'student' ? yearLevel : null,
+        created_at: new Date().toISOString()
+      });
+
+    if (profileError) {
+      console.error('Profile creation error:', profileError);
+      // Don't fail registration if profile creation fails, as the auth user was created
+      console.warn('User created but profile creation failed - trigger may handle this');
     }
 
     return {
