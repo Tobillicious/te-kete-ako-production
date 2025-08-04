@@ -3,8 +3,8 @@
  * GRAPHRAG BRIDGE - NETLIFY FUNCTION
  * ================================================================
  * 
- * Securely bridges Firebase Auth → Supabase GRAPHRAG queries
- * Verifies Firebase ID tokens and uses Supabase Service Role
+ * Supabase-native GRAPHRAG queries with unified authentication
+ * Verifies Supabase JWT tokens and provides secure graph access
  * 
  * ================================================================
  */
@@ -14,61 +14,53 @@ import { createClient } from '@supabase/supabase-js';
 // Environment variables (set in Netlify dashboard)
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID;
 
-// Initialize Supabase with service role (bypasses RLS)
-const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+// Initialize Supabase with service role (bypasses RLS for admin operations)
+const supabaseAdmin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+
+// Initialize regular Supabase client for token verification
+const supabase = createClient(SUPABASE_URL, process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM');
 
 /**
- * Verify Firebase ID token without Firebase Admin SDK
- * Uses Google's public keys endpoint
+ * Verify Supabase JWT token and get user data
+ * Uses Supabase's built-in token verification
  */
-async function verifyFirebaseToken(idToken) {
+async function verifySupabaseToken(accessToken) {
     try {
-        // Firebase uses Google's public keys for token verification
-        const response = await fetch(
-            `https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com`
-        );
-        const publicKeys = await response.json();
-        
-        // For production, you'd implement proper JWT verification here
-        // For now, we'll do basic validation
-        
-        if (!idToken || typeof idToken !== 'string') {
+        if (!accessToken || typeof accessToken !== 'string') {
             throw new Error('Invalid token format');
         }
         
-        // Decode JWT header and payload (without verification for demo)
-        const [header, payload, signature] = idToken.split('.');
+        // Use Supabase client to verify token and get user
+        const { data: { user }, error } = await supabase.auth.getUser(accessToken);
         
-        if (!header || !payload || !signature) {
-            throw new Error('Malformed JWT token');
+        if (error) {
+            throw new Error(`Token verification failed: ${error.message}`);
         }
         
-        // Decode payload
-        const decodedPayload = JSON.parse(
-            Buffer.from(payload, 'base64url').toString('utf-8')
-        );
-        
-        // Basic validation
-        if (!decodedPayload.aud || decodedPayload.aud !== FIREBASE_PROJECT_ID) {
-            throw new Error('Invalid audience');
+        if (!user) {
+            throw new Error('Invalid or expired token');
         }
         
-        if (!decodedPayload.exp || decodedPayload.exp < Date.now() / 1000) {
-            throw new Error('Token expired');
-        }
+        // Fetch user profile from profiles table
+        const { data: profile, error: profileError } = await supabaseAdmin
+            .from('profiles')
+            .select('role, display_name, school_name, year_level')
+            .eq('user_id', user.id)
+            .single();
         
-        if (!decodedPayload.uid) {
-            throw new Error('Missing user ID');
+        if (profileError) {
+            console.warn('Could not fetch user profile:', profileError);
         }
         
         return {
-            uid: decodedPayload.uid,
-            email: decodedPayload.email,
-            emailVerified: decodedPayload.email_verified || false,
-            name: decodedPayload.name,
-            picture: decodedPayload.picture
+            id: user.id,
+            email: user.email,
+            emailVerified: user.email_confirmed_at !== null,
+            name: profile?.display_name || user.user_metadata?.display_name,
+            role: profile?.role || 'student',
+            schoolName: profile?.school_name,
+            yearLevel: profile?.year_level
         };
         
     } catch (error) {
@@ -112,11 +104,11 @@ export async function handler(event, context) {
             };
         }
         
-        const idToken = authHeader.substring(7); // Remove 'Bearer '
+        const accessToken = authHeader.substring(7); // Remove 'Bearer '
         
-        // Verify Firebase token
-        const user = await verifyFirebaseToken(idToken);
-        console.log('Authenticated user:', user.uid, user.email);
+        // Verify Supabase token
+        const user = await verifySupabaseToken(accessToken);
+        console.log('Authenticated user:', user.id, user.email);
         
         // Ensure email is verified for sensitive operations
         if (!user.emailVerified) {
@@ -174,8 +166,9 @@ export async function handler(event, context) {
             body: JSON.stringify({
                 success: true,
                 user: {
-                    uid: user.uid,
-                    email: user.email
+                    id: user.id,
+                    email: user.email,
+                    role: user.role
                 },
                 action,
                 data: result
@@ -207,10 +200,10 @@ async function handleGraphRAGSearch(user, params) {
         throw new Error('Search query is required');
     }
     
-    console.log(`GRAPHRAG search: "${query}" for user ${user.uid}`);
+    console.log(`GRAPHRAG search: "${query}" for user ${user.id}`);
     
-    // Example GRAPHRAG query - adjust based on your schema
-    const { data, error } = await supabase
+    // Use admin client for broader access to knowledge graph
+    const { data, error } = await supabaseAdmin
         .from('knowledge_nodes')
         .select(`
             id,
@@ -250,10 +243,10 @@ async function handleGraphRAGExplore(user, params) {
         throw new Error('Node ID is required for exploration');
     }
     
-    console.log(`GRAPHRAG explore: node ${nodeId} depth ${depth} for user ${user.uid}`);
+    console.log(`GRAPHRAG explore: node ${nodeId} depth ${depth} for user ${user.id}`);
     
-    // Recursive relationship exploration
-    const { data, error } = await supabase
+    // Recursive relationship exploration using admin client
+    const { data, error } = await supabaseAdmin
         .rpc('explore_knowledge_graph', {
             start_node: nodeId,
             max_depth: parseInt(depth)
@@ -281,10 +274,10 @@ async function handleGraphRAGConnections(user, params) {
         throw new Error('Two topics are required to find connections');
     }
     
-    console.log(`GRAPHRAG connections: "${topic1}" to "${topic2}" for user ${user.uid}`);
+    console.log(`GRAPHRAG connections: "${topic1}" to "${topic2}" for user ${user.id}`);
     
-    // Find shortest path between concepts
-    const { data, error } = await supabase
+    // Find shortest path between concepts using admin client
+    const { data, error } = await supabaseAdmin
         .rpc('find_knowledge_path', {
             start_topic: topic1,
             end_topic: topic2,
@@ -312,21 +305,21 @@ async function handleGraphRAGAnalytics(user, params) {
         throw new Error('Analytics access restricted to teachers');
     }
     
-    console.log(`GRAPHRAG analytics requested by teacher ${user.uid}`);
+    console.log(`GRAPHRAG analytics requested by teacher ${user.id}`);
     
-    // Aggregate analytics queries
+    // Aggregate analytics queries using admin client
     const [nodeStats, relationshipStats, recentActivity] = await Promise.all([
-        supabase
+        supabaseAdmin
             .from('knowledge_nodes')
             .select('category, created_at')
             .gte('created_at', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()),
             
-        supabase
+        supabaseAdmin
             .from('knowledge_relationships')
             .select('relationship_type, created_at')
             .gte('created_at', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()),
             
-        supabase
+        supabaseAdmin
             .from('graphrag_access_log')
             .select('action, created_at, metadata')
             .gte('created_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString())
@@ -346,10 +339,10 @@ async function handleGraphRAGAnalytics(user, params) {
  */
 async function logAccess(user, action, params) {
     try {
-        await supabase
+        await supabaseAdmin
             .from('graphrag_access_log')
             .insert({
-                user_id: user.uid,
+                user_id: user.id,
                 user_email: user.email,
                 action,
                 metadata: {
