@@ -13,6 +13,8 @@
 - **94 handouts** with metadata and cultural levels
 - **16 lessons** from guided inquiry and Y8 systems
 - **8 interactive games** including Te Reo variants
+- **YouTube Educational Library** with 1000+ hours of content
+- **Cultural Safety Validation Framework** for content curation
 - **AI-powered features** now documented
 - **Navigation connections** mapped
 
@@ -44,8 +46,10 @@ node scripts/resource-recovery.js --deep-scan --include-units --include-experien
 Based on directory analysis, likely missing from GraphRAG:
 - **Units 1-7 lessons** (`public/units/lessons/` - 50+ files)
 - **Experience modules** (`public/experiences/` directory)
+- **YouTube Library System** (`public/youtube-library.html`, admin interface)
 - **Curriculum alignment pages** (multiple curriculum-*.html files)
 - **Assessment frameworks** (decolonized-assessment-framework.html etc.)
+- **Cultural Safety Validation** system and tools
 
 ### **3. ENHANCED METADATA EXTRACTION**
 
@@ -53,8 +57,10 @@ Current GraphRAG captures basic metadata. Enhance with:
 - **Learning objectives** from lesson content
 - **Assessment criteria** from rubrics
 - **Cultural context depth** analysis
+- **YouTube video metadata** (duration, subjects, cultural safety ratings)
 - **AI integration points** (which pages use DeepSeek/EXA.ai)
 - **Prerequisites and pathways** between resources
+- **Video-lesson alignment** mappings
 
 ### **4. RELATIONSHIP SOPHISTICATION**
 
@@ -62,6 +68,8 @@ Current relationships are basic (same subject, same year level). Add:
 - **Learning progression** relationships (prerequisite → advanced)
 - **Cultural thematic** connections (similar Māori concepts)
 - **Assessment alignment** (lessons → handouts → assessments)
+- **YouTube-lesson** connections (videos supporting lesson content)
+- **Cultural validation** relationships (content authenticity verification)
 - **AI enhancement** connections (resources enhanced by EXA.ai)
 
 ---
