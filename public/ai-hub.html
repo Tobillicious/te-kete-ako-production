@@ -360,5 +360,42 @@
         </div>
     </footer>
 
+    <!-- Load Environment Config -->
+    <script src="js/env-config.js"></script>
+    <!-- Load Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Load Unified Supabase Authentication -->
+    <script src="js/supabase-auth.js"></script>
+    <!-- Load Progress Tracker -->
+    <script src="js/progress-tracker.js"></script>
+    <!-- Load DeepSeek GraphRAG Integration -->
+    <script src="js/deepseek-graphrag-integration.js"></script>
+    
+    <script>
+        // Initialize AI Hub systems
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🎯 AI Hub: Initializing advanced systems...');
+            
+            // Initialize authentication
+            if (window.initializeSupabase) {
+                await window.initializeSupabase();
+            }
+            
+            // Initialize progress tracker
+            if (window.TeKeteProgressTracker) {
+                const tracker = new window.TeKeteProgressTracker();
+                await tracker.initialize();
+            }
+            
+            // Initialize DeepSeek integration
+            if (window.DeepSeekGraphRAGIntegration) {
+                const deepseek = new window.DeepSeekGraphRAGIntegration();
+                console.log('🧠 DeepSeek GraphRAG ready for AI Hub');
+            }
+            
+            console.log('✅ AI Hub: All systems initialized');
+        });
+    </script>
+
 </body>
 </html>
