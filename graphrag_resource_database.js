@@ -1,57 +1,33 @@
 const comprehensiveResources = {
-    "assessment frameworks": {
-        semantic: [
-            {
-                title: "Assessment Rubric",
-                path: "project/assessment-rubric.html",
-                type: "assessment",
-                subject: "General Education",
-                similarity: 0.85,
-                cultural_level: "low",
-                description: "📄 EDUCATIONAL RESOURCE: Assessment framework for assessment rubric with focus on general education learning."
-            },
-            {
-                title: "Decolonized Assessment Framework",
-                path: "public/decolonized-assessment-framework.html",
-                type: "assessment",
-                subject: "General Education",
-                similarity: 0.85,
-                cultural_level: "essential",
-                description: "🌿 ESSENTIAL CULTURAL RESOURCE: Assessment framework for decolonized assessment framework with focus on general education learning."
-            },
-            {
-                title: "English Literacy Progression Framework",
-                path: "public/english-literacy-progression-framework.html",
-                type: "assessment",
-                subject: "English",
-                similarity: 0.85,
-                cultural_level: "low",
-                description: "📄 EDUCATIONAL RESOURCE: Assessment framework for english literacy progression framework with focus on english learning."
-            },
-            {
-                title: "Social Sciences Progression Framework",
-                path: "public/social-sciences-progression-framework.html",
-                type: "assessment",
-                subject: "Social Studies",
-                similarity: 0.85,
-                cultural_level: "low",
-                description: "📄 EDUCATIONAL RESOURCE: Assessment framework for social sciences progression framework with focus on social studies learning."
-            },
-            {
-                title: "Cultural Assessment",
-                path: "public/experiences/cultural-assessment.html",
-                type: "assessment",
-                subject: "Te Ao Māori",
-                similarity: 0.85,
-                cultural_level: "essential",
-                description: "🌿 ESSENTIAL CULTURAL RESOURCE: Assessment framework for cultural assessment with focus on te ao māori learning."
-            },
-        ],
-        conceptual: [],
-        progressions: []
-    },
     "general resources": {
         semantic: [
+            {
+                title: "Tslib.es6",
+                path: "node_modules/tslib/tslib.es6.html",
+                type: "handout",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for tslib.es6 with focus on general education learning."
+            },
+            {
+                title: "Tslib",
+                path: "node_modules/tslib/tslib.html",
+                type: "handout",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for tslib with focus on general education learning."
+            },
+            {
+                title: "Example",
+                path: "node_modules/jsbn/example.html",
+                type: "handout",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for example with focus on general education learning."
+            },
             {
                 title: "Project Brief",
                 path: "project/project-brief.html",
@@ -78,6 +54,15 @@ const comprehensiveResources = {
                 similarity: 0.85,
                 cultural_level: "low",
                 description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for activities with focus on general education learning."
+            },
+            {
+                title: "Teacher Dashboard AI",
+                path: "public/teacher-dashboard-ai.html",
+                type: "handout",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for teacher dashboard ai with focus on general education learning."
             },
             {
                 title: "Curriculum Science",
@@ -440,6 +425,15 @@ const comprehensiveResources = {
                 description: "📄 EDUCATIONAL RESOURCE: Interactive tool for toolkit with focus on general education learning."
             },
             {
+                title: "Interactive Learning Demo",
+                path: "public/interactive-learning-demo.html",
+                type: "interactive",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Interactive tool for interactive learning demo with focus on general education learning."
+            },
+            {
                 title: "Virtual Marae",
                 path: "public/virtual-marae.html",
                 type: "major-platform",
@@ -582,6 +576,15 @@ const comprehensiveResources = {
                 similarity: 0.85,
                 cultural_level: "low",
                 description: "📄 EDUCATIONAL RESOURCE: Complete lesson plan exploring 5 culture integration with focus on general education learning."
+            },
+            {
+                title: "Unit 2 Urban Migration Stories",
+                path: "public/handouts/unit-2-urban-migration-stories.html",
+                type: "handout",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for unit 2 urban migration stories with focus on general education learning."
             },
             {
                 title: "Authors Purpose",
@@ -897,6 +900,15 @@ const comprehensiveResources = {
                 similarity: 0.85,
                 cultural_level: "low",
                 description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for cognitive biases comprehension with focus on general education learning."
+            },
+            {
+                title: "Unit 2 Urban Identity Formation",
+                path: "public/handouts/unit-2-urban-identity-formation.html",
+                type: "handout",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Comprehensive resource for unit 2 urban identity formation with focus on general education learning."
             },
             {
                 title: "Writers Toolkit Tone",
@@ -1973,6 +1985,57 @@ const comprehensiveResources = {
         conceptual: [],
         progressions: []
     },
+    "assessment frameworks": {
+        semantic: [
+            {
+                title: "Assessment Rubric",
+                path: "project/assessment-rubric.html",
+                type: "assessment",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Assessment framework for assessment rubric with focus on general education learning."
+            },
+            {
+                title: "Decolonized Assessment Framework",
+                path: "public/decolonized-assessment-framework.html",
+                type: "assessment",
+                subject: "General Education",
+                similarity: 0.85,
+                cultural_level: "essential",
+                description: "🌿 ESSENTIAL CULTURAL RESOURCE: Assessment framework for decolonized assessment framework with focus on general education learning."
+            },
+            {
+                title: "English Literacy Progression Framework",
+                path: "public/english-literacy-progression-framework.html",
+                type: "assessment",
+                subject: "English",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Assessment framework for english literacy progression framework with focus on english learning."
+            },
+            {
+                title: "Social Sciences Progression Framework",
+                path: "public/social-sciences-progression-framework.html",
+                type: "assessment",
+                subject: "Social Studies",
+                similarity: 0.85,
+                cultural_level: "low",
+                description: "📄 EDUCATIONAL RESOURCE: Assessment framework for social sciences progression framework with focus on social studies learning."
+            },
+            {
+                title: "Cultural Assessment",
+                path: "public/experiences/cultural-assessment.html",
+                type: "assessment",
+                subject: "Te Ao Māori",
+                similarity: 0.85,
+                cultural_level: "essential",
+                description: "🌿 ESSENTIAL CULTURAL RESOURCE: Assessment framework for cultural assessment with focus on te ao māori learning."
+            },
+        ],
+        conceptual: [],
+        progressions: []
+    },
     "cultural resources": {
         semantic: [
             {
@@ -2028,6 +2091,15 @@ const comprehensiveResources = {
                 similarity: 0.85,
                 cultural_level: "essential",
                 description: "🌿 ESSENTIAL CULTURAL RESOURCE: Comprehensive resource for data sovereignty māori with focus on te ao māori learning."
+            },
+            {
+                title: "Unit 2 Māori Battalion Legacy",
+                path: "public/handouts/unit-2-maori-battalion-legacy.html",
+                type: "handout",
+                subject: "Te Ao Māori",
+                similarity: 0.85,
+                cultural_level: "essential",
+                description: "🌿 ESSENTIAL CULTURAL RESOURCE: Comprehensive resource for unit 2 māori battalion legacy with focus on te ao māori learning."
             },
             {
                 title: "Māori Geometric Patterns",

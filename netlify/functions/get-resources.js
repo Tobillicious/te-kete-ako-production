@@ -3,8 +3,8 @@ import { createClient } from '@supabase/supabase-js';
 
 // It's recommended to use a shared client, but for this self-contained function, we'll initialize it here.
 const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY 
+  process.env.SUPABASE_URL || 'https://nlgldaqtubrlcqddppbq.supabase.co',
+  process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjE4Nzg3MzcsImV4cCI6MjAzNzQ1NDczN30.j2p9UeHpHuGWnJ6rDv5XGq-AZI11-UXwFsKR3IHQT48'
   // Note: We use the ANON_KEY for public, read-only access, 
   // relying on Row Level Security (RLS) in the database.
 );
