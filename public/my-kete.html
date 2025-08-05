@@ -419,10 +419,8 @@
 
     <!-- Supabase CDN -->
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <!-- Supabase Client -->
-    <script src="js/supabase-client.js"></script>
-    <!-- Auth UI -->
-    <script src="js/auth-ui.js"></script>
+    <!-- Supabase Auth -->
+    <script src="js/supabase-auth.js"></script>
     
     <!-- Load bookmark functionality -->
     <script src="js/simple-bookmarks.js"></script>
@@ -444,8 +442,30 @@
 
         async function initMyKetePage() {
             try {
-                // Check authentication status with Supabase
-                const { data: { user } } = await supabase.auth.getUser();
+                // Wait for Supabase to initialize
+                if (!window.supabase) {
+                    await new Promise(resolve => {
+                        const checkSupabase = () => {
+                            if (window.supabase && typeof window.supabase.createClient === 'function') {
+                                resolve();
+                            } else {
+                                setTimeout(checkSupabase, 100);
+                            }
+                        };
+                        checkSupabase();
+                    });
+                }
+
+                // Initialize Supabase client if not already done
+                if (!window.supabaseClient) {
+                    window.supabaseClient = window.supabase.createClient(
+                        'https://nlgldaqtubrlcqddppbq.supabase.co',
+                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
+                    );
+                }
+
+                // Check authentication status
+                const { data: { user } } = await window.supabaseClient.auth.getUser();
                 if (!user) {
                     showAuthRequired();
                     return;

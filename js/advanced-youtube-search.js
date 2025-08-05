@@ -81,6 +81,22 @@ class AdvancedYouTubeSearch {
                 url: 'https://youtube.com/watch?v=2cH4hjksJ6o'
             },
             {
+                id: 'treaty-of-waitangi',
+                title: 'The Treaty of Waitangi Explained Simply',
+                duration: '4 min',
+                subject: ['te-ao-maori', 'humanities', 'social-issues'],
+                yearLevel: [7, 8, 9, 10, 11, 12, 13],
+                type: 'educational',
+                tags: ['treaty-of-waitangi', 'history', 'new-zealand', 'civics'],
+                curriculumAligned: true,
+                assessmentReady: true,
+                lessonIntegrated: false,
+                achievements: ['SS4-2', 'SS4-3'],
+                handouts: ['treaty-of-waitangi-handout.html'],
+                description: 'A simple explanation of the Treaty of Waitangi, its articles, and its importance in New Zealand.',
+                url: 'https://www.youtube.com/watch?v=a-yXA-a-t1E'
+            },
+            {
                 id: 'microplastics-ocean',
                 title: 'Microplastics: Ocean Health',
                 duration: '14 min',
@@ -94,7 +110,7 @@ class AdvancedYouTubeSearch {
                 achievements: ['LW4-1', 'NoS4-1'],
                 handouts: ['microplastics-comprehension-handout.html', 'enhanced/microplastics-matauranga-integration.html'],
                 description: 'Science behind microplastic pollution and impact on marine ecosystems.',
-                url: 'https://youtube.com/watch?v=123456789'
+                url: 'https://www.youtube.com/watch?v=9g2B9Ld734s'
             },
             {
                 id: 'climate-change-aotearoa',
@@ -108,7 +124,7 @@ class AdvancedYouTubeSearch {
                 assessmentReady: false,
                 lessonIntegrated: false,
                 achievements: ['SS4-5', 'SS4-7'],
-                handouts: [],
+                handouts: ['climate-change-aotearoa-handout.html'],
                 description: 'Local impacts and responses to climate change in New Zealand.',
                 url: 'https://youtube.com/watch?v=HtTMSCVFbFg'
             },
@@ -142,7 +158,7 @@ class AdvancedYouTubeSearch {
                 achievements: ['S4-1', 'S4-3'],
                 handouts: ['probability-handout.html', 'statistical-investigation-handout.html'],
                 description: 'How probability affects decision-making in sports, weather, and daily choices.',
-                url: 'https://youtube.com/watch?v=dQw4w9WgXcQ'
+                url: 'https://www.youtube.com/watch?v=K8vS22G0-Jc'
             },
             {
                 id: 'ted-power-yet',
@@ -156,9 +172,9 @@ class AdvancedYouTubeSearch {
                 assessmentReady: false,
                 lessonIntegrated: false,
                 achievements: [],
-                handouts: [],
+                handouts: ['ted-power-yet-handout.html'],
                 description: 'Growth mindset and the power of "not yet" in learning.',
-                url: 'https://youtube.com/watch?v=tedtalk1'
+                url: 'https://www.youtube.com/watch?v=J-swZaKN2Ic'
             },
             {
                 id: 'digital-citizenship-ted',
@@ -174,7 +190,7 @@ class AdvancedYouTubeSearch {
                 achievements: ['DC4-1', 'DC4-2'],
                 handouts: ['digital-citizenship-handout.html'],
                 description: 'Navigating online spaces responsibly and understanding digital footprints.',
-                url: 'https://youtube.com/watch?v=tedtalk2'
+                url: 'https://www.youtube.com/watch?v=7oKjW1OI6Sw'
             }
         ];
     }

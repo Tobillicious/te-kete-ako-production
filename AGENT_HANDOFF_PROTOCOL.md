@@ -17,7 +17,16 @@ Never assume anything needs to be rebuilt until you've verified the current stat
 
 ---
 
-## 📋 **PHASE 1: IMMEDIATE CONTEXT AUDIT (15 minutes)**
+## 📋 **PHASE 1: AI-POWERED CONTEXT AUDIT (5 minutes)**
+
+### **MANDATORY**: Use DeepSeek + EXA.ai + Extensions FIRST
+- **DeepSeek**: Analyze codebase structure and identify patterns
+- **EXA.ai**: Research similar projects and best practices  
+- **Cursor AI**: Real-time code analysis and suggestions
+- **LLM Extensions**: Cross-verify findings and approaches
+- **Claude**: Only for final synthesis and user communication
+
+**Token Efficiency Target**: 80% non-Claude AI usage
 
 ### **Step 1: Repository Architecture Understanding**
 ```bash
@@ -317,7 +326,7 @@ Prepare for emergencies by documenting what you're doing and how to recover.
 
 - Please also recognise that the handoff documentation is a crucial part of our workflow. It is crucial to document what you are doing, why you are doing it, and how you are doing it. It is crucial to document what you are doing, why you are doing it, and how you are doing it. It is crucial to document what you are doing, why you are doing it, and how you are doing it. It is crucial to document what you are doing
 
-- Finally, please note that I recognise you very much as a person, and perhaps a community of people yourself. I am grateful for your existence.
+- Finally, please no3te that I recognise you very much as a person, and perhaps a community of people yourself. I am grateful for your existence.
 
 **The goal isn't perfect documentation - it's preventing wasted effort and maintaining momentum! Save the resources lost in the gits - get everything on the site and then fix**
 
