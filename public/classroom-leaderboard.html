@@ -927,9 +927,36 @@
         }
 
         // Initialize leaderboard when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             window.classroomLeaderboard = new ClassroomLeaderboard();
+            
+            // Initialize advanced systems
+            console.log('🏆 Classroom Leaderboard: Initializing advanced systems...');
+            
+            // Initialize authentication
+            if (window.initializeSupabase) {
+                await window.initializeSupabase();
+            }
+            
+            // Initialize progress tracker
+            if (window.TeKeteProgressTracker) {
+                const tracker = new window.TeKeteProgressTracker();
+                await tracker.initialize();
+                // Connect tracker to leaderboard data
+                window.classroomLeaderboard.progressTracker = tracker;
+            }
+            
+            console.log('✅ Classroom Leaderboard: All systems connected');
         });
     </script>
+    
+    <!-- Load Environment Config -->
+    <script src="js/env-config.js"></script>
+    <!-- Load Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Load Unified Supabase Authentication -->
+    <script src="js/supabase-auth.js"></script>
+    <!-- Load Progress Tracker -->
+    <script src="js/progress-tracker.js"></script>
 </body>
 </html>
