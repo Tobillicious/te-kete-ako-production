@@ -178,19 +178,33 @@ grep -r "progress-tracker.js\|deepseek-graphrag\|firebase-auth" public/*.html
 
 ---
 
-## 🧠 **EFFICIENT GRAPHRAG UPDATE**
+## 🧠 **CRITICAL: GRAPHRAG IS ON SUPABASE DATABASE**
 
-When updating the knowledge graph:
+**IMPORTANT**: The real GraphRAG with 1000+ resources is in **Supabase database**, NOT the local JSON file! 
+
+### **Access the Real GraphRAG:**
 ```bash
-# Run our resource recovery script to scan new content
-node scripts/resource-recovery.js
+# Test connection to Supabase GraphRAG
+python scripts/test_graphrag.py
 
-# The script will automatically:
-# - Scan all HTML files
-# - Extract metadata and cultural content
-# - Generate relationships
-# - Update te_kete_knowledge_graph.json
+# Update GraphRAG with new discoveries  
+python scripts/update_graphrag_knowledge.py
+
+# Extract current state from Supabase
+python scripts/extract_knowledge_graph.py
+
+# Run standalone GraphRAG demo
+python scripts/standalone_graphrag_demo.py
 ```
+
+### **GraphRAG Database Structure:**
+- **Main resources table** with rich educational metadata
+- **Relationships table** with learning pathways
+- **Cultural concepts** and Te Ao Māori integration
+- **Assessment alignments** and learning objectives
+- **AI enhancements** from EXA.ai and DeepSeek
+
+The local `te_kete_knowledge_graph.json` is just a backup/cache file!
 
 ---
 
