@@ -184,6 +184,9 @@
                     <p style="margin: 0.25rem 0; color: #555;">✅ Secure access to all educational resources + GRAPHRAG</p>
                 </div>
                 
+                <div id="auth-status" class="message" style="background: #fff3cd; color: #856404; border: 2px solid #ffeaa7;">
+                    🔄 Initializing authentication system...
+                </div>
                 <div id="error-message" class="message error" style="display: none;"></div>
                 <div id="success-message" class="message success" style="display: none;"></div>
                 
@@ -220,6 +223,68 @@
     <script src="js/auth-enhanced.js"></script>
 
     <script>
+        // Debug function to check initialization status
+        function debugAuthSystem() {
+            const status = {
+                supabaseCDN: !!window.supabase,
+                envConfig: !!window.ENV,
+                teKeteAuth: !!window.teKeteAuth,
+                authState: window.teKeteAuth?.authState || 'not found'
+            };
+            console.log('🔍 DEBUG: Auth system status:', status);
+            updateAuthStatus(status);
+        }
+        
+        function updateAuthStatus(status) {
+            const statusEl = document.getElementById('auth-status');
+            if (!statusEl) return;
+            
+            if (!status.supabaseCDN) {
+                statusEl.innerHTML = '❌ Loading Supabase library...';
+                statusEl.style.background = '#f8d7da';
+                statusEl.style.color = '#721c24';
+            } else if (!status.envConfig) {
+                statusEl.innerHTML = '❌ Loading environment config...';
+                statusEl.style.background = '#f8d7da';
+                statusEl.style.color = '#721c24';
+            } else if (!status.teKeteAuth) {
+                statusEl.innerHTML = '❌ Loading auth system...';
+                statusEl.style.background = '#f8d7da';
+                statusEl.style.color = '#721c24';
+            } else if (status.authState === 'loading') {
+                statusEl.innerHTML = '🔄 Auth system initializing...';
+                statusEl.style.background = '#fff3cd';
+                statusEl.style.color = '#856404';
+            } else if (status.authState === 'signed_out') {
+                statusEl.innerHTML = '✅ Ready to sign in';
+                statusEl.style.background = '#d4edda';
+                statusEl.style.color = '#155724';
+            } else if (status.authState === 'error') {
+                statusEl.innerHTML = '❌ Auth system error - please refresh';
+                statusEl.style.background = '#f8d7da';
+                statusEl.style.color = '#721c24';
+            } else {
+                statusEl.innerHTML = '⚠️ Unknown auth state: ' + status.authState;
+                statusEl.style.background = '#fff3cd';
+                statusEl.style.color = '#856404';
+            }
+        }
+        
+        // Run debug immediately and then every 2 seconds
+        debugAuthSystem();
+        let debugCount = 0;
+        const debugInterval = setInterval(() => {
+            debugAuthSystem();
+            debugCount++;
+            if (debugCount >= 10) clearInterval(debugInterval);
+        }, 2000);
+        
+        // Also listen for auth system events
+        window.addEventListener('teKeteAuthChange', (event) => {
+            console.log('🔔 Auth state change:', event.detail);
+            debugAuthSystem();
+        });
+        
         // Wait for the enhanced auth system to initialize
         document.addEventListener('DOMContentLoaded', () => {
             const loginForm = document.getElementById('login-form');
@@ -243,14 +308,19 @@
                         // Wait for Te Kete Auth System to be ready
                         if (!window.teKeteAuth) {
                             let attempts = 0;
-                            while (!window.teKeteAuth && attempts < 50) {
-                                await new Promise(resolve => setTimeout(resolve, 100));
+                            while (!window.teKeteAuth && attempts < 100) {
+                                await new Promise(resolve => setTimeout(resolve, 200));
                                 attempts++;
                             }
                         }
                         
                         if (!window.teKeteAuth) {
-                            showError('Authentication system is not available. Please refresh and try again.');
+                            showError('Auth system not initialized. Please refresh and try again.');
+                            return;
+                        }
+                        
+                        if (window.teKeteAuth.authState === 'loading') {
+                            showError('Auth system still loading. Please wait and try again.');
                             return;
                         }
 
@@ -314,11 +384,5 @@
     </footer>
 
 
-    <!-- Load Supabase CDN -->
-    <script src="https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
-    <!-- Load Environment Config -->
-    <script src="js/env-config.js"></script>
-    <!-- Load Enhanced Authentication System -->
-    <script src="js/auth-enhanced.js"></script>
 </body>
 </html>
