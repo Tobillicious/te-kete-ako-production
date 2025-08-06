@@ -259,6 +259,17 @@
                 statusEl.innerHTML = '✅ Ready to sign in';
                 statusEl.style.background = '#d4edda';
                 statusEl.style.color = '#155724';
+            } else if (status.authState === 'signed_in') {
+                statusEl.innerHTML = '🎉 Already logged in! Redirecting to your kete...';
+                statusEl.style.background = '#d4edda';
+                statusEl.style.color = '#155724';
+                // Hide login form
+                const loginForm = document.getElementById('login-form');
+                if (loginForm) loginForm.style.display = 'none';
+                // Auto-redirect if already signed in
+                setTimeout(() => {
+                    window.location.href = '/my-kete.html';
+                }, 2000);
             } else if (status.authState === 'error') {
                 statusEl.innerHTML = '❌ Auth system error - please refresh';
                 statusEl.style.background = '#f8d7da';
