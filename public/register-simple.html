@@ -240,44 +240,29 @@
 
     <!-- Load Environment Config -->
     <script src="js/env-config.js"></script>
-    <!-- Load Supabase CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> 
+    <!-- Load Supabase Client -->
+    <script src="js/supabase-client.js"></script>
     
     <script>
-        // Direct registration using Netlify functions
         document.addEventListener('DOMContentLoaded', () => {
             const registerForm = document.getElementById('register-form');
             if (registerForm) {
                 registerForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
                     
-                    const formData = {
-                        email: document.getElementById('email').value,
-                        password: document.getElementById('password').value,
-                        confirmPassword: document.getElementById('confirm-password').value,
-                        displayName: document.getElementById('display-name').value,
-                        role: document.getElementById('role').value,
-                        schoolName: 'Te Kete Ako School', // Default
-                        yearLevel: document.getElementById('role').value === 'student' ? 'Y8' : null
-                    };
-                    
+                    const email = document.getElementById('email').value;
+                    const password = document.getElementById('password').value;
+                    const confirmPassword = document.getElementById('confirm-password').value;
+                    const displayName = document.getElementById('display-name').value;
+                    const role = document.getElementById('role').value;
+
                     // Clear previous messages
                     document.getElementById('error-message').style.display = 'none';
                     document.getElementById('success-message').style.display = 'none';
                     
                     // Validation
-                    if (!formData.email || !formData.password || !formData.displayName) {
-                        showError('Please fill in all required fields.');
-                        return;
-                    }
-                    
-                    if (formData.password !== formData.confirmPassword) {
+                    if (password !== confirmPassword) {
                         showError('Passwords do not match.');
-                        return;
-                    }
-                    
-                    if (formData.password.length < 6) {
-                        showError('Password must be at least 6 characters long.');
                         return;
                     }
                     
@@ -288,63 +273,34 @@
                     submitBtn.textContent = 'Creating Account...';
                     
                     try {
-                        // Call Netlify function
-                        const response = await fetch('/.netlify/functions/auth-register', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(formData)
-                        });
-                        
-                        const result = await response.json();
-                        
-                        if (result.success) {
-                            showSuccess('Account created successfully! Logging you in...');
-                            
-                            // Auto-login the user after successful registration
-                            setTimeout(async () => {
-                                try {
-                                    const loginResponse = await fetch('/.netlify/functions/auth-login', {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json'
-                                        },
-                                        body: JSON.stringify({
-                                            email: formData.email,
-                                            password: formData.password
-                                        })
-                                    });
-                                    
-                                    const loginResult = await loginResponse.json();
-                                    
-                                    if (loginResult.success) {
-                                        // Store auth token for Supabase client
-                                        if (window.supabase) {
-                                            await window.supabase.auth.setSession({
-                                                access_token: loginResult.token,
-                                                refresh_token: loginResult.refresh_token
-                                            });
-                                        }
-                                        
-                                        // Redirect to My Kete dashboard
-                                        window.location.href = '/my-kete.html';
-                                    } else {
-                                        // If auto-login fails, redirect to manual login
-                                        window.location.href = '/login.html';
-                                    }
-                                } catch (error) {
-                                    console.error('Auto-login failed:', error);
-                                    window.location.href = '/login.html';
+                        if (!window.supabase) {
+                            showError('Authentication service is not available. Please try again later.');
+                            return;
+                        }
+
+                        const { data, error } = await window.supabase.auth.signUp({
+                            email: email,
+                            password: password,
+                            options: {
+                                data: {
+                                    full_name: displayName,
+                                    role: role
                                 }
-                            }, 1500);
+                            }
+                        });
+
+                        if (error) {
+                            showError(error.message);
                         } else {
-                            showError(result.message || 'Registration failed. Please try again.');
+                            showSuccess('Account created successfully! Please check your email to verify your account. Redirecting to login...');
+                            setTimeout(() => {
+                                window.location.href = '/login.html';
+                            }, 3000);
                         }
                         
                     } catch (error) {
                         console.error('Registration error:', error);
-                        showError('Network error. Please check your connection and try again.');
+                        showError('A network error occurred. Please check your connection and try again.');
                     } finally {
                         // Restore button state
                         submitBtn.disabled = false;
