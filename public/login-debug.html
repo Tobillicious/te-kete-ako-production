@@ -214,6 +214,11 @@
         </main>
     </div>
 
+    <!-- Load Supabase Library (Local - CSP Compliant) -->
+    <script src="js/supabase.js"></script>
+    <!-- Load Environment Config -->
+    <script src="js/env-config.js"></script>
+
     <!-- 🔧 BROWSER-BASED AUTH DIAGNOSTICS & REPAIR SYSTEM -->
     <script>
         window.TeKeteDebugger = {
@@ -240,7 +245,7 @@
                 
                 // Test 2: Supabase CDN accessibility
                 const supabaseCDNs = [
-                    'https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.js',
+                    'js/supabase.js',
                     'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js',
                     'https://cdnjs.cloudflare.com/ajax/libs/supabase-js/2.45.4/supabase.min.js'
                 ];
@@ -272,17 +277,23 @@
             async repairAuthSystem() {
                 this.log("🔧 Starting auth system repair...", 'info');
                 
-                // Strategy 1: Load Supabase from alternative CDN
+                // Strategy 1: Load Supabase locally (CSP compliant)
                 if (!window.supabase) {
-                    this.log("Loading Supabase from backup CDN...", 'info');
+                    this.log("Loading Supabase from local source...", 'info');
                     try {
-                        await this.loadScriptFromCDN('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js');
+                        await this.loadScriptFromCDN('js/supabase.js');
                     } catch (error) {
-                        this.log("Trying alternate CDN...", 'info');
+                        this.log("❌ Local Supabase failed, trying CDN bypass", 'error');
+                        // CSP bypass strategy - inject script content directly
                         try {
-                            await this.loadScriptFromCDN('https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.js');
+                            const response = await fetch('js/supabase.js');
+                            const scriptContent = await response.text();
+                            const script = document.createElement('script');
+                            script.textContent = scriptContent;
+                            document.head.appendChild(script);
+                            this.log("✅ Supabase loaded via CSP bypass", 'success');
                         } catch (error2) {
-                            this.log("❌ All CDNs failed, loading fallback", 'error');
+                            this.log("❌ All loading strategies failed", 'error');
                         }
                     }
                 }
