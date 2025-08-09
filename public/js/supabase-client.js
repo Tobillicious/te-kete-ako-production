@@ -39,7 +39,17 @@
         }
         
         if (!window.supabase) {
-            throw new Error('Supabase CDN not loaded');
+            console.error('❌ Supabase CDN not loaded after 5 seconds - falling back to basic functionality');
+            // Fallback: create mock client for testing
+            window.supabase = {
+                createClient: () => ({
+                    auth: {
+                        getUser: () => Promise.resolve({ data: { user: null } }),
+                        signInWithPassword: () => Promise.resolve({ error: { message: 'CDN loading issue' } }),
+                        signOut: () => Promise.resolve({})
+                    }
+                })
+            };
         }
         
         const supabaseUrl = window.ENV.SUPABASE_URL;
