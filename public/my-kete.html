@@ -822,12 +822,27 @@
         // Listen for auth state changes
         document.addEventListener('authStateChanged', (event) => {
             if (!event.detail.isLoggedIn) {
-                window.location.href = 'index.html';
+                // Show login prompt instead of forcing redirect
+                showLoginPrompt();
             } else if (event.detail.isLoggedIn && !currentUser) {
                 // User just signed in, reload the page
                 window.location.reload();
             }
         });
+
+        // Show login prompt without forcing navigation
+        function showLoginPrompt() {
+            const loginSection = document.querySelector('.login-section');
+            const keteSection = document.querySelector('.kete-section');
+            
+            if (loginSection && keteSection) {
+                loginSection.style.display = 'block';
+                keteSection.style.display = 'none';
+            }
+            
+            // Update page title to indicate login needed
+            document.title = 'My Kete - Please Sign In | Te Kete Ako';
+        }
     </script>    <footer class="site-footer no-print">
         <div class="footer-content">
             <div class="footer-simple">
