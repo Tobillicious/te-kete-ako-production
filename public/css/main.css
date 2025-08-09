@@ -14,11 +14,17 @@
     --color-forest: #2C5F41; /* Deep Forest Green (Ngahere) */
     --color-cultural-teal: #40E0D0; /* Cultural Teal */
     
-    /* Enhanced Cultural Palette */
+    /* Enhanced Cultural Palette - Te Ao Māori Inspired */
     --color-cultural-light: #f0f8f0; /* Light Cultural Background */
     --color-cultural-accent: #e8f4f8; /* Light Teal Background */
     --color-warmth: #fef7ed; /* Warm Cream */
     --color-nature: #ecfdf5; /* Nature Green */
+    --color-ocean-light: #e0f2fe; /* Light Ocean Blue */
+    --color-sunrise: #fef3c7; /* Sunrise Yellow */
+    --color-whenua-light: #f5f1eb; /* Light Earth */
+    --color-pounamu: #059669; /* Pounamu Green for lessons */
+    --color-pounamu-light: #d1fae5; /* Light Pounamu */
+    --color-kahurangi: #0284c7; /* Kahurangi Blue for units */
     
     /* Enhanced Neutrals */
     --color-background: #ffffff; /* Pure White Background */
@@ -4035,5 +4041,373 @@ body.always-show-skip-links .skip-link {
     color: white;
     border-radius: 50%;
     transition: all 0.3s ease;
+}
+
+/* =================================================================
+   UNIFIED DESIGN SYSTEM - CONSISTENT STYLING FOR ALL CONTENT TYPES
+   Professional, Cultural, Mobile-First, Accessible
+   ================================================================= */
+
+/* Universal Content Container */
+.te-kete-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    padding: clamp(20px, 4vw, 40px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    color: var(--color-text-primary);
+}
+
+/* Unified Headers for All Content Types */
+.te-kete-header {
+    background: linear-gradient(135deg, var(--color-pounamu) 0%, var(--color-forest) 100%);
+    color: white;
+    padding: clamp(20px, 5vw, 40px);
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.te-kete-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="koru" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M10 0C15 0 20 5 20 10C20 15 15 20 10 20C5 20 0 15 0 10C0 5 5 0 10 0Z" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23koru)"/></svg>') center/cover;
+    opacity: 0.2;
+}
+
+.te-kete-header h1,
+.te-kete-header h2,
+.te-kete-header h3 {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 0.5rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.te-kete-header .maori-term {
+    color: var(--color-sunrise);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+/* Unified Section Styling */
+.te-kete-section {
+    background: var(--color-nature);
+    border: 2px solid var(--color-pounamu-light);
+    border-radius: 12px;
+    padding: clamp(15px, 4vw, 25px);
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.te-kete-section.lesson-section {
+    background: var(--color-ocean-light);
+    border-color: var(--color-kahurangi);
+}
+
+.te-kete-section.activity-section {
+    background: var(--color-sunrise);
+    border-color: var(--color-accent);
+}
+
+.te-kete-section.cultural-section {
+    background: var(--color-whenua-light);
+    border-color: var(--color-earth);
+    border-left: 6px solid var(--color-maori-red);
+}
+
+.te-kete-section-title {
+    color: var(--color-forest);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    font-family: var(--font-headings);
+}
+
+/* Unified Card System */
+.te-kete-card {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: clamp(12px, 3vw, 20px);
+    box-shadow: var(--shadow-light);
+    transition: all var(--transition-medium);
+    margin-bottom: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.te-kete-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--color-secondary);
+    transform: scaleY(0);
+    transition: transform var(--transition-medium);
+}
+
+.te-kete-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-medium);
+    border-color: var(--color-secondary);
+}
+
+.te-kete-card:hover::before {
+    transform: scaleY(1);
+}
+
+.te-kete-card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 8px;
+    font-family: var(--font-headings);
+}
+
+.te-kete-card-content {
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+}
+
+/* Activity Grid System */
+.te-kete-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    gap: clamp(15px, 3vw, 25px);
+    margin-top: 20px;
+}
+
+.te-kete-grid.two-column {
+    grid-template-columns: repeat(auto-fit, minmax(min(400px, 100%), 1fr));
+}
+
+.te-kete-grid.three-column {
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+}
+
+/* Assessment and Highlight Boxes */
+.te-kete-assessment {
+    background: linear-gradient(135deg, var(--color-sunrise) 0%, #fed7aa 100%);
+    border: 2px solid var(--color-accent);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    margin: 20px 0;
+    position: relative;
+}
+
+.te-kete-assessment::before {
+    content: '📝';
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: white;
+    padding: 5px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 1.2rem;
+}
+
+.te-kete-objective {
+    background: var(--color-ocean-light);
+    border-left: 4px solid var(--color-kahurangi);
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.te-kete-cultural-highlight {
+    background: var(--color-whenua-light);
+    border: 2px solid var(--color-earth);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    margin: 20px 0;
+    position: relative;
+}
+
+.te-kete-cultural-highlight::before {
+    content: '🌿';
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: white;
+    padding: 5px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 1.2rem;
+}
+
+/* Navigation System */
+.te-kete-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px 0;
+    padding: 20px;
+    background: var(--color-cultural-light);
+    border-radius: var(--radius-md);
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.te-kete-nav-btn {
+    background: var(--color-pounamu);
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    font-weight: 600;
+    font-family: var(--font-headings);
+    transition: all var(--transition-medium);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: var(--shadow-light);
+}
+
+.te-kete-nav-btn:hover {
+    background: var(--color-forest);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+    color: white;
+    text-decoration: none;
+}
+
+.te-kete-nav-btn.secondary {
+    background: var(--color-kahurangi);
+}
+
+.te-kete-nav-btn.secondary:hover {
+    background: #0369a1;
+}
+
+/* Typography Enhancement for Chromebooks */
+.te-kete-container h1,
+.te-kete-container h2,
+.te-kete-container h3,
+.te-kete-container h4 {
+    font-family: var(--font-headings);
+    color: var(--color-primary);
+    line-height: 1.3;
+    margin-bottom: 0.5em;
+}
+
+.te-kete-container h1 { font-size: clamp(1.8rem, 5vw, 2.5rem); }
+.te-kete-container h2 { font-size: clamp(1.5rem, 4vw, 2rem); }
+.te-kete-container h3 { font-size: clamp(1.3rem, 3.5vw, 1.7rem); }
+.te-kete-container h4 { font-size: clamp(1.1rem, 3vw, 1.4rem); }
+
+.te-kete-container p,
+.te-kete-container li {
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+    line-height: 1.6;
+    margin-bottom: 1em;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+    .te-kete-container {
+        margin: 10px;
+        border-radius: 10px;
+    }
+    
+    .te-kete-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .te-kete-navigation {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .te-kete-nav-btn {
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .te-kete-header {
+        padding: 20px 15px;
+    }
+}
+
+/* Print Optimizations */
+@media print {
+    .te-kete-container {
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .te-kete-header {
+        background: transparent !important;
+        color: black !important;
+        border: 2px solid black !important;
+        border-radius: 0 !important;
+    }
+    
+    .te-kete-section,
+    .te-kete-card {
+        background: transparent !important;
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+        page-break-inside: avoid;
+    }
+    
+    .te-kete-navigation {
+        display: none !important;
+    }
+}
+
+/* Accessibility Enhancements */
+.te-kete-container *:focus {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+}
+
+.te-kete-card:focus,
+.te-kete-nav-btn:focus {
+    outline: 3px solid var(--color-secondary);
+    outline-offset: 3px;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .te-kete-card,
+    .te-kete-nav-btn,
+    .te-kete-container * {
+        transition: none !important;
+        animation: none !important;
+        transform: none !important;
+    }
+}
+
+/* High Contrast Support */
+@media (prefers-contrast: high) {
+    .te-kete-header {
+        background: var(--color-primary) !important;
+        color: white !important;
+        border: 2px solid white !important;
+    }
+    
+    .te-kete-section {
+        border-width: 3px !important;
+    }
+    
+    .te-kete-card {
+        border-width: 2px !important;
+    }
 }
 
