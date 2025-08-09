@@ -239,7 +239,7 @@ async function staleWhileRevalidateStrategy(request) {
     
     const networkPromise = fetch(request)
         .then(networkResponse => {
-            if (networkResponse.ok) {
+            if (networkResponse.ok && networkResponse.body) {
                 const cache = caches.open(DYNAMIC_CACHE);
                 cache.then(cache => cache.put(request, networkResponse.clone()));
             }
