@@ -4,8 +4,33 @@
   command = "echo 'Static site - no build needed'"
 
 [[redirects]]
+  from = "/curriculum"
+  to = "/curriculum-alignment.html"
+  status = 301
+
+[[redirects]]
+  from = "/maori-wordle"
+  to = "/games/te-reo-wordle.html"
+  status = 301
+
+[[redirects]]
+  from = "/activities"
+  to = "/activities.html"
+  status = 301
+
+[[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/404/*"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/api/*"
+  to = "/index.html"
   status = 200
 
 [[redirects]]
@@ -25,4 +50,9 @@
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co https://api.exa.ai;"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: https://placehold.co; connect-src 'self' https://*.supabase.co https://api.exa.ai https://placehold.co;"
+
+[[headers]]
+  for = "*.css"
+  [headers.values]
+    Content-Type = "text/css"
