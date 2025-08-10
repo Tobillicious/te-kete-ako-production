@@ -354,8 +354,14 @@ class TeKeteAuthSystem {
     }
 }
 
-// Global instance
-window.teKeteAuth = new TeKeteAuthSystem();
+// Global singleton instance
+window.TeKeteAuthSystem = window.TeKeteAuthSystem || (function () {
+    const instance = new TeKeteAuthSystem();
+    return instance;
+})();
+
+// Maintain backward compatibility
+window.teKeteAuth = window.TeKeteAuthSystem;
 
 // Cleanup on page unload
 window.addEventListener('beforeunload', () => {

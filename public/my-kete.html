@@ -448,33 +448,6 @@
     </div>
 
     
-    <script>
-        // My Kete functionality
-        let currentUser = null;
-
-        // Initialize page when DOM loads
-        document.addEventListener('DOMContentLoaded', async () => {
-            await initMyKetePage();
-        });
-
-        async function initMyKetePage() {
-            try {
-                // Check authentication status using standard client
-                const { data: { user } } = await window.supabaseClient.auth.getUser();
-                if (!user) {
-                    showAuthRequired();
-                    return;
-                }
-
-                currentUser = user;
-                showKeteContent();
-                await loadSavedResources();
-                await loadProgressData();
-            } catch (error) {
-                console.error('Error initializing My Kete page:', error);
-                showAuthRequired();
-            }
-        }
 
         function showAuthRequired() {
             document.getElementById('auth-required-message').style.display = 'block';
@@ -827,11 +800,9 @@
 
 
     
-    <!-- Standard auth script includes -->
+    <!-- Simplified Supabase-only auth -->
     <script src="vendor/supabase.min.js" defer></script>
-    <script src="js/env-config.js" defer></script>
     <script src="js/supabase-client.js" defer></script>
-    <script src="js/auth-ui.js" defer></script>
     <script src="js/my-kete.js" defer></script>
 </body>
 </html>

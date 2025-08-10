@@ -10,7 +10,9 @@
  */
 
 // Initialize Supabase client once environment is loaded
-(function() {
+(function () {
+    if (window.supabaseClient) return;
+    
     'use strict';
     
     let supabaseClient = null;
@@ -68,6 +70,9 @@
                 flowType: 'pkce'
             }
         });
+        
+        // Export globally to prevent re-initialization
+        window.supabaseClient = supabaseClient;
         
         return supabaseClient;
     }
