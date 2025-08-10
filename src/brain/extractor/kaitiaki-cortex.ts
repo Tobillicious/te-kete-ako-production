@@ -12,12 +12,13 @@
  * - Coordinates with other brain regions (memory, procedural systems)
  */
 
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
+import { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import axios from 'axios';
 import { createClient } from '@supabase/supabase-js';
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 import { v4 as uuidv4 } from 'uuid';
 
 dotenv.config();
@@ -66,7 +67,7 @@ const limiter = rateLimit({
 });
 
 app.use(limiter);
-app.use(cors({ origin: config.corsOrigins }));
+app.use(cors({ origin: config.server.corsOrigins }));
 app.use(express.json({ limit: '10mb' }));
 
 // Request logging

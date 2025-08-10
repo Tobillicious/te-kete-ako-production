@@ -11,16 +11,16 @@
  * content generation.
  */
 
-import fs from 'fs';
-import path from 'path';
-import crypto from 'crypto';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as crypto from 'crypto';
 import fg from 'fast-glob';
 import pdfParse from 'pdf-parse';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 import frontMatter from 'front-matter';
 import { createClient } from '@supabase/supabase-js';
 import axios from 'axios';
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -83,8 +83,8 @@ async function embedWithOpenAI(text: string): Promise<number[]> {
 
 function extractCulturalContext(text: string): { tags: string[], significance: string } {
   const lowerText = text.toLowerCase();
-  const foundWords = config.cultural.maoriWords.filter(word => lowerText.includes(word));
-  const foundConcepts = config.cultural.culturalConcepts.filter(concept => lowerText.includes(concept));
+  const foundWords = config.cultural.maoriWords.filter((word: string) => lowerText.includes(word));
+  const foundConcepts = config.cultural.culturalConcepts.filter((concept: string) => lowerText.includes(concept));
   
   const tags = [...foundWords, ...foundConcepts];
   const significance = tags.length > 0 ? 'Contains Māori cultural elements' : 'General educational content';
@@ -98,7 +98,7 @@ function extractKeywords(text: string, maxKeywords = 10): string[] {
   // Simple keyword extraction - focuses on educational terms
   const words = text
     .toLowerCase()
-    .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+    .replace(/[^\w\s]/g, ' ')
     .split(/\s+/)
     .filter(word => 
       word.length > 3 && 
@@ -106,7 +106,7 @@ function extractKeywords(text: string, maxKeywords = 10): string[] {
     );
     
   const frequency: Record<string, number> = {};
-  words.forEach(word => frequency[word] = (frequency[word] || 0) + 1);
+  words.forEach((word: string) => frequency[word] = (frequency[word] || 0) + 1);
   
   return Object.entries(frequency)
     .sort(([,a], [,b]) => b - a)
@@ -122,7 +122,7 @@ async function extractFromPDF(buffer: Buffer): Promise<{ text: string, title: st
   try {
     const data = await pdfParse(buffer);
     const text = data.text || '';
-    const title = text.split('\n').find(line => line.trim().length > 0)?.slice(0, 100) || 'Untitled PDF';
+    const title = text.split('\n').find((line: string) => line.trim().length > 0)?.slice(0, 100) || 'Untitled PDF';
     return { text, title };
   } catch (error) {
     console.warn('PDF parsing failed:', error);
@@ -152,7 +152,7 @@ function extractFromMarkdown(content: string): { text: string, title: string, me
     const parsed = frontMatter(content);
     const metadata = parsed.attributes as any || {};
     const text = String(parsed.body || content);
-    const title = metadata.title || text.split('\n').find(line => line.startsWith('#'))?.replace(/^#+\s*/, '') || 'Untitled';
+    const title = metadata.title || text.split('\n').find((line: string) => line.startsWith('#'))?.replace(/^#+\s*/, '') || 'Untitled';
     return { text, title, metadata };
   } catch (error) {
     return { text: content, title: 'Markdown (parsing failed)', metadata: {} };
@@ -294,7 +294,7 @@ async function processArtifact(filePath: string, rootDir: string): Promise<void>
 // MAIN INDEXING FUNCTION
 // ========================================
 
-export async function indexTeKeteAko(rootDir: string): Promise<void> {
+async function indexTeKeteAko(rootDir: string): Promise<void> {
   console.log('🧠 Kaitiaki Aronui Memory System - Indexing Te Kete Ako');
   console.log('📁 Scanning directory:', rootDir);
   
@@ -320,14 +320,20 @@ export async function indexTeKeteAko(rootDir: string): Promise<void> {
     // Generate summary
     const { data: stats } = await supabase
       .from('artifact_catalog')
-      .select('file_type, count(*)')
-      .group('file_type');
+      .select('file_type');
       
     console.log('\n🎯 Indexing Complete!');
     console.log('📊 Summary:');
-    stats?.forEach(({ file_type, count }) => {
-      console.log(`   ${file_type}: ${count} artifacts`);
-    });
+    if (stats && Array.isArray(stats)) {
+      const summary = stats.reduce((acc: Record<string, number>, item: any) => {
+        acc[item.file_type] = (acc[item.file_type] || 0) + 1;
+        return acc;
+      }, {});
+      
+      Object.entries(summary).forEach(([fileType, count]) => {
+        console.log(`   ${fileType}: ${count} artifacts`);
+      });
+    }
     
     console.log('\n🧺 "Whaowhia te kete mātauranga" - The basket of knowledge is now indexed!');
     
