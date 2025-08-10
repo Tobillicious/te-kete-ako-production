@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tukutuku Pattern Explorer | Interactive Mathematics | Te Kete Ako</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="../css/main.css">
     <style>
         .explorer-header {
@@ -19,7 +22,7 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         .explorer-header::before {
             content: '';
             position: absolute;
@@ -27,13 +30,11 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: repeating-linear-gradient(
-                45deg,
-                rgba(255,255,255,0.1) 0px,
-                rgba(255,255,255,0.1) 20px,
-                transparent 20px,
-                transparent 40px
-            );
+            background: repeating-linear-gradient(45deg,
+                    rgba(255, 255, 255, 0.1) 0px,
+                    rgba(255, 255, 255, 0.1) 20px,
+                    transparent 20px,
+                    transparent 40px);
         }
 
         .learning-objectives {
@@ -56,7 +57,7 @@
             background: white;
             border-radius: 12px;
             padding: 1rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -75,7 +76,7 @@
             border-radius: 8px;
             padding: 1rem;
             margin: 1rem 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .control-section h3 {
@@ -227,7 +228,7 @@
                 grid-template-columns: 1fr;
                 gap: 1rem;
             }
-            
+
             .controls-panel {
                 max-height: 400px;
             }
@@ -237,7 +238,7 @@
             .explorer-header {
                 padding: 2rem 1rem;
             }
-            
+
             .canvas-container canvas {
                 max-width: 100%;
                 height: auto;
@@ -276,6 +277,7 @@
         }
     </style>
 </head>
+
 <body>
     <header class="site-header no-print">
         <div class="nav-container">
@@ -293,15 +295,16 @@
 
     <main class="main-content">
         <div class="breadcrumb">
-            <a href="../index.html">Home</a> > 
-            <a href="../games.html">Interactive Tools</a> > 
+            <a href="../index.html">Home</a> >
+            <a href="../games.html">Interactive Tools</a> >
             <span>Tukutuku Pattern Explorer</span>
         </div>
 
         <div class="explorer-header">
             <h1>🎨 Tukutuku Pattern Explorer</h1>
             <p class="unit-subtitle">Interactive Mathematics Through Traditional Māori Art</p>
-            <p><em>"Discover the mathematical genius embedded in traditional tukutuku patterns - where culture and mathematics unite in perfect harmony."</em></p>
+            <p><em>"Discover the mathematical genius embedded in traditional tukutuku patterns - where culture and
+                    mathematics unite in perfect harmony."</em></p>
         </div>
 
         <section class="learning-objectives">
@@ -330,15 +333,16 @@
         <section class="learning-path">
             <h2>🗺️ Your Learning Journey</h2>
             <p>Follow this step-by-step path to master geometric transformations through tukutuku patterns:</p>
-            
+
             <div class="path-step">
                 <div class="step-number">1</div>
                 <div>
                     <h4>Explore Base Patterns</h4>
-                    <p>Start by selecting different traditional patterns and understanding their cultural significance</p>
+                    <p>Start by selecting different traditional patterns and understanding their cultural significance
+                    </p>
                 </div>
             </div>
-            
+
             <div class="path-step">
                 <div class="step-number">2</div>
                 <div>
@@ -346,7 +350,7 @@
                     <p>Experiment with translation, rotation, reflection, and scaling to see how patterns change</p>
                 </div>
             </div>
-            
+
             <div class="path-step">
                 <div class="step-number">3</div>
                 <div>
@@ -354,7 +358,7 @@
                     <p>Use the animation feature to see transformations in action and understand the mathematics</p>
                 </div>
             </div>
-            
+
             <div class="path-step">
                 <div class="step-number">4</div>
                 <div>
@@ -362,7 +366,7 @@
                     <p>Design your own patterns and save them for your mathematics portfolio</p>
                 </div>
             </div>
-            
+
             <div class="path-step">
                 <div class="step-number">5</div>
                 <div>
@@ -375,7 +379,8 @@
         <div class="interactive-workspace">
             <div class="canvas-container">
                 <h3>🎨 Pattern Canvas</h3>
-                <canvas id="patternCanvas" width="800" height="600" style="border: 2px solid #ddd; border-radius: 8px; max-width: 100%; height: auto;"></canvas>
+                <canvas id="patternCanvas" width="800" height="600"
+                    style="border: 2px solid #ddd; border-radius: 8px; max-width: 100%; height: auto;"></canvas>
                 <div class="canvas-tools">
                     <button onclick="patternGenerator.startAnimation()">▶️ Animate</button>
                     <button onclick="patternGenerator.stopAnimation()">⏹️ Stop</button>
@@ -383,9 +388,10 @@
                     <button onclick="patternGenerator.savePattern()">💾 Save</button>
                     <button onclick="toggleFullscreen()">🔍 Fullscreen</button>
                 </div>
-                
+
                 <div class="progress-indicator">
-                    <p><strong>💡 Tip:</strong> Click on the canvas to see coordinates! Try different combinations of patterns and transformations to discover mathematical relationships.</p>
+                    <p><strong>💡 Tip:</strong> Click on the canvas to see coordinates! Try different combinations of
+                        patterns and transformations to discover mathematical relationships.</p>
                 </div>
             </div>
 
@@ -397,32 +403,34 @@
         <section class="mathematical-concepts">
             <h2>📐 Mathematical Concepts in Action</h2>
             <p>As you explore the patterns, you're discovering these important mathematical ideas:</p>
-            
+
             <div class="concept-grid">
                 <div class="concept-card">
                     <h4>Translation (Nekehanga)</h4>
-                    <p><strong>Definition:</strong> Moving every point of a shape the same distance in the same direction</p>
+                    <p><strong>Definition:</strong> Moving every point of a shape the same distance in the same
+                        direction</p>
                     <p><strong>In Tukutuku:</strong> How patterns repeat across wharenui walls in regular intervals</p>
                     <p><strong>Equation:</strong> (x, y) → (x + a, y + b)</p>
                 </div>
-                
+
                 <div class="concept-card">
                     <h4>Rotation (Tawhiri)</h4>
                     <p><strong>Definition:</strong> Turning a shape around a fixed point by a specific angle</p>
                     <p><strong>In Tukutuku:</strong> Four winds pattern showing 90° rotations around center</p>
                     <p><strong>Angles:</strong> Common rotations are 90°, 180°, 270°</p>
                 </div>
-                
+
                 <div class="concept-card">
                     <h4>Reflection (Whakaata)</h4>
                     <p><strong>Definition:</strong> Flipping a shape across a mirror line</p>
                     <p><strong>In Tukutuku:</strong> Symmetrical patterns representing balance and harmony</p>
                     <p><strong>Lines:</strong> Can reflect across horizontal, vertical, or diagonal lines</p>
                 </div>
-                
+
                 <div class="concept-card">
                     <h4>Scaling (Whakanui)</h4>
-                    <p><strong>Definition:</strong> Making a shape larger or smaller while keeping the same proportions</p>
+                    <p><strong>Definition:</strong> Making a shape larger or smaller while keeping the same proportions
+                    </p>
                     <p><strong>In Tukutuku:</strong> How patterns adapt to different panel sizes</p>
                     <p><strong>Factor:</strong> Scale factor > 1 enlarges, < 1 reduces</p>
                 </div>
@@ -432,35 +440,41 @@
         <section class="activity-suggestions">
             <h2>🎯 Learning Activities</h2>
             <p>Use these activities to deepen your understanding:</p>
-            
+
             <div class="activity-card">
                 <h4>🔍 Pattern Detective</h4>
-                <p><strong>Challenge:</strong> Choose the Pātikitiki (diamond) pattern and use translation. Count how many complete patterns you can see. Calculate the area covered by the patterns using the grid.</p>
+                <p><strong>Challenge:</strong> Choose the Pātikitiki (diamond) pattern and use translation. Count how
+                    many complete patterns you can see. Calculate the area covered by the patterns using the grid.</p>
                 <p><strong>Extension:</strong> How would the area change if you doubled the grid size?</p>
             </div>
-            
+
             <div class="activity-card">
                 <h4>🌪️ Rotation Investigation</h4>
-                <p><strong>Challenge:</strong> Select the Tawhiri (cross) pattern and use rotation. Animate it and observe. What angle separates each rotation? How many rotations create a full turn?</p>
+                <p><strong>Challenge:</strong> Select the Tawhiri (cross) pattern and use rotation. Animate it and
+                    observe. What angle separates each rotation? How many rotations create a full turn?</p>
                 <p><strong>Extension:</strong> Try to predict what the pattern will look like after a 45° rotation.</p>
             </div>
-            
+
             <div class="activity-card">
                 <h4>🪞 Symmetry Explorer</h4>
-                <p><strong>Challenge:</strong> Use the Roimata Toroa (chevron) pattern with reflection. How many lines of symmetry can you identify? Draw them on paper.</p>
+                <p><strong>Challenge:</strong> Use the Roimata Toroa (chevron) pattern with reflection. How many lines
+                    of symmetry can you identify? Draw them on paper.</p>
                 <p><strong>Extension:</strong> Create your own pattern with exactly 4 lines of symmetry.</p>
             </div>
-            
+
             <div class="activity-card">
                 <h4>📏 Coordinate Master</h4>
-                <p><strong>Challenge:</strong> Click different points on the canvas and record their coordinates. Try to predict where a point will be after translation by (50, 30).</p>
+                <p><strong>Challenge:</strong> Click different points on the canvas and record their coordinates. Try to
+                    predict where a point will be after translation by (50, 30).</p>
                 <p><strong>Extension:</strong> Use coordinates to describe the exact position of pattern centers.</p>
             </div>
-            
+
             <div class="activity-card">
                 <h4>🎨 Cultural Designer</h4>
-                <p><strong>Challenge:</strong> Choose a pattern that represents your own story or values. Use transformations to create a design that tells your narrative.</p>
-                <p><strong>Extension:</strong> Write a paragraph explaining the mathematical and cultural significance of your design.</p>
+                <p><strong>Challenge:</strong> Choose a pattern that represents your own story or values. Use
+                    transformations to create a design that tells your narrative.</p>
+                <p><strong>Extension:</strong> Write a paragraph explaining the mathematical and cultural significance
+                    of your design.</p>
             </div>
         </section>
 
@@ -468,19 +482,23 @@
             <div class="learning-objectives">
                 <h2>🌿 Cultural Connections & Reflection</h2>
                 <p>As you work with these patterns, consider these important questions:</p>
-                
+
                 <ul style="list-style-type: none; padding: 0;">
                     <li style="margin: 1rem 0; padding: 1rem; background: rgba(255,255,255,0.7); border-radius: 8px;">
-                        <strong>🤔 Mathematical Understanding:</strong> How does this activity change your view of where mathematics exists in the world?
+                        <strong>🤔 Mathematical Understanding:</strong> How does this activity change your view of where
+                        mathematics exists in the world?
                     </li>
                     <li style="margin: 1rem 0; padding: 1rem; background: rgba(255,255,255,0.7); border-radius: 8px;">
-                        <strong>🏛️ Cultural Appreciation:</strong> What does this tell you about the mathematical sophistication of traditional Māori artisans?
+                        <strong>🏛️ Cultural Appreciation:</strong> What does this tell you about the mathematical
+                        sophistication of traditional Māori artisans?
                     </li>
                     <li style="margin: 1rem 0; padding: 1rem; background: rgba(255,255,255,0.7); border-radius: 8px;">
-                        <strong>🔗 Connection Making:</strong> How might traditional knowledge systems contribute to modern mathematical and scientific understanding?
+                        <strong>🔗 Connection Making:</strong> How might traditional knowledge systems contribute to
+                        modern mathematical and scientific understanding?
                     </li>
                     <li style="margin: 1rem 0; padding: 1rem; background: rgba(255,255,255,0.7); border-radius: 8px;">
-                        <strong>🌍 Global Perspective:</strong> What other cultures might have mathematical knowledge embedded in their traditional arts and practices?
+                        <strong>🌍 Global Perspective:</strong> What other cultures might have mathematical knowledge
+                        embedded in their traditional arts and practices?
                     </li>
                 </ul>
             </div>
@@ -490,16 +508,21 @@
             <h2>🎓 Assessment & Portfolio Development</h2>
             <p>Use this tool to demonstrate your learning through:</p>
             <div style="text-align: left; max-width: 600px; margin: 0 auto;">
-                <p>📸 <strong>Screenshot Documentation:</strong> Save different transformation examples for your portfolio</p>
-                <p>📝 <strong>Mathematical Explanations:</strong> Write descriptions of how each transformation works</p>
+                <p>📸 <strong>Screenshot Documentation:</strong> Save different transformation examples for your
+                    portfolio</p>
+                <p>📝 <strong>Mathematical Explanations:</strong> Write descriptions of how each transformation works
+                </p>
                 <p>🎨 <strong>Creative Applications:</strong> Design original patterns that tell your cultural story</p>
-                <p>🔬 <strong>Investigation Reports:</strong> Document your discoveries about symmetry and mathematical relationships</p>
+                <p>🔬 <strong>Investigation Reports:</strong> Document your discoveries about symmetry and mathematical
+                    relationships</p>
                 <p>🗣️ <strong>Peer Teaching:</strong> Use this tool to explain transformations to classmates</p>
             </div>
         </div>
 
         <div class="print-friendly-note">
-            <p><strong>Teacher Note:</strong> This interactive tool directly supports the Y9 Mathematics: Geometry Through Māori Patterns unit and can be used for formative assessment, student engagement, and portfolio development.</p>
+            <p><strong>Teacher Note:</strong> This interactive tool directly supports the Y9 Mathematics: Geometry
+                Through Māori Patterns unit and can be used for formative assessment, student engagement, and portfolio
+                development.</p>
         </div>
     </main>
 
@@ -507,24 +530,24 @@
     <script>
         // Initialize the pattern generator when page loads
         let patternGenerator;
-        
-        document.addEventListener('DOMContentLoaded', function() {
+
+        document.addEventListener('DOMContentLoaded', function () {
             // Initialize the pattern generator
             patternGenerator = new TukutukuPatternGenerator('patternCanvas', 'controlsPanel');
-            
+
             // Add some educational enhancements
             addEducationalFeatures();
-            
+
             // Track user interactions for learning analytics
             trackLearningProgress();
         });
-        
+
         function addEducationalFeatures() {
             // Add keyboard shortcuts for common actions
-            document.addEventListener('keydown', function(e) {
+            document.addEventListener('keydown', function (e) {
                 if (e.target.tagName.toLowerCase() === 'input') return;
-                
-                switch(e.key) {
+
+                switch (e.key) {
                     case ' ': // Spacebar to toggle animation
                         e.preventDefault();
                         if (patternGenerator.animationId) {
@@ -541,14 +564,14 @@
                         break;
                 }
             });
-            
+
             // Add tooltips for mathematical terms
             addMathematicalTooltips();
-            
+
             // Add progress tracking
             addProgressTracking();
         }
-        
+
         function addMathematicalTooltips() {
             const tooltips = {
                 'translation': 'Moving every point the same distance in the same direction',
@@ -556,7 +579,7 @@
                 'reflection': 'Flipping across a mirror line',
                 'scaling': 'Changing size while keeping proportions'
             };
-            
+
             Object.keys(tooltips).forEach(term => {
                 const elements = document.querySelectorAll(`[data-term="${term}"]`);
                 elements.forEach(el => {
@@ -565,7 +588,7 @@
                 });
             });
         }
-        
+
         function addProgressTracking() {
             const progress = {
                 patternsExplored: new Set(),
@@ -573,32 +596,32 @@
                 animationsWatched: 0,
                 patternsSaved: 0
             };
-            
+
             // Track pattern changes
             const originalUpdateCulturalInfo = patternGenerator.updateCulturalInfo;
-            patternGenerator.updateCulturalInfo = function() {
+            patternGenerator.updateCulturalInfo = function () {
                 originalUpdateCulturalInfo.call(this);
                 progress.patternsExplored.add(this.settings.basePattern);
                 progress.transformationsUsed.add(this.settings.transformation);
                 updateProgressDisplay();
             };
-            
+
             // Track animations
             const originalStartAnimation = patternGenerator.startAnimation;
-            patternGenerator.startAnimation = function() {
+            patternGenerator.startAnimation = function () {
                 originalStartAnimation.call(this);
                 progress.animationsWatched++;
                 updateProgressDisplay();
             };
-            
+
             // Track saves
             const originalSavePattern = patternGenerator.savePattern;
-            patternGenerator.savePattern = function() {
+            patternGenerator.savePattern = function () {
                 originalSavePattern.call(this);
                 progress.patternsSaved++;
                 updateProgressDisplay();
             };
-            
+
             function updateProgressDisplay() {
                 const progressDiv = document.querySelector('.progress-indicator');
                 if (progressDiv) {
@@ -608,7 +631,7 @@
                         (Math.min(progress.animationsWatched / 5, 1) * 25) +
                         (Math.min(progress.patternsSaved / 3, 1) * 25)
                     );
-                    
+
                     progressDiv.innerHTML = `
                         <h4>🏆 Learning Progress: ${completionPercentage}%</h4>
                         <div style="background: #ddd; border-radius: 10px; height: 20px; margin: 0.5rem 0;">
@@ -618,10 +641,10 @@
                     `;
                 }
             }
-            
+
             updateProgressDisplay();
         }
-        
+
         function trackLearningProgress() {
             // Simple analytics to understand how students use the tool
             const analytics = {
@@ -629,26 +652,26 @@
                 interactions: 0,
                 timeSpent: 0
             };
-            
+
             // Track interaction frequency
             document.addEventListener('click', () => analytics.interactions++);
             document.addEventListener('change', () => analytics.interactions++);
-            
+
             // Update time spent every minute
             setInterval(() => {
                 analytics.timeSpent = Math.round((new Date() - analytics.sessionStart) / 60000);
             }, 60000);
-            
+
             // Log session summary when leaving
             window.addEventListener('beforeunload', () => {
                 console.log('Learning Session Summary:', analytics);
                 // In a real implementation, this could send data to learning analytics system
             });
         }
-        
+
         function toggleFullscreen() {
             const canvas = document.getElementById('patternCanvas');
-            
+
             if (!document.fullscreenElement) {
                 canvas.requestFullscreen().then(() => {
                     canvas.style.width = '100vw';
@@ -663,7 +686,7 @@
                 });
             }
         }
-        
+
         // Add educational context when patterns change
         function showPatternContext(patternName) {
             const contexts = {
@@ -672,11 +695,12 @@
                 'cross': 'Tawhiri patterns represented the four cardinal directions and the balance of natural forces.',
                 'chevron': 'Roimata Toroa patterns symbolized peace and tranquility, like the gentle tears of the albatross.'
             };
-            
+
             if (contexts[patternName]) {
                 patternGenerator.showMessage(contexts[patternName], 'info');
             }
         }
     </script>
 </body>
+
 </html>
