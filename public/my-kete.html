@@ -447,22 +447,6 @@
         </main>
     </div>
 
-    <!-- Environment Configuration (MUST load first) -->
-    <script src="js/env-config.js"></script>
-    
-    <!-- Supabase CDN -->
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <!-- Enhanced Authentication System -->
-    <script src="js/auth-enhanced.js"></script>
-    
-    <!-- Load bookmark functionality -->
-    <script src="js/simple-bookmarks.js"></script>
-    
-    <!-- Load progress tracker -->
-    <script src="js/progress-tracker.js"></script>
-    
-    <!-- Load main functionality -->
-    <script src="js/main.js"></script>
     
     <script>
         // My Kete functionality
@@ -475,29 +459,7 @@
 
         async function initMyKetePage() {
             try {
-                // Wait for Supabase to initialize
-                if (!window.supabase) {
-                    await new Promise(resolve => {
-                        const checkSupabase = () => {
-                            if (window.supabase && typeof window.supabase.createClient === 'function') {
-                                resolve();
-                            } else {
-                                setTimeout(checkSupabase, 100);
-                            }
-                        };
-                        checkSupabase();
-                    });
-                }
-
-                // Initialize Supabase client if not already done
-                if (!window.supabaseClient) {
-                    window.supabaseClient = window.supabase.createClient(
-                        'https://nlgldaqtubrlcqddppbq.supabase.co',
-                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
-                    );
-                }
-
-                // Check authentication status
+                // Check authentication status using standard client
                 const { data: { user } } = await window.supabaseClient.auth.getUser();
                 if (!user) {
                     showAuthRequired();
@@ -864,55 +826,12 @@
     </footer>
 
 
-    <!-- Load Supabase Library -->
-    <script src="js/supabase.js"></script>
-    <!-- Load Environment Config -->
-    <script src="js/env-config.js"></script>
-    <!-- Load Enhanced Authentication System -->
-    <script src="js/auth-enhanced.js"></script>
-    <!-- Load Authentication Resilience Layer -->
-    <script src="js/auth-resilience.js"></script>
     
-    <script>
-        // Wait for auth system to initialize and check user status
-        document.addEventListener('DOMContentLoaded', async () => {
-            // Wait for teKeteAuth to be ready
-            let attempts = 0;
-            while (!window.teKeteAuth && attempts < 100) {
-                await new Promise(resolve => setTimeout(resolve, 100));
-                attempts++;
-            }
-            
-            if (window.teKeteAuth) {
-                // Wait for auth state to be determined
-                let authAttempts = 0;
-                while (window.teKeteAuth.authState === 'loading' && authAttempts < 100) {
-                    await new Promise(resolve => setTimeout(resolve, 100));
-                    authAttempts++;
-                }
-                
-                if (window.teKeteAuth.isSignedIn()) {
-                    // User is authenticated - show the kete content
-                    document.getElementById('auth-required-message').style.display = 'none';
-                    document.querySelector('.kete-content').style.display = 'block';
-                    
-                    // Update user info
-                    const user = window.teKeteAuth.getCurrentUser();
-                    if (user) {
-                        document.querySelectorAll('.user-email').forEach(el => {
-                            el.textContent = user.email;
-                        });
-                    }
-                } else {
-                    // User not authenticated - redirect to login
-                    window.location.href = '/login.html';
-                }
-            } else {
-                console.error('Auth system not available');
-                // Fallback - redirect to login
-                window.location.href = '/login.html';
-            }
-        });
-    </script>
+    <!-- Standard auth script includes -->
+    <script src="vendor/supabase.min.js" defer></script>
+    <script src="js/env-config.js" defer></script>
+    <script src="js/supabase-client.js" defer></script>
+    <script src="js/auth-ui.js" defer></script>
+    <script src="js/my-kete.js" defer></script>
 </body>
 </html>
