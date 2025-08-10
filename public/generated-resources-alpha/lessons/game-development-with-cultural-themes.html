@@ -1,0 +1,385 @@
+# Game Development with Cultural Themes
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Development with Cultural Themes</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        h1 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .cultural-note {
+            background-color: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .activity {
+            background-color: #f0f7eb;
+            border-left: 4px solid #27ae60;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .teacher-tip {
+            background-color: #fef9e7;
+            border-left: 4px solid #f39c12;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .assessment {
+            background-color: #f5eef8;
+            border-left: 4px solid #9b59b6;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .interactive {
+            background-color: #eaf2f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .maori-word {
+            font-weight: bold;
+            color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <h1>Game Development with Cultural Themes</h1>
+    
+    <div class="cultural-note">
+        <h3>Cultural Context</h3>
+        <p>This unit explores how digital games can celebrate and share aspects of <span class="maori-word">Te Ao Māori</span> (the Māori world view). We'll focus on respectful representation of Māori culture in game design, drawing inspiration from <span class="maori-word">pūrākau</span> (traditional stories), <span class="maori-word">taonga</span> (treasures), and Māori concepts.</p>
+        <p><strong>Cultural Safety:</strong> Always consult with local <span class="maori-word">iwi</span> or Māori advisors when using specific cultural elements. Avoid sacred (<span class="maori-word">tapu</span>) elements in games. Focus on educational and celebratory aspects rather than competitive or violent contexts.</p>
+    </div>
+
+    <h2>Learning Objectives</h2>
+    <ul>
+        <li>Develop a digital game that incorporates authentic Māori cultural elements</li>
+        <li>Apply computational thinking to solve game design challenges</li>
+        <li>Demonstrate understanding of cultural protocols in digital representation</li>
+        <li>Use appropriate game development tools to create interactive experiences</li>
+        <li>Evaluate the effectiveness of cultural representation in digital media</li>
+    </ul>
+    <p><em>NZ Curriculum Alignment:</em> Digital Technologies Progress Outcomes 4-6, Social Sciences, Te Ao Māori</p>
+
+    <div class="interactive">
+        <h3>Quick Cultural Concepts Quiz</h3>
+        <p>Test your knowledge before we begin:</p>
+        <div id="quiz-container">
+            <p>1. What does <span class="maori-word">pūrākau</span> mean?</p>
+            <button onclick="checkAnswer(1, 'a')">Traditional stories</button>
+            <button onclick="checkAnswer(1, 'b')">Sacred carvings</button>
+            <button onclick="checkAnswer(1, 'c')">Meeting house</button>
+            <p id="feedback1"></p>
+            
+            <p>2. Which of these would NOT be appropriate to include in a game without expert consultation?</p>
+            <button onclick="checkAnswer(2, 'a')">Traditional waka designs</button>
+            <button onclick="checkAnswer(2, 'b')">Sacred karakia</button>
+            <button onclick="checkAnswer(2, 'c')">Māori place names</button>
+            <p id="feedback2"></p>
+        </div>
+    </div>
+
+    <h2>Lesson Activities</h2>
+    
+    <div class="activity">
+        <h3>Activity 1: Exploring Cultural Representation</h3>
+        <p>Research existing games that incorporate indigenous cultures (e.g., Never Alone, which features Iñupiat culture).</p>
+        <p>In small groups, analyze:</p>
+        <ul>
+            <li>How cultural elements are represented</li>
+            <li>What makes the representation respectful</li>
+            <li>How gameplay mechanics reflect cultural values</li>
+        </ul>
+        <p>Share findings with the class.</p>
+    </div>
+
+    <div class="activity">
+        <h3>Activity 2: Brainstorming Game Concepts</h3>
+        <p>Using these Māori concepts as inspiration, brainstorm game ideas:</p>
+        <ul>
+            <li><span class="maori-word">Whakapapa</span> (genealogy) - Could this be a puzzle or connection game?</li>
+            <li><span class="maori-word">Kaitiakitanga</span> (guardianship) - How about an environmental simulation?</li>
+            <li><span class="maori-word">Manaakitanga</span> (hospitality) - Could this be a social interaction game?</li>
+        </ul>
+        <p>Sketch your top 3 ideas and share with a partner for feedback.</p>
+    </div>
+
+    <div class="activity">
+        <h3>Activity 3: Prototype Development</h3>
+        <p>Choose one concept to develop further. Using Scratch, Unity, or another platform:</p>
+        <ol>
+            <li>Create a storyboard for your game</li>
+            <li>Develop core gameplay mechanics</li>
+            <li>Design culturally appropriate characters/environments</li>
+            <li>Implement basic functionality</li>
+        </ol>
+        <p><strong>Cultural Check:</strong> Have you avoided sacred elements? Is your representation accurate?</p>
+    </div>
+
+    <div class="teacher-tip">
+        <h3>Implementation Guide</h3>
+        <p><strong>Preparation:</strong></p>
+        <ol>
+            <li>Consult with Māori advisors or cultural experts in your community</li>
+            <li>Prepare example games showing good cultural representation</li>
+            <li>Set up development environments (Scratch accounts, Unity installs, etc.)</li>
+        </ol>
+        
+        <p><strong>Lesson Sequence:</strong></p>
+        <ol>
+            <li>Introduction to cultural representation in games (1-2 lessons)</li>
+            <li>Concept development and cultural consultation (2 lessons)</li>
+            <li>Prototype development (4-6 lessons)</li>
+            <li>Playtesting and refinement (2 lessons)</li>
+            <li>Final presentations and reflection (1-2 lessons)</li>
+        </ol>
+        
+        <p><strong>Technical Options:</strong></p>
+        <ul>
+            <li><strong>Beginner:</strong> Scratch or Twine</li>
+            <li><strong>Intermediate:</strong> Construct 3 or GameMaker</li>
+            <li><strong>Advanced:</strong> Unity or Godot</li>
+        </ul>
+    </div>
+
+    <div class="assessment">
+        <h3>Assessment Rubric</h3>
+        <table>
+            <tr>
+                <th>Criteria</th>
+                <th>Excellent (4)</th>
+                <th>Proficient (3)</th>
+                <th>Developing (2)</th>
+                <th>Beginning (1)</th>
+            </tr>
+            <tr>
+                <td>Cultural Representation</td>
+                <td>Authentic, respectful integration of Māori concepts with clear cultural consultation</td>
+                <td>Appropriate use of Māori concepts with some cultural consideration</td>
+                <td>Basic inclusion of Māori elements without depth</td>
+                <td>Inappropriate or superficial cultural representation</td>
+            </tr>
+            <tr>
+                <td>Game Design</td>
+                <td>Innovative mechanics that effectively communicate cultural concepts</td>
+                <td>Functional game that connects to cultural themes</td>
+                <td>Basic game with some cultural references</td>
+                <td>Game mechanics don't connect to cultural themes</td>
+            </tr>
+            <tr>
+                <td>Technical Implementation</td>
+                <td>Polished implementation with multiple interactive elements</td>
+                <td>Functional prototype with core gameplay</td>
+                <td>Partial implementation with some functionality</td>
+                <td>Minimal working elements</td>
+            </tr>
+            <tr>
+                <td>Reflection</td>
+                <td>Insightful analysis of cultural representation and design choices</td>
+                <td>Clear explanation of design decisions</td>
+                <td>Basic description of the game</td>
+                <td>Limited reflection on the process</td>
+            </tr>
+        </table>
+    </div>
+
+    <h2>Extension Activities</h2>
+    <div class="activity">
+        <h3>For Advanced Learners</h3>
+        <ul>
+            <li>Develop a multiplayer version of your game that incorporates <span class="maori-word">manaakitanga</span> (hospitality) concepts</li>
+            <li>Create a companion website explaining the cultural elements in your game</li>
+            <li>Implement more sophisticated AI for NPCs based on Māori values</li>
+            <li>Develop your game for mobile platforms</li>
+            <li>Create a marketing plan that respects cultural protocols while promoting your game</li>
+        </ul>
+    </div>
+
+    <h2>Adaptations for Diverse Learners</h2>
+    <div class="teacher-tip">
+        <h3>Support Strategies</h3>
+        <p><strong>For students needing more support:</strong></p>
+        <ul>
+            <li>Provide pre-made game templates to modify</li>
+            <li>Use visual programming tools like Scratch</li>
+            <li>Pair students with more experienced peers</li>
+            <li>Focus on one cultural concept rather than multiple</li>
+        </ul>
+        
+        <p><strong>For English Language Learners:</strong></p>
+        <ul>
+            <li>Provide bilingual vocabulary lists (Māori/English)</li>
+            <li>Use more visual planning tools</li>
+            <li>Allow verbal explanations of concepts</li>
+        </ul>
+        
+        <p><strong>For students with limited technology access:</strong></p>
+        <ul>
+            <li>Focus on paper prototyping and design</li>
+            <li>Use browser-based tools that work on Chromebooks</li>
+            <li>Provide extended time for computer access</li>
+        </ul>
+    </div>
+
+    <h2>Resources</h2>
+    <ul>
+        <li><a href="https://www.tki.org.nz/" target="_blank">Te Kete Ipurangi - Māori cultural resources</a></li>
+        <li><a href="https://scratch.mit.edu/" target="_blank">Scratch programming platform</a></li>
+        <li><a href="https://unity.com/" target="_blank">Unity game engine</a></li>
+        <li><a href="https://www.construct.net/" target="_blank">Construct 3 game maker</a></li>
+        <li><a href="https://www.welcometomycountry.org/" target="_blank">Welcome to My Country - indigenous game examples</a></li>
+    </ul>
+
+    <script>
+        function checkAnswer(question, selected) {
+            let correct = '';
+            let feedback = '';
+            
+            if (question === 1) {
+                correct = 'a';
+                feedback = selected === correct 
+                    ? 'Correct! <span class="maori-word">Pūrākau</span> are traditional Māori stories that often explain natural phenomena or teach important lessons.'
+                    : 'Not quite. The correct answer is: Traditional stories. <span class="maori-word">Pūrākau</span> are traditional Māori narratives.';
+                document.getElementById('feedback1').innerHTML = feedback;
+            }
+            
+            if (question === 2) {
+                correct = 'b';
+                feedback = selected === correct
+                    ? 'Correct! Sacred <span class="maori-word">karakia</span> (prayers/chants) should not be used in games without proper consultation and understanding.'
+                    : 'Consider again. The most sensitive element would be sacred <span class="maori-word">karakia</span>, which require proper cultural protocols.';
+                document.getElementById('feedback2').innerHTML = feedback;
+            }
+        }
+    </script>
+</body>
+</html>
+```
+
+## Complete Resource Package
+
+### 1. Cultural Context and Safety Notes
+This resource emphasizes respectful representation of Māori culture in game development. Key considerations:
+- Focus on educational and celebratory aspects of Māori culture
+- Avoid using sacred (tapu) elements without proper consultation
+- Prioritize authentic representation over stereotypes
+- Encourage consultation with local iwi or cultural advisors
+- Use games as a way to share and celebrate, not appropriate
+
+### 2. Learning Objectives (NZC Aligned)
+- **Digital Technologies:** Develop computational skills for game design (Progress Outcomes 4-6)
+- **Social Sciences:** Understand how digital media represents culture
+- **Te Ao Māori:** Engage with Māori concepts in contemporary contexts
+- **Key Competencies:** Thinking, Using language/symbols/texts, Participating and contributing
+
+### 3. Teacher Implementation Guide
+**Phase 1: Preparation (1-2 weeks before)**
+- Contact local iwi or Māori advisors for guidance
+- Test all technology tools on school devices
+- Prepare exemplars of culturally responsive games
+
+**Phase 2: Delivery (10-12 lessons)**
+1. Cultural foundations (2 lessons)
+2. Game concept development (2 lessons)
+3. Prototype creation (4-5 lessons)
+4. Testing and refinement (2 lessons)
+5. Presentation and reflection (1-2 lessons)
+
+**Ongoing:**
+- Monitor cultural appropriateness
+- Provide differentiated technical support
+- Facilitate peer feedback sessions
+
+### 4. Assessment Suggestions
+**Formative:**
+- Concept pitch presentations
+- Peer feedback on cultural representation
+- Prototype testing sessions
+
+**Summative:**
+- Final game product
+- Written reflection on cultural considerations
+- Presentation to class/community
+
+### 5. Extension Activities
+1. **Cultural Documentation:** Create a "making of" video explaining cultural elements
+2. **Advanced Programming:** Implement Māori language options
+3. **Community Engagement:** Present games to local marae or cultural groups
+4. **Cross-curricular:** Develop companion resources for Social Studies classes
+
+### 6. Adaptations
+**For Visual Learners:**
+- Use storyboarding tools
+- Provide visual examples of game mechanics
+- Allow graphic-based planning
+
+**For Kinesthetic Learners:**
+- Incorporate physical prototyping
+- Use game controller inputs
+- Include movement-based testing
+
+**For Neurodiverse Students:**
+- Provide structured templates
+- Break tasks into smaller steps
+- Offer alternative presentation formats
+
+**For Advanced Students:**
+- Challenge with 3D game development
+- Add cultural narrative depth
+- Implement accessibility features
+
+This resource is designed to be immediately usable in New Zealand classrooms while maintaining cultural integrity and meeting curriculum requirements. The HTML format ensures compatibility with school Chromebooks while including interactive elements to engage students.

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co;">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Te Kete Ako | Educational Resources</title>
@@ -747,11 +748,9 @@
                     
                     if (session?.user) {
                         // User is authenticated - redirect to dashboard
-                        console.log('Authenticated user detected, routing to dashboard');
                         this.routeToDashboard();
                     } else {
                         // User is not authenticated - show welcome page
-                        console.log('Unauthenticated user, routing to welcome');
                         this.routeToWelcome();
                     }
                 } catch (error) {
@@ -827,15 +826,12 @@
                     scope: '/'
                 })
                 .then(registration => {
-                    console.log('🚀 Service Worker registered successfully');
-                    
                     // Monitor performance metrics
                     if (registration.active) {
                         const messageChannel = new MessageChannel();
                         messageChannel.port1.onmessage = function(event) {
                             const metrics = event.data;
-                            console.log('📊 Performance metrics:', metrics);
-                        };
+                            };
                         registration.active.postMessage(
                             { type: 'GET_PERFORMANCE_METRICS' }, 
                             [messageChannel.port2]

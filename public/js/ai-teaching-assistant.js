@@ -12,8 +12,7 @@ class AITeachingAssistant {
     init() {
         this.createAssistantUI();
         this.bindEvents();
-        console.log('🤖 AI Teaching Assistant ready to kōrero!');
-    }
+        }
 
     loadCulturalContext() {
         return {
@@ -37,7 +36,7 @@ class AITeachingAssistant {
         // Floating assistant button
         const assistantBtn = document.createElement('button');
         assistantBtn.id = 'ai-assistant-toggle';
-        assistantBtn.innerHTML = '🤖';
+        assistantBtn.textContent = '🤖';
         assistantBtn.title = 'AI Teaching Assistant - Reo Ā-Taiao';
         assistantBtn.style.cssText = `
             position: fixed;
@@ -98,7 +97,7 @@ class AITeachingAssistant {
             align-items: center;
             gap: 10px;
         `;
-        chatHeader.innerHTML = `
+        chatHeader.textContent = `
             <span style="font-size: 1.5rem;">🤖</span>
             <div>
                 <div>AI Pouako (Teacher)</div>
@@ -117,7 +116,7 @@ class AITeachingAssistant {
         `;
 
         // Welcome message with cultural context
-        chatMessages.innerHTML = `
+        chatMessages.textContent = `
             <div class="ai-message">
                 <div style="background: #e8f5e8; padding: 12px; border-radius: 12px; margin-bottom: 10px; border-left: 4px solid #2E8B57;">
                     <strong>🌿 Kia ora, kaiako!</strong><br>
@@ -154,7 +153,7 @@ class AITeachingAssistant {
         `;
 
         const sendBtn = document.createElement('button');
-        sendBtn.innerHTML = 'Tuku (Send) ➤';
+        sendBtn.textContent = 'Tuku (Send) ➤';
         sendBtn.style.cssText = `
             width: 100%;
             margin-top: 8px;
@@ -278,7 +277,7 @@ class AITeachingAssistant {
                 margin-left: 50px;
                 text-align: right;
             `;
-            messageDiv.innerHTML = message;
+            messageDiv.textContent = message;
         } else {
             messageDiv.style.cssText = `
                 background: #e8f5e8;
@@ -288,7 +287,7 @@ class AITeachingAssistant {
                 margin-right: 50px;
                 border-left: 4px solid var(--color-secondary, #DAA520);
             `;
-            messageDiv.innerHTML = `<strong>🤖 AI Pouako:</strong><br>${message}`;
+            messageDiv.textContent = `<strong>🤖 AI Pouako:</strong><br>${message}`;
         }
 
         chatMessages.appendChild(messageDiv);
@@ -308,7 +307,7 @@ class AITeachingAssistant {
             font-style: italic;
             color: #6b7280;
         `;
-        typingDiv.innerHTML = '🤖 AI Pouako is thinking... 💭';
+        typingDiv.textContent = '🤖 AI Pouako is thinking... 💭';
         chatMessages.appendChild(typingDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
@@ -553,8 +552,7 @@ class AITeachingAssistant {
 
     addQuickAction(title, prompt) {
         // Add contextual quick action buttons (implementation would go here)
-        console.log(`Quick action available: ${title} - ${prompt}`);
-    }
+        }
 }
 
 // Initialize AI Teaching Assistant when DOM is loaded

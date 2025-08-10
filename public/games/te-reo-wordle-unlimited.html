@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co;">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Te Reo Māori Wordle (Unlimited) | Te Kete Ako</title>
@@ -837,28 +838,14 @@
 
         // Initialize game
         function initGame() {
-            console.log('🎮 Initializing Te Reo Māori Wordle...');
-            
             try {
                 loadStats();
-                console.log('📊 Stats loaded');
-                
                 selectDailyWord();
-                console.log('📝 Daily word selected:', currentWord.word);
-                
                 createBoard();
-                console.log('🎯 Game board created');
-                
                 createKeyboard();
-                console.log('⌨️ Virtual keyboard created');
-                
                 updateStats();
-                console.log('📈 Stats display updated');
-                
                 // Add keyboard event listeners
                 document.addEventListener('keydown', handleKeyPress);
-                console.log('✅ Te Reo Māori Wordle fully initialized');
-                
                 // Remove any loading indicator
                 const loadingElement = document.querySelector('.game-loading');
                 if (loadingElement) {
@@ -1497,7 +1484,6 @@
                 if (window.maoriDictionaryAPI) {
                     initGameWithGamification();
                 } else {
-                    console.log('Waiting for Māori Dictionary API to load...');
                     setTimeout(checkDependencies, 100);
                 }
             };

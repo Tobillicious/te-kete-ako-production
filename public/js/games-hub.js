@@ -12,17 +12,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (error) {
                 console.error('Error fetching games:', error);
-                resourceGrid.innerHTML = '<p class="error-message">Could not load games. Please try again later.</p>';
+                resourceGrid.textContent = '<p class="error-message">Could not load games. Please try again later.</p>';
                 return;
             }
 
             if (data.length === 0) {
-                resourceGrid.innerHTML = '<p>No games found. Check back soon!</p>';
+                resourceGrid.textContent = '<p>No games found. Check back soon!</p>';
                 return;
             }
 
             // Clear existing static content
-            resourceGrid.innerHTML = '';
+            resourceGrid.textContent = '';
 
             data.forEach(game => {
                 const card = document.createElement('a');
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 card.setAttribute('data-type', 'interactive'); // Assuming all are interactive for now
                 card.setAttribute('data-duration', getDurationCategory(game.estimated_duration_minutes));
 
-                card.innerHTML = `
+                card.textContent = `
                     <h3 class="resource-card-title">${game.title}</h3>
                     <p class="resource-card-description">${game.description}</p>
                     <div class="resource-card-meta">
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         } catch (err) {
             console.error('An unexpected error occurred:', err);
-            resourceGrid.innerHTML = '<p class="error-message">An unexpected error occurred while loading games.</p>';
+            resourceGrid.textContent = '<p class="error-message">An unexpected error occurred while loading games.</p>';
         }
     }
 

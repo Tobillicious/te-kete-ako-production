@@ -2,6 +2,7 @@
 
 <html lang="en">
 <head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co;">
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Te Kete Ako - Intelligent Resource Discovery | GraphRAG Search</title>
@@ -615,8 +616,7 @@
         // Runtime environment check
         if (SUPABASE_URL === 'ENVIRONMENT_VARIABLE_REQUIRED' || SUPABASE_ANON_KEY === 'ENVIRONMENT_VARIABLE_REQUIRED') {
             console.error('⚠️ GraphRAG: Environment variables not configured properly');
-            console.log('Please ensure SUPABASE_URL and SUPABASE_ANON_KEY are available in window.ENV');
-        }
+            }
         
         // COMPREHENSIVE RESOURCE DATABASE - All 250+ Resources Now Discoverable!
         const comprehensiveResources = {
@@ -1398,7 +1398,6 @@
                 const results = await callGraphRAGAPI(query);
                 displayResults(query, results);
             } catch (error) {
-                console.log('API call failed, using demo data:', error);
                 // Fallback to demo data
                 setTimeout(() => {
                     displayResults(query);
@@ -1412,8 +1411,6 @@
         async function callGraphRAGAPI(query) {
             // Real GraphRAG API call using our production backend
             try {
-                console.log('🚀 Calling REAL GraphRAG API...');
-                
                 // Phase 1: Try Supabase semantic search first
                 try {
                     const semanticResponse = await fetch(`/.netlify/functions/find-similar-resources`, {
@@ -1430,15 +1427,12 @@
                     
                     if (semanticResponse.ok) {
                         const semanticData = await semanticResponse.json();
-                        console.log('✅ Supabase semantic search successful:', semanticData.total_results);
-                        
                         // Phase 2: Enhance with Neo4j knowledge graph
                         const enhancedResults = await enhanceWithNeo4j(semanticData, query);
                         return enhancedResults;
                     }
                 } catch (semanticError) {
-                    console.log('📊 Supabase unavailable, using knowledge graph fallback:', semanticError.message);
-                }
+                    }
                 
                 // Phase 2: Fallback to local knowledge graph processing
                 const graphResults = await processWithLocalKnowledgeGraph(query);
@@ -1472,8 +1466,6 @@
         async function enhanceWithNeo4j(semanticResults, query) {
             // Phase 2: Real Neo4j Knowledge Graph Enhancement
             try {
-                console.log('🧠 Enhancing with Neo4j knowledge graph...');
-                
                 const neo4jResponse = await fetch(`/.netlify/functions/neo4j-bridge`, {
                     method: 'POST',
                     headers: {
@@ -1492,8 +1484,6 @@
                 
                 if (neo4jResponse.ok) {
                     const neo4jData = await neo4jResponse.json();
-                    console.log('✅ Neo4j enhancement successful:', neo4jData.records?.length || 0, 'connections');
-                    
                     // Process Neo4j results
                     const conceptualResources = neo4jData.records?.map(record => ({
                         title: record.row[0],
@@ -1510,8 +1500,7 @@
                     };
                 }
             } catch (neo4jError) {
-                console.log('📊 Neo4j unavailable, using local graph processing:', neo4jError.message);
-            }
+                }
             
             // Fallback to local processing
             return await processWithLocalKnowledgeGraph(query);
@@ -1519,8 +1508,6 @@
         
         async function processWithLocalKnowledgeGraph(query) {
             // Process using our local knowledge graph (from te_kete_knowledge_graph.json)
-            console.log('🏠 Processing with local knowledge graph...');
-            
             const queryLower = query.toLowerCase();
             const results = {
                 semantic: [],
@@ -1562,13 +1549,6 @@
             
             // Add intelligent recommendations
             results.recommendations = await generateIntelligentRecommendations(query, results.semantic);
-            
-            console.log('✅ Local knowledge graph processing complete:', {
-                semantic: results.semantic.length,
-                conceptual: results.conceptual.length,
-                progressions: results.progressions.length,
-                recommendations: results.recommendations.length
-            });
             
             return results;
         }
@@ -1870,8 +1850,7 @@ card.appendChild(actions);
         }
 
         function showResourceDetails(title) {
-            alert(`Resource details for: ${title}\n\nIn a full implementation, this would show detailed curriculum alignment, cultural elements, usage guidelines, and related resources.`);
-        }
+            }
 
         // Enable Enter key search
         document.getElementById('searchInput').addEventListener('keypress', function(e) {

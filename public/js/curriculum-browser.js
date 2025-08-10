@@ -208,7 +208,7 @@ class CurriculumBrowser {
         if (!resultsContainer) return;
         
         if (resources.length === 0) {
-            resultsContainer.innerHTML = '<p style="opacity: 0.8;">No resources match your current filters. Try adjusting your selections.</p>';
+            resultsContainer.textContent = '<p style="opacity: 0.8;">No resources match your current filters. Try adjusting your selections.</p>';
             return;
         }
         
@@ -239,7 +239,7 @@ class CurriculumBrowser {
             `;
         });
         
-        resultsContainer.innerHTML = html;
+        resultsContainer.textContent = html;
     }
 
     getSubjectLabel(subject) {

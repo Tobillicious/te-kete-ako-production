@@ -57,8 +57,7 @@ class PerformanceCacheManager {
             }
             
             if (this.config.debugMode) {
-                console.log(`🚀 Cache initialized with ${this.cache.size} entries`);
-            }
+                }
         } catch (error) {
             console.warn('Cache initialization failed:', error);
         }
@@ -199,7 +198,7 @@ class PerformanceCacheManager {
             this.persistCache();
             
             if (this.config.debugMode) {
-                console.log(`📦 Cached query: ${query.substring(0, 50)}...`);
+                }...`);
             }
         } catch (error) {
             console.warn('Failed to cache query:', error);
@@ -237,7 +236,7 @@ class PerformanceCacheManager {
             const decompressedResult = await this.decompressData(entry.result);
             
             if (this.config.debugMode) {
-                console.log(`🎯 Cache hit for: ${query.substring(0, 50)}...`);
+                }...`);
             }
             
             return {
@@ -275,8 +274,7 @@ class PerformanceCacheManager {
             this.accessTimes.delete(oldestKey);
             
             if (this.config.debugMode) {
-                console.log(`🗑️  Evicted oldest cache entry: ${oldestKey}`);
-            }
+                }
         }
     }
 
@@ -315,8 +313,7 @@ class PerformanceCacheManager {
         };
         
         if (this.config.debugMode) {
-            console.log('🧹 Cache cleared');
-        }
+            }
     }
 
     /**
@@ -353,8 +350,7 @@ class PerformanceCacheManager {
             if (!cached) {
                 // Would normally fetch and cache, but for now just log
                 if (this.config.debugMode) {
-                    console.log(`🔄 Would preload: ${query}`);
-                }
+                    }
             }
         });
 
@@ -392,8 +388,7 @@ class PerformanceCacheManager {
             this.persistCache();
             
             if (this.config.debugMode) {
-                console.log(`🧹 Maintenance: Removed ${expiredCount} expired entries`);
-            }
+                }
         }
     }
 

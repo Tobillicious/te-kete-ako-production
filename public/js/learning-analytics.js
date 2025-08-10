@@ -20,8 +20,7 @@ class LearningAnalytics {
         this.startTracking();
         this.createAnalyticsDashboard();
         this.bindEvents();
-        console.log('📊 Learning Analytics system activated!');
-    }
+        }
 
     initializeCulturalMetrics() {
         return {
@@ -240,7 +239,7 @@ class LearningAnalytics {
             animation: slideInRight 0.5s ease-out, fadeOut 0.5s ease-in 4s forwards;
         `;
 
-        notification.innerHTML = `
+        notification.textContent = `
             <div style="display: flex; align-items: center; gap: 15px;">
                 <div style="font-size: 2rem;">🏆</div>
                 <div>
@@ -273,7 +272,7 @@ class LearningAnalytics {
         // Create analytics dashboard button
         const dashboardBtn = document.createElement('button');
         dashboardBtn.id = 'analytics-dashboard-btn';
-        dashboardBtn.innerHTML = '📊';
+        dashboardBtn.textContent = '📊';
         dashboardBtn.title = 'Learning Analytics - Tauanga Ako';
         dashboardBtn.style.cssText = `
             position: fixed;
@@ -324,7 +323,7 @@ class LearningAnalytics {
             margin-top: 20px;
         `;
 
-        dashboardContent.innerHTML = this.createDashboardHTML();
+        dashboardContent.textContent = this.createDashboardHTML();
         dashboardModal.appendChild(dashboardContent);
         document.body.appendChild(dashboardBtn);
         document.body.appendChild(dashboardModal);
@@ -507,7 +506,7 @@ class LearningAnalytics {
     openDashboard() {
         // Refresh dashboard content
         const dashboardContent = document.querySelector('#analytics-dashboard-modal > div');
-        dashboardContent.innerHTML = this.createDashboardHTML();
+        dashboardContent.textContent = this.createDashboardHTML();
         this.bindDashboardEvents();
         
         document.getElementById('analytics-dashboard-modal').style.display = 'flex';
@@ -570,7 +569,7 @@ class LearningAnalytics {
             z-index: 10000;
             text-align: center;
         `;
-        notification.innerHTML = '✅ Analytics data has been reset successfully!';
+        notification.textContent = '✅ Analytics data has been reset successfully!';
         document.body.appendChild(notification);
         setTimeout(() => notification.remove(), 3000);
     }

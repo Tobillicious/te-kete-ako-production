@@ -227,8 +227,7 @@ class TeKeteAkoSearch {
             this.searchIndex.set(item.id, item);
         });
 
-        console.log(`Search index built with ${this.searchIndex.size} items`);
-    }
+        }
 
     // Create the search interface
     createSearchInterface() {
@@ -477,7 +476,7 @@ class TeKeteAkoSearch {
         const nav = document.querySelector('.main-nav ul');
         if (nav && !document.getElementById('search-trigger')) {
             const searchTrigger = document.createElement('li');
-            searchTrigger.innerHTML = `
+            searchTrigger.textContent = `
                 <a href="#" id="search-trigger" style="
                     display: flex;
                     align-items: center;
@@ -617,7 +616,7 @@ class TeKeteAkoSearch {
         if (!resultsContainer) return;
 
         if (results.length === 0) {
-            resultsContainer.innerHTML = `
+            resultsContainer.textContent = `
                 <div style="text-align: center; padding: 40px; color: #6b7280;">
                     <div style="font-size: 2rem; margin-bottom: 16px;">😔</div>
                     <p style="margin: 0; font-size: 1.1rem;">No results found</p>
@@ -652,7 +651,7 @@ class TeKeteAkoSearch {
             </div>
         `;
 
-        resultsContainer.innerHTML = resultHTML;
+        resultsContainer.textContent = resultHTML;
     }
 
     // Render individual search result
@@ -783,7 +782,7 @@ class TeKeteAkoSearch {
 
         historyContainer.style.setProperty('display', 'block');
         
-        historyItems.innerHTML = this.searchHistory.map(query => `
+        historyItems.textContent = this.searchHistory.map(query => `
             <button style="
                 background: #f3f4f6;
                 border: 1px solid #d1d5db;

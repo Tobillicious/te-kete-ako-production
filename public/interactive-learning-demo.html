@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co;">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Learning Demo | Te Kete Ako</title>
@@ -359,8 +360,6 @@
             }
 
             async initialize() {
-                console.log('🚀 Initializing Interactive Learning Demo');
-                
                 // Wait for progress tracker to initialize
                 await this.progressTracker.initialize();
                 
@@ -373,13 +372,11 @@
                 // Set up event listeners
                 this.setupEventListeners();
                 
-                console.log('✅ Demo initialized successfully');
-            }
+                }
 
             setupEventListeners() {
                 // Listen for progress updates
                 document.addEventListener('progress-updated', (event) => {
-                    console.log('Progress updated:', event.detail);
                     this.updateProgressDashboard();
                 });
             }

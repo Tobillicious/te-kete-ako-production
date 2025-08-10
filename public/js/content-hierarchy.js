@@ -586,7 +586,7 @@ class ContentHierarchy {
         const content = document.createElement('div');
         content.className = 'hierarchy-content';
         
-        content.innerHTML = `
+        content.textContent = `
             <button onclick="document.querySelector('.content-hierarchy-modal').remove()" 
                     style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: #666; font-size: 1.5rem; cursor: pointer; padding: 0.5rem; border-radius: 4px; transition: all 0.2s ease;">×</button>
             
@@ -752,7 +752,7 @@ class ContentHierarchy {
         // Add floating widget to access hierarchy from any page
         const widget = document.createElement('div');
         widget.className = 'hierarchy-widget';
-        widget.innerHTML = '📚';
+        widget.textContent = '📚';
         widget.title = 'Show Content Hierarchy';
         widget.onclick = () => this.showHierarchyModal();
         
@@ -830,7 +830,7 @@ class ContentHierarchy {
             `;
         }
         
-        breadcrumb.innerHTML = breadcrumbContent;
+        breadcrumb.textContent = breadcrumbContent;
         return breadcrumb;
     }
 
@@ -885,7 +885,7 @@ class ContentHierarchy {
             if (e.target === modal) modal.remove();
         };
         
-        modal.innerHTML = `
+        modal.textContent = `
             <div class="hierarchy-content" style="max-width: 600px;">
                 <button onclick="this.closest('.content-hierarchy-modal').remove()" 
                         style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: #666; font-size: 1.5rem; cursor: pointer;">×</button>

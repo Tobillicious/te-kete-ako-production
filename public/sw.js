@@ -64,19 +64,15 @@ let performanceMetrics = {
  * Install event - cache static resources immediately
  */
 self.addEventListener('install', event => {
-    console.log('🚀 Service Worker installing...');
-    
     event.waitUntil(
         Promise.all([
             // Cache static resources
             caches.open(STATIC_CACHE).then(cache => {
-                console.log('📦 Caching static resources...');
                 return cache.addAll(STATIC_RESOURCES);
             }),
             
             // Cache essential educational resources
             caches.open(OFFLINE_CACHE).then(cache => {
-                console.log('📚 Caching essential educational resources...');
                 return cache.addAll(ESSENTIAL_RESOURCES.map(url => {
                     return new Request(url, { 
                         cache: 'reload',
@@ -99,8 +95,6 @@ self.addEventListener('install', event => {
  * Activate event - clean up old caches
  */
 self.addEventListener('activate', event => {
-    console.log('✅ Service Worker activating...');
-    
     event.waitUntil(
         Promise.all([
             // Clean up old caches
@@ -109,7 +103,6 @@ self.addEventListener('activate', event => {
                     cacheNames
                         .filter(cacheName => cacheName.startsWith('tkako-') && !cacheName.includes(CACHE_VERSION))
                         .map(cacheName => {
-                            console.log('🗑️ Deleting old cache:', cacheName);
                             return caches.delete(cacheName);
                         })
                 );
@@ -365,8 +358,7 @@ async function doBackgroundSync() {
             )
         );
         
-        console.log('📦 Background sync completed');
-    } catch (error) {
+        } catch (error) {
         console.warn('Background sync failed:', error);
     }
 }
@@ -394,4 +386,3 @@ self.addEventListener('message', event => {
     }
 });
 
-console.log('🚀 Te Kete Ako Service Worker loaded successfully!');

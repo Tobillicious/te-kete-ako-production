@@ -919,11 +919,11 @@ class YouTubeEducationalLibrary {
         const videosToShow = this.filteredVideos.slice(startIndex, endIndex);
 
         if (videosToShow.length === 0) {
-            container.innerHTML = this.renderNoResults();
+            container.textContent = this.renderNoResults();
             return;
         }
 
-        container.innerHTML = videosToShow.map(video => this.renderVideoCard(video)).join('');
+        container.textContent = videosToShow.map(video => this.renderVideoCard(video)).join('');
     }
 
     renderVideoCard(video) {
@@ -1021,7 +1021,7 @@ class YouTubeEducationalLibrary {
         const curriculumCount = this.filteredVideos.filter(v => v.curriculumAligned).length;
         const assessmentCount = this.filteredVideos.filter(v => v.assessmentReady).length;
 
-        statsContainer.innerHTML = `
+        statsContainer.textContent = `
             <div class="stats-grid">
                 <div class="stat-item">
                     <div class="stat-number">${this.filteredVideos.length}</div>
@@ -1049,7 +1049,7 @@ class YouTubeEducationalLibrary {
 
         const totalPages = Math.ceil(this.totalVideos / this.videosPerPage);
         if (totalPages <= 1) {
-            paginationContainer.innerHTML = '';
+            paginationContainer.textContent = '';
             return;
         }
 
@@ -1085,7 +1085,7 @@ class YouTubeEducationalLibrary {
         }
 
         paginationHTML += '</div>';
-        paginationContainer.innerHTML = paginationHTML;
+        paginationContainer.textContent = paginationHTML;
     }
 
     goToPage(page) {
@@ -1125,8 +1125,6 @@ class YouTubeEducationalLibrary {
 
     toggleBookmark(videoId) {
         // In a real implementation, this would save to Supabase
-        console.log(`Toggling bookmark for video: ${videoId}`);
-        
         // Show user feedback
         const button = document.querySelector(`[data-video-id="${videoId}"] .bookmark-btn`);
         if (button) {

@@ -67,7 +67,7 @@ class AssessmentTools {
             position: relative;
         `;
         
-        content.innerHTML = `
+        content.textContent = `
             <button onclick="this.closest('.assessment-modal').remove()" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer;">×</button>
             
             <h2 style="color: var(--color-primary); margin-bottom: 1.5rem;">📊 Comprehensive Assessment Rubric</h2>
@@ -226,7 +226,7 @@ class AssessmentTools {
             position: relative;
         `;
         
-        content.innerHTML = `
+        content.textContent = `
             <button onclick="this.closest('.assessment-modal').remove()" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer;">×</button>
             
             <h2 style="color: var(--color-primary); margin-bottom: 1.5rem;">🎫 Exit Ticket</h2>
@@ -276,7 +276,7 @@ class AssessmentTools {
             position: relative;
         `;
         
-        content.innerHTML = `
+        content.textContent = `
             <button onclick="this.closest('.assessment-modal').remove()" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer;">×</button>
             
             <h2 style="color: var(--color-primary); margin-bottom: 1.5rem;">📊 Student Progress Tracker</h2>

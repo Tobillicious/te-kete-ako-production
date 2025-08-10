@@ -30,8 +30,6 @@ let currentUser = null;
 function initializeSupabase() {
     if (typeof window.supabase !== 'undefined') {
         supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-        console.log('✅ Supabase client initialized');
-        
         // Set up auth state listener
         setupAuthStateListener();
         
@@ -51,8 +49,6 @@ function setupAuthStateListener() {
     
     supabase.auth.onAuthStateChange((event, session) => {
         currentUser = session?.user || null;
-        console.log('Auth state changed:', event, currentUser?.email);
-        
         // Update UI based on auth state
         updateAuthUI(currentUser);
         
@@ -91,7 +87,7 @@ function showError(message, elementId = 'error-message') {
         errorElement.className = 'message error show';
     } else {
         console.error(message);
-        alert(message); // Fallback
+        // Fallback
     }
 }
 
@@ -105,7 +101,7 @@ function showSuccess(message, elementId = 'success-message') {
         successElement.style.display = 'block';
         successElement.className = 'message success show';
     } else {
-        alert(message); // Fallback
+        // Fallback
     }
 }
 
@@ -371,13 +367,11 @@ function shouldProtectPage() {
  * Handle successful sign in
  */
 function handleSignInSuccess(user) {
-    console.log('User signed in:', user.email);
     document.body.classList.add('logged-in');
     document.body.classList.remove('logged-out');
     
     // Check email verification for protected pages
     if (shouldProtectPage() && !user.email_confirmed_at) {
-        console.log('Email not verified, redirecting...');
         window.location.href = '/verify-email.html';
         return;
     }
@@ -387,13 +381,11 @@ function handleSignInSuccess(user) {
  * Handle successful sign out
  */
 function handleSignOutSuccess() {
-    console.log('User signed out');
     document.body.classList.add('logged-out');
     document.body.classList.remove('logged-in');
     
     // Redirect to login if on protected page
     if (shouldProtectPage()) {
-        console.log('Protected page, redirecting to login...');
         window.location.href = '/login.html';
         return;
     }
@@ -519,7 +511,6 @@ function initialize() {
     // Try to initialize Supabase immediately
     if (!initializeSupabase()) {
         // If not available, wait for Supabase CDN to load
-        console.log('Waiting for Supabase CDN...');
         const checkSupabase = setInterval(() => {
             if (initializeSupabase()) {
                 clearInterval(checkSupabase);
@@ -559,4 +550,3 @@ window.TeKeteAuth = {
     currentUser: () => currentUser
 };
 
-console.log('🧺 Supabase Auth initialized for Te Kete Ako');

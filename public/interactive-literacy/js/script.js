@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
 
         renderWords: function() {
-            this.container.innerHTML = ''; 
+            this.container.textContent = ''; 
             this.words.forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'flex items-center space-x-4 mb-2 p-3 bg-white rounded-md shadow-sm';
@@ -43,8 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.error(`Vowel team "${item.team}" not found in word "${item.word}".`);
                     wordSpan.textContent = item.word; 
                 } else {
-                    wordSpan.innerHTML = 
-                        item.word.substring(0, teamIndex) +
+                    wordSpan.textContent = item.word.substring(0, teamIndex) +
                         `<span class="clickable-vowel-team" data-word="${item.word}" data-team="${item.team}">${item.team}</span>` +
                         item.word.substring(teamIndex + item.team.length);
                 }
@@ -180,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         renderGrid: function() {
             const container = this.elements.gridContainer;
-            container.innerHTML = '';
+            container.textContent = '';
             container.style.gridTemplateColumns = `repeat(${this.gridSize}, minmax(0, 1fr))`;
             
             this.grid.forEach((row, r_idx) => {
@@ -256,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
 
         updateWordsListDisplay: function() {
-            this.elements.wordsListEl.innerHTML = this.words.map(word => 
+            this.elements.wordsListEl.textContent = this.words.map(word => 
                 `<span class="${this.foundWords.includes(word)? 'line-through text-slate-400' : ''}">${word}</span>`
             ).join(' '); 
         },

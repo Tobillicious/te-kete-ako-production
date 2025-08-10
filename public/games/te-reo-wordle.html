@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co;">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Te Reo Māori Wordle | Te Kete Ako</title>
@@ -853,28 +854,14 @@
 
         // Initialize game
         function initGame() {
-            console.log('🎮 Initializing Te Reo Māori Wordle...');
-            
             try {
                 loadStats();
-                console.log('📊 Stats loaded');
-                
                 selectDailyWord();
-                console.log('📝 Daily word selected:', currentWord.word);
-                
                 createBoard();
-                console.log('🎯 Game board created');
-                
                 createKeyboard();
-                console.log('⌨️ Virtual keyboard created');
-                
                 updateStats();
-                console.log('📈 Stats display updated');
-                
                 // Add keyboard event listeners
                 document.addEventListener('keydown', handleKeyPress);
-                console.log('✅ Te Reo Māori Wordle fully initialized');
-                
                 // Remove any loading indicator
                 const loadingElement = document.querySelector('.game-loading');
                 if (loadingElement) {
@@ -899,13 +886,12 @@
             const day = nzTime.getDate();
             const seed = year * 10000 + month * 100 + day; // YYYYMMDD format
             
-            console.log(`Te Reo Wordle: Daily word for NZ date: ${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`);
+            .padStart(2, '0')}-${day.toString().padStart(2, '0')}`);
             
             // Use our local word list - reliable and fast
             const index = seed % MAORI_WORDS.length;
             currentWord = MAORI_WORDS[index];
-            console.log('Today\'s word selected:', currentWord.word);
-        }
+            }
 
         // Create game board
         function createBoard() {
@@ -1525,7 +1511,6 @@
 
         // Initialize game when page loads - SIMPLIFIED VERSION
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🎮 Te Reo Wordle: DOM loaded, initializing...');
             initGame();
         });
         

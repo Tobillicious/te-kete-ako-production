@@ -16,8 +16,7 @@ class ContentRecommendationEngine {
         await this.buildContentDatabase();
         await this.analyzeContentRelationships();
         this.setupBehaviorTracking();
-        console.log('[Recommendations] Content recommendation engine initialized');
-    }
+        }
 
     async buildContentDatabase() {
         // Define content categories and relationships
@@ -365,12 +364,12 @@ class ContentRecommendationEngine {
         const recommendations = this.getRecommendations(currentPath, options);
         
         if (recommendations.length === 0) {
-            container.innerHTML = '<p class="text-muted">No related resources found.</p>';
+            container.textContent = '<p class="text-muted">No related resources found.</p>';
             return;
         }
 
         const html = recommendations.map(rec => this.createRecommendationHTML(rec)).join('');
-        container.innerHTML = html;
+        container.textContent = html;
 
         // Add analytics tracking
         this.trackRecommendationDisplay(recommendations);
