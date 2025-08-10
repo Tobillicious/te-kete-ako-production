@@ -12,13 +12,13 @@
  * - Ensures smooth, automatic execution of complex workflows
  */
 
-import fs from 'fs';
-import path from 'path';
+import * as fs from 'fs';
+import * as path from 'path';
 import pdfParse from 'pdf-parse';
 import axios from 'axios';
 import { createClient } from '@supabase/supabase-js';
 import { v4 as uuidv4 } from 'uuid';
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 import retry from 'async-retry';
 
 dotenv.config();
