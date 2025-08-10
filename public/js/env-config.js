@@ -1,8 +1,11 @@
 // Te Kete Ako - Environment Configuration
 // This file sets up environment variables for frontend use securely
 
-// Load environment variables into window.ENV
-window.ENV = window.ENV || {};
+(function(){
+  window.ENV = window.ENV || {};
+  window.ENV.SUPABASE_URL = window.ENV.SUPABASE_URL || 'https://nlgldaqtubrlcqddppbq.supabase.co';
+  window.ENV.SUPABASE_ANON_KEY = window.ENV.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+})();
 
 // Configuration loader - checks multiple sources
 function loadEnvironmentConfig() {
