@@ -1,704 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co;">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Te Kete Ako | Educational Resources</title>
-    <!-- Critical CSS inlined for fastest rendering -->
-    <style>
-        /* Critical above-the-fold styles - inlined for performance */
-        :root{--color-primary:#1a1a1a;--color-secondary:#00b0b9;--color-accent:#f5a623;--color-forest:#2C5F41;--color-background:#ffffff;--color-text-primary:#1a1a1a;--color-text-secondary:#6c757d;--color-border:#e5e7eb;--font-headings:'Montserrat','Helvetica','Arial',sans-serif;--font-body:'Lato','Helvetica','Arial',sans-serif;--header-height:72px}*{box-sizing:border-box;margin:0;padding:0}body{font-family:var(--font-body);background-color:var(--color-background);color:var(--color-text-primary);line-height:1.6;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;min-height:100vh}.site-header{background:var(--color-background);border-bottom:1px solid var(--color-border);position:sticky;top:0;z-index:1000;height:var(--header-height)}.nav-container{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:0 1rem;height:100%}.nav-brand{font-family:var(--font-headings);font-size:1.5rem;font-weight:700;color:var(--color-forest);text-decoration:none}.mobile-nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:0.5rem}.mobile-nav-icon span{display:block;width:22px;height:2px;background:var(--color-primary);margin:4px 0;transition:0.3s}@media (max-width:768px){.mobile-nav-toggle{display:block}.main-nav{display:none}}.hero-section{padding:2rem 1rem;text-align:center;background:linear-gradient(135deg,#f0f8f0 0%,#e8f4f8 100%)}.hero-title{font-family:var(--font-headings);font-size:2.5rem;color:var(--color-forest);margin-bottom:0.5rem}.hero-tagline{font-size:1.2rem;color:var(--color-text-secondary);margin-bottom:1rem}.whakatauki{font-size:1.5rem;color:var(--color-secondary);font-style:italic;margin-bottom:0.5rem}.whakatauki-translation{color:var(--color-text-secondary);margin-bottom:2rem}.main-container{display:flex;flex:1;max-width:1200px;margin:0 auto;width:100%}.content-area{flex:1;padding:0 1rem}@media (max-width:768px){.hero-title{font-size:2rem}.main-container{flex-direction:column}}.left-sidebar{display:none}.features-banner{opacity:0}.ai-revolution-section{opacity:0}
-    </style>
-    
-    <!-- Preconnect to external services -->
+    <title>Te Kete Ako - Educational Resources for Aotearoa New Zealand</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-    
-    <!-- Load non-critical CSS asynchronously -->
-    <link rel="preload" href="css/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="css/mobile-revolution.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    
-    <!-- Fallback for browsers that don't support preload -->
-    <noscript>
-        <link rel="stylesheet" href="css/main.css">
-        <link rel="stylesheet" href="css/mobile-revolution.css">
-    </noscript>
-    
-    <!-- Load fonts with display=swap for better performance -->
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet" media="print" onload="this.media='all'"
-    
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#2C5F41">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Te Kete Ako">
-    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
-</head>
-<body data-route-handler="true">
-    <!-- Authentication-based routing overlay -->
-    <div id="route-loader" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, #f0f8f0 0%, #e8f4f8 100%); z-index: 10000; display: flex; align-items: center; justify-content: center;">
-        <div style="text-align: center; max-width: 500px; padding: 2rem;">
-            <div style="font-size: 4rem; margin-bottom: 1rem;">🧺</div>
-            <h2 style="color: var(--color-forest); margin-bottom: 1rem; font-family: var(--font-headings);">Te Kete Ako</h2>
-            <p style="color: var(--color-text-secondary); margin-bottom: 2rem;">Loading your personalized experience...</p>
-            <div style="width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid var(--color-secondary); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto;"></div>
-        </div>
-    </div>
-    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display: none;">
-        <defs>
-            <filter id="gooey">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
-                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
-                <feBlend in="SourceGraphic" in2="goo" />
-            </filter>
-        </defs>
-    </svg>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
 
-        <header class="site-header no-print">
-        <div class="nav-container">
-            <a href="index.html" class="nav-brand">Te Kete Ako</a>
-            
-            <!-- Mobile Navigation Toggle -->
-            <button class="mobile-nav-toggle" aria-label="Open mobile menu">
-                <div class="mobile-nav-icon">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </button>
-            
-            <nav class="main-nav">
-                <ul>
-                    <li>
-                        <a href="learning-pathways.html">
-                            <span class="nav-icon">🌟</span>
-                            <span class="nav-text-en">Learning Pathways</span>
-                            <span class="nav-text-mi" lang="mi">Ngā Ara Ako</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="subjects.html">
-                            <span class="nav-icon">📚</span>
-                            <span class="nav-text-en">Subjects</span>
-                            <span class="nav-text-mi" lang="mi">Ngā Marau</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="unit-plans.html">
-                            <span class="nav-icon">📖</span>
-                            <span class="nav-text-en">Unit Plans</span>
-                            <span class="nav-text-mi" lang="mi">Ngā Waehere</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="lessons.html">
-                            <span class="nav-icon">🎓</span>
-                            <span class="nav-text-en">Lessons</span>
-                            <span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="handouts.html">
-                            <span class="nav-icon">📄</span>
-                            <span class="nav-text-en">Handouts</span>
-                            <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="games.html">
-                            <span class="nav-icon">🎮</span>
-                            <span class="nav-text-en">Games</span>
-                            <span class="nav-text-mi" lang="mi">Ngā Kēmu</span>  
-                        </a>
-                    </li>
-                    <li>
-                        <a href="platforms.html">
-                            <span class="nav-icon">🏛️</span>
-                            <span class="nav-text-en">Platforms</span>
-                            <span class="nav-text-mi" lang="mi">Ngā Tahua</span>  
-                        </a>
-                    </li>
-                    <li>
-                        <a href="ai-hub.html">
-                            <span class="nav-icon">🎯</span>
-                            <span class="nav-text-en">AI Hub</span>
-                            <span class="nav-text-mi" lang="mi">Pū AI</span>  
-                        </a>
-                    </li>
-                    <li>
-                        <a href="classroom-leaderboard.html">
-                            <span class="nav-icon">🏆</span>
-                            <span class="nav-text-en">Leaderboard</span>
-                            <span class="nav-text-mi" lang="mi">Papa Taumata</span>  
-                        </a>
-                    </li>
-                    <li>
-                        <a href="graphrag-search.html">
-                            <span class="nav-icon">🧠</span>
-                            <span class="nav-text-en">AI Search</span>
-                            <span class="nav-text-mi" lang="mi">Rapua AI</span>  
-                        </a>
-                    </li>
-                    <li>
-                        <a href="teacher-dashboard-ai.html">
-                            <span class="nav-icon">🤖</span>
-                            <span class="nav-text-en">AI Teacher Tools</span>
-                            <span class="nav-text-mi" lang="mi">Taputapu AI</span>  
-                        </a>
-                    </li>
-                    <li>
-                        <a href="interactive-learning-demo.html">
-                            <span class="nav-icon">⚡</span>
-                            <span class="nav-text-en">Adaptive Learning</span>
-                            <span class="nav-text-mi" lang="mi">Ako Tawhiti</span>  
-                        </a>
-                    </li>
-                    <li>
-                        <a href="activities.html">
-                            <span class="nav-icon">⚡</span>
-                            <span class="nav-text-en">Activities</span>
-                            <span class="nav-text-mi" lang="mi">Ngā Mahinga</span>  
-                        </a>
-                    </li>
-                    <li class="auth-nav my-kete-link" style="display: none;">
-                        <a href="my-kete.html">
-                            <span class="nav-icon">🧺</span>
-                            My Kete
-                        </a>
-                    </li>
-                    <li class="auth-nav login-visible">
-                        <a href="login.html" class="login-btn">
-                            <span class="nav-icon">👤</span>
-                            <span class="nav-text">Login</span>
-                        </a>
-                    </li>
-                    <li class="auth-nav" style="display: none;">
-                        <a href="register-simple.html" class="register-btn">
-                            <span class="nav-icon">📝</span>
-                            Register
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-btn:hover {
+            background: white;
+            color: var(--color-primary);
+            transform: translateY(-2px);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: var(--color-primary);
+        }
+
+        .feature-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .cultural-section {
+            background: var(--color-cultural-light);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .cultural-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cultural-title {
+            font-size: 2.5rem;
+            color: var(--color-cultural);
+            margin-bottom: 1rem;
+        }
+
+        .cultural-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .quick-access {
+            padding: 4rem 2rem;
+            background: #f8f9fa;
+        }
+
+        .quick-access-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* New class to replace inline style on Quick Access heading */
+        .quick-access-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--color-primary);
+        }
+
+        .quick-link {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            color: inherit;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .quick-link:hover {
+            border-color: var(--color-accent);
+            transform: translateY(-2px);
+        }
+
+        .quick-link-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .quick-link-title {
+            font-weight: bold;
+            color: var(--color-primary);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="main-nav">
+            <div class="nav-brand">
+                <h1>🧺 Te Kete Ako</h1>
+            </div>
+            <div class="nav-links">
+                <a href="units.html">Unit Plans</a>
+                <a href="lessons.html">Lessons</a>
+                <a href="handouts.html">Handouts</a>
+                <a href="games.html">Games</a>
+                <a href="experiences.html">Experiences</a>
+                <a href="login.html">Login</a>
+            </div>
+        </nav>
     </header>
 
-    <!-- Mobile Navigation Overlay -->
-    <div class="mobile-nav-overlay">
-        <div class="mobile-nav-header">
-            <div class="mobile-nav-greeting">Nau mai, haere mai</div>
-            <div class="mobile-nav-translation">Welcome to Te Kete Ako</div>
-        </div>
-        <ul class="mobile-nav-list">
-            <li class="mobile-nav-item">
-                <a href="learning-pathways.html" class="mobile-nav-link">
-                    <span class="mobile-nav-icon">🌟</span>
-                    <div class="mobile-nav-text">
-                        <span class="mobile-nav-text-en">Learning Pathways</span>
-                        <span class="mobile-nav-text-mi">Ngā Ara Ako</span>
-                    </div>
-                </a>
-            </li>
-            <li class="mobile-nav-item">
-                <a href="subjects.html" class="mobile-nav-link">
-                    <span class="mobile-nav-icon">📚</span>
-                    <div class="mobile-nav-text">
-                        <span class="mobile-nav-text-en">Subjects</span>
-                        <span class="mobile-nav-text-mi">Ngā Marau</span>
-                    </div>
-                </a>
-            </li>
-            <li class="mobile-nav-item">
-                <a href="unit-plans.html" class="mobile-nav-link">
-                    <span class="mobile-nav-icon">📖</span>
-                    <div class="mobile-nav-text">
-                        <span class="mobile-nav-text-en">Unit Plans</span>
-                        <span class="mobile-nav-text-mi">Ngā Waehere</span>
-                    </div>
-                </a>
-            </li>
-            <li class="mobile-nav-item">
-                <a href="lessons.html" class="mobile-nav-link">
-                    <span class="mobile-nav-icon">🎓</span>
-                    <div class="mobile-nav-text">
-                        <span class="mobile-nav-text-en">Lessons</span>
-                        <span class="mobile-nav-text-mi">Ngā Akoranga</span>
-                    </div>
-                </a>
-            </li>
-            <li class="mobile-nav-item">
-                <a href="handouts.html" class="mobile-nav-link">
-                    <span class="mobile-nav-icon">📄</span>
-                    <div class="mobile-nav-text">
-                        <span class="mobile-nav-text-en">Handouts</span>
-                        <span class="mobile-nav-text-mi">Ngā Rauemi</span>
-                    </div>
-                </a>
-            </li>
-            <li class="mobile-nav-item">
-                <a href="games.html" class="mobile-nav-link">
-                    <span class="mobile-nav-icon">🎮</span>
-                    <div class="mobile-nav-text">
-                        <span class="mobile-nav-text-en">Games</span>
-                        <span class="mobile-nav-text-mi">Ngā Kēmu</span>
-                    </div>
-                </a>
-            </li>
-            <li class="mobile-nav-item">
-                <a href="graphrag-search.html" class="mobile-nav-link">
-                    <span class="mobile-nav-icon">🧠</span>
-                    <div class="mobile-nav-text">
-                        <span class="mobile-nav-text-en">AI Search</span>
-                        <span class="mobile-nav-text-mi">Rapua AI</span>
-                    </div>
-                </a>
-            </li>
-            <li class="mobile-nav-item">
-                <a href="teacher-dashboard-ai.html" class="mobile-nav-link">
-                    <span class="mobile-nav-icon">🤖</span>
-                    <div class="mobile-nav-text">
-                        <span class="mobile-nav-text-en">AI Teacher Tools</span>
-                        <span class="mobile-nav-text-mi">Taputapu AI</span>
-                    </div>
-                </a>
-            </li>
-            <li class="mobile-nav-item">
-                <a href="interactive-learning-demo.html" class="mobile-nav-link">
-                    <span class="mobile-nav-icon">⚡</span>
-                    <div class="mobile-nav-text">
-                        <span class="mobile-nav-text-en">Adaptive Learning</span>
-                        <span class="mobile-nav-text-mi">Ako Tawhiti</span>
-                    </div>
-                </a>
-            </li>
-            <li class="mobile-nav-item">
-                <a href="ai-hub.html" class="mobile-nav-link">
-                    <span class="mobile-nav-icon">🎯</span>
-                    <div class="mobile-nav-text">
-                        <span class="mobile-nav-text-en">AI Hub</span>
-                        <span class="mobile-nav-text-mi">Pū AI</span>
-                    </div>
-                </a>
-            </li>
-            <li class="mobile-nav-item">
-                <a href="classroom-leaderboard.html" class="mobile-nav-link">
-                    <span class="mobile-nav-icon">🏆</span>
-                    <div class="mobile-nav-text">
-                        <span class="mobile-nav-text-en">Leaderboard</span>
-                        <span class="mobile-nav-text-mi">Papa Taumata</span>
-                    </div>
-                </a>
-            </li>
-            <li class="mobile-nav-item auth-mobile-nav">
-                <a href="login.html" class="mobile-nav-link">
-                    <span class="mobile-nav-icon">👤</span>
-                    <div class="mobile-nav-text">
-                        <span class="mobile-nav-text-en">Login</span>
-                        <span class="mobile-nav-text-mi">Uru mai</span>
-                    </div>
-                </a>
-            </li>
-        </ul>
-        <button class="mobile-nav-close">Close Menu</button>
-    </div>
+    <main>
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">Te Kete Ako</h1>
+                <p class="hero-subtitle">"Whaowhia te kete mātauranga" - Fill the basket of knowledge</p>
+                <div class="hero-buttons">
+                    <a href="units.html" class="hero-btn">Explore Units</a>
+                    <a href="lessons.html" class="hero-btn">Browse Lessons</a>
+                    <a href="register-simple.html" class="hero-btn">Join Us</a>
+                </div>
+            </div>
+        </section>
 
-    <div class="main-container">
-        <aside class="left-sidebar no-print">
-            <div class="sidebar-widget" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; border: 2px solid var(--color-secondary);">
-                <h3 class="sidebar-widget-title" style="color: white;">🤖 AI-Powered Learning</h3>
-                <ul>
-                    <li><a href="teacher-dashboard-ai.html" style="color: #FFD700; font-weight: bold;">🤖 AI Teacher Dashboard</a></li>
-                    <li><a href="interactive-learning-demo.html" style="color: white;">⚡ Adaptive Learning System</a></li>
-                    <li><a href="deepseek-agent-test.html" style="color: white;">🧠 DeepSeek AI Agent</a></li>
-                    <li><a href="project-submission.html" style="color: white;">📝 Smart Project Tracker</a></li>
-                </ul>
+        <section class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🌿</div>
+                <h3 class="feature-title">Te Ao Māori Integration</h3>
+                <p class="feature-description">Authentic cultural knowledge woven throughout all curriculum areas,
+                    honoring traditional wisdom and contemporary learning.</p>
             </div>
-            
-            <div class="sidebar-widget" style="background: linear-gradient(135deg, var(--color-cultural-light) 0%, var(--color-cultural-accent) 100%); border-radius: 12px; border: 2px solid var(--color-secondary);">
-                <h3 class="sidebar-widget-title" style="color: var(--color-forest);">🏛️ Major Platforms</h3>
-                <ul>
-                    <li><a href="guided-inquiry-unit/index.html" style="color: var(--color-accent); font-weight: bold;">🏛️ Society Design Unit</a></li>
-                    <li><a href="digital-purakau.html" style="color: var(--color-forest);">📚 Digital Pūrākau Storytelling</a></li>
-                    <li><a href="living-whakapapa.html" style="color: var(--color-forest);">🌿 Living Whakapapa Project</a></li>
-                    <li><a href="virtual-marae.html" style="color: var(--color-forest);">🏛️ Virtual Marae Training</a></li>
-                    <li><a href="classroom-leaderboard.html" style="color: var(--color-secondary);">📊 Classroom Leaderboard</a></li>
-                </ul>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3 class="feature-title">NZ Curriculum Aligned</h3>
+                <p class="feature-description">Comprehensive coverage of all learning areas with culturally-responsive
+                    pedagogy and assessment frameworks.</p>
             </div>
-            
-            <div class="sidebar-widget">
-                <h3 class="sidebar-widget-title">🌟 Popular Resources</h3>
-                <ul>
-                    <li><a href="games/te-reo-wordle.html">🎮 Te Reo Māori Wordle</a></li>
-                    <li><a href="handouts.html">📋 Interactive Curriculum Browser</a></li>
-                    <li><a href="interactive-literacy/index.html">📖 Interactive Literacy Workbook</a></li>
-                    <li><a href="y8-systems-unit.html">🏛️ Systems Unit (Complete)</a></li>
-                    <li><a href="handouts/writers-toolkit-peel-argument-handout.html">✍️ PEEL Method Toolkit</a></li>
-                </ul>
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h3 class="feature-title">Interactive Learning</h3>
+                <p class="feature-description">Engaging digital experiences, games, and multimedia resources that make
+                    learning irresistible for rangatahi.</p>
             </div>
-            
-            <div class="sidebar-widget cultural-accent">
-                <h3 class="sidebar-widget-title">🚀 Quick Start</h3>
-                <ul>
-                    <li><a href="lessons.html">📖 Browse All Lessons</a></li>
-                    <li><a href="lessons/writers-toolkit/">✍️ Writers Toolkit Unit</a></li>
-                    <li><a href="guided-inquiry-unit/index.html">🏛️ Society Design Unit</a></li>
-                    <li><a href="y7-introduction/index.html">🎓 Year 7 Introduction</a></li>
-                    <li><a href="experiences/index.html">🌟 Learning Experiences</a></li>
-                    <li><a href="games.html">🎮 Interactive Games Hub</a></li>
-                    <li><a href="handouts.html">📄 Ready-to-Print Handouts</a></li>
-                    <li><a href="activities.html">⚡ 5-Minute Do Nows</a></li>
-                    <li><a href="project-brief.html">📋 Community Action Project Brief</a></li>
-                    <li><a href="assessment-rubric.html">📊 Assessment Rubric Templates</a></li>
-                    <li><a href="youtube.html">📺 Curated Video Resources</a></li>
-                </ul>
+            <div class="feature-card">
+                <div class="feature-icon">👥</div>
+                <h3 class="feature-title">Community Focused</h3>
+                <p class="feature-description">Resources designed for whānau, kaiako, and communities working together
+                    to support student success.</p>
             </div>
-            
-            <div class="sidebar-widget" style="background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%); border-radius: 12px; border: 2px solid var(--color-secondary);">
-                <h3 class="sidebar-widget-title" style="color: white;">🧠 Advanced Educational Tools</h3>
-                <ul>
-                    <li><a href="critical-thinking-unit.html" style="color: white; font-weight: bold;">🧠 Critical Thinking Unit</a></li>
-                    <li><a href="decolonized-assessment-framework.html" style="color: white;">📊 Decolonized Assessment</a></li>
-                    <li><a href="educational-transformation-showcase.html" style="color: white;">🌟 Education Transformation</a></li>
-                </ul>
+            <div class="feature-card">
+                <div class="feature-icon">🔬</div>
+                <h3 class="feature-title">Evidence-Based</h3>
+                <p class="feature-description">Pedagogical approaches grounded in research and best practices for
+                    effective teaching and learning.</p>
             </div>
-            
-            <div class="sidebar-widget" style="background: linear-gradient(135deg, #f0f8f0 0%, #e8f5e8 100%); border-left: 4px solid var(--color-secondary);">
-                <h3 class="sidebar-widget-title">🎯 For Teachers</h3>
-                <ul>
-                    <li><a href="curriculum-v2.html">📋 NZ Curriculum Reference</a></li>
-                    <li><a href="curriculum-alignment.html">🎯 Curriculum Alignment</a></li>
-                    <li><a href="unit-plans.html">📚 Complete Unit Plans</a></li>
-                    <li><a href="unit-plans.html">🌿 Te Ao Māori Lessons</a></li>
-                    <li><a href="handouts.html">🌺 Cultural Resources</a></li>
-                    <li><a href="lessons.html">✍️ Critical Literacy Unit</a></li>
-                </ul>
+            <div class="feature-card">
+                <div class="feature-icon">💻</div>
+                <h3 class="feature-title">Digital Innovation</h3>
+                <p class="feature-description">Cutting-edge technology integration including AI-powered learning
+                    companions and adaptive pathways.</p>
             </div>
-            
-            <div class="sidebar-widget" style="background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%); border-left: 4px solid var(--color-accent);">
-                <h3 class="sidebar-widget-title">📚 Subject Curricula</h3>
-                <ul>
-                    <li><a href="curriculum-english.html">📖 English Curriculum</a></li>
-                    <li><a href="curriculum-mathematics.html">🔢 Mathematics Curriculum</a></li>
-                    <li><a href="curriculum-science.html">🔬 Science Curriculum</a></li>
-                    <li><a href="curriculum-social-sciences.html">🌍 Social Sciences Curriculum</a></li>
-                </ul>
-            </div>
-            
-            <div class="sidebar-widget" style="background: linear-gradient(135deg, #e8f4f8 0%, #d1ecf1 100%); border-left: 4px solid var(--color-secondary);">
-                <h3 class="sidebar-widget-title">🛠️ System Tools</h3>
-                <ul>
-                    <li><a href="auth-diagnostics.html">🔧 Auth Diagnostics</a></li>
-                    <li><a href="emergency-diagnostic.html">🚨 Emergency Diagnostic</a></li>
-                    <li><a href="about.html">ℹ️ About Te Kete Ako</a></li>
-                    <li><a href="contact.html">📧 Contact & Support</a></li>
-                </ul>
-            </div>
-            
-            <div class="sidebar-widget" style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); border-left: 4px solid var(--color-accent);">
-                <h3 class="sidebar-widget-title">📊 Frameworks & Assessment</h3>
-                <ul>
-                    <li><a href="english-literacy-progression-framework.html">📈 English Literacy Progression</a></li>
-                    <li><a href="educational-transformation-showcase.html">🌟 Transformation Showcase</a></li>
-                    <li><a href="decolonized-assessment-framework.html">📊 Decolonized Assessment</a></li>
-                </ul>
-            </div>
-        </aside>
+        </section>
 
-        <main class="content-area">
-            <section class="hero-section">
-                <div class="hero-content">
-                    <div class="hero-main">
-                        <h1 class="hero-title">Te Kete Ako</h1>
-                        <p class="hero-tagline">Educational Resources Honoring Te Ao Māori</p>
-                        <div class="whakatauki-container">
-                            <h2 class="whakatauki">"Whaowhia te kete mātauranga"</h2>
-                            <p class="whakatauki-translation">Fill the basket of knowledge</p>
-                        </div>
-                        <div class="hero-stats">
-                            <div class="stat-item">
-                                <span class="stat-number">250+</span>
-                                <span class="stat-label">Resources</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">4</span>
-                                <span class="stat-label">Major Platforms</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">100%</span>
-                                <span class="stat-label">NZ Curriculum Aligned</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">🧺</span>
-                                <span class="stat-label">AI-Powered</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="hero-cultural-pattern" aria-hidden="true"></div>
-                </div>
-            </section>
+        <section class="cultural-section">
+            <div class="cultural-content">
+                <h2 class="cultural-title">Honoring Our Cultural Heritage</h2>
+                <p class="cultural-text">
+                    Te Kete Ako celebrates the rich tapestry of knowledge that exists within Te Ao Māori.
+                    Our resources demonstrate that sophisticated mathematical, scientific, and philosophical concepts
+                    have been embedded in traditional knowledge systems for generations. By integrating these
+                    perspectives with contemporary curriculum, we create learning experiences that are both
+                    culturally authentic and academically rigorous.
+                </p>
+            </div>
+        </section>
 
-            <!-- New Features Banner -->
-            <section class="features-banner" style="background: linear-gradient(135deg, #2c5aa0 0%, #8b4513 100%); margin: 2rem 0; padding: 2rem; border-radius: 12px; color: white; position: relative; overflow: hidden;">
-                <div style="position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 50%; transform: translate(30px, -30px);"></div>
-                <div style="position: absolute; bottom: 0; left: 0; width: 80px; height: 80px; background: rgba(255,255,255,0.1); border-radius: 50%; transform: translate(-20px, 20px);"></div>
-                
-                <div style="position: relative; z-index: 2;">
-                    <div style="text-align: center; margin-bottom: 2rem;">
-                        <h2 style="font-size: 2rem; margin: 0 0 0.5rem 0; color: white;">🚀 Enhanced with AI Intelligence</h2>
-                        <p style="font-size: 1.1rem; opacity: 0.95; margin: 0;">Powered by Supabase Authentication + GRAPHRAG + EXA.ai Resource Discovery</p>
-                    </div>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
-                        <div style="background: rgba(255,255,255,0.15); padding: 1.5rem; border-radius: 8px; backdrop-filter: blur(10px);">
-                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔥</div>
-                            <h3 style="margin: 0 0 0.5rem 0; color: white;">Secure Authentication</h3>
-                            <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">Supabase-powered login with email verification and password reset</p>
-                        </div>
-                        
-                        <div style="background: rgba(255,255,255,0.15); padding: 1.5rem; border-radius: 8px; backdrop-filter: blur(10px);">
-                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🧠</div>
-                            <h3 style="margin: 0 0 0.5rem 0; color: white;">Knowledge Graph</h3>
-                            <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">AI-powered connections between concepts, lessons, and resources</p>
-                        </div>
-                        
-                        <div style="background: rgba(255,255,255,0.15); padding: 1.5rem; border-radius: 8px; backdrop-filter: blur(10px);">
-                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌐</div>
-                            <h3 style="margin: 0 0 0.5rem 0; color: white;">Smart Resource Discovery</h3>
-                            <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">EXA.ai automatically finds relevant NZ educational resources</p>
-                        </div>
-                    </div>
-                    
-                    <div style="text-align: center; margin-top: 2rem;">
-                        <a href="register-simple.html" style="background: white; color: #2c5aa0; padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: bold; display: inline-block; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
-                            ✨ Experience the Future of Education
-                        </a>
-                    </div>
-                </div>
-            </section>
+        <section class="quick-access">
+            <h2 class="quick-access-title">Quick Access</h2>
+            <div class="quick-access-grid">
+                <a href="units/y7-maths-algebra/index.html" class="quick-link">
+                    <div class="quick-link-icon">📐</div>
+                    <div class="quick-link-title">Y7 Mathematics</div>
+                </a>
+                <a href="units/y8-critical-thinking/index.html" class="quick-link">
+                    <div class="quick-link-icon">🧠</div>
+                    <div class="quick-link-title">Y8 Critical Thinking</div>
+                </a>
+                <a href="units/y9-science-ecology/index.html" class="quick-link">
+                    <div class="quick-link-icon">🌱</div>
+                    <div class="quick-link-title">Y9 Science Ecology</div>
+                </a>
+                <a href="lessons/writers-toolkit/index.html" class="quick-link">
+                    <div class="quick-link-icon">✍️</div>
+                    <div class="quick-link-title">Writers Toolkit</div>
+                </a>
+                <a href="games/countdown-letters.html" class="quick-link">
+                    <div class="quick-link-icon">🎮</div>
+                    <div class="quick-link-title">Educational Games</div>
+                </a>
+                <a href="experiences/digital-purakau.html" class="quick-link">
+                    <div class="quick-link-icon">📖</div>
+                    <div class="quick-link-title">Digital Pūrākau</div>
+                </a>
+            </div>
+        </section>
+    </main>
 
-            <!-- AI-Powered Learning Revolution Section -->
-            <section class="ai-revolution-section" style="background: linear-gradient(135deg, #2c5aa0 0%, #764ba2 100%); margin: 2rem 0; padding: 3rem 2rem; border-radius: 20px; color: white; position: relative; overflow: hidden;">
-                <div style="position: absolute; top: 0; right: 0; width: 150px; height: 150px; background: rgba(255,255,255,0.1); border-radius: 50%; transform: translate(50px, -50px);"></div>
-                <div style="position: absolute; bottom: 0; left: 0; width: 120px; height: 120px; background: rgba(255,255,255,0.1); border-radius: 50%; transform: translate(-40px, 40px);"></div>
-                
-                <div style="position: relative; z-index: 2;">
-                    <div style="text-align: center; margin-bottom: 2rem;">
-                        <h2 style="font-size: 2.5rem; margin: 0 0 0.5rem 0; color: white;">🤖 AI-Powered Learning Revolution</h2>
-                        <p style="font-size: 1.2rem; opacity: 0.95; margin: 0;">Advanced AI tools built with DeepSeek + GraphRAG + Adaptive Learning</p>
-                    </div>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
-                        <a href="teacher-dashboard-ai.html" style="background: rgba(255,255,255,0.15); padding: 2rem; border-radius: 12px; text-decoration: none; color: white; transition: all 0.3s ease; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
-                            <div style="font-size: 3rem; margin-bottom: 1rem;">🤖</div>
-                            <h3 style="margin: 0 0 1rem 0; color: #FFD700; font-size: 1.3rem;">AI Teacher Dashboard</h3>
-                            <p style="line-height: 1.6; margin: 0; opacity: 0.9; font-size: 0.95rem;">Complete AI-powered teaching toolkit with lesson planning, cultural integration, and GraphRAG resource discovery</p>
-                            <div style="margin-top: 1rem; font-weight: bold; color: #FFD700;">→ Launch AI Dashboard</div>
-                        </a>
-                        
-                        <a href="interactive-learning-demo.html" style="background: rgba(255,255,255,0.15); padding: 2rem; border-radius: 12px; text-decoration: none; color: white; transition: all 0.3s ease; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
-                            <div style="font-size: 3rem; margin-bottom: 1rem;">⚡</div>
-                            <h3 style="margin: 0 0 1rem 0; color: #98FB98; font-size: 1.3rem;">Adaptive Learning System</h3>
-                            <p style="line-height: 1.6; margin: 0; opacity: 0.9; font-size: 0.95rem;">AI-generated personalized learning paths with progress tracking and cultural context integration</p>
-                            <div style="margin-top: 1rem; font-weight: bold; color: #98FB98;">→ Experience Adaptive Learning</div>
-                        </a>
-                        
-                        <a href="deepseek-agent-test.html" style="background: rgba(255,255,255,0.15); padding: 2rem; border-radius: 12px; text-decoration: none; color: white; transition: all 0.3s ease; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
-                            <div style="font-size: 3rem; margin-bottom: 1rem;">🧠</div>
-                            <h3 style="margin: 0 0 1rem 0; color: #FFB6C1; font-size: 1.3rem;">DeepSeek AI Agent</h3>
-                            <p style="line-height: 1.6; margin: 0; opacity: 0.9; font-size: 0.95rem;">Advanced reasoning AI with Te Ao Māori cultural knowledge integration and educational expertise</p>
-                            <div style="margin-top: 1rem; font-weight: bold; color: #FFB6C1;">→ Test AI Agent</div>
-                        </a>
-                    </div>
-                    
-                    <div style="text-align: center; margin-top: 2rem;">
-                        <a href="project-submission.html" style="background: rgba(255,255,255,0.2); color: white; padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: bold; border: 2px solid rgba(255,255,255,0.3); transition: all 0.3s ease; display: inline-block;">
-                            📝 Smart Project Submission & Progress Tracking
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- What's New Section -->
-            <section class="whats-new-section">
-                <div class="section-header">
-                    <h2 class="section-title-main">What's New at Te Kete Ako</h2>
-                    <p class="section-subtitle">Recent updates and additions to our platform</p>
-                </div>
-                <div class="news-grid">
-                    <article class="news-card featured">
-                        <div class="news-icon">🧺</div>
-                        <h3 class="news-title">My Kete - Personal Collections</h3>
-                        <p class="news-description">Create your account to save and organize resources in your personal teaching kete. One-click bookmarking for all materials!</p>
-                        <div class="news-badge">Latest</div>
-                    </article>
-                    <article class="news-card">
-                        <div class="news-icon">🔐</div>
-                        <h3 class="news-title">Teacher Accounts</h3>
-                        <p class="news-description">Simple registration system lets you personalize your experience and access enhanced features across the platform</p>
-                    </article>
-                    <article class="news-card">
-                        <div class="news-icon">📋</div>
-                        <h3 class="news-title">Enhanced Curriculum Links</h3>
-                        <p class="news-description">All handouts now include direct NZ Curriculum Achievement Objectives and Te Ao Māori integration</p>
-                    </article>
-                </div>
-            </section>
-            
-            <!-- Spotlight Section for Major Resources -->
-            <section class="spotlight-section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin: 3rem 0; padding: 3rem 2rem; border-radius: 20px; color: white;">
-                <div class="section-header" style="text-align: center; margin-bottom: 2rem;">
-                    <h2 class="section-title-main" style="color: white; font-size: 2.5rem; margin-bottom: 1rem;">🌟 Spotlight Resources</h2>
-                    <p class="section-subtitle" style="color: rgba(255,255,255,0.9); font-size: 1.2rem;">Revolutionary educational tools that transform learning</p>
-                </div>
-                <div class="spotlight-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-                    <a href="guided-inquiry-unit/index.html" class="spotlight-card" style="background: rgba(255,255,255,0.1); border-radius: 15px; padding: 2rem; text-decoration: none; color: white; transition: all 0.3s ease; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
-                        <div class="spotlight-icon" style="font-size: 3rem; margin-bottom: 1rem;">🏛️</div>
-                        <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: #FFD700;">Design Your New Society</h3>
-                        <p style="line-height: 1.6; margin-bottom: 1.5rem; opacity: 0.9;">Complete 5-week guided inquiry unit where students design their ideal society, incorporating Māori governance principles and systems thinking.</p>
-                        <div class="spotlight-features" style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
-                            <span style="background: rgba(255,255,255,0.2); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem;">Complete Unit</span>
-                            <span style="background: rgba(255,255,255,0.2); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem;">Interactive Tool</span>
-                            <span style="background: #FFD700; color: #333; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">🔥 Most Popular</span>
-                        </div>
-                        <div style="font-weight: bold; color: #FFD700;">→ Explore Society Design</div>
-                    </a>
-                    <a href="digital-purakau.html" class="spotlight-card" style="background: rgba(255,255,255,0.1); border-radius: 15px; padding: 2rem; text-decoration: none; color: white; transition: all 0.3s ease; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
-                        <div class="spotlight-icon" style="font-size: 3rem; margin-bottom: 1rem;">📚</div>
-                        <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: #98FB98;">Digital Pūrākau Storytelling</h3>
-                        <p style="line-height: 1.6; margin-bottom: 1.5rem; opacity: 0.9;">Interactive Māori storytelling platform with choice-driven narratives, Te Reo pronunciation practice, and cultural validation protocols.</p>
-                        <div class="spotlight-features" style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
-                            <span style="background: rgba(255,255,255,0.2); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem;">Interactive Stories</span>
-                            <span style="background: rgba(255,255,255,0.2); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem;">Te Reo Māori</span>
-                            <span style="background: #98FB98; color: #333; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">🌿 Cultural</span>
-                        </div>
-                        <div style="font-weight: bold; color: #98FB98;">→ Start Storytelling</div>
-                    </a>
-                </div>
-                <div style="text-align: center; margin-top: 2rem;">
-                    <a href="graphrag-search.html" style="background: rgba(255,255,255,0.2); color: white; padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: bold; border: 2px solid rgba(255,255,255,0.3); transition: all 0.3s ease;">
-                        🧠 Discover All 250+ Resources with AI Search
-                    </a>
-                </div>
-            </section>
-            
-            <section class="featured-resources-section">
-                <div class="section-header">
-                    <h2 class="section-title-main">Featured Resources</h2>
-                    <p class="section-subtitle">Our most popular and comprehensive educational materials</p>
-                </div>
-                <div id="featured-resources-grid" class="featured-grid">
-                    <a href="curriculum-alignment.html" class="featured-card primary-card">
-                        <div class="card-icon">📋</div>
-                        <div class="card-content">
-                            <h3 class="card-title">NZ Curriculum Alignment</h3>
-                            <p class="card-description">Comprehensive achievement objectives and Te Ao Māori integration across all learning areas</p>
-                            <div class="card-meta">
-                                <span class="meta-tag">Reference Guide</span>
-                                <span class="meta-tag">All Levels</span>
-                            </div>
-                        </div>
-                        <div class="card-arrow">→</div>
-                    </a>
-                    <a href="y8-systems-unit.html" class="featured-card">
-                        <div class="card-icon">🏛️</div>
-                        <div class="card-content">
-                            <h3 class="card-title">Systems Unit (Year 8)</h3>
-                            <p class="card-description">Complete 5-week social studies unit exploring how systems shape our lives</p>
-                            <div class="card-meta">
-                                <span class="meta-tag">5 Weeks</span>
-                                <span class="meta-tag">Ready to Teach</span>
-                            </div>
-                        </div>
-                        <div class="card-arrow">→</div>
-                    </a>
-                    <a href="handouts/writers-toolkit-peel-argument-handout.html" class="featured-card">
-                        <div class="card-icon">✍️</div>
-                        <div class="card-content">
-                            <h3 class="card-title">PEEL Method Toolkit</h3>
-                            <p class="card-description">Master the art of structuring powerful, persuasive paragraphs</p>
-                            <div class="card-meta">
-                                <span class="meta-tag">Writing Skills</span>
-                                <span class="meta-tag">English</span>
-                            </div>
-                        </div>
-                        <div class="card-arrow">→</div>
-                    </a>
-                    <a href="guided-inquiry-unit/index.html" class="featured-card" style="border-left: 4px solid #e74c3c;">
-                        <div class="card-icon">🏛️</div>
-                        <div class="card-content">
-                            <h3 class="card-title">Society Design Guided Inquiry</h3>
-                            <p class="card-description">Complete 5-week guided inquiry unit where students design their ideal society with cultural integration</p>
-                            <div class="card-meta">
-                                <span class="meta-tag">Complete Unit</span>
-                                <span class="meta-tag">Y8 Systems</span>
-                                <span class="meta-tag">🔥 Popular</span>
-                            </div>
-                        </div>
-                        <div class="card-arrow">→</div>
-                    </a>
-                    <a href="handouts/haka-comprehension-handout.html" class="featured-card">
-                        <div class="card-icon">🌿</div>
-                        <div class="card-content">
-                            <h3 class="card-title">The Power of Haka</h3>
-                            <p class="card-description">Explore haka as cultural expression, identity, and powerful communication</p>
-                            <div class="card-meta">
-                                <span class="meta-tag">Cultural Studies</span>
-                                <span class="meta-tag">Te Ao Māori</span>
-                            </div>
-                        </div>
-                        <div class="card-arrow">→</div>
-                    </a>
-                </div>
-            </section>
-            
-            <!-- Call to Action Section for Authentication -->
-            <section class="cta-section" style="background: linear-gradient(135deg, var(--color-cultural-light) 0%, var(--color-cultural-accent) 100%); margin: 3rem 0; padding: 3rem 2rem; border-radius: 12px; text-align: center; border-left: 4px solid var(--color-secondary);">
-                <div class="cta-content" style="max-width: 800px; margin: 0 auto;">
-                    <h2 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 2rem;">
-                        🧺 Create Your Personal Teaching Kete
-                    </h2>
-                    <p style="color: var(--color-text-secondary); font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem;">
-                        Join Te Kete Ako and unlock the power of personalized resource management. Save your favorite lessons, handouts, and activities to your own digital kete for easy access anytime, anywhere.
-                    </p>
-                    <div class="cta-features" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
-                        <div class="feature-item" style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">📚</div>
-                            <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">One-Click Saving</h3>
-                            <p style="color: var(--color-text-secondary); font-size: 0.9rem;">Bookmark any resource instantly with our simple save buttons</p>
-                        </div>
-                        <div class="feature-item" style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🗂️</div>
-                            <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">Organized Collections</h3>
-                            <p style="color: var(--color-text-secondary); font-size: 0.9rem;">View all your saved materials in one beautiful, organized space</p>
-                        </div>
-                        <div class="feature-item" style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌟</div>
-                            <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">Enhanced Experience</h3>
-                            <p style="color: var(--color-text-secondary); font-size: 0.9rem;">Access additional features and personalized recommendations</p>
-                        </div>
-                    </div>
-                    <div class="cta-buttons" style="margin-top: 2rem;">
-                        <a href="register-simple.html" class="btn cta-primary" style="background: var(--color-secondary); color: white; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 0 0.5rem; display: inline-block; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(0,176,185,0.3);">
-                            🚀 Create Free Account
-                        </a>
-                        <a href="my-kete.html" class="btn cta-secondary" style="background: transparent; color: var(--color-secondary); padding: 1rem 2rem; border: 2px solid var(--color-secondary); border-radius: 8px; text-decoration: none; font-weight: bold; margin: 0 0.5rem; display: inline-block; transition: all 0.3s ease;">
-                            🧺 View My Kete
-                        </a>
-                    </div>
-                    <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1.5rem; font-style: italic;">
-                        "He kete kōrero, he kete mātauranga" - A basket of stories, a basket of knowledge
-                    </p>
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <!-- Clean Minimalist Footer -->
-        <footer class="site-footer no-print">
+    <footer class="site-footer">
         <div class="footer-content">
             <div class="footer-simple">
                 <div class="footer-brand">
@@ -706,7 +329,7 @@
                     <p>"Whaowhia te kete mātauranga" - Fill the basket of knowledge</p>
                 </div>
                 <div class="footer-links">
-                    <a href="unit-plans.html">Unit Plans</a>
+                    <a href="units.html">Unit Plans</a>
                     <a href="lessons.html">Lessons</a>
                     <a href="handouts.html">Handouts</a>
                     <a href="my-kete.html">My Kete</a>
@@ -717,143 +340,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- Smart Authentication-Based Routing System -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/env-config.js"></script>
-    <script src="js/supabase-client.js"></script>
-    <script>
-        // Smart Router - Determines user experience based on authentication
-        class TeKeteSmartRouter {
-            constructor() {
-                this.init();
-            }
-            
-            async init() {
-                try {
-                    // Wait for Supabase to initialize
-                    if (typeof supabase === 'undefined') {
-                        setTimeout(() => this.init(), 100);
-                        return;
-                    }
-                    
-                    // Check authentication status
-                    const { data: { session }, error } = await supabase.auth.getSession();
-                    
-                    if (error) {
-                        console.error('Auth check error:', error);
-                        this.routeToWelcome();
-                        return;
-                    }
-                    
-                    if (session?.user) {
-                        // User is authenticated - redirect to dashboard
-                        this.routeToDashboard();
-                    } else {
-                        // User is not authenticated - show welcome page
-                        this.routeToWelcome();
-                    }
-                } catch (error) {
-                    console.error('Router initialization error:', error);
-                    this.routeToWelcome();
-                }
-            }
-            
-            routeToDashboard() {
-                // Smooth transition to dashboard
-                setTimeout(() => {
-                    window.location.replace('dashboard.html');
-                }, 800);
-            }
-            
-            routeToWelcome() {
-                // Smooth transition to welcome page
-                setTimeout(() => {
-                    window.location.replace('welcome.html');
-                }, 800);
-            }
-        }
-        
-        // Initialize smart router immediately
-        new TeKeteSmartRouter();
-    </script>
-    
-    <!-- Fallback content and Performance-Optimized Script Loading -->
-    <script>
-        // Performance optimization: Show non-critical content after critical path
-        document.addEventListener('DOMContentLoaded', function() {
-            // Show previously hidden content with fade-in
-            const hiddenElements = document.querySelectorAll('.left-sidebar, .features-banner, .ai-revolution-section');
-            hiddenElements.forEach((el, index) => {
-                setTimeout(() => {
-                    el.style.display = '';
-                    el.style.opacity = '1';
-                    el.style.transition = 'opacity 0.3s ease-in-out';
-                }, index * 100); // Stagger animations
-            });
-        });
-        
-        // Async script loader for non-critical JavaScript
-        function loadScript(src, callback) {
-            const script = document.createElement('script');
-            script.src = src;
-            script.async = true;
-            if (callback) script.onload = callback;
-            document.head.appendChild(script);
-        }
-        
-        // Load critical scripts immediately
-        loadScript('js/performance-cache-manager.js');
-        loadScript('js/lazy-loading-optimizer.js');
-        loadScript('js/env-config.js');
-        
-        // Load non-critical scripts after initial render
-        setTimeout(() => {
-            loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2', () => {
-                loadScript('js/supabase-client.js', () => {
-                    loadScript('js/auth-ui.js');
-                });
-            });
-            loadScript('js/mobile-revolution.js');
-        }, 100);
-    </script>
-    
-    <!-- Enhanced PWA Registration with Performance Monitoring -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js', {
-                    scope: '/'
-                })
-                .then(registration => {
-                    // Monitor performance metrics
-                    if (registration.active) {
-                        const messageChannel = new MessageChannel();
-                        messageChannel.port1.onmessage = function(event) {
-                            const metrics = event.data;
-                            };
-                        registration.active.postMessage(
-                            { type: 'GET_PERFORMANCE_METRICS' }, 
-                            [messageChannel.port2]
-                        );
-                    }
-                })
-                .catch(error => {
-                    console.warn('Service Worker registration failed:', error);
-                });
-            });
-        }
-        
-        // Performance monitoring for Core Web Vitals
-        if ('web-vital' in window) {
-            import('https://unpkg.com/web-vitals@3/dist/web-vitals.js').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
-                getCLS(console.log);
-                getFID(console.log);
-                getFCP(console.log);
-                getLCP(console.log);
-                getTTFB(console.log);
-            });
-        }
-    </script>
 </body>
-</html><!-- GitHub Pages deployment trigger Wed Jul 23 08:24:16 NZST 2025 -->
+
+</html>

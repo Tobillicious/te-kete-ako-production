@@ -15,8 +15,9 @@ class LinkChecker:
         self.valid_links = []
         
     def check_links(self):
-        """Check all internal links in HTML files"""
-        html_files = list(self.root_dir.rglob("*.html"))
+        """Check all internal links in HTML files under /public only"""
+        public_dir = self.root_dir / "public"
+        html_files = list(public_dir.rglob("*.html")) if public_dir.exists() else []
         
         print(f"🔍 Checking links in {len(html_files)} HTML files...")
         
@@ -51,13 +52,20 @@ class LinkChecker:
                 if not link.strip():
                     continue
                 
+                # Skip template placeholders like ${...}
+                if '${' in link or '}' in link:
+                    continue
+                
+                # Strip query parameters and fragments for filesystem resolution
+                path_only = link.split('?', 1)[0].split('#', 1)[0]
+                
                 # Resolve relative path
-                if link.startswith('../'):
-                    target_path = file_path.parent / link
-                elif link.startswith('./'):
-                    target_path = file_path.parent / link[2:]
+                if path_only.startswith('../'):
+                    target_path = file_path.parent / path_only
+                elif path_only.startswith('./'):
+                    target_path = file_path.parent / path_only[2:]
                 else:
-                    target_path = file_path.parent / link
+                    target_path = file_path.parent / path_only
                 
                 try:
                     target_path = target_path.resolve()
