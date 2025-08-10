@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co;">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouTube Library Administration | Te Kete Ako</title>
@@ -706,7 +707,7 @@
         // Load approved videos
         async function loadApprovedVideos() {
             // Implementation would fetch from API
-            console.log('Loading approved videos...');
+
         }
 
         // Load analytics data
@@ -756,24 +757,21 @@
 
             try {
                 // API call would go here
-                console.log('Moderating video:', moderationData);
+
                 
                 // Show success message
-                alert(`Video ${action} successfully!`);
-                
                 // Close modal and refresh list
                 closeModal();
                 loadPendingVideos();
             } catch (error) {
                 console.error('Error moderating video:', error);
-                alert('Error moderating video. Please try again.');
-            }
+                }
         }
 
         // Quick reject functionality
         function quickReject(videoId) {
             if (confirm('Are you sure you want to reject this video?')) {
-                console.log('Quick rejecting video:', videoId);
+
                 loadPendingVideos();
             }
         }
@@ -784,11 +782,10 @@
             const maxResults = document.getElementById('max-results').value;
             
             if (!query.trim()) {
-                alert('Please enter search terms');
                 return;
             }
 
-            console.log(`Searching YouTube for: ${query} (${maxResults} results)`);
+
             
             // Mock search results
             const resultsContainer = document.getElementById('youtube-search-results');
@@ -810,9 +807,8 @@
                 maxVideoDuration: document.getElementById('max-video-duration').value
             };
 
-            console.log('Saving settings:', settings);
-            alert('Settings saved successfully!');
-        }
+
+            }
 
         // Logout functionality
         function logout() {

@@ -69,7 +69,6 @@
             }
         });
         
-        console.log('✅ Supabase client initialized successfully');
         return supabaseClient;
     }
     
