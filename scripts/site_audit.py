@@ -3,6 +3,7 @@ import re
 import json
 from pathlib import Path
 from collections import Counter, defaultdict
+from typing import Optional
 
 ROOT = Path(__file__).resolve().parents[1]
 PUBLIC = ROOT / 'public'
@@ -29,7 +30,7 @@ def read_text(path: Path) -> str:
         return ''
 
 
-def resolve_path(base: Path, link: str) -> Path | None:
+def resolve_path(base: Path, link: str) -> Optional[Path]:
     if not link or link.startswith('#'):
         return None
     if link.startswith(('http://', 'https://', 'mailto:', 'tel:', 'javascript:')):
