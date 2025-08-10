@@ -8,7 +8,7 @@ const FIXED_ENV_CONFIG = `
 // Correct environment configuration for all Netlify functions
 const SUPABASE_URL = process.env.SUPABASE_URL || 'https://nlgldaqtubrlcqddppbq.supabase.co';
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY || 'sk-65624cc9a6fa45c8a7eebe1834dc9587';
+const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY; // SECURITY: Removed hardcoded fallback
 
 // Initialize Supabase client with proper error handling
 let supabase;
