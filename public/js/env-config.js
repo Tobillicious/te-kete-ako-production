@@ -20,14 +20,12 @@ function loadEnvironmentConfig() {
         window.ENV.NEO4J_URI = 'neo4j+s://cd5763ca.databases.neo4j.io';
         window.ENV.NODE_ENV = 'development';
         
-        console.log('🔧 Development environment loaded');
-    } else {
+        } else {
         // Production environment - use hardcoded values for Netlify
         window.ENV.SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
         window.ENV.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
         window.ENV.NODE_ENV = 'production';
-        console.log('🌐 Production environment loaded');
-    }
+        }
     
     // Set environment flags
     window.ENV.IS_DEVELOPMENT = isDevelopment;
@@ -46,7 +44,6 @@ function validateConfiguration() {
         return false;
     }
     
-    console.log('✅ All required environment variables configured');
     return true;
 }
 
@@ -62,12 +59,6 @@ window.isEnvironmentConfigured = () => isConfigured;
 if (window.ENV.IS_DEVELOPMENT) {
     window.setDevEnvironment = function(config) {
         Object.assign(window.ENV, config);
-        console.log('🔧 Development environment updated:', config);
-    };
+        };
 }
 
-console.log('🌟 Te Kete Ako environment configuration ready:', {
-    environment: window.ENV.NODE_ENV,
-    configured: window.ENV.IS_CONFIGURED,
-    development: window.ENV.IS_DEVELOPMENT
-});

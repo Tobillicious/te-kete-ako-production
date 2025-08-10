@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co;">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Submissions | Te Kete Ako</title>
@@ -412,15 +413,13 @@
 
         // Authentication check and load submissions
         window.addEventListener('load', async () => {
-            const token = localStorage.getItem('teKeteAko_token');
-            const userStr = localStorage.getItem('teKeteAko_user');
-            
-            if (!token || !userStr) {
+            // Use secure authentication system
+            if (!window.secureAuth || !window.secureAuth.isAuthenticated()) {
                 window.location.href = 'login.html';
                 return;
             }
             
-            currentUser = JSON.parse(userStr);
+            currentUser = window.secureAuth.getCurrentUser();
             
             // Ensure this is accessible to students
             if (currentUser.role !== 'student') {
@@ -437,7 +436,7 @@
 
         async function loadSubmissions() {
             try {
-                const token = localStorage.getItem('teKeteAko_token');
+                const token = window.secureAuth.getSecureSession('token');
                 const response = await fetch('/.netlify/functions/get-student-projects', {
                     method: 'GET',
                     headers: {
@@ -686,8 +685,7 @@
         function viewSubmission(id) {
             const submission = allSubmissions.find(s => s.id === id);
             if (submission) {
-                alert(`Viewing submission: ${submission.title}. Use download link to open in browser.`);
-            }
+                }
         }
 
         function editSubmission(id) {
@@ -796,5 +794,6 @@
     <script src="js/supabase-client.js"></script>
     <!-- Load Auth UI -->
     <script src="js/auth-ui.js"></script>
+    <script src="js/secure-auth.js"></script>
 </body>
 </html>
