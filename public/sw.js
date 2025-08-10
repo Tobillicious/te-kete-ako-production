@@ -236,7 +236,7 @@ async function staleWhileRevalidateStrategy(request) {
                 const cache = caches.open(DYNAMIC_CACHE);
                 cache.then(cache => cache.put(request, networkResponse.clone()));
             }
-            return networkResponse;
+            return networkResponse.clone();
         })
         .catch(() => null);
     

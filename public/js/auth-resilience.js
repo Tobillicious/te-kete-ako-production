@@ -253,7 +253,7 @@ class AuthResilienceManager {
         this.tokenRefreshAttempts++;
         
         if (this.tokenRefreshAttempts <= this.maxTokenRefreshAttempts) {
-            `);
+            console.log(`🔄 Auth error recovery attempt ${this.tokenRefreshAttempts}/${this.maxTokenRefreshAttempts}`);
             
             try {
                 if (window.teKeteAuth) {

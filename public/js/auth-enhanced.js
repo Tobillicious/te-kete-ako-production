@@ -259,7 +259,7 @@ class TeKeteAuthSystem {
         this.retryAttempts++;
         
         if (this.retryAttempts < this.maxRetries) {
-            `);
+            console.log(`🔄 Retrying auth initialization (attempt ${this.retryAttempts + 1}/${this.maxRetries})`);
             setTimeout(() => this.init(), 2000);
         } else {
             console.error('❌ Auth system failed after maximum retries');
