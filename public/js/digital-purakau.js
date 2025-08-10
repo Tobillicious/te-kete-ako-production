@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
     function displayStories(stories) {
-        storyGrid.innerHTML = '';
+        storyGrid.textContent = '';
         stories.forEach(story => {
             const card = document.createElement('div');
             card.className = 'story-card';
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 metaTags += `<span class="meta-tag">${story.icons[index]} ${tag}</span>`;
             });
 
-            card.innerHTML = `
+            card.textContent = `
                 <div class="story-title-te-reo">${story.title_te_reo}</div>
                 <div class="story-title">${story.title_english}</div>
                 <div class="story-preview">${story.preview}</div>
@@ -55,11 +55,11 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('modal-preview').textContent = story.preview;
         
         const metaContainer = document.getElementById('modal-meta');
-        metaContainer.innerHTML = '';
+        metaContainer.textContent = '';
         story.tags.forEach((tag, index) => {
             const metaTag = document.createElement('span');
             metaTag.className = 'meta-tag';
-            metaTag.innerHTML = `${story.icons[index]} ${tag}`;
+            metaTag.textContent = `${story.icons[index]} ${tag}`;
             metaContainer.appendChild(metaTag);
         });
 

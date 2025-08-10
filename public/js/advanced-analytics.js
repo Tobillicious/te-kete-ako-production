@@ -22,8 +22,7 @@ class AdvancedTeKeteAkoAnalytics {
         this.setupRealTimeNotifications();
         this.implementAdaptiveLearning();
         
-        console.log('Advanced Te Kete Ako Analytics initialized');
-    }
+        }
     
     trackCurriculumEngagement() {
         // Track engagement with specific NZ Curriculum Achievement Objectives
@@ -303,7 +302,7 @@ class AdvancedTeKeteAkoAnalytics {
         const curriculumElement = document.getElementById('curriculum-coverage-chart');
         if (curriculumElement) {
             const aoCount = Object.keys(curriculum).length;
-            curriculumElement.innerHTML = `
+            curriculumElement.textContent = `
                 <div style="font-size: 2rem; margin-bottom: 1rem;">${aoCount}/20</div>
                 <div style="background: rgba(255,255,255,0.2); height: 8px; border-radius: 4px;">
                     <div style="background: var(--color-secondary); height: 100%; width: ${(aoCount/20)*100}%; 
@@ -319,7 +318,7 @@ class AdvancedTeKeteAkoAnalytics {
             const avgEngagement = engagement.reduce((sum, item) => 
                 sum + (item.timeOnPage / 1000) + (item.scrollDepth / 10), 0) / engagement.length;
             
-            contentElement.innerHTML = `
+            contentElement.textContent = `
                 <div style="font-size: 1.5rem; margin-bottom: 1rem;">
                     Effectiveness Score: ${Math.round(avgEngagement)}/100
                 </div>
@@ -500,7 +499,7 @@ class AdvancedTeKeteAkoAnalytics {
             max-width: 300px;
         `;
         
-        notification.innerHTML = `
+        notification.textContent = `
             <div style="font-weight: bold; margin-bottom: 0.5rem;">${title}</div>
             <div style="font-size: 0.9rem;">${message}</div>
         `;
@@ -559,7 +558,7 @@ class AdvancedTeKeteAkoAnalytics {
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
         `;
         
-        suggestionsPanel.innerHTML = `
+        suggestionsPanel.textContent = `
             <div style="font-weight: bold; margin-bottom: 0.5rem; color: var(--color-secondary);">
                 🧠 Personalized Learning Suggestions
             </div>

@@ -41,8 +41,7 @@ class TeKeteAuthSystem {
             // Setup periodic session validation
             this.setupSessionValidation();
             
-            console.log('✅ Te Kete Auth System initialized successfully');
-        } catch (error) {
+            } catch (error) {
             console.error('❌ Auth system initialization failed:', error);
             this.handleAuthError(error);
         }
@@ -87,15 +86,12 @@ class TeKeteAuthSystem {
             }
         });
 
-        console.log('✅ Supabase client initialized with enhanced config');
-    }
+        }
 
     setupAuthStateListener() {
         if (!this.supabase) return;
 
         this.supabase.auth.onAuthStateChange(async (event, session) => {
-            console.log('🔄 Auth state changed:', event, session?.user?.email || 'No user');
-            
             switch (event) {
                 case 'SIGNED_IN':
                     await this.handleSignIn(session);
@@ -104,13 +100,11 @@ class TeKeteAuthSystem {
                     this.handleSignOut();
                     break;
                 case 'TOKEN_REFRESHED':
-                    console.log('🔄 Token refreshed successfully');
                     break;
                 case 'USER_UPDATED':
                     await this.handleUserUpdate(session);
                     break;
                 case 'PASSWORD_RECOVERY':
-                    console.log('🔑 Password recovery initiated');
                     break;
             }
         });
@@ -238,7 +232,7 @@ class TeKeteAuthSystem {
         const userRole = this.currentUser?.profile?.role || 'student';
         
         userInfoElements.forEach(el => {
-            el.innerHTML = `
+            el.textContent = `
                 <span class="user-email">${userName}</span>
                 <span class="user-role">${userRole}</span>
                 <button onclick="teKeteAuth.signOut()" class="btn-secondary">Sign Out</button>
@@ -256,7 +250,7 @@ class TeKeteAuthSystem {
         `;
         
         document.querySelectorAll('.auth-required, .auth-content').forEach(el => {
-            el.innerHTML = errorMessage;
+            el.textContent = errorMessage;
             el.style.display = 'block';
         });
     }
@@ -265,7 +259,7 @@ class TeKeteAuthSystem {
         this.retryAttempts++;
         
         if (this.retryAttempts < this.maxRetries) {
-            console.log(`🔄 Retrying auth initialization (${this.retryAttempts}/${this.maxRetries})`);
+            `);
             setTimeout(() => this.init(), 2000);
         } else {
             console.error('❌ Auth system failed after maximum retries');

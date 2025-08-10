@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const touchFeedbackElements = document.querySelectorAll('.cultural-touch-feedback');
     
     if (!mobileToggle || !mobileOverlay) {
-        console.log('Mobile navigation elements not found');
         return;
     }
     
@@ -203,8 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.head.appendChild(style);
     }
     
-    console.log('🌟 Mobile Revolution Navigation Activated - Nau mai, haere mai!');
-});
+    });
 
 // Viewport height adjustment for mobile browsers
 function setMobileViewportHeight() {

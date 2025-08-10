@@ -2,6 +2,7 @@
 
 <html lang="en">
 <head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co;">
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>AI Teacher Dashboard | Te Kete Ako</title>
@@ -721,7 +722,6 @@
             const objectives = document.getElementById('learning-objectives').value;
 
             if (!subject || !yearLevel || !objectives) {
-                alert('Please fill in all required fields');
                 return;
             }
 
@@ -756,8 +756,7 @@
 
             } catch (error) {
                 console.error('Lesson planning error:', error);
-                alert('Error generating lesson plan. Please try again.');
-            } finally {
+                } finally {
                 loading.classList.remove('show');
             }
         }
@@ -767,7 +766,6 @@
             const content = document.getElementById('cultural-content').value;
             
             if (!content.trim()) {
-                alert('Please paste some content to analyze');
                 return;
             }
 
@@ -797,8 +795,7 @@ Focus on respectful, authentic integration of mātauranga Māori.`;
 
             } catch (error) {
                 console.error('Cultural analysis error:', error);
-                alert('Error analyzing content. Please try again.');
-            } finally {
+                } finally {
                 loading.classList.remove('show');
             }
         }
@@ -810,7 +807,6 @@ Focus on respectful, authentic integration of mātauranga Māori.`;
             const yearLevel = document.getElementById('year-level').value;
             
             if (!selectedAssessmentType || !topic || !subject || !yearLevel) {
-                alert('Please select assessment type and fill in required fields');
                 return;
             }
 
@@ -828,8 +824,7 @@ Focus on respectful, authentic integration of mātauranga Māori.`;
 
             } catch (error) {
                 console.error('Assessment generation error:', error);
-                alert('Error generating assessment. Please try again.');
-            } finally {
+                } finally {
                 loading.classList.remove('show');
             }
         }
@@ -839,7 +834,6 @@ Focus on respectful, authentic integration of mātauranga Māori.`;
             const query = document.getElementById('resource-search').value;
             
             if (!query.trim()) {
-                alert('Please enter a search term');
                 return;
             }
 
@@ -936,7 +930,6 @@ Focus on respectful, authentic integration of mātauranga Māori.`;
         // Export results
         function exportResults() {
             if (!generatedContent.length) {
-                alert('No content to export. Generate some lesson plans or assessments first!');
                 return;
             }
 
@@ -957,13 +950,9 @@ Focus on respectful, authentic integration of mātauranga Māori.`;
 
         // Initialize dashboard
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🎓 AI Teacher Dashboard initialized');
-            console.log('🤖 DeepSeek-GraphRAG integration ready');
-            
             // Test AI connection
             aiAgent.healthCheck().then(status => {
-                console.log('AI Health Check:', status);
-            });
+                });
         });
     </script>
 <!-- Load Supabase Client -->

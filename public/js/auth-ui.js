@@ -25,13 +25,11 @@ class AuthUI {
             
             // Listen for auth state changes
             supabase.auth.onAuthStateChange((event, session) => {
-                console.log('Auth state changed:', event, session?.user?.email);
                 this.handleAuthStateChange(event, session);
             });
 
             this.isInitialized = true;
-            console.log('Auth UI initialized successfully');
-        } catch (error) {
+            } catch (error) {
             console.error('Error initializing Auth UI:', error);
         }
     }
@@ -65,7 +63,6 @@ class AuthUI {
                 this.showNotification('You have been signed out.', 'info');
                 break;
             case 'TOKEN_REFRESHED':
-                console.log('Session token refreshed');
                 break;
         }
     }
@@ -86,7 +83,7 @@ class AuthUI {
                 if (link) {
                     if (link.classList.contains('login-btn') || link.classList.contains('register-btn')) {
                         // Replace login/register with user info and logout
-                        item.innerHTML = this.createUserMenuHTML();
+                        item.textContent = this.createUserMenuHTML();
                     }
                 }
             });
@@ -175,7 +172,7 @@ class AuthUI {
         authNavItems.forEach((item, index) => {
             if (index === 0) {
                 // First auth nav item -> Login
-                item.innerHTML = `
+                item.textContent = `
                     <a href="login.html" class="login-btn">
                         <span class="nav-icon">🔐</span>
                         <span class="nav-text-en">Login</span>
@@ -184,7 +181,7 @@ class AuthUI {
                 `;
             } else if (index === 1) {
                 // Second auth nav item -> Register
-                item.innerHTML = `
+                item.textContent = `
                     <a href="register.html" class="register-btn">
                         <span class="nav-icon">📝</span>
                         <span class="nav-text-en">Register</span>
@@ -258,7 +255,7 @@ class AuthUI {
             animation: slideInRight 0.3s ease-out;
         `;
 
-        notification.innerHTML = `
+        notification.textContent = `
             <div style="display: flex; align-items: center; gap: 0.5rem;">
                 <span>${type === 'error' ? '❌' : type === 'success' ? '✅' : 'ℹ️'}</span>
                 <span>${message}</span>

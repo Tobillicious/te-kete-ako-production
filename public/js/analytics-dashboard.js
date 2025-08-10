@@ -64,7 +64,7 @@ class TeKeteAkoAnalytics {
             color: white;
             font-size: 1.5rem;
         `;
-        overlay.innerHTML = '📊';
+        overlay.textContent = '📊';
         overlay.title = 'Learning Analytics Dashboard';
         
         overlay.addEventListener('click', () => this.openAnalyticsDashboard());
@@ -339,7 +339,7 @@ class TeKeteAkoAnalytics {
             overflow-y: auto;
         `;
         
-        dashboard.innerHTML = this.generateDashboardHTML();
+        dashboard.textContent = this.generateDashboardHTML();
         modal.appendChild(dashboard);
         document.body.appendChild(modal);
         
@@ -526,8 +526,6 @@ class TeKeteAkoAnalytics {
 
     startDataCollection() {
         // Begin collecting analytics data
-        console.log('Te Kete Ako Analytics Dashboard initialized');
-        
         // Track page load
         this.logLearningEvent({
             type: 'page_loaded',

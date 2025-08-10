@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co;">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Society Design Tool | Te Kete Ako</title>
@@ -499,8 +500,7 @@
                         } else if (selected.length < maxSelections) {
                             this.classList.add('selected');
                         } else {
-                            alert(`You can only select up to ${maxSelections} values.`);
-                        }
+                            }
                     }
                 });
             });
@@ -576,15 +576,12 @@
                     const selectedValues = document.querySelectorAll('#values-grid .choice-card.selected').length;
                     
                     if (!name) {
-                        alert('Please enter your society\'s name.');
                         return false;
                     }
                     if (!vision) {
-                        alert('Please describe your society\'s vision.');
                         return false;
                     }
                     if (selectedValues === 0) {
-                        alert('Please select at least one core value.');
                         return false;
                     }
                     return true;
@@ -595,15 +592,12 @@
                     const decisions = document.getElementById('decision-making').value.trim();
                     
                     if (government === 0) {
-                        alert('Please select a government system.');
                         return false;
                     }
                     if (!leadership) {
-                        alert('Please describe how leaders will be chosen.');
                         return false;
                     }
                     if (!decisions) {
-                        alert('Please explain your decision-making process.');
                         return false;
                     }
                     return true;
@@ -614,15 +608,12 @@
                     const conflicts = document.getElementById('conflict-resolution').value.trim();
                     
                     if (!rights) {
-                        alert('Please list citizen rights.');
                         return false;
                     }
                     if (!responsibilities) {
-                        alert('Please list citizen responsibilities.');
                         return false;
                     }
                     if (!conflicts) {
-                        alert('Please describe conflict resolution.');
                         return false;
                     }
                     return true;
@@ -633,15 +624,12 @@
                     const resources = document.getElementById('resource-management').value.trim();
                     
                     if (economic === 0) {
-                        alert('Please select an economic system.');
                         return false;
                     }
                     if (!work) {
-                        alert('Please describe your work system.');
                         return false;
                     }
                     if (!resources) {
-                        alert('Please explain resource management.');
                         return false;
                     }
                     return true;
@@ -652,15 +640,12 @@
                     const community = document.getElementById('community-structure').value.trim();
                     
                     if (!culture) {
-                        alert('Please describe cultural practices.');
                         return false;
                     }
                     if (!education) {
-                        alert('Please explain your education system.');
                         return false;
                     }
                     if (!community) {
-                        alert('Please describe community organization.');
                         return false;
                     }
                     return true;
@@ -813,8 +798,7 @@ Date: ${new Date().toLocaleDateString()}
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
             
-            alert('Your society plan has been downloaded! You can submit this file to your teacher.');
-        }
+            }
 
         function shareSociety() {
             const url = `mailto:?subject=My Society Design: ${societyData.name}&body=I've designed a society called "${societyData.name}" using the Te Kete Ako Society Design Tool. Here's a summary:%0D%0A%0D%0AVision: ${societyData.vision}%0D%0AValues: ${societyData.values.join(', ')}%0D%0AGovernment: ${formatValue(societyData.government)}%0D%0A%0D%0AView the full design at: ${window.location.href}`;

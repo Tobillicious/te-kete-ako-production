@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const header = document.createElement('div');
         header.className = 'subject-header';
-        header.innerHTML = `<h2>${subject.name}</h2><span>▼</span>`;
+        header.textContent = `<h2>${subject.name}</h2><span>▼</span>`;
         header.addEventListener('click', () => {
             const content = subjectDiv.querySelector('.subject-content');
             content.style.display = content.style.display === 'none' ? 'block' : 'none';
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const header = document.createElement('div');
         header.className = 'level-header';
-        header.innerHTML = `<h3>Level ${level.level}</h3>`;
+        header.textContent = `<h3>Level ${level.level}</h3>`;
         header.addEventListener('click', () => {
             const content = levelSection.querySelector('.level-content');
             content.style.display = content.style.display === 'none' ? 'block' : 'none';
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const strandCard = document.createElement('div');
             strandCard.className = 'strand-card';
             let objectivesHtml = strand.achievement_objectives.map(ao => `<p><strong>${ao.id}:</strong> ${ao.statement}</p>`).join('');
-            strandCard.innerHTML = `<h4>${strand.name}</h4>${objectivesHtml}`;
+            strandCard.textContent = `<h4>${strand.name}</h4>${objectivesHtml}`;
             strandGrid.appendChild(strandCard);
         });
 
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const header = document.createElement('div');
         header.className = 'level-header';
-        header.innerHTML = `<h3>Phase ${phase.phase} (Years ${phase.years})</h3>`;
+        header.textContent = `<h3>Phase ${phase.phase} (Years ${phase.years})</h3>`;
         header.addEventListener('click', () => {
             const content = phaseSection.querySelector('.level-content');
             content.style.display = content.style.display === 'none' ? 'block' : 'none';
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         phase.progress_outcomes.forEach(outcome => {
             const outcomeCard = document.createElement('div');
             outcomeCard.className = 'strand-card';
-            outcomeCard.innerHTML = `<h4>${outcome.type}</h4><p><strong>${outcome.id}:</strong> ${outcome.statement}</p>`;
+            outcomeCard.textContent = `<h4>${outcome.type}</h4><p><strong>${outcome.id}:</strong> ${outcome.statement}</p>`;
             outcomesGrid.appendChild(outcomeCard);
         });
 

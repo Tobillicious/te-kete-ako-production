@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co;">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Categories Challenge | Te Kete Ako Games</title>
@@ -638,7 +639,6 @@
                 });
                 
                 if (this.teams.length < 2) {
-                    alert('Please set up at least 2 teams!');
                     return;
                 }
                 
@@ -737,7 +737,6 @@
                 // Check for duplicates
                 const existingAnswers = this.roundAnswers[currentTeam.id].map(a => a.text.toLowerCase());
                 if (existingAnswers.includes(answer.toLowerCase())) {
-                    alert('This answer has already been given!');
                     return;
                 }
                 

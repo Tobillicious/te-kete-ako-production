@@ -40,8 +40,7 @@ class AuthResilienceManager {
         // Enhanced error handling
         this.setupErrorHandling();
         
-        console.log('🛡️ Auth Resilience Manager initialized');
-    }
+        }
 
     setupNetworkMonitoring() {
         // Online/offline event listeners
@@ -96,8 +95,6 @@ class AuthResilienceManager {
     }
 
     async handleNetworkReconnection() {
-        console.log('🌐 Network reconnected - validating auth state');
-        
         if (window.teKeteAuth) {
             try {
                 await window.teKeteAuth.validateCurrentSession();
@@ -110,8 +107,6 @@ class AuthResilienceManager {
     }
 
     handleNetworkDisconnection() {
-        console.log('📴 Network disconnected - entering offline mode');
-        
         // Show offline indicator
         this.showOfflineIndicator();
         
@@ -144,8 +139,6 @@ class AuthResilienceManager {
     }
 
     async handleAuthTokenChange() {
-        console.log('🔄 Auth token changed in another tab');
-        
         if (window.teKeteAuth) {
             // Re-check auth state
             await window.teKeteAuth.checkCurrentSession();
@@ -191,7 +184,6 @@ class AuthResilienceManager {
                 
                 // Check if backup is recent (within 1 hour)
                 if (Date.now() - data.timestamp < 3600000) {
-                    console.log('🔄 Attempting session recovery from backup');
                     this.recoverFromBackup(data);
                 }
             }
@@ -216,7 +208,6 @@ class AuthResilienceManager {
 
             // If still not authenticated, try to restore from backup
             if (!window.teKeteAuth.isSignedIn()) {
-                console.log('🔧 Restoring session from backup data');
                 // Trigger a fresh session check
                 await window.teKeteAuth.checkCurrentSession();
             }
@@ -262,7 +253,7 @@ class AuthResilienceManager {
         this.tokenRefreshAttempts++;
         
         if (this.tokenRefreshAttempts <= this.maxTokenRefreshAttempts) {
-            console.log(`🔄 Attempting auth recovery (${this.tokenRefreshAttempts}/${this.maxTokenRefreshAttempts})`);
+            `);
             
             try {
                 if (window.teKeteAuth) {
@@ -280,8 +271,6 @@ class AuthResilienceManager {
     }
 
     forceReAuthentication() {
-        console.log('🔒 Max auth retries reached - forcing re-authentication');
-        
         // Clear all auth data
         if (window.teKeteAuth) {
             window.teKeteAuth.signOut();
@@ -351,7 +340,7 @@ class AuthResilienceManager {
             z-index: 10000;
         `;
         
-        modal.innerHTML = `
+        modal.textContent = `
             <div style="background: white; padding: 2rem; border-radius: 12px; max-width: 400px; text-align: center;">
                 <h2 style="color: #2d5a87; margin-bottom: 1rem;">🔐 Session Expired</h2>
                 <p>Your session has expired for security reasons. Please sign in again to continue.</p>
@@ -427,4 +416,3 @@ window.addEventListener('beforeunload', () => {
     window.authResilience.cleanup();
 });
 
-console.log('🛡️ Auth Resilience Layer loaded');

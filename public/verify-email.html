@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co;">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verify Email | Te Kete Ako</title>
@@ -126,13 +127,10 @@
                 await user.reload(); // Refresh user data
                 
                 if (user.emailVerified) {
-                    alert('✅ Email verified successfully! Welcome to Te Kete Ako.');
                     window.location.href = 'my-kete.html';
                 } else {
-                    alert('❌ Email not yet verified. Please check your email and click the verification link.');
-                }
+                    }
             } else {
-                alert('❌ Please sign up or log in first.');
                 window.location.href = 'register-simple.html';
             }
         }
@@ -143,13 +141,10 @@
                 try {
                     const user = window.TeKeteAuth.currentUser();
                     await user.sendEmailVerification();
-                    alert('📧 Verification email sent! Please check your inbox.');
-                } catch (error) {
+                    } catch (error) {
                     console.error('Error sending verification email:', error);
-                    alert('❌ Error sending email. Please try again later.');
-                }
+                    }
             } else {
-                alert('❌ Please sign up first.');
                 window.location.href = 'register-simple.html';
             }
         }

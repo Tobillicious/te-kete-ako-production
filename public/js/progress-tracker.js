@@ -23,11 +23,9 @@ class TeKeteProgressTracker {
             // Get current user from Supabase auth
             this.currentUser = await window.authHelpers?.getCurrentUser();
             if (!this.currentUser) {
-                console.log('Progress tracker: User not authenticated');
                 return false;
             }
 
-            console.log('🧺 Progress tracker initialized for user:', this.currentUser.email);
             this.initialized = true;
             
             // Load existing progress
@@ -78,7 +76,6 @@ class TeKeteProgressTracker {
                         this.progressCache.set(key, progress);
                     });
                     
-                    console.log(`📊 Loaded ${result.data.length} progress entries`);
                     return result.data;
                 }
             }
@@ -141,7 +138,7 @@ class TeKeteProgressTracker {
                     // Trigger progress events
                     this.triggerProgressEvent(resourceType, resourceId, progressPercentage);
                     
-                    console.log(`✅ Progress tracked: ${resourceTitle} (${progressPercentage}%)`);
+                    `);
                     return true;
                 }
             }
@@ -191,7 +188,6 @@ class TeKeteProgressTracker {
                     const key = `${resourceType}:${resourceId}`;
                     this.graphragTips.set(key, tips);
                     
-                    console.log(`🧠 GraphRAG tips updated for ${resourceType}:${resourceId}`);
                     return tips;
                 }
             }
@@ -406,4 +402,3 @@ if (typeof module !== 'undefined' && module.exports) {
     module.exports = TeKeteProgressTracker;
 }
 
-console.log('🧺 Te Kete Ako Progress Tracker loaded with GraphRAG integration');

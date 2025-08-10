@@ -51,7 +51,7 @@ function showError(message, elementId = 'error-message') {
         errorElement.className = 'error-message show';
     } else {
         console.error(message);
-        alert(message); // Fallback
+        // Fallback
     }
 }
 
@@ -65,7 +65,7 @@ function showSuccess(message, elementId = 'success-message') {
         successElement.style.display = 'block';
         successElement.className = 'success-message show';
     } else {
-        alert(message); // Fallback
+        // Fallback
     }
 }
 
@@ -334,13 +334,11 @@ onAuthStateChanged(auth, (user) => {
     currentUser = user;
     
     if (user) {
-        console.log('User signed in:', user.email);
         document.body.classList.add('logged-in');
         document.body.classList.remove('logged-out');
         
         // Check email verification for protected pages
         if (shouldProtectPage() && !user.emailVerified) {
-            console.log('Email not verified, redirecting...');
             window.location.href = '/verify-email.html';
             return;
         }
@@ -349,13 +347,11 @@ onAuthStateChanged(auth, (user) => {
         updateAuthUI(user);
         
     } else {
-        console.log('User signed out');
         document.body.classList.add('logged-out');
         document.body.classList.remove('logged-in');
         
         // Redirect to login if on protected page
         if (shouldProtectPage()) {
-            console.log('Protected page, redirecting to login...');
             window.location.href = '/login.html';
             return;
         }
@@ -458,4 +454,3 @@ window.TeKeteAuth = {
     currentUser: () => currentUser
 };
 
-console.log('🔥 Firebase Auth initialized for Te Kete Ako');
