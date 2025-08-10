@@ -290,11 +290,17 @@ class AuthUI {
     }
 }
 
-// Initialize Auth UI when DOM is loaded
+// Initialize Auth UI when DOM is loaded with singleton guard
 let authUI;
 
 document.addEventListener('DOMContentLoaded', () => {
+    if (window.authUIInstance) {
+        authUI = window.authUIInstance;
+        return;
+    }
+    
     authUI = new AuthUI();
+    window.authUIInstance = authUI;
     
     // Set up event delegation for dynamic elements
     document.addEventListener('click', (e) => {
@@ -351,5 +357,5 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Make authUI available globally
-window.authUI = authUI;
+// Make authUI available globally (use the singleton instance)
+window.authUI = window.authUIInstance;
