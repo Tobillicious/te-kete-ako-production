@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co;">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Writing Games | Writers Toolkit | Te Kete Ako</title>
@@ -462,6 +461,7 @@
                 gameTimers[gameId] = setInterval(() => {
                     if (timeLeft <= 0) {
                         clearInterval(gameTimers[gameId]);
+                        alert(`Time's up for ${gameId}!`);
                         return;
                     }
                     timeLeft--;
@@ -472,7 +472,8 @@
             document.querySelectorAll('.game-card').forEach(card => {
                 card.addEventListener('click', function() {
                     const gameName = this.querySelector('h3').textContent;
-                    });
+                    console.log(`Starting ${gameName}`);
+                });
             });
         });
     </script>
