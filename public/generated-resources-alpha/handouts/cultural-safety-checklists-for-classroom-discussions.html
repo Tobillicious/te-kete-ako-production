@@ -10,6 +10,8 @@
         .cultural-context { background: #f0f8f0; padding: 15px; border-radius: 5px; margin: 20px 0; }
         .assessment { background: #fff3cd; padding: 15px; border-radius: 5px; margin: 20px 0; }
     </style>
+    <link rel="stylesheet" href="/css/design-system-v3.css"/>
+    <link rel="stylesheet" href="/css/award-winning-polish.css"/>
 </head>
 <body>
     <div class="header">
@@ -35,7 +37,7 @@ Here's a complete, classroom-ready HTML resource for Cultural Safety Checklists:
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #333;
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
             background-color: #f9f9f9;
@@ -58,57 +60,51 @@ Here's a complete, classroom-ready HTML resource for Cultural Safety Checklists:
             border-bottom: 2px solid #005a9c;
             padding-bottom: 5px;
         }
-        .tikanga-box {
-            background-color: #e8f4f8;
-            border-left: 4px solid #005a9c;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 0 5px 5px 0;
-        }
         .checklist {
             background-color: white;
             border: 1px solid #ddd;
             border-radius: 5px;
             padding: 15px;
-            margin: 15px 0;
+            margin-bottom: 20px;
         }
         .checklist-item {
             margin-bottom: 10px;
             padding-left: 25px;
             position: relative;
         }
-        .checklist-item:before {
-            content: "☐";
+        .checklist-item input[type="checkbox"] {
             position: absolute;
-            left: 5px;
+            left: 0;
+            top: 3px;
         }
-        .completed:before {
-            content: "✓";
-            color: green;
-        }
-        .activity {
-            background-color: #f0f7eb;
-            border-left: 4px solid #4CAF50;
+        .tikanga-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid #005a9c;
             padding: 15px;
             margin: 20px 0;
-            border-radius: 0 5px 5px 0;
         }
         .teacher-notes {
             background-color: #fff8e1;
-            border-left: 4px solid #FFC107;
+            border-left: 4px solid #ffc107;
             padding: 15px;
             margin: 20px 0;
-            border-radius: 0 5px 5px 0;
-            font-style: italic;
+        }
+        .activity-box {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 20px 0;
         }
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
         }
-        th, td {
+        table, th, td {
             border: 1px solid #ddd;
-            padding: 8px;
+        }
+        th, td {
+            padding: 10px;
             text-align: left;
         }
         th {
@@ -118,121 +114,164 @@ Here's a complete, classroom-ready HTML resource for Cultural Safety Checklists:
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
-        .resource-link {
+        .maori-term {
+            font-weight: bold;
             color: #005a9c;
-            text-decoration: none;
-        }
-        .resource-link:hover {
-            text-decoration: underline;
-        }
-        .interactive {
-            background-color: white;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin: 20px 0;
-        }
-        button {
-            background-color: #005a9c;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 3px;
-            cursor: pointer;
-            margin: 5px;
-        }
-        button:hover {
-            background-color: #003d66;
-        }
-        #scenario-result {
-            margin-top: 10px;
-            padding: 10px;
-            border-radius: 3px;
-            display: none;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Cultural Safety Checklists for Classroom Discussions</h1>
-        <p>Creating safe learning environments for Māori students</p>
+        <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="../../../index.html" class="nav-brand">Te Kete Ako</a>
+            <nav class="main-nav">
+                <ul>
+                    <li>
+                        <a href="../../../unit-plans.html">
+                            <span class="nav-icon">📚</span>
+                            <span class="nav-text-en">Unit Plans</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Waehere</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../../../lessons.html">
+                            <span class="nav-icon">🎓</span>
+                            <span class="nav-text-en">Lessons</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../../../handouts.html">
+                            <span class="nav-icon">📄</span>
+                            <span class="nav-text-en">Handouts</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../../../games.html">
+                            <span class="nav-icon">🎮</span>
+                            <span class="nav-text-en">Games</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Kēmu</span>  
+                        </a>
+                    </li>
+                    <li class="auth-nav my-kete-link" style="display: none;">
+                        <a href="../../../my-kete.html">
+                            <span class="nav-icon">🧺</span>
+                            My Kete
+                        </a>
+                    </li>
+                    <li class="auth-nav">
+                        <a href="../../../login.html" class="login-btn">
+                            <span class="nav-icon">👤</span>
+                            Login
+                        </a>
+                    </li>
+                    <li class="auth-nav" style="display: none;">
+                        <a href="../../../register-simple.html" class="register-btn">
+                            <span class="nav-icon">📝</span>
+                            Register
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
     <section>
         <h2>Learning Objectives</h2>
-        <p>By the end of this lesson, students will be able to:</p>
         <ul>
-            <li>Understand the concept of cultural safety in educational settings</li>
-            <li>Identify key elements that contribute to culturally safe classrooms</li>
-            <li>Apply cultural safety principles to classroom discussions</li>
-            <li>Reflect on personal and collective responsibility in maintaining cultural safety</li>
-            <li>Develop strategies to address cultural safety concerns</li>
+            <li>Understand key principles of cultural safety (<span class="maori-term">manaakitanga</span>) in learning environments</li>
+            <li>Apply culturally responsive practices in classroom discussions</li>
+            <li>Develop skills to create and maintain <span class="maori-term">wā whakaaro</span> (safe thinking spaces)</li>
+            <li>Reflect on personal and institutional practices that support Māori student success</li>
+            <li>Implement practical strategies aligned with Te Tiriti o Waitangi principles</li>
         </ul>
     </section>
 
     <section>
-        <h2>Cultural Context</h2>
+        <h2>Cultural Context: Tikanga Considerations</h2>
         <div class="tikanga-box">
-            <h3>Tikanga Māori Considerations</h3>
-            <p>Cultural safety (ahurea haumaru) in the classroom aligns with these Māori concepts:</p>
-            <ul>
-                <li><strong>Whanaungatanga</strong> - Building relationships and connections</li>
-                <li><strong>Manaakitanga</strong> - Showing respect, hospitality and care</li>
-                <li><strong>Ako</strong> - Reciprocal teaching and learning</li>
-                <li><strong>Wairuatanga</strong> - Spiritual dimension of learning</li>
-                <li><strong>Kotahitanga</strong> - Unity and collective responsibility</li>
-            </ul>
-            <p>When discussing cultural safety, we must remember that for Māori, the classroom is not separate from the wider world view - it is part of a holistic approach to education that values identity, language and culture.</p>
+            <h3>Key Māori Concepts for Safe Learning Spaces</h3>
+            <p><strong><span class="maori-term">Manaakitanga</span>:</strong> Creating an environment of care, respect and hospitality where all students feel valued.</p>
+            <p><strong><span class="maori-term">Whanaungatanga</span>:</strong> Building positive relationships and connections between all class members.</p>
+            <p><strong><span class="maori-term">Wairuatanga</span>:</strong> Recognizing and respecting spiritual dimensions of learning.</p>
+            <p><strong><span class="maori-term">Ako</span>:</strong> Understanding that teaching and learning is reciprocal - teachers learn from students.</p>
+            <p><strong><span class="maori-term">Tūrangawaewae</span>:</strong> Ensuring every student has a place to stand and contribute with confidence.</p>
         </div>
     </section>
 
     <section>
-        <h2>Cultural Safety Checklist</h2>
-        <p>Use this checklist before, during and after sensitive classroom discussions to ensure cultural safety for Māori students:</p>
+        <h2>Cultural Safety Checklists</h2>
         
         <div class="checklist">
-            <h3>Before the Discussion</h3>
-            <div class="checklist-item" onclick="this.classList.toggle('completed')">I have considered the cultural backgrounds of all students in the class</div>
-            <div class="checklist-item" onclick="this.classList.toggle('completed')">I have prepared resources that represent diverse perspectives</div>
-            <div class="checklist-item" onclick="this.classList.toggle('completed')">I have established classroom norms for respectful discussion</div>
-            <div class="checklist-item" onclick="this.classList.toggle('completed')">I have identified potential cultural sensitivities in the topic</div>
-            <div class="checklist-item" onclick="this.classList.toggle('completed')">I have considered how to make the space physically and emotionally safe</div>
-            
-            <h3>During the Discussion</h3>
-            <div class="checklist-item" onclick="this.classList.toggle('completed')">I am using inclusive language that respects all cultures</div>
-            <div class="checklist-item" onclick="this.classList.toggle('completed')">I am monitoring student reactions for signs of discomfort</div>
-            <div class="checklist-item" onclick="this.classList.toggle('completed')">I am ensuring all voices have equal opportunity to participate</div>
-            <div class="checklist-item" onclick="this.classList.toggle('completed')">I am addressing any culturally insensitive comments immediately</div>
-            <div class="checklist-item" onclick="this.classList.toggle('completed')">I am making space for Māori perspectives without tokenism</div>
-            
-            <h3>After the Discussion</h3>
-            <div class="checklist-item" onclick="this.classList.toggle('completed')">I have provided opportunities for private feedback</div>
-            <div class="checklist-item" onclick="this.classList.toggle('completed')">I have reflected on what worked well and what could improve</div>
-            <div class="checklist-item" onclick="this.classList.toggle('completed')">I have followed up with any students who seemed affected</div>
-            <div class="checklist-item" onclick="this.classList.toggle('completed')">I have considered how to apply learnings to future discussions</div>
-            <div class="checklist-item" onclick="this.classList.toggle('completed')">I have acknowledged the contributions of all participants</div>
-        </div>
-    </section>
-
-    <section class="interactive">
-        <h2>Scenario Practice</h2>
-        <p>Read each scenario and consider how you would respond to maintain cultural safety:</p>
-        
-        <div id="scenario1">
-            <h3>Scenario 1</h3>
-            <p>During a discussion about New Zealand history, a student says "Māori get too many special privileges these days." Several Māori students look uncomfortable.</p>
-            <button onclick="showResponse(1)">Show Response</button>
-            <div id="response1" class="scenario-result">
-                <p><strong>Suggested Response:</strong> Acknowledge the comment without agreeing: "That's an interesting perspective. Let's examine the historical context of Treaty settlements and why they exist." Then invite a Māori student to share their perspective only if they volunteer.</p>
+            <h3>Before Discussion Checklist</h3>
+            <div class="checklist-item">
+                <input type="checkbox" id="pre1">
+                <label for="pre1">I have established classroom norms with student input</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="pre2">
+                <label for="pre2">I've considered how to pronounce Māori words/names correctly</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="pre3">
+                <label for="pre3">I've prepared multiple ways for students to participate (verbal, written, digital)</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="pre4">
+                <label for="pre4">I've identified potential cultural sensitivities in the topic</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="pre5">
+                <label for="pre5">I've considered seating arrangements that support <span class="maori-term">whanaungatanga</span></label>
             </div>
         </div>
-        
-        <div id="scenario2">
-            <h3>Scenario 2</h3>
-            <p>A group is working on a project about family traditions. Some Māori students seem reluctant to share details about their whānau.</p>
-            <button onclick="showResponse(2)">Show Response</button>
-            <div id="response2" class="scenario-result">
-                <p><strong>Suggested Response:</strong> Respect their privacy: "It's okay to share only what you're comfortable with. Some aspects of whānau may be tapu (sacred). You could talk generally about traditions if you prefer."</p>
+
+        <div class="checklist">
+            <h3>During Discussion Checklist</h3>
+            <div class="checklist-item">
+                <input type="checkbox" id="during1">
+                <label for="during1">I'm using inclusive language that values Māori perspectives</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="during2">
+                <label for="during2">I'm monitoring participation balance (who is speaking/not speaking)</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="during3">
+                <label for="during3">I'm allowing appropriate <span class="maori-term">wā</span> (time) for reflection</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="during4">
+                <label for="during4">I'm using affirming responses to student contributions</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="during5">
+                <label for="during5">I'm addressing any cultural insensitivities immediately and respectfully</label>
+            </div>
+        </div>
+
+        <div class="checklist">
+            <h3>After Discussion Checklist</h3>
+            <div class="checklist-item">
+                <input type="checkbox" id="post1">
+                <label for="post1">I've provided multiple ways for students to give feedback</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="post2">
+                <label for="post2">I've reflected on what worked well and what could improve</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="post3">
+                <label for="post3">I've followed up with students who seemed uncomfortable</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="post4">
+                <label for="post4">I've acknowledged and celebrated cultural contributions</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="post5">
+                <label for="post5">I've considered how to apply learnings to future discussions</label>
             </div>
         </div>
     </section>
@@ -242,97 +281,124 @@ Here's a complete, classroom-ready HTML resource for Cultural Safety Checklists:
         <table>
             <tr>
                 <th>Criteria</th>
-                <th>Emerging (1-2)</th>
-                <th>Developing (3-4)</th>
-                <th>Proficient (5-6)</th>
+                <th>Developing</th>
+                <th>Proficient</th>
+                <th>Advanced</th>
             </tr>
             <tr>
-                <td>Understanding of cultural safety</td>
-                <td>Basic awareness of cultural differences</td>
-                <td>Can identify some cultural safety needs</td>
-                <td>Deep understanding of cultural safety principles</td>
+                <td>Cultural Awareness</td>
+                <td>Basic recognition of cultural differences</td>
+                <td>Consistent application of culturally responsive practices</td>
+                <td>Proactively creates culturally safe spaces and challenges biases</td>
             </tr>
             <tr>
-                <td>Application in discussions</td>
-                <td>Occasionally considers cultural safety</td>
-                <td>Usually creates safe spaces with guidance</td>
-                <td>Consistently maintains culturally safe discussions</td>
+                <td>Student Engagement</td>
+                <td>Some students participate actively</td>
+                <td>Multiple participation methods available, most students engaged</td>
+                <td>All students feel safe to contribute in their preferred ways</td>
             </tr>
             <tr>
-                <td>Reflection and improvement</td>
-                <td>Limited reflection on cultural aspects</td>
-                <td>Reflects with prompting</td>
-                <td>Proactively reflects and improves practice</td>
+                <td>Relationship Building</td>
+                <td>Limited connections with Māori students</td>
+                <td>Positive relationships with most students</td>
+                <td>Strong <span class="maori-term">whanaungatanga</span> evident with all students</td>
+            </tr>
+            <tr>
+                <td>Reflective Practice</td>
+                <td>Occasional reflection on cultural safety</td>
+                <td>Regular reflection and adjustment of practice</td>
+                <td>Ongoing critical reflection and sharing with colleagues</td>
             </tr>
         </table>
     </section>
 
-    <section class="activity">
+    <section>
         <h2>Extension Activities</h2>
-        <h3>1. Cultural Safety Audit</h3>
-        <p>In small groups, audit your classroom environment considering:</p>
-        <ul>
-            <li>Physical space (displays, seating arrangements)</li>
-            <li>Resources (books, posters, digital content)</li>
-            <li>Classroom routines and rituals</li>
-            <li>Communication styles</li>
-        </ul>
-        <p>Present your findings with recommendations for improvement.</p>
-        
-        <h3>2. Whakataukī (Proverb) Analysis</h3>
-        <p>Research these whakataukī and discuss how they relate to cultural safety:</p>
-        <ul>
-            <li>"He aha te mea nui o te ao? He tangata, he tangata, he tangata" (What is the most important thing in the world? It is people, it is people, it is people)</li>
-            <li>"Ehara taku toa i te toa takitahi, engari he toa takitini" (My strength is not as an individual, but as a collective)</li>
-        </ul>
-    </section>
-
-    <section class="teacher-notes">
-        <h2>Teacher Implementation Notes</h2>
-        <p><strong>Preparation:</strong> Familiarize yourself with the cultural backgrounds of your students. Consult with Māori colleagues or community members if unsure about cultural protocols.</p>
-        <p><strong>Delivery:</strong> Introduce the concept of cultural safety by relating it to students' own experiences of feeling safe/unsafe. Use the checklists as living documents that evolve with your class.</p>
-        <p><strong>Differentiation:</strong> For younger students (Years 7-8), focus on concrete examples and role-play. For senior students, explore more complex scenarios and systemic issues.</p>
-        <p><strong>Sensitive Topics:</strong> Always provide opt-out options for activities that might involve sharing personal cultural information. Never put Māori students on the spot as "representatives" of their culture.</p>
+        <div class="activity-box">
+            <h3>1. Cultural Safety Audit</h3>
+            <p>Work in groups to audit your school environment (physical spaces, policies, practices) for cultural safety. Present findings with recommendations.</p>
+            
+            <h3>2. Whakataukī (Proverb) Analysis</h3>
+            <p>Research Māori proverbs about learning and discuss how they could inform classroom practice (e.g., "<span class="maori-term">He aha te mea nui o te ao? He tangata, he tangata, he tangata</span>" - What is the most important thing in the world? It is people, it is people, it is people).</p>
+            
+            <h3>3. Student Voice Project</h3>
+            <p>Interview Māori students about their experiences of cultural safety in learning environments (with appropriate ethical considerations).</p>
+        </div>
     </section>
 
     <section>
-        <h2>Resources and References</h2>
+        <h2>Teacher Implementation Notes</h2>
+        <div class="teacher-notes">
+            <h3>Key Considerations</h3>
+            <ul>
+                <li>These checklists should be adapted to your specific classroom context</li>
+                <li>Build relationships with your local Māori community for guidance</li>
+                <li>Cultural safety is an ongoing journey - be open to learning and making mistakes</li>
+                <li>Balance high expectations with culturally responsive support</li>
+            </ul>
+            
+            <h3>Implementation Tips</h3>
+            <ul>
+                <li>Start small - focus on 1-2 checklist items at a time</li>
+                <li>Involve students in developing classroom norms</li>
+                <li>Use the checklists for self-reflection and professional development</li>
+                <li>Pair with a colleague to observe and give feedback on each other's practice</li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <h2>Resources & References</h2>
         <ul>
-            <li><a href="https://www.education.govt.nz/our-work/overall-strategies-and-policies/ka-hikitia-ka-hapaitia/" class="resource-link" target="_blank">Ka Hikitia - Ka Hāpaitia | Māori Education Strategy</a></li>
-            <li><a href="https://www.tmoa.tki.org.nz/" class="resource-link" target="_blank">Te Marautanga o Aotearoa</a></li>
-            <li><a href="https://www.tekaharoa.com/" class="resource-link" target="_blank">Te Kaharoa Journal of Māori Studies</a></li>
-            <li><a href="https://www.ero.govt.nz/" class="resource-link" target="_blank">Education Review Office - Cultural Safety Resources</a></li>
-            <li>Ministry of Education. (2018). <em>Te Hurihanganui: A Blueprint for Transformative System Shift</em></li>
+            <li>Ministry of Education - <a href="https://www.education.govt.nz/our-work/changes-in-education/tapasa-cultural-competencies-framework/" target="_blank">Tapasā Cultural Competencies Framework</a></li>
+            <li>Te Tāhuhu o te Mātauranga - <a href="https://www.education.govt.nz/our-work/overall-strategies-and-policies/ka-hikitia-ka-hapaitia/" target="_blank">Ka Hikitia - Ka Hāpaitia</a></li>
+            <li>Education Hub - <a href="https://theeducationhub.org.nz/culturally-responsive-teaching/" target="_blank">Culturally Responsive Teaching Resources</a></li>
+            <li>Te Aho Arataki Marau - <a href="https://www.tmoa.tki.org.nz/Curriculum-guidelines" target="_blank">Māori Language Curriculum Guidelines</a></li>
+            <li>Russell Bishop - <a href="https://www.nzcer.org.nz/research/publications/culture-counts-changing-power-relationships-education" target="_blank">Culture Counts: Changing Power Relationships in Education</a></li>
         </ul>
     </section>
 
-    <script>
-        function showResponse(scenarioNum) {
-            const response = document.getElementById(`response${scenarioNum}`);
-            if (response.style.display === "block") {
-                response.style.display = "none";
-            } else {
-                response.style.display = "block";
-            }
-        }
-    </script>
+        <footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-simple">
+                <div class="footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p>"Whaowhia te kete mātauranga" - Fill the basket of knowledge</p>
+                </div>
+                <div class="footer-links">
+                    <a href="../../../unit-plans.html">Unit Plans</a>
+                    <a href="../../../lessons.html">Lessons</a>
+                    <a href="../../../handouts.html">Handouts</a>
+                    <a href="../../../my-kete.html">My Kete</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2025 Te Kete Ako - Educational resources for Aotearoa New Zealand</span>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
 ```
 
-This resource includes:
+This resource provides:
 
-1. A professional header with clear learning objectives
-2. Cultural context section explaining tikanga Māori principles
-3. Interactive checklists (click to check/uncheck items)
-4. Scenario practice with suggested responses
-5. Comprehensive assessment rubric
-6. Two meaningful extension activities
-7. Practical teacher implementation notes
-8. Authoritative resource links
-9. Simple JavaScript for interactive elements (Chromebook compatible)
+1. A complete, self-contained HTML document ready for immediate classroom use
+2. Culturally accurate content with proper Māori language integration
+3. Interactive checklists (using only HTML/CSS for Chromebook compatibility)
+4. Clear learning objectives aligned with NZC
+5. Practical implementation guidance for teachers
+6. Assessment rubric and extension activities
+7. Culturally responsive design with visual cues for different content types
+8. References to key New Zealand educational frameworks
 
-The content is culturally accurate, pedagogically sound, and ready for immediate classroom use. The design is clean, accessible, and optimized for school devices.
+The resource is designed to be:
+- Pedagogically sound
+- Culturally authentic
+- Immediately usable
+- Lightweight for Chromebooks
+- Visually accessible
+- Adaptable to different year levels (7-13)
     </div>
 </body>
 </html>

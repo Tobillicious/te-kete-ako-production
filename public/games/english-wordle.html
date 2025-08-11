@@ -11,326 +11,61 @@
     <title>English Wordle | Te Kete Ako</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/main.css">
-    <style>
-        body {
-            min-height: 100vh;
-            font-family: 'Lato', sans-serif;
-        }
-
-        .game-container {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: clamp(0.5rem, 2.5vw, 1rem);
-            text-align: center;
-            width: 100%;
-        }
-        
-        .back-link {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            text-decoration: none;
-            backdrop-filter: blur(10px);
-        }
-        
-        .game-header {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2rem;
-            margin: 2rem 0;
-            color: white;
-        }
-        
-        .game-title {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-        
-        .game-subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-        
-        .stats-container {
-            display: flex;
-            justify-content: space-around;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            padding: clamp(0.5rem, 2vw, 1rem);
-            margin-bottom: 2rem;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            color: white;
-        }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--color-secondary);
-        }
-        
-        .stat-label {
-            font-size: 0.8rem;
-            opacity: 0.8;
-        }
-        
-        .game-board {
-            margin: 2rem 0;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 2rem 1rem;
-        }
-        
-        .row {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 8px;
-        }
-        
-        .tile {
-            width: clamp(45px, 10vw, 60px);
-            height: clamp(45px, 10vw, 60px);
-            border: 2px solid rgba(255,255,255,0.3);
-            margin: 0 clamp(1px, 0.5vw, 2px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: clamp(1.2rem, 4vw, 2rem);
-            font-weight: bold;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-            background: rgba(255,255,255,0.9);
-            color: var(--color-primary);
-            border-radius: 8px;
-        }
-        
-        .tile.correct {
-            background: #28a745;
-            color: white;
-            border-color: #28a745;
-        }
-        
-        .tile.present {
-            background: #ffc107;
-            color: white;
-            border-color: #ffc107;
-        }
-        
-        .tile.absent {
-            background: #6c757d;
-            color: white;
-            border-color: #6c757d;
-        }
-        
-        .tile.filled {
-            border-color: var(--color-accent);
-            background: white;
-            color: var(--color-primary);
-        }
-        
-        .keyboard {
-            margin: 2rem 0;
-        }
-        
-        .keyboard-row {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 8px;
-            gap: 3px;
-        }
-        
-        .key {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: none;
-            padding: 12px 8px;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
-            min-width: 25px;
-            font-size: 0.9rem;
-        }
-        
-        .key:hover {
-            background: rgba(255,255,255,0.3);
-        }
-        
-        .key.wide {
-            min-width: 60px;
-            font-size: 0.8rem;
-        }
-        
-        .key.correct {
-            background: #28a745;
-        }
-        
-        .key.present {
-            background: #ffc107;
-        }
-        
-        .key.absent {
-            background: #6c757d;
-        }
-        
-        .message {
-            margin: 1rem 0;
-            padding: 1rem;
-            border-radius: 8px;
-            font-weight: bold;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            color: white;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .message.show {
-            opacity: 1;
-        }
-        
-        .message.success {
-            background: rgba(40, 167, 69, 0.3);
-            border: 2px solid #28a745;
-        }
-        
-        .message.error {
-            background: rgba(220, 53, 69, 0.3);
-            border: 2px solid #dc3545;
-        }
-        
-        .game-complete {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 2rem;
-            margin: 2rem 0;
-            color: white;
-        }
-        
-        .word-definition {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            color: white;
-            text-align: left;
-        }
-        
-        .controls {
-            margin: 2rem 0;
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-        }
-        
-        .game-btn {
-            background: var(--color-secondary);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 25px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .game-btn:hover {
-            background: var(--color-primary);
-            transform: translateY(-2px);
-        }
-        
-        @media (max-width: 480px) {
-            .game-header {
-                padding: 1rem;
-            }
-            
-            .game-title {
-                font-size: 2rem;
-            }
-            
-            .key {
-                padding: 8px 4px;
-                font-size: 0.8rem;
-                min-width: 20px;
-            }
-            
-            .key.wide {
-                min-width: 45px;
-            }
-        }
-    </style>
-
-    <link rel="stylesheet" href="css/kehinde-wiley-design-system.css">
-    <link rel="stylesheet" href="css/kehinde-wiley-implementation.css"> 
-    <link rel="stylesheet" href="css/award-winning-polish.css">
+                <link rel="stylesheet" href="/css/design-system-v3.css"/>
+        <link rel="stylesheet" href="/css/award-winning-polish.css"/>
+        <link rel="stylesheet" href="/https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap"/>
 </head>
 <body>
     <a href="../games.html" class="back-link">← Back to Games</a>
     
     <div class="game-container">
-            <header class="site-header no-print">
+                <header class="site-header no-print">
         <div class="nav-container">
-            <a href="../index.html" class="nav-brand">Te Kete Ako</a>
+            <a href="../../index.html" class="nav-brand">Te Kete Ako</a>
             <nav class="main-nav">
                 <ul>
                     <li>
-                        <a href="../unit-plans.html">
+                        <a href="../../unit-plans.html">
                             <span class="nav-icon">📚</span>
                             <span class="nav-text-en">Unit Plans</span>
                             <span class="nav-text-mi" lang="mi">Ngā Waehere</span>
                         </a>
                     </li>
                     <li>
-                        <a href="../lessons.html">
+                        <a href="../../lessons.html">
                             <span class="nav-icon">🎓</span>
                             <span class="nav-text-en">Lessons</span>
                             <span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
                         </a>
                     </li>
                     <li>
-                        <a href="../handouts.html">
+                        <a href="../../handouts.html">
                             <span class="nav-icon">📄</span>
                             <span class="nav-text-en">Handouts</span>
                             <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
                         </a>
                     </li>
                     <li>
-                        <a href="../games.html">
+                        <a href="../../games.html">
                             <span class="nav-icon">🎮</span>
                             <span class="nav-text-en">Games</span>
                             <span class="nav-text-mi" lang="mi">Ngā Kēmu</span>  
                         </a>
                     </li>
                     <li class="auth-nav my-kete-link" style="display: none;">
-                        <a href="../my-kete.html">
+                        <a href="../../my-kete.html">
                             <span class="nav-icon">🧺</span>
                             My Kete
                         </a>
                     </li>
                     <li class="auth-nav">
-                        <a href="../login.html" class="login-btn">
+                        <a href="../../login.html" class="login-btn">
                             <span class="nav-icon">👤</span>
                             Login
                         </a>
                     </li>
                     <li class="auth-nav" style="display: none;">
-                        <a href="../register-simple.html" class="register-btn">
+                        <a href="../../register-simple.html" class="register-btn">
                             <span class="nav-icon">📝</span>
                             Register
                         </a>
@@ -338,7 +73,6 @@
                 </ul>
             </nav>
         </div>
-        
     </header>
     <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
         
@@ -388,41 +122,9 @@
             
         </div>
         
-        <div class="keyboard" id="keyboard">
-            <div class="keyboard-row">
-                <button class="key" data-key="Q">Q</button>
-                <button class="key" data-key="W">W</button>
-                <button class="key" data-key="E">E</button>
-                <button class="key" data-key="R">R</button>
-                <button class="key" data-key="T">T</button>
-                <button class="key" data-key="Y">Y</button>
-                <button class="key" data-key="U">U</button>
-                <button class="key" data-key="I">I</button>
-                <button class="key" data-key="O">O</button>
-                <button class="key" data-key="P">P</button>
-            </div>
-            <div class="keyboard-row">
-                <button class="key" data-key="A">A</button>
-                <button class="key" data-key="S">S</button>
-                <button class="key" data-key="D">D</button>
-                <button class="key" data-key="F">F</button>
-                <button class="key" data-key="G">G</button>
-                <button class="key" data-key="H">H</button>
-                <button class="key" data-key="J">J</button>
-                <button class="key" data-key="K">K</button>
-                <button class="key" data-key="L">L</button>
-            </div>
-            <div class="keyboard-row">
-                <button class="key wide" data-key="ENTER">ENTER</button>
-                <button class="key" data-key="Z">Z</button>
-                <button class="key" data-key="X">X</button>
-                <button class="key" data-key="C">C</button>
-                <button class="key" data-key="V">V</button>
-                <button class="key" data-key="B">B</button>
-                <button class="key" data-key="N">N</button>
-                <button class="key" data-key="M">M</button>
-                <button class="key wide" data-key="BACKSPACE">⌫</button>
-            </div>
+        
+            
+            
         </div>
         
         <div class="message" id="message"></div>
@@ -513,7 +215,7 @@
                 All external links lead to official New Zealand educational and government websites.</em>
             </p>
         </div>
-    </section>    <footer class="site-footer no-print">
+    </section>        <footer class="site-footer no-print">
         <div class="footer-content">
             <div class="footer-simple">
                 <div class="footer-brand">
@@ -521,10 +223,10 @@
                     <p>"Whaowhia te kete mātauranga" - Fill the basket of knowledge</p>
                 </div>
                 <div class="footer-links">
-                    <a href="../unit-plans.html">Unit Plans</a>
-                    <a href="../lessons.html">Lessons</a>
-                    <a href="../handouts.html">Handouts</a>
-                    <a href="../my-kete.html">My Kete</a>
+                    <a href="../../unit-plans.html">Unit Plans</a>
+                    <a href="../../lessons.html">Lessons</a>
+                    <a href="../../handouts.html">Handouts</a>
+                    <a href="../../my-kete.html">My Kete</a>
                 </div>
             </div>
             <div class="footer-bottom">

@@ -7,329 +7,68 @@
     <title>YouTube Library Administration | Te Kete Ako</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/youtube-library.css">
-    <style>
-        .admin-header {
-            background: linear-gradient(135deg, var(--color-primary), var(--color-forest));
-            color: white;
-            padding: 2rem;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-        }
-
-        .admin-tabs {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            border-bottom: 2px solid var(--color-border);
-        }
-
-        .admin-tab {
-            padding: 1rem 2rem;
-            background: transparent;
-            border: none;
-            border-bottom: 3px solid transparent;
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--color-text-secondary);
-            transition: all var(--transition-medium);
-        }
-
-        .admin-tab.active {
-            color: var(--color-secondary);
-            border-bottom-color: var(--color-secondary);
-        }
-
-        .admin-tab:hover {
-            color: var(--color-primary);
-        }
-
-        .admin-section {
-            display: none;
-            background: var(--color-surface);
-            border-radius: 15px;
-            padding: 2rem;
-            border: 1px solid var(--color-border);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .admin-section.active {
-            display: block;
-        }
-
-        .pending-videos-grid {
-            display: grid;
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .pending-video-card {
-            background: var(--color-background);
-            border: 1px solid var(--color-border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            display: grid;
-            grid-template-columns: 200px 1fr auto;
-            gap: 1.5rem;
-            align-items: start;
-        }
-
-        .pending-video-thumbnail {
-            width: 200px;
-            height: 120px;
-            border-radius: 8px;
-            overflow: hidden;
-            background: var(--color-border-light);
-        }
-
-        .pending-video-thumbnail img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .pending-video-info h4 {
-            color: var(--color-primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .pending-video-meta {
-            color: var(--color-text-secondary);
-            font-size: 0.9rem;
-            margin: 0.5rem 0;
-        }
-
-        .video-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin: 0.5rem 0;
-        }
-
-        .tag {
-            background: var(--color-cultural-light);
-            color: var(--color-primary);
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .moderation-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            min-width: 200px;
-        }
-
-        .action-btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all var(--transition-medium);
-        }
-
-        .approve-btn {
-            background: var(--color-forest);
-            color: white;
-        }
-
-        .approve-btn:hover {
-            background: var(--color-secondary);
-            transform: translateY(-1px);
-        }
-
-        .reject-btn {
-            background: var(--color-maori-red);
-            color: white;
-        }
-
-        .reject-btn:hover {
-            background: #c53030;
-            transform: translateY(-1px);
-        }
-
-        .edit-btn {
-            background: var(--color-accent);
-            color: white;
-        }
-
-        .edit-btn:hover {
-            background: #e69500;
-            transform: translateY(-1px);
-        }
-
-        .stats-dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, var(--color-secondary), var(--color-cultural-teal));
-            color: white;
-            padding: 2rem;
-            border-radius: 15px;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        .search-analytics {
-            background: var(--color-background);
-            border: 1px solid var(--color-border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .analytics-filters {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            max-width: 600px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--color-primary);
-        }
-
-        .form-input,
-        .form-textarea,
-        .form-select {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--color-border);
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color var(--transition-medium);
-        }
-
-        .form-input:focus,
-        .form-textarea:focus,
-        .form-select:focus {
-            outline: none;
-            border-color: var(--color-secondary);
-            box-shadow: 0 0 0 3px rgba(0, 176, 185, 0.1);
-        }
-
-        .form-textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .cultural-validation {
-            background: var(--color-cultural-light);
-            border: 2px solid var(--color-secondary);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-        }
-
-        .cultural-validation h4 {
-            color: var(--color-secondary);
-            margin-bottom: 1rem;
-        }
-
-        @media (max-width: 768px) {
-            .pending-video-card {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .pending-video-thumbnail {
-                width: 100%;
-                height: 200px;
-            }
-
-            .moderation-actions {
-                flex-direction: row;
-                justify-content: center;
-                min-width: unset;
-            }
-
-            .stats-dashboard {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-    </style>
-
-    <link rel="stylesheet" href="css/kehinde-wiley-design-system.css">
-    <link rel="stylesheet" href="css/kehinde-wiley-implementation.css"> 
-    <link rel="stylesheet" href="css/award-winning-polish.css">
+                <link rel="stylesheet" href="/css/design-system-v3.css"/>
+        <link rel="stylesheet" href="/css/award-winning-polish.css"/>
+        <link rel="stylesheet" href="/https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap"/>
+        <link rel="stylesheet" href="/css/youtube-library.css"/>
 </head>
 <body data-auto-init="true" data-current-page="admin">
 
     <!-- Site Header -->
-    <header class="site-header no-print">
+        <header class="site-header no-print">
         <div class="nav-container">
-            <a href="index.html" class="nav-brand">Te Kete Ako - Admin</a>
+            <a href="../index.html" class="nav-brand">Te Kete Ako</a>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="youtube-library.html">← Back to Library</a></li>
-                    <li><a href="teacher-dashboard.html">Dashboard</a></li>
+                    <li>
+                        <a href="../unit-plans.html">
+                            <span class="nav-icon">📚</span>
+                            <span class="nav-text-en">Unit Plans</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Waehere</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../lessons.html">
+                            <span class="nav-icon">🎓</span>
+                            <span class="nav-text-en">Lessons</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../handouts.html">
+                            <span class="nav-icon">📄</span>
+                            <span class="nav-text-en">Handouts</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../games.html">
+                            <span class="nav-icon">🎮</span>
+                            <span class="nav-text-en">Games</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Kēmu</span>  
+                        </a>
+                    </li>
+                    <li class="auth-nav my-kete-link" style="display: none;">
+                        <a href="../my-kete.html">
+                            <span class="nav-icon">🧺</span>
+                            My Kete
+                        </a>
+                    </li>
                     <li class="auth-nav">
-                        <a href="#" onclick="logout()" class="logout-btn">Logout</a>
+                        <a href="../login.html" class="login-btn">
+                            <span class="nav-icon">👤</span>
+                            Login
+                        </a>
+                    </li>
+                    <li class="auth-nav" style="display: none;">
+                        <a href="../register-simple.html" class="register-btn">
+                            <span class="nav-icon">📝</span>
+                            Register
+                        </a>
                     </li>
                 </ul>
             </nav>
         </div>
-        
     </header>
     <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
 

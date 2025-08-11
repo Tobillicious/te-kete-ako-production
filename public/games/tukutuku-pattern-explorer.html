@@ -7,295 +7,66 @@
     <title>Tukutuku Pattern Explorer | Interactive Mathematics | Te Kete Ako</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="../css/main.css">
-    <style>
-        .explorer-header {
-            background: linear-gradient(135deg, #8e5029 0%, #cd853f 100%);
-            color: white;
-            padding: 3rem 2rem;
-            border-radius: 15px;
-            margin: 2rem 0;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .explorer-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: repeating-linear-gradient(45deg,
-                    rgba(255, 255, 255, 0.1) 0px,
-                    rgba(255, 255, 255, 0.1) 20px,
-                    transparent 20px,
-                    transparent 40px);
-        }
-
-        .learning-objectives {
-            background: var(--color-cultural-light);
-            border: 2px solid var(--color-cultural);
-            border-radius: 12px;
-            padding: 2rem;
-            margin: 2rem 0;
-        }
-
-        .interactive-workspace {
-            display: grid;
-            grid-template-columns: 1fr 400px;
-            gap: 2rem;
-            margin: 2rem 0;
-            min-height: 700px;
-        }
-
-        .canvas-container {
-            background: white;
-            border-radius: 12px;
-            padding: 1rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .controls-panel {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 1.5rem;
-            overflow-y: auto;
-            max-height: 700px;
-        }
-
-        .control-section {
-            background: white;
-            border-radius: 8px;
-            padding: 1rem;
-            margin: 1rem 0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .control-section h3 {
-            margin: 0 0 1rem 0;
-            color: var(--color-accent);
-            font-size: 1.1rem;
-            border-bottom: 2px solid var(--color-accent);
-            padding-bottom: 0.5rem;
-        }
-
-        .control-section label {
-            display: block;
-            margin: 0.8rem 0 0.3rem 0;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .control-section select,
-        .control-section input[type="range"] {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            margin-bottom: 0.5rem;
-        }
-
-        .control-section button {
-            background: var(--color-accent);
-            color: white;
-            border: none;
-            padding: 0.8rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            margin: 0.3rem 0.3rem 0.3rem 0;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
-
-        .control-section button:hover {
-            background: var(--color-primary);
-        }
-
-        .cultural-info {
-            background: var(--color-cultural-light);
-            border: 2px solid var(--color-cultural);
-            border-radius: 8px;
-            padding: 1rem;
-            margin: 1rem 0;
-        }
-
-        .cultural-info h3 {
-            color: var(--color-cultural);
-            margin: 0 0 1rem 0;
-        }
-
-        .cultural-info h4 {
-            color: var(--color-cultural);
-            margin: 1rem 0 0.5rem 0;
-            font-size: 1rem;
-        }
-
-        .mathematical-concepts {
-            background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c8 100%);
-            border-radius: 12px;
-            padding: 2rem;
-            margin: 2rem 0;
-        }
-
-        .concept-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-
-        .concept-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            border-left: 4px solid #4caf50;
-        }
-
-        .concept-card h4 {
-            color: #2e7d32;
-            margin: 0 0 0.5rem 0;
-        }
-
-        .activity-suggestions {
-            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
-            border-radius: 12px;
-            padding: 2rem;
-            margin: 2rem 0;
-        }
-
-        .activity-card {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            border-left: 4px solid #ff9800;
-        }
-
-        .canvas-tools {
-            display: flex;
-            gap: 1rem;
-            margin: 1rem 0;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .canvas-tools button {
-            background: var(--color-accent);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .progress-indicator {
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-            border-radius: 8px;
-            padding: 1rem;
-            margin: 1rem 0;
-            text-align: center;
-        }
-
-        .checkbox-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .checkbox-group label {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: normal;
-            margin: 0;
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            width: auto;
-        }
-
-        @media (max-width: 1200px) {
-            .interactive-workspace {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .controls-panel {
-                max-height: 400px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .explorer-header {
-                padding: 2rem 1rem;
-            }
-
-            .canvas-container canvas {
-                max-width: 100%;
-                height: auto;
-            }
-        }
-
-        .learning-path {
-            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
-            border-radius: 12px;
-            padding: 2rem;
-            margin: 2rem 0;
-        }
-
-        .path-step {
-            background: white;
-            border-radius: 8px;
-            padding: 1rem;
-            margin: 0.5rem 0;
-            border-left: 4px solid #9c27b0;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .step-number {
-            background: #9c27b0;
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            flex-shrink: 0;
-        }
-    </style>
-
-    <link rel="stylesheet" href="css/kehinde-wiley-design-system.css">
-    <link rel="stylesheet" href="css/kehinde-wiley-implementation.css"> 
-    <link rel="stylesheet" href="css/award-winning-polish.css">
+                <link rel="stylesheet" href="/css/design-system-v3.css"/>
+        <link rel="stylesheet" href="/css/award-winning-polish.css"/>
+        <link rel="stylesheet" href="/https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap"/>
 </head>
 
 <body>
-    <header class="site-header no-print">
+        <header class="site-header no-print">
         <div class="nav-container">
-            <a href="../index.html" class="nav-brand">Te Kete Ako</a>
+            <a href="../../index.html" class="nav-brand">Te Kete Ako</a>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="../lessons.html">🎓 Lessons</a></li>
-                    <li><a href="../handouts.html">📄 Handouts</a></li>
-                    <li><a href="../games.html">🎮 Games</a></li>
-                    <li><a href="../units/y9-maths-geometry-patterns/index.html">📐 Y9 Mathematics Unit</a></li>
+                    <li>
+                        <a href="../../unit-plans.html">
+                            <span class="nav-icon">📚</span>
+                            <span class="nav-text-en">Unit Plans</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Waehere</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../../lessons.html">
+                            <span class="nav-icon">🎓</span>
+                            <span class="nav-text-en">Lessons</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../../handouts.html">
+                            <span class="nav-icon">📄</span>
+                            <span class="nav-text-en">Handouts</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../../games.html">
+                            <span class="nav-icon">🎮</span>
+                            <span class="nav-text-en">Games</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Kēmu</span>  
+                        </a>
+                    </li>
+                    <li class="auth-nav my-kete-link" style="display: none;">
+                        <a href="../../my-kete.html">
+                            <span class="nav-icon">🧺</span>
+                            My Kete
+                        </a>
+                    </li>
+                    <li class="auth-nav">
+                        <a href="../../login.html" class="login-btn">
+                            <span class="nav-icon">👤</span>
+                            Login
+                        </a>
+                    </li>
+                    <li class="auth-nav" style="display: none;">
+                        <a href="../../register-simple.html" class="register-btn">
+                            <span class="nav-icon">📝</span>
+                            Register
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
-        
     </header>
     <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
 
