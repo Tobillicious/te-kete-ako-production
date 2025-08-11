@@ -209,7 +209,9 @@
                 </ul>
             </nav>
         </div>
+        
     </header>
+    <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
 
     <div class="demo-container">
         <h1 style="text-align: center; color: var(--color-primary); margin-bottom: 1rem;">
@@ -228,6 +230,7 @@
                     <span class="stat-number" id="total-resources">0</span>
                     <span class="stat-label">Resources Started</span>
                 </div>
+        
                 <div class="stat-card">
                     <span class="stat-number" id="completed-resources">0</span>
                     <span class="stat-label">Completed</span>
@@ -503,7 +506,7 @@
                 tipsPanel.style.display = 'block';
                 
                 const tipsContainer = document.getElementById('tips-container');
-                tipsContainer.innerHTML = '<div class="loading-spinner"></div> Getting personalized tips...';
+                tipsContainer.innerHTML = '<div class="loading-spinner"></div>
 
                 // Get tips from progress tracker (which uses GraphRAG)
                 const tips = await this.progressTracker.getGraphRAGTips(
