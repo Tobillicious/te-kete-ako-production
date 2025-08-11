@@ -73,6 +73,8 @@ const STANDARD_FOOTER = `    <footer class="site-footer no-print">
                     <a href="lessons.html">Lessons</a>
                     <a href="handouts.html">Handouts</a>
                     <a href="my-kete.html">My Kete</a>
+                    <a href="sitemap.html">Sitemap</a>
+                    <a href="orphans.html">Discover</a>
                 </div>
             </div>
             <div class="footer-bottom">
