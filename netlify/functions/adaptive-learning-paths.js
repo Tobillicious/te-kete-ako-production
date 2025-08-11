@@ -10,7 +10,7 @@ const supabase = createClient(
 
 exports.handler = async (event, context) => {
   const headers = {
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': process.env.SITE_URL || 'https://tekete.netlify.app',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Content-Type': 'application/json'
@@ -99,7 +99,10 @@ async function analyzeUserProgress(userId) {
 }
 
 async function generateAdaptivePath({ userId, learningGoal, currentLevel, progressData, preferredModality }) {
-  const deepseekApiKey = process.env.DEEPSEEK_API_KEY || 'sk-65624cc9a6fa45c8a7eebe1834dc9587';
+  const deepseekApiKey = process.env.DEEPSEEK_API_KEY;
+  if (!deepseekApiKey) {
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'DEEPSEEK_API_KEY environment variable required' }) };
+  }
   
   const systemPrompt = `You are an adaptive learning architect for Te Kete Ako, designing personalized educational journeys that honor Te Ao Māori principles.
 

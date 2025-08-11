@@ -15,39 +15,38 @@
             background-color: #f9f9f9;
         }
         header {
-            background-color: #1a5276;
+            background-color: #005a9c;
             color: white;
             padding: 20px;
             border-radius: 5px;
             margin-bottom: 20px;
         }
         h1, h2, h3 {
-            color: #1a5276;
+            color: #005a9c;
         }
         h1 {
             margin-top: 0;
         }
         .cultural-context {
-            background-color: #eaf2f8;
+            background-color: #f0f7ff;
             padding: 15px;
-            border-left: 5px solid #3498db;
+            border-left: 4px solid #005a9c;
             margin: 20px 0;
-            border-radius: 0 5px 5px 0;
         }
         .activity {
-            background-color: #e8f8f5;
+            background-color: #e6f2ff;
             padding: 15px;
             border-radius: 5px;
             margin: 20px 0;
         }
         .assessment {
-            background-color: #fef9e7;
+            background-color: #e6ffe6;
             padding: 15px;
             border-radius: 5px;
             margin: 20px 0;
         }
         .teacher-notes {
-            background-color: #f5eef8;
+            background-color: #fff8e6;
             padding: 15px;
             border-radius: 5px;
             margin: 20px 0;
@@ -58,34 +57,44 @@
             border-collapse: collapse;
             margin: 20px 0;
         }
-        th, td {
+        table, th, td {
             border: 1px solid #ddd;
-            padding: 8px;
+        }
+        th, td {
+            padding: 10px;
             text-align: left;
         }
         th {
-            background-color: #1a5276;
+            background-color: #005a9c;
             color: white;
         }
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
+        .maori-term {
+            font-weight: bold;
+            color: #005a9c;
+        }
         .interactive {
-            background-color: #e8f8f5;
+            background-color: #fff;
+            border: 1px solid #ddd;
             padding: 15px;
             border-radius: 5px;
             margin: 20px 0;
         }
-        .checkbox-item {
+        .checkbox-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .checkbox-list li {
             margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
         }
-        .resource-link {
-            color: #1a5276;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .resource-link:hover {
-            text-decoration: underline;
+        .checkbox-list li:before {
+            content: "☐";
+            position: absolute;
+            left: 0;
         }
     </style>
 </head>
@@ -93,76 +102,69 @@
     <header>
         <h1>AI Ethics Through Māori Data Sovereignty</h1>
         <p><strong>Year Levels:</strong> 11-13 | <strong>Subject:</strong> Digital Technology</p>
-        <h2>Learning Objectives</h2>
+        <p><strong>Learning Objectives:</strong></p>
         <ul>
-            <li>Understand key principles of Māori Data Sovereignty (MDS)</li>
+            <li>Understand key concepts of Māori Data Sovereignty (<span class="maori-term">Raraunga Māori</span>)</li>
             <li>Analyze how AI systems can impact indigenous data rights</li>
-            <li>Apply tikanga Māori to ethical decision-making in technology</li>
-            <li>Develop protocols for culturally responsive AI development</li>
-            <li>Evaluate case studies through both technical and cultural lenses</li>
+            <li>Apply ethical frameworks to technology development scenarios</li>
+            <li>Develop culturally responsive solutions for data collection and use</li>
         </ul>
     </header>
 
     <section class="cultural-context">
         <h2>Cultural Context: Tikanga Māori and Technology</h2>
-        <p>This lesson is grounded in <strong>Māori Data Sovereignty</strong> principles that assert Māori rights to control Māori data. Key concepts include:</p>
+        <p>The concept of <span class="maori-term">Raraunga Māori</span> (Māori Data Sovereignty) is based on the principle that data about Māori should be governed by Māori. This aligns with the broader concept of <span class="maori-term">Tino Rangatiratanga</span> (self-determination).</p>
+        
+        <p><strong>Key considerations:</strong></p>
         <ul>
-            <li><strong>Rangatiratanga:</strong> Self-determination over Māori data</li>
-            <li><strong>Whanaungatanga:</strong> Relationships and responsibilities in data collection</li>
-            <li><strong>Manaakitanga:</strong> Ethical care of data and its subjects</li>
-            <li><strong>Kaitiakitanga:</strong> Guardianship and protection of data</li>
+            <li><span class="maori-term">Manaakitanga</span> - Respect and care in how data is collected and used</li>
+            <li><span class="maori-term">Kaitiakitanga</span> - Guardianship and protection of data</li>
+            <li><span class="maori-term">Whanaungatanga</span> - Relationships and connections in data sharing</li>
+            <li><span class="maori-term">Tapu</span> - The sacredness of certain knowledge and information</li>
         </ul>
-        <p><strong>Cultural safety note:</strong> When discussing indigenous data, we acknowledge data is not just information but represents people, ancestors, and future generations.</p>
+        
+        <p>When developing AI systems that may use Māori data, these principles should guide ethical decision-making.</p>
     </section>
 
     <section>
-        <h2>Understanding Māori Data Sovereignty</h2>
-        <p>Māori Data Sovereignty (MDS) refers to the inherent rights and interests that Māori have in relation to the collection, ownership, and application of Māori data.</p>
+        <h2>Understanding the Issues</h2>
+        <p>Artificial Intelligence systems often rely on large datasets that may include information about indigenous peoples. Without proper governance, this can lead to:</p>
+        <ul>
+            <li>Misrepresentation of Māori knowledge and culture</li>
+            <li>Commercial exploitation without benefit sharing</li>
+            <li>Perpetuation of biases and stereotypes</li>
+            <li>Loss of control over culturally sensitive information</li>
+        </ul>
         
         <div class="interactive">
-            <h3>Interactive: Ethical Dimensions Sorting</h3>
-            <p>Sort these AI development scenarios by their alignment with MDS principles:</p>
-            <div class="checkbox-item">
-                <input type="checkbox" id="scenario1">
-                <label for="scenario1">An AI health app using Māori patient data without iwi consultation</label>
-            </div>
-            <div class="checkbox-item">
-                <input type="checkbox" id="scenario2">
-                <label for="scenario2">A language app co-designed with Māori communities that shares benefits</label>
-            </div>
-            <div class="checkbox-item">
-                <input type="checkbox" id="scenario3">
-                <label for="scenario3">Facial recognition trained on images of Māori without consent</label>
-            </div>
-            <div class="checkbox-item">
-                <input type="checkbox" id="scenario4">
-                <label for="scenario4">An algorithm that prioritizes Māori land claims based on partnership</label>
-            </div>
-            <p><strong>Discussion:</strong> What patterns do you notice about ethical vs problematic approaches?</p>
-        </div>
-    </section>
-
-    <section>
-        <h2>Case Study Analysis</h2>
-        <p>Examine this real-world scenario through both technical and cultural lenses:</p>
-        
-        <div class="activity">
-            <h3>Case: Predictive Policing Algorithms</h3>
-            <p>A city police department implemented an AI system to predict crime hotspots. The algorithm disproportionately flagged Māori neighborhoods, leading to increased surveillance.</p>
+            <h3>Case Study Analysis</h3>
+            <p><strong>Scenario:</strong> A health AI system is being developed using patient data from New Zealand hospitals. The data includes significant information about Māori patients.</p>
             
-            <h4>Analysis Questions:</h4>
+            <p><strong>Questions for discussion:</strong></p>
             <ol>
-                <li>What training data might have caused this bias?</li>
-                <li>How does this impact mana (prestige/authority) of Māori communities?</li>
-                <li>What MDS principles were violated?</li>
-                <li>How could the development process have incorporated tikanga?</li>
+                <li>Who should have control over this data?</li>
+                <li>How could the principles of <span class="maori-term">Raraunga Māori</span> be applied?</li>
+                <li>What potential harms might occur if Māori perspectives aren't considered?</li>
+                <li>How could the developers ensure ethical use of this data?</li>
             </ol>
+            
+            <div style="background-color: #f0f0f0; padding: 10px; margin-top: 15px;">
+                <h4>Group Activity: Ethical Framework Development</h4>
+                <p>In small groups, create a 5-point ethical framework for AI developers working with Māori data. Consider:</p>
+                <ul>
+                    <li>Data collection methods</li>
+                    <li>Consent processes</li>
+                    <li>Ongoing governance</li>
+                    <li>Benefit sharing</li>
+                    <li>Culturally appropriate algorithms</li>
+                </ul>
+            </div>
         </div>
     </section>
 
     <section class="assessment">
-        <h2>Assessment: Cultural Audit of an AI System</h2>
-        <p>Students will evaluate an existing AI application through a Māori Data Sovereignty lens.</p>
+        <h2>Assessment</h2>
+        <p><strong>Task:</strong> Create a proposal for an AI ethics policy that incorporates Māori Data Sovereignty principles.</p>
         
         <table>
             <tr>
@@ -172,78 +174,103 @@
                 <th>Excellence</th>
             </tr>
             <tr>
-                <td>Identifies data collection methods</td>
-                <td>Lists basic methods</td>
-                <td>Analyzes methods' cultural implications</td>
-                <td>Evaluates methods against MDS principles</td>
+                <td>Understanding of <span class="maori-term">Raraunga Māori</span></td>
+                <td>Basic description of concepts</td>
+                <td>Clear explanation with relevant examples</td>
+                <td>In-depth analysis with connections to broader indigenous rights</td>
             </tr>
             <tr>
-                <td>Assesses potential biases</td>
-                <td>Identifies obvious biases</td>
-                <td>Explains how biases could impact Māori</td>
-                <td>Proposes mitigation strategies grounded in tikanga</td>
+                <td>Application to AI Ethics</td>
+                <td>Identifies some ethical considerations</td>
+                <td>Develops coherent ethical guidelines</td>
+                <td>Creates innovative, culturally-grounded solutions</td>
             </tr>
             <tr>
-                <td>Recommends improvements</td>
-                <td>Suggests basic changes</td>
-                <td>Recommends culturally responsive solutions</td>
-                <td>Develops comprehensive protocol aligned with MDS</td>
+                <td>Practical Implementation</td>
+                <td>Suggests basic policy elements</td>
+                <td>Develops workable policy framework</td>
+                <td>Detailed implementation plan with stakeholder considerations</td>
             </tr>
         </table>
+        
+        <h3>Self-Checklist</h3>
+        <ul class="checkbox-list">
+            <li>I have explained at least 3 Māori Data Sovereignty principles</li>
+            <li>I have identified specific AI ethics concerns related to Māori data</li>
+            <li>My proposal includes practical implementation steps</li>
+            <li>I have considered multiple stakeholder perspectives</li>
+            <li>My work shows cultural respect and accuracy</li>
+        </ul>
     </section>
 
     <section>
         <h2>Extension Activities</h2>
         <div class="activity">
-            <h3>1. Design Challenge</h3>
-            <p>Create wireframes for an AI interface that embodies MDS principles. Consider:</p>
+            <h3>1. Comparative Analysis</h3>
+            <p>Research how other indigenous communities (e.g., Native American tribes, Australian Aboriginal groups) approach data sovereignty. Create a Venn diagram comparing their approaches with <span class="maori-term">Raraunga Māori</span>.</p>
+        </div>
+        
+        <div class="activity">
+            <h3>2. Algorithm Audit</h3>
+            <p>Select a commonly used AI system (e.g., facial recognition, recommendation algorithms) and analyze how it might impact Māori users. Consider:</p>
             <ul>
-                <li>Consent mechanisms</li>
-                <li>Data access controls</li>
-                <li>Culturally appropriate data visualization</li>
+                <li>Data sources used to train the system</li>
+                <li>Potential biases in the algorithms</li>
+                <li>Ways the system could be made more culturally responsive</li>
             </ul>
-            
-            <h3>2. Comparative Analysis</h3>
-            <p>Research how other indigenous communities (Native American, Aboriginal Australian) approach data sovereignty. Identify common themes and unique aspects.</p>
+        </div>
+        
+        <div class="activity">
+            <h3>3. Policy Debate</h3>
+            <p>Organize a class debate on the statement: "All AI systems using Māori data should require approval from relevant iwi authorities."</p>
         </div>
     </section>
 
     <section class="teacher-notes">
         <h2>Teacher Implementation Notes</h2>
-        <p><strong>Timing:</strong> This lesson is designed for 3-4 class periods (60 minutes each).</p>
+        <p><strong>Prior Knowledge:</strong> Students should have basic understanding of AI systems and data collection practices. Some familiarity with Māori perspectives is helpful but not essential.</p>
         
-        <h3>Preparation:</h3>
+        <p><strong>Suggested Timing:</strong></p>
         <ul>
-            <li>Consult with your school's Māori community liaison if available</li>
-            <li>Preview recommended resources (below)</li>
-            <li>Prepare printouts of case studies for group work</li>
+            <li>Introduction and cultural context: 1-2 periods</li>
+            <li>Case study analysis and activities: 2-3 periods</li>
+            <li>Assessment task completion: 2-3 periods</li>
+            <li>Extension activities: 1-2 periods each</li>
         </ul>
         
-        <h3>Differentiation Strategies:</h3>
+        <p><strong>Differentiation:</strong></p>
         <ul>
-            <li><strong>Support:</strong> Provide sentence starters for analysis questions</li>
-            <li><strong>Extension:</strong> Have students research local iwi data policies</li>
+            <li><strong>Support:</strong> Provide template for ethical framework with starter statements</li>
+            <li><strong>Extension:</strong> Challenge students to develop technical implementations of their ethical frameworks</li>
         </ul>
         
-        <h3>Assessment Notes:</h3>
-        <p>The cultural audit can be submitted as written report, presentation, or multimedia format. Emphasize process over perfection when evaluating cultural analysis.</p>
+        <p><strong>Cultural Safety:</strong></p>
+        <ul>
+            <li>Consult with local iwi or Māori advisors if available</li>
+            <li>Create space for Māori students to share perspectives if they choose</li>
+            <li>Ensure all discussions maintain respect for Māori knowledge systems</li>
+        </ul>
     </section>
 
     <section>
-        <h2>Resources & References</h2>
+        <h2>Resources and References</h2>
         <ul>
-            <li><a href="https://www.temanararaunga.maori.nz/" class="resource-link">Te Mana Raraunga - Māori Data Sovereignty Network</a></li>
-            <li><a href="https://data.govt.nz/assets/data-ethics/Data-ethics-guidelines-for-AI.pdf" class="resource-link">NZ Data Ethics Guidelines for AI</a></li>
-            <li><a href="https://thespinoff.co.nz/atea/30-05-2019/why-maori-data-sovereignty-matters" class="resource-link">Why Māori Data Sovereignty Matters (article)</a></li>
-            <li><a href="https://www.tpk.nz/en/o-matou-mohiotanga/digital-and-data" class="resource-link">Te Puni Kōkiri Digital Resources</a></li>
+            <li>Te Mana Raraunga - Māori Data Sovereignty Network: <a href="https://www.temanararaunga.maori.nz" target="_blank">www.temanararaunga.maori.nz</a></li>
+            <li>Waitangi Tribunal Report on Data: WAI 2522</li>
+            <li>New Zealand Government Algorithm Charter</li>
+            <li>Indigenous Data Sovereignty: Toward an Agenda (book)</li>
+            <li>Māori Data Governance Model (Te Puni Kōkiri)</li>
         </ul>
         
-        <h3>Key Vocabulary</h3>
+        <p><strong>Glossary of Māori Terms:</strong></p>
         <ul>
-            <li><strong>Raraunga:</strong> Data</li>
-            <li><strong>Tino rangatiratanga:</strong> Self-determination</li>
-            <li><strong>Kaitiaki:</strong> Guardian</li>
-            <li><strong>Mana:</strong> Prestige, authority</li>
+            <li><span class="maori-term">Raraunga Māori</span> - Māori Data Sovereignty</li>
+            <li><span class="maori-term">Tino Rangatiratanga</span> - Self-determination, sovereignty</li>
+            <li><span class="maori-term">Manaakitanga</span> - Hospitality, kindness, respect</li>
+            <li><span class="maori-term">Kaitiakitanga</span> - Guardianship, stewardship</li>
+            <li><span class="maori-term">Whanaungatanga</span> - Relationship, kinship</li>
+            <li><span class="maori-term">Tapu</span> - Sacred, restricted</li>
+            <li><span class="maori-term">Iwi</span> - Tribe, nation</li>
         </ul>
     </section>
 </body>
