@@ -64,6 +64,9 @@ const STANDARD_HEADER = `    <header class="site-header no-print">
                     </li>
                 </ul>
             </nav>
+            <nav class="breadcrumbs no-print" aria-label="Breadcrumb">
+                <ol id="breadcrumbs" class="breadcrumbs-list"></ol>
+            </nav>
         </div>
     </header>`;
 
