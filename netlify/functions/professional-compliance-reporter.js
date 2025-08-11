@@ -11,7 +11,7 @@
  */
 
 const headers = {
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': process.env.SITE_URL || 'https://tekete.netlify.app',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Content-Type': 'application/json',
 };

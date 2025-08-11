@@ -8,7 +8,7 @@ const supabase = createClient(
 
 exports.handler = async (event, context) => {
   const headers = {
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': process.env.SITE_URL || 'https://tekete.netlify.app',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Content-Type': 'application/json'
