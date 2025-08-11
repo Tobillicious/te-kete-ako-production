@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://supabase.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: https://placehold.co; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co https://supabase.com;">
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://supabase.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: https://placehold.co; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co https://supabase.com;">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Kete | Te Kete Ako</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#8B4513">
+    <link rel="icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <link rel="preload" href="css/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="css/main.css"></noscript>
+    <link rel="preload" href="vendor/supabase.min.js" as="script">
+    <link rel="preload" href="js/supabase-client.js" as="script">
+    <link rel="preload" href="js/my-kete.js" as="script">
     <style>
         .kete-container {
             max-width: 1200px;
@@ -87,6 +95,7 @@
             border-radius: 8px;
             padding: 1.5rem;
             margin-bottom: 1rem;
+            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
         }
         
@@ -551,7 +560,7 @@
                     <h3 style="margin: 0; color: var(--color-primary); font-size: 1.1rem;">
                         ${icon} ${bookmark.title}
                     </h3>
-                    <button class="remove-bookmark-btn" 
+                    <button type="button" class="remove-bookmark-btn" 
                             data-url="${bookmark.url}"
                             style="background: none; border: none; color: #dc3545; font-size: 1.2rem; cursor: pointer; padding: 0.2rem;"
                             title="Remove from kete">
@@ -767,17 +776,44 @@
 
         // Show login prompt without forcing navigation
         function showLoginPrompt() {
-            const loginSection = document.querySelector('.login-section');
-            const keteSection = document.querySelector('.kete-section');
-            
-            if (loginSection && keteSection) {
-                loginSection.style.display = 'block';
-                keteSection.style.display = 'none';
-            }
-            
-            // Update page title to indicate login needed
-            document.title = 'My Kete - Please Sign In | Te Kete Ako';
+            showAuthRequired();
         }
+
+        // Initialize page state on load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication state immediately
+            if (window.supabaseClient && window.supabaseClient.auth) {
+                window.supabaseClient.auth.getUser().then(({ data: { user } }) => {
+                    if (user) {
+                        showKeteContent();
+                        loadSavedResources();
+                        loadProgressData();
+                    } else {
+                        showAuthRequired();
+                    }
+                }).catch(() => {
+                    showAuthRequired();
+                });
+            } else {
+                // If Supabase not ready yet, show auth required by default
+                showAuthRequired();
+                
+                // Wait for Supabase to load and try again
+                setTimeout(() => {
+                    if (window.supabaseClient && window.supabaseClient.auth) {
+                        window.supabaseClient.auth.getUser().then(({ data: { user } }) => {
+                            if (user) {
+                                showKeteContent();
+                                loadSavedResources();
+                                loadProgressData();
+                            }
+                        }).catch(() => {
+                            // Keep showing auth required
+                        });
+                    }
+                }, 1000);
+            }
+        });
     </script>    <footer class="site-footer no-print">
         <div class="footer-content">
             <div class="footer-simple">
