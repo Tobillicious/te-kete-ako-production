@@ -62,7 +62,13 @@ function ensureBaseFirst(html) {
         const media = h.endsWith('/print.css') ? ' media="print"' : '';
         return `${indent}<link rel="stylesheet" href="${h}"${media}/>`;
       }).join('\n');
-      const nextHtml = before + newBlock + '\n' + after;
+      // Add breadcrumbs script if not already present
+      let newBlockWithScript = newBlock;
+      if (!html.includes('js/breadcrumbs.js')) {
+        const breadcrumbsScript = `${indent}<script src="/js/breadcrumbs.js" defer></script>`;
+        newBlockWithScript = newBlock + '\n' + breadcrumbsScript;
+      }
+      const nextHtml = before + newBlockWithScript + '\n' + after;
       return { html: nextHtml, changed: true, report: 'inserted-base-before-head-close' };
     }
     return { html, changed: false, report: 'no-styles-no-head' };
@@ -98,8 +104,15 @@ function ensureBaseFirst(html) {
     const media = h.endsWith('/print.css') ? ' media="print"' : '';
     return `${indent}<link rel="stylesheet" href="${h}"${media}/>`;
   }).join('\n');
+  
+  // Add breadcrumbs script if not already present
+  let newBlockWithScript = newBlock;
+  if (!html.includes('js/breadcrumbs.js')) {
+    const breadcrumbsScript = `${indent}<script src="/js/breadcrumbs.js" defer></script>`;
+    newBlockWithScript = newBlock + '\n' + breadcrumbsScript;
+  }
 
-  const nextHtml = before + newBlock + after;
+  const nextHtml = before + newBlockWithScript + after;
   const changed = nextHtml !== html;
   return { html: nextHtml, changed, report: { beforeCount: links.length, afterCount: ordered.length, removed: links.length - ordered.length } };
 }
