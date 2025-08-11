@@ -120,7 +120,9 @@ function backupAndWrite(file, content, backupDir) {
   fs.mkdirSync(path.dirname(dest), { recursive: true });
   fs.copyFileSync(file, dest);
   // sanitize stray closing noscript tags
-  const sanitized = content.replace(/<\/noscript>/gi, '');
+  let sanitized = content.replace(/<\/noscript>/gi, '');
+  // remove Google Fonts preconnect links
+  sanitized = sanitized.replace(/\n?\s*<link[^>]*rel=["']preconnect["'][^>]*href=["']https?:\/\/fonts\.(?:googleapis|gstatic)\.com["'][^>]*>\s*/gi, '');
   fs.writeFileSync(file, sanitized, 'utf8');
 }
 
