@@ -22,6 +22,7 @@ const DRY_RUN = process.argv.includes('--dry');
 const BASE_STYLES = [
   '/css/design-system-v3.css',
   '/css/award-winning-polish.css',
+  '/css/print.css',
 ];
 
 const CONFLICT_PATTERNS = [
@@ -57,7 +58,10 @@ function ensureBaseFirst(html) {
       const after = html.slice(headCloseIdx);
       const indentMatch = before.match(/(^|\n)([\t ]*)[^\n]*$/);
       const indent = (indentMatch && indentMatch[2]) || '    ';
-      const newBlock = BASE_STYLES.map(h => `${indent}<link rel="stylesheet" href="${h}"/>`).join('\n');
+      const newBlock = BASE_STYLES.map(h => {
+        const media = h.endsWith('/print.css') ? ' media="print"' : '';
+        return `${indent}<link rel="stylesheet" href="${h}"${media}/>`;
+      }).join('\n');
       const nextHtml = before + newBlock + '\n' + after;
       return { html: nextHtml, changed: true, report: 'inserted-base-before-head-close' };
     }
@@ -90,7 +94,10 @@ function ensureBaseFirst(html) {
   const after = html.slice(lastEnd);
   const indentMatch = before.match(/(^|\n)([\t ]*)[^\n]*$/);
   const indent = (indentMatch && indentMatch[2]) || '    ';
-  const newBlock = ordered.map(h => `${indent}<link rel="stylesheet" href="${h}"/>`).join('\n');
+  const newBlock = ordered.map(h => {
+    const media = h.endsWith('/print.css') ? ' media="print"' : '';
+    return `${indent}<link rel="stylesheet" href="${h}"${media}/>`;
+  }).join('\n');
 
   const nextHtml = before + newBlock + after;
   const changed = nextHtml !== html;
