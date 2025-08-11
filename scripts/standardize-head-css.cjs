@@ -32,6 +32,7 @@ const CONFLICT_PATTERNS = [
   /css\/critical\.css/i,
   /css\/curriculum-style\.css/i,
   /css\/main\.css/i, // old global
+  /https?:\/\/fonts\.googleapis\.com\//i, // remove external Google Fonts now that we use system Helvetica
 ];
 
 function listHtmlFiles(dir) {
@@ -111,7 +112,9 @@ function backupAndWrite(file, content, backupDir) {
   const dest = path.join(backupDir, rel);
   fs.mkdirSync(path.dirname(dest), { recursive: true });
   fs.copyFileSync(file, dest);
-  fs.writeFileSync(file, content, 'utf8');
+  // sanitize stray closing noscript tags
+  const sanitized = content.replace(/<\/noscript>/gi, '');
+  fs.writeFileSync(file, sanitized, 'utf8');
 }
 
 function run() {

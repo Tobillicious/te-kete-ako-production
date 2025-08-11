@@ -30,7 +30,16 @@
         }
         
         if (!window.ENV) {
-            throw new Error('Environment configuration not loaded');
+            console.warn('⚠️ ENV not loaded; initializing mock Supabase client for static/local context');
+            const mock = {
+                auth: {
+                    getUser: () => Promise.resolve({ data: { user: null } }),
+                    signInWithPassword: async () => ({ error: { message: 'Auth disabled in static preview' } }),
+                    signOut: async () => ({})
+                }
+            };
+            window.supabaseClient = mock;
+            return mock;
         }
         
         // Wait for Supabase CDN to load
@@ -58,7 +67,16 @@
         const supabaseKey = window.ENV.SUPABASE_ANON_KEY;
         
         if (!supabaseUrl || !supabaseKey) {
-            throw new Error('Supabase configuration missing');
+            console.warn('⚠️ Supabase config missing; using mock client');
+            const mock = {
+                auth: {
+                    getUser: () => Promise.resolve({ data: { user: null } }),
+                    signInWithPassword: async () => ({ error: { message: 'Missing Supabase config' } }),
+                    signOut: async () => ({})
+                }
+            };
+            window.supabaseClient = mock;
+            return mock;
         }
         
         // Create Supabase client
@@ -97,20 +115,26 @@
      */
     function initialize() {
         getSupabaseClient().then(client => {
-            // Make client globally available
-            window.supabase = client;
-            
+            // Make client globally available if it looks like a real client
+            if (client && client.auth) {
+                window.supabase = client;
+            }
             // Dispatch ready event
             window.dispatchEvent(new CustomEvent('supabaseReady', {
                 detail: { client }
             }));
         }).catch(error => {
             console.error('❌ Failed to initialize Supabase:', error);
-            
-            // Dispatch error event
-            window.dispatchEvent(new CustomEvent('supabaseError', {
-                detail: { error }
-            }));
+            // As a last resort, expose a mock to prevent UI crashes
+            const mock = {
+                auth: {
+                    getUser: () => Promise.resolve({ data: { user: null } }),
+                    signInWithPassword: async () => ({ error: { message: 'Supabase init error' } }),
+                    signOut: async () => ({})
+                }
+            };
+            window.supabaseClient = mock;
+            window.dispatchEvent(new CustomEvent('supabaseReady', { detail: { client: mock } }));
         });
     }
     
