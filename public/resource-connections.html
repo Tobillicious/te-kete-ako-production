@@ -7,253 +7,65 @@
     <title>Resource Connections | Te Kete Ako</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/main.css">
-    <style>
-        .connections-hero {
-            background: linear-gradient(135deg, #4A90E2 0%, #2C5F8C 100%);
-            color: white;
-            padding: 3rem 2rem;
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        
-        .connections-hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        .search-interface {
-            background: white;
-            padding: 2rem;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            margin: 3rem 0;
-            border-left: 6px solid #4A90E2;
-        }
-        
-        .search-input {
-            width: 100%;
-            padding: 1rem;
-            font-size: 1.1rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            margin-bottom: 1rem;
-        }
-        
-        .search-input:focus {
-            outline: none;
-            border-color: #4A90E2;
-            box-shadow: 0 0 0 3px rgba(74,144,226,0.1);
-        }
-        
-        .connection-network {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-        
-        .network-node {
-            background: white;
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            border-left: 6px solid #2E8B57;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-        
-        .network-node:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 48px rgba(0,0,0,0.15);
-        }
-        
-        .node-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #2E8B57;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .connection-list {
-            list-style: none;
-            padding: 0;
-            margin: 1rem 0;
-        }
-        
-        .connection-list li {
-            margin: 0.75rem 0;
-            padding: 0.75rem;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 8px;
-            border-left: 3px solid #DAA520;
-            position: relative;
-        }
-        
-        .connection-type {
-            font-size: 0.8rem;
-            color: #666;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .connection-description {
-            margin: 0.5rem 0 0 0;
-            color: #333;
-            line-height: 1.5;
-        }
-        
-        .strength-indicator {
-            position: absolute;
-            right: 0.75rem;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 60px;
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        
-        .strength-bar {
-            height: 100%;
-            border-radius: 4px;
-            transition: width 0.3s ease;
-        }
-        
-        .strength-high { background: #2E8B57; width: 90%; }
-        .strength-medium { background: #DAA520; width: 60%; }
-        .strength-low { background: #CC0000; width: 30%; }
-        
-        .discovery-insights {
-            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f4 100%);
-            padding: 2rem;
-            border-radius: 16px;
-            margin: 3rem 0;
-            border-left: 6px solid #2E8B57;
-        }
-        
-        .insight-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-        
-        .insight-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
-        
-        .insight-card h4 {
-            color: #2E8B57;
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-        }
-        
-        .pathway-suggestions {
-            background: linear-gradient(135deg, #DAA520 0%, #B8860B 100%);
-            color: white;
-            padding: 3rem 2rem;
-            border-radius: 16px;
-            margin: 3rem 0;
-        }
-        
-        .suggestion-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-        
-        .suggestion-card {
-            background: rgba(255,255,255,0.1);
-            padding: 2rem;
-            border-radius: 12px;
-            border: 2px solid rgba(255,255,255,0.2);
-        }
-        
-        .suggestion-card h4 {
-            color: white;
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-        }
-        
-        .tag-cloud {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin: 1rem 0;
-        }
-        
-        .tag {
-            background: #4A90E2;
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .tag:hover {
-            background: #2C5F8C;
-            transform: translateY(-1px);
-        }
-        
-        .graphrag-status {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin: 2rem 0;
-            border: 2px solid #4A90E2;
-            text-align: center;
-        }
-    </style>
-
-    <link rel="stylesheet" href="css/kehinde-wiley-design-system.css">
-    <link rel="stylesheet" href="css/kehinde-wiley-implementation.css"> 
-    <link rel="stylesheet" href="css/award-winning-polish.css">
+                <link rel="stylesheet" href="/css/design-system-v3.css"/>
+        <link rel="stylesheet" href="/css/award-winning-polish.css"/>
+        <link rel="stylesheet" href="/https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap"/>
 </head>
 <body>
-    <header class="site-header no-print">
+        <header class="site-header no-print">
         <div class="nav-container">
-            <a href="index.html" class="nav-brand">Te Kete Ako</a>
+            <a href="../index.html" class="nav-brand">Te Kete Ako</a>
             <nav class="main-nav">
                 <ul>
                     <li>
-                        <a href="learning-pathways.html">
-                            <span class="nav-icon">🌟</span>
-                            <span class="nav-text-en">Learning Pathways</span>
-                            <span class="nav-text-mi" lang="mi">Ngā Ara Ako</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="unit-plans.html">
+                        <a href="../unit-plans.html">
                             <span class="nav-icon">📚</span>
                             <span class="nav-text-en">Unit Plans</span>
                             <span class="nav-text-mi" lang="mi">Ngā Waehere</span>
                         </a>
                     </li>
                     <li>
-                        <a href="handouts.html">
+                        <a href="../lessons.html">
+                            <span class="nav-icon">🎓</span>
+                            <span class="nav-text-en">Lessons</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../handouts.html">
                             <span class="nav-icon">📄</span>
                             <span class="nav-text-en">Handouts</span>
                             <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="../games.html">
+                            <span class="nav-icon">🎮</span>
+                            <span class="nav-text-en">Games</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Kēmu</span>  
+                        </a>
+                    </li>
+                    <li class="auth-nav my-kete-link" style="display: none;">
+                        <a href="../my-kete.html">
+                            <span class="nav-icon">🧺</span>
+                            My Kete
+                        </a>
+                    </li>
+                    <li class="auth-nav">
+                        <a href="../login.html" class="login-btn">
+                            <span class="nav-icon">👤</span>
+                            Login
+                        </a>
+                    </li>
+                    <li class="auth-nav" style="display: none;">
+                        <a href="../register-simple.html" class="register-btn">
+                            <span class="nav-icon">📝</span>
+                            Register
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
-        
     </header>
     <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
 
@@ -474,7 +286,7 @@
         </section>
     </main>
 
-    <footer class="site-footer no-print">
+        <footer class="site-footer no-print">
         <div class="footer-content">
             <div class="footer-simple">
                 <div class="footer-brand">
@@ -482,10 +294,10 @@
                     <p>"Whaowhia te kete mātauranga" - Fill the basket of knowledge</p>
                 </div>
                 <div class="footer-links">
-                    <a href="learning-pathways.html">Learning Pathways</a>
-                    <a href="unit-plans.html">Unit Plans</a>
-                    <a href="lessons.html">Lessons</a>
-                    <a href="handouts.html">Handouts</a>
+                    <a href="../unit-plans.html">Unit Plans</a>
+                    <a href="../lessons.html">Lessons</a>
+                    <a href="../handouts.html">Handouts</a>
+                    <a href="../my-kete.html">My Kete</a>
                 </div>
             </div>
             <div class="footer-bottom">

@@ -9,551 +9,65 @@
 <meta content="AI-powered teaching tools with authentic Te Ao Māori integration and GraphRAG resource discovery" name="description"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<script src="js/deepseek-graphrag-integration.js"></script>
-<style>
-        :root {
-            --primary-color: #2E8B57;
-            --secondary-color: #FF6B35;
-            --cultural-gold: #DAA520;
-            --text-dark: #2C3E50;
-            --text-light: #7F8C8D;
-            --background-light: #F8F9FA;
-            --cultural-light: rgba(218, 165, 32, 0.1);
-            --success-green: #27AE60;
-            --error-red: #E74C3C;
-            --border-light: #E1E8ED;
-            --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --shadow-soft: 0 4px 20px rgba(0,0,0,0.1);
-            --shadow-medium: 0 8px 25px rgba(0,0,0,0.15);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--background-light);
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
-
-        /* Header */
-        .header {
-            background: var(--gradient-bg);
-            color: white;
-            padding: 1.5rem 0;
-            box-shadow: var(--shadow-medium);
-        }
-
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .header h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
-
-        .ai-status {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            background: rgba(255,255,255,0.1);
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            backdrop-filter: blur(10px);
-        }
-
-        .status-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--success-green);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
-
-        /* Main Layout */
-        .dashboard {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-        }
-
-        .panel {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: var(--shadow-soft);
-            border: 1px solid var(--border-light);
-        }
-
-        .panel h2 {
-            color: var(--text-dark);
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1.3rem;
-        }
-
-        .panel-icon {
-            font-size: 1.5rem;
-        }
-
-        /* AI Lesson Planner */
-        .lesson-planner {
-            grid-column: 1 / -1;
-        }
-
-        .planner-form {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .form-group label {
-            font-weight: 600;
-            color: var(--text-dark);
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            padding: 0.75rem;
-            border: 2px solid var(--border-light);
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-        }
-
-        .generate-btn {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            justify-self: start;
-        }
-
-        .generate-btn:hover:not(:disabled) {
-            background: #236A49;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .generate-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        /* Cultural Integration Assistant */
-        .cultural-assistant {
-            border-left: 4px solid var(--cultural-gold);
-        }
-
-        .cultural-check {
-            background: var(--cultural-light);
-            border: 1px solid var(--cultural-gold);
-            border-radius: 10px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .cultural-textarea {
-            width: 100%;
-            min-height: 120px;
-            padding: 1rem;
-            border: 2px solid var(--border-light);
-            border-radius: 8px;
-            resize: vertical;
-            margin-bottom: 1rem;
-        }
-
-        .check-btn {
-            background: var(--cultural-gold);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .check-btn:hover:not(:disabled) {
-            background: #B8860B;
-        }
-
-        /* Assessment Generator */
-        .assessment-types {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .assessment-type {
-            background: var(--background-light);
-            border: 2px solid var(--border-light);
-            border-radius: 10px;
-            padding: 1rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .assessment-type:hover {
-            border-color: var(--secondary-color);
-            transform: translateY(-2px);
-        }
-
-        .assessment-type.selected {
-            background: var(--secondary-color);
-            color: white;
-            border-color: var(--secondary-color);
-        }
-
-        /* Resource Discovery */
-        .search-bar {
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid var(--border-light);
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-        }
-
-        .search-input:focus {
-            border-color: var(--primary-color);
-            outline: none;
-        }
-
-        .search-btn {
-            position: absolute;
-            right: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        .resource-list {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .resource-item {
-            background: var(--background-light);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-            border-left: 4px solid var(--primary-color);
-        }
-
-        .resource-title {
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .resource-meta {
-            display: flex;
-            gap: 1rem;
-            font-size: 0.9rem;
-            color: var(--text-light);
-        }
-
-        /* Results Display */
-        .results-container {
-            grid-column: 1 / -1;
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: var(--shadow-soft);
-            margin-top: 1rem;
-            display: none;
-        }
-
-        .results-container.show {
-            display: block;
-        }
-
-        .result-content {
-            background: var(--background-light);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .result-content h3 {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-
-        .result-content pre {
-            white-space: pre-wrap;
-            line-height: 1.6;
-        }
-
-        .copy-btn {
-            background: var(--secondary-color);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            margin-top: 1rem;
-        }
-
-        /* Loading States */
-        .loading {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 1rem;
-            color: var(--text-light);
-        }
-
-        .loading.show {
-            display: flex;
-        }
-
-        .spinner {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--border-light);
-            border-top: 2px solid var(--primary-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .dashboard {
-                grid-template-columns: 1fr;
-                padding: 1rem;
-            }
-
-            .planner-form {
-                grid-template-columns: 1fr;
-            }
-
-            .assessment-types {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        /* Quick Actions */
-        .quick-actions {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .quick-action {
-            background: var(--cultural-light);
-            color: var(--cultural-gold);
-            border: 2px solid var(--cultural-gold);
-            padding: 0.75rem 1.5rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .quick-action:hover {
-            background: var(--cultural-gold);
-            color: white;
-            transform: translateY(-2px);
-        }
-    </style>
-<link href="css/main.css" rel="stylesheet"/><link href="css/mobile-revolution.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="css/kehinde-wiley-design-system.css">
-    <link rel="stylesheet" href="css/kehinde-wiley-implementation.css"> 
-    <link rel="stylesheet" href="css/award-winning-polish.css">
+        <link rel="stylesheet" href="/css/design-system-v3.css"/>
+    <link rel="stylesheet" href="/css/award-winning-polish.css"/>
+    <link rel="stylesheet" href="/https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"/>
 </head>
-<body><header class="site-header no-print">
-<div class="nav-container">
-<a class="nav-brand" href="index.html">Te Kete Ako</a>
-<!-- Mobile Navigation Toggle -->
-<button aria-label="Open mobile menu" class="mobile-nav-toggle">
-<div class="mobile-nav-icon">
-<span></span>
-<span></span>
-<span></span>
-</div>
-</button>
-<nav class="main-nav">
-<ul>
-<li>
-<a href="learning-pathways.html">
-<span class="nav-icon">🌟</span>
-<span class="nav-text-en">Learning Pathways</span>
-<span class="nav-text-mi" lang="mi">Ngā Ara Ako</span>
-</a>
-</li>
-<li>
-<a href="subjects.html">
-<span class="nav-icon">📚</span>
-<span class="nav-text-en">Subjects</span>
-<span class="nav-text-mi" lang="mi">Ngā Marau</span>
-</a>
-</li>
-<li>
-<a href="unit-plans.html">
-<span class="nav-icon">📖</span>
-<span class="nav-text-en">Unit Plans</span>
-<span class="nav-text-mi" lang="mi">Ngā Waehere</span>
-</a>
-</li>
-<li>
-<a href="lessons.html">
-<span class="nav-icon">🎓</span>
-<span class="nav-text-en">Lessons</span>
-<span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
-</a>
-</li>
-<li>
-<a href="handouts.html">
-<span class="nav-icon">📄</span>
-<span class="nav-text-en">Handouts</span>
-<span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
-</a>
-</li>
-<li>
-<a href="games.html">
-<span class="nav-icon">🎮</span>
-<span class="nav-text-en">Games</span>
-<span class="nav-text-mi" lang="mi">Ngā Kēmu</span>
-</a>
-</li>
-<li>
-<a href="platforms.html">
-<span class="nav-icon">🏛️</span>
-<span class="nav-text-en">Platforms</span>
-<span class="nav-text-mi" lang="mi">Ngā Tahua</span>
-</a>
-</li>
-<li>
-<a href="ai-hub.html">
-<span class="nav-icon">🎯</span>
-<span class="nav-text-en">AI Hub</span>
-<span class="nav-text-mi" lang="mi">Pū AI</span>
-</a>
-</li>
-<li>
-<a href="classroom-leaderboard.html">
-<span class="nav-icon">🏆</span>
-<span class="nav-text-en">Leaderboard</span>
-<span class="nav-text-mi" lang="mi">Papa Taumata</span>
-</a>
-</li>
-<li>
-<a href="graphrag-search.html">
-<span class="nav-icon">🧠</span>
-<span class="nav-text-en">AI Search</span>
-<span class="nav-text-mi" lang="mi">Rapua AI</span>
-</a>
-</li>
-<li>
-<a href="teacher-dashboard-ai.html">
-<span class="nav-icon">🤖</span>
-<span class="nav-text-en">AI Teacher Tools</span>
-<span class="nav-text-mi" lang="mi">Taputapu AI</span>
-</a>
-</li>
-<li>
-<a href="interactive-learning-demo.html">
-<span class="nav-icon">⚡</span>
-<span class="nav-text-en">Adaptive Learning</span>
-<span class="nav-text-mi" lang="mi">Ako Tawhiti</span>
-</a>
-</li>
-<li>
-<a href="activities.html">
-<span class="nav-icon">⚡</span>
-<span class="nav-text-en">Activities</span>
-<span class="nav-text-mi" lang="mi">Ngā Mahinga</span>
-</a>
-</li>
-<li class="auth-nav my-kete-link" style="display: none;">
-<a href="my-kete.html">
-<span class="nav-icon">🧺</span>
+<body>    <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-brand">Te Kete Ako</a>
+            <nav class="main-nav">
+                <ul>
+                    <li>
+                        <a href="../unit-plans.html">
+                            <span class="nav-icon">📚</span>
+                            <span class="nav-text-en">Unit Plans</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Waehere</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../lessons.html">
+                            <span class="nav-icon">🎓</span>
+                            <span class="nav-text-en">Lessons</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../handouts.html">
+                            <span class="nav-icon">📄</span>
+                            <span class="nav-text-en">Handouts</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../games.html">
+                            <span class="nav-icon">🎮</span>
+                            <span class="nav-text-en">Games</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Kēmu</span>  
+                        </a>
+                    </li>
+                    <li class="auth-nav my-kete-link" style="display: none;">
+                        <a href="../my-kete.html">
+                            <span class="nav-icon">🧺</span>
                             My Kete
                         </a>
-</li>
-<li class="auth-nav login-visible">
-<a class="login-btn" href="login.html">
-<span class="nav-icon">👤</span>
-<span class="nav-text">Login</span>
-</a>
-</li>
-<li class="auth-nav" style="display: none;">
-<a class="register-btn" href="register-simple.html">
-<span class="nav-icon">📝</span>
+                    </li>
+                    <li class="auth-nav">
+                        <a href="../login.html" class="login-btn">
+                            <span class="nav-icon">👤</span>
+                            Login
+                        </a>
+                    </li>
+                    <li class="auth-nav" style="display: none;">
+                        <a href="../register-simple.html" class="register-btn">
+                            <span class="nav-icon">📝</span>
                             Register
                         </a>
-</li>
-</ul>
-</nav>
-</div>
-</header>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 <!-- Header -->
 
 <!-- Quick Actions -->

@@ -10,14 +10,12 @@
         .cultural-context { background: #f0f8f0; padding: 15px; border-radius: 5px; margin: 20px 0; }
         .assessment { background: #fff3cd; padding: 15px; border-radius: 5px; margin: 20px 0; }
     </style>
-
-    <link rel="stylesheet" href="css/kehinde-wiley-design-system.css">
-    <link rel="stylesheet" href="css/kehinde-wiley-implementation.css"> 
-    <link rel="stylesheet" href="css/award-winning-polish.css">
+    <link rel="stylesheet" href="/css/design-system-v3.css"/>
+    <link rel="stylesheet" href="/css/award-winning-polish.css"/>
 </head>
 <body>
     <div class="header">
-        <h1 class="wiley-hero-title">Financial Literacy with Māori Economic Principles</h1>
+        <h1>Financial Literacy with Māori Economic Principles</h1>
         <p><strong>Subject:</strong> social-sciences | <strong>Year Level:</strong> Years 11-13</p>
     </div>
     <div class="cultural-context">
@@ -66,54 +64,44 @@ Here's a complete, classroom-ready HTML resource on Financial Literacy with Māo
         .cultural-context {
             background-color: #eaf2f8;
             padding: 15px;
-            border-left: 4px solid #1a5276;
+            border-left: 5px solid #1a5276;
             margin: 20px 0;
         }
-        .activity {
+        .activity-box {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .interactive-element {
             background-color: #e8f8f5;
             padding: 15px;
             border-radius: 5px;
             margin: 20px 0;
         }
-        .assessment {
-            background-color: #fef9e7;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 20px 0;
-        }
-        table {
+        .rubric-table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
         }
-        table, th, td {
+        .rubric-table th, .rubric-table td {
             border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 10px;
+            padding: 8px;
             text-align: left;
         }
-        th {
+        .rubric-table th {
             background-color: #1a5276;
             color: white;
         }
-        tr:nth-child(even) {
+        .rubric-table tr:nth-child(even) {
             background-color: #f2f2f2;
         }
-        .interactive-box {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
         .teacher-notes {
-            background-color: #f5eef8;
+            background-color: #fef9e7;
             padding: 15px;
-            border-radius: 5px;
+            border-left: 5px solid #f1c40f;
             margin: 20px 0;
-            font-style: italic;
         }
         .btn {
             display: inline-block;
@@ -131,118 +119,216 @@ Here's a complete, classroom-ready HTML resource on Financial Literacy with Māo
         .hidden {
             display: none;
         }
+        .glossary-term {
+            color: #1a5276;
+            font-weight: bold;
+            cursor: help;
+            border-bottom: 1px dotted #1a5276;
+        }
+        .maori-word {
+            font-style: italic;
+            color: #1a5276;
+        }
     </style>
-
-    <link rel="stylesheet" href="css/kehinde-wiley-design-system.css">
-    <link rel="stylesheet" href="css/kehinde-wiley-implementation.css"> 
-    <link rel="stylesheet" href="css/award-winning-polish.css">
 </head>
 <body>
-    <header>
-        <h1 class="wiley-hero-title">Financial Literacy with Māori Economic Principles</h1>
-        <p><strong>Year Levels:</strong> 11-13 | <strong>Subject:</strong> Social Sciences</p>
-        <p><strong>Learning Objectives:</strong></p>
-        <ul>
-            <li>Understand key Māori economic concepts and values</li>
-            <li>Compare traditional Māori and contemporary economic systems</li>
-            <li>Apply Māori economic principles to personal financial decisions</li>
-            <li>Analyze how Māori values influence economic behavior</li>
-            <li>Develop culturally responsive financial strategies</li>
-        </ul>
+        <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="../../../index.html" class="nav-brand">Te Kete Ako</a>
+            <nav class="main-nav">
+                <ul>
+                    <li>
+                        <a href="../../../unit-plans.html">
+                            <span class="nav-icon">📚</span>
+                            <span class="nav-text-en">Unit Plans</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Waehere</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../../../lessons.html">
+                            <span class="nav-icon">🎓</span>
+                            <span class="nav-text-en">Lessons</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../../../handouts.html">
+                            <span class="nav-icon">📄</span>
+                            <span class="nav-text-en">Handouts</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../../../games.html">
+                            <span class="nav-icon">🎮</span>
+                            <span class="nav-text-en">Games</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Kēmu</span>  
+                        </a>
+                    </li>
+                    <li class="auth-nav my-kete-link" style="display: none;">
+                        <a href="../../../my-kete.html">
+                            <span class="nav-icon">🧺</span>
+                            My Kete
+                        </a>
+                    </li>
+                    <li class="auth-nav">
+                        <a href="../../../login.html" class="login-btn">
+                            <span class="nav-icon">👤</span>
+                            Login
+                        </a>
+                    </li>
+                    <li class="auth-nav" style="display: none;">
+                        <a href="../../../register-simple.html" class="register-btn">
+                            <span class="nav-icon">📝</span>
+                            Register
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
-    <section class="cultural-context">
-        <h2 class="wiley-section-title">Cultural Context: Tikanga Māori in Economics</h2>
-        <p>Traditional Māori economic systems were based on principles that differ significantly from Western capitalist models. Key concepts include:</p>
-        <ul>
-            <li><strong>Utu:</strong> The concept of reciprocity and balance in exchanges</li>
-            <li><strong>Manaakitanga:</strong> Hospitality and generosity as economic practices</li>
-            <li><strong>Kaitiakitanga:</strong> Guardianship and sustainable resource management</li>
-            <li><strong>Whanaungatanga:</strong> Economic activities strengthening relationships</li>
-            <li><strong>Tapu and Noa:</strong> Spiritual dimensions affecting economic transactions</li>
-        </ul>
-        <p><strong>Tikanga Considerations:</strong> When discussing Māori economic systems, remember that these concepts are living practices, not just historical artifacts. Approach with respect for contemporary Māori economic initiatives.</p>
+    <section>
+        <h2>Cultural Context</h2>
+        <div class="cultural-context">
+            <p>Traditional Māori economic systems were based on principles of reciprocity, sustainability, and collective wellbeing. Key concepts include:</p>
+            <ul>
+                <li><span class="maori-word">Utu</span> - The principle of balance and reciprocity</li>
+                <li><span class="maori-word">Manaakitanga</span> - Hospitality, generosity and care for others</li>
+                <li><span class="maori-word">Kaitiakitanga</span> - Guardianship and sustainable management of resources</li>
+                <li><span class="maori-word">Whanaungatanga</span> - Relationships and kinship connections</li>
+                <li><span class="maori-word">Tikanga</span> - Correct procedures and protocols</li>
+            </ul>
+            <p><strong>Tikanga Considerations:</strong> When discussing Māori economic systems, it's important to:</p>
+            <ul>
+                <li>Recognize the spiritual dimension of resources (<span class="maori-word">mauri</span>)</li>
+                <li>Understand that economic activity was never separated from social and cultural life</li>
+                <li>Acknowledge regional variations in practices between iwi</li>
+                <li>Respect the living nature of these traditions in contemporary Māori business</li>
+            </ul>
+        </div>
     </section>
 
     <section>
-        <h2 class="wiley-section-title">Māori Economic Principles in Practice</h2>
+        <h2>Māori Economic Principles in Practice</h2>
         
-        <div class="interactive-box">
+        <div class="activity-box">
+            <h3>Case Study: Traditional Resource Management</h3>
+            <p>The <span class="maori-word">hākari</span> (feast) system demonstrates Māori economic principles:</p>
+            <ul>
+                <li>Food was collected, prepared and distributed according to strict protocols</li>
+                <li>Abundance demonstrated <span class="maori-word">mana</span> (prestige) of the hosts</li>
+                <li>Guests were expected to reciprocate in future events</li>
+                <li>Nothing was wasted - preservation techniques ensured sustainability</li>
+            </ul>
+            <p><strong>Discussion:</strong> How might these principles apply to modern budgeting and financial planning?</p>
+        </div>
+
+        <div class="interactive-element">
             <h3>Compare Economic Systems</h3>
-            <p>Click the buttons to reveal characteristics of each economic system:</p>
-            <button class="btn" onclick="showContent('traditional')">Traditional Māori Economy</button>
-            <button class="btn" onclick="showContent('modern')">Modern Market Economy</button>
+            <p>Click the buttons to reveal characteristics of each economic approach:</p>
             
-            <div id="traditional" class="hidden">
-                <h4>Traditional Māori Economic Features:</h4>
+            <button class="btn" onclick="toggleContent('western-content')">Western Economic System</button>
+            <button class="btn" onclick="toggleContent('maori-content')">Māori Economic System</button>
+            
+            <div id="western-content" class="hidden">
+                <h4>Western Economic Characteristics</h4>
                 <ul>
-                    <li>Resource allocation based on whakapapa connections</li>
-                    <li>Wealth measured in taonga (treasures) and relationships</li>
-                    <li>Reciprocal gift exchange (koha) rather than fixed prices</li>
-                    <li>Collective ownership and decision-making</li>
-                    <li>Production focused on immediate needs and ceremonial purposes</li>
+                    <li>Focus on individual wealth accumulation</li>
+                    <li>Profit maximization as primary goal</li>
+                    <li>Resources seen as commodities</li>
+                    <li>Short-term financial gains often prioritized</li>
+                    <li>Market-driven decision making</li>
                 </ul>
             </div>
             
-            <div id="modern" class="hidden">
-                <h4>Modern Market Economic Features:</h4>
+            <div id="maori-content" class="hidden">
+                <h4>Māori Economic Characteristics</h4>
                 <ul>
-                    <li>Resource allocation through price mechanisms</li>
-                    <li>Wealth measured in monetary terms</li>
-                    <li>Fixed prices determined by supply and demand</li>
-                    <li>Private ownership and individual decision-making</li>
-                    <li>Production focused on profit and accumulation</li>
+                    <li>Collective wellbeing as primary goal</li>
+                    <li>Intergenerational sustainability focus</li>
+                    <li>Resources have spiritual dimension (<span class="maori-word">mauri</span>)</li>
+                    <li>Reciprocity and balance (<span class="maori-word">utu</span>) central</li>
+                    <li>Economic activity integrated with cultural practices</li>
                 </ul>
             </div>
         </div>
-        
-        <div class="activity">
-            <h3>Case Study: Applying Māori Economic Values</h3>
-            <p><strong>Scenario:</strong> Your whānau has come into ownership of a small piece of whenua (land). Consider how different economic approaches might guide its use:</p>
-            
-            <table>
-                <tr>
-                    <th>Economic Principle</th>
-                    <th>Traditional Māori Approach</th>
-                    <th>Modern Market Approach</th>
-                </tr>
-                <tr>
-                    <td>Ownership</td>
-                    <td>Collective ownership by whānau/hapū</td>
-                    <td>Individual/family ownership</td>
-                </tr>
-                <tr>
-                    <td>Land Use</td>
-                    <td>Mixed use for food, resources, and cultural purposes</td>
-                    <td>Specialized use for maximum profit</td>
-                </tr>
-                <tr>
-                    <td>Decision-making</td>
-                    <td>Consensus through hui</td>
-                    <td>Owner decides independently</td>
-                </tr>
-                <tr>
-                    <td>Profit Distribution</td>
-                    <td>Shared according to need and contribution</td>
-                    <td>Kept by owner or shareholders</td>
-                </tr>
-            </table>
-            
-            <p><strong>Discussion Questions:</strong></p>
-            <ol>
-                <li>What are the advantages and disadvantages of each approach?</li>
-                <li>How might a blended approach work in contemporary Aotearoa?</li>
-                <li>What cultural values are preserved or lost in each model?</li>
-            </ol>
+
+        <div class="activity-box">
+            <h3>Modern Applications</h3>
+            <p>Contemporary Māori businesses often blend traditional values with modern practices:</p>
+            <ul>
+                <li>Many iwi corporations prioritize both profit and cultural outcomes</li>
+                <li><span class="maori-word">Koha</span>-based pricing models in some Māori tourism businesses</li>
+                <li>Employment practices that support <span class="maori-word">whānau</span> development</li>
+                <li>Environmental sustainability as core business principle</li>
+            </ul>
+            <p><strong>Activity:</strong> Research a Māori business and identify how traditional economic principles influence their operations.</p>
         </div>
     </section>
 
-    <section class="assessment">
-        <h2 class="wiley-section-title">Assessment: Financial Decision-Making Project</h2>
-        <p><strong>Task:</strong> Create a personal financial plan that incorporates at least three Māori economic principles.</p>
+    <section>
+        <h2>Financial Literacy Applications</h2>
         
-        <h3>Assessment Rubric</h3>
-        <table>
+        <div class="activity-box">
+            <h3>Budgeting with Māori Values</h3>
+            <p>Create a personal budget that incorporates Māori economic principles:</p>
+            <ol>
+                <li>Allocate funds for <span class="maori-word">koha</span> (gifts/donations)</li>
+                <li>Include savings for future <span class="maori-word">hui</span> (gatherings)</li>
+                <li>Plan for sustainable purchases (consider <span class="maori-word">kaitiakitanga</span>)</li>
+                <li>Budget for supporting <span class="maori-word">whānau</span> needs</li>
+                <li>Include long-term intergenerational planning</li>
+            </ol>
+        </div>
+
+        <div class="interactive-element">
+            <h3>Financial Decision Maker</h3>
+            <p>What would you do in these scenarios? Consider both financial and cultural factors:</p>
+            
+            <div>
+                <p><strong>Scenario 1:</strong> You receive an unexpected $500. Do you:</p>
+                <button class="btn" onclick="showFeedback('feedback1a')">Save it for future needs</button>
+                <button class="btn" onclick="showFeedback('feedback1b')">Use it to help whānau</button>
+                <button class="btn" onclick="showFeedback('feedback1c')">Invest in sustainable products</button>
+                
+                <div id="feedback1a" class="hidden">
+                    <p>Good long-term planning! Consider how this aligns with <span class="maori-word">kaitiakitanga</span> for future generations.</p>
+                </div>
+                <div id="feedback1b" class="hidden">
+                    <p>This shows <span class="maori-word">manaakitanga</span>. Could you do both - help now and save some?</p>
+                </div>
+                <div id="feedback1c" class="hidden">
+                    <p>Excellent <span class="maori-word">kaitiakitanga</span>! Sustainable choices benefit everyone long-term.</p>
+                </div>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <p><strong>Scenario 2:</strong> You're choosing between two jobs:</p>
+                <button class="btn" onclick="showFeedback('feedback2a')">Higher pay but no cultural connection</button>
+                <button class="btn" onclick="showFeedback('feedback2b')">Lower pay but supports Māori community</button>
+                <button class="btn" onclick="showFeedback('feedback2c')">Negotiate a middle path</button>
+                
+                <div id="feedback2a" class="hidden">
+                    <p>Financial security is important. Could you use this position to create positive change?</p>
+                </div>
+                <div id="feedback2b" class="hidden">
+                    <p>This aligns with <span class="maori-word">whanaungatanga</span>. Consider long-term career growth too.</p>
+                </div>
+                <div id="feedback2c" class="hidden">
+                    <p>Smart thinking! Many employers value cultural skills - could you propose adding Māori perspectives?</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Assessment</h2>
+        
+        <h3>Financial Plan with Māori Values</h3>
+        <p>Create a comprehensive financial plan that demonstrates understanding of both financial literacy and Māori economic principles.</p>
+        
+        <table class="rubric-table">
             <tr>
                 <th>Criteria</th>
                 <th>Achieved</th>
@@ -250,99 +336,114 @@ Here's a complete, classroom-ready HTML resource on Financial Literacy with Māo
                 <th>Excellence</th>
             </tr>
             <tr>
-                <td>Understanding of Māori economic principles</td>
-                <td>Identifies principles</td>
-                <td>Explains principles with examples</td>
-                <td>Analyzes principles in depth</td>
+                <td>Financial literacy concepts</td>
+                <td>Basic financial concepts included</td>
+                <td>Detailed financial planning evident</td>
+                <td>Sophisticated financial strategies</td>
             </tr>
             <tr>
-                <td>Application to financial planning</td>
-                <td>Basic application</td>
-                <td>Clear, purposeful application</td>
-                <td>Innovative, integrated application</td>
+                <td>Māori economic principles</td>
+                <td>Some Māori concepts mentioned</td>
+                <td>Clear integration of Māori values</td>
+                <td>Innovative application of Māori principles</td>
             </tr>
             <tr>
-                <td>Cultural responsiveness</td>
-                <td>Shows awareness</td>
-                <td>Demonstrates understanding</td>
-                <td>Shows sophisticated engagement</td>
+                <td>Cultural authenticity</td>
+                <td>Basic cultural references</td>
+                <td>Accurate use of Māori concepts</td>
+                <td>Deep cultural understanding evident</td>
             </tr>
             <tr>
-                <td>Practical viability</td>
-                <td>Some practical elements</td>
-                <td>Mostly practical plan</td>
-                <td>Highly practical and achievable</td>
+                <td>Practical application</td>
+                <td>Simple application to personal finance</td>
+                <td>Effective real-world application</td>
+                <td>Comprehensive, innovative application</td>
             </tr>
         </table>
     </section>
 
     <section>
-        <h2 class="wiley-section-title">Extension Activities</h2>
-        <div class="activity">
-            <h3>1. Research Contemporary Māori Businesses</h3>
-            <p>Investigate how modern Māori businesses (e.g., Miraka, Kono, Ngāi Tahu Holdings) blend traditional values with contemporary business practices.</p>
-        </div>
-        
-        <div class="activity">
-            <h3>2. Design a Social Enterprise</h3>
-            <p>Create a business plan for a social enterprise that uses Māori economic principles to address a community need.</p>
-        </div>
-        
-        <div class="activity">
-            <h3>3. Interview Community Members</h3>
-            <p>Speak with kaumātua or local Māori business owners about how they incorporate Māori values in their economic activities.</p>
+        <h2>Extension Activities</h2>
+        <div class="activity-box">
+            <h3>1. Iwi Investment Research</h3>
+            <p>Research how your local iwi manages its financial resources. What traditional values influence their investment decisions?</p>
+            
+            <h3>2. Sustainable Business Plan</h3>
+            <p>Design a business concept that combines profit-making with Māori economic values. Present your plan to the class.</p>
+            
+            <h3>3. Intergenerational Wealth</h3>
+            <p>Interview kaumātua about traditional concepts of wealth and compare with modern financial systems.</p>
         </div>
     </section>
 
     <section class="teacher-notes">
-        <h2 class="wiley-section-title">Teacher Implementation Notes</h2>
-        <p><strong>Prior Knowledge:</strong> Students should have basic understanding of financial literacy concepts and some familiarity with Māori culture.</p>
-        <p><strong>Suggested Timeframe:</strong> 4-6 weeks (adjust based on depth of study)</p>
-        <p><strong>Differentiation Strategies:</strong></p>
+        <h2>Teacher Implementation Notes</h2>
+        <p><strong>Prior Knowledge:</strong> Students should have basic understanding of personal finance concepts (budgeting, saving, investing).</p>
+        
+        <p><strong>Cultural Safety:</strong></p>
         <ul>
-            <li>Provide vocabulary lists with Māori economic terms</li>
-            <li>Offer case studies at varying complexity levels</li>
-            <li>Allow choice in assessment format (written, oral, multimedia)</li>
+            <li>Consult with local Māori experts or kaumātua where possible</li>
+            <li>Be aware that some students may have varying levels of cultural knowledge</li>
+            <li>Create an environment where all perspectives are valued</li>
         </ul>
-        <p><strong>Cultural Safety:</strong> Consult with local Māori community members or cultural advisors when possible. Be prepared to address potential conflicts between cultural values and mainstream economic practices.</p>
+        
+        <p><strong>Differentiation:</strong></p>
+        <ul>
+            <li>For less confident students: Focus on comparing simple financial decisions</li>
+            <li>For advanced students: Explore complex iwi asset management cases</li>
+            <li>Provide glossaries of Māori economic terms</li>
+        </ul>
+        
+        <p><strong>Assessment Tips:</strong></p>
+        <ul>
+            <li>Focus on understanding rather than perfect Māori language use</li>
+            <li>Allow for diverse expressions of cultural understanding</li>
+            <li>Consider group presentations for less confident students</li>
+        </ul>
     </section>
 
     <section>
-        <h2 class="wiley-section-title">Resources and References</h2>
+        <h2>Resources & References</h2>
         <ul>
-            <li>Te Ara Encyclopedia of NZ - Māori Economic Development: <a href="https://teara.govt.nz/en/maori-enterprise-and-economy" target="_blank">https://teara.govt.nz/en/maori-enterprise-and-economy</a></li>
-            <li>Māori Economy Report 2022: <a href="https://www.tpk.govt.nz/en/a-matou-mohiotanga/maori-economy" target="_blank">https://www.tpk.govt.nz/en/a-matou-mohiotanga/maori-economy</a></li>
-            <li>Māori Money website: <a href="https://www.maorimoney.com" target="_blank">https://www.maorimoney.com</a></li>
-            <li>NZQA Financial Literacy Resources: <a href="https://www.nzqa.govt.nz/ncea/subjects/social-sciences/resources/" target="_blank">https://www.nzqa.govt.nz/ncea/subjects/social-sciences/resources/</a></li>
+            <li>Te Puni Kōkiri - Māori Economic Development: <a href="https://www.tpk.govt.nz">www.tpk.govt.nz</a></li>
+            <li>Māori Business Networks: <a href="https://www.maoribusiness.co.nz">www.maoribusiness.co.nz</a></li>
+            <li>Te Ara Encyclopedia - Māori Economic History: <a href="https://teara.govt.nz">teara.govt.nz</a></li>
+            <li>NZ Curriculum - Social Sciences Achievement Objectives</li>
+            <li>Local iwi economic development plans (check your regional iwi websites)</li>
         </ul>
     </section>
 
+    <section>
+        <h2>Glossary of Māori Economic Terms</h2>
+        <div style="column-count: 2;">
+            <p><strong><span class="maori-word">Hapori</span>:</strong> Community</p>
+            <p><strong><span class="maori-word">Hua</span>:</strong> Product, yield, fruit</p>
+            <p><strong><span class="maori-word">Kaitiaki</span>:</strong> Guardian</p>
+            <p><strong><span class="maori-word">Koha</span>:</strong> Gift, donation (often reciprocal)</p>
+            <p><strong><span class="maori-word">Mana</span>:</strong> Prestige, authority</p>
+            <p><strong><span class="maori-word">Mauri</span>:</strong> Life force, vitality</p>
+            <p><strong><span class="maori-word">Rahui</span>:</strong> Temporary prohibition to conserve resources</p>
+            <p><strong><span class="maori-word">Taonga</span>:</strong> Treasure, valued resources</p>
+            <p><strong><span class="maori-word">Tikanga</span>:</strong> Correct procedure, custom</p>
+            <p><strong><span class="maori-word">Utu</span>:</strong> Reciprocity, balance</p>
+            <p><strong><span class="maori-word">Whakapapa</span>:</strong> Genealogy, interconnectedness</p>
+            <p><strong><span class="maori-word">Whānau</span>:</strong> Extended family</p>
+        </div>
+    </section>
+
     <script>
-        function showContent(id) {
-            // Hide all content first
-            document.getElementById('traditional').classList.add('hidden');
-            document.getElementById('modern').classList.add('hidden');
-            
-            // Show selected content
-            document.getElementById(id).classList.remove('hidden');
+        function toggleContent(id) {
+            var element = document.getElementById(id);
+            if (element.style.display === "none") {
+                element.style.display = "block";
+            } else {
+                element.style.display = "none";
+            }
         }
-    </script>
-</body>
-</html>
-```
-
-This resource includes:
-
-1. A professional header with clear learning objectives aligned with NZC
-2. Cultural context section explaining key Māori economic concepts
-3. Interactive comparison activity (using simple HTML/CSS/JavaScript)
-4. Case study with discussion questions
-5. Detailed assessment rubric
-6. Three meaningful extension activities
-7. Teacher implementation notes with differentiation strategies
-8. Current, relevant resource links
-
-The design is optimized for Chromebooks with lightweight code and responsive layout. All Māori terms are used accurately and appropriately, with explanations provided. The content connects traditional knowledge with contemporary financial literacy requirements.
+        
+        function showFeedback(id) {
+            // Hide all feedback first
+            var
     </div>
 </body>
 </html>

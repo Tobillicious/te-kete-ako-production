@@ -11,315 +11,58 @@
     <title>Te Kete Ako | World's First AI-Enhanced Cultural Educational Platform</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/main.css">
-    
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#2C5F41">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Te Kete Ako">
-    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
-    
-    <style>
-        /* Modern AI-focused homepage styles */
-        .modern-hero {
-            background: linear-gradient(135deg, #2C5F41 0%, #8FBC8F 50%, #2C5F41 100%);
-            color: white;
-            padding: 4rem 2rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .modern-hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-            opacity: 0.3;
-        }
-        
-        .hero-content-modern {
-            position: relative;
-            z-index: 2;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        
-        .hero-title-modern {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin: 0 0 1rem 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        .hero-subtitle {
-            font-size: 1.4rem;
-            margin: 0 0 0.5rem 0;
-            opacity: 0.95;
-        }
-        
-        .hero-ai-badge {
-            display: inline-block;
-            background: rgba(255,255,255,0.2);
-            padding: 0.5rem 1.5rem;
-            border-radius: 25px;
-            font-size: 1rem;
-            font-weight: 600;
-            margin: 1rem 0 2rem 0;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-        
-        .whakatauki-modern {
-            font-style: italic;
-            font-size: 1.3rem;
-            margin: 2rem 0 0.5rem 0;
-            opacity: 0.9;
-        }
-        
-        .whakatauki-translation-modern {
-            font-size: 1rem;
-            opacity: 0.8;
-            margin-bottom: 3rem;
-        }
-        
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 2rem;
-        }
-        
-        .cta-btn {
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .cta-primary {
-            background: white;
-            color: #2C5F41;
-        }
-        
-        .cta-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-        }
-        
-        .cta-secondary {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-        
-        .cta-secondary:hover {
-            background: rgba(255,255,255,0.3);
-        }
-        
-        .features-showcase {
-            padding: 4rem 2rem;
-            background: #f9f9f9;
-        }
-        
-        .features-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .features-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        
-        .features-header h2 {
-            color: #2C5F41;
-            font-size: 2.5rem;
-            margin: 0 0 1rem 0;
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        
-        .feature-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            display: block;
-        }
-        
-        .feature-card h3 {
-            color: #2C5F41;
-            margin: 0 0 1rem 0;
-        }
-        
-        .feature-card p {
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-        
-        .feature-link {
-            color: #2C5F41;
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .feature-link:hover {
-            text-decoration: underline;
-        }
-        
-        .resources-section {
-            padding: 4rem 2rem;
-            background: white;
-        }
-        
-        .resources-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .resources-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .resource-category {
-            background: #f8f8f8;
-            padding: 1.5rem;
-            border-radius: 8px;
-            border-left: 4px solid #2C5F41;
-        }
-        
-        .resource-category h3 {
-            color: #2C5F41;
-            margin: 0 0 1rem 0;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .resource-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .resource-list li {
-            margin-bottom: 0.5rem;
-        }
-        
-        .resource-list a {
-            color: #555;
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
-        
-        .resource-list a:hover {
-            color: #2C5F41;
-            text-decoration: underline;
-        }
-        
-        @media (max-width: 768px) {
-            .hero-title-modern {
-                font-size: 2.5rem;
-            }
-            
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .features-header h2 {
-                font-size: 2rem;
-            }
-        }
-    </style>
-
-    <link rel="stylesheet" href="css/kehinde-wiley-design-system.css">
-    <link rel="stylesheet" href="css/kehinde-wiley-implementation.css"> 
-    <link rel="stylesheet" href="css/award-winning-polish.css">
+                <link rel="stylesheet" href="/css/design-system-v3.css"/>
+        <link rel="stylesheet" href="/css/award-winning-polish.css"/>
+        <link rel="stylesheet" href="/https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap"/>
 </head>
 <body data-auto-init="true" data-current-page="home">
-        <header class="site-header no-print">
+            <header class="site-header no-print">
         <div class="nav-container">
-            <a href="index.html" class="nav-brand">Te Kete Ako</a>
+            <a href="../index.html" class="nav-brand">Te Kete Ako</a>
             <nav class="main-nav">
                 <ul>
                     <li>
-                        <a href="unit-plans.html">
+                        <a href="../unit-plans.html">
                             <span class="nav-icon">📚</span>
                             <span class="nav-text-en">Unit Plans</span>
                             <span class="nav-text-mi" lang="mi">Ngā Waehere</span>
                         </a>
                     </li>
                     <li>
-                        <a href="lessons.html">
+                        <a href="../lessons.html">
                             <span class="nav-icon">🎓</span>
                             <span class="nav-text-en">Lessons</span>
                             <span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
                         </a>
                     </li>
                     <li>
-                        <a href="handouts.html">
+                        <a href="../handouts.html">
                             <span class="nav-icon">📄</span>
                             <span class="nav-text-en">Handouts</span>
                             <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
                         </a>
                     </li>
                     <li>
-                        <a href="games.html">
+                        <a href="../games.html">
                             <span class="nav-icon">🎮</span>
                             <span class="nav-text-en">Games</span>
                             <span class="nav-text-mi" lang="mi">Ngā Kēmu</span>  
                         </a>
                     </li>
                     <li class="auth-nav my-kete-link" style="display: none;">
-                        <a href="my-kete.html">
+                        <a href="../my-kete.html">
                             <span class="nav-icon">🧺</span>
                             My Kete
                         </a>
                     </li>
                     <li class="auth-nav">
-                        <a href="login.html" class="login-btn">
+                        <a href="../login.html" class="login-btn">
                             <span class="nav-icon">👤</span>
                             Login
                         </a>
                     </li>
                     <li class="auth-nav" style="display: none;">
-                        <a href="register-simple.html" class="register-btn">
+                        <a href="../register-simple.html" class="register-btn">
                             <span class="nav-icon">📝</span>
                             Register
                         </a>
@@ -327,7 +70,6 @@
                 </ul>
             </nav>
         </div>
-        
     </header>
     <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
 
@@ -485,7 +227,7 @@
     <script src="js/main.js"></script>
     <script src="js/shared-components.js"></script>
     <script src="js/analytics-dashboard.js"></script>
-    <script src="js/pwa-registration.js"></script>    <footer class="site-footer no-print">
+    <script src="js/pwa-registration.js"></script>        <footer class="site-footer no-print">
         <div class="footer-content">
             <div class="footer-simple">
                 <div class="footer-brand">
@@ -493,10 +235,10 @@
                     <p>"Whaowhia te kete mātauranga" - Fill the basket of knowledge</p>
                 </div>
                 <div class="footer-links">
-                    <a href="unit-plans.html">Unit Plans</a>
-                    <a href="lessons.html">Lessons</a>
-                    <a href="handouts.html">Handouts</a>
-                    <a href="my-kete.html">My Kete</a>
+                    <a href="../unit-plans.html">Unit Plans</a>
+                    <a href="../lessons.html">Lessons</a>
+                    <a href="../handouts.html">Handouts</a>
+                    <a href="../my-kete.html">My Kete</a>
                 </div>
             </div>
             <div class="footer-bottom">

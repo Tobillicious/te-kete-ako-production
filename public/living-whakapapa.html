@@ -6,301 +6,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Living Whakapapa Project | Te Kete Ako</title>
     <meta name="description" content="Revolutionary multimedia family/connection mapping system integrating traditional whakapapa concepts with modern relationship mapping and community storytelling.">
-    <link rel="stylesheet" href="css/main.css">
-    <style>
-        /* Living Whakapapa Specific Styles */
-        .whakapapa-hero {
-            background: linear-gradient(135deg, var(--color-earth) 0%, var(--color-secondary) 50%, var(--color-accent) 100%);
-            color: white;
-            padding: calc(var(--spacing-unit) * 6);
-            border-radius: var(--radius-lg);
-            margin-bottom: calc(var(--spacing-unit) * 4);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .whakapapa-hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="tree" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="2" fill="rgba(255,255,255,0.1)"/><line x1="10" y1="0" x2="10" y2="20" stroke="rgba(255,255,255,0.05)" stroke-width="1"/><line x1="0" y1="10" x2="20" y2="10" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23tree)"/></svg>') center/cover;
-            opacity: 0.3;
-        }
-
-        .whakapapa-title {
-            color: white !important;
-            font-size: 2.5rem;
-            margin-bottom: calc(var(--spacing-unit) * 2);
-            position: relative;
-            z-index: 1;
-        }
-
-        .principal-vision {
-            background: var(--color-primary);
-            color: white;
-            border-radius: var(--radius-lg);
-            padding: calc(var(--spacing-unit) * 4);
-            margin: calc(var(--spacing-unit) * 4) 0;
-            position: relative;
-        }
-
-        .vision-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--color-accent);
-            margin-bottom: calc(var(--spacing-unit) * 2);
-            text-align: center;
-        }
-
-        .agent-deployment-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: calc(var(--spacing-unit) * 3);
-            margin-top: calc(var(--spacing-unit) * 4);
-        }
-
-        .teacher-agent-card {
-            background: rgba(255, 255, 255, 0.1);
-            padding: calc(var(--spacing-unit) * 3);
-            border-radius: var(--radius-lg);
-            -webkit-backdrop-filter: blur(10px);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            transition: all var(--transition-medium);
-        }
-
-        .teacher-agent-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--color-accent);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .agent-name {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--color-accent);
-            margin-bottom: calc(var(--spacing-unit) * 1);
-        }
-
-        .agent-title {
-            font-style: italic;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: calc(var(--spacing-unit) * 2);
-        }
-
-        .agent-mandate {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .agent-mandate li {
-            margin-bottom: calc(var(--spacing-unit) * 1);
-            padding-left: calc(var(--spacing-unit) * 2);
-            position: relative;
-        }
-
-        .agent-mandate li::before {
-            content: '→';
-            color: var(--color-accent);
-            position: absolute;
-            left: 0;
-            font-weight: 700;
-        }
-
-        .coordination-framework {
-            background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
-            color: white;
-            border-radius: var(--radius-lg);
-            padding: calc(var(--spacing-unit) * 4);
-            margin: calc(var(--spacing-unit) * 4) 0;
-        }
-
-        .framework-phases {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: calc(var(--spacing-unit) * 3);
-            margin-top: calc(var(--spacing-unit) * 3);
-        }
-
-        .phase-card {
-            background: rgba(255, 255, 255, 0.1);
-            padding: calc(var(--spacing-unit) * 3);
-            border-radius: var(--radius-md);
-            -webkit-backdrop-filter: blur(10px);
-            backdrop-filter: blur(10px);
-            text-align: center;
-        }
-
-        .phase-number {
-            width: 60px;
-            height: 60px;
-            background: var(--color-accent);
-            color: var(--color-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.5rem;
-            margin: 0 auto calc(var(--spacing-unit) * 2) auto;
-        }
-
-        .connection-mapping {
-            background: var(--color-background);
-            border: 2px solid var(--color-border);
-            border-radius: var(--radius-lg);
-            padding: calc(var(--spacing-unit) * 4);
-            margin: calc(var(--spacing-unit) * 4) 0;
-        }
-
-        .mapping-categories {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: calc(var(--spacing-unit) * 3);
-            margin-top: calc(var(--spacing-unit) * 3);
-        }
-
-        .category-card {
-            background: var(--color-surface);
-            padding: calc(var(--spacing-unit) * 3);
-            border-radius: var(--radius-md);
-            border-left: 6px solid var(--color-secondary);
-            box-shadow: var(--shadow-light);
-            transition: all var(--transition-medium);
-        }
-
-        .category-card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-medium);
-            border-left-color: var(--color-accent);
-        }
-
-        .category-icon {
-            font-size: 2rem;
-            margin-bottom: calc(var(--spacing-unit) * 1);
-            display: block;
-            color: var(--color-secondary);
-        }
-
-        .category-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--color-primary);
-            margin-bottom: calc(var(--spacing-unit) * 2);
-        }
-
-        .agent-supervision {
-            background: var(--color-earth);
-            color: white;
-            border-radius: var(--radius-lg);
-            padding: calc(var(--spacing-unit) * 4);
-            margin: calc(var(--spacing-unit) * 4) 0;
-        }
-
-        .supervision-structure {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: calc(var(--spacing-unit) * 2);
-            margin-top: calc(var(--spacing-unit) * 3);
-        }
-
-        .supervision-level {
-            background: rgba(255, 255, 255, 0.15);
-            padding: calc(var(--spacing-unit) * 2.5);
-            border-radius: var(--radius-md);
-            text-align: center;
-            -webkit-backdrop-filter: blur(10px);
-            backdrop-filter: blur(10px);
-        }
-
-        .level-title {
-            font-weight: 700;
-            color: var(--color-accent);
-            margin-bottom: calc(var(--spacing-unit) * 1);
-        }
-
-        /* utility classes extracted from inline styles */
-        .sr-only { display: none; }
-        .z-1 { position: relative; z-index: 1; }
-        .text-center { text-align: center; }
-        .mt-3x { margin-top: calc(var(--spacing-unit) * 3); }
-        .mb-2x { margin-bottom: calc(var(--spacing-unit) * 2); }
-        .mb-3x { margin-bottom: calc(var(--spacing-unit) * 3); }
-        .mb-4x { margin-bottom: calc(var(--spacing-unit) * 4); }
-        .fz-1-2 { font-size: 1.2rem; }
-        .text-white { color: white; }
-
-        @media (max-width: 768px) {
-            .whakapapa-title {
-                font-size: 2rem;
-            }
-            
-            .agent-deployment-grid,
-            .framework-phases,
-            .mapping-categories,
-            .supervision-structure {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-
-    <link rel="stylesheet" href="css/kehinde-wiley-design-system.css">
-    <link rel="stylesheet" href="css/kehinde-wiley-implementation.css"> 
-    <link rel="stylesheet" href="css/award-winning-polish.css">
+                <link rel="stylesheet" href="/css/design-system-v3.css"/>
+        <link rel="stylesheet" href="/css/award-winning-polish.css"/>
 </head>
 
 <body>
-        <header class="site-header no-print">
+            <header class="site-header no-print">
         <div class="nav-container">
-            <a href="index.html" class="nav-brand">Te Kete Ako</a>
+            <a href="../index.html" class="nav-brand">Te Kete Ako</a>
             <nav class="main-nav">
                 <ul>
                     <li>
-                        <a href="unit-plans.html">
+                        <a href="../unit-plans.html">
                             <span class="nav-icon">📚</span>
                             <span class="nav-text-en">Unit Plans</span>
                             <span class="nav-text-mi" lang="mi">Ngā Waehere</span>
                         </a>
                     </li>
                     <li>
-                        <a href="lessons.html">
+                        <a href="../lessons.html">
                             <span class="nav-icon">🎓</span>
                             <span class="nav-text-en">Lessons</span>
                             <span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
                         </a>
                     </li>
                     <li>
-                        <a href="handouts.html">
+                        <a href="../handouts.html">
                             <span class="nav-icon">📄</span>
                             <span class="nav-text-en">Handouts</span>
                             <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
                         </a>
                     </li>
                     <li>
-                        <a href="games.html">
+                        <a href="../games.html">
                             <span class="nav-icon">🎮</span>
                             <span class="nav-text-en">Games</span>
                             <span class="nav-text-mi" lang="mi">Ngā Kēmu</span>  
                         </a>
                     </li>
-                    <li class="auth-nav my-kete-link sr-only">
-                        <a href="my-kete.html">
+                    <li class="auth-nav my-kete-link" style="display: none;">
+                        <a href="../my-kete.html">
                             <span class="nav-icon">🧺</span>
                             My Kete
                         </a>
                     </li>
                     <li class="auth-nav">
-                        <a href="login.html" class="login-btn">
+                        <a href="../login.html" class="login-btn">
                             <span class="nav-icon">👤</span>
                             Login
                         </a>
                     </li>
-                    <li class="auth-nav sr-only">
-                        <a href="register-simple.html" class="register-btn">
+                    <li class="auth-nav" style="display: none;">
+                        <a href="../register-simple.html" class="register-btn">
                             <span class="nav-icon">📝</span>
                             Register
                         </a>
@@ -308,7 +65,6 @@
                 </ul>
             </nav>
         </div>
-        
     </header>
     <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
 
@@ -677,7 +433,7 @@
             </section>
 
             <!-- Principal's Vision Summary -->
-                <footer class="site-footer no-print">
+                    <footer class="site-footer no-print">
         <div class="footer-content">
             <div class="footer-simple">
                 <div class="footer-brand">
@@ -685,10 +441,10 @@
                     <p>"Whaowhia te kete mātauranga" - Fill the basket of knowledge</p>
                 </div>
                 <div class="footer-links">
-                    <a href="unit-plans.html">Unit Plans</a>
-                    <a href="lessons.html">Lessons</a>
-                    <a href="handouts.html">Handouts</a>
-                    <a href="my-kete.html">My Kete</a>
+                    <a href="../unit-plans.html">Unit Plans</a>
+                    <a href="../lessons.html">Lessons</a>
+                    <a href="../handouts.html">Handouts</a>
+                    <a href="../my-kete.html">My Kete</a>
                 </div>
             </div>
             <div class="footer-bottom">

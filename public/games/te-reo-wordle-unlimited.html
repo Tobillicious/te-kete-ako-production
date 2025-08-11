@@ -11,482 +11,66 @@
     <title>Te Reo Māori Wordle (Unlimited) | Te Kete Ako</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/main.css">
-    <style>
-        .game-container {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: clamp(0.5rem, 2.5vw, 1rem);
-            text-align: center;
-            width: 100%;
-        }
-        
-        .game-header {
-            margin-bottom: 2rem;
-        }
-        
-        .game-title {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: var(--color-primary);
-            margin-bottom: 0.5rem;
-        }
-        
-        .game-subtitle {
-            color: var(--color-text-secondary);
-            font-size: 1.1rem;
-        }
-        
-        .stats-container {
-            display: flex;
-            justify-content: space-around;
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: clamp(0.5rem, 2vw, 1rem);
-            margin-bottom: 2rem;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--color-secondary);
-        }
-        
-        .stat-label {
-            font-size: 0.8rem;
-            color: var(--color-text-secondary);
-        }
-        
-        .game-board {
-            margin: 2rem 0;
-        }
-        
-        .row {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 5px;
-        }
-        
-        .tile {
-            width: clamp(45px, 10vw, 60px);
-            height: clamp(45px, 10vw, 60px);
-            border: 2px solid #d3d6da;
-            margin: 0 clamp(1px, 0.5vw, 2px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: clamp(1.2rem, 4vw, 2rem);
-            font-weight: bold;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-            background: white;
-            border-radius: 4px;
-        }
-        
-        /* Loading state */
-        .game-loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 200px;
-            color: var(--color-text-secondary);
-        }
-        
-        .loading-spinner {
-            border: 3px solid var(--color-border);
-            border-top: 3px solid var(--color-secondary);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin-right: 1rem;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Success animations */
-        .tile.success {
-            animation: bounce 0.6s ease-in-out;
-        }
-        
-        @keyframes bounce {
-            0%, 20%, 60%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-10px);
-            }
-            80% {
-                transform: translateY(-5px);
-            }
-        }
-        
-        /* Improved focus states */
-        .tile:focus {
-            outline: 2px solid var(--color-secondary);
-            outline-offset: 2px;
-        }
-        
-        /* Better contrast for accessibility */
-        @media (prefers-contrast: high) {
-            .tile.present {
-                background: #b8860b;
-                border-color: #b8860b;
-            }
-        }
-        
-        .tile.filled {
-            border-color: #878a8c;
-            animation: pop 0.1s ease-in-out;
-        }
-        
-        .tile.correct {
-            background: var(--color-secondary);
-            border-color: var(--color-secondary);
-            color: white;
-            animation: flip 0.6s ease-in-out;
-        }
-        
-        .tile.present {
-            background: #c9b458;
-            border-color: #c9b458;
-            color: white;
-            animation: flip 0.6s ease-in-out;
-        }
-        
-        .tile.absent {
-            background: #787c7e;
-            border-color: #787c7e;
-            color: white;
-            animation: flip 0.6s ease-in-out;
-        }
-        
-        @keyframes pop {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-        
-        @keyframes flip {
-            0% { transform: rotateX(0); }
-            50% { transform: rotateX(90deg); }
-            100% { transform: rotateX(0); }
-        }
-
-        @keyframes slideUp {
-            0% {
-                transform: translateX(-50%) translateY(100px);
-                opacity: 0;
-                scale: 0.8;
-            }
-            100% {
-                transform: translateX(-50%) translateY(0);
-                opacity: 1;
-                scale: 1;
-            }
-        }
-
-        @keyframes slideDown {
-            0% {
-                transform: translateX(-50%) translateY(0);
-                opacity: 1;
-                scale: 1;
-            }
-            100% {
-                transform: translateX(-50%) translateY(100px);
-                opacity: 0;
-                scale: 0.8;
-            }
-        }
-
-        /* Koru-inspired decorative elements */
-        .cultural-accent::before {
-            content: '';
-            position: absolute;
-            top: -5px;
-            left: -5px;
-            right: -5px;
-            bottom: -5px;
-            background: linear-gradient(45deg, var(--color-secondary), var(--color-accent));
-            border-radius: 12px;
-            z-index: -1;
-            opacity: 0.1;
-        }
-
-        /* Confetti animation */
-        @keyframes confettiFall {
-            0% {
-                transform: translateY(-100vh) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh) rotate(720deg);
-                opacity: 0;
-            }
-        }
-
-        .definition-popup .cultural-note {
-            font-style: italic;
-            color: var(--color-secondary);
-            background: rgba(184, 134, 11, 0.1);
-            padding: 0.5rem;
-            border-radius: 4px;
-            margin-top: 0.5rem;
-        }
-        
-        .keyboard {
-            margin: 2rem 0;
-        }
-        
-        .keyboard-row {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 8px;
-        }
-        
-        .key {
-            background: #d3d6da;
-            border: none;
-            border-radius: 4px;
-            color: var(--color-text);
-            cursor: pointer;
-            font-size: clamp(12px, 2.5vw, 14px);
-            font-weight: bold;
-            height: clamp(44px, 8vw, 58px);
-            margin: 0 clamp(2px, 0.5vw, 3px);
-            min-width: clamp(35px, 7vw, 43px);
-            padding: 0;
-            text-transform: uppercase;
-            transition: background-color 0.1s ease;
-            touch-action: manipulation;
-            user-select: none;
-        }
-        
-        .key:hover {
-            background: #bbb;
-            transform: translateY(-1px);
-        }
-        
-        .key:active {
-            transform: translateY(0);
-            background: #aaa;
-        }
-        
-        .key:focus {
-            outline: 2px solid var(--color-secondary);
-            outline-offset: 2px;
-        }
-        
-        .key.wide {
-            min-width: clamp(55px, 12vw, 65px);
-            font-size: clamp(10px, 2vw, 12px);
-        }
-        
-        .key.correct {
-            background: var(--color-secondary);
-            color: white;
-        }
-        
-        .key.present {
-            background: #c9b458;
-            color: white;
-        }
-        
-        .key.absent {
-            background: #787c7e;
-            color: white;
-        }
-        
-        .message {
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 8px;
-            font-weight: bold;
-            text-align: center;
-        }
-        
-        .message.win {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .message.lose {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        
-        .message.error {
-            background: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeaa7;
-        }
-        
-        .message.success {
-            background: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #b6d4da;
-        }
-        
-        .word-info {
-            background: var(--color-cultural-light);
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 1rem 0;
-            text-align: left;
-            display: none;
-        }
-        
-        .buttons {
-            margin: 2rem 0;
-        }
-        
-        .btn {
-            background: var(--color-secondary);
-            border: none;
-            border-radius: 4px;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-            margin: 0 0.5rem;
-            padding: 12px 24px;
-            transition: background-color 0.2s ease;
-        }
-        
-        .btn:hover {
-            background: #2c5f3f;
-        }
-        
-        .btn.secondary {
-            background: #6c757d;
-        }
-        
-        .btn.secondary:hover {
-            background: #5a6268;
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-        }
-        
-        .modal-content {
-            background-color: white;
-            margin: 5% auto;
-            padding: 2rem;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-        
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        
-        .close:hover {
-            color: #000;
-        }
-        
-        .help-section {
-            margin: 1rem 0;
-            text-align: left;
-        }
-        
-        .example-tile {
-            display: inline-flex;
-            width: 40px;
-            height: 40px;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-right: 0.5rem;
-            border: 2px solid;
-            border-radius: 4px;
-        }
-    </style>
-
-    <link rel="stylesheet" href="css/kehinde-wiley-design-system.css">
-    <link rel="stylesheet" href="css/kehinde-wiley-implementation.css"> 
-    <link rel="stylesheet" href="css/award-winning-polish.css">
+                <link rel="stylesheet" href="/css/design-system-v3.css"/>
+        <link rel="stylesheet" href="/css/award-winning-polish.css"/>
+        <link rel="stylesheet" href="/https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap"/>
 </head>
 
 <body>
-    <header class="site-header no-print">
+        <header class="site-header no-print">
         <div class="nav-container">
-            <a href="../index.html" class="nav-brand">Te Kete Ako</a>
+            <a href="../../index.html" class="nav-brand">Te Kete Ako</a>
             <nav class="main-nav">
                 <ul>
                     <li>
-                        <a href="../unit-plans.html">
+                        <a href="../../unit-plans.html">
                             <span class="nav-icon">📚</span>
                             <span class="nav-text-en">Unit Plans</span>
                             <span class="nav-text-mi" lang="mi">Ngā Waehere</span>
                         </a>
                     </li>
                     <li>
-                        <a href="../lessons.html">
-                            <span class="nav-icon">📖</span>
-                            <span class="nav-text-en">Lesson Plans</span>
+                        <a href="../../lessons.html">
+                            <span class="nav-icon">🎓</span>
+                            <span class="nav-text-en">Lessons</span>
                             <span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
                         </a>
                     </li>
                     <li>
-                        <a href="../handouts.html">
+                        <a href="../../handouts.html">
                             <span class="nav-icon">📄</span>
                             <span class="nav-text-en">Handouts</span>
                             <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
                         </a>
                     </li>
                     <li>
-                        <a href="../activities.html">
-                            <span class="nav-icon">⚡</span>
-                            <span class="nav-text-en">Do Nows</span>
-                            <span class="nav-text-mi" lang="mi">Mahi Whakakā</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="../youtube.html">
-                            <span class="nav-icon">📺</span>
-                            <span class="nav-text-en">YouTube</span>
-                            <span class="nav-text-mi" lang="mi">YouTube</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="../games.html" class="active">
+                        <a href="../../games.html">
                             <span class="nav-icon">🎮</span>
                             <span class="nav-text-en">Games</span>
-                            <span class="nav-text-mi" lang="mi">Ngā Kēmu</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Kēmu</span>  
+                        </a>
+                    </li>
+                    <li class="auth-nav my-kete-link" style="display: none;">
+                        <a href="../../my-kete.html">
+                            <span class="nav-icon">🧺</span>
+                            My Kete
+                        </a>
+                    </li>
+                    <li class="auth-nav">
+                        <a href="../../login.html" class="login-btn">
+                            <span class="nav-icon">👤</span>
+                            Login
+                        </a>
+                    </li>
+                    <li class="auth-nav" style="display: none;">
+                        <a href="../../register-simple.html" class="register-btn">
+                            <span class="nav-icon">📝</span>
+                            Register
                         </a>
                     </li>
                 </ul>
             </nav>
         </div>
-        
     </header>
     <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
 
@@ -556,9 +140,7 @@
                     </div>
                 </div>
 
-                <div class="keyboard" id="keyboard" role="group" aria-label="Virtual Keyboard">
-                    <!-- Keyboard will be generated by JavaScript -->
-                </div>
+                
 
                 <div id="wordInfo" class="word-info">
                     <h3>About Today's Word - Kōrero mō te Kupu o te Rā</h3>
@@ -747,8 +329,24 @@
         </div>
     </section>
 
-    <footer class="site-footer">
-        <p>&copy; 2025 Te Kete Ako. He waka eke noa.</p>
+        <footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-simple">
+                <div class="footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p>"Whaowhia te kete mātauranga" - Fill the basket of knowledge</p>
+                </div>
+                <div class="footer-links">
+                    <a href="../../unit-plans.html">Unit Plans</a>
+                    <a href="../../lessons.html">Lessons</a>
+                    <a href="../../handouts.html">Handouts</a>
+                    <a href="../../my-kete.html">My Kete</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2025 Te Kete Ako - Educational resources for Aotearoa New Zealand</span>
+            </div>
+        </div>
     </footer>
 
     <script src="../js/maori-dictionary-api.js"></script>
