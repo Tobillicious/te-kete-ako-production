@@ -33,314 +33,264 @@
             border-left: 4px solid #3498db;
             margin-bottom: 20px;
         }
-        .cultural-context {
-            background-color: #e8f8f5;
-            padding: 15px;
-            border-left: 4px solid #1abc9c;
-            margin: 20px 0;
-        }
-        .activity {
-            background-color: #fef9e7;
-            padding: 15px;
-            border-left: 4px solid #f1c40f;
-            margin: 20px 0;
-        }
-        .assessment {
+        .activity-box {
             background-color: #f5eef8;
+            border: 1px solid #d2b4de;
             padding: 15px;
-            border-left: 4px solid #9b59b6;
             margin: 20px 0;
+            border-radius: 5px;
         }
-        .teacher-notes {
-            background-color: #ebedef;
+        .tikanga-section {
+            background-color: #e8f8f5;
+            border: 1px solid #76d7c4;
             padding: 15px;
-            border-left: 4px solid #7f8c8d;
             margin: 20px 0;
-            font-size: 0.9em;
+            border-radius: 5px;
         }
-        table {
+        .assessment-rubric {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
         }
-        table, th, td {
+        .assessment-rubric th, .assessment-rubric td {
             border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 10px;
+            padding: 8px;
             text-align: left;
         }
-        th {
+        .assessment-rubric th {
             background-color: #1a5276;
             color: white;
         }
-        tr:nth-child(even) {
+        .assessment-rubric tr:nth-child(even) {
             background-color: #f2f2f2;
         }
-        .interactive-box {
+        .teacher-notes {
+            background-color: #fef9e7;
+            border: 1px solid #f4d03f;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .resource-link {
+            color: #2874a6;
+            text-decoration: none;
+        }
+        .resource-link:hover {
+            text-decoration: underline;
+        }
+        .interactive-question {
             background-color: #e8f4f8;
             padding: 15px;
             border-radius: 5px;
-            margin: 20px 0;
+            margin: 15px 0;
+        }
+        .response-area {
+            width: 100%;
+            min-height: 80px;
+            margin-top: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: inherit;
         }
         .btn {
             background-color: #1a5276;
             color: white;
-            padding: 8px 15px;
             border: none;
+            padding: 8px 15px;
             border-radius: 4px;
             cursor: pointer;
-            margin: 5px;
+            margin-top: 10px;
         }
         .btn:hover {
             background-color: #154360;
         }
-        .hidden {
-            display: none;
-        }
-        .glossary-term {
-            color: #1a5276;
-            font-weight: bold;
-            cursor: help;
-            border-bottom: 1px dotted #1a5276;
-        }
-        .glossary-def {
-            background-color: #f9f9f9;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-top: 5px;
+        .māori-term {
+            font-style: italic;
+            color: #2874a6;
         }
     </style>
-
-    <link rel="stylesheet" href="css/kehinde-wiley-design-system.css">
-    <link rel="stylesheet" href="css/kehinde-wiley-implementation.css"> 
-    <link rel="stylesheet" href="css/award-winning-polish.css">
 </head>
 <body>
     <header>
-        <h1 class="wiley-hero-title">AI Ethics Through Māori Data Sovereignty</h1>
+        <h1>AI Ethics Through Māori Data Sovereignty</h1>
         <p>Digital Technology | Years 11-13</p>
     </header>
 
-    <div class="learning-objectives">
-        <h2 class="wiley-section-title">Learning Objectives</h2>
+    <section class="learning-objectives">
+        <h2>Learning Objectives</h2>
         <p>By the end of this lesson, students will be able to:</p>
         <ul>
-            <li>Explain the concept of Māori Data Sovereignty (MDS) and its principles</li>
-            <li>Analyze how AI systems can impact indigenous data rights</li>
-            <li>Apply MDS principles to evaluate ethical considerations in AI development</li>
-            <li>Develop strategies for incorporating indigenous perspectives in technology design</li>
-            <li>Reflect on personal responsibility in digital citizenship from a Te Ao Māori perspective</li>
+            <li>Explain the concept of Māori Data Sovereignty (<span class="māori-term">tino rangatiratanga</span> over data)</li>
+            <li>Analyze AI systems through a Māori ethical framework</li>
+            <li>Apply principles of <span class="māori-term">kaitiakitanga</span> (guardianship) to technology design</li>
+            <li>Evaluate case studies of AI applications in Aotearoa</li>
+            <li>Develop ethical guidelines for AI development incorporating Māori perspectives</li>
         </ul>
-        <p><strong>NZ Curriculum Alignment:</strong> Digital Technologies Progress Outcomes 6-8, Social Sciences, Tikanga ā-Iwi</p>
-    </div>
+        <p><strong>NZ Curriculum Alignment:</strong> Digital Technologies Progress Outcomes 6-8, Social Sciences, Te Marautanga o Aotearoa</p>
+    </section>
 
-    <div class="cultural-context">
-        <h2 class="wiley-section-title">Cultural Context: Tikanga Māori and Technology</h2>
-        <p>This lesson is grounded in <strong>Māori Data Sovereignty (MDS)</strong> principles which assert that Māori have inherent rights to control Māori data and information. Key concepts include:</p>
-        
-        <div class="interactive-box">
-            <h3>Tapu and Noa in Digital Spaces</h3>
-            <p>In Māori worldview, data can have <span class="glossary-term">tapu</span> (sacredness) and requires appropriate handling:</p>
-            <div id="tapudef" class="glossary-def hidden">
-                <strong>Tapu:</strong> The sacred, restricted, or set apart nature of people, places, or things in Māori culture.
-            </div>
-            <button class="btn" onclick="toggleDefinition('tapudef')">Show Definition</button>
-            
-            <p>Consider how these principles apply to AI systems:</p>
+    <section class="tikanga-section">
+        <h2>Cultural Context: Tikanga Māori and Technology</h2>
+        <p>This lesson is grounded in <span class="māori-term">tikanga Māori</span> (Māori customary practices) and the principle of <span class="māori-term">manaakitanga</span> (respect and care for people). Key considerations:</p>
+        <ul>
+            <li><strong>Whakapapa:</strong> Data represents people and their connections - treat it as <span class="māori-term">tapu</span> (sacred)</li>
+            <li><strong>Kaitiakitanga:</strong> Responsibility to protect data for future generations</li>
+            <li><strong>Mana:</strong> AI systems must maintain and enhance the <span class="māori-term">mana</span> (prestige, authority) of individuals and communities</li>
+            <li><strong>Wairuatanga:</strong> Considering the spiritual dimension of technology and data</li>
+        </ul>
+        <p><strong>Note to kaiako (teachers):</strong> Be mindful that some students may have personal connections to data sovereignty issues. Create a safe space for discussion.</p>
+    </section>
+
+    <section>
+        <h2>Understanding Māori Data Sovereignty</h2>
+        <p>Māori Data Sovereignty asserts that Māori have inherent rights to control data about:</p>
+        <ul>
+            <li>Māori people</li>
+            <li>Māori lands and resources</li>
+            <li>Māori culture and knowledge (<span class="māori-term">mātauranga Māori</span>)</li>
+            <li>Māori language (<span class="māori-term">te reo Māori</span>)</li>
+        </ul>
+
+        <div class="interactive-question">
+            <h3>Reflection: Whose Data Is It?</h3>
+            <p>Consider a social media platform that collects data about users in Aotearoa:</p>
             <ul>
-                <li>Who has access to Māori data?</li>
-                <li>How is Māori data being used?</li>
-                <li>What protections exist for sensitive information?</li>
+                <li>Who should control Māori users' data?</li>
+                <li>How might current data practices conflict with Māori values?</li>
+                <li>What would ethical data collection look like from a Māori perspective?</li>
             </ul>
+            <textarea class="response-area" placeholder="Write your thoughts here..."></textarea>
+            <button class="btn">Save Reflection</button>
         </div>
-        
-        <h3>Key Principles of Māori Data Sovereignty</h3>
-        <ol>
-            <li><strong>Rangatiratanga:</strong> Self-determination and control over Māori data</li>
-            <li><strong>Whakapapa:</strong> Understanding the relationships and connections in data</li>
-            <li><strong>Kaitiakitanga:</strong> Guardianship and ethical stewardship of data</li>
-            <li><strong>Manaakitanga:</strong> Respectful and reciprocal use of data</li>
-            <li><strong>Kotahitanga:</strong> Collective benefit and unity in data use</li>
-        </ol>
-    </div>
+    </section>
 
-    <h2 class="wiley-section-title">Main Content: AI Ethics and Māori Perspectives</h2>
-    
-    <div class="activity">
-        <h3>Case Study Analysis</h3>
-        <p>Read the following scenario and discuss in small groups:</p>
-        <blockquote>
-            "A tech company is developing an AI health app for New Zealanders. They want to use historical health data from Māori communities to train their algorithms to predict health outcomes. The data includes sensitive whakapapa information."
-        </blockquote>
-        
-        <div class="interactive-box">
-            <h4>Ethical Considerations</h4>
-            <p>Click each button to reveal key questions:</p>
-            <button class="btn" onclick="toggleContent('q1')">Consent</button>
-            <div id="q1" class="hidden">
-                <p>Was free, prior and informed consent obtained from the data subjects? How does this align with tikanga Māori?</p>
-            </div>
+    <section>
+        <h2>Case Study: Facial Recognition in Aotearoa</h2>
+        <p>Analyze this real-world scenario:</p>
+        <div class="activity-box">
+            <h3>Police Facial Recognition Trial (2020)</h3>
+            <p>A police trial used facial recognition technology with drivers license photos. Key issues:</p>
+            <ul>
+                <li>No specific consultation with Māori</li>
+                <li>Potential for bias against Māori facial features</li>
+                <li>Data stored overseas without Māori oversight</li>
+            </ul>
             
-            <button class="btn" onclick="toggleContent('q2')">Benefit</button>
-            <div id="q2" class="hidden">
-                <p>How will Māori communities benefit from this use of their data? Is the benefit equitable?</p>
-            </div>
-            
-            <button class="btn" onclick="toggleContent('q3')">Control</button>
-            <div id="q3" class="hidden">
-                <p>Who maintains control over how the data is used? Can Māori withdraw consent later?</p>
-            </div>
+            <h4>Discussion Questions:</h4>
+            <ol>
+                <li>Which principles of Māori Data Sovereignty were potentially violated?</li>
+                <li>How could <span class="māori-term">tikanga</span> have informed better design?</li>
+                <li>What alternative approaches might align with Māori values?</li>
+            </ol>
         </div>
-    </div>
-    
-    <div class="activity">
-        <h3>Design Challenge: Ethical AI Framework</h3>
-        <p>Create guidelines for ethical AI development that incorporates Māori Data Sovereignty principles:</p>
-        
-        <table>
-            <tr>
-                <th>MDS Principle</th>
-                <th>AI Application</th>
-                <th>Implementation Strategy</th>
-            </tr>
-            <tr>
-                <td>Rangatiratanga</td>
-                <td>Data collection</td>
-                <td><input type="text" placeholder="Enter your idea..." style="width:100%"></td>
-            </tr>
-            <tr>
-                <td>Kaitiakitanga</td>
-                <td>Algorithm training</td>
-                <td><input type="text" placeholder="Enter your idea..." style="width:100%"></td>
-            </tr>
-            <tr>
-                <td>Manaakitanga</td>
-                <td>User interface</td>
-                <td><input type="text" placeholder="Enter your idea..." style="width:100%"></td>
-            </tr>
-        </table>
-    </div>
+    </section>
 
-    <div class="assessment">
-        <h2 class="wiley-section-title">Assessment Rubric</h2>
-        <table>
+    <section>
+        <h2>Developing Ethical AI Guidelines</h2>
+        <p>Create principles for ethical AI development in Aotearoa that honor Māori Data Sovereignty:</p>
+        
+        <div class="interactive-question">
+            <h3>Co-Design Activity</h3>
+            <p>Working in groups, develop 3-5 guidelines for ethical AI that incorporate both technical requirements and Māori values.</p>
+            <p><strong>Example starter:</strong> "AI systems must be co-designed with Māori communities to ensure <span class="māori-term">tino rangatiratanga</span> over Māori data."</p>
+            <textarea class="response-area" placeholder="Write your group's guidelines here..."></textarea>
+            <button class="btn">Submit Guidelines</button>
+        </div>
+    </section>
+
+    <section>
+        <h2>Assessment Rubric</h2>
+        <table class="assessment-rubric">
             <tr>
                 <th>Criteria</th>
-                <th>Achieved (✓)</th>
-                <th>Merit (✓✓)</th>
-                <th>Excellence (✓✓✓)</th>
+                <th>Achieved (A)</th>
+                <th>Merit (M)</th>
+                <th>Excellence (E)</th>
             </tr>
             <tr>
-                <td>Understanding of MDS</td>
-                <td>Basic description of principles</td>
+                <td>Understanding of Māori Data Sovereignty</td>
+                <td>Basic description of concepts</td>
                 <td>Clear explanation with examples</td>
-                <td>Insightful analysis with connections to AI</td>
+                <td>Insightful analysis with cultural depth</td>
             </tr>
             <tr>
                 <td>Ethical Analysis</td>
-                <td>Identifies some ethical concerns</td>
+                <td>Identifies obvious ethical concerns</td>
                 <td>Analyzes multiple perspectives</td>
-                <td>Comprehensive evaluation with solutions</td>
+                <td>Synthesizes Māori and technical viewpoints</td>
             </tr>
             <tr>
-                <td>Cultural Integration</td>
-                <td>Mentions Māori perspectives</td>
-                <td>Applies tikanga appropriately</td>
-                <td>Innovative incorporation of Māori values</td>
+                <td>Guideline Development</td>
+                <td>Creates basic ethical rules</td>
+                <td>Develops practical, culturally-informed guidelines</td>
+                <td>Innovative solutions that bridge cultures</td>
             </tr>
             <tr>
-                <td>Practical Application</td>
-                <td>Basic guidelines proposed</td>
-                <td>Detailed framework developed</td>
-                <td>Comprehensive, actionable strategies</td>
+                <td>Cultural Competence</td>
+                <td>Shows awareness of Māori perspectives</td>
+                <td>Demonstrates respect and understanding</td>
+                <td>Embeds Māori values authentically</td>
             </tr>
         </table>
-    </div>
+    </section>
 
-    <div class="activity">
-        <h2 class="wiley-section-title">Extension Activities</h2>
-        <h3>Option 1: Comparative Analysis</h3>
-        <p>Research how other indigenous communities (e.g., Native American, Aboriginal Australian) approach data sovereignty. Compare their principles with Māori Data Sovereignty.</p>
-        
-        <h3>Option 2: Policy Proposal</h3>
-        <p>Draft a policy for your school's use of student data that incorporates Māori Data Sovereignty principles.</p>
-        
-        <h3>Option 3: Digital Product Review</h3>
-        <p>Select a popular app or website and evaluate its data practices against MDS principles. Present your findings.</p>
-    </div>
+    <section>
+        <h2>Extension Activities</h2>
+        <div class="activity-box">
+            <h3>1. Comparative Analysis</h3>
+            <p>Research Indigenous data sovereignty movements in other countries (e.g., First Nations in Canada, Native Americans in US). Compare their approaches to Māori Data Sovereignty.</p>
+            
+            <h3>2. Prototype Design</h3>
+            <p>Design a mock-up for a data collection interface that honors Māori Data Sovereignty principles. Consider:</p>
+            <ul>
+                <li>Language options (te reo Māori first)</li>
+                <li>Clear explanations of data use</li>
+                <li>Options for Māori control</li>
+            </ul>
+            
+            <h3>3. Community Consultation Plan</h3>
+            <p>Develop a plan for how a tech company should consult with Māori communities before implementing AI systems that might affect them.</p>
+        </div>
+    </section>
 
-    <div class="teacher-notes">
-        <h2 class="wiley-section-title">Teacher Implementation Notes</h2>
-        <h3>Prior Knowledge</h3>
-        <p>Students should have basic understanding of:</p>
+    <section class="teacher-notes">
+        <h2>Teacher Implementation Notes</h2>
+        <h3>Before the Lesson:</h3>
         <ul>
-            <li>How AI systems work (machine learning basics)</li>
-            <li>Key concepts of digital citizenship</li>
-            <li>Fundamental Māori concepts (tapu, noa, mana)</li>
+            <li>Familiarize yourself with <a href="https://www.temanararaunga.maori.nz/" class="resource-link">Te Mana Raraunga (Māori Data Sovereignty Network)</a></li>
+            <li>Connect with local Māori experts if possible (check with school's Māori liaison)</li>
+            <li>Prepare printed copies of case studies for students who prefer paper</li>
         </ul>
         
-        <h3>Differentiation Strategies</h3>
-        <p><strong>Support:</strong> Provide pre-filled examples for the design challenge table. Use mixed-ability grouping.</p>
-        <p><strong>Extension:</strong> Challenge advanced students to develop implementation plans for their ethical frameworks.</p>
-        
-        <h3>Timing</h3>
-        <p>This lesson is designed for 2-3 class periods (100-150 minutes):</p>
+        <h3>During the Lesson:</h3>
         <ul>
-            <li>Introduction and cultural context: 30 min</li>
-            <li>Case study analysis: 40 min</li>
-            <li>Design challenge: 50 min</li>
-            <li>Reflection and assessment: 30 min</li>
+            <li>Begin with a <span class="māori-term">karakia</span> (prayer) if appropriate for your school context</li>
+            <li>Use think-pair-share strategies for sensitive discussions</li>
+            <li>Be prepared to address questions about government data use</li>
         </ul>
         
-        <h3>Cultural Safety</h3>
-        <p>Ensure:</p>
+        <h3>Assessment Options:</h3>
         <ul>
-            <li>Māori students feel comfortable sharing perspectives</li>
-            <li>Non-Māori students approach topics with respect</li>
-            <li>Consult with local iwi or Māori advisors if discussing sensitive topics</li>
+            <li>Written reflection on case studies</li>
+            <li>Group presentation of ethical guidelines</li>
+            <li>Individual research project on related topic</li>
         </ul>
-    </div>
+    </section>
 
-    <div>
-        <h2 class="wiley-section-title">Resources and References</h2>
-        <h3>Key Readings</h3>
+    <section>
+        <h2>Resources and References</h2>
         <ul>
-            <li>Te Mana Raraunga - Māori Data Sovereignty Network: <a href="https://www.temanararaunga.maori.nz" target="_blank">www.temanararaunga.maori.nz</a></li>
-            <li>Waitangi Tribunal Report on Data: WAI 2522</li>
-            <li>AI Forum NZ's "Towards Our Intelligent Future" report</li>
+            <li><a href="https://www.temanararaunga.maori.nz/" class="resource-link">Te Mana Raraunga - Māori Data Sovereignty Network</a></li>
+            <li><a href="https://www.data.govt.nz/toolkit/data-ethics/maori-data-sovereignty/" class="resource-link">NZ Government Data Ethics Guidelines</a></li>
+            <li><a href="https://thespinoff.co.nz/atea/12-05-2020/why-maori-data-sovereignty-matters-in-the-age-of-ai" class="resource-link">Article: Māori Data Sovereignty and AI</a></li>
+            <li><a href="https://www.teaomaori.news/he-kawa-ai-ethical-framework-maori-ai" class="resource-link">Te Ao Māori News: Ethical Framework for Māori AI</a></li>
+            <li>Book: "Indigenous Data Sovereignty" by Tahu Kukutai and John Taylor</li>
         </ul>
-        
-        <h3>Videos</h3>
-        <ul>
-            <li>"Data is the New Gold" - Dr. Karaitiana Taiuru (YouTube)</li>
-            <li>"Indigenous Data Sovereignty" TEDx talk by Tahu Kukutai</li>
-        </ul>
-        
-        <h3>Glossary</h3>
-        <p><strong>Māori Data Sovereignty:</strong> The inherent right of Māori to control the collection, ownership, and application of Māori data.</p>
-        <p><strong>Algorithmic Bias:</strong> When computer systems reflect the implicit values of the humans involved in their creation.</p>
-    </div>
+    </section>
 
-    <script>
-        function toggleDefinition(id) {
-            var x = document.getElementById(id);
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        }
-        
-        function toggleContent(id) {
-            var x = document.getElementById(id);
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        }
-    </script>
+    <footer>
+        <p>© Te Kete Ako Educational Resource | This content is licensed for classroom use under Creative Commons BY-NC-SA 4.0</p>
+    </footer>
 </body>
 </html>
