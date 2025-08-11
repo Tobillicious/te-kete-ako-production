@@ -17,6 +17,13 @@ const STANDARD_HEADER = `    <header class="site-header no-print">
                         </a>
                     </li>
                     <li>
+                        <a href="teachers/index.html">
+                            <span class="nav-icon">🧑‍🏫</span>
+                            <span class="nav-text-en">Teachers</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Kaiako</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="lessons.html">
                             <span class="nav-icon">🎓</span>
                             <span class="nav-text-en">Lessons</span>
