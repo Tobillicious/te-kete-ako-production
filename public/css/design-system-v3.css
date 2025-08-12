@@ -713,6 +713,87 @@ pre code {
     min-width: 0; /* Prevent flex overflow */
 }
 
+/* =================================================================
+   HEADER AND NAVIGATION - Core Styles
+   Provides baseline layout/appearance for header/nav components
+   ================================================================= */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+    width: 100%;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-pounamu));
+    color: var(--color-text-inverse);
+    box-shadow: var(--shadow-md);
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    max-width: var(--container-7xl);
+    margin: 0 auto;
+    padding: var(--space-3) var(--space-4);
+}
+
+.nav-brand {
+    color: var(--color-text-inverse);
+    text-decoration: none;
+    font-weight: var(--weight-bold);
+    font-size: var(--text-xl);
+}
+
+.main-nav { position: relative; }
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+}
+.main-nav li { display: flex; align-items: center; }
+.main-nav a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text-inverse);
+    text-decoration: none;
+    font-weight: var(--weight-medium);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    transition: background var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+}
+.main-nav a:hover,
+.main-nav a:focus { background: rgba(255,255,255,0.12); transform: translateY(-1px); }
+.main-nav a.active { background: rgba(255,255,255,0.18); }
+
+.nav-icon { font-size: 1.1rem; }
+.nav-text-en { font-size: 0.9rem; }
+.nav-text-mi { font-size: 0.8rem; opacity: 0.9; }
+
+/* Breadcrumbs */
+.breadcrumbs { margin-left: auto; }
+.breadcrumbs-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+}
+.breadcrumbs-list li { color: var(--color-text-inverse); opacity: 0.9; }
+.breadcrumbs-list a { color: var(--color-text-inverse); text-decoration: none; }
+.breadcrumbs-list a:hover { text-decoration: underline; }
+
+@media (max-width: 768px) {
+    .nav-container { flex-wrap: wrap; gap: var(--space-2); }
+    .main-nav ul { flex-wrap: wrap; gap: var(--space-1); }
+    .main-nav a { padding: var(--space-2) var(--space-2); }
+}
+
 .sidebar-widget {
     margin-bottom: var(--space-6);
     padding: var(--space-4);
