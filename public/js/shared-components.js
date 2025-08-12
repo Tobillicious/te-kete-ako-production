@@ -34,6 +34,12 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileToggle.addEventListener('click', toggleMobileNav);
     }
     
+    // Handle mobile nav overlay click
+    const mobileOverlay = document.querySelector('.mobile-nav-overlay');
+    if (mobileOverlay) {
+        mobileOverlay.addEventListener('click', closeMobileNav);
+    }
+    
     // Smooth scroll for internal anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {

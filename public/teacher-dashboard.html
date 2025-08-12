@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://supabase.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: https://placehold.co; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co https://supabase.com;">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teacher Dashboard | Te Kete Ako</title>
@@ -53,7 +52,7 @@
                             <span class="nav-text-mi" lang="mi">Ngā Kēmu</span>  
                         </a>
                     </li>
-                    <li class="auth-nav my-kete-link" style="display: none;">
+                    <li class="auth-nav my-kete-link auth-hidden">
                         <a href="/my-kete.html">
                             <span class="nav-icon">🧺</span>
                             My Kete
@@ -65,7 +64,7 @@
                             Login
                         </a>
                     </li>
-                    <li class="auth-nav" style="display: none;">
+                    <li class="auth-nav auth-hidden">
                         <a href="/register-simple.html" class="register-btn">
                             <span class="nav-icon">📝</span>
                             Register
@@ -78,7 +77,7 @@
             </nav>
         </div>
     </header>
-    <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
+    <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
 
     <div class="teacher-dashboard">
         <aside class="sidebar">
@@ -94,11 +93,11 @@
                 <li><button class="nav-btn" data-section="settings"><span>⚙️</span> Settings</button></li>
             </ul>
 
-            <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.3);">
-                <div style="background: rgba(255,255,255,0.1); padding: var(--space-4); border-radius: var(--radius-md); margin-bottom: 1rem;">
-                    <h4 style="color: white; margin-bottom: var(--space-2);">Quick Actions</h4>
-                    <button class="btn btn-outline" style="width: 100%; margin-bottom: var(--space-2);" onclick="createNewAssignment()">New Assignment</button>
-                    <button class="btn btn-outline" style="width: 100%;" onclick="exportData()">Export Data</button>
+            <div class="sidebar-actions">
+                <div class="quick-actions-container">
+                    <h4 class="quick-actions-title">Quick Actions</h4>
+                    <button class="btn btn-outline btn-full-width-mb" data-action="createNewAssignment">New Assignment</button>
+                    <button class="btn btn-outline btn-full-width" data-action="exportData">Export Data</button>
                 </div>
         
                 <button id="logout-btn" class="logout-button">Logout</button>
@@ -114,17 +113,17 @@
                     <div class="flex">
                         <div>
                             <h1 id="welcome-message" class="wiley-hero-title">Kia ora, Kaiako!</h1>
-                            <p id="teacher-info" style="color: var(--color-text-secondary); margin: 0;">Welcome to your teaching dashboard</p>
+                            <p id="teacher-info" class="teacher-info-text">Welcome to your teaching dashboard</p>
                         </div>
-                        <div style="text-align: right;">
-                            <div style="color: var(--color-primary); font-weight: bold;" id="current-date"></div>
-                            <div style="color: var(--color-text-secondary); font-size: var(--text-sm);">Mangakōtukutuku College</div>
+                        <div class="dashboard-header-right">
+                            <div class="current-date" id="current-date"></div>
+                            <div class="school-name">Mangakōtukutuku College</div>
                         </div>
                     </div>
                     
                     <div class="cultural-opening" class="bg-cultural-light">
-                        <p style="font-style: italic; color: var(--color-primary); margin-bottom: var(--space-2); font-size: 1rem;">"Ko te manu e kai ana i te miro, nōna te ngahere. Ko te manu e kai ana i te mātauranga, nōna te ao."</p>
-                        <p style="color: var(--color-text-secondary); font-size: var(--text-sm); margin: 0;">The bird that partakes of the miro berry owns the forest. The bird that partakes of knowledge owns the world.</p>
+                        <p class="whakatauki">"Ko te manu e kai ana i te miro, nōna te ngahere. Ko te manu e kai ana i te mātauranga, nōna te ao."</p>
+                        <p class="whakatauki-translation">The bird that partakes of the miro berry owns the forest. The bird that partakes of knowledge owns the world.</p>
                     </div>
                 </div>
 
@@ -179,7 +178,7 @@
                                 <p>Submitted 2 hours ago • Awaiting initial review</p>
                             </div>
                             <div class="action-buttons">
-                                <button class="btn btn-primary" onclick="reviewSubmission('alpha-society')">Review</button>
+                                <button class="btn btn-primary" data-action="reviewSubmission" data-assignment="alpha-society">Review</button>
                             </div>
                         </div>
                         <div class="submission-item">
@@ -188,7 +187,7 @@
                                 <p>Multiple submissions • 3 students need feedback</p>
                             </div>
                             <div class="action-buttons">
-                                <button class="btn btn-secondary" onclick="bulkReview('systems-thinking')">Bulk Review</button>
+                                <button class="btn btn-secondary" data-action="bulkReview" data-assignment="systems-thinking">Bulk Review</button>
                             </div>
                         </div>
                     </div>
@@ -265,8 +264,8 @@
                                 <p>Group Beta • Submitted 1 hour ago • Government system focus</p>
                             </div>
                             <div class="action-buttons">
-                                <button class="btn btn-primary" onclick="reviewSubmission('beta-society')">Review Now</button>
-                                <button class="btn btn-outline" onclick="viewProject('beta-society')">View Details</button>
+                                <button class="btn btn-primary" data-action="reviewSubmission" data-assignment="beta-society">Review Now</button>
+                                <button class="btn btn-outline" data-action="viewProject" data-assignment="beta-society">View Details</button>
                             </div>
                         </div>
                         <div class="submission-item">
@@ -275,7 +274,7 @@
                                 <p>Individual • Multiple students • Te Ao Māori perspectives</p>
                             </div>
                             <div class="action-buttons">
-                                <button class="btn btn-secondary" onclick="bulkReview('cultural-reflection')">Bulk Review</button>
+                                <button class="btn btn-secondary" data-action="bulkReview" data-assignment="cultural-reflection">Bulk Review</button>
                             </div>
                         </div>
                     </div>
@@ -301,9 +300,9 @@
                             <span class="member-tag">Aria (Cultural Consultant)</span>
                             <span class="member-tag">Jamie (Systems Analyst)</span>
                         </div>
-                        <div class="action-buttons" style="margin-top: 1rem;">
-                            <button class="btn btn-primary" onclick="viewGroupProgress('alpha')">View Progress</button>
-                            <button class="btn btn-outline" onclick="facilitateGroup('alpha')">Facilitate</button>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary" data-action="viewGroupProgress" data-group="alpha">View Progress</button>
+                            <button class="btn btn-outline" data-action="facilitateGroup" data-group="alpha">Facilitate</button>
                         </div>
                     </div>
 
@@ -318,9 +317,9 @@
                             <span class="member-tag">River (Cultural Consultant)</span>
                             <span class="member-tag">Alex (Systems Analyst)</span>
                         </div>
-                        <div class="action-buttons" style="margin-top: 1rem;">
-                            <button class="btn btn-primary" onclick="viewGroupProgress('beta')">View Progress</button>
-                            <button class="btn btn-secondary" onclick="interveneGroup('beta')">Provide Support</button>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary" data-action="viewGroupProgress" data-group="beta">View Progress</button>
+                            <button class="btn btn-secondary" data-action="interveneGroup" data-group="beta">Provide Support</button>
                         </div>
                     </div>
                 </div>
@@ -367,18 +366,18 @@
                 <div class="content-grid">
                     <div class="card">
                         <h3><span>🏛️</span> Society Design Resources</h3>
-                        <ul style="list-style: none; padding: 0;">
-                            <li style="margin-bottom: 1rem;">
-                                <a href="/y8-systems/resources/society-design-collaboration-framework.html" class="btn btn-primary" style="text-decoration: none;">Collaboration Framework</a>
-                                <p style="margin: 0.5rem 0 0 0; color: var(--color-text-secondary); font-size: var(--text-sm);">Complete role-based group work system</p>
+                        <ul class="resource-list">
+                            <li class="resource-item">
+                                <a href="/y8-systems/resources/society-design-collaboration-framework.html" class="btn btn-primary no-decoration">Collaboration Framework</a>
+                                <p class="resource-description">Complete role-based group work system</p>
                             </li>
-                            <li style="margin-bottom: 1rem;">
-                                <a href="/y8-systems/resources/society-design-assessment-rubric.html" class="btn btn-secondary" style="text-decoration: none;">Assessment Rubric</a>
-                                <p style="margin: 0.5rem 0 0 0; color: var(--color-text-secondary); font-size: var(--text-sm);">Cultural competency integrated evaluation</p>
+                            <li class="resource-item">
+                                <a href="/y8-systems/resources/society-design-assessment-rubric.html" class="btn btn-secondary no-decoration">Assessment Rubric</a>
+                                <p class="resource-description">Cultural competency integrated evaluation</p>
                             </li>
-                            <li style="margin-bottom: 1rem;">
-                                <a href="/units/design-your-society-unit.html" class="btn btn-outline" style="text-decoration: none;">Complete Unit Plan</a>
-                                <p style="margin: 0.5rem 0 0 0; color: var(--color-text-secondary); font-size: var(--text-sm);">Enhanced with collaborative learning</p>
+                            <li class="resource-item">
+                                <a href="/units/design-your-society-unit.html" class="btn btn-outline no-decoration">Complete Unit Plan</a>
+                                <p class="resource-description">Enhanced with collaborative learning</p>
                             </li>
                         </ul>
                     </div>
@@ -386,9 +385,9 @@
                     <div class="card">
                         <h3><span>🎯</span> Quick Access Tools</h3>
                         <div class="action-buttons">
-                            <button class="btn btn-primary" onclick="generateDoNow()">Generate Do NOW</button>
-                            <button class="btn btn-secondary" onclick="createRubric()">Create Rubric</button>
-                            <button class="btn btn-outline" onclick="exportProgress()">Export Progress</button>
+                            <button class="btn btn-primary" data-action="generateDoNow">Generate Do NOW</button>
+                            <button class="btn btn-secondary" data-action="createRubric">Create Rubric</button>
+                            <button class="btn btn-outline" data-action="exportProgress">Export Progress</button>
                         </div>
                     </div>
                 </div>
@@ -403,12 +402,12 @@
 
                 <div class="card">
                     <h3><span>👤</span> Profile Settings</h3>
-                    <div style="margin-bottom: 1rem;">
-                        <label style="display: block; margin-bottom: var(--space-2); font-weight: bold;">Display Name:</label>
-                        <input type="text" id="teacher-display-name" style="width: 100%; padding: 0.75rem; border: 2px solid #e1e5e9; border-radius: var(--radius-md);">
+                    <div class="settings-group">
+                        <label class="settings-label">Display Name:</label>
+                        <input type="text" id="teacher-display-name" class="settings-input">
                     </div>
-                    <div style="margin-bottom: 1rem;">
-                        <label style="display: block; margin-bottom: var(--space-2); font-weight: bold;">Notification Preferences:</label>
+                    <div class="settings-group">
+                        <label class="settings-label">Notification Preferences:</label>
                         <label class="flex">
                             <input type="checkbox" checked> Email notifications for new submissions
                         </label>
