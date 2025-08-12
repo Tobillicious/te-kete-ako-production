@@ -222,8 +222,53 @@ function exportProgress() {
     alert('Exporting progress');
 }
 
-// Logout functionality
+// Add event delegation for data-action buttons
 document.addEventListener('DOMContentLoaded', () => {
+    // Event delegation for all buttons with data-action
+    document.addEventListener('click', (e) => {
+        const action = e.target.getAttribute('data-action');
+        if (action) {
+            const assignment = e.target.getAttribute('data-assignment');
+            const group = e.target.getAttribute('data-group');
+            
+            switch(action) {
+                case 'createNewAssignment':
+                    createNewAssignment();
+                    break;
+                case 'exportData':
+                    exportData();
+                    break;
+                case 'reviewSubmission':
+                    reviewSubmission(assignment);
+                    break;
+                case 'bulkReview':
+                    bulkReview(assignment);
+                    break;
+                case 'viewProject':
+                    viewProject(assignment);
+                    break;
+                case 'viewGroupProgress':
+                    viewGroupProgress(group);
+                    break;
+                case 'facilitateGroup':
+                    facilitateGroup(group);
+                    break;
+                case 'interveneGroup':
+                    interveneGroup(group);
+                    break;
+                case 'generateDoNow':
+                    generateDoNow();
+                    break;
+                case 'createRubric':
+                    createRubric();
+                    break;
+                case 'exportProgress':
+                    exportProgress();
+                    break;
+            }
+        }
+    });
+
     const logoutBtn = document.getElementById('logout-btn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
