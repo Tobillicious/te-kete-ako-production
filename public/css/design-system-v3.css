@@ -682,3 +682,93 @@ pre code {
 .shadow-md { box-shadow: var(--shadow-md) !important; }
 .rounded-md { border-radius: var(--radius-md) !important; }
 .rounded-lg { border-radius: var(--radius-lg) !important; }
+
+/* =================================================================
+   LAYOUT COMPONENTS - Essential Structure
+   ================================================================= */
+
+.main-container {
+    display: flex;
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    gap: var(--space-6);
+}
+
+.left-sidebar {
+    width: 300px;
+    flex-shrink: 0;
+    padding: var(--space-4);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-lg);
+    height: fit-content;
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-4));
+}
+
+.content-area {
+    flex: 1;
+    padding: var(--space-4);
+    min-width: 0; /* Prevent flex overflow */
+}
+
+.sidebar-widget {
+    margin-bottom: var(--space-6);
+    padding: var(--space-4);
+    background: var(--color-bg-primary);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--color-primary);
+}
+
+.sidebar-widget-title {
+    color: var(--color-primary);
+    font-size: var(--text-lg);
+    font-weight: var(--weight-bold);
+    margin-bottom: var(--space-3);
+}
+
+.sidebar-widget ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar-widget li {
+    margin-bottom: var(--space-2);
+}
+
+.sidebar-widget a {
+    color: var(--color-text-primary);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2);
+    border-radius: var(--radius-sm);
+    transition: all var(--duration-fast) var(--ease-out);
+}
+
+.sidebar-widget a:hover {
+    background: var(--color-bg-secondary);
+    color: var(--color-primary);
+    transform: translateX(4px);
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+        gap: var(--space-4);
+    }
+    
+    .left-sidebar {
+        width: 100%;
+        position: static;
+        order: 2;
+    }
+    
+    .content-area {
+        order: 1;
+        padding: var(--space-3);
+    }
+}
