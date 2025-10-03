@@ -4,6 +4,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Performance: Optimize rendering -->
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#1b4332">
+    <meta name="color-scheme" content="light">
+    <!-- Performance: DNS prefetch for external domains -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <!-- Performance: Preload critical resources -->
+    <link rel="preload" href="/css/te-kete-professional.css" as="style">
+    <link rel="preload" href="/js/te-kete-professional.js" as="script">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap&display=swap" as="style" crossorigin>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Te Kete Ako - Award-winning educational platform integrating mātauranga Māori with contemporary learning">
@@ -96,8 +108,8 @@
     
     
     
-    <link rel="stylesheet" href="../../../css/main.css"/>
-    <link rel="stylesheet" href="css/print.css" media="print"/>
+    <link rel="stylesheet" href="../../../css/main.css"/ media="all">
+    <link rel="stylesheet" href="/css/print.css" media="print"/ media="all">
     
 </head>
 <body>
@@ -122,7 +134,7 @@
     
     <div class="instrument-card">
         <h3>Pūtātara (Conch Shell Trumpet)</h3>
-        <img src="https://collections.tepapa.govt.nz/object/133056" alt="Pūtātara conch shell trumpet" width="300">
+        <img src="https://collections.tepapa.govt.nz/object/133056" loading="lazy" alt="Pūtātara conch shell trumpet" width="300">
         <p><strong>Sound Production:</strong> The pūtātara produces sound when air is blown through the mouthpiece, causing the air column inside the shell to vibrate. The spiral shape of the shell affects the resonance and timbre.</p>
         <p><strong>Cultural Use:</strong> Used for signaling, ceremonies, and to announce important events.</p>
         <div class="interactive">
@@ -133,7 +145,7 @@
     
     <div class="instrument-card">
         <h3>Kōauau (Flute)</h3>
-        <img src="https://collections.tepapa.govt.nz/object/133060" alt="Kōauau flute" width="300">
+        <img src="https://collections.tepapa.govt.nz/object/133060" loading="lazy" alt="Kōauau flute" width="300">
         <p><strong>Sound Production:</strong> Sound is created when air is blown across the top opening (like blowing across a bottle). The finger holes change the effective length of the air column, altering the pitch.</p>
         <p><strong>Cultural Use:</strong> Used for personal expression, love songs, and storytelling.</p>
         <div class="interactive">
@@ -144,7 +156,7 @@
     
     <div class="instrument-card">
         <h3>Pūrerehua (Bullroarer)</h3>
-        <img src="https://collections.tepapa.govt.nz/object/133065" alt="Pūrerehua bullroarer" width="300">
+        <img src="https://collections.tepapa.govt.nz/object/133065" loading="lazy" alt="Pūrerehua bullroarer" width="300">
         <p><strong>Sound Production:</strong> When spun through the air, the wooden blade vibrates, creating sound waves. The frequency depends on the speed of rotation and the size/shape of the blade.</p>
         <p><strong>Cultural Use:</strong> Used for communication over distances and in ceremonial contexts.</p>
         <div class="interactive">
@@ -329,6 +341,17 @@
     <p><strong>NZC Science:</strong> Physical World - Physical inquiry and physics concepts (Levels 4-5)</p>
     <p><strong>NZC Social Sciences:</strong> Understand how cultural practices vary but reflect similar purposes</p>
     <p><strong>Te Marautanga o Aotearoa:</strong> Pūtaiao - Te Ao Turoa (the natural world)</p>
+
+    <script>
+    // Register service worker for performance
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => console.log('SW registered'))
+                .catch(error => console.log('SW registration failed'));
+        });
+    }
+    </script>
 </body>
 </html>
 ```

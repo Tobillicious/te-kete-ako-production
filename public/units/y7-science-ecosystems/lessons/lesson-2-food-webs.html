@@ -2,6 +2,18 @@
 <html lang="en">
 
 <head>
+    <!-- Performance: Optimize rendering -->
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#1b4332">
+    <meta name="color-scheme" content="light">
+    <!-- Performance: DNS prefetch for external domains -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <!-- Performance: Preload critical resources -->
+    <link rel="preload" href="/css/te-kete-professional.css" as="style">
+    <link rel="preload" href="/js/te-kete-professional.js" as="script">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap&display=swap" as="style" crossorigin>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Te Kete Ako - Award-winning educational platform integrating mātauranga Māori with contemporary learning">
@@ -17,8 +29,8 @@
     
     
     
-    <link rel="stylesheet" href="../../../css/main.css"/>
-    <link rel="stylesheet" href="css/print.css" media="print"/>
+    <link rel="stylesheet" href="../../../css/main.css"/ media="all">
+    <link rel="stylesheet" href="/css/print.css" media="print"/ media="all">
     
 </head>
 
@@ -53,9 +65,20 @@
     </main>
 
     <script src="/vendor/supabase.min.js" defer></script>
-    <script src="js/env-config.js" defer></script>
-    <script src="js/supabase-client.js" defer></script>
-    <script src="js/auth-enhanced.js" defer></script>
+    <script src="/js/env-config.js" defer></script>
+    <script src="/js/supabase-client.js" defer></script>
+    <script src="/js/auth-enhanced.js" defer></script>
+
+    <script>
+    // Register service worker for performance
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => console.log('SW registered'))
+                .catch(error => console.log('SW registration failed'));
+        });
+    }
+    </script>
 </body>
 
 </html>

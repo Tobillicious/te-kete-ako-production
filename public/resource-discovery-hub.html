@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Performance: Optimize rendering -->
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#1b4332">
+    <meta name="color-scheme" content="light">
+    <!-- Performance: DNS prefetch for external domains -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <!-- Performance: Preload critical resources -->
+    <link rel="preload" href="/css/te-kete-professional.css" as="style">
+    <link rel="preload" href="/js/te-kete-professional.js" as="script">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap&display=swap" as="style" crossorigin>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resource Discovery Hub - Te Kete Ako V2.5</title>
@@ -222,7 +234,7 @@
                 <span><strong>150+</strong> Lessons</span>
                 <span><strong>All Levels</strong> Y1-Y13</span>
             </div>
-            <a href="lessons.html" class="wiley-btn wiley-btn-primary">Explore Lessons</a>
+            <a href="/lessons.html" class="wiley-btn wiley-btn-primary">Explore Lessons</a>
         </div>
 
         <!-- Handouts Category -->
@@ -234,7 +246,7 @@
                 <span><strong>200+</strong> Handouts</span>
                 <span><strong>Print Ready</strong></span>
             </div>
-            <a href="handouts.html" class="wiley-btn wiley-btn-primary">Browse Handouts</a>
+            <a href="/handouts.html" class="wiley-btn wiley-btn-primary">Browse Handouts</a>
         </div>
 
         <!-- Units Category -->
@@ -350,6 +362,17 @@
                 card.classList.add('wiley-content-card');
             });
         });
+    </script>
+
+    <script>
+    // Register service worker for performance
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => console.log('SW registered'))
+                .catch(error => console.log('SW registration failed'));
+        });
+    }
     </script>
 </body>
 </html>
