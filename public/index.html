@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Performance: Optimize rendering -->
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#1b4332">
+    <meta name="color-scheme" content="light">
+    <!-- Performance: DNS prefetch for external domains -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <!-- Performance: Preload critical resources -->
+    <link rel="preload" href="/css/te-kete-professional.css" as="style">
+    <link rel="preload" href="/js/te-kete-professional.js" as="script">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap&display=swap" as="style" crossorigin>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Te Kete Ako | Educational Resources Honoring Te Ao Māori</title>
@@ -10,10 +22,10 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="css/te-kete-professional.css"/>
-    <link rel="stylesheet" href="css/print.css" media="print"/>
+    <link rel="stylesheet" href="/css/te-kete-professional.css"/ media="all">
+    <link rel="stylesheet" href="/css/print.css" media="print"/ media="all">
     
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
@@ -22,78 +34,86 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Te Kete Ako">
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+
+    <style>
+    /* Critical CSS for above-the-fold content */
+    .site-header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); }
+    .hero-section { background: linear-gradient(135deg, #f0f8f0 0%, #f3f4f6 100%); padding: 4rem 0; }
+    .hero-title { font-size: 3rem; font-weight: 700; color: #1b4332; margin-bottom: 1rem; }
+    .nav-brand { font-size: 1.5rem; font-weight: 700; color: #1b4332; text-decoration: none; }
+    </style>
 </head>
 <body data-auto-init="true" data-current-page="home">
     <header class="site-header no-print">
         <div class="nav-container">
-            <a href="index.html" class="nav-brand">Te Kete Ako</a>
+            <a href="/index.html" class="nav-brand">Te Kete Ako</a>
             <nav class="main-nav">
                 <ul>
                     <li>
-                        <a href="unit-plans.html">
+                        <a href="/unit-plans.html">
                             <span class="nav-icon">📚</span>
                             <span class="nav-text-en">Unit Plans</span>
                             <span class="nav-text-mi" lang="mi">Ngā Waehere</span>
                         </a>
                     </li>
                     <li>
-                        <a href="lessons.html">
+                        <a href="/lessons.html">
                             <span class="nav-icon">📖</span>
                             <span class="nav-text-en">Lesson Plans</span>
                             <span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
                         </a>
                     </li>
                     <li>
-                        <a href="handouts.html">
+                        <a href="/handouts.html">
                             <span class="nav-icon">📄</span>
                             <span class="nav-text-en">Handouts</span>
                             <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
                         </a>
                     </li>
                     <li>
-                        <a href="activities.html">
+                        <a href="/activities.html">
                             <span class="nav-icon">⚡</span>
                             <span class="nav-text-en">Do Nows</span>
                             <span class="nav-text-mi" lang="mi">Mahi Whakakā</span>
                         </a>
                     </li>
                     <li>
-                        <a href="youtube.html">
+                        <a href="/youtube.html">
                             <span class="nav-icon">📺</span>
                             <span class="nav-text-en">YouTube</span>
                             <span class="nav-text-mi" lang="mi">YouTube</span>
                         </a>
                     </li>
                     <li>
-                        <a href="games.html">
+                        <a href="/games.html">
                             <span class="nav-icon">🎮</span>
                             <span class="nav-text-en">Games</span>
                             <span class="nav-text-mi" lang="mi">Ngā Kēmu</span>
                         </a>
                     </li>
                     <li>
-                        <a href="other-resources.html">
+                        <a href="/other-resources.html">
                             <span class="nav-icon">🔗</span>
                             <span class="nav-text-en">Other Resources</span>
                             <span class="nav-text-mi" lang="mi">Ētahi Atu Rauemi</span>
                         </a>
                     </li>
                     <li class="auth-nav my-kete-link auth-hidden">
-                        <a href="my-kete.html">
+                        <a href="/my-kete.html">
                             <span class="nav-icon">🧺</span>
                             <span class="nav-text-en">My Kete</span>
                             <span class="nav-text-mi" lang="mi">Taku Kete</span>
                         </a>
                     </li>
                     <li class="auth-nav">
-                        <a href="login.html" class="login-btn">
+                        <a href="/login.html" class="login-btn">
                             <span class="nav-icon">🔐</span>
                             <span class="nav-text-en">Login</span>
                             <span class="nav-text-mi" lang="mi">Takiuru</span>
                         </a>
                     </li>
                     <li class="auth-nav auth-hidden">
-                        <a href="register.html" class="register-btn">
+                        <a href="/register.html" class="register-btn">
                             <span class="nav-icon">📝</span>
                             <span class="nav-text-en">Register</span>
                             <span class="nav-text-mi" lang="mi">Rēhita</span>
@@ -109,22 +129,22 @@
             <div class="sidebar-widget">
                 <h3 class="sidebar-widget-title">🌟 Featured Resources</h3>
                 <ul>
-                    <li><a href="games/te-reo-wordle.html">🎮 Te Reo Māori Wordle</a></li>
+                    <li><a href="/games/te-reo-wordle.html">🎮 Te Reo Māori Wordle</a></li>
                     <li><a href="curriculum-v2.html">📋 Interactive Curriculum Browser</a></li>
                     <li><a href="y8-systems-unit.html">🏛️ Y8 Systems Unit (Complete)</a></li>
-                    <li><a href="handouts/media-literacy-comprehension-handout.html">📺 Media Literacy Handout</a></li>
-                    <li><a href="lessons/kaitiaki-generated-maori-migration-lesson.html">🌿 Māori Migration Lesson</a></li>
+                    <li><a href="/handouts/media-literacy-comprehension-handout.html">📺 Media Literacy Handout</a></li>
+                    <li><a href="/lessons/kaitiaki-generated-maori-migration-lesson.html">🌿 Māori Migration Lesson</a></li>
                 </ul>
             </div>
             
             <div class="sidebar-widget cultural-accent">
                 <h3 class="sidebar-widget-title">🚀 Quick Start</h3>
                 <ul>
-                    <li><a href="lessons.html">📖 Browse All Lessons</a></li>
-                    <li><a href="games.html">🎮 Interactive Games Hub</a></li>
-                    <li><a href="handouts.html">📄 Ready-to-Print Handouts</a></li>
-                    <li><a href="activities.html">⚡ 5-Minute Do Nows</a></li>
-                    <li><a href="youtube.html">📺 Curated Video Resources</a></li>
+                    <li><a href="/lessons.html">📖 Browse All Lessons</a></li>
+                    <li><a href="/games.html">🎮 Interactive Games Hub</a></li>
+                    <li><a href="/handouts.html">📄 Ready-to-Print Handouts</a></li>
+                    <li><a href="/activities.html">⚡ 5-Minute Do Nows</a></li>
+                    <li><a href="/youtube.html">📺 Curated Video Resources</a></li>
                 </ul>
             </div>
             
@@ -132,10 +152,10 @@
                 <h3 class="sidebar-widget-title">🎯 For Teachers</h3>
                 <ul>
                     <li><a href="curriculum-v2.html">📋 NZ Curriculum Reference</a></li>
-                    <li><a href="unit-plans.html">📚 Complete Unit Plans</a></li>
-                    <li><a href="units/unit-1-te-ao-maori.html">🌿 Te Ao Māori Unit</a></li>
+                    <li><a href="/unit-plans.html">📚 Complete Unit Plans</a></li>
+                    <li><a href="/units/unit-1-te-ao-maori.html">🌿 Te Ao Māori Unit</a></li>
                     <li><a href="professional-development/kaitiaki-aronui-capability-showcase.html">🧠 Professional Development</a></li>
-                    <li><a href="other-resources.html">🔗 Additional Resources</a></li>
+                    <li><a href="/other-resources.html">🔗 Additional Resources</a></li>
                 </ul>
             </div>
         </aside>
@@ -201,7 +221,7 @@
                     <p class="section-subtitle">Our most popular and comprehensive educational materials</p>
                 </div>
                 <div id="featured-resources-grid" class="featured-grid">
-                    <a href="curriculum-alignment.html" class="featured-card primary-card">
+                    <a href="/curriculum-alignment.html" class="featured-card primary-card">
                         <div class="card-icon">📋</div>
                         <div class="card-content">
                             <h3 class="card-title">NZ Curriculum Alignment</h3>
@@ -225,7 +245,7 @@
                         </div>
                         <div class="card-arrow">→</div>
                     </a>
-                    <a href="lessons/kaitiaki-generated-maori-migration-lesson.html" class="featured-card">
+                    <a href="/lessons/kaitiaki-generated-maori-migration-lesson.html" class="featured-card">
                         <div class="card-icon">🌿</div>
                         <div class="card-content">
                             <h3 class="card-title">Māori Migration Lesson</h3>
@@ -255,10 +275,21 @@
     </div>
 
     <!-- CRITICAL: Load Supabase client FIRST -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-client.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="/js/supabase-client.js"></script>
     
     <!-- Professional JavaScript System -->
-    <script src="js/te-kete-professional.js"></script>
+    <script src="/js/te-kete-professional.js"></script>
+
+    <script>
+    // Register service worker for performance
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => console.log('SW registered'))
+                .catch(error => console.log('SW registration failed'));
+        });
+    }
+    </script>
 </body>
 </html>
