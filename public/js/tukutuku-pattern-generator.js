@@ -64,6 +64,7 @@ class TukutukuPatternGenerator {
             diamond: {
                 name: 'Pātikitiki',
                 meaning: 'Diamond pattern representing abundance and prosperity',
+                maoriWords: ['pātikitiki', 'taonga', 'whairawa', 'hua'],
                 coordinates: [
                     [0, -20], [20, 0], [0, 20], [-20, 0]
                 ]
@@ -71,6 +72,7 @@ class TukutukuPatternGenerator {
             triangle: {
                 name: 'Niho Taniwha',
                 meaning: 'Taniwha teeth pattern representing strength and protection',
+                maoriWords: ['taniwha', 'mana', 'kaha', 'taupua'],
                 coordinates: [
                     [0, -20], [15, 15], [-15, 15]
                 ]
@@ -78,6 +80,7 @@ class TukutukuPatternGenerator {
             cross: {
                 name: 'Tawhiri',
                 meaning: 'Four winds pattern representing the cardinal directions and balance',
+                maoriWords: ['tawhiri', 'hau', 'rangi', 'whenua'],
                 coordinates: [
                     [0, -20], [5, -5], [20, 0], [5, 5], [0, 20], [-5, 5], [-20, 0], [-5, -5]
                 ]
@@ -85,6 +88,7 @@ class TukutukuPatternGenerator {
             chevron: {
                 name: 'Roimata Toroa',
                 meaning: 'Albatross tears representing peace and tranquility',
+                maoriWords: ['roimata', 'toroa', 'rangimarie', 'ataahua'],
                 coordinates: [
                     [-10, -15], [0, -25], [10, -15], [10, 15], [0, 25], [-10, 15]
                 ]
@@ -530,6 +534,10 @@ class TukutukuPatternGenerator {
                 <li><strong>Transformation:</strong> Practical application of geometric transformations for aesthetic and symbolic purposes</li>
                 <li><strong>Coordinate Systems:</strong> Implicit understanding of spatial relationships and positioning</li>
             </ul>
+            <h4>🌿 Related Māori Words</h4>
+            <div class="maori-words-display">
+                ${this.displayPatternWords(pattern)}
+            </div>
         `;
     }
 
@@ -744,6 +752,142 @@ class TukutukuPatternGenerator {
         if (this.learningProgress.interactions >= 20) achievements.push('engaged-explorer');
         
         return achievements;
+    }
+
+    // Display Māori words related to the current pattern
+    displayPatternWords(pattern) {
+        if (!pattern.maoriWords) return '<p>No related words available.</p>';
+        
+        const words = pattern.maoriWords.map(word => {
+            return `
+                <span class="maori-word-item" style="
+                    display: inline-block;
+                    background: var(--color-secondary);
+                    color: white;
+                    padding: 0.3rem 0.8rem;
+                    margin: 0.2rem;
+                    border-radius: 15px;
+                    font-size: 0.9rem;
+                    cursor: pointer;
+                    transition: transform 0.2s ease;
+                " 
+                onclick="patternGenerator.showWordDefinition('${word}')"
+                onmouseover="this.style.transform='scale(1.05)'"
+                onmouseout="this.style.transform='scale(1)'"
+                title="Click to hear pronunciation and see definition">
+                    ${word}
+                </span>
+            `;
+        }).join('');
+        
+        return `<div style="margin-top: 1rem;">${words}</div>`;
+    }
+
+    // Show word definition and pronunciation
+    async showWordDefinition(word) {
+        if (window.maoriDictionaryAPI) {
+            try {
+                const definition = await window.maoriDictionaryAPI.getWordDefinition(word.toUpperCase());
+                if (definition) {
+                    this.showDefinitionPopup(word, definition);
+                } else {
+                    this.showMessage(`Word "${word}" found in pattern context, but no detailed definition available.`, 'info');
+                }
+            } catch (error) {
+                this.showMessage(`Word "${word}" is related to this pattern. Try the Māori Dictionary API for more details.`, 'info');
+            }
+        } else {
+            this.showMessage(`"${word}" - a Māori word related to this traditional pattern.`, 'info');
+        }
+    }
+
+    // Enhanced definition popup for pattern words
+    showDefinitionPopup(word, definition) {
+        const popup = document.createElement('div');
+        popup.className = 'definition-popup';
+        popup.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border: 2px solid var(--color-primary);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            z-index: 1000;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        `;
+        
+        popup.innerHTML = `
+            <div style="margin-bottom: 1rem;">
+                <h3 style="margin: 0 0 1rem 0; color: var(--color-primary); font-size: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 1rem;">
+                    <span>${word.toUpperCase()}</span>
+                    <button onclick="patternGenerator.speakMaoriWord('${word}', '${definition.pronunciation || ''}')"
+                            style="background: var(--color-secondary); color: white; border: none; border-radius: 20px; padding: 0.5rem 1rem; cursor: pointer;"
+                            title="Listen to pronunciation">
+                        🔊 Whakarongo
+                    </button>
+                </h3>
+                <p style="margin: 0 0 1rem 0; font-size: 1.1rem;"><strong>Meaning:</strong> ${definition.meaning}</p>
+                ${definition.example ? `<p style="margin: 0 0 1rem 0; font-style: italic;"><strong>Example:</strong> ${definition.example}</p>` : ''}
+                ${definition.pronunciation ? `<p style="margin: 0 0 1rem 0; color: var(--color-secondary); font-style: italic;"><strong>Pronunciation:</strong> ${definition.pronunciation}</p>` : ''}
+                <div style="margin-top: 1rem; padding: 1rem; background: rgba(184, 134, 11, 0.1); border-radius: 6px; border-left: 4px solid var(--color-secondary);">
+                    <p style="margin: 0; font-style: italic; color: var(--color-secondary);">
+                        <strong>🌟 Pattern Connection:</strong> This word is culturally connected to the ${this.patterns[this.settings.basePattern].name} pattern, showing how language and art are intertwined in Māori culture.
+                    </p>
+                </div>
+            </div>
+            <button onclick="patternGenerator.closeDefinitionPopup()" 
+                    style="background: var(--color-primary); color: white; border: none; border-radius: 6px; padding: 0.8rem 1.5rem; cursor: pointer; font-size: 1rem;">
+                Ka rawe! (Awesome!)
+            </button>
+        `;
+        
+        document.body.appendChild(popup);
+        
+        // Close on background click
+        popup.addEventListener('click', (e) => {
+            if (e.target === popup) {
+                this.closeDefinitionPopup();
+            }
+        });
+    }
+
+    // Close definition popup
+    closeDefinitionPopup() {
+        const popup = document.querySelector('.definition-popup');
+        if (popup) {
+            popup.remove();
+        }
+    }
+
+    // Māori pronunciation using Web Speech API
+    speakMaoriWord(word, pronunciation) {
+        if ('speechSynthesis' in window) {
+            const utterance = new SpeechSynthesisUtterance(word);
+            utterance.lang = 'mi-NZ'; // Māori language code
+            utterance.rate = 0.7; // Slower for learning
+            utterance.pitch = 1.0;
+            
+            // Try to find a Māori voice if available
+            const voices = speechSynthesis.getVoices();
+            const maoriVoice = voices.find(voice => 
+                voice.lang.includes('mi') || 
+                voice.name.toLowerCase().includes('maori') ||
+                voice.name.toLowerCase().includes('māori')
+            );
+            
+            if (maoriVoice) {
+                utterance.voice = maoriVoice;
+            }
+            
+            speechSynthesis.speak(utterance);
+        } else {
+            console.log('Speech synthesis not supported');
+        }
     }
 }
 
