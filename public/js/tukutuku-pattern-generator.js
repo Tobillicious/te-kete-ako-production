@@ -16,6 +16,15 @@ class TukutukuPatternGenerator {
         this.canvas.width = 800;
         this.canvas.height = 600;
 
+        // Enhanced features
+        this.learningProgress = {
+            patternsExplored: new Set(),
+            transformationsUsed: new Set(),
+            animationsWatched: 0,
+            patternsSaved: 0,
+            interactions: 0
+        };
+
         // Pattern settings
         this.settings = {
             basePattern: 'diamond',
@@ -117,6 +126,26 @@ class TukutukuPatternGenerator {
         this.bindEvents();
         this.draw();
         this.updateCulturalInfo();
+        
+        // Initialize gamification systems
+        this.initializeGamification();
+    }
+
+    initializeGamification() {
+        // Initialize gamification system if available
+        if (window.gamificationSystem) {
+            window.gamificationSystem.startGameSession('tukutuku-explorer', {
+                difficulty: 'medium',
+                learningObjectives: ['geometry', 'transformations', 'cultural-mathematics', 'pattern-recognition']
+            });
+        }
+        
+        // Initialize adaptive difficulty if available
+        if (window.adaptiveDifficulty) {
+            window.adaptiveDifficulty.startSession('tukutuku-explorer');
+        }
+        
+        this.startTime = Date.now();
     }
 
     createControls() {
@@ -195,14 +224,20 @@ class TukutukuPatternGenerator {
         // Pattern and transformation selection
         document.getElementById('basePattern').addEventListener('change', (e) => {
             this.settings.basePattern = e.target.value;
+            this.learningProgress.patternsExplored.add(e.target.value);
+            this.learningProgress.interactions++;
             this.draw();
             this.updateCulturalInfo();
+            this.updateProgressDisplay();
         });
 
         document.getElementById('transformation').addEventListener('change', (e) => {
             this.settings.transformation = e.target.value;
+            this.learningProgress.transformationsUsed.add(e.target.value);
+            this.learningProgress.interactions++;
             this.draw();
             this.updateCulturalInfo();
+            this.updateProgressDisplay();
         });
 
         // Visual settings
@@ -501,6 +536,10 @@ class TukutukuPatternGenerator {
     startAnimation() {
         if (this.animationId) return;
 
+        this.learningProgress.animationsWatched++;
+        this.learningProgress.interactions++;
+        this.updateProgressDisplay();
+
         const animate = () => {
             this.animationStep += this.settings.animationSpeed;
             this.draw();
@@ -539,6 +578,11 @@ class TukutukuPatternGenerator {
         link.href = this.canvas.toDataURL();
         link.click();
 
+        // Track progress
+        this.learningProgress.patternsSaved++;
+        this.learningProgress.interactions++;
+        this.updateProgressDisplay();
+
         // Also save pattern details as JSON
         const patternData = {
             pattern: this.settings.basePattern,
@@ -551,8 +595,30 @@ class TukutukuPatternGenerator {
                 transformationName: this.transformations[this.settings.transformation].name,
                 transformationDescription: this.transformations[this.settings.transformation].description
             },
+            learningProgress: {
+                patternsExplored: Array.from(this.learningProgress.patternsExplored),
+                transformationsUsed: Array.from(this.learningProgress.transformationsUsed),
+                animationsWatched: this.learningProgress.animationsWatched,
+                patternsSaved: this.learningProgress.patternsSaved,
+                interactions: this.learningProgress.interactions
+            },
             timestamp: new Date().toISOString()
         };
+
+        // Save JSON data
+        const jsonLink = document.createElement('a');
+        jsonLink.download = `tukutuku-data-${Date.now()}.json`;
+        jsonLink.href = 'data:application/json,' + encodeURIComponent(JSON.stringify(patternData, null, 2));
+        jsonLink.click();
+
+        // Track with gamification
+        if (window.gamificationSystem) {
+            window.gamificationSystem.recordAchievement('pattern-creator', {
+                patternType: this.settings.basePattern,
+                transformation: this.settings.transformation,
+                culturalSignificance: this.patterns[this.settings.basePattern].meaning
+            });
+        }
 
         // Show success message
         this.showMessage('Pattern saved! You can use this in your mathematics portfolio.', 'success');
@@ -606,6 +672,78 @@ class TukutukuPatternGenerator {
         setTimeout(() => {
             messageDiv.style.display = 'none';
         }, 3000);
+    }
+
+    updateProgressDisplay() {
+        const progressDiv = document.querySelector('.progress-indicator');
+        if (progressDiv) {
+            const completionPercentage = Math.round(
+                ((this.learningProgress.patternsExplored.size / 4) * 25) +
+                ((this.learningProgress.transformationsUsed.size / 4) * 25) +
+                (Math.min(this.learningProgress.animationsWatched / 5, 1) * 25) +
+                (Math.min(this.learningProgress.patternsSaved / 3, 1) * 25)
+            );
+
+            progressDiv.innerHTML = `
+                <h4>🏆 Learning Progress: ${completionPercentage}%</h4>
+                <div style="background: #ddd; border-radius: 10px; height: 20px; margin: 0.5rem 0;">
+                    <div style="background: var(--color-accent); height: 100%; width: ${completionPercentage}%; border-radius: 10px; transition: width 0.3s ease;"></div>
+                </div>
+                <p>Patterns explored: ${this.learningProgress.patternsExplored.size}/4 | Transformations used: ${this.learningProgress.transformationsUsed.size}/4 | Animations watched: ${this.learningProgress.animationsWatched} | Patterns saved: ${this.learningProgress.patternsSaved}</p>
+                <p><strong>💡 Tip:</strong> Click on the canvas to see coordinates! Try different combinations of patterns and transformations to discover mathematical relationships.</p>
+            `;
+        }
+
+        // Track with adaptive difficulty
+        if (window.adaptiveDifficulty) {
+            window.adaptiveDifficulty.recordProgress({
+                gameType: 'tukutuku-explorer',
+                patternsExplored: this.learningProgress.patternsExplored.size,
+                transformationsUsed: this.learningProgress.transformationsUsed.size,
+                animationsWatched: this.learningProgress.animationsWatched,
+                patternsSaved: this.learningProgress.patternsSaved,
+                interactions: this.learningProgress.interactions,
+                timeSpent: Date.now() - this.startTime
+            });
+        }
+    }
+
+    endSession() {
+        // Track final session data with gamification
+        if (window.gamificationSystem) {
+            window.gamificationSystem.endGameSession({
+                patternsExplored: this.learningProgress.patternsExplored.size,
+                transformationsUsed: this.learningProgress.transformationsUsed.size,
+                animationsWatched: this.learningProgress.animationsWatched,
+                patternsSaved: this.learningProgress.patternsSaved,
+                interactions: this.learningProgress.interactions,
+                timeSpent: Date.now() - this.startTime,
+                achievements: this.calculateAchievements()
+            });
+        }
+
+        // Track with adaptive difficulty
+        if (window.adaptiveDifficulty) {
+            window.adaptiveDifficulty.recordPerformance({
+                gameType: 'tukutuku-explorer',
+                completionRate: (this.learningProgress.patternsExplored.size + this.learningProgress.transformationsUsed.size) / 8,
+                engagementLevel: this.learningProgress.interactions,
+                creativityScore: this.learningProgress.patternsSaved,
+                difficulty: 'medium'
+            });
+        }
+    }
+
+    calculateAchievements() {
+        const achievements = [];
+        
+        if (this.learningProgress.patternsExplored.size >= 4) achievements.push('pattern-explorer');
+        if (this.learningProgress.transformationsUsed.size >= 4) achievements.push('transformation-master');
+        if (this.learningProgress.animationsWatched >= 5) achievements.push('visual-learner');
+        if (this.learningProgress.patternsSaved >= 3) achievements.push('creative-mathematician');
+        if (this.learningProgress.interactions >= 20) achievements.push('engaged-explorer');
+        
+        return achievements;
     }
 }
 
