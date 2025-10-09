@@ -1,216 +1,418 @@
-# **Creative Writing Inspired by Whakataukī**  
-**Year Level:** Years 8-10  
-**Subject:** English  
-**Cultural Context:** Traditional wisdom in modern expression  
-
----
-
-## **Complete HTML Content for Classroom Use**  
+# Creative Writing Inspired by Whakataukī
 
 ```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Performance: Optimize rendering -->
-    <meta name="format-detection" content="telephone=no">
-    <meta name="theme-color" content="#1b4332">
-    <meta name="color-scheme" content="light">
-    <!-- Performance: DNS prefetch for external domains -->
-    <link rel="dns-prefetch" href="//fonts.googleapis.com">
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
-    <!-- Performance: Preload critical resources -->
-    <link rel="preload" href="/css/te-kete-professional.css" as="style">
-    <link rel="preload" href="/js/te-kete-professional.js" as="script">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap&display=swap" as="style" crossorigin>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Te Kete Ako - Award-winning educational platform integrating mātauranga Māori with contemporary learning">
-    <meta name="keywords" content="education, māori, indigenous, ai, learning, new zealand">
-    <meta name="author" content="Te Kete Ako">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Creative Writing Inspired by Whakataukī</title>
     <style>
+        :root {
+            --primary-color: #0057B7;
+            --secondary-color: #D82C20;
+            --accent-color: #F6C026;
+            --light-color: #F5F5F5;
+            --dark-color: #333333;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
+            background-color: var(--light-color);
+            color: var(--dark-color);
             line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto;
             padding: 20px;
-            background-color: #f9f9f9;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        h1, h2, h3 {
-            color: #2c3e50;
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-        .whakatauki-box {
-            background-color: #e8f4f8;
-            border-left: 5px solid #3498db;
-            padding: 15px;
-            margin: 20px 0;
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin: 25px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--accent-color);
+        }
+        
+        h3 {
+            color: var(--secondary-color);
+            margin: 20px 0 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
             font-style: italic;
         }
-        .activity {
-            background-color: #fff;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px var(--shadow-md);
+        
+        .container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             margin-bottom: 20px;
         }
-        .btn {
-            display: inline-block;
-            padding: 10px 15px;
-            background-color: #3498db;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin: 10px 0;
+        
+        .card-highlight {
+            border-left: 5px solid var(--accent-color);
         }
-        .btn:hover {
-            background-color: #2980b9;
+        
+        .card-caution {
+            border-left: 5px solid var(--secondary-color);
+        }
+        
+        .whakatauki-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .whakatauki-card {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            transition: transform 0.3s ease;
+        }
+        
+        .whakatauki-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .whakatauki-maori {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .whakatauki-english {
+            font-style: italic;
+            color: var(--dark-color);
+        }
+        
+        .whakatauki-meaning {
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .activity {
+            background-color: #e8f4f8;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .interactive-element {
+            background-color: #f0f7ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px dashed var(--primary-color);
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            margin: 5px;
+        }
+        
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            min-height: 100px;
+            margin: 10px 0;
+            font-family: inherit;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .teacher-notes {
+            background-color: #fff8e1;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 5px solid var(--accent-color);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .whakatauki-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
         }
     </style>
-
-
-
-
-
-    
-    
-    
-    
-    <link rel="stylesheet" href="../../../css/main.css"/ media="all">
-    <link rel="stylesheet" href="/css/print.css" media="print"/ media="all">
-    
 </head>
 <body>
-    <h1 class="wiley-hero-title">Creative Writing Inspired by Whakataukī</h1>
+    <header>
+        <h1>Creative Writing Inspired by Whakataukī</h1>
+        <p class="subtitle">Traditional wisdom in modern expression</p>
+    </header>
     
-    <div class="whakatauki-box">
-        <p><strong>Whakataukī (Māori proverb):</strong> "Ehara tāku toa i te toa takitahi, engari he toa takitini."<br>
-        <em>"My strength is not as an individual, but as a collective."</em></p>
-    </div>
-
-    <h2 class="wiley-section-title">Learning Objectives</h2>
-    <ul>
-        <li>Understand the meaning and significance of whakataukī in Te Ao Māori.</li>
-        <li>Analyse how traditional wisdom can inspire modern creative writing.</li>
-        <li>Write a short story, poem, or personal reflection inspired by a whakataukī.</li>
-        <li>Reflect on how cultural perspectives shape storytelling.</li>
-    </ul>
-
-    <h2 class="wiley-section-title">Cultural Context & Safety Notes</h2>
-    <p><strong>Whakataukī</strong> are traditional Māori proverbs that carry deep wisdom, values, and lessons. They are often used in speeches, education, and daily life to guide behaviour and thinking.</p>
-    <p><strong>Cultural Safety:</strong></p>
-    <ul>
-        <li>Always pronounce Māori words correctly—ask for help if unsure.</li>
-        <li>Treat whakataukī with respect, as they hold cultural significance.</li>
-        <li>Encourage students to explore meanings but avoid misrepresentation.</li>
-    </ul>
-
-    <h2 class="wiley-section-title">Activity: Writing with Whakataukī</h2>
-    <div class="activity">
-        <h3>Step 1: Explore Whakataukī</h3>
-        <p>Read the following whakataukī and discuss their meanings:</p>
-        <ul>
-            <li><strong>"He aha te mea nui o te ao? He tāngata, he tāngata, he tāngata."</strong><br>
-            <em>"What is the most important thing in the world? It is people, it is people, it is people."</em></li>
-            <li><strong>"Kia kaha, kia māia, kia manawanui."</strong><br>
-            <em>"Be strong, be brave, be steadfast."</em></li>
-        </ul>
+    <div class="container">
+        <div class="card card-highlight">
+            <h2>Learning Objectives</h2>
+            <p>By the end of this lesson, students will be able to:</p>
+            <ul>
+                <li>Understand the purpose and significance of whakataukī in Te Ao Māori</li>
+                <li>Analyse how whakataukī convey wisdom through metaphor and imagery</li>
+                <li>Create original creative writing pieces inspired by whakataukī</li>
+                <li>Apply literary techniques such as metaphor, simile, and symbolism</li>
+                <li>Reflect on personal connections to the wisdom in whakataukī</li>
+            </ul>
+            <p><strong>NZ Curriculum Links:</strong> English Level 4-5, Social Sciences, The Arts</p>
+        </div>
         
-        <h3>Step 2: Choose & Reflect</h3>
-        <p>Select one whakataukī that resonates with you. Write a short reflection on what it means to you.</p>
+        <div class="card card-caution">
+            <h2>Cultural Context & Safety Notes</h2>
+            <p><strong>Cultural Context:</strong> Whakataukī (proverbs) are treasured expressions of Māori wisdom that have been passed down through generations. They encapsulate worldviews, values, and guidance for living well. Each whakataukī connects to specific cultural knowledge, historical events, or ancestral teachings.</p>
+            <p><strong>Cultural Safety:</strong></p>
+            <ul>
+                <li>Whakataukī should be treated with respect as they carry ancestral wisdom</li>
+                <li>When interpreting whakataukī, acknowledge there may be multiple valid interpretations</li>
+                <li>Always attribute whakataukī appropriately when using them</li>
+                <li>Be mindful that some whakataukī may have deeper cultural significance than surface translations suggest</li>
+                <li>Encourage students to approach whakataukī with curiosity and respect for their origins</li>
+            </ul>
+        </div>
         
-        <h3>Step 3: Creative Writing</h3>
-        <p>Write a short story, poem, or personal narrative inspired by your chosen whakataukī. Consider:</p>
-        <ul>
-            <li>How does the whakataukī connect to your own experiences?</li>
-            <li>Can you create a fictional story that embodies its message?</li>
-        </ul>
+        <div class="card">
+            <h2>Understanding Whakataukī</h2>
+            <p>Whakataukī are poetic expressions of wisdom in Te Reo Māori. They often use nature metaphors and ancestral references to convey deeper meanings about life, relationships, and values.</p>
+            
+            <div class="whakatauki-container">
+                <div class="whakatauki-card">
+                    <div class="whakatauki-maori">Ehara tāku toa i te toa takitahi, engari he toa takitini</div>
+                    <div class="whakatauki-english">My strength is not that of an individual, but that of the collective</div>
+                    <div class="whakatauki-meaning">This whakataukī emphasizes the importance of community and collaboration over individual achievement.</div>
+                </div>
+                
+                <div class="whakatauki-card">
+                    <div class="whakatauki-maori">Kāore te kūmara e kōrero mō tōna ake reka</div>
+                    <div class="whakatauki-english">The kūmara (sweet potato) does not speak of its own sweetness</div>
+                    <div class="whakatauki-meaning">This teaches humility - we should not boast about our own abilities or achievements.</div>
+                </div>
+                
+                <div class="whakatauki-card">
+                    <div class="whakatauki-maori">He kōtuku rerenga tahi</div>
+                    <div class="whakatauki-english">The white heron of a single flight</div>
+                    <div class="whakatauki-meaning">This refers to something rare and special that occurs only once, like a distinguished visitor.</div>
+                </div>
+                
+                <div class="whakatauki-card">
+                    <div class="whakatauki-maori">Ki te kotahi te kākaho, ka whati; ki te kāpuia, e kore e whati</div>
+                    <div class="whakatauki-english">If a reed stands alone, it can be broken; if it is in a group, it cannot be broken</div>
+                    <div class="whakatauki-meaning">This emphasizes the strength found in unity and working together.</div>
+                </div>
+            </div>
+            
+            <div class="interactive-element">
+                <h3>Explore Whakataukī Meanings</h3>
+                <p>Select a whakataukī to explore its deeper meaning:</p>
+                <button onclick="showMeaning(1)">Whakataukī 1</button>
+                <button onclick="showMeaning(2)">Whakataukī 2</button>
+                <button onclick="showMeaning(3)">Whakataukī 3</button>
+                <button onclick="showMeaning(4)">Whakataukī 4</button>
+                
+                <div id="meaning-display" style="margin-top: 15px; padding: 10px; background-color: white; border-radius: 5px; min-height: 50px;">
+                    <p>Select a whakataukī to see its cultural significance and interpretation.</p>
+                </div>
+            </div>
+        </div>
         
-        <a href="#" class="btn">Share Your Writing</a>
-    </div>
-
-    <h2 class="wiley-section-title">Assessment Suggestions</h2>
-    <ul>
-        <li><strong>Completion & Effort:</strong> Did the student engage with the whakataukī and produce a piece of writing?</li>
-        <li><strong>Depth of Reflection:</strong> Does the writing show understanding of the whakataukī’s meaning?</li>
-        <li><strong>Creativity & Originality:</strong> Is the writing imaginative and unique?</li>
-    </ul>
-
-    <h2 class="wiley-section-title">Extension Activities</h2>
-    <ul>
-        <li><strong>Whakataukī Art:</strong> Create a visual artwork (digital or hand-drawn) that represents your chosen whakataukī.</li>
-        <li><strong>Oral Storytelling:</strong> Present your story aloud, using expressive language and gestures.</li>
-        <li><strong>Comparative Study:</strong> Compare a whakataukī with a proverb from another culture. How are they similar or different?</li>
-    </ul>
-
-    <h2 class="wiley-section-title">Adaptations for Different Learners</h2>
-    <ul>
-        <li><strong>Struggling Writers:</strong> Provide sentence starters or allow verbal storytelling.</li>
-        <li><strong>Advanced Writers:</strong> Challenge them to write in multiple genres (e.g., a poem AND a short story).</li>
-        <li><strong>ESOL Students:</strong> Offer translations and encourage writing in their first language if helpful.</li>
-    </ul>
-
-    <script>
-    // Register service worker for performance
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js')
-                .then(registration => console.log('SW registered'))
-                .catch(error => console.log('SW registration failed'));
-        });
-    }
-    </script>
-</body>
-</html>
-```
-
----
-
-## **Teacher Implementation Guide**  
-
-### **Step-by-Step Lesson Plan**  
-
-1. **Introduction (10 mins)**  
-   - Discuss the concept of whakataukī and their role in Māori culture.  
-   - Show examples and ask students to interpret meanings.  
-
-2. **Whakataukī Exploration (15 mins)**  
-   - Students read and discuss provided whakataukī in pairs.  
-   - Facilitate a class discussion on possible interpretations.  
-
-3. **Writing Activity (25 mins)**  
-   - Students choose one whakataukī and write a reflection or creative piece.  
-   - Encourage peer sharing for feedback.  
-
-4. **Sharing & Reflection (10 mins)**  
-   - Volunteers read their work aloud (optional).  
-   - Discuss how traditional wisdom connects to modern life.  
-
----
-
-## **Assessment Rubric**  
-
-| **Criteria**               | **Achieved (1-2)** | **Developing (3-4)** | **Excelling (5)** |
-|----------------------------|-------------------|---------------------|------------------|
-| Engagement with Whakataukī | Minimal reflection | Clear understanding | Deep, personal connection |
-| Creativity in Writing      | Basic response    | Some originality    | Highly imaginative |
-| Cultural Respect           | Mispronunciations | Mostly accurate     | Respectful & accurate |
-
----
-
-## **Extension Activities**  
-
-- **Whakataukī Debate:** Students argue for the relevance of a chosen whakataukī in today’s world.  
-- **Digital Storytelling:** Create a short video or slideshow interpreting a whakataukī.  
-
----
-
-## **Adaptations for Diverse Learners**  
-
-- **Visual Learners:** Use images alongside whakataukī.  
-- **Kinesthetic Learners:** Act out stories inspired by the proverbs.  
-- **Auditory Learners:** Record spoken reflections instead of writing.  
-
-This resource is ready for immediate classroom use, culturally respectful, and accessible for all learners. **Ka pai!** 👏
+        <div class="card">
+            <h2>Creative Writing Activities</h2>
+            
+            <div class="activity">
+                <h3>Activity 1: Whakataukī Story Creation</h3>
+                <p>Choose one whakataukī that resonates with you. Write a short story (300-500 words) that illustrates the wisdom in this whakataukī through characters and events.</p>
+                <p><strong>Steps:</strong></p>
+                <ol>
+                    <li>Select a whakataukī that speaks to you</li>
+                    <li>Brainstorm how this wisdom could be shown through a narrative</li>
+                    <li>Create characters who embody or learn this wisdom</li>
+                    <li>Develop a plot where this wisdom is tested or proven</li>
+                    <li>Write your story, making sure to show rather than tell the wisdom</li>
+                </ol>
+                <textarea placeholder="Write your story here..."></textarea>
+            </div>
+            
+            <div class="activity">
+                <h3>Activity 2: Modern Whakataukī Creation</h3>
+                <p>Create your own modern whakataukī that conveys wisdom relevant to today's world. Consider issues like digital citizenship, environmental awareness, or social relationships.</p>
+                <p><strong>Steps:</strong></p>
+                <ol>
+                    <li>Identify a piece of wisdom you want to share</li>
+                    <li>Think of a metaphor or imagery that could represent this wisdom</li>
+                    <li>Write your whakataukī in both English and (if possible) Te Reo Māori</li>
+                    <li>Write a brief explanation of its meaning</li>
+                </ol>
+                <textarea placeholder="Write your modern whakataukī here..."></textarea>
+            </div>
+            
+            <div class="activity">
+                <h3>Activity 3: Whakataukī Poetry</h3>
+                <p>Write a poem inspired by the imagery and wisdom of a whakataukī. Your poem can be in any form (free verse, haiku, etc.) but should reflect the essence of the original whakataukī.</p>
+                <p><strong>Steps:</strong></p>
+                <ol>
+                    <li>Select a whakataukī with strong imagery</li>
+                    <li>Identify the key metaphors and symbols</li>
+                    <li>Brainstorm related images and emotions</li>
+                    <li>Write your poem, focusing on sensory details</li>
+                </ol>
+                <textarea placeholder="Write your poem here..."></textarea>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Assessment Suggestions</h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Criteria</th>
+                        <th>Developing (1-2)</th>
+                        <th>Proficient (3-4)</th>
+                        <th>Advanced (5-6)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Understanding of Whakataukī</strong></td>
+                        <td>Basic recognition of whakataukī meaning</td>
+                        <td>Clear understanding and interpretation of whakataukī</td>
+                        <td>Deep, nuanced understanding with cultural sensitivity</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Creative Expression</strong></td>
+                        <td>Simple connection to whakataukī theme</td>
+                        <td>Effective creative interpretation of whakataukī wisdom</td>
+                        <td>Innovative, powerful creative expression that expands on whakataukī</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Use of Literary Techniques</strong></td>
+                        <td>Limited use of metaphor, imagery, or symbolism</td>
+                        <td>Effective use of literary techniques to convey meaning</td>
+                        <td>Sophisticated, purposeful use of literary techniques</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Personal Reflection</strong></td>
+                        <td>Minimal personal connection to whakataukī</td>
+                        <td>Clear personal reflection on whakataukī relevance</td>
+                        <td>Insightful reflection connecting whakataukī to broader life experiences</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p><strong>Alternative Assessment Options:</strong></p>
+            <ul>
+                <li>Oral presentation explaining their creative piece and its connection to whakataukī</li>
+                <li>Digital story combining written text with visual elements</li>
+                <li>Peer assessment with guided feedback templates</li>
+                <li>Learning journal documenting the creative process</li>
+            </ul>
+        </div>
+        
+        <div class="card">
+            <h2>Extension Activities</h2>
+            
+            <div class="activity">
+                <h3>Extension 1: Whakataukī Anthology</h3>
+                <p>Create a collection of 5-7 original whakataukī with accompanying explanations and creative writing pieces. Organize them thematically and design the anthology as a published work.</p>
+            </div>
+            
+            <div class="activity">
+                <h3>Extension 2: Cross-Cultural Proverb Study</h3>
+                <p>Research proverbs from other cultures that share similar wisdom to Māori whakataukī. Create a comparative analysis exploring how different cultures express universal truths.</p>
+            </div>
+            
+            <div class="activity">
+                <h3>Extension 3: Whakataukī Performance</h3>
+                <p>Adapt your creative writing into a performance piece (spoken word, short play, or digital storytelling). Consider how voice, movement, and visual elements can enhance the whakataukī's message.</p>
+            </div>
+        </div>
+        
+        <div class="teacher-notes">
+            <h2>Teacher Implementation Guide</h2>
+            
+            <h3>Before the Lesson:</h3>
+            <ul>
+                <li>Familiarize yourself with the whakataukī included in this resource</li>
+                <li>Prepare examples of creative writing inspired by proverbs or wisdom sayings</li>
+                <li>Consider inviting a Māori elder or cultural advisor to introduce whakataukī (if appropriate and available)</li>
+                <li>Prepare any necessary technology for digital activities</li>
+            </ul>
+            
+            <h3>Lesson Sequence (Suggested 3-4 sessions):</h3>
+            <ol>
+                <

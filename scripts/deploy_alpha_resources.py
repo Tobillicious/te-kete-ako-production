@@ -243,7 +243,7 @@ def create_deployment_report(deployed_resources):
         'handouts_deployed': len([r for r in deployed_resources if r['type'] == 'handout']),
         'lessons_deployed': len([r for r in deployed_resources if r['type'] == 'lesson']),
         'deployment_status': 'SUCCESS',
-        'api_source': 'DeepSeek API (sk-103cb83572a346e2aef89e2d2a4f7f89)',
+        'api_source': 'DeepSeek API',
         'cultural_integration': 'Te Ao Māori perspectives integrated',
         'platform_compatibility': 'Chromebook optimized',
         'resources': deployed_resources
@@ -268,7 +268,7 @@ def create_deployment_report(deployed_resources):
 - **Lessons**: {len([r for r in deployed_resources if r['type'] == 'lesson'])}
 
 ## 🧠 AI Generation Details
-- **API Source**: DeepSeek API (sk-103cb83572a346e2aef89e2d2a4f7f89)
+- **API Source**: DeepSeek API
 - **Cultural Integration**: ✅ Te Ao Māori perspectives authentically integrated
 - **Platform Optimization**: ✅ Chromebook-compatible HTML/CSS
 - **Classroom Ready**: ✅ Immediately usable educational resources

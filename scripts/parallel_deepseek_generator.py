@@ -14,7 +14,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import threading
 
 # DeepSeek API Configuration
-DEEPSEEK_API_KEY = "sk-103cb83572a346e2aef89e2d2a4f7f89"
+DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
 DEEPSEEK_BASE_URL = "https://api.deepseek.com/v1/chat/completions"
 
 # Thread-safe counter
@@ -336,7 +336,7 @@ def generate_resources_parallel(max_workers=5):
         'total_duration_seconds': total_time,
         'average_per_resource': total_time / len(PRIORITY_RESOURCES),
         'parallel_workers': max_workers,
-        'api_key_used': 'sk-103cb83572a346e2aef89e2d2a4f7f89',
+        'api_key_used': 'env_var',
         'resources': results
     }
     

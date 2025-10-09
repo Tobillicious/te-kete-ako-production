@@ -8,9 +8,10 @@ import requests
 import json
 from pathlib import Path
 from datetime import datetime
+import os
 
 # DeepSeek API Configuration  
-DEEPSEEK_API_KEY = "sk-103cb83572a346e2aef89e2d2a4f7f89"
+DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
 DEEPSEEK_BASE_URL = "https://api.deepseek.com/v1/chat/completions"
 
 # Immediate Priority Resources (Top 5 for Alpha Build)
@@ -246,7 +247,7 @@ def run_immediate_deployment():
         'total_resources': len(IMMEDIATE_RESOURCES),
         'successful_deployments': successful_deployments,
         'failed_deployments': len(IMMEDIATE_RESOURCES) - successful_deployments,
-        'api_source': 'DeepSeek (sk-103cb83572a346e2aef89e2d2a4f7f89)',
+        'api_source': 'DeepSeek',
         'target_platform': 'Te Kete Ako Production',
         'resources': deployed_resources
     }

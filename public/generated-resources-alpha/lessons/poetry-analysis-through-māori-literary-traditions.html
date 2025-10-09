@@ -4,407 +4,409 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Performance: Optimize rendering -->
-    <meta name="format-detection" content="telephone=no">
-    <meta name="theme-color" content="#1b4332">
-    <meta name="color-scheme" content="light">
-    <!-- Performance: DNS prefetch for external domains -->
-    <link rel="dns-prefetch" href="//fonts.googleapis.com">
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
-    <!-- Performance: Preload critical resources -->
-    <link rel="preload" href="/css/te-kete-professional.css" as="style">
-    <link rel="preload" href="/js/te-kete-professional.js" as="script">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap&display=swap" as="style" crossorigin>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Te Kete Ako - Award-winning educational platform integrating mātauranga Māori with contemporary learning">
-    <meta name="keywords" content="education, māori, indigenous, ai, learning, new zealand">
-    <meta name="author" content="Te Kete Ako">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Poetry Analysis Through Māori Literary Traditions</title>
     <style>
+        :root {
+            --primary-color: #000000;
+            --secondary-color: #CC0000;
+            --accent-color: #EFEFEF;
+            --text-color: #333333;
+            --highlight-color: #FFD700;
+        }
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: #333;
-            max-width: 900px;
+            color: var(--text-color);
+            max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
             background-color: #f9f9f9;
         }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
         h1, h2, h3 {
-            color: #2c3e50;
+            color: var(--primary-color);
         }
+        
         h1 {
-            border-bottom: 3px solid #e74c3c;
-            padding-bottom: 10px;
+            margin-bottom: 10px;
         }
-        .te-reo {
+        
+        .subtitle {
             font-style: italic;
-            color: #8e44ad;
+            color: var(--accent-color);
         }
-        .activity {
-            background-color: #fff;
-            border-left: 4px solid #3498db;
+        
+        .te-reo {
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+        
+        .section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .learning-objectives {
+            background-color: var(--accent-color);
             padding: 15px;
-            margin: 20px 0;
-            box-shadow: 0 2px 5px var(--shadow-md);
+            border-left: 5px solid var(--secondary-color);
         }
-        .interactive {
+        
+        .poem-container {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-style: italic;
+        }
+        
+        .activity {
             background-color: #e8f4f8;
             padding: 15px;
             border-radius: 5px;
             margin: 15px 0;
         }
-        .teacher-note {
-            background-color: #fef9e7;
-            border-left: 4px solid #f39c12;
-            padding: 10px;
-            font-size: 0.9em;
-        }
-        .assessment {
-            background-color: #eaf7ea;
-            border-left: 4px solid #27ae60;
+        
+        .interactive-element {
+            background-color: #fff8e1;
             padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border: 1px dashed var(--highlight-color);
         }
+        
+        button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+        }
+        
+        button:hover {
+            background-color: #a00000;
+        }
+        
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 15px 0;
         }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
+        
         th, td {
+            border: 1px solid #ddd;
             padding: 10px;
             text-align: left;
         }
+        
         th {
-            background-color: #f2f2f2;
+            background-color: var(--accent-color);
         }
-        .maori-pattern {
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M0,0 L100,0 L100,100 L0,100 Z" fill="none" stroke="%23e74c3c" stroke-width="2"/><path d="M20,20 L80,20 L80,80 L20,80 Z" fill="none" stroke="%23e74c3c" stroke-width="2"/><path d="M40,40 L60,40 L60,60 L40,60 Z" fill="none" stroke="%23e74c3c" stroke-width="2"/></svg>');
-            height: 30px;
-            margin: 20px 0;
-            opacity: 0.3;
+        
+        .cultural-note {
+            background-color: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 4px solid var(--highlight-color);
+        }
+        
+        .teacher-notes {
+            background-color: #d1ecf1;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        .glossary {
+            background-color: #e2e3e5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .section {
+                padding: 15px;
+            }
         }
     </style>
-
-
-
-
-
-    
-    
-    
-    
-    <link rel="stylesheet" href="../../../css/main.css"/ media="all">
-    <link rel="stylesheet" href="/css/print.css" media="print"/ media="all">
-    
 </head>
 <body>
-    <div class="maori-pattern"></div>
-    <h1 class="wiley-hero-title">Poetry Analysis Through Māori Literary Traditions</h1>
-    <p class="te-reo">He kōrero tēnei mō ngā momo whakataukī me ngā waiata o te ao Māori</p>
-    <p>This lesson explores traditional and contemporary Māori poetry forms, connecting them to universal poetic techniques while honoring their cultural origins.</p>
-    
-    <h2 class="wiley-section-title">Learning Objectives</h2>
-    <ul>
-        <li>Analyze traditional Māori poetic forms (whakataukī, waiata) and contemporary Māori poetry</li>
-        <li>Identify poetic devices in both English and te reo Māori texts</li>
-        <li>Compare and contrast Māori poetic traditions with other poetic traditions</li>
-        <li>Create original poetry inspired by Māori literary techniques</li>
-        <li>Understand the cultural significance of poetry in te ao Māori</li>
-    </ul>
-    
-    <div class="teacher-note">
-        <h3>Cultural Context & Safety Notes</h3>
-        <p><strong>Cultural Protocols:</strong> When sharing Māori poetry, especially traditional forms, acknowledge the iwi/hapū origins where known. Treat all texts with respect as taonga.</p>
-        <p><strong>Language Considerations:</strong> Provide English translations alongside te reo Māori texts. Encourage but don't force pronunciation attempts.</p>
-        <p><strong>Sensitive Content:</strong> Some contemporary Māori poetry may address colonization impacts. Be prepared to discuss these themes appropriately.</p>
-    </div>
-    
-    <h2 class="wiley-section-title">Lesson Content</h2>
-    
-    <div class="activity">
-        <h3>1. Exploring Whakataukī (Māori Proverbs)</h3>
-        <p>Whakataukī are traditional Māori poetic sayings that convey wisdom, cultural values, and observations about nature and human behavior.</p>
+    <header>
+        <h1>Poetry Analysis Through Māori Literary Traditions</h1>
+        <p class="subtitle">Exploring traditional and contemporary Māori poetry</p>
+        <p>Years 9-11 | English</p>
+    </header>
+
+    <div class="section">
+        <h2>Introduction</h2>
+        <p>Welcome to our exploration of Māori poetry! In this lesson, we'll journey through both traditional and contemporary Māori poetic forms, learning to appreciate the unique cultural perspectives and literary techniques that make this poetry so powerful.</p>
         
-        <div class="interactive">
-            <h4>Example Whakataukī:</h4>
-            <p><strong>"Ehara tāku toa i te toa takitahi, engari he toa takitini"</strong></p>
-            <p><em>My strength is not as an individual but as a collective</em></p>
-            
-            <h4>Analysis Questions:</h4>
-            <ol>
-                <li>What cultural value does this whakataukī express?</li>
-                <li>Identify any poetic devices (metaphor, parallelism, etc.)</li>
-                <li>How does the structure contribute to its meaning?</li>
-                <li>Can you think of an English proverb with a similar message?</li>
-            </ol>
+        <div class="cultural-note">
+            <p><strong>Cultural Note:</strong> Māori poetry is deeply connected to <span class="te-reo">whakapapa</span> (genealogy), <span class="te-reo">whenua</span> (land), and spiritual beliefs. When studying these works, we approach them with <span class="te-reo">manaakitanga</span> (respect and care).</p>
         </div>
     </div>
-    
-    <div class="activity">
-        <h3>2. Waiata Analysis</h3>
-        <p>Waiata are traditional Māori songs that serve various purposes - lullabies (oriori), love songs (waiata aroha), and lamentations (waiata tangi).</p>
-        
-        <div class="interactive">
-            <h4>Excerpt from "E Pā Tō Hau" (Traditional Waiata)</h4>
-            <p><strong>E pā tō hau<br>
-            He wini raro<br>
-            He homai aroha</strong></p>
-            <p><em>Oh the wind<br>
-            Bringing the southerly<br>
-            Bringing love</em></p>
-            
-            <h4>Analysis Tasks:</h4>
-            <ol>
-                <li>Identify the natural imagery used</li>
-                <li>Explain how the wind serves as a metaphor</li>
-                <li>Compare the structure to English lyric poetry</li>
-                <li>Research the historical context of this waiata</li>
-            </ol>
+
+    <div class="section">
+        <h2>Learning Objectives</h2>
+        <div class="learning-objectives">
+            <p>By the end of this lesson, students will be able to:</p>
+            <ul>
+                <li>Identify key characteristics of traditional and contemporary Māori poetry</li>
+                <li>Analyze poetic devices within cultural context</li>
+                <li>Understand the significance of <span class="te-reo">whakapapa</span>, <span class="te-reo">whenua</span>, and cultural identity in Māori poetry</li>
+                <li>Compare traditional and contemporary Māori poetic forms</li>
+                <li>Create original poetry inspired by Māori literary traditions</li>
+            </ul>
+            <p><strong>NZ Curriculum Alignment:</strong> English Level 4-5: Listening, Reading, and Viewing; Speaking, Writing, and Presenting</p>
         </div>
     </div>
-    
-    <div class="activity">
-        <h3>3. Contemporary Māori Poetry</h3>
-        <p>Modern Māori poets blend traditional forms with contemporary themes and styles.</p>
+
+    <div class="section">
+        <h2>Cultural Context and Safety Notes</h2>
         
-        <div class="interactive">
-            <h4>Excerpt from "Ka Ao, Ka Ao, Ka Awatea" by Hone Tuwhare</h4>
-            <p><strong>It is the new day<br>
-            it is the new day seen<br>
-            greening<br>
-            at the edge of the sky</strong></p>
-            
-            <h4>Comparative Analysis:</h4>
-            <ol>
-                <li>How does Tuwhare use repetition differently from traditional waiata?</li>
-                <li>Identify modern poetic devices in this excerpt</li>
-                <li>What connections can you make to traditional Māori concepts of dawn (ao marama)?</li>
-                <li>How does the poet blend Māori and English poetic traditions?</li>
-            </ol>
-        </div>
-    </div>
-    
-    <div class="assessment">
-        <h2 class="wiley-section-title">Assessment Suggestions</h2>
-        <h3>Formative Assessment:</h3>
+        <h3>Cultural Context</h3>
+        <p>Māori poetry has a rich oral tradition dating back centuries. Traditional forms include:</p>
         <ul>
-            <li>Class participation in analysis discussions</li>
-            <li>Journal reflections comparing Māori and other poetic traditions</li>
-            <li>Small group presentations on assigned poems</li>
+            <li><span class="te-reo">Waiata</span> (songs) - used for storytelling, mourning, celebration</li>
+            <li><span class="te-reo">Karakia</span> (prayers/invocations) - spiritual poetry</li>
+            <li><span class="te-reo">Whakataukī</span> (proverbs) - concise wisdom poetry</li>
+            <li><span class="te-reo">Haka</span> (ceremonial dance) - powerful performance poetry</li>
         </ul>
         
-        <h3>Summative Assessment Options:</h3>
+        <p>Contemporary Māori poets like Hone Tuwhare, Apirana Taylor, and Hinemoana Baker have adapted these traditions into modern literary forms while maintaining cultural connections.</p>
+        
+        <h3>Safety Considerations</h3>
+        <div class="cultural-note">
+            <ul>
+                <li>Some traditional <span class="te-reo">waiata tangi</span> (laments) address sensitive topics like grief and loss</li>
+                <li>Certain <span class="te-reo">karakia</span> may have spiritual significance - we'll focus on their literary aspects</li>
+                <li>Always acknowledge the source and cultural context of poems</li>
+                <li>Respect that some knowledge may be <span class="te-reo">tapu</span> (sacred/restricted)</li>
+                <li>Create a supportive environment for sharing personal responses</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Traditional Māori Poetry</h2>
+        
+        <h3><span class="te-reo">Whakataukī</span> (Proverbs)</h3>
+        <p><span class="te-reo">Whakataukī</span> are concise poetic statements that convey wisdom, values, and cultural knowledge.</p>
+        
+        <div class="poem-container">
+            <p>"<span class="te-reo">He kōtuku rerenga tahi</span>"</p>
+            <p>(The white heron flies once)</p>
+            <p>Meaning: A rare event or person of distinction</p>
+        </div>
+        
+        <div class="interactive-element">
+            <h4>Analyze This <span class="te-reo">Whakataukī</span></h4>
+            <p>"<span class="te-reo">Ka pū te ruha, ka hao te rangatahi</span>"</p>
+            <p>(As the old net withers, the new net goes fishing)</p>
+            
+            <p><strong>Discussion Questions:</strong></p>
+            <button onclick="toggleAnswer('answer1')">What might this proverb mean?</button>
+            <div id="answer1" style="display:none; margin-top:10px; padding:10px; background-color:#f0f0f0;">
+                <p>This speaks to the natural cycle of generations - as the old passes, the young take their place. It acknowledges both the value of elders and the potential of youth.</p>
+            </div>
+            
+            <button onclick="toggleAnswer('answer2')">What poetic devices do you notice?</button>
+            <div id="answer2" style="display:none; margin-top:10px; padding:10px; background-color:#f0f0f0;">
+                <p>Metaphor (comparing generations to fishing nets), parallelism (balanced structure), and imagery (visualizing the old and new nets).</p>
+            </div>
+        </div>
+        
+        <h3><span class="te-reo">Waiata</span> (Songs)</h3>
+        <p>Traditional <span class="te-reo">waiata</span> served many purposes - from recording history to expressing emotion.</p>
+        
+        <div class="poem-container">
+            <p><strong>Excerpt from a traditional <span class="te-reo">waiata aroha</span> (love song):</strong></p>
+            <p><span class="te-reo">E hine e, hoki mai ra</span><br>
+            <span class="te-reo">Ka ea te mate i au e hi nei</span><br>
+            <span class="te-reo">Te aroha e, tau here mai</span></p>
+            <p>(Oh girl, return to me<br>
+            So my longing may be satisfied<br>
+            Love, bind yourself to me)</p>
+        </div>
+        
+        <div class="activity">
+            <h4>Activity: Traditional Poetry Analysis</h4>
+            <p>Choose one traditional Māori poetic form (<span class="te-reo">whakataukī</span>, <span class="te-reo">waiata</span>, or <span class="te-reo">karakia</span>) and analyze:</p>
+            <ol>
+                <li>The purpose or message</li>
+                <li>Key poetic devices (metaphor, repetition, imagery)</li>
+                <li>Cultural values expressed</li>
+                <li>Connection to <span class="te-reo">whakapapa</span> or <span class="te-reo">whenua</span></li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Contemporary Māori Poetry</h2>
+        <p>Modern Māori poets blend traditional elements with contemporary forms and concerns.</p>
+        
+        <h3>Hone Tuwhare - "Rain"</h3>
+        <div class="poem-container">
+            <p>I can hear you<br>
+            making small holes<br>
+            in the silence<br>
+            rain</p>
+            
+            <p>If I were deaf<br>
+            the pores of my skin<br>
+            would open to you<br>
+            and shut</p>
+            
+            <p>And I<br>
+            should know you<br>
+            by the lick of you<br>
+            if I were blind</p>
+        </div>
+        
+        <div class="interactive-element">
+            <h4>Compare and Contrast</h4>
+            <p>How does Tuwhare's poem connect to Māori traditions while using modern poetic techniques?</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                    <h5>Traditional Elements</h5>
+                    <textarea id="traditionalElements" rows="4" style="width: 100%;">Connection to natural world...</textarea>
+                </div>
+                <div>
+                    <h5>Contemporary Elements</h5>
+                    <textarea id="contemporaryElements" rows="4" style="width: 100%;">Free verse structure...</textarea>
+                </div>
+            </div>
+            <button onclick="comparePoems()">Compare My Analysis</button>
+            <div id="comparisonResult" style="margin-top: 15px; display: none; padding: 10px; background-color: #f0f0f0;"></div>
+        </div>
+        
+        <h3>Apirana Taylor - "Sad Joke on a Marae"</h3>
+        <p>Taylor's poem explores identity struggles of urban Māori reconnecting with their culture.</p>
+        
+        <div class="activity">
+            <h4>Activity: Identity Poetry</h4>
+            <p>Write a short poem exploring your own cultural identity or connection to place. Consider:</p>
+            <ul>
+                <li>What traditions or values are important to you?</li>
+                <li>How does your environment shape your identity?</li>
+                <li>What metaphors could represent your cultural journey?</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Key Poetic Devices in Māori Poetry</h2>
+        
         <table>
             <tr>
-                <th>Task</th>
+                <th>Device</th>
                 <th>Description</th>
-                <th>NZC Alignment</th>
+                <th>Example</th>
             </tr>
             <tr>
-                <td>Poetry Analysis Essay</td>
-                <td>Compare a traditional and contemporary Māori poem, analyzing cultural and poetic elements</td>
-                <td>English L4-5: Ideas, Language Features</td>
+                <td><span class="te-reo">Whakapapa</span></td>
+                <td>Genealogical connections that establish identity and relationships</td>
+                <td>Referencing ancestral lines in formal introductions</td>
             </tr>
             <tr>
-                <td>Creative Response</td>
-                <td>Write original poetry inspired by Māori forms, with explanatory notes</td>
-                <td>English L4-5: Creating Meaning</td>
+                <td><span class="te-reo">Kōrero pūrākau</span></td>
+                <td>Storytelling that preserves history and cultural knowledge</td>
+                <td>Narratives explaining natural phenomena or tribal history</td>
             </tr>
             <tr>
-                <td>Oral Presentation</td>
-                <td>Perform and analyze a Māori poem, explaining cultural context</td>
-                <td>English L4-5: Speaking, Ideas</td>
+                <td>Nature Metaphor</td>
+                <td>Using natural elements to represent human experiences</td>
+                <td>Comparing emotions to weather patterns or landscapes</td>
+            </tr>
+            <tr>
+                <td>Repetition</td>
+                <td>Repeating words or phrases for emphasis and memorability</td>
+                <td>Repeated lines in <span class="te-reo">waiata</span> for emotional impact</td>
+            </tr>
+            <tr>
+                <td>Parallelism</td>
+                <td>Balanced structures that create rhythm and connection</td>
+                <td>Paired phrases in <span class="te-reo">whakataukī</span></td>
             </tr>
         </table>
         
-        <h3>Rubric Excerpt for Analysis Essay:</h3>
+        <div class="interactive-element">
+            <h4>Device Identification Practice</h4>
+            <p>Read this excerpt from a contemporary Māori poem:</p>
+            <div class="poem-container">
+                <p>"My tongue stumbles<br>
+                over ancestral syllables<br>
+                like stones in a river<br>
+                worn smooth by time"</p>
+            </div>
+            
+            <p>Which poetic devices can you identify?</p>
+            <div id="deviceChecklist">
+                <input type="checkbox" id="metaphor"> <label for="metaphor">Metaphor</label><br>
+                <input type="checkbox" id="imagery"> <label for="imagery">Imagery</label><br>
+                <input type="checkbox" id="alliteration"> <label for="alliteration">Alliteration</label><br>
+                <input type="checkbox" id="culturalReference"> <label for="culturalReference">Cultural Reference</label><br>
+            </div>
+            <button onclick="checkDevices()">Check My Answers</button>
+            <div id="deviceFeedback" style="margin-top: 15px;"></div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Assessment</h2>
+        
+        <h3>Poetry Analysis Task</h3>
+        <p>Write a detailed analysis of one traditional and one contemporary Māori poem, discussing:</p>
+        <ul>
+            <li>Cultural context and purpose</li>
+            <li>Key poetic devices and their effects</li>
+            <li>Connections to Māori values and worldview</li>
+            <li>Similarities and differences between the two poems</li>
+        </ul>
+        
+        <h4>Assessment Rubric</h4>
         <table>
             <tr>
                 <th>Criteria</th>
-                <th>Advanced (5-6)</th>
-                <th>Proficient (3-4)</th>
-                <th>Developing (1-2)</th>
+                <th>Excellent (8-10)</th>
+                <th>Proficient (6-7)</th>
+                <th>Developing (4-5)</th>
             </tr>
             <tr>
                 <td>Cultural Understanding</td>
-                <td>Demonstrates deep insight into Māori poetic traditions and their cultural significance</td>
-                <td>Shows understanding of key cultural elements</td>
-                <td>Limited cultural awareness</td>
-            </tr>
-            <tr>
-                <td>Literary Analysis</td>
-                <td>Sophisticated analysis of multiple poetic devices and their effects</td>
-                <td>Identifies and explains some poetic devices</td>
-                <td>Basic identification of features</td>
-            </tr>
-            <tr>
-                <td>Comparative Analysis</td>
-                <td>Insightful connections between traditional and contemporary forms</td>
-                <td>Makes some valid comparisons</td>
-                <td>Limited comparative analysis</td>
-            </tr>
-        </table>
-    </div>
-    
-    <h2 class="wiley-section-title">Extension Activities</h2>
-    <div class="activity">
-        <h3>For Advanced Learners:</h3>
-        <ol>
-            <li>Research the work of a specific Māori poet (e.g., Hone Tuwhare, Hinemoana Baker) and create a critical review</li>
-            <li>Compare Māori poetic traditions with another indigenous poetic tradition (e.g., Native American, Aboriginal Australian)</li>
-            <li>Create a bilingual poem incorporating both te reo Māori and English, with commentary on translation challenges</li>
-            <li>Investigate how contemporary Māori poets address issues like colonization, identity, and environmental concerns</li>
-        </ol>
-    </div>
-    
-    <h2 class="wiley-section-title">Adaptations for Diverse Learners</h2>
-    <div class="activity">
-        <h3>Support for Emerging Learners:</h3>
-        <ul>
-            <li>Provide pre-annotated poems with key features highlighted</li>
-            <li>Use graphic organizers for comparing poems</li>
-            <li>Offer sentence starters for analysis responses</li>
-            <li>Create mixed-ability discussion groups</li>
-        </ul>
-        
-        <h3>Engagement Strategies:</h3>
-        <ul>
-            <li>Incorporate audio recordings of poems being performed</li>
-            <li>Use visual representations of poems (art responses)</li>
-            <li>Create digital poetry anthologies using simple platforms</li>
-            <li>Invite local Māori writers for classroom visits (virtual or in-person)</li>
-        </ul>
-    </div>
-    
-    <div class="teacher-note">
-        <h3>Implementation Guide</h3>
-        <p><strong>Lesson Sequence:</strong></p>
-        <ol>
-            <li><strong>Introduction (20 min):</strong> Begin with a karakia (optional) and overview of Māori poetic traditions. Show examples visually and aurally.</li>
-            <li><strong>Whakataukī Analysis (30 min):</strong> Small groups analyze different proverbs using guided questions.</li>
-            <li><strong>Waiata Exploration (40 min):</strong> Listen to recordings, analyze structure and imagery, discuss cultural context.</li>
-            <li><strong>Contemporary Poetry (40 min):</strong> Compare modern works to traditional forms, identify continuities and innovations.</li>
-            <li><strong>Creative Response (30 min+):</strong> Students create original poems inspired by Māori forms.</li>
-            <li><strong>Reflection (20 min):</strong> Journal entries or discussions about what they've learned.</li>
-        </ol>
-        
-        <p><strong>Resources Needed:</strong></p>
-        <ul>
-            <li>Printed copies of poems with translations</li>
-            <li>Audio recordings of waiata</li>
-            <li>Biographical information about Māori poets</li>
-            <li>Graphic organizers for analysis</li>
-            <li>Art supplies for visual responses (optional)</li>
-        </ul>
-    </div>
-    
-    <div class="maori-pattern"></div>
-
-    <script>
-    // Register service worker for performance
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js')
-                .then(registration => console.log('SW registered'))
-                .catch(error => console.log('SW registration failed'));
-        });
-    }
-    </script>
-</body>
-</html>
-```
-
-## Comprehensive Implementation Guide
-
-### 1. Preparation
-- **Cultural Consultation:** If possible, consult with your school's Māori community liaison or local iwi representatives about appropriate poems and protocols.
-- **Resource Gathering:** Collect audio recordings of waiata, biographies of Māori poets, and prepare bilingual texts where needed.
-- **Classroom Setup:** Arrange seating for group work and ensure technology is ready for audio/visual components.
-
-### 2. Lesson Flow (Suggested 3-4 Sessions)
-
-**Session 1: Foundations of Māori Poetry**
-1. Begin with appropriate opening (karakia optional)
-2. Introduce the concept of oral traditions in Māori culture
-3. Explore 3-4 whakataukī in depth using the analysis framework
-4. Small group work: Each group analyzes a different proverb then shares
-
-**Session 2: Waiata and Traditional Forms**
-1. Listen to recordings of traditional waiata
-2. Guided analysis of structure, repetition, and imagery
-3. Compare different types of waiata (aroha, tangi, oriori)
-4. Research the historical contexts of specific waiata
-
-**Session 3: Contemporary Voices**
-1. Read and discuss works by 2-3 modern Māori poets
-2. Identify how traditional elements appear in contemporary works
-3. Comparative analysis activity (traditional vs contemporary)
-4. Begin planning creative responses
-
-**Session 4: Creation and Reflection**
-1. Workshop time for original poetry writing
-2. Peer feedback sessions
-3. Performance or sharing of work (as appropriate)
-4. Reflective writing about learning
-
-### 3. Differentiation Strategies
-
-**For English Language Learners:**
-- Provide dual-language texts
-- Use visual aids to support understanding
-- Pre-teach key vocabulary
-- Allow responses in first language where possible
-
-**For Students Needing Extension:**
-- Research the work of a specific Māori poet in depth
-- Create annotated anthologies
-- Investigate musical elements of waiata
-- Explore connections to other indigenous literatures
-
-**For Students with Learning Differences:**
-- Use audio versions of all texts
-- Provide structured templates for analysis
-- Offer choice in response methods (oral, visual, written)
-- Break tasks into smaller steps
-
-### 4. Cultural Safety in Practice
-
-- Always acknowledge the source of poems where known
-- Never ask Māori students to be "cultural experts" unless they volunteer
-- Present Māori poetry as living tradition, not just historical artifact
-- Be mindful that some students may have personal connections to certain waiata
-- Follow school protocols regarding karakia and other cultural practices
-
-### 5. Assessment Implementation
-
-**For the Analysis Essay:**
-- Provide clear models of literary analysis
-- Offer structured outlines if needed
-- Allow students to focus on poems that resonate with them
-- Consider alternative formats (e.g., recorded presentations)
-
-**For Creative Responses:**
-- Emphasize the importance of cultural respect over imitation
-- Encourage students to draw on their own cultural backgrounds
-- Provide options for different creative formats (visual poetry, digital, etc.)
-- Include a reflective component about their creative choices
-
-### 6. Additional Resources
-
-**Suggested Poets and Texts:**
-- Traditional: "E Pā Tō Hau", "Po Atarau" (Now is the Hour)
-- Contemporary: Hone Tuwhare, Hinemoana Baker, Robert Sullivan
-- Anthologies: "Puna Wai Kōrero" (Māori poetry anthology)
-
-**Digital Resources:**
-- NZ On Screen waiata collections
-- Te Ara Encyclopedia entries on Māori literature
-- DigitalNZ archives of Māori poetry
-
-This comprehensive resource provides everything needed to deliver an engaging, culturally responsive poetry unit that meets NZ Curriculum objectives while honoring Māori literary traditions. The HTML format ensures easy deployment in digital learning environments.
+                <td>Demonstrates deep understanding of cultural context and values</td>
+               

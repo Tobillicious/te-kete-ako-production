@@ -12,7 +12,7 @@ from datetime import datetime
 from pathlib import Path
 
 # DeepSeek API Configuration
-DEEPSEEK_API_KEY = "sk-103cb83572a346e2aef89e2d2a4f7f89"
+DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
 DEEPSEEK_BASE_URL = "https://api.deepseek.com/v1/chat/completions"
 
 # 50 High-Priority Educational Resources (from strategic analysis)
@@ -483,7 +483,7 @@ def generate_all_resources():
     manifest = {
         'generation_date': datetime.now().isoformat(),
         'total_resources': len(RESOURCE_TARGETS),
-        'api_key_used': 'sk-103cb83572a346e2aef89e2d2a4f7f89',
+        'api_key_used': 'env_var',
         'resources': []
     }
     

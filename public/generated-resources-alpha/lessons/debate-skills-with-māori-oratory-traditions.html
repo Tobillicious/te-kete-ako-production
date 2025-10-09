@@ -4,313 +4,425 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Performance: Optimize rendering -->
-    <meta name="format-detection" content="telephone=no">
-    <meta name="theme-color" content="#1b4332">
-    <meta name="color-scheme" content="light">
-    <!-- Performance: DNS prefetch for external domains -->
-    <link rel="dns-prefetch" href="//fonts.googleapis.com">
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
-    <!-- Performance: Preload critical resources -->
-    <link rel="preload" href="/css/te-kete-professional.css" as="style">
-    <link rel="preload" href="/js/te-kete-professional.js" as="script">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap&display=swap" as="style" crossorigin>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Te Kete Ako - Award-winning educational platform integrating mātauranga Māori with contemporary learning">
-    <meta name="keywords" content="education, māori, indigenous, ai, learning, new zealand">
-    <meta name="author" content="Te Kete Ako">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Debate Skills with Māori Oratory Traditions</title>
     <style>
+        :root {
+            --primary-color: #c8102e;
+            --secondary-color: #000000;
+            --accent-color: #efefe6;
+            --text-color: #333333;
+            --success-color: #008000;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: #333;
-            max-width: 900px;
-            margin: 0 auto;
+            color: var(--text-color);
+            background-color: var(--accent-color);
             padding: 20px;
-            background-color: #f9f9f9;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        h1, h2, h3 {
-            color: #2c3e50;
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
         }
+        
         h1 {
-            border-bottom: 3px solid #e74c3c;
-            padding-bottom: 10px;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
         }
-        .cultural-note {
-            background-color: #f8f4e5;
-            border-left: 4px solid #e74c3c;
-            padding: 15px;
-            margin: 20px 0;
+        
+        h2 {
+            color: var(--primary-color);
+            margin: 25px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary-color);
         }
+        
+        h3 {
+            margin: 20px 0 10px;
+            color: var(--secondary-color);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            font-style: italic;
+        }
+        
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .main-content {
+            flex: 3;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar {
+            flex: 1;
+            min-width: 250px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .maori-term {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
         .activity {
-            background-color: #e8f4f8;
+            background-color: #f9f9f9;
             padding: 15px;
-            border-radius: 5px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .interactive-element {
+            background-color: #e6f2ff;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .interactive-element:hover {
+            background-color: #d4e8ff;
+        }
+        
+        .checkbox-container {
+            margin: 10px 0;
+        }
+        
+        .checkbox-container input {
+            margin-right: 8px;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 10px 5px 10px 0;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #a00d25;
+        }
+        
+        .tab-container {
             margin: 20px 0;
         }
-        .learning-objectives {
-            background-color: #e8f8f0;
-            padding: 15px;
-            border-radius: 5px;
+        
+        .tab-buttons {
+            display: flex;
+            border-bottom: 1px solid #ddd;
         }
-        .assessment {
-            background-color: #f5e8f8;
-            padding: 15px;
-            border-radius: 5px;
+        
+        .tab-button {
+            padding: 10px 20px;
+            background: #f1f1f1;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
         }
-        table {
+        
+        .tab-button.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .tab-content {
+            padding: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+        }
+        
+        .tab-panel {
+            display: none;
+        }
+        
+        .tab-panel.active {
+            display: block;
+        }
+        
+        .glossary-term {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .assessment-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
+            margin: 15px 0;
         }
-        table, th, td {
+        
+        .assessment-table th, .assessment-table td {
             border: 1px solid #ddd;
-        }
-        th, td {
             padding: 12px;
             text-align: left;
         }
-        th {
-            background-color: #2c3e50;
+        
+        .assessment-table th {
+            background-color: var(--primary-color);
             color: white;
         }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
+        
+        .assessment-table tr:nth-child(even) {
+            background-color: #f9f9f9;
         }
-        .maori-word {
-            font-weight: bold;
-            color: #e74c3c;
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
         }
     </style>
-
-
-
-
-
-    
-    
-    
-    
-    <link rel="stylesheet" href="../../../css/main.css"/ media="all">
-    <link rel="stylesheet" href="/css/print.css" media="print"/ media="all">
-    
 </head>
 <body>
-    <h1 class="wiley-hero-title">Debate Skills with Māori Oratory Traditions</h1>
+    <header>
+        <h1>Debate Skills with Māori Oratory Traditions</h1>
+        <p class="subtitle">Connecting Whaikōrero with Contemporary Debate</p>
+        <p>Years 9-12 | English</p>
+    </header>
     
-    <div class="learning-objectives">
-        <h2 class="wiley-section-title">Learning Objectives</h2>
-        <p>By the end of this lesson, students will be able to:</p>
-        <ul>
-            <li>Understand key elements of traditional <span class="maori-word">whaikōrero</span> (Māori oratory)</li>
-            <li>Compare and contrast <span class="maori-word">whaikōrero</span> with contemporary debate structures</li>
-            <li>Apply rhetorical techniques from both traditions in formal debates</li>
-            <li>Develop confidence in public speaking and argument construction</li>
-            <li>Demonstrate cultural awareness when engaging with Māori protocols</li>
-        </ul>
-        <p><strong>NZ Curriculum Links:</strong> English L5-8: Speaking, Writing, Presenting; Social Sciences L5-8: Identity, Culture and Organisation</p>
-    </div>
-    
-    <div class="cultural-note">
-        <h2 class="wiley-section-title">Cultural Context & Safety Notes</h2>
-        <p><span class="maori-word">Whaikōrero</span> is a sacred Māori tradition of formal speech-making, typically performed by men on marae. While we adapt some elements for classroom use, we must respect its cultural significance:</p>
-        <ul>
-            <li>Traditionally, <span class="maori-word">whaikōrero</span> is performed by men, but in educational contexts, all students may participate</li>
-            <li>Always acknowledge the iwi/tribe when referencing specific <span class="maori-word">whaikōrero</span> examples</li>
-            <li>Begin with a <span class="maori-word">karakia</span> (prayer) if appropriate for your school context</li>
-            <li>Be aware some students may have whānau connections to expert orators - handle with sensitivity</li>
-            <li>Encourage students to share only what they're comfortable with regarding personal connections</li>
-        </ul>
-    </div>
-    
-    <h2 class="wiley-section-title">Lesson Content</h2>
-    
-    <div class="activity">
-        <h3>1. Understanding <span class="maori-word">Whaikōrero</span> Structure</h3>
-        <p>Traditional <span class="maori-word">whaikōrero</span> follows a specific structure:</p>
-        <ol>
-            <li><strong><span class="maori-word">Tauparapara</span></strong> - Opening incantation to establish speaker's credibility</li>
-            <li><strong><span class="maori-word">Whakapapa</span></strong> - Connections to people and place</li>
-            <li><strong><span class="maori-word">Kupu whakatepe</span></strong> - Main message or argument</li>
-            <li><strong><span class="maori-word">Whaikupu</span></strong> - Supporting evidence or stories</li>
-            <li><strong><span class="maori-word">Poroporoaki</span></strong> - Closing remarks</li>
-        </ol>
-        <p><strong>Activity:</strong> Watch this <a href="https://www.teaomaori.news/whaikorero-maori-oratory" target="_blank" rel="noopener">video example of whaikōrero</a> and identify these elements.</p>
-    </div>
-    
-    <div class="activity">
-        <h3>2. Contemporary Debate Structure</h3>
-        <p>Compare with standard debate format:</p>
-        <ol>
-            <li><strong>Introduction</strong> - Hook and thesis</li>
-            <li><strong>Arguments</strong> - Main points with evidence</li>
-            <li><strong>Rebuttal</strong> - Addressing opposing views</li>
-            <li><strong>Conclusion</strong> - Summary and call to action</li>
-        </ol>
-        <p><strong>Discussion:</strong> What similarities and differences do you notice? How might each approach be effective in different contexts?</p>
-    </div>
-    
-    <div class="activity">
-        <h3>3. Hybrid Debate Activity</h3>
-        <p><strong>Topic:</strong> "Our school should incorporate more Māori cultural practices in daily routines."</p>
-        <p><strong>Instructions:</strong></p>
-        <ol>
-            <li>Divide into groups of 4-5</li>
-            <li>Prepare arguments using a blend of both structures:
-                <ul>
-                    <li>Begin with a personal connection (similar to <span class="maori-word">whakapapa</span>)</li>
-                    <li>Include traditional proverbs (<span class="maori-word">whakataukī</span>) where relevant</li>
-                    <li>Use evidence and logical arguments</li>
-                    <li>Close with an impactful statement</li>
-                </ul>
-            </li>
-            <li>Each group presents their arguments (3-4 minutes each)</li>
-            <li>Audience provides feedback using the assessment criteria</li>
-        </ol>
-    </div>
-    
-    <div class="assessment">
-        <h2 class="wiley-section-title">Assessment Suggestions</h2>
-        <table>
-            <tr>
-                <th>Criteria</th>
-                <th>Excellent (4-5)</th>
-                <th>Proficient (3)</th>
-                <th>Developing (1-2)</th>
-            </tr>
-            <tr>
-                <td>Cultural Elements</td>
-                <td>Skillfully integrates Māori oratory techniques authentically</td>
-                <td>Includes some Māori oratory elements appropriately</td>
-                <td>Minimal or inappropriate use of cultural elements</td>
-            </tr>
-            <tr>
-                <td>Argument Structure</td>
-                <td>Clear, logical progression with strong evidence</td>
-                <td>Logical structure with some supporting evidence</td>
-                <td>Arguments unclear or unsupported</td>
-            </tr>
-            <tr>
-                <td>Delivery</td>
-                <td>Engaging, confident delivery with appropriate body language</td>
-                <td>Clear delivery with some confidence</td>
-                <td>Difficult to hear/understand, lacks confidence</td>
-            </tr>
-            <tr>
-                <td>Cultural Respect</td>
-                <td>Demonstrates deep understanding and respect</td>
-                <td>Shows appropriate respect</td>
-                <td>Cultural elements handled insensitively</td>
-            </tr>
-        </table>
-        <p><strong>Alternative Assessment:</strong> Written reflection comparing the two oratory traditions and their effectiveness.</p>
-    </div>
-    
-    <h2 class="wiley-section-title">Extension Activities</h2>
-    <div class="activity">
-        <h3>For Advanced Learners:</h3>
-        <ol>
-            <li>Research specific iwi traditions of <span class="maori-word">whaikōrero</span> and present findings</li>
-            <li>Create a debate entirely in te reo Māori incorporating traditional structures</li>
-            <li>Compare Māori oratory with other indigenous oral traditions (e.g., Pasifika)</li>
-            <li>Organize a school debate competition using the hybrid format</li>
-            <li>Interview a local kaumatua about their experiences with <span class="maori-word">whaikōrero</span></li>
-        </ol>
-    </div>
-    
-    <h2 class="wiley-section-title">Adaptations for Diverse Learners</h2>
-    <div class="activity">
-        <h3>Support Strategies:</h3>
-        <ul>
-            <li><strong>ESOL students:</strong> Provide sentence starters, allow use of first language for planning</li>
-            <li><strong>Anxious speakers:</strong> Offer options to present to small groups or record speeches</li>
-            <li><strong>Physical disabilities:</strong> Ensure accessible speaking spaces, allow seated presentations</li>
-            <li><strong>Neurodiverse students:</strong> Provide clear structure templates, allow fidget tools</li>
-            <li><strong>Cultural considerations:</strong> Be flexible with participation requirements based on cultural comfort levels</li>
-        </ul>
-    </div>
-    
-    <div class="cultural-note">
-        <h2 class="wiley-section-title">Teacher Implementation Guide</h2>
-        <h3>Before the Lesson:</h3>
-        <ol>
-            <li>Consult with your school's Māori cultural advisor if available</li>
-            <li>Prepare video examples and any necessary equipment</li>
-            <li>Print structure guides and assessment rubrics</li>
-            <li>Arrange seating for group work and presentations</li>
-        </ol>
-        
-        <h3>During the Lesson:</h3>
-        <ol>
-            <li><strong>Introduction (15 mins):</strong> Explain objectives, show video example, discuss cultural protocols</li>
-            <li><strong>Analysis (20 mins):</strong> Compare structures in small groups, share findings</li>
-            <li><strong>Preparation (25 mins):</strong> Groups research and prepare hybrid debates</li>
-            <li><strong>Presentations (30 mins):</strong> Each group presents, peers provide feedback</li>
-            <li><strong>Reflection (10 mins):</strong> Whole class discussion on what worked well</li>
-        </ol>
-        
-        <h3>After the Lesson:</h3>
-        <ol>
-            <li>Provide individual feedback using rubric</li>
-            <li>Display exemplary work or recordings (with permission)</li>
-            <li>Follow up with interested students about extension opportunities</li>
-            <li>Reflect on what cultural elements resonated most with students</li>
-        </ol>
-    </div>
-    
-    <h2 class="wiley-section-title">Additional Resources</h2>
-    <ul>
-        <li><a href="https://teara.govt.nz/en/whaikorero-maori-oratory" target="_blank" rel="noopener">Te Ara Encyclopedia: Whaikōrero</a></li>
-        <li><a href="https://www.nzqa.govt.nz/ncea/assessment/search.do?query=english+speaking" target="_blank" rel="noopener">NCEA English Speaking Standards</a></li>
-        <li>Royal, T. A. C. (2007). <em>The Woven Universe: Selected Writings of Rev. Māori Marsden</em></li>
-        <li>Mead, H. M. (2016). <em>Tikanga Māori: Living by Māori Values</em></li>
-    </ul>
-    
-    <p><em>This resource was developed with guidance from Te Tāhuhu o te Mātauranga (Ministry of Education) cultural advisors. Last updated: October 2023.</em></p>
-
-    <script>
-    // Register service worker for performance
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js')
-                .then(registration => console.log('SW registered'))
-                .catch(error => console.log('SW registration failed'));
-        });
-    }
-    </script>
-</body>
-</html>
-```
-
-## Key Features of This Resource:
-
-1. **Cultural Authenticity**:
-   - Accurate representation of whaikōrero structure and protocols
-   - Clear cultural safety guidelines
-   - Respectful integration of te reo Māori
-
-2. **Curriculum Alignment**:
-   - Direct links to NZ Curriculum English and Social Sciences
-   - Progressive learning objectives for Years 9-12
-   - Assessment rubrics aligned with achievement standards
-
-3. **Practical Classroom Ready**:
-   - Complete HTML with responsive design for Chromebooks
-   - Step-by-step teacher implementation guide
-   - Ready-to-use activities with timing suggestions
-
-4. **Inclusive Design**:
-   - Adaptations for diverse learning needs
-   - Extension activities for advanced learners
-   - Visual formatting for readability
-
-5. **Interactive Elements**:
-   - Video analysis activity
-   - Group debate preparation
-   - Peer feedback components
-
-This resource provides a culturally responsive approach to developing debate skills while honoring Māori oratory traditions, suitable for immediate classroom implementation across New Zealand secondary schools.
+    <div class="container">
+        <div class="main-content">
+            <section id="introduction">
+                <h2>Introduction</h2>
+                <p>This resource explores the art of persuasive speaking by connecting traditional Māori oratory (<span class="maori-term">whaikōrero</span>) with contemporary debate skills. Students will learn how the structure, techniques, and cultural protocols of <span class="maori-term">whaikōrero</span> can enhance modern debating practices.</p>
+                
+                <div class="interactive-element" onclick="toggleContent('cultural-context')">
+                    <h3>Cultural Context: Whaikōrero</h3>
+                    <p>Click to learn about the significance of whaikōrero in Māori culture</p>
+                    <div id="cultural-context" style="display: none; margin-top: 15px;">
+                        <p><span class="maori-term">Whaikōrero</span> (formal speech-making) is a cornerstone of Māori culture, traditionally performed by men on the <span class="maori-term">marae</span> (meeting grounds). It follows specific protocols and structures that have been refined over generations.</p>
+                        <p>Key elements include:</p>
+                        <ul>
+                            <li><span class="maori-term">Tauparapara</span> - Opening incantations that acknowledge spiritual connections</li>
+                            <li><span class="maori-term">Whakapapa</span> - Genealogical connections that establish speaker authority</li>
+                            <li>References to landmarks and ancestors to ground the speech in place and history</li>
+                            <li>Use of metaphor and poetic language (<span class="maori-term">kīwaha</span> and <span class="maori-term">whakataukī</span>)</li>
+                            <li>Structured progression from past to present to future</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="learning-objectives">
+                <h2>Learning Objectives</h2>
+                <p>By the end of this lesson, students will be able to:</p>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="obj1"><label for="obj1"> Identify key elements of traditional Māori oratory (whaikōrero)</label><br>
+                    <input type="checkbox" id="obj2"><label for="obj2"> Apply whaikōrero structures to contemporary debate formats</label><br>
+                    <input type="checkbox" id="obj3"><label for="obj3"> Use persuasive techniques common in both traditions</label><br>
+                    <input type="checkbox" id="obj4"><label for="obj4"> Demonstrate respectful speaking protocols in debate settings</label><br>
+                    <input type="checkbox" id="obj5"><label for="obj5"> Create and deliver a structured argument using blended techniques</label>
+                </div>
+                <p>These objectives align with the New Zealand Curriculum Level 5-6 English achievement objectives, particularly in Speaking, Writing, and Presenting, and the Social Sciences learning area.</p>
+            </section>
+            
+            <section id="comparison">
+                <h2>Whaikōrero and Contemporary Debate: A Comparison</h2>
+                
+                <div class="tab-container">
+                    <div class="tab-buttons">
+                        <button class="tab-button active" onclick="openTab(event, 'structure')">Structure</button>
+                        <button class="tab-button" onclick="openTab(event, 'techniques')">Techniques</button>
+                        <button class="tab-button" onclick="openTab(event, 'protocols')">Protocols</button>
+                    </div>
+                    
+                    <div class="tab-content">
+                        <div id="structure" class="tab-panel active">
+                            <h3>Structural Comparison</h3>
+                            <div class="card">
+                                <h4>Whaikōrero Structure</h4>
+                                <ol>
+                                    <li><span class="maori-term">Tauparapara</span> - Opening incantation</li>
+                                    <li><span class="maori-term">Whakapapa</span> - Genealogical connections</li>
+                                    <li>Reference to the occasion/purpose</li>
+                                    <li>Main message/argument</li>
+                                    <li>References to landmarks and ancestors</li>
+                                    <li>Closing remarks and connection to future</li>
+                                </ol>
+                            </div>
+                            
+                            <div class="card">
+                                <h4>Contemporary Debate Structure</h4>
+                                <ol>
+                                    <li>Introduction and thesis statement</li>
+                                    <li>Point 1 with evidence</li>
+                                    <li>Point 2 with evidence</li>
+                                    <li>Point 3 with evidence</li>
+                                    <li>Rebuttal of opposing arguments</li>
+                                    <li>Conclusion and call to action</li>
+                                </ol>
+                            </div>
+                            
+                            <div class="activity">
+                                <h4>Activity: Structural Analysis</h4>
+                                <p>Watch examples of both whaikōrero and contemporary debates. Identify similarities and differences in their structures.</p>
+                                <button onclick="alert('Suggested videos:\n- Whaikōrero: Search \"Māori welcome ceremony\" on YouTube\n- Debate: New Zealand Schools Debating Championships')">Video Suggestions</button>
+                            </div>
+                        </div>
+                        
+                        <div id="techniques" class="tab-panel">
+                            <h3>Persuasive Techniques</h3>
+                            <div class="card">
+                                <h4>Shared Techniques</h4>
+                                <ul>
+                                    <li><strong>Metaphor and imagery</strong> - Creating vivid mental pictures</li>
+                                    <li><strong>Repetition</strong> - Emphasizing key points</li>
+                                    <li><strong>Rhetorical questions</strong> - Engaging the audience</li>
+                                    <li><strong>Appeals to values</strong> - Connecting to shared beliefs</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="card">
+                                <h4>Unique to Whaikōrero</h4>
+                                <ul>
+                                    <li><span class="maori-term">Whakataukī</span> (proverbs) - Traditional wisdom</li>
+                                    <li><span class="maori-term">Kīwaha</span> (idiomatic expressions) - Cultural metaphors</li>
+                                    <li>Genealogical references - Establishing authority</li>
+                                    <li>Spiritual acknowledgments - Connecting to the unseen</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="activity">
+                                <h4>Activity: Technique Identification</h4>
+                                <p>Read transcripts of speeches and identify persuasive techniques used. Categorize them as shared, whaikōrero-specific, or debate-specific.</p>
+                                <button onclick="toggleContent('technique-examples')">View Examples</button>
+                                <div id="technique-examples" style="display: none; margin-top: 15px;">
+                                    <p><strong>Whaikōrero example:</strong> "E ngā mana, e ngā reo, e ngā karangatanga maha, tēnā koutou katoa. He uri ahau nō Tainui waka..." (Acknowledgement of authority, voices, and genealogical connection)</p>
+                                    <p><strong>Debate example:</strong> "The evidence clearly shows that implementing this policy would benefit 85% of New Zealanders..." (Statistical evidence and appeal to majority)</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="protocols" class="tab-panel">
+                            <h3>Speaking Protocols</h3>
+                            <div class="card">
+                                <h4>Whaikōrero Protocols</h4>
+                                <ul>
+                                    <li>Speaker stands to deliver speech</li>
+                                    <li>Formal opening and closing greetings</li>
+                                    <li>Use of <span class="maori-term">te reo Māori</span></li>
+                                    <li>Respectful body language and delivery</li>
+                                    <li>Acknowledgement of ancestors and spiritual elements</li>
+                                    <li>Connection to the land and people</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="card">
+                                <h4>Contemporary Debate Protocols</h4>
+                                <ul>
+                                    <li>Time limits for speeches</li>
+                                    <li>Structured rebuttal periods</li>
+                                    <li>Formal address ("Madam Chair, opposing team...")</li>
+                                    <li>Evidence-based arguments</li>
+                                    <li>Respect for procedural rules</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="activity">
+                                <h4>Activity: Protocol Practice</h4>
+                                <p>Practice delivering short speeches using protocols from both traditions. Focus on respectful engagement with your audience.</p>
+                                <button onclick="alert('Try:\n1. A 1-minute speech using whaikōrero protocols\n2. A 1-minute speech using debate protocols\n3. A blended approach')">Practice Ideas</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="practical-application">
+                <h2>Practical Application: Blended Debate Format</h2>
+                <p>This activity combines elements of whaikōrero with contemporary debate structures.</p>
+                
+                <div class="card">
+                    <h3>Blended Debate Structure</h3>
+                    <ol>
+                        <li><strong>Opening (1 minute)</strong> - Formal greeting and acknowledgement of context/occasion</li>
+                        <li><strong>Position Statement (2 minutes)</strong> - Clear thesis using cultural references if appropriate</li>
+                        <li><strong>Arguments (4 minutes)</strong> - 2-3 main points with evidence, using persuasive techniques from both traditions</li>
+                        <li><strong>Rebuttal (2 minutes)</strong> - Response to opposing arguments with respectful language</li>
+                        <li><strong>Conclusion (1 minute)</strong> - Summary and closing remarks that connect to broader values</li>
+                    </ol>
+                </div>
+                
+                <div class="activity">
+                    <h4>Activity: Practice Debate</h4>
+                    <p><strong>Topic:</strong> "That New Zealand schools should incorporate more te reo Māori in daily activities."</p>
+                    <p>Divide into teams and prepare arguments using the blended structure. Consider how you might incorporate:</p>
+                    <ul>
+                        <li>Appropriate cultural references</li>
+                        <li>Values-based arguments</li>
+                        <li>Respectful language and protocols</li>
+                        <li>Evidence and logical reasoning</li>
+                    </ul>
+                    <button onclick="toggleContent('debate-tips')">Debate Preparation Tips</button>
+                    <div id="debate-tips" style="display: none; margin-top: 15px;">
+                        <p><strong>For the affirmative:</strong> Focus on cultural preservation, educational benefits, and national identity.</p>
+                        <p><strong>For the negative:</strong> Consider practical implementation challenges, resource allocation, and alternative approaches.</p>
+                        <p><strong>For both:</strong> Use respectful language, acknowledge valid points from the other side, and ground arguments in shared values.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="assessment">
+                <h2>Assessment</h2>
+                <p>Use this rubric to assess student performance in the blended debate activity:</p>
+                
+                <table class="assessment-table">
+                    <thead>
+                        <
