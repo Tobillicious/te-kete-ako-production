@@ -113,7 +113,7 @@ async function enhanceLessonWithResources(lessonTopic, yearLevel) {
 6. **Final cleanup and production deploy**
 
 ## API Keys & Environment
-- **Deepseek API**: sk-65624cc9a6fa45c8a7eebe1834dc9587 (for development)
+- **Deepseek API**: [DEEPSEEK_API_KEY_REMOVED] (for development)
 - **EXA.ai**: Available for educational resource discovery
 - **Firebase**: Project configuration needed
 - **Supabase**: Keep for GRAPHRAG only

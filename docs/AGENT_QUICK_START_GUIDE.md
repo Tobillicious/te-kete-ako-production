@@ -23,7 +23,7 @@
 
 ### 📚 **KNOWLEDGE SYSTEMS**
 - **GraphRAG**: `python3 scripts/test_graphrag.py` (467 resources indexed)
-- **DeepSeek API**: `sk-65624cc9a6fa45c8a7eebe1834dc9587` 
+- **DeepSeek API**: `[DEEPSEEK_API_KEY_REMOVED]` 
 - **EXA.AI**: Available for NZ curriculum validation
 - **Cultural Safety**: Automatic validation across all AI systems
 

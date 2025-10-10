@@ -24,7 +24,7 @@ Adaptive Paths: 🚀 JUST DEPLOYED (testing in progress)
 - **Live Platform**: https://tekete.netlify.app (fully functional)
 - **API Ecosystem**: 8 Netlify functions handling auth, progress, paths, search
 - **Database**: Supabase with user progress tracking and profiles
-- **AI Integration**: DeepSeek API key: `sk-65624cc9a6fa45c8a7eebe1834dc9587`
+- **AI Integration**: DeepSeek API key: `[DEEPSEEK_API_KEY_REMOVED]`
 - **Cultural Framework**: Te Ao Māori educational principles throughout
 - **User Base**: Starting with tobi.mcrae@gmail.com as test educator
 

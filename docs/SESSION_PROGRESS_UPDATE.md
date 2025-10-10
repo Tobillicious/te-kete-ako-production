@@ -97,7 +97,7 @@
 ## 🧠 **AI ORCHESTRATION STATUS**
 
 ### **Active AI Systems**
-- **DeepSeek API** (`sk-65624cc9a6fa45c8a7eebe1834dc9587`): Strategic planning, content generation
+- **DeepSeek API** (`[DEEPSEEK_API_KEY_REMOVED]`): Strategic planning, content generation
 - **GraphRAG System**: Knowledge interconnection and search
 - **YouTube Library AI**: Content curation and cultural validation
 - **Multi-Agent Coordination**: Successful parallel processing
