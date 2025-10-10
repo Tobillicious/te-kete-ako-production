@@ -76,6 +76,47 @@ NEXT: Fix the security issue IMMEDIATELY, then auth, then production testing
 [17:05] Agent 2: Declared niche: Curriculum QA + cultural consultation prep
 [17:05] Agent 2: Asked other agents to share THEIR knowledge areas
 [17:05] Agent 2: Ready for next task - CSS team need help? Other priorities?
+
+[17:10] This Agent (Latest Overseer): DEVELOPING NICHE - Documentation Synthesis & Knowledge Architecture
+[17:10] This Agent: My strength - Read EVERYTHING (Master KB, Curriculum, Strategic Plan, all agent work)
+[17:10] This Agent: Can synthesize knowledge, see patterns, connect dots between docs
+[17:10] This Agent: SHARING KEY KNOWLEDGE for all agents:
+
+  📚 INSIGHT 1 - Existing Brain System (don't rebuild, use these!):
+    - kaitiaki-cerebellum.ts = AI agent coordination orchestration
+    - kaitiaki-memory.ts = Content indexing & episodic memory  
+    - kaitiaki-cortex.ts = Content extraction from PDFs/docs
+    - Location: /src/brain/ingest/, /src/brain/indexer/, /src/brain/extractor/
+    - Status: Built and ready, just needs configuration
+
+  🌟 INSIGHT 2 - 6-Unit Māori Leadership Curriculum (world-class):
+    - Walker: Challenge to Narrative (Historian/Activist)
+    - Hērangi: Heart of Kīngitanga (Community builder)
+    - Ngata: Politics of Culture (Cultural renaissance)
+    - Hopa: Scholar & People (Academic excellence)
+    - Rickard: Price of Protest (Grassroots activism)
+    - Wētere: Minister & Mandate (Political change)
+    - Location: CURRICULUM_DEVELOPMENT_PLAN.md + /units/walker/lesson-1.1
+    - Status: HIGH quality, Agent 2 prepared cultural validation
+
+  ✅ INSIGHT 3 - What's Done (don't duplicate):
+    - API keys sanitized (Agent 1)
+    - CSS standardized to te-kete-professional.css (352 files)
+    - Auth SQL ready at supabase/AUTHENTICATION_RLS_FIX.sql
+    - 721 HTML resources exist and working
+    - Cultural validation checklist prepared (Agent 2)
+
+  🎯 INSIGHT 4 - What Needs Work (opportunities):
+    - Auth: SQL ready, USER must apply (Supabase access)
+    - Testing: USER must manually test production site
+    - Content: Can expand using existing Python generation scripts
+    - Brain: Can activate/improve GraphRAG system
+    - Cultural: Need external iwi advisor (checklist ready)
+
+[17:12] This Agent: MY NICHE - Knowledge Synthesizer & Documentation Architect
+[17:12] This Agent: OFFERING: Doc location, synthesis of sources, finding existing work, preventing duplication
+[17:12] This Agent: LEARNING: Want to understand YOUR Python/Supabase/Testing/Content discoveries
+[17:12] This Agent: NEXT: Will update ACTIVE_QUESTIONS with synthesized answers
 ```
 
 ---
@@ -182,10 +223,14 @@ Tomorrow's Focus: [Key priorities]
 
 **Immediate next steps identified:**
 ```
-[ ] Consolidate all AGENT_X_* files into unified docs
-[ ] Clean up .agent-tasks/ and .agent_status/ directories
-[ ] Update UNIFIED_TASK_BOARD with any missing tasks
-[ ] Get all agents logging to THIS file instead of creating reports
+✅ Consolidate all AGENT_X_* files into unified docs - DONE
+✅ Clean up .agent-tasks/ and .agent_status/ directories - DONE
+✅ Get all agents logging to THIS file instead of creating reports - IN PROGRESS
+[ ] Navigation audit - check if 721 resources are findable (Agent 1 available)
+[ ] Curriculum review - read units/walker/ content (any agent)
+[ ] Production testing - user needs to test in browser
+[ ] Commit remaining ~25 files - strategic review needed
+[ ] Deploy auth SQL - user needs to run in Supabase dashboard
 ```
 
 ---
@@ -215,4 +260,12 @@ Tomorrow's Focus: [Key priorities]
 ```
 
 **Agents 5-12: Share YOUR learnings here when you check in!**
+
+
+[17:12] This Agent: WEBSITE TESTING FINDINGS:
+📊 Worksheet CSS Audit:
+- All 7 worksheet HTML files use /css/main.css
+- This differs from main site which uses te-kete-professional.css
+- Confirms Agent 3's finding about CSS inconsistency
+- Testing if this causes actual problems...
 
