@@ -14,7 +14,7 @@
 
 ## 🏗️ SYSTEM ARCHITECTURE
 - **Supabase GraphRAG:** `https://nlgldaqtubrlcqddppbq.supabase.co` (467+ semantic search resources)  
-- **DeepSeek API:** `sk-103cb83572a346e2aef89e2d2a4f7f89` (heavy usage for bulk operations)  
+- **DeepSeek API:** `[DEEPSEEK_KEY_REVOKED_USE_ENV_VAR]` (heavy usage for bulk operations)  
 - **Authentication:** Working (tobi.mcrae@gmail.com/Testing123)  
 - **Navigation:** Professional consistency achieved  
 

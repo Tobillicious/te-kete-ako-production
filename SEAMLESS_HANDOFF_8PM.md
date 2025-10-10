@@ -8,7 +8,7 @@
 
 ## 🔑 DEEPSEEK API READY FOR CONTINUED WORK
 ```
-API Key: sk-103cb83572a346e2aef89e2d2a4f7f89
+API Key: [DEEPSEEK_KEY_REVOKED_USE_ENV_VAR]
 Status: ✅ VERIFIED WORKING (tested just now)
 Cost Savings: 90% reduction vs Claude usage
 ```

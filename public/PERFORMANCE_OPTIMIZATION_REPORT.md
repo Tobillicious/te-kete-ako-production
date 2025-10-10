@@ -4,7 +4,7 @@
 
 **Target**: Optimize Te Kete Ako for Mangakotukutuku College Chromebooks with sub-2-second load times
 **Status**: ✅ FULLY DEPLOYED
-**DeepSeek API Usage**: sk-103cb83572a346e2aef89e2d2a4f7f89 (Optimized for analysis)
+**DeepSeek API Usage**: [DEEPSEEK_KEY_REVOKED_USE_ENV_VAR] (Optimized for analysis)
 
 ---
 

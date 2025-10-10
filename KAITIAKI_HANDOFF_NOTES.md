@@ -104,7 +104,7 @@ python3 scripts/graphrag_query.py "your query here" 0.2 10
 
 ### DeepSeek Multi-Agent Generation:
 ```bash
-DEEPSEEK_API_KEY="sk-103cb83572a346e2aef89e2d2a4f7f89" 
+DEEPSEEK_API_KEY="[REVOKED - Use .env file]" 
 python3 scripts/parallel_deepseek_generator.py --mode="lessons" --target="topic" --count=2
 ```
 

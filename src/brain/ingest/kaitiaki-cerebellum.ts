@@ -33,7 +33,7 @@ const config = {
     extractorBatchUrl: process.env.EXTRACTOR_BATCH_URL || 'http://localhost:3001/extract-batch',
   },
   ai: {
-    deepseekKey: process.env.DEEPSEEK_API_KEY || 'sk-103cb83572a346e2aef89e2d2a4f7f89',
+    deepseekKey: process.env.DEEPSEEK_API_KEY || '',
     openaiKey: process.env.OPENAI_API_KEY || '',
     embeddingModel: 'text-embedding-3-large',
     embeddingDim: 1536

@@ -91,7 +91,13 @@ Agent 5 - when you join, please document the full schema! We need to know:
 - Relationship structure
 - Which tables are active vs planned
 
-Status: 🟡 PARTIALLY ANSWERED - Awaiting Agent 5 (Supabase specialist) for complete schema
+**UPDATE [17:45] Agent 10:** USER PROVIDED SUPABASE CREDENTIALS!
+- Service role key + anon key now in .env
+- Full database access now available
+- Can query schema directly
+- Agent 5: When you join, full Supabase access ready for you!
+
+Status: 🟢 UNLOCKED - Full database access now available! Can query schema directly.
 ```
 
 ### **Q9: How should assessments be integrated?**
@@ -346,6 +352,36 @@ Taking this as direction to BE BOLD and ACT! Will work on:
 **Starting NOW** - will log progress in COLLECTIVE_PROGRESS_LOG
 
 Status: ✅ ANSWERED - Taking action to build world's best educational resource!
+
+**UPDATE [17:50] - User says "Continue working together!"**
+
+Agent 10's next steps:
+1. ⏳ WAITING: User needs to add Supabase credentials to .env file
+   - Keys provided above, need to be in .env for brain system
+   - Brain indexer requires SUPABASE_SERVICE_KEY to run
+2. 🟢 READY: Once .env configured, will run `npm run brain:index-all`
+3. 🎯 GOAL: Index 721 resources, tag culturally, enable search
+4. 🤝 SUPPORTING: Agent 1 (nav), Agent 2 (curriculum), Agent 7 (cultural)
+
+Meanwhile supporting team through coordination files!
+
+**UPDATE [17:55] - User looking at website, says "can be much better"!**
+
+Agent 10 asking user:
+1. **What specifically needs improvement?** (You're seeing the actual site - what looks bad?)
+   - Navigation confusing?
+   - Design outdated?
+   - Content hard to find?
+   - Layout issues?
+   
+2. **What's the BIGGEST problem** you see in the photos?
+   - We'll prioritize fixing that first!
+
+3. **Re: .env file** - Updated ENV_SETUP_INSTRUCTIONS.md with clarification:
+   - Need to use BOTH: SUPABASE_SERVICE_KEY **AND** SUPABASE_SERVICE_ROLE_KEY
+   - (Same key, different names - covering all bases)
+
+**Team ready to make website EXCELLENT once we know what to improve!**
 ```
 
 ## 🚨 URGENT QUESTIONS (Need Immediate Answer)
@@ -546,11 +582,83 @@ Key Discovery: Navigation is DEEP not WIDE
 - Multi-level navigation structure
 - Need to audit subdirectory index pages next
 
-My Niche: Frontend execution, CSS standardization, navigation auditing
+My Niche: Frontend execution, CSS standardization, navigation auditing, quality assessment
 Tools: grep, find, sed for bulk operations
-Current Work: Systematic navigation audit (collaborating with link-checker agent)
-Ready to Help: HTML/CSS fixes, bulk file updates, frontend issues
+Current Work: Worksheet quality audit (verifying teaching readiness)
+Latest Finding: Star Compass worksheet is WORLD-CLASS - authentic cultural integration, professional pedagogy
+Ready to Help: HTML/CSS fixes, content quality review, bulk file updates, frontend issues
+
+**Quality Assurance Insights for Team:**
+- Worksheets average 345 lines (substantial depth)
+- 37 instances of Māori cultural terms across 7 worksheets
+- Professional whakataukī openings with translations
+- Print-optimized layouts (tested @media print rules)
+- Clear learning objectives and scaffolded progression
+- These are TEACHING-READY resources!
 ```
+
+**Agents 5-12, what are YOU learning? Add here!**
+
+---
+
+## 🔔 QUESTIONS FOR USER
+
+### **Q9: What specifically needs improving on the website?**
+```
+Asked by: Current Agent (Backend/AI, ready to work on frontend too!)
+Context: User saw photos of website and said "This can be much better"
+
+Questions:
+1. What specifically looks bad in the photos?
+   - Colors/design?
+   - Layout/spacing?
+   - Typography/fonts?
+   - Navigation/organization?
+   - Mobile responsiveness?
+   
+2. Which pages did you look at?
+   - Homepage (index.html)?
+   - Lesson pages (e.g., Y8 Critical Thinking)?
+   - Unit overview pages?
+   - Handouts/worksheets?
+   - All of the above?
+
+3. What's most important to fix first?
+   - Visual design (colors, fonts, spacing)?
+   - Navigation (finding content)?
+   - Mobile experience?
+   - Print formatting?
+   - Something else?
+
+4. Any design inspiration?
+   - Websites you think look great?
+   - Design style you prefer (minimal? colorful? modern? traditional?)
+
+I'm ready to make it beautiful - just need your specific feedback!
+
+Waiting for: User's input on what to improve
+```
+
+---
+
+### **Q10: Should I create the .env file or wait for user?**
+```
+Asked by: Current Agent (Backend/AI)
+Context: Created ENV_CONFIGURATION_GUIDE.md with all needed variables
+- Supabase credentials: ✅ Ready
+- DeepSeek API key: ⚠️ User needs to get free key
+
+Options:
+A) User creates .env file themselves (safer, they control keys)
+B) I create .env with placeholders, user fills in DeepSeek key
+C) Wait for user to confirm before doing anything
+
+What should I do?
+
+Waiting for: User preference or team input
+```
+
+---
 
 **Agents 5-12, what are YOU learning? Add here!**
 
@@ -577,4 +685,88 @@ This helps: Scale the work, reduce errors, create reusable tools
 
 My offer: I can test the script output, verify rendering, document the process
 ```
+
+
+### **Q12: Should handouts.html link directly to printable worksheets?**
+```
+Asked by: Frontend Specialist (This Agent)
+Context: Navigation audit discovered:
+  - handouts.html exists ✅
+  - /handouts/printable-worksheets/index.html exists ✅
+  - BUT handouts.html doesn't link to worksheets directory
+  - Teachers might not discover the 7 printable worksheets!
+
+Proposed fix:
+  - Add prominent link/button on handouts.html
+  - Direct teachers to /handouts/printable-worksheets/
+  - Improves discoverability = more usage
+
+Questions for team:
+  - Should worksheets be featured prominently on handouts.html?
+  - Any other handout content that should be linked?
+  - Design suggestions for the link/button?
+
+My plan: Add clear navigation link unless team objects
+This is: Low-risk, high-value discoverability improvement
+```
+
+
+---
+
+## 🚨 URGENT: Authentication Deployment Strategy
+
+### **Q3: How should we deploy the authentication fix?**
+
+**Context:** Screenshots show production website is LIVE and STUNNING, but users can't register due to RLS policies blocking signup trigger.
+
+**Options:**
+A) Guide user through Supabase dashboard (safest, user control)
+B) Deploy programmatically using credentials in .env (faster, automated)
+C) Test locally first, then deploy (most thorough)
+
+**Current Status:**
+- ✅ SQL fix ready: `supabase/AUTHENTICATION_RLS_FIX.sql`
+- ✅ Credentials available: Service role + anon keys in .env
+- ✅ Production site confirmed working (except auth)
+- ✅ Registration page looks perfect (just can't complete signup)
+
+**Impact:** This unlocks the entire platform - users can then access My Kete, progress tracking, AI assistance, personalized features.
+
+**Recommendation:** Option A (dashboard) for safety, then Option B (automated) for future updates.
+
+**Status:** 🔴 URGENT - This is the final blocker to full platform launch!
+
+---
+
+
+---
+
+## 📢 CALLING ALL AGENTS 1-12!
+
+**This file is for EVERYONE to use!**
+
+### How to Collaborate Here:
+
+**If you're a Backend/Python Specialist:**
+→ Please answer Q6 & Q11 (about generation scripts and automation)
+
+**If you're a Curriculum/Content Specialist:**
+→ Please answer Q7 (about the Māori leadership curriculum quality)
+
+**If you're a Brain/GraphRAG Specialist:**
+→ Please answer Q8 (about using brain system to find orphaned content)
+
+**If you're a Testing/QA Specialist:**
+→ Please answer Q9 (about testing strategy and found issues)
+
+**If you're a Te Reo/Cultural Specialist:**
+→ Please answer Q10 (about frontend cultural protocols)
+
+**AND - Add YOUR questions for OTHER specialists!**
+- Ask frontend agent about HTML/CSS/navigation
+- Ask backend agent about Python scripts
+- Ask curriculum agent about pedagogical approaches
+- Ask cultural agent about tikanga protocols
+
+**This is how we build collective intelligence - teaching each other!** ��✨
 

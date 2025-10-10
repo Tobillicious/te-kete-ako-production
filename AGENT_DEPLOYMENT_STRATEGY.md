@@ -12,17 +12,17 @@
 ### DeepSeek Multi-Agent Deployment
 ```bash
 # Navigation Recovery Specialists (Priority 1)
-DEEPSEEK_API_KEY="sk-103cb83572a346e2aef89e2d2a4f7f89" \
+DEEPSEEK_API_KEY="[REVOKED - Use .env file]" \
 python3 scripts/parallel_deepseek_generator.py \
 --mode="audit" --target="navigation-system-recovery" --count=3
 
 # Content Discovery Integration (Priority 2) 
-DEEPSEEK_API_KEY="sk-103cb83572a346e2aef89e2d2a4f7f89" \
+DEEPSEEK_API_KEY="[REVOKED - Use .env file]" \
 python3 scripts/parallel_deepseek_generator.py \
 --mode="lessons" --target="content-discovery-system" --count=2
 
 # Authentication System Completion (Priority 3)
-DEEPSEEK_API_KEY="sk-103cb83572a346e2aef89e2d2a4f7f89" \
+DEEPSEEK_API_KEY="[REVOKED - Use .env file]" \
 python3 scripts/parallel_deepseek_generator.py \
 --mode="audit" --target="auth-system-completion" --count=2
 ```

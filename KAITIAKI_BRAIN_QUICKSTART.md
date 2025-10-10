@@ -25,7 +25,7 @@ npm run brain:ingest path/to/document.pdf "Document Title"
 ### 2. Environment Setup
 1. Copy `.env.example` to `.env`
 2. Add your Supabase URL and service key
-3. Add your DeepSeek API key: `sk-103cb83572a346e2aef89e2d2a4f7f89`
+3. Add your DeepSeek API key: `[DEEPSEEK_KEY_REVOKED_USE_ENV_VAR]`
 4. Optionally add OpenAI API key for better embeddings
 
 ### 3. Database Setup

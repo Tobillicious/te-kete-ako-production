@@ -53,7 +53,7 @@
 ## 🛠️ AVAILABLE INFRASTRUCTURE & TOOLS
 
 ### AI Agent Arsenal
-1. **DeepSeek API**: `sk-103cb83572a346e2aef89e2d2a4f7f89`
+1. **DeepSeek API**: `[DEEPSEEK_KEY_REVOKED_USE_ENV_VAR]`
    - parallel_deepseek_generator.py for multi-agent deployment
    - Modes: "audit", "lessons", "assessment", "creative"
 

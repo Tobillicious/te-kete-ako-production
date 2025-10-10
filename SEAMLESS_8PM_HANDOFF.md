@@ -11,7 +11,7 @@ git status
 open public/index.html
 
 # DeepSeek resource generation (PROVEN WORKING)
-DEEPSEEK_API_KEY="sk-103cb83572a346e2aef89e2d2a4f7f89" python3 scripts/deepseek_resource_generator.py --verify-connection
+DEEPSEEK_API_KEY="[DEEPSEEK_KEY_REVOKED_USE_ENV_VAR]" python3 scripts/deepseek_resource_generator.py --verify-connection
 ```
 
 ## 📊 CURRENT STATUS SNAPSHOT
@@ -43,7 +43,7 @@ DEEPSEEK_API_KEY="sk-103cb83572a346e2aef89e2d2a4f7f89" python3 scripts/deepseek_
 ## 🔑 KEY ASSETS READY TO USE
 
 ### DeepSeek API Integration
-- **API Key:** `sk-103cb83572a346e2aef89e2d2a4f7f89`
+- **API Key:** `[DEEPSEEK_KEY_REVOKED_USE_ENV_VAR]`
 - **Scripts Ready:** `/scripts/deepseek_resource_generator.py`
 - **Proven Success:** 3 alpha resources already generated
 - **Target:** Generate remaining 47 from 50 total

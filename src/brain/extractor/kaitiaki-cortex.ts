@@ -34,7 +34,7 @@ const config = {
   },
   ai: {
     provider: (process.env.LLM_PROVIDER || 'deepseek').toLowerCase(),
-    deepseekKey: process.env.DEEPSEEK_API_KEY || 'sk-103cb83572a346e2aef89e2d2a4f7f89',
+    deepseekKey: process.env.DEEPSEEK_API_KEY || '',
     deepseekUrl: process.env.DEEPSEEK_API_URL || 'https://api.deepseek.com/v1/chat/completions',
     model: process.env.LLM_MODEL || 'deepseek-coder',
     maxTokens: Number(process.env.MAX_TOKENS || 4000),

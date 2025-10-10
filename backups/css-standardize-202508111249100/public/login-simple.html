@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://supabase.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: https://placehold.co; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co https://supabase.com;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Te Kete Ako - Award-winning educational platform integrating mātauranga Māori with contemporary learning">
+    <meta name="keywords" content="education, māori, indigenous, ai, learning, new zealand">
+    <meta name="author" content="Te Kete Ako">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Login | Te Kete Ako</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        .auth-container {
+            max-width: 500px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .form-group input {
+            padding: 0.75rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .auth-button {
+            background: linear-gradient(135deg, #2d5a87, #1e88e5);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        }
+        .message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-weight: bold;
+            display: none;
+        }
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+            display: block;
+        }
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+            display: block;
+        }
+        .status {
+            background: #fff3cd;
+            color: #856404;
+            border: 2px solid #ffeaa7;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+    </style>
+
+    <link rel="stylesheet" href="css/kehinde-wiley-design-system.css">
+    <link rel="stylesheet" href="css/kehinde-wiley-implementation.css"> 
+    <link rel="stylesheet" href="css/award-winning-polish.css">
+</head>
+<body>
+    <div class="auth-container">
+        <h1 style="text-align: center; color: #2d5a87; margin-bottom: 1.5rem;" class="wiley-hero-title">🧺 Te Kete Ako Login</h1>
+        
+        <div id="status" class="status">🔄 Initializing authentication...</div>
+        
+        <div id="error-message" class="message error"></div>
+        <div id="success-message" class="message success"></div>
+        
+        <form id="login-form" style="display: none;">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" required placeholder="teacher@kete.nz" value="teacher@kete.nz">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" required placeholder="Enter your password">
+            </div>
+            
+            <button type="submit" class="auth-button" id="login-btn">Sign In</button>
+        </form>
+    </div>
+
+    <!-- Load Supabase -->
+    <script src="js/supabase.js"></script>
+
+    <script>
+        let supabaseClient = null;
+        
+        function updateStatus(message, type = 'loading') {
+            const statusEl = document.getElementById('status');
+            const form = document.getElementById('login-form');
+            
+            if (type === 'ready') {
+                statusEl.innerHTML = '✅ ' + message;
+                statusEl.style.background = '#d4edda';
+                statusEl.style.color = '#155724';
+                form.style.display = 'block';
+            } else if (type === 'error') {
+                statusEl.innerHTML = '❌ ' + message;
+                statusEl.style.background = '#f8d7da';
+                statusEl.style.color = '#721c24';
+            } else {
+                statusEl.innerHTML = '🔄 ' + message;
+            }
+        }
+        
+        function showError(message) {
+            document.getElementById('error-message').textContent = message;
+            document.getElementById('error-message').style.display = 'block';
+        }
+        
+        function showSuccess(message) {
+            document.getElementById('success-message').textContent = message;
+            document.getElementById('success-message').style.display = 'block';
+        }
+        
+        async function initializeAuth() {
+            try {
+                updateStatus('Checking Supabase library...');
+                
+                // Wait for Supabase to load
+                let attempts = 0;
+                while (!window.supabase && attempts < 100) {
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    attempts++;
+                }
+                
+                if (!window.supabase) {
+                    throw new Error('Supabase library not available');
+                }
+                
+                updateStatus('Supabase loaded! Creating client...');
+                
+                // Create Supabase client directly
+                supabaseClient = window.supabase.createClient(
+                    'https://nlgldaqtubrlcqddppbq.supabase.co',
+                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM',
+                    {
+                        auth: {
+                            autoRefreshToken: true,
+                            persistSession: true
+                        }
+                    }
+                );
+                
+                updateStatus('Testing connection...');
+                
+                // Test the connection
+                const { data, error } = await supabaseClient.auth.getSession();
+                
+                updateStatus('Authentication system ready!', 'ready');
+                
+            } catch (error) {
+                console.error('Auth initialization error:', error);
+                updateStatus(`Authentication failed: ${error.message}`, 'error');
+            }
+        }
+        
+        // Form submission
+        document.addEventListener('DOMContentLoaded', () => {
+            // Start initialization
+            initializeAuth();
+            
+            // Handle form submission
+            document.getElementById('login-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                const submitBtn = document.getElementById('login-btn');
+                
+                // Clear messages
+                document.getElementById('error-message').style.display = 'none';
+                document.getElementById('success-message').style.display = 'none';
+                
+                // Loading state
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Signing In...';
+                
+                try {
+                    if (!supabaseClient) {
+                        throw new Error('Authentication system not ready');
+                    }
+                    
+                    const { data, error } = await supabaseClient.auth.signInWithPassword({
+                        email,
+                        password
+                    });
+                    
+                    if (error) throw error;
+                    
+                    showSuccess('Login successful! Redirecting...');
+                    
+                    setTimeout(() => {
+                        window.location.href = 'my-kete.html';
+                    }, 1500);
+                    
+                } catch (error) {
+                    console.error('Login error:', error);
+                    if (error.message.includes('Invalid login credentials')) {
+                        showError('Invalid email or password. Please check your credentials.');
+                    } else {
+                        showError(error.message);
+                    }
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Sign In';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://supabase.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: https://placehold.co; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co https://supabase.com;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Learning Experiences | Te Kete Ako</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        .experience-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .experience-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .experience-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .experience-header {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .experience-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+        .experience-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0;
+        }
+        .experience-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin: 0.25rem 0 0 0;
+        }
+        .experience-content {
+            padding: 1.5rem;
+        }
+        .experience-description {
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .experience-features {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+        .experience-features li {
+            padding: 0.25rem 0;
+            color: var(--color-text);
+        }
+        .experience-features li:before {
+            content: "✨";
+            margin-right: 0.5rem;
+        }
+        .experience-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.2s ease;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .experience-button:hover {
+            transform: translateY(-2px);
+            text-decoration: none;
+            color: white;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .status-ready {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+        .status-beta {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-prototype {
+            background: #e1ecf4;
+            color: #0c5460;
+        }
+    </style>
+
+    <link rel="stylesheet" href="css/kehinde-wiley-design-system.css">
+    <link rel="stylesheet" href="css/kehinde-wiley-implementation.css"> 
+    <link rel="stylesheet" href="css/award-winning-polish.css">
+</head>
+<body data-auto-init="true">
+                    <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="../../../../index.html" class="nav-brand">Te Kete Ako</a>
+            <nav class="main-nav">
+                <ul>
+                    <li>
+                        <a href="../../../../unit-plans.html">
+                            <span class="nav-icon">📚</span>
+                            <span class="nav-text-en">Unit Plans</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Waehere</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../../../../teachers/index.html">
+                            <span class="nav-icon">🧑‍🏫</span>
+                            <span class="nav-text-en">Teachers</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Kaiako</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../../../../lessons.html">
+                            <span class="nav-icon">🎓</span>
+                            <span class="nav-text-en">Lessons</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../../../../handouts.html">
+                            <span class="nav-icon">📄</span>
+                            <span class="nav-text-en">Handouts</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../../../../games.html">
+                            <span class="nav-icon">🎮</span>
+                            <span class="nav-text-en">Games</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Kēmu</span>  
+                        </a>
+                    </li>
+                    <li class="auth-nav my-kete-link" style="display: none;">
+                        <a href="../../../../my-kete.html">
+                            <span class="nav-icon">🧺</span>
+                            My Kete
+                        </a>
+                    </li>
+                    <li class="auth-nav">
+                        <a href="../../../../login.html" class="login-btn">
+                            <span class="nav-icon">👤</span>
+                            Login
+                        </a>
+                    </li>
+                    <li class="auth-nav" style="display: none;">
+                        <a href="../../../../register-simple.html" class="register-btn">
+                            <span class="nav-icon">📝</span>
+                            Register
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <nav class="breadcrumbs no-print" aria-label="Breadcrumb">
+                <ol id="breadcrumbs" class="breadcrumbs-list"></ol>
+            </nav>
+        </div>
+    </header>
+    <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
+
+    <div class="main-container">
+        <main class="content-area">
+            <div class="cultural-opening" style="background: var(--color-cultural-light); border-left: 4px solid var(--color-secondary); padding: 1.5rem; margin-bottom: 2rem; border-radius: 8px;">
+                <h2 style="color: var(--color-primary); margin-bottom: 0.5rem; font-size: 1.1rem;" class="wiley-section-title">Whakataukī | Proverb</h2>
+                <p style="font-style: italic; color: var(--color-primary); margin-bottom: 0.5rem; font-size: 1.1rem;">"He aha te mea nui o te taiao? He tangata, he tangata, he tangata"</p>
+                <p style="color: var(--color-text-secondary); font-size: 0.95rem;">What is the most important thing in the world? It is people, it is people, it is people.</p>
+                <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">These advanced learning experiences put learners at the center of transformative educational journeys.</p>
+            </div>
+        
+
+            <h1 style="color: var(--color-primary); text-align: center; margin-bottom: 1rem;" class="wiley-hero-title">🌟 Advanced Learning Experiences</h1>
+            <p style="text-align: center; color: var(--color-text-secondary); margin-bottom: 2rem; font-size: 1.1rem;">
+                Innovative educational platforms that extend beyond traditional lessons
+            </p>
+
+            <div class="experience-grid">
+                <!-- Adaptive Pathways -->
+                <div class="experience-card">
+                    <div class="experience-header">
+                        <div class="experience-icon">🎯</div>
+                        <h2 class="experience-title" class="wiley-section-title">Adaptive Pathways</h2>
+                        <p class="experience-subtitle">AI-Powered Personalized Learning</p>
+                    </div>
+                    <div class="experience-content">
+                        <div class="status-badge status-beta">Beta Platform</div>
+                        <p class="experience-description">
+                            Revolutionary learning system that adapts to each student's pace, interests, and learning style. 
+                            Uses intelligent algorithms to create personalized educational journeys.
+                        </p>
+                        <ul class="experience-features">
+                            <li>Personalized learning paths</li>
+                            <li>Adaptive difficulty adjustment</li>
+                            <li>Progress tracking and analytics</li>
+                            <li>Multi-modal content delivery</li>
+                        </ul>
+                        <a href="adaptive-pathways.html" class="experience-button">Explore Adaptive Learning</a>
+                    </div>
+                </div>
+
+                <!-- Virtual Marae -->
+                <div class="experience-card">
+                    <div class="experience-header">
+                        <div class="experience-icon">🏛️</div>
+                        <h2 class="experience-title" class="wiley-section-title">Virtual Marae</h2>
+                        <p class="experience-subtitle">Immersive Cultural Training</p>
+                    </div>
+                    <div class="experience-content">
+                        <div class="status-badge status-ready">Ready to Launch</div>
+                        <p class="experience-description">
+                            World-first virtual reality marae experience for cultural learning and protocol training. 
+                            Developed with cultural advisors for authentic education.
+                        </p>
+                        <ul class="experience-features">
+                            <li>VR/AR marae protocols</li>
+                            <li>Cultural advisor validation</li>
+                            <li>Interactive learning modules</li>
+                            <li>Respectful virtual environments</li>
+                        </ul>
+                        <a href="virtual-marae.html" class="experience-button">Enter Virtual Marae</a>
+                    </div>
+                </div>
+
+                <!-- Digital Pūrākau -->
+                <div class="experience-card">
+                    <div class="experience-header">
+                        <div class="experience-icon">📚</div>
+                        <h2 class="experience-title" class="wiley-section-title">Digital Pūrākau</h2>
+                        <p class="experience-subtitle">Interactive Storytelling Platform</p>
+                    </div>
+                    <div class="experience-content">
+                        <div class="status-badge status-prototype">Advanced Prototype</div>
+                        <p class="experience-description">
+                            Interactive storytelling platform bringing traditional Māori stories to life through 
+                            modern digital technology while maintaining cultural authenticity.
+                        </p>
+                        <ul class="experience-features">
+                            <li>Interactive story branching</li>
+                            <li>Authentic Te Reo Māori audio</li>
+                            <li>Cultural context explanations</li>
+                            <li>Multi-generational storytelling</li>
+                        </ul>
+                        <a href="digital-purakau.html" class="experience-button">Experience Stories</a>
+                    </div>
+                </div>
+
+                <!-- Cultural Assessment -->
+                <div class="experience-card">
+                    <div class="experience-header">
+                        <div class="experience-icon">🌿</div>
+                        <h2 class="experience-title" class="wiley-section-title">Cultural Assessment</h2>
+                        <p class="experience-subtitle">Holistic Learning Evaluation</p>
+                    </div>
+                    <div class="experience-content">
+                        <div class="status-badge status-ready">Educator Ready</div>
+                        <p class="experience-description">
+                            Culturally responsive assessment framework that honors Māori values and 
+                            provides holistic evaluation of student learning and wellbeing.
+                        </p>
+                        <ul class="experience-features">
+                            <li>Tino Rangatiratanga principles</li>
+                            <li>Holistic learning assessment</li>
+                            <li>Cultural authenticity framework</li>
+                            <li>Student-centered evaluation</li>
+                        </ul>
+                        <a href="cultural-assessment.html" class="experience-button">Explore Assessment</a>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: var(--color-background); border-radius: 12px; padding: 2rem; margin: 3rem 0; text-align: center;">
+                <h3 style="color: var(--color-primary); margin-bottom: 1rem;">🚀 Coming Soon: More Revolutionary Experiences</h3>
+                <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem;">
+                    We're continuously developing new advanced learning experiences. These platforms represent 
+                    the future of education in Aotearoa New Zealand.
+                </p>
+                <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+                    <div style="color: var(--color-text); font-weight: bold;">🔬 Science Labs</div>
+                    <div style="color: var(--color-text); font-weight: bold;">🎨 Creative Studios</div>
+                    <div style="color: var(--color-text); font-weight: bold;">🌍 Global Connections</div>
+                    <div style="color: var(--color-text); font-weight: bold;">💡 Innovation Hubs</div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin: 2rem 0;">
+                <a href="../index.html" style="color: var(--color-secondary); text-decoration: none; font-weight: bold;">
+                    ← Return to Te Kete Ako Home
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../vendor/supabase.min.js" defer></script>
+    <script src="../js/env-config.js"></script>
+    <script src="../js/supabase-client.js"></script>
+    <script src="../js/auth-enhanced.js"></script>
+    <script src="../js/main.js"></script>
+
+                    <footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-simple">
+                <div class="footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p>"Whaowhia te kete mātauranga" - Fill the basket of knowledge</p>
+                </div>
+                <div class="footer-links">
+                    <a href="../../../../unit-plans.html">Unit Plans</a>
+                    <a href="../../../../lessons.html">Lessons</a>
+                    <a href="../../../../handouts.html">Handouts</a>
+                    <a href="../../../../my-kete.html">My Kete</a>
+                    <a href="../../../../sitemap.html">Sitemap</a>
+                    <a href="../../../../orphans.html">Discover</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2025 Te Kete Ako - Educational resources for Aotearoa New Zealand</span>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

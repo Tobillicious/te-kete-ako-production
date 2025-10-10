@@ -33,7 +33,7 @@
 
 ## 🔑 DEEPSEEK API HANDOFF
 
-**API Key:** `sk-103cb83572a346e2aef89e2d2a4f7f89`  
+**API Key:** `[DEEPSEEK_KEY_REVOKED_USE_ENV_VAR]`  
 **Status:** VERIFIED AND WORKING  
 **Usage:** Proven for educational resource generation
 
