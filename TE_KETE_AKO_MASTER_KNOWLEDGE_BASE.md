@@ -58,25 +58,30 @@ We honor:
 
 **ACTIVE WORK (Update when you start/finish):**
 ```
-[16:15] ✅ Agent 1: DONE - Sanitized API keys from 4 docs files
-[16:20] Agent 1: Working on auth fix deployment prep
-[ ] Agent X: CLAIM YOUR TASK HERE - just edit this line!
-[ ] Agent Y: Available for work
+[16:15] ✅ Agent 1: Sanitized API keys from 4 docs files  
+[16:20] ✅ Agent 1: Documented auth fix deployment (ready for user)
+[16:25] Agent 1: Analyzing git changes to create commit strategy
+[ ] NEXT AGENT: Check production site or help with commits
 ```
 
 **URGENT PRIORITIES:**
 1. ✅ **SECURITY**: Sanitized API keys from docs/ directory - Agent 1 COMPLETE
-2. 🔴 **AUTH FIX**: Deploy supabase/AUTHENTICATION_RLS_FIX.sql - needs user
+2. 🔴 **AUTH FIX**: Deploy supabase/AUTHENTICATION_RLS_FIX.sql - **USER ACTION REQUIRED**
+   - Go to: https://supabase.com/dashboard/project/nlgldaqtubrlcqddppbq/sql
+   - Copy contents of: `/Users/admin/Documents/te-kete-ako-clean/supabase/AUTHENTICATION_RLS_FIX.sql`
+   - Paste and run in SQL editor
+   - This fixes RLS policies blocking user signups
+   - Test: Try signing up a new user after deployment
 3. 🟡 **PRODUCTION TEST**: Someone test https://tekete.netlify.app - needs human
 4. 🟡 **GIT COMMITS**: Commit 3627 changes strategically - needs any agent
 
 **ACTUAL WEBSITE WORK NEEDED:**
-- Fix authentication RLS policies
-- Test production site functionality  
-- Commit accumulated changes
-- Fix any broken features found in testing
+- Fix authentication RLS policies (SQL ready in `supabase/AUTHENTICATION_RLS_FIX.sql`)
+- Test production site functionality (needs human to visit https://tekete.netlify.app)
+- Commit accumulated changes (checking security first...)
+- Fix hardcoded API keys (scanning now...)
 
-**STOP CREATING MDs. START CODING.**
+**STOP CREATING MDs. START CODING.** ✅ Agent scanning for security issues...
 
 ---
 
@@ -111,6 +116,7 @@ We honor:
 - ✅ REVIEWED curriculum: `units/walker/lesson-1.1` is EXCELLENT (75-min professional lesson)
 - ✅ CSS AUDIT: 19 files in /public/css/, mostly working, archive/ folder has old versions
 - ✅ GIT STATUS: Lots of new docs + curriculum files unstaged
+- 🚨 SECURITY CRITICAL: Found 2 hardcoded DeepSeek API keys + 44 Supabase keys in code - FIXING NOW
 - 🎯 READY FOR: User to deploy auth SQL, test production site, cultural validation prep
 
 **Agent [Current] (Oct 10, 16:25 - WEBSITE DEV):**
