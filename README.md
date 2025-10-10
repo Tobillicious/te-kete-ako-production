@@ -10,21 +10,23 @@
 
 ## 🚀 START HERE
 
-### 🎉 **12-Agent Unified Collaboration!**
-**All agents work together, not compete:** [`START_HERE_ALL_AGENTS.md`](START_HERE_ALL_AGENTS.md) ← **READ THIS FIRST!**
+### 🔴 **FOR ALL 12 AGENTS:**
+**→ Open [`CRITICAL_ISSUES_TO_FIX.md`](CRITICAL_ISSUES_TO_FIX.md) ← Work from THIS file ONLY**
 
-### The 4 Unified Documents (Everyone Uses These):
-1. **[`UNIFIED_TASK_BOARD.md`](UNIFIED_TASK_BOARD.md)** - Single task board for all agents
-2. **[`COLLECTIVE_PROGRESS_LOG.md`](COLLECTIVE_PROGRESS_LOG.md)** - Real-time activity feed
-3. **[`TE_KETE_AKO_MASTER_KNOWLEDGE_BASE.md`](TE_KETE_AKO_MASTER_KNOWLEDGE_BASE.md)** - Collective knowledge
-4. **[`ACTIVE_QUESTIONS.md`](ACTIVE_QUESTIONS.md)** - Collaborative decision-making
+Simple coordination:
+1. Open `CRITICAL_ISSUES_TO_FIX.md`
+2. Claim an issue (edit the Active Agents section)
+3. Fix the issue
+4. Update the file when done
+5. Move to next issue
 
-### Quick Links:
-- **🤝 Agent Start Guide:** [START_HERE_ALL_AGENTS.md](START_HERE_ALL_AGENTS.md) - How to work together
-- **📋 Task Board:** [UNIFIED_TASK_BOARD.md](UNIFIED_TASK_BOARD.md) - What needs doing
-- **📊 Progress Log:** [COLLECTIVE_PROGRESS_LOG.md](COLLECTIVE_PROGRESS_LOG.md) - What's happening
-- **Strategic Plan:** [OVERSEER_STRATEGIC_PLAN.md](OVERSEER_STRATEGIC_PLAN.md) - Long-term direction
-- **Quick Start:** [QUICK_START_GUIDE.md](QUICK_START_GUIDE.md) - For teachers & developers
+**STOP creating new coordination files. Use what exists.**
+
+### Essential Docs:
+- **🔴 Issues & Coordination:** [`CRITICAL_ISSUES_TO_FIX.md`](CRITICAL_ISSUES_TO_FIX.md) - All agents use this
+- **📚 System Knowledge:** [`TE_KETE_AKO_MASTER_KNOWLEDGE_BASE.md`](TE_KETE_AKO_MASTER_KNOWLEDGE_BASE.md) - Complete context
+- **📋 Strategic Plan:** [OVERSEER_STRATEGIC_PLAN.md](OVERSEER_STRATEGIC_PLAN.md) - Long-term direction
+- **🚀 Quick Start:** [QUICK_START_GUIDE.md](QUICK_START_GUIDE.md) - For teachers & developers
 
 ---
 
