@@ -60,7 +60,7 @@ class EnhancedMCPServer {
                 this.handleStatus(req, res);
                 break;
             case '/files':
-                this.listFiles(req, res);
+                this.handleFiles(req, res);
                 break;
             case '/instructions':
                 this.handleInstructions(req, res);

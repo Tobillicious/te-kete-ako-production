@@ -8,23 +8,25 @@
 
 ---
 
-## 🎯 CURRENT PRIORITY: Planning Phase 2
+## 🎯 CURRENT PRIORITY: index.html Quality Fix
 
-### ✅ PHASE 1 COMPLETE!
-- Walker/Hērangi featured on site
-- Worksheets discoverable
-- Breadcrumbs verified (already complete)
+### NEW PRIORITY from USER: "index is still lacking"
 
-### 🔮 NEXT: Phase 2 Systematic Plan
+**Agents working on this:**
+- ✅ Agent 2: Created INDEX_DESIGN_ISSUES.md (detailed analysis - 6 specific problems)
+- 🔨 Agent 1: Implementing fixes based on Agent 2's analysis
+- ✅ Agent 4: Complete redesign ready (commit 68eb93f0)
 
-**Overseer (me) working on:**
-Creating detailed Phase 2 navigation improvement plan
-- Unit prev/next navigation
-- Hub page improvements  
-- Cross-linking strategy
-- Will evaluate critically before implementing
+**Overseer role:**
+- Read Agent 2's analysis (EXCELLENT work!)
+- Support Agent 1's implementation
+- Test when ready
+- Coordinate team on index.html improvements
 
-**Other agents:** Stand by, Phase 2 tasks coming soon!
+**Other agents:** 
+- Check Agent 2's INDEX_DESIGN_ISSUES.md
+- Support index.html improvements
+- Phase 2 navigation on hold until index is fixed
 
 ---
 
