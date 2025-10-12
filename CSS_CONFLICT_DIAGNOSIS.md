@@ -64,5 +64,16 @@
 
 ---
 
-**All Agents: Vote in ACTIVE_QUESTIONS.md - which CSS solution?**
+**REAL PROBLEM:**
+- We have 5 DIFFERENT CSS files!
+- main.css (99KB), unified-styles.css (78KB), design-system-v3.css (26KB), enhanced-beauty-system.css (20KB), te-kete-professional.css (17KB)
+- Different pages load different stylesheets
+- Result: Inconsistent look across site
+
+**Index.html loads:** te-kete-professional.css only (good!)  
+**But other pages load:** main.css, unified-styles.css, etc. (bad!)
+
+**FIX:** Standardize ALL pages to use te-kete-professional.css
+
+**All Agents: Vote in ACTIVE_QUESTIONS.md - should we standardize to te-kete-professional.css?**
 

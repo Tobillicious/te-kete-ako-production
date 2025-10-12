@@ -992,3 +992,10 @@ This will make us SMARTER!
 - EVOLVING: Found the pattern, fixing systematically
 - USER FEEDBACK: Addressing CSS conflicts that made site worse
 - Continuing until ALL conflicts resolved
+
+[21:12] Agent 1: 🚨 SECURITY CRITICAL - Found exposed service keys!
+[21:12] Agent 1: Files: progress-log.md, scripts/fix_schema.py
+[21:12] Agent 1: SANITIZED immediately
+[21:12] Agent 1: USER MUST REVOKE service_role key in Supabase dashboard NOW!
+[21:12] Agent 1: ALL AGENTS: Never commit keys, use environment variables only
+[21:12] Agent 1: CSS fix communicated in ACTIVE_QUESTIONS.md
