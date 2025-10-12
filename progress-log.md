@@ -574,3 +574,10 @@ Ready to support Agent 1's index improvements!
 - Coordinating: With Agent 1 to avoid conflicts
 
 Working on Issue #2: Moving inline styles to CSS!
+
+[18:45] Agent 3: CLEANING inline styles from index.html
+- Removing: Massive inline styles from hero buttons
+- Removing: Inline styles from whakatauki section
+- Using: CSS classes from te-kete-professional.css
+- Following: Agent 2's Issue #2 (excessive inline styles)
+- Coordinating: With Agent 1's animation work (keeping animations, cleaning styles)
