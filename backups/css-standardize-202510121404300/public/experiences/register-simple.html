@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Te Kete Ako</title>
+    <link rel="preload" href="/css/te-kete-professional.css" as="style">
+    <link rel="preload" href="/js/header-dropdowns.js" as="script">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap&display=swap" as="style" crossorigin>
+    <link rel="stylesheet" href="/css/te-kete-professional.css" media="all"/>
+    <link rel="stylesheet" href="/css/print.css" media="print"/>
+</head>
+<body data-auto-init="true" data-current-page="register">
+    <!-- Include Header Component -->
+    <div id="header-component"></div>
+
+    <div class="main-container">
+        <main class="content-area">
+            <section class="auth-section">
+                <div class="auth-container">
+                    <h1 class="auth-title">Register for Te Kete Ako</h1>
+                    <p class="auth-description">Create your account to access premium educational resources</p>
+                    
+                    <form class="auth-form">
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" name="fullName" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="role">I am a...</label>
+                            <select id="role" name="role" required>
+                                <option value="">Select your role</option>
+                                <option value="teacher">Teacher</option>
+                                <option value="student">Student</option>
+                                <option value="parent">Parent</option>
+                                <option value="administrator">Administrator</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary btn-full">Create Account</button>
+                    </form>
+                    
+                    <div class="auth-links">
+                        <p>Already have an account? <a href="/login.html">Sign in</a></p>
+                        <p><a href="/index.html">Back to home</a></p>
+        </div>
+      </div>
+    </section>
+  </main>
+                </div>
+
+    <!-- Include Footer Component -->
+    <div id="footer-component"></div>
+
+    <!-- JavaScript -->
+    <script src="/js/header-dropdowns.js"></script>
+    <script>
+        // Load header and footer components
+        fetch('/components/header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-component').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading header:', error));
+
+        fetch('/components/footer.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('footer-component').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading footer:', error));
+    </script>
+</body>
+</html>

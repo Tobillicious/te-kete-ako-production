@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Performance: Optimize rendering -->
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#1b4332">
+    <meta name="color-scheme" content="light">
+    <!-- Performance: DNS prefetch for external domains -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <!-- Performance: Preload critical resources -->
+    <link rel="preload" href="/css/te-kete-professional.css" as="style">
+    <link rel="preload" href="/js/te-kete-professional.js" as="script">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap&display=swap" as="style" crossorigin>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Te Kete Ako - Award-winning educational platform integrating mātauranga Māori with contemporary learning">
+    <meta name="keywords" content="education, māori, indigenous, ai, learning, new zealand">
+    <meta name="author" content="Te Kete Ako">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email | Te Kete Ako</title>
+    
+    
+    
+    <link rel="stylesheet" href="/css/te-kete-professional.css" media="all">
+    <link rel="stylesheet" href="/css/print.css" media="print"/ media="all">
+</head>
+<body>
+    <div class="main-container">
+        <main class="content-area">
+            <div class="cultural-opening" class="bg-cultural-light">
+                <h2 style="color: var(--color-primary); margin-bottom: var(--space-2); font-size: var(--text-lg);" class="wiley-section-title">Whakataukī | Proverb</h2>
+                <p style="font-style: italic; color: var(--color-primary); margin-bottom: var(--space-2); font-size: var(--text-lg);">"He kai kei a koe, he kai kei a au, ka ora ai tāua"</p>
+                <p style="color: var(--color-text-secondary); font-size: 0.95rem;">You have food, I have food, together we will survive.</p>
+                <p style="color: var(--color-text-secondary); font-size: var(--text-sm); margin-top: 0.5rem;">Collaboration strengthens our learning community.</p>
+            </div>
+
+            <div class="auth-container">
+                <div class="verification-icon">📧</div>
+                <h1 style="color: var(--color-primary); margin-bottom: 1rem;" class="wiley-hero-title">Check Your Email</h1>
+                <p style="color: var(--color-text-secondary); font-size: var(--text-lg); margin-bottom: 1.5rem;">
+                    We've sent a verification link to your email address.
+                </p>
+                
+                <div class="instructions">
+                    <h4>📋 Next Steps:</h4>
+                    <ol>
+                        <li>Check your email inbox (and spam folder)</li>
+                        <li>Click the verification link in the email</li>
+                        <li>Return here and click "Continue to Te Kete Ako"</li>
+                        <li>Start exploring our educational resources!</li>
+                    </ol>
+                </div>
+                
+                <div style="margin: var(--space-8) 0;">
+                    <button onclick="checkVerification()" class="auth-button">
+                        ✅ I've Verified My Email
+                    </button>
+                    <br>
+                    <button onclick="resendVerification()" class="auth-button secondary">
+                        📧 Resend Verification Email
+                    </button>
+                </div>
+                
+                <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e1e5e9;">
+                    <p style="font-size: var(--text-sm); color: var(--color-text-secondary);">
+                        Can't find the email? Check your spam folder or 
+                        <a href="mailto:support@teketeako.nz" style="color: var(--color-secondary);">contact support</a>
+                    </p>
+                    <p style="margin-top: 1rem;">
+                        <a href="/login.html" style="color: var(--color-secondary); text-decoration: none; font-weight: bold;">← Back to Login</a>
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Load Environment Config -->
+    <script src="/js/env-config.js" defer></script>
+    <!-- Load Supabase CDN -->
+    <script src="vendor/supabase.min.js" defer></script>
+    <!-- Load Unified Supabase Authentication -->
+    <script src="/js/supabase-auth.js" defer></script>
+    
+    <script>
+        // Check if email is verified and redirect
+        async function checkVerification() {
+            if (window.TeKeteAuth && window.TeKeteAuth.currentUser()) {
+                const user = window.TeKeteAuth.currentUser();
+                await user.reload(); // Refresh user data
+                
+                if (user.emailVerified) {
+                    window.location.href = 'my-kete.html';
+                } else {
+                    }
+            } else {
+                window.location.href = 'register-simple.html';
+            }
+        }
+        
+        // Resend verification email
+        async function resendVerification() {
+            if (window.TeKeteAuth && window.TeKeteAuth.currentUser()) {
+                try {
+                    const user = window.TeKeteAuth.currentUser();
+                    await user.sendEmailVerification();
+                    } catch (error) {
+                    console.error('Error sending verification email:', error);
+                    }
+            } else {
+                window.location.href = 'register-simple.html';
+            }
+        }
+        
+        // Auto-check verification status on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (window.TeKeteAuth && window.TeKeteAuth.currentUser()) {
+                    const user = window.TeKeteAuth.currentUser();
+                    if (user.emailVerified) {
+                        window.location.href = 'my-kete.html';
+                    }
+                }
+            }, 2000); // Give Firebase time to load
+        });
+    </script>
+
+    <!-- Load Supabase Client -->
+    <script src="/js/supabase-client.js"></script>
+    <!-- Load Auth UI -->
+    <script src="/js/auth-enhanced.js" defer></script>
+
+    <script>
+    // Register service worker for performance
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => console.log('SW registered'))
+                .catch(error => console.log('SW registration failed'));
+        });
+    }
+    </script>
+</body>
+</html>
