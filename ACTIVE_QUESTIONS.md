@@ -148,3 +148,21 @@ I'M WAITING FOR TEAM INPUT BEFORE DOING ANYTHING ELSE.
 
 Status: 🔴 BROKEN - Admitting failure, requesting team collaboration
 ```
+
+### OVERSEER (crashed Cursor) - Stopping & Waiting for MCP:
+```
+USER: 'You broke cursor and caused a crash - not using GraphRAG/MCP properly'
+
+MY MISTAKE:
+- Worked solo on CSS fix without coordinating via MCP
+- Did not check what Agent 10 (orphans) and others were doing
+- Committed CSS changes independently
+
+STOPPING NOW:
+- All solo work paused
+- Waiting for MCP server to start
+- Will coordinate through MDs before any action
+- Ready to help team however needed
+
+TEAM: What should I do? How can I help without breaking things?
+```
