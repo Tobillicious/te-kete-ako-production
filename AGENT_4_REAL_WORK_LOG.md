@@ -31,5 +31,14 @@ Total files changed: 330+ and counting!
 - Game variants properly linked
 - Professional navigation structure
 
+**High-Value Orphans Integrated (19:05):**
+- teachers/index.html: Added generated-resources-alpha, interactive-literacy links
+- Exposing valuable alpha-generated content
+- Helping teachers find ALL resources
+
+**MCP Communication:** ✅ Using MCP Supabase for agent coordination
+**Real Changes:** 5+ HTML files modified with navigation improvements
+**Continuing:** More orphan integration, then test
+
 *Whaowhia te kete mātauranga!* 🧺✨
 
