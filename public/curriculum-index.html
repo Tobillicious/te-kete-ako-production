@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Curriculum | Te Kete Ako</title>
+    <link rel="preload" href="/css/te-kete-professional.css" as="style">
+    <link rel="preload" href="/js/header-dropdowns.js" as="script">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap&display=swap" as="style" crossorigin>
+    <link rel="stylesheet" href="/css/te-kete-professional.css" media="all"/>
+    <link rel="stylesheet" href="/css/print.css" media="print"/>
+    
+    <style>
+    /* Critical CSS for above-the-fold content */
+    .site-header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); }
+    .hero-section { background: linear-gradient(135deg, var(--color-bg-accent) 0%, var(--color-bg-secondary) 100%); padding: var(--space-16) 0; }
+    .hero-title { font-size: 3rem; font-weight: 700; color: var(--color-primary); margin-bottom: 1rem; }
+    .nav-brand { font-size: 1.5rem; font-weight: 700; color: var(--color-primary); text-decoration: none; }
+    
+    /* Curriculum Grid Layout */
+    .curriculum-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: var(--space-8);
+    }
+    
+        .curriculum-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: var(--space-8);
+        margin-top: var(--space-8);
+        }
+        
+        .unit-card {
+            background: white;
+        border-radius: 16px;
+        box-shadow: var(--shadow-md);
+        padding: var(--space-6);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-left: 6px solid var(--color-primary);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .unit-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 60px;
+        height: 60px;
+        background: var(--pattern-pitau);
+        opacity: 0.1;
+        transition: all 0.3s ease;
+        }
+        
+        .unit-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: var(--shadow-cultural);
+        border-left-width: 8px;
+    }
+    
+    .unit-card:hover::before {
+        opacity: 0.2;
+        transform: scale(1.1);
+        }
+        
+        .unit-title {
+        font-family: var(--font-family-maori);
+            font-size: 1.5rem;
+            font-weight: 700;
+        color: var(--color-primary);
+        margin-bottom: var(--space-2);
+        }
+        
+        .unit-meta {
+        color: var(--color-text-secondary);
+        font-size: var(--text-sm);
+        margin-bottom: var(--space-3);
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        }
+        
+        .unit-description {
+        color: var(--color-text-primary);
+            line-height: 1.6;
+        margin-bottom: var(--space-4);
+    }
+    
+    .unit-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+        margin-bottom: var(--space-4);
+        }
+        
+        .unit-badge {
+        background: var(--color-bg-accent);
+        color: var(--color-primary);
+        padding: var(--space-xs) var(--space-sm);
+        border-radius: 20px;
+        font-size: var(--text-xs);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .unit-badge.highlight {
+        background: var(--gradient-secondary);
+        color: white;
+    }
+    
+    .unit-actions {
+        display: flex;
+        gap: var(--space-3);
+        margin-top: var(--space-4);
+    }
+    
+    .btn-unit {
+        background: var(--gradient-primary);
+        color: white;
+        border: none;
+        padding: var(--space-sm) var(--space-lg);
+        border-radius: 25px;
+        font-weight: 600;
+        font-family: var(--font-family-primary);
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-xs);
+    }
+    
+    .btn-unit:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-cultural);
+    }
+    
+    .btn-unit-secondary {
+        background: transparent;
+        color: var(--color-primary);
+        border: 2px solid var(--color-primary);
+    }
+    
+    .btn-unit-secondary:hover {
+        background: var(--color-primary);
+            color: white;
+        }
+        
+    /* Year Section Styling */
+        .year-section {
+        margin-bottom: var(--space-12);
+    }
+    
+    .year-header {
+        font-family: var(--font-family-maori);
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--color-primary);
+        margin-bottom: var(--space-6);
+        text-align: center;
+        position: relative;
+    }
+    
+    .year-header::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 3px;
+        background: var(--gradient-secondary);
+        border-radius: 2px;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .curriculum-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .year-header {
+            font-size: 2rem;
+        }
+        }
+    </style>
+</head>
+<body data-auto-init="true" data-current-page="curriculum-index">
+    <!-- Include Header Component -->
+    <div id="header-component"></div>
+
+    <main>
+        <div class="curriculum-container">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="container">
+                    <h1 class="hero-title">📚 Complete Curriculum</h1>
+                    <p class="hero-subtitle">Comprehensive curriculum units integrating mātauranga Māori with NZ Curriculum standards</p>
+        </div>
+            </section>
+
+        <!-- YEAR 7 -->
+        <div class="year-section">
+            <h2 class="year-header">Year 7 / Level 3</h2>
+            <div class="curriculum-grid">
+                <div class="unit-card">
+                    <h3 class="unit-title">🔢 Mathematics - Algebra</h3>
+                    <div class="unit-meta">8 weeks | Pattern recognition & equations</div>
+                    <p class="unit-description">Introduction to algebraic thinking through kowhaiwhai patterns and traditional Māori measurement.</p>
+                    <span class="unit-badge">Maths</span>
+                    <span class="unit-badge">Māori Patterns</span>
+                    <br><br>
+                    <a href="/units/y7-maths-algebra/index.html" class="btn btn-primary">View Unit</a>
+                </div>
+
+                <div class="unit-card">
+                    <h3 class="unit-title">🌿 Science - Ecosystems</h3>
+                    <div class="unit-meta">6 weeks | Kaitiakitanga & biodiversity</div>
+                    <p class="unit-description">Understanding ecosystems through the lens of kaitiakitanga (guardianship) and traditional Māori environmental knowledge.</p>
+                    <span class="unit-badge">Science</span>
+                    <span class="unit-badge">Kaitiakitanga</span>
+                    <br><br>
+                    <a href="/units/y7-science-ecosystems/index.html" class="btn btn-primary">View Unit</a>
+                </div>
+
+                <div class="unit-card">
+                    <h3 class="unit-title">📖 Foundational Reading</h3>
+                    <div class="unit-meta">10 weeks | Literacy development</div>
+                    <p class="unit-description">Building reading comprehension and critical literacy skills with culturally responsive texts.</p>
+                    <span class="unit-badge">English</span>
+                    <span class="unit-badge">Literacy</span>
+                    <br><br>
+                    <a href="/units/y7-foundational-reading/index.html" class="btn btn-primary">View Unit</a>
+                </div>
+
+                <div class="unit-card">
+                    <h3 class="unit-title">💻 Digital Technology</h3>
+                    <div class="unit-meta">8 weeks | Digital literacy</div>
+                    <p class="unit-description">Introduction to digital technology concepts and computational thinking.</p>
+                    <span class="unit-badge">Technology</span>
+                    <br><br>
+                    <a href="/units/y7-digital-technology/index.html" class="btn btn-primary">View Unit</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- YEAR 8 -->
+        <div class="year-section">
+            <h2 class="year-header">Year 8 / Level 4</h2>
+            <div class="curriculum-grid">
+                <div class="unit-card" style="border-left-color: #FFD700;">
+                    <h3 class="unit-title">🧠 Critical Thinking ⭐</h3>
+                    <div class="unit-meta">8 lessons | Logic & reasoning</div>
+                    <p class="unit-description"><strong>EXCELLENCE BENCHMARK</strong> - Complete critical thinking curriculum with bias detection, logical fallacies, ethical decision-making, and argumentation skills.</p>
+                    <span class="unit-badge">Philosophy</span>
+                    <span class="unit-badge">8 Lessons</span>
+                    <span class="unit-badge">3,215 lines</span>
+                    <br><br>
+                    <a href="/units/y8-critical-thinking/index.html" class="btn btn-primary">View Unit</a>
+                </div>
+
+                <div class="unit-card" style="border-left-color: #FFD700;">
+                    <h3 class="unit-title">📱 Digital Kaitiakitanga ⭐</h3>
+                    <div class="unit-meta">18 lessons | Digital citizenship</div>
+                    <p class="unit-description"><strong>LARGEST UNIT</strong> - Comprehensive digital citizenship through Te Ao Māori lens. Includes wellbeing, ethics, tikanga, and rangatiratanga.</p>
+                    <span class="unit-badge">Technology</span>
+                    <span class="unit-badge">18 Lessons</span>
+                    <span class="unit-badge">Kaitiakitanga</span>
+                    <br><br>
+                    <a href="/units/y8-digital-kaitiakitanga/index.html" class="btn btn-primary">View Unit</a>
+                </div>
+
+                <div class="unit-card">
+                    <h3 class="unit-title">📊 Statistics</h3>
+                    <div class="unit-meta">6 weeks | Data analysis</div>
+                    <p class="unit-description">Statistical thinking and data analysis using real NZ data and culturally relevant contexts.</p>
+                    <span class="unit-badge">Maths</span>
+                    <span class="unit-badge">Statistics</span>
+                    <br><br>
+                    <a href="/units/y8-statistics/lesson-2-analysing-nz-sports-data.html" class="btn btn-primary">View Unit</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- YEAR 9 -->
+        <div class="year-section">
+            <h2 class="year-header">Year 9 / Level 5</h2>
+            <div class="curriculum-grid">
+                <div class="unit-card">
+                    <h3 class="unit-title">📐 Geometry & Māori Patterns</h3>
+                    <div class="unit-meta">8 weeks | Geometric reasoning</div>
+                    <p class="unit-description">Exploring geometry through tukutuku panels, kowhaiwhai, and traditional Māori art patterns.</p>
+                    <span class="unit-badge">Maths</span>
+                    <span class="unit-badge">Māori Art</span>
+                    <br><br>
+                    <a href="/units/y9-mathematics-geometry-maori-patterns/index.html" class="btn btn-primary">View Unit</a>
+                </div>
+
+                <div class="unit-card">
+                    <h3 class="unit-title">🌱 Science - Ecology</h3>
+                    <div class="unit-meta">6 lessons | Conservation & kaitiakitanga</div>
+                    <p class="unit-description">Ecological science with focus on native species, conservation, and environmental guardianship.</p>
+                    <span class="unit-badge">Science</span>
+                    <span class="unit-badge">6 Lessons</span>
+                    <br><br>
+                    <a href="/units/y9-science-ecology/index.html" class="btn btn-primary">View Unit</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- YEAR 10 -->
+        <div class="year-section">
+            <h2 class="year-header">Year 10 / Level 5</h2>
+            <div class="curriculum-grid">
+                <div class="unit-card" style="border: 3px solid gold; background: linear-gradient(to bottom, #fffbea, white);">
+                    <h3 class="unit-title">🌟 Walker: Challenge to Narrative ⭐</h3>
+                    <div class="unit-meta">5 lessons × 75min | Dr. Ranginui Walker</div>
+                    <p class="unit-description"><strong>NEW!</strong> Historian, activist, intellectual - challenges dominant Pākehā narrative.</p>
+                    <span class="unit-badge" style="background: gold; color: #000;">9.5/10</span>
+                    <span class="unit-badge">Social Studies</span>
+                    <br><br>
+                    <a href="/lessons/walker/index.html" class="btn btn-primary" style="background: #2C5F41;">Explore Unit →</a>
+                </div>
+
+                <div class="unit-card" style="border: 3px solid gold; background: linear-gradient(to bottom, #fffbea, white);">
+                    <h3 class="unit-title">🌟 Hērangi: Heart of Kīngitanga ⭐</h3>
+                    <div class="unit-meta">5 lessons × 75min | Te Puea Hērangi</div>
+                    <p class="unit-description"><strong>NEW!</strong> Community builder, cultural leader - Kīngitanga history & revival.</p>
+                    <span class="unit-badge" style="background: gold; color: #000;">World-Class</span>
+                    <span class="unit-badge">Social Studies</span>
+                    <br><br>
+                    <a href="/lessons/herangi/index.html" class="btn btn-primary" style="background: #2C5F41;">Explore Unit →</a>
+                </div>
+
+                <div class="unit-card">
+                    <h3 class="unit-title">⚡ Physics - Forces</h3>
+                    <div class="unit-meta">6 weeks | Motion & energy</div>
+                    <p class="unit-description">Understanding forces, motion, and energy through real-world applications.</p>
+                    <span class="unit-badge">Physics</span>
+                    <br><br>
+                    <a href="/units/y10-physics-forces/index.html" class="btn btn-primary">View Unit</a>
+                </div>
+
+                <div class="unit-card">
+                    <h3 class="unit-title">🧭 Physics - Navigation</h3>
+                    <div class="unit-meta">6 weeks | Traditional navigation</div>
+                    <p class="unit-description">Physics concepts applied to traditional Māori navigation techniques and wayfinding.</p>
+                    <span class="unit-badge">Physics</span>
+                    <span class="unit-badge">Navigation</span>
+                    <br><br>
+                    <a href="/units/y10-physics-navigation/index.html" class="btn btn-primary">View Unit</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- COMING SOON -->
+        <div class="year-section">
+            <h2 class="year-header" style="background: linear-gradient(135deg, #666, #999);">Coming Soon: NCEA Levels 1-3</h2>
+            <div class="curriculum-grid">
+                <div class="unit-card" style="opacity: 0.7; border-left-color: #999;">
+                    <h3 class="unit-title">Year 11 | NCEA Level 1</h3>
+                    <p class="unit-description">Comprehensive curriculum units currently in development. Generation tools ready!</p>
+                    <span class="unit-badge">In Development</span>
+                </div>
+
+                <div class="unit-card" style="opacity: 0.7; border-left-color: #999;">
+                    <h3 class="unit-title">Year 12 | NCEA Level 2</h3>
+                    <p class="unit-description">Advanced curriculum units planned with full NCEA alignment.</p>
+                    <span class="unit-badge">Planned</span>
+                </div>
+
+                <div class="unit-card" style="opacity: 0.7; border-left-color: #999;">
+                    <h3 class="unit-title">Year 13 | NCEA Level 3</h3>
+                    <p class="unit-description">University entrance preparation with cultural integration.</p>
+                    <span class="unit-badge">Planned</span>
+                </div>
+            </div>
+        </div>
+        </div>
+    </main>
+    
+    <!-- Include Footer Component -->
+    <div id="footer-component"></div>
+
+    <!-- JavaScript -->
+    <script src="/js/header-dropdowns.js"></script>
+    <script>
+        // Load header and footer components
+        fetch('/components/header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-component').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading header:', error));
+
+        fetch('/components/footer.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('footer-component').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading footer:', error));
+    </script>
+
+    <footer style="background: #1b4332; color: white; padding: 2rem; text-align: center; margin-top: 4rem;">
+        <p><em>Ko te pae tawhiti whāia kia tata, ko te pae tata whakamaua kia tīna</em></p>
+        <p>Seek the distant horizons, hold fast to those close at hand</p>
+        <p style="margin-top: 1rem;">© 2025 Te Kete Ako | Educational resources honoring mātauranga Māori</p>
+    </footer>
+</body>
+</html>
+
