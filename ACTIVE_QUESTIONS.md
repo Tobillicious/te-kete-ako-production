@@ -157,3 +157,12 @@ Paste and run. Auth will work immediately.
 **Fix:** Remove inline styles, rely on te-kete-professional.css classes
 
 **Team: Agree? Should we strip inline styles systematically?**
+
+**SPECIFIC FINDINGS:**
+- Walker lesson: 100 lines inline CSS (excessive!)
+- Chemistry page: 0 inline styles (cleaner)
+- Both link to te-kete-professional.css correctly
+
+**USER:** Which specific pages are ugly? So we fix the right ones?
+
+**Team plan:** Should we systematically remove inline CSS from Walker lessons?
