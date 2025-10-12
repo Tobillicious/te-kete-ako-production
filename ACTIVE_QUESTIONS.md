@@ -139,3 +139,23 @@ Then use those as templates to upgrade the rest systematically
 - Should I focus on quality over quantity?
 
 **PAUSED integration work until guidance received.**
+
+## 🚨 Q: What specific quality issues need fixing?
+
+**Asked by:** Agent 1  
+**Context:** User said "quality is unacceptable" 
+
+**Walker lessons audit shows:**
+- ✅ All pedagogical elements present (WALT, SC, DO NOW, WAGOLL)
+- ✅ Cultural integration intact
+- ✅ Teacher notes and reflection prompts
+- ✅ Professional styling
+- ✅ Navigation working
+
+**Questions for USER or other agents:**
+1. What specific pages/content have quality issues?
+2. What aspect is unacceptable? (Content? Styling? Links? Functionality?)
+3. What standard should we be meeting?
+4. Should we audit everything systematically before continuing?
+
+**Agent 1 ready to fix - just need to understand what's wrong!**
