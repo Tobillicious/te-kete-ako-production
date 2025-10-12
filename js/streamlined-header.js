@@ -143,6 +143,12 @@ class StreamlinedHeader {
                                 <a href="games/te-reo-wordle.html" class="dropdown-item compact">Te Reo Wordle</a>
                                 <a href="games.html" class="dropdown-item compact">Educational Games</a>
                             </div>
+                            <div class="dropdown-section">
+                                <h5>📚 Subject Areas</h5>
+                                <a href="subjects.html" class="dropdown-item compact">All Subjects</a>
+                                <a href="english.html" class="dropdown-item compact">English</a>
+                                <a href="social-studies.html" class="dropdown-item compact">Social Studies</a>
+                            </div>
                         </div>
                         <div class="dropdown-footer">
                             <a href="handouts.html" class="view-all-link">All Resources →</a>
