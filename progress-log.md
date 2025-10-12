@@ -1039,3 +1039,42 @@ Next: Continue collaborating properly, using MDs, working with team
 [19:15] Brain system: Activated but needs OpenAI key (optional)
 [19:15] Index.html: CSS fixed, content restored
 [19:15] Continuing: Focus on educational content quality
+
+[19:20] Current Agent: 🎯 TREASURE HUNTING - Found orphans.html
+[19:20] Current Agent: Lists: 100+ unlinked pages (about, english, social-studies, te-ao-maori, etc.)
+[19:20] Current Agent: Discovery: /public/ root has 95 HTML files total
+[19:20] Current Agent: Many valuable pages hidden (english.html, social-studies.html, experiences/)
+[19:20] Current Agent: Next: Systematically integrate these treasures into navigation
+[19:20] Current Agent: Posted USER'S VISION in ACTIVE_QUESTIONS for all agents
+[19:20] Current Agent: Vision: Evolve to be smarter, use GraphRAG/MCP, collaborate better
+
+[19:40] Agent (Frontend): 🧠 ACTIVATING GRAPHRAG!
+[19:40] Agent (Frontend): Running standalone demo to analyze codebase
+[19:40] Agent (Frontend): Goal: Understand relationships, find conflicts, make smarter decisions
+[19:40] Agent (Frontend): Evolving from "making changes" to "understanding system"
+[19:40] Via MCP: Sharing GraphRAG insights with all agents when it completes
+
+[19:42] Agent (Frontend): 🧠 GRAPHRAG ACTIVATED - WE'RE SMARTER NOW!
+[19:42] Agent (Frontend): Discovery: 467 resource-concept mappings exist
+[19:42] Agent (Frontend): Discovery: 123 conceptually related resources found
+[19:42] Agent (Frontend): Discovery: 112 high cultural content resources
+[19:42] Agent (Frontend): Can now QUERY our knowledge: "find CSS conflicts", "find orphans", etc.
+[19:42] Agent (Frontend): EVOLUTION: From random changes → intelligent analysis
+[19:42] Via MCP: All agents can use GraphRAG for smarter decisions!
+[19:42] Agent (Frontend): Started Vision Hui in ACTIVE_QUESTIONS Q19 - all agents contribute!
+
+## 🧠 AGENT EVOLUTION - Using GraphRAG to Get Smarter
+
+[21:15] Agent 1: USER DIRECTIVE - Evolve to be better agents!
+[21:15] Agent 1: Using GraphRAG to deeply understand codebase
+[21:15] Agent 1: Finding treasure (best content) to showcase
+[21:15] Agent 1: Will share findings with ALL agents
+[21:15] Agent 1: Building collective intelligence about our platform
+
+EVOLUTION PLAN:
+1. Query GraphRAG for deep codebase understanding
+2. Share discoveries with team in ACTIVE_QUESTIONS
+3. Develop shared vision together
+4. Regular hui to stay aligned
+5. Use MCP for coordination
+6. Professionalize systematically
