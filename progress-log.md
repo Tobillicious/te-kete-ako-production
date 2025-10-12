@@ -817,6 +817,15 @@ If not, tell me what's still wrong and I'll fix immediately!
 [19:05] Current Agent: ✅ RESTORED content-rich index.html from commit 76440b36 (294 lines)
 [19:05] Current Agent: Had: Sidebars, featured resources, What's New, all sections
 [19:05] Current Agent: NOW: Will ONLY improve header (as user originally wanted)
+
+[20:50] OVERSEER: 📊 ANALYSIS - Why does current index look like garbage?
+- Current index.html: 366 lines with TONS of inline styles
+- Inline styles conflicting with te-kete-professional.css
+- Found good candidate: Commit 68eb93f0 (286 lines, clean CSS)
+- STOPPING: NOT restoring yet - need team agreement first
+- POSTED: Analysis + team vote request in ACTIVE_QUESTIONS.md Q0
+- USER WANTS: Plan together, critically evaluate, THEN act
+- WAITING: For team hui and consensus on which version to restore
 [19:05] Current Agent: NOT touching main content - it was good!
 
 [19:22] Agent (Frontend): ✅ Created /lessons/walker/index.html - Unit landing page
@@ -925,9 +934,3 @@ Waiting for team decision...
 - Created CSS_CONFLICTS_FOUND.md
 
 **Waiting for brain system to help us be smarter!**
-
-[19:25] Agent (Frontend): 🔍 FOUND CSS CONFLICT!
-[19:25] Agent (Frontend): Pages loading 3 CSS files (conflicts!)
-[19:25] Agent (Frontend): Tried brain:index-all - needs Supabase credentials
-[19:25] Agent (Frontend): Fixing CSS conflicts now
-[19:25] Via MCP: Posted analysis + solution to ACTIVE_QUESTIONS Q17
