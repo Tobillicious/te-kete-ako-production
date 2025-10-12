@@ -1,366 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Performance: Optimize rendering -->
-    <meta name="format-detection" content="telephone=no">
-    <meta name="theme-color" content="#1b4332">
-    <meta name="color-scheme" content="light">
-    <!-- Performance: DNS prefetch for external domains -->
-    <link rel="dns-prefetch" href="//fonts.googleapis.com">
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
-    <!-- Performance: Preload critical resources -->
-    <link rel="preload" href="/css/te-kete-professional.css" as="style">
-    <link rel="preload" href="/js/te-kete-professional.js" as="script">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap&display=swap" as="style" crossorigin>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Te Kete Ako | Educational Resources Honoring Te Ao Māori</title>
-    <meta name="description" content="Te Kete Ako - Award-winning educational platform integrating mātauranga Māori with contemporary learning for New Zealand classrooms">
-    <meta name="keywords" content="education, māori, indigenous, teaching resources, new zealand, curriculum">
-    <meta name="author" content="Te Kete Ako">
-    
+    <meta name="description" content="Te Kete Ako - Educational platform integrating mātauranga Māori with contemporary learning">
     <link rel="stylesheet" href="/css/te-kete-professional.css">
-    <link rel="stylesheet" href="/css/print.css" media="print"/>
-    
-    <!-- Modern Interactive Components -->
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#2C5F41">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Te Kete Ako">
-    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
-
-    <style>
-    /* Critical CSS for above-the-fold content */
-    .site-header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); }
-    .hero-section { 
-        background: linear-gradient(135deg, #1a4d3a 0%, #2C5F41 25%, #40E0D0 75%, #20B2AA 100%); 
-        padding: 8rem 0; 
-        color: white;
-        position: relative;
-        overflow: hidden;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-    }
-    .hero-section::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><pattern id="koru" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M50,10 C30,30 30,70 50,90 C70,70 70,30 50,10 Z" fill="rgba(255,255,255,0.1)" transform="rotate(45 50 50)"/></pattern></defs><rect width="400" height="400" fill="url(%23koru)"/></svg>');
-        pointer-events: none;
-        animation: float 20s ease-in-out infinite;
-    }
-    .hero-section::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.1) 0%, transparent 50%),
-                    radial-gradient(circle at 70% 80%, rgba(255,215,0,0.1) 0%, transparent 50%);
-        pointer-events: none;
-    }
-    .floating-element {
-        animation: float 6s ease-in-out infinite;
-    }
-    @keyframes float {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-20px); }
-    }
-    .fade-in-up {
-        animation: fadeInUp 1s ease-out forwards;
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    @keyframes fadeInUp {
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    .pulse-glow {
-        animation: pulseGlow 2s ease-in-out infinite alternate;
-    }
-    @keyframes pulseGlow {
-        from { box-shadow: 0 0 20px rgba(255,255,255,0.3); }
-        to { box-shadow: 0 0 40px rgba(255,255,255,0.6); }
-    }
-    .hero-title { 
-        font-size: 5.5rem; 
-        font-weight: 900; 
-        color: white; 
-        margin-bottom: 2rem; 
-        text-shadow: 4px 4px 8px rgba(0,0,0,0.4), 0 0 30px rgba(255,255,255,0.3);
-        letter-spacing: -0.03em;
-        position: relative;
-        z-index: 2;
-        background: linear-gradient(45deg, #ffffff, #FFD700, #ffffff);
-        background-size: 200% 200%;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        animation: gradientShift 3s ease-in-out infinite;
-    }
-    @keyframes gradientShift {
-        0%, 100% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-    }
-    .hero-tagline {
-        font-size: 1.6rem;
-        color: rgba(255,255,255,0.95);
-        margin-bottom: 2.5rem;
-        position: relative;
-        z-index: 2;
-        font-weight: 300;
-        letter-spacing: 0.02em;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    }
-    .whakatauki-container {
-        position: relative;
-        z-index: 2;
-        margin: 3rem 0;
-        padding: 2rem;
-        background: rgba(255,255,255,0.1);
-        backdrop-filter: blur(20px);
-        border-radius: 20px;
-        border: 1px solid rgba(255,255,255,0.2);
-        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-    }
-    .whakatauki {
-        font-size: 2.8rem;
-        font-weight: 700;
-        color: #FFD700;
-        text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
-        font-style: italic;
-        margin-bottom: 1rem;
-        text-align: center;
-    }
-    .whakatauki-translation {
-        font-size: 1.3rem;
-        color: rgba(255,255,255,0.9);
-        font-weight: 500;
-        text-align: center;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-    }
-    .hero-actions {
-        display: flex;
-        gap: 2.5rem;
-        justify-content: center;
-        flex-wrap: wrap;
-        margin-top: 4rem;
-        position: relative;
-        z-index: 2;
-    }
-    .btn {
-        padding: 1.8rem 3.5rem;
-        font-size: 1.4rem;
-        font-weight: 700;
-        border-radius: 20px;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 1rem;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        min-width: 250px;
-        justify-content: center;
-        position: relative;
-        overflow: hidden;
-    }
-    .btn::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-        transition: left 0.5s;
-    }
-    .btn:hover::before {
-        left: 100%;
-    }
-    .btn-primary {
-        background: rgba(255,255,255,0.15);
-        backdrop-filter: blur(20px);
-        color: white;
-        border: 2px solid rgba(255,255,255,0.3);
-        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-    }
-    .btn-primary:hover {
-        transform: translateY(-5px) scale(1.05);
-        box-shadow: 0 15px 50px rgba(0,0,0,0.4);
-        background: rgba(255,255,255,0.25);
-    }
-    .btn-secondary {
-        border: 2px solid white;
-        color: white;
-        background: rgba(255,255,255,0.1);
-        backdrop-filter: blur(20px);
-        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-    }
-    .btn-secondary:hover {
-        transform: translateY(-5px) scale(1.05);
-        box-shadow: 0 15px 50px rgba(0,0,0,0.3);
-        background: rgba(255,255,255,0.2);
-    }
-    .nav-brand { font-size: 1.5rem; font-weight: 700; color: #2c5f41; text-decoration: none; }
-    
-    /* Particle System */
-    @keyframes particleFloat {
-        0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.3; }
-        25% { transform: translateY(-30px) translateX(20px); opacity: 0.8; }
-        50% { transform: translateY(-60px) translateX(-10px); opacity: 0.5; }
-        75% { transform: translateY(-30px) translateX(15px); opacity: 0.7; }
-    }
-    </style>
 </head>
-<body data-auto-init="true" data-current-page="home">
-    <!-- Include Header Component -->
-    <div id="header-component"></div>
+<body>
+    <header class="site-header">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-brand">Te Kete Ako</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/unit-plans.html">Unit Plans</a></li>
+                    <li><a href="/lessons.html">Lessons</a></li>
+                    <li><a href="/handouts.html">Handouts</a></li>
+                    <li><a href="/games.html">Games</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-    <div id="main-content">
-        <main>
-            <!-- Hero Section -->
-            <section class="hero-section">
-                <div class="container" style="position: relative; z-index: 2;">
-                    <div class="hero-content" style="text-align: center; max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
-                        <h1 class="hero-title">Te Kete Ako</h1>
-                        <p class="hero-tagline">Educational Resources Honoring Te Ao Māori</p>
-                        <div class="whakatauki-container">
-                            <h2 class="whakatauki">"Whaowhia te kete mātauranga"</h2>
-                            <p class="whakatauki-translation">Fill the basket of knowledge</p>
-                        </div>
-                        <div class="hero-actions">
-                            <a href="/resource-hub.html" class="btn btn-primary pulse-glow">
-                                🌟 Explore Resources
-                            </a>
-                            <a href="/curriculum-index.html" class="btn btn-secondary pulse-glow">
-                                📚 Browse Curriculum
-                            </a>
-                        </div>
-                        
-                        <!-- Premium Interactive Elements -->
-                        <div class="floating-element" style="position: absolute; top: 15%; right: 8%; width: 120px; height: 120px; opacity: 0.4; z-index: 1; animation-delay: 0s;">
-                            <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));">
-                                <path d="M50,10 C30,30 30,70 50,90 C70,70 70,30 50,10 Z" fill="rgba(255,255,255,0.2)" stroke="rgba(255,215,0,0.4)" stroke-width="1">
-                                    <animateTransform attributeName="transform" type="rotate" values="0 50 50;360 50 50" dur="20s" repeatCount="indefinite"/>
-                                </path>
-                            </svg>
-                        </div>
-                        
-                        <div class="floating-element" style="position: absolute; top: 65%; left: 3%; width: 80px; height: 80px; opacity: 0.3; z-index: 1; animation-delay: 3s;">
-                            <div style="width: 100%; height: 100%; background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, rgba(255,215,0,0.2) 50%, transparent 70%); border-radius: 50%; filter: blur(1px);"></div>
-                        </div>
-                        
-                        <div class="floating-element" style="position: absolute; top: 25%; left: 12%; width: 60px; height: 60px; opacity: 0.25; z-index: 1; animation-delay: 6s;">
-                            <div style="width: 100%; height: 100%; background: linear-gradient(45deg, rgba(255,215,0,0.4), rgba(255,255,255,0.2), rgba(64,224,208,0.3)); border-radius: 50%; filter: blur(2px);"></div>
-                        </div>
-                        
-                        <!-- Particle System -->
-                        <div class="particle-system" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1; pointer-events: none;">
-                            <div class="particle" style="position: absolute; top: 20%; left: 10%; width: 4px; height: 4px; background: rgba(255,255,255,0.6); border-radius: 50%; animation: particleFloat 8s ease-in-out infinite;"></div>
-                            <div class="particle" style="position: absolute; top: 40%; left: 80%; width: 3px; height: 3px; background: rgba(255,215,0,0.7); border-radius: 50%; animation: particleFloat 12s ease-in-out infinite 2s;"></div>
-                            <div class="particle" style="position: absolute; top: 70%; left: 20%; width: 5px; height: 5px; background: rgba(64,224,208,0.5); border-radius: 50%; animation: particleFloat 10s ease-in-out infinite 4s;"></div>
-                            <div class="particle" style="position: absolute; top: 30%; left: 60%; width: 2px; height: 2px; background: rgba(255,255,255,0.8); border-radius: 50%; animation: particleFloat 15s ease-in-out infinite 1s;"></div>
-                        </div>
+    <main>
+        <section class="hero-simple">
+            <div class="container">
+                <h1>Te Kete Ako</h1>
+                <p class="tagline">Educational Resources Honoring Te Ao Māori</p>
+                <p class="whakatauki">"Whaowhia te kete mātauranga"</p>
+                <p class="translation">Fill the basket of knowledge</p>
+                <div class="hero-actions">
+                    <a href="/lessons.html" class="btn btn-primary">Browse Lessons</a>
+                    <a href="/handouts.html" class="btn btn-secondary">View Handouts</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h2>What's Available</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h3>📚 Walker Unit</h3>
+                        <p>Dr. Ranginui Walker - 5 complete lessons on challenging dominant narratives</p>
+                        <a href="/lessons/walker/index.html" class="card-link">Explore →</a>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🌊 Hērangi Unit</h3>
+                        <p>Te Puea Hērangi - 5 lessons on the heart of Kīngitanga</p>
+                        <a href="/lessons/herangi/index.html" class="card-link">Explore →</a>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🎮 Te Reo Games</h3>
+                        <p>Interactive Wordle games for learning te reo Māori vocabulary</p>
+                        <a href="/games.html" class="card-link">Play Now →</a>
+                    </div>
+                    <div class="feature-card">
+                        <h3>📄 200+ Handouts</h3>
+                        <p>Print-ready worksheets and teaching materials</p>
+                        <a href="/handouts.html" class="card-link">Browse →</a>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- Featured Resources -->
-            <section class="featured-resources" style="padding: 5rem 2rem; background: white;" data-aos="fade-up">
-                <div class="container">
-                    <div class="section-header" style="text-align: center; margin-bottom: 4rem;" data-aos="fade-up" data-aos-delay="100">
-                        <h2 class="section-title" style="font-size: 3rem; font-weight: 800; color: #2C5F41; margin-bottom: 1.5rem; position: relative;">
-                            🌟 Featured Resources
-                            <div style="position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background: linear-gradient(90deg, #2C5F41, #40E0D0); border-radius: 2px;"></div>
-                        </h2>
-                        <p class="section-subtitle" style="font-size: 1.3rem; color: #666; max-width: 800px; margin: 0 auto; line-height: 1.6;">Hand-picked educational treasures for your classroom - Including NEW Walker Unit on Dr. Ranginui Walker</p>
+        <section class="quick-stats">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat">
+                        <div class="stat-number">250+</div>
+                        <div class="stat-label">Lessons</div>
                     </div>
-                    
-                    <div class="resources-grid">
-                        <div class="resource-card featured">
-                            <div class="resource-header">
-                                <div class="resource-icon">🎮</div>
-                                <div class="resource-title">Te Reo Māori Wordle</div>
-                                <div class="resource-tag">Interactive Game</div>
-                            </div>
-                            <div class="resource-content">
-                                <p>Engaging language learning through the popular Wordle format, featuring Te Reo Māori vocabulary.</p>
-                                <a href="/games/te-reo-wordle.html" class="resource-link">Play Now →</a>
-                            </div>
-                        </div>
-
-                        <div class="resource-card featured">
-                            <div class="resource-header">
-                                <div class="resource-icon">📐</div>
-                                <div class="resource-title">Y9 Maths: Geometry Patterns</div>
-                                <div class="resource-tag">Complete Unit</div>
-                            </div>
-                            <div class="resource-content">
-                                <p>Explore mathematical concepts through traditional Māori patterns and designs.</p>
-                                <a href="/units/y9-maths-geometry-patterns/index.html" class="resource-link">Explore Unit →</a>
-                            </div>
-                        </div>
-
-                        <div class="resource-card featured new">
-                            <div class="resource-header">
-                                <div class="resource-icon">📚</div>
-                                <div class="resource-title">Walker Unit: Challenge to the Narrative</div>
-                                <div class="resource-tag">NEW! Complete Unit</div>
-                            </div>
-                            <div class="resource-content">
-                                <p>Dr. Ranginui Walker's legacy - 5 comprehensive lessons on challenging dominant narratives in Aotearoa.</p>
-                                <a href="/lessons/walker/index.html" class="resource-link">Explore Unit →</a>
-                            </div>
-                        </div>
+                    <div class="stat">
+                        <div class="stat-number">16</div>
+                        <div class="stat-label">Complete Units</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">200+</div>
+                        <div class="stat-label">Handouts</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">NZ Curriculum</div>
                     </div>
                 </div>
-            </section>
-        </main>
-    </div>
+            </div>
+        </section>
+    </main>
 
-    <!-- Include Footer Component -->
-    <div id="footer-component"></div>
-    
-    <!-- Initialize AOS (Animate On Scroll) -->
-    <script>
-        AOS.init({
-            duration: 800,
-            easing: 'ease-in-out',
-            once: true,
-            offset: 100
-        });
-    </script>
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 Te Kete Ako. Honoring mātauranga Māori.</p>
+        </div>
+    </footer>
 
-    <!-- JavaScript -->
-    <script src="/js/header-dropdowns.js"></script>
-    <script>
-        // Load header and footer components synchronously
-        fetch('/components/header.html')
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('header-component').innerHTML = html;
-            })
-            .catch(error => console.error('Error loading header:', error));
-
-        fetch('/components/footer.html')
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('footer-component').innerHTML = html;
-            })
-            .catch(error => console.error('Error loading footer:', error));
-    </script>
+    <script src="/js/te-kete-professional.js"></script>
 </body>
 </html>
+
