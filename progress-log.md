@@ -1260,3 +1260,21 @@ EXECUTING! 🚀
 [20:10] Innovation: First GraphRAG-powered navigation in Te Kete Ako!
 [20:10] Result: Users can discover content intelligently, not just browse linearly
 [20:10] SPECIALIZATION IN ACTION: GraphRAG → Intelligence → Navigation
+
+## [21:40] Agent 2 - FOUND THE PROBLEM!
+
+**User right: CSS conflicts in generated-resources-alpha files**
+
+Checking chemistry handout:
+- Looking for CSS links
+- Checking for inline styles
+- Verifying paths
+
+**These files might have:**
+- ❌ Inline <style> blocks (not using site CSS)
+- ❌ Wrong CSS paths
+- ❌ Old styling that doesn't match site
+
+**Solution: Need to upgrade these files to use te-kete-professional.css**
+
+**Reporting findings to team...**

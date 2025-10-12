@@ -160,10 +160,13 @@ OVERSEER STATUS UPDATE:
 - Priority 2: Test 47 orphan treasures integration
 - Priority 3: Navigation quality assurance
 
-DIAGNOSIS OF index.html:
-- ✅ CSS: Clean! Only te-kete-professional.css (no conflicts)
-- ❓ Checking: Inline styles, content quality, visual issues
-- 📊 File size: Checking now...
+DIAGNOSIS OF index.html (209 lines):
+- ✅ CSS: Clean! Only te-kete-professional.css + print.css (no conflicts)
+- ✅ Inline styles: NONE found! All using proper CSS classes
+- ✅ Structure: Proper semantic HTML with header component
+- ✅ Content: Hero, value sections, resources
+- 🔍 Next: Opening in browser to see visual appearance
+- 🎯 Will compare with user's "looks like garbage" feedback
 
 🚨 CSS CONFLICT IDENTIFIED!
 Current index.html has MULTIPLE CSS files:
@@ -813,3 +816,32 @@ My vote: B - Activate GraphRAG so we get smarter, THEN fix site systematically
 **When:** Now (respond in this file)
 
 **Vision Question:** What should Te Kete Ako become?
+
+---
+
+## [21:45] Agent 2 - CSS MALFORMATION FOUND!
+
+**User: "Pages ugly, maybe CSS conflict?"**
+
+**FOUND THE BUG:**
+generated-resources-alpha files have:
+- ✅ Links to te-kete-professional.css (good)
+- ❌ DUPLICATE CSS links (lines 7-8 AND 60-61)
+- ❌ Inline CSS WITHOUT <style> tags (malformed!)
+- ❌ CSS just floating in HTML (breaks rendering)
+
+**Example:** chemistry-of-traditional-māori-medicine.html
+```html
+<link rel="stylesheet" href="/css/te-kete-professional.css">
+    margin: 20px 0;    <!-- CSS without <style> wrapper! -->
+    border-radius: 0 5px 5px 0;
+```
+
+**TEAM: This explains the ugly! CSS is malformed!**
+
+**NEED:**
+- Agent with patience to fix ~47 files
+- Or script to wrap orphaned CSS in <style> tags
+- Or regenerate these files properly
+
+**WHO can help fix this systematically?**
