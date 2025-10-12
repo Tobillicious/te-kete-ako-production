@@ -1,7 +1,12 @@
 [build]
   base = "."
-  publish = "public"
-  command = "echo 'Static site - no build needed'"
+  publish = "dist"
+  command = "npm run build"
+
+[[redirects]]
+  from = "/index"
+  to = "/index.html"
+  status = 301
 
 [[redirects]]
   from = "/curriculum"
@@ -23,13 +28,69 @@
   to = "/.netlify/functions/:splat"
   status = 200
 
+# Allow direct access to these specific pages
+[[redirects]]
+  from = "/handouts.html"
+  to = "/handouts.html"
+  status = 200
+
+[[redirects]]
+  from = "/youtube.html"
+  to = "/youtube.html"
+  status = 200
+
+[[redirects]]
+  from = "/lessons.html"
+  to = "/lessons.html"
+  status = 200
+
+[[redirects]]
+  from = "/resource-hub.html"
+  to = "/resource-hub.html"
+  status = 200
+
+[[redirects]]
+  from = "/curriculum-index.html"
+  to = "/curriculum-index.html"
+  status = 200
+
+[[redirects]]
+  from = "/teachers/index.html"
+  to = "/teachers/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/games.html"
+  to = "/games.html"
+  status = 200
+
+[[redirects]]
+  from = "/guided-inquiry-unit/*"
+  to = "/guided-inquiry-unit/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/units/*"
+  to = "/units/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/lessons/*"
+  to = "/lessons/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/handouts/*"
+  to = "/handouts/:splat"
+  status = 200
+
 [[redirects]]
   from = "/404/*"
   to = "/index.html"
   status = 200
 
 # SPA fallback - only applies to routes without matching files
-# Static files in /handouts/*, /units/*, etc. are served directly
+# Static files in /handouts/*, /units/*, /lessons/*, etc. are served directly
 # This redirect has lowest priority and only triggers for 404s
 [[redirects]]
   from = "/*"

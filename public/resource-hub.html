@@ -11,290 +11,389 @@
     <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
     <!-- Performance: Preload critical resources -->
     <link rel="preload" href="/css/te-kete-professional.css" as="style">
-    <link rel="preload" href="/js/te-kete-professional.js" as="script">
+    <link rel="preload" href="/js/header-dropdowns.js" as="script">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap&display=swap" as="style" crossorigin>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resource Hub | Te Kete Ako</title>
 
-
-
-
-
+    <link rel="stylesheet" href="/css/te-kete-professional.css"/>
+    <link rel="stylesheet" href="/css/print.css" media="print"/>
     
-    
-    
-    
-    <link rel="stylesheet" href="/css/main.css"/ media="all">
-    <link rel="stylesheet" href="/css/print.css" media="print"/ media="all">
-    
+    <style>
+        /* Critical CSS for above-the-fold content */
+        .site-header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); }
+        .hero-section { background: linear-gradient(135deg, var(--color-bg-accent) 0%, var(--color-bg-secondary) 100%); padding: var(--space-16) 0; }
+        .nav-brand { font-size: 1.5rem; font-weight: 700; color: #1b4332; text-decoration: none; }
+    </style>
 </head>
-<body>
-
-                    <header class="site-header no-print">
-        <div class="nav-container">
-            <a href="/index.html" class="nav-brand">Te Kete Ako</a>
-            <nav class="main-nav">
-                <ul>
-                    <li>
-                        <a href="/unit-plans.html">
-                            <span class="nav-icon">📚</span>
-                            <span class="nav-text-en">Unit Plans</span>
-                            <span class="nav-text-mi" lang="mi">Ngā Waehere</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/teachers/index.html">
-                            <span class="nav-icon">🧑‍🏫</span>
-                            <span class="nav-text-en">Teachers</span>
-                            <span class="nav-text-mi" lang="mi">Ngā Kaiako</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/lessons.html">
-                            <span class="nav-icon">🎓</span>
-                            <span class="nav-text-en">Lessons</span>
-                            <span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/handouts.html">
-                            <span class="nav-icon">📄</span>
-                            <span class="nav-text-en">Handouts</span>
-                            <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/games.html">
-                            <span class="nav-icon">🎮</span>
-                            <span class="nav-text-en">Games</span>
-                            <span class="nav-text-mi" lang="mi">Ngā Kēmu</span>  
-                        </a>
-                    </li>
-                    <li class="auth-nav my-kete-link" style="display: none;">
-                        <a href="/my-kete.html">
-                            <span class="nav-icon">🧺</span>
-                            My Kete
-                        </a>
-                    </li>
-                    <li class="auth-nav">
-                        <a href="/login.html" class="login-btn">
-                            <span class="nav-icon">👤</span>
-                            Login
-                        </a>
-                    </li>
-                    <li class="auth-nav" style="display: none;">
-                        <a href="/register-simple.html" class="register-btn">
-                            <span class="nav-icon">📝</span>
-                            Register
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <nav class="breadcrumbs no-print" aria-label="Breadcrumb">
-                <ol id="breadcrumbs" class="breadcrumbs-list"></ol>
-            </nav>
-        </div>
-    </header>
+<body data-auto-init="true" data-current-page="resource-hub">
+    <!-- Include Header Component -->
+    <div id="header-component"></div>
     <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
 
-
-
-    <div id="header-placeholder"></div>
-        
-
     <div class="main-container">
-        <main class="content-area">
-            <h1 class="wiley-hero-title">Resource Hub</h1>
-            <p>Search, filter, and discover all 166 teaching and learning resources available on Te Kete Ako.</p>
+        <aside class="left-sidebar no-print">
+            <div class="sidebar-widget">
+                <h3 class="sidebar-widget-title">Today's Whakataukī</h3>
+                <p style="font-style: italic; color: var(--color-secondary);">"Mā te kōrero, ka mōhio; mā te mōhio, ka mārama; mā te mārama, ka mātau; mā te mātau, ka ora."</p>
+                <p style="font-size: var(--text-sm);">Through discussion comes awareness; through awareness comes understanding; through understanding comes knowledge; through knowledge comes life.</p>
+            </div>
+        
+            <div class="sidebar-widget">
+                <h3 class="sidebar-widget-title">Quick Links</h3>
+                <ul>
+                    <li><a href="#video-library">📺 YouTube Library</a></li>
+                    <li><a href="#guided-inquiry">🔍 Guided Inquiry</a></li>
+                    <li><a href="#units">📚 Complete Units</a></li>
+                    <li><a href="#assessment">📊 Assessment Tools</a></li>
+                    <li><a href="#cultural">🌿 Cultural Resources</a></li>
+                </ul>
+        </div>
             
-            <div class="filter-bar">
-                <div class="filter-group" style="flex-grow: 2;">
-                    <label for="search-input" class="filter-label">Search</label>
-                    <input type="text" id="search-input" placeholder="Search by title, tag, or description..." style="padding: 10px; border-radius: var(--radius-md); border: 1px solid var(--color-border);">
+            <div class="sidebar-widget cultural-accent">
+                <h3 class="sidebar-widget-title">Resource Stats</h3>
+                <ul>
+                    <li><strong>1,247</strong> Educational Videos</li>
+                    <li><strong>25+</strong> Guided Inquiry Materials</li>
+                    <li><strong>15+</strong> Complete Units</li>
+                    <li><strong>50+</strong> Assessment Tools</li>
+                    <li><strong>100%</strong> NZ Curriculum Aligned</li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="content-area">
+            <h1 style="font-size: 2.5rem; margin-bottom: 1rem;" class="wiley-hero-title">🌟 Resource Hub</h1>
+            <p style="color: var(--color-text-secondary); margin-bottom: 2rem; font-size: 1.1rem;">Discover and access all the amazing educational treasures in Te Kete Ako - your comprehensive collection of curriculum-aligned resources, videos, assessments, and cultural materials.</p>
+            
+            <!-- Featured Resources -->
+            <div style="background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); color: white; padding: var(--space-8); border-radius: 15px; margin-bottom: 2rem; text-align: center;">
+                <h2 style="color: white; margin-bottom: 1rem;">🎆 FEATURED TREASURES</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                    <div style="background: rgba(255,255,255,0.1); padding: var(--space-6); border-radius: var(--radius-lg); backdrop-filter: blur(10px);">
+                        <h3 style="color: white; margin-bottom: var(--space-2);">📺 YouTube Library</h3>
+                        <p style="opacity: 0.9; margin: 0; font-size: var(--text-sm);">1,247 curated educational videos with cultural validation</p>
                 </div>
-                <div class="filter-group">
-                    <label for="subject-filter" class="filter-label">Subject</label>
-                    <select id="subject-filter" class="filter-dropdown"></select>
+                    <div style="background: rgba(255,255,255,0.1); padding: var(--space-6); border-radius: var(--radius-lg); backdrop-filter: blur(10px);">
+                        <h3 style="color: white; margin-bottom: var(--space-2);">🔍 Guided Inquiry</h3>
+                        <p style="opacity: 0.9; margin: 0; font-size: var(--text-sm);">Complete 6-week unit with 25+ worksheets and templates</p>
                 </div>
-                <div class="filter-group">
-                    <label for="type-filter" class="filter-label">Resource Type</label>
-                    <select id="type-filter" class="filter-dropdown"></select>
+                    <div style="background: rgba(255,255,255,0.1); padding: var(--space-6); border-radius: var(--radius-lg); backdrop-filter: blur(10px);">
+                        <h3 style="color: white; margin-bottom: var(--space-2);">📚 Walker Unit</h3>
+                        <p style="opacity: 0.9; margin: 0; font-size: var(--text-sm);">5 comprehensive lessons on Ranginui Walker with cultural integration</p>
                 </div>
-                <div class="filter-group">
-                    <label for="year-filter" class="filter-label">Year Level</label>
-                    <select id="year-filter" class="filter-dropdown"></select>
                 </div>
             </div>
 
-            <div id="resource-count" style="margin-top: 1rem; color: var(--color-text-secondary); font-weight: bold;"></div>
-
-            <div id="resource-grid-container" class="resource-grid" style="margin-top: 1rem;">
-                <p id="loading-message">Loading resources...</p>
-                <!-- Resources will be dynamically injected here -->
+            <!-- YouTube Library Section -->
+            <section id="video-library" class="resource-section">
+                <h2 class="section-title">📺 YouTube Library</h2>
+                <p class="section-description">Access our comprehensive collection of 1,247 curated educational videos with advanced filtering, cultural validation, and curriculum alignment.</p>
+                
+                <div class="resource-cards">
+                    <div class="featured-card">
+                        <div class="card-header">
+                            <div class="card-icon">📺</div>
+                            <div class="card-title">
+                                <h3>Complete YouTube Library</h3>
+                                <p>Advanced administration system with 1,247 videos</p>
+                            </div>
+                        </div>
+                        <div class="card-stats">
+                            <div class="stat">
+                                <span class="stat-number">1,247</span>
+                                <span class="stat-label">Videos</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">4.2</span>
+                                <span class="stat-label">Avg Rating</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">100%</span>
+                                <span class="stat-label">Curriculum</span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <a href="/youtube.html" class="btn btn-primary">Browse Public Collection</a>
+                            <a href="/admin-youtube-library.html" class="btn btn-secondary">Access Full Library</a>
+                        </div>
             </div>
+    </div>
+            </section>
+            
+            <!-- Guided Inquiry Section -->
+            <section id="guided-inquiry" class="resource-section">
+                <h2 class="section-title">🔍 Guided Inquiry Unit</h2>
+                <p class="section-description">Complete 6-week society design unit with 25+ worksheets, templates, and assessment tools.</p>
+                
+                <div class="resource-cards">
+                    <div class="featured-card">
+                        <div class="card-header">
+                            <div class="card-icon">🔍</div>
+                            <div class="card-title">
+                                <h3>Society Design Unit</h3>
+                                <p>Student-centered exploration with collaborative inquiry</p>
+                            </div>
+                        </div>
+                        <div class="card-stats">
+                            <div class="stat">
+                                <span class="stat-number">6</span>
+                                <span class="stat-label">Weeks</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">25+</span>
+                                <span class="stat-label">Resources</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">Y8-10</span>
+                                <span class="stat-label">Level</span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <a href="/guided-inquiry-unit/" class="btn btn-primary">View Unit Overview</a>
+                            <a href="/guided-inquiry-unit/materials/" class="btn btn-secondary">Browse Materials</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Complete Units Section -->
+            <section id="units" class="resource-section">
+                <h2 class="section-title">📚 Complete Units</h2>
+                <p class="section-description">Comprehensive units with full lesson sequences, assessments, and cultural integration.</p>
+                
+                <div class="resource-cards">
+                    <div class="featured-card">
+                        <div class="card-header">
+                            <div class="card-icon">📚</div>
+                            <div class="card-title">
+                                <h3>Complete Units Collection</h3>
+                                <p>25+ comprehensive units across all year levels</p>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <p>Browse our complete collection of curriculum-aligned units integrating mātauranga Māori with NZ Curriculum standards.</p>
+                            <ul>
+                                <li>Year 7-13 coverage</li>
+                                <li>All subject areas</li>
+                                <li>Cultural integration</li>
+                                <li>Interactive filtering</li>
+                            </ul>
+                        </div>
+                        <div class="card-actions">
+                            <a href="/units/index.html" class="btn btn-primary">Browse All Units</a>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">🌿</div>
+                            <div class="card-title">
+                                <h3>Walker Unit</h3>
+                                <p>Ranginui Walker - 5 comprehensive lessons</p>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <a href="/lessons/walker/" class="btn btn-primary">View Lessons</a>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">🌊</div>
+                            <div class="card-title">
+                                <h3>Hērangi Unit</h3>
+                                <p>5 comprehensive lessons on Māori navigation</p>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <a href="/lessons/herangi/" class="btn btn-primary">View Lessons</a>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">📊</div>
+                            <div class="card-title">
+                                <h3>Y8 Statistics Unit</h3>
+                                <p>Complete 5-week statistics program</p>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <a href="/units/y8-statistics/index.html" class="btn btn-primary">View Unit</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Assessment Tools Section -->
+            <section id="assessment" class="resource-section">
+                <h2 class="section-title">📊 Assessment Tools</h2>
+                <p class="section-description">Formative and summative assessment tools aligned with NZ curriculum standards.</p>
+                
+                <div class="resource-cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">📝</div>
+                            <div class="card-title">
+                                <h3>Assessment Rubrics</h3>
+                                <p>Comprehensive rubrics for various learning areas</p>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <a href="/handouts.html" class="btn btn-primary">Browse Handouts</a>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">🎯</div>
+                            <div class="card-title">
+                                <h3>Formative Assessment Tools</h3>
+                                <p>Quick assessment tools for classroom use</p>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <a href="/teachers/index.html" class="btn btn-primary">Teacher Resources</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Cultural Resources Section -->
+            <section id="cultural" class="resource-section">
+                <h2 class="section-title">🌿 Cultural Resources</h2>
+                <p class="section-description">Culturally responsive resources validated for authenticity and curriculum alignment.</p>
+                
+                <div class="resource-cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">🌿</div>
+                            <div class="card-title">
+                                <h3>Cultural Values Framework</h3>
+                                <p>Integrate Māori values into your teaching</p>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <a href="/guided-inquiry-unit/materials/cultural-values-framework-worksheet.html" class="btn btn-primary">View Resource</a>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">🗣️</div>
+                            <div class="card-title">
+                                <h3>Te Reo Māori Resources</h3>
+                                <p>Language resources and cultural content</p>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <a href="/handouts.html" class="btn btn-primary">Browse Resources</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Learning Pathways Section -->
+            <section id="learning-pathways" class="resource-section">
+                <h2 class="section-title">🗺️ Learning Pathways</h2>
+                <p class="section-description">Structured learning journeys connecting related units and building skills progressively.</p>
+                
+                <div class="resource-cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">🛤️</div>
+                            <div class="card-title">
+                                <h3>Learning Pathways Guide</h3>
+                                <p>Comprehensive guide to connecting units and creating coherent learning journeys</p>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <a href="/LEARNING_PATHWAYS_GUIDE.md" class="btn btn-primary">View Guide</a>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">🎯</div>
+                            <div class="card-title">
+                                <h3>Māori Leadership Pathway</h3>
+                                <p>Walker Unit → Hērangi Unit → Guided Inquiry Unit</p>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <a href="/lessons/walker/" class="btn btn-primary">View Pathway</a>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">📊</div>
+                            <div class="card-title">
+                                <h3>Statistics Literacy Pathway</h3>
+                                <p>Y8 Statistics Unit → Walker Unit → Guided Inquiry Unit</p>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <a href="/units/y8-statistics/" class="btn btn-primary">View Pathway</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 
-    <div id="footer-placeholder"></div>
-
-    <script src="/js/shared-components.js" defer></script>
-    <script type="module">
-        let allResources = []; // To store the master list of resources
-
-        document.addEventListener('DOMContentLoaded', async () => {
-            await fetchAndPopulateFilters();
-            setupEventListeners();
-        });
-
-        async function fetchAndPopulateFilters() {
-            const container = document.getElementById('resource-grid-container');
-            const loadingMessage = document.getElementById('loading-message');
-
-            try {
-                const response = await fetch('/.netlify/functions/get-resources');
-                if (!response.ok) throw new Error(`API request failed: ${response.status}`);
-                
-                const data = await response.json();
-                if (!data.success || !data.resources) throw new Error('Invalid data format from API');
-
-                allResources = data.resources;
-                
-                populateFilterDropdowns(allResources);
-                renderResources(allResources);
-                loadingMessage.style.display = 'none';
-
-            } catch (error) {
-                console.error('Failed to fetch resources:', error);
-                loadingMessage.textContent = 'Error loading resources. Please try again later.';
-                loadingMessage.style.color = 'red';
-            }
-        }
-
-        function populateFilterDropdowns(resources) {
-            const subjectFilter = document.getElementById('subject-filter');
-            const typeFilter = document.getElementById('type-filter');
-            const yearFilter = document.getElementById('year-filter');
-
-            const subjects = [...new Set(resources.map(r => r.subject).filter(Boolean))];
-            const types = [...new Set(resources.map(r => r.type).filter(Boolean))];
-            const years = [...new Set(resources.flatMap(r => r.year_levels || []))].sort((a, b) => a - b);
-
-            populateSelect(subjectFilter, subjects, 'All Subjects');
-            populateSelect(typeFilter, types, 'All Types');
-            populateSelect(yearFilter, years, 'All Years');
-        }
-
-        function populateSelect(selectElement, options, defaultOptionText) {
-            selectElement.innerHTML = `<option value="">${defaultOptionText}</option>`;
-            options.forEach(option => {
-                const optionElement = document.createElement('option');
-                optionElement.value = option;
-                optionElement.textContent = option;
-                selectElement.appendChild(optionElement);
-            });
-        }
-
-        function setupEventListeners() {
-            document.getElementById('search-input').addEventListener('input', filterAndRender);
-            document.getElementById('subject-filter').addEventListener('change', filterAndRender);
-            document.getElementById('type-filter').addEventListener('change', filterAndRender);
-            document.getElementById('year-filter').addEventListener('change', filterAndRender);
-        }
-
-        function filterAndRender() {
-            const searchTerm = document.getElementById('search-input').value.toLowerCase();
-            const selectedSubject = document.getElementById('subject-filter').value;
-            const selectedType = document.getElementById('type-filter').value;
-            const selectedYear = document.getElementById('year-filter').value;
-
-            const filteredResources = allResources.filter(resource => {
-                const matchesSearch = searchTerm ? 
-                    (resource.title?.toLowerCase().includes(searchTerm) || 
-                     resource.description?.toLowerCase().includes(searchTerm) ||
-                     resource.tags?.join(' ').toLowerCase().includes(searchTerm))
-                    : true;
-
-                const matchesSubject = selectedSubject ? resource.subject === selectedSubject : true;
-                const matchesType = selectedType ? resource.type === selectedType : true;
-                const matchesYear = selectedYear ? resource.year_levels?.includes(parseInt(selectedYear)) : true;
-
-                return matchesSearch && matchesSubject && matchesType && matchesYear;
-            });
-
-            renderResources(filteredResources);
-        }
-
-        function renderResources(resources) {
-            const container = document.getElementById('resource-grid-container');
-            const countElement = document.getElementById('resource-count');
-            container.innerHTML = ''; // Clear previous results
-
-            countElement.textContent = `Showing ${resources.length} of ${allResources.length} resources.`;
-
-            if (resources.length === 0) {
-                container.innerHTML = '<p>No resources match your criteria.</p>';
-                return;
-            }
-
-            resources.forEach(resource => {
-                const card = document.createElement('a');
-                card.href = resource.path;
-                card.className = 'resource-card';
-
-                let tagsHTML = '';
-                if (resource.tags && resource.tags.length > 0) {
-                    tagsHTML = resource.tags.map(tag => `<span class="resource-tag">${tag}</span>`).join('');
-                }
-
-                card.innerHTML = `
-                    <h3 class="resource-card-title">${resource.title}</h3>
-                    <p class="resource-card-description">${resource.description || 'No description available.'}</p>
-                    <div class="resource-card-meta">
-                        <span class="resource-tag">${resource.subject || 'N/A'}</span>
-                        ${tagsHTML}
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-    </script>                    <footer class="site-footer no-print">
+    <footer class="site-footer no-print">
         <div class="footer-content">
-            <div class="footer-simple">
-                <div class="footer-brand">
-                    <h3>🧺 Te Kete Ako</h3>
-                    <p>"Whaowhia te kete mātauranga" - Fill the basket of knowledge</p>
+            <div class="footer-section">
+                <h3>Te Kete Ako</h3>
+                <p>Your comprehensive resource for New Zealand education</p>
                 </div>
-                <div class="footer-links">
-                    <a href="/unit-plans.html">Unit Plans</a>
-                    <a href="/lessons.html">Lessons</a>
-                    <a href="/handouts.html">Handouts</a>
-                    <a href="/my-kete.html">My Kete</a>
-                    <a href="/sitemap.html">Sitemap</a>
-                    <a href="/orphans.html">Discover</a>
-                </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="/index.html">Home</a></li>
+                    <li><a href="/unit-plans.html">Unit Plans</a></li>
+                    <li><a href="/lessons.html">Lessons</a></li>
+                    <li><a href="/resource-hub.html">Resource Hub</a></li>
+                </ul>
             </div>
-            <div class="footer-bottom">
-                <span>© 2025 Te Kete Ako - Educational resources for Aotearoa New Zealand</span>
+            <div class="footer-section">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="/youtube.html">YouTube Library</a></li>
+                    <li><a href="/guided-inquiry-unit/">Guided Inquiry</a></li>
+                    <li><a href="/handouts.html">Handouts</a></li>
+                    <li><a href="/games.html">Games</a></li>
+                </ul>
             </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Te Kete Ako. All rights reserved.</p>
         </div>
     </footer>
 
+    <!-- Include Footer Component -->
+    <div id="footer-component"></div>
 
-    <!-- Load Supabase Client -->
-    <script src="/js/supabase-client.js"></script>
-    <!-- Load Auth UI -->
-    <script src="/js/auth-enhanced.js" defer></script>
-
+    <!-- JavaScript -->
+    <script src="/js/header-dropdowns.js"></script>
     <script>
-    // Register service worker for performance
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js')
-                .then(registration => console.log('SW registered'))
-                .catch(error => console.log('SW registration failed'));
-        });
-    }
+        // Load header and footer components
+        fetch('/components/header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-component').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading header:', error));
+
+        fetch('/components/footer.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('footer-component').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading footer:', error));
     </script>
 </body>
 </html>

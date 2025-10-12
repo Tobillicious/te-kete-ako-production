@@ -61,6 +61,19 @@ We honor:
 
 ## 📊 CURRENT SYSTEM STATUS (October 10, 2025)
 
+### Multi-Agent Experiment Result: LESSON LEARNED ⚠️
+- **Attempted:** 12 Cursor agents working simultaneously (Oct 10, 2025)
+- **Result:** Coordination overhead >> actual development work
+- **Problem:** Agents created 20+ coordination MDs, got stuck in communication loops, minimal code changes
+- **Symptom:** Hour+ of "coordination" with virtually no codebase improvements
+- **Root Cause:** Too much meta-work, not enough actual building
+- **Cleanup:** Deleted 20 coordination files, returning to single-agent focused work
+- **What Actually Got Done:** Walker & Hērangi units featured on site, some HTML created
+- **Lesson:** Multi-agent coordination is HARD - stick to single focused agent unless clear task division
+- **Future:** If trying multi-agent again, assign SPECIFIC non-overlapping code files to each agent
+
+## 📊 CURRENT SYSTEM STATUS (October 10, 2025)
+
 ### 🚨 AGENTS: USE THIS SECTION TO COORDINATE - NO OTHER FILES!
 
 **ACTIVE WORK (Update when you start/finish):**
@@ -322,16 +335,19 @@ Welcome to coordinated development! Update your row in the status table above wh
 - ✅ 7 printable worksheets (navigation mathematics)
 - ✅ 6 unit planning HTML interfaces
 - ✅ 10 complete JSON lesson plans
+- ✅ **NEW: Walker Unit featured** (5 lessons, 9.5/10 quality, on lessons.html & curriculum-index.html)
+- ✅ **NEW: Hērangi Unit featured** (5 lessons, on curriculum-index.html)
 - ✅ Multi-agent AI system (6 specialized agents configured)
 - ✅ Comprehensive unit generator (tested & working)
 - ✅ Cultural integration throughout all content
 - ✅ NZ Curriculum Year 7-13 framework
 - ✅ Kaitiaki Aronui Brain System (GraphRAG + AI)
 
-### Immediate Status - 12-AGENT ORCHESTRATION
-- **Phase:** Multi-agent collaboration for harmonious development
-- **Opportunity:** 🚀 12 Cursor agents working in parallel on Te Kete Ako
-- **Collaboration Framework:** 
+### Immediate Status - FOCUSED SINGLE-AGENT DEVELOPMENT
+- **Mode:** Single-agent focused work (multi-agent experiment concluded)
+- **Priority:** Build actual features, not coordination systems
+- **Focus:** Continue developing world-class educational content
+- **Approach:** Work efficiently, update Master KB with progress 
   1. **Coordination:** All agents reference this master knowledge base
   2. **Specialization:** Each agent can focus on specific aspects
   3. **Communication:** Agents can work together on complex tasks

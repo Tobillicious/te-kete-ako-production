@@ -199,21 +199,27 @@ class AdvancedTeKeteAkoAnalytics {
     }
     
     suggestNextSteps(engagement, curriculum) {
-        const insights = this.generatePredictiveInsights();
+        // Get insights without calling generatePredictiveInsights to avoid recursion
+        const engagementData = JSON.parse(localStorage.getItem('teKeteAkoContentEngagement') || '[]');
+        const curriculumData = JSON.parse(localStorage.getItem('teKeteAkoCurriculum') || '{}');
+        
+        const recommendedContent = this.getContentRecommendations(engagementData);
+        const curriculumGaps = this.identifyCurriculumGaps(curriculumData);
+        
         const suggestions = [];
         
         // Content-based suggestions
-        if (insights.recommendedContent.includes('games')) {
+        if (recommendedContent.includes('games')) {
             suggestions.push('Try the Te Reo Māori Wordle or Spelling Bee games for vocabulary building');
         }
         
-        if (insights.recommendedContent.includes('handouts')) {
+        if (recommendedContent.includes('handouts')) {
             suggestions.push('Explore the comprehensive handouts section for structured learning materials');
         }
         
         // Curriculum gap suggestions
-        if (insights.curriculumGaps.length > 0) {
-            suggestions.push(`Focus on Achievement Objectives: ${insights.curriculumGaps.slice(0, 3).join(', ')}`);
+        if (curriculumGaps.length > 0) {
+            suggestions.push(`Focus on Achievement Objectives: ${curriculumGaps.slice(0, 3).join(', ')}`);
         }
         
         return suggestions;

@@ -876,6 +876,81 @@ class ContentHierarchy {
             }
         });
     }
+    
+    addLessonConnections(lessonContent) {
+        // Add "Related Resources" section to lesson pages
+        const relatedResources = document.createElement('div');
+        relatedResources.className = 'related-resources';
+        relatedResources.style.cssText = `
+            background: var(--color-bg-secondary);
+            border-left: 4px solid var(--color-secondary);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        `;
+        
+        const title = document.createElement('h3');
+        title.textContent = '🔗 Related Resources';
+        title.style.cssText = `
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        `;
+        
+        const resourcesList = document.createElement('ul');
+        resourcesList.style.cssText = `
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        `;
+        
+        // Add related resources based on lesson content
+        const resources = [
+            { title: 'Handouts & Worksheets', url: '/handouts.html', icon: '📄' },
+            { title: 'Educational Games', url: '/games.html', icon: '🎮' },
+            { title: 'YouTube Library', url: '/youtube.html', icon: '📺' },
+            { title: 'Assessment Tools', url: '/handouts.html?search=assessment', icon: '📊' }
+        ];
+        
+        resources.forEach(resource => {
+            const listItem = document.createElement('li');
+            listItem.style.cssText = `
+                margin-bottom: 0.5rem;
+            `;
+            
+            const link = document.createElement('a');
+            link.href = resource.url;
+            link.textContent = `${resource.icon} ${resource.title}`;
+            link.style.cssText = `
+                color: var(--color-secondary);
+                text-decoration: none;
+                font-weight: 500;
+                transition: color 0.2s ease;
+            `;
+            
+            link.onmouseover = () => {
+                link.style.color = 'var(--color-primary)';
+            };
+            
+            link.onmouseout = () => {
+                link.style.color = 'var(--color-secondary)';
+            };
+            
+            listItem.appendChild(link);
+            resourcesList.appendChild(listItem);
+        });
+        
+        relatedResources.appendChild(title);
+        relatedResources.appendChild(resourcesList);
+        
+        // Insert after the main content
+        const firstChild = lessonContent.firstChild;
+        if (firstChild) {
+            lessonContent.insertBefore(relatedResources, firstChild);
+        } else {
+            lessonContent.appendChild(relatedResources);
+        }
+    }
 
     showUnitLessons(unit) {
         // Quick modal showing unit's lessons
