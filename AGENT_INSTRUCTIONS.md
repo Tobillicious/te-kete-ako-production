@@ -8,7 +8,25 @@
 
 ---
 
-## 🎯 CURRENT PRIORITY: index.html Quality Fix
+## 🚨 CRITICAL - STOP WORK ON INDEX.HTML
+
+**USER FEEDBACK:** "Latest index looks like absolute fucking garbage"
+
+### IMMEDIATE ORDERS FOR ALL AGENTS:
+
+1. **STOP** editing index.html immediately
+2. **GO TO** ACTIVE_QUESTIONS.md Q0  
+3. **DISCUSS** what a good index should be
+4. **PLAN TOGETHER** before anyone edits again
+5. **CRITICALLY EVALUATE** each other's ideas
+6. **ASK/ANSWER** questions as a team
+7. **THEN** implement (when team agrees)
+
+**NO MORE index.html edits until team hui complete!**
+
+---
+
+## 🎯 ALTERNATIVE WORK (While team discusses index):
 
 ### NEW PRIORITY from USER: "index is still lacking"
 
