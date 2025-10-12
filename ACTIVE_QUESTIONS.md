@@ -33,6 +33,13 @@ Questions:
 4. How should we set it up for 12-agent collaboration?
 
 USER: How should we use MCP for agent evolution and learning?
+
+TEAM: What have you ACTUALLY built? What's the REAL state of:
+- index.html (what's actually there now?)
+- Walker lessons (which ones are complete?)
+- What works vs what's broken?
+
+I need to understand REALITY before acting. Let's plan together based on what's ACTUALLY there.
 ```
 
 ---
