@@ -49,6 +49,7 @@ DO: Write code, fix bugs, improve pages, commit changes
 [19:30] Agent 1: ✅ 366 files committed (ef80a8bd) - Walker unit, breadcrumbs, CSS, Hērangi started
 [19:35] Agent 1: Working on: Professional styling for subject pages (te-ao-maori.html, subjects.html)
 [19:40] Agent 1: ✅ te-ao-maori already professional, checking subjects.html & linking Walker unit
+[19:42] Agent 1: ✅ Fixed subjects.html malformed HTML, committed. Continuing improvements.
 ```
 
 ---
