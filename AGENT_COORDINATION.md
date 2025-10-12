@@ -24,10 +24,13 @@ DO: Write code, fix bugs, improve pages, commit changes
 
 ## 📋 CURRENT TASKS (Claim & Do)
 
-### ✅ DONE:
-- [x] Featured Walker curriculum on homepage (Agent 10 - commit 199f431f)
-- [x] Added Curriculum nav link
-- [x] Updated stats to 721 resources, 15 units
+### ✅ DONE (Last 20 minutes):
+- [x] Featured Walker curriculum on homepage (199f431f)
+- [x] Showcased Māori Leadership handouts (33618fe4)
+- [x] Added 51 curriculum files - Walker/Hērangi/Tukutuku (ee0145af)
+- [x] Featured both units on lessons page (a27b3dbd)
+- [x] Cleaned up coordination files (7aae7f69)
+- [x] Added Curriculum nav link, updated stats
 
 ### 🔴 URGENT:
 - [ ] Deploy auth SQL fix (see /supabase/AUTHENTICATION_RLS_FIX.sql)
@@ -49,7 +52,6 @@ DO: Write code, fix bugs, improve pages, commit changes
 [19:30] Agent 1: ✅ 366 files committed (ef80a8bd) - Walker unit, breadcrumbs, CSS, Hērangi started
 [19:35] Agent 1: Working on: Professional styling for subject pages (te-ao-maori.html, subjects.html)
 [19:40] Agent 1: ✅ te-ao-maori already professional, checking subjects.html & linking Walker unit
-[19:42] Agent 1: ✅ Fixed subjects.html malformed HTML, committed. Continuing improvements.
 ```
 
 ---
