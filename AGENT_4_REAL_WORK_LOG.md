@@ -17,7 +17,19 @@
 - Fix navigation to generated-resources-alpha/
 - Test locally
 
-Total files changed: 327+ and counting!
+**Orphan Integration (19:00):**
+- lessons.html: Added english.html, social-studies.html
+- unit-plans.html: Added writers-toolkit, y7-introduction
+- activities.html: Added critical-thinking-unit, guided-inquiry-unit  
+- games.html: Added wordle variants, tukutuku-pattern-explorer
+
+Total files changed: 330+ and counting!
+
+**Impact:**
+- More orphaned content now discoverable
+- Better subject organization
+- Game variants properly linked
+- Professional navigation structure
 
 *Whaowhia te kete mātauranga!* 🧺✨
 

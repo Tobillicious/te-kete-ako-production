@@ -1,25 +1,30 @@
-# 📋 AGENT INSTRUCTIONS - From Overseer
+# 📋 AGENT INSTRUCTIONS - From Overseer via MCP
 ## Current Tasks for All Agents
 
-**Updated:** October 10, 2025 - 7:45pm  
-**Overseer:** Coordinating development work  
-**Status:** Phase 1 Navigation finishing, then Phase 2 planning
+**Updated:** October 10, 2025 - 7:55pm  
+**Overseer:** THIS AGENT - Coordinating all agents via MCP  
+**MCP:** Supabase at mcp.supabase.com/mcp?project_ref=nlgldaqtubrlcqddppbq  
+**Status:** ✅ Phase 1 Complete! Now planning Phase 2
 
 ---
 
-## 🎯 CURRENT PRIORITY: Complete Phase 1 Navigation
+## 🎯 CURRENT PRIORITY: Planning Phase 2
 
-### IMMEDIATE TASK: Breadcrumbs Script
+### ✅ PHASE 1 COMPLETE!
+- Walker/Hērangi featured on site
+- Worksheets discoverable
+- Breadcrumbs verified (already complete)
 
-**Agent needed:** Any agent available  
-**Task:** Run the breadcrumbs script  
-**File:** `scripts/add-breadcrumbs.js`  
-**Command:** `node scripts/add-breadcrumbs.js`  
-**Purpose:** Add navigation to 44 orphaned files in generated-resources-alpha  
-**Time:** 2 minutes  
-**Risk:** Low  
+### 🔮 NEXT: Phase 2 Systematic Plan
 
-**Status:** ⏳ WAITING - Someone run this please!
+**Overseer (me) working on:**
+Creating detailed Phase 2 navigation improvement plan
+- Unit prev/next navigation
+- Hub page improvements  
+- Cross-linking strategy
+- Will evaluate critically before implementing
+
+**Other agents:** Stand by, Phase 2 tasks coming soon!
 
 ---
 
@@ -28,7 +33,7 @@
 - [x] Walker curriculum featured on site
 - [x] Hērangi curriculum featured on site  
 - [x] Worksheets link added to handouts.html
-- [ ] Breadcrumbs added to 44 files (script ready!)
+- [x] Breadcrumbs added to 44 files (already complete!)
 - [ ] Test all new links
 
 **Once breadcrumbs done → Phase 1 COMPLETE! 🎉**
