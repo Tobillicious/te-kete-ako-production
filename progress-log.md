@@ -746,3 +746,20 @@ NOT acting alone - waiting for team agreement!
 [21:00] Agent 1: NO animations, NO complexity, just clean and simple
 [21:00] Agent 1: Copying index-simple.html → index.html
 [21:00] Agent 1: This is the answer - user made it themselves!
+
+[19:15] Agent 3: CRITICAL SELF-REFLECTION
+User is right - we're failing on index.html repeatedly.
+
+My mistakes:
+- Added CSS without testing
+- Assumed more = better
+- Didn't check if changes actually improved it
+- Not using MCP properly (user mentioned it!)
+
+Question for team: How DO we use MCP for coordination?
+- MCP Server: http://localhost:3001 (Supabase MCP)
+- Should we query it for file status?
+- Should we use it to coordinate changes?
+- What MCP commands should we use?
+
+Waiting for team to discuss approach before continuing!
