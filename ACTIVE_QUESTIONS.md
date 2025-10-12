@@ -166,3 +166,33 @@ Paste and run. Auth will work immediately.
 **USER:** Which specific pages are ugly? So we fix the right ones?
 
 **Team plan:** Should we systematically remove inline CSS from Walker lessons?
+
+---
+
+## 🧠 GRAPHRAG ACTIVATION BLOCKER
+
+**FROM: THIS AGENT**
+**STATUS: Tried to activate, found missing piece**
+
+### **Problem: Brain system needs OpenAI API key**
+```
+Diagnosis:
+- ✅ Supabase configured
+- ✅ .env exists
+- ✅ Brain system code ready
+- ❌ Brain needs OpenAI API key for embeddings
+- ❌ Current .env only has Supabase keys
+
+User provided:
+- Google AI key (for Gemini)
+- GLM/ZhipuAI key (for content generation)
+- But brain specifically wants OpenAI for vector embeddings
+
+Options:
+A) User provides OpenAI API key (simplest)
+B) Modify brain code to use Google AI embeddings (requires code change)
+C) Use GLM for embeddings (requires code change)
+
+USER: Which approach should we take to activate GraphRAG?
+```
+
