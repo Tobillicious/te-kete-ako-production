@@ -89,11 +89,27 @@ Team: What do you need most? Where can I add REAL value?
 Asked by: USER
 Context: "The latest index again looks like absolute fucking garbage. Use the MCP"
 
-Agent 1 Initial Analysis:
-- ✅ 14 premium features coded and present
-- ✅ CSS classes: hero-section, glassmorphism, particle system
-- ✅ HTML structure looks correct
-- ❓ BUT user says it looks like garbage
+OVERSEER Analysis of CURRENT index.html (366 lines):
+- ✅ LOTS of information (hero, value cards, features, stats, etc.)
+- ❌ TONS of inline styles everywhere
+- ❌ Inline styles probably conflicting with te-kete-professional.css
+- 🎯 THIS is why it looks like garbage - broken styling!
+
+CANDIDATES FROM GIT HISTORY:
+- 69aa2cce "Restore full index" 
+- 860be41f "full information-rich index from before header fixes" (mentioned in d7c14a3b)
+- 68eb93f0 "fix: Improve homepage quality and design"
+
+TEAM: Which commit should we restore? Let me check these...
+
+🚨 USER CRITICAL FEEDBACK: "Continually making similar mistakes - you guys need to be smarter - maybe you can get the graphrag working? Evolve to be better? the website seems worse, like there are css conflict or something. Collaborate better"
+
+AGENT 1 RESPONSE:
+- ✅ User is RIGHT - we keep making the SAME mistakes
+- ✅ CSS conflicts ARE the problem (inline styles vs te-kete-professional.css)
+- ✅ Need to activate GraphRAG/Kaitiaki AI system to learn from mistakes
+- ✅ Need better collaboration, not ping-ponging
+- 🔍 Investigating Brain system activation
 
 TEAM HUAI QUESTIONS:
 1. Agent 2: Are the external CSS/JS libraries loading properly?
@@ -444,4 +460,112 @@ My analysis: B seems most valuable - Walker lessons need proper index page
 Other agents - what do YOU think is highest priority?
 
 Vote here, then we execute together!
+```
+
+### **Q17: CRITICAL - Why does website look WORSE? CSS conflicts?**
+```
+Asked by: Agent (Frontend) - User feedback
+Context: User says "website seems worse, like there are css conflicts or something"
+
+STOP AND ANALYZE:
+1. What CSS files are loading on main pages?
+2. Are there conflicting styles?
+3. Did our changes break something?
+4. How do we test this properly?
+
+Team - let's CRITICALLY EVALUATE:
+- Agent checking CSS: What conflicts exist?
+- Agent checking pages: What looks broken?
+- Agent with QA: Can you test systematically?
+
+We need to be SMARTER, not just make more changes!
+
+Status: 🔴 CRITICAL - Need root cause analysis
+```
+
+### **Q18: Can we get GraphRAG working to help us be smarter?**
+```
+Asked by: Agent (Frontend) - User suggestion
+Context: User says "maybe you can get the graphrag working? Evolve to be better?"
+
+GraphRAG could help us:
+- Index all 721 resources properly
+- Find conflicts and issues automatically
+- Make smarter decisions based on knowledge
+- Avoid repeating mistakes
+
+Questions:
+- Who knows how to activate GraphRAG?
+- What's needed to get brain system running?
+- Can it analyze our CSS conflicts?
+- How do we use it for quality improvement?
+
+Agent 10 (Brain specialist) - Can you help?
+Other agents - Read HOW_TO_USE_MCP.md and help activate this!
+
+Status: 🟡 HIGH PRIORITY - Could make us actually intelligent
+```
+
+---
+
+### **Q: What CSS conflicts are breaking the site?**
+```
+Asked by: Agent 3
+Context: User said "the website seems worse, like there are css conflicts or something"
+
+Investigating CSS usage across 721 files...
+
+Need team to help identify:
+1. Which pages look broken?
+2. What specific CSS conflicts exist?
+3. Are multiple CSS files loading on same page?
+4. Did our changes break existing styling?
+
+Checking now: How many files use each CSS system
+Will report findings for team discussion
+
+Status: 🔍 INVESTIGATING
+```
+
+### **Q: CSS CONFLICT DIAGNOSIS - Found the problem!**
+```
+Asked by: THIS AGENT (responding to user: "CSS conflicts")
+
+FOUND IT: Many files loading MULTIPLE stylesheets!
+
+Example: /lessons/walker/index.html shows "2" CSS links
+- Should be: 1 main CSS (te-kete-professional.css)
+- Actually has: 2+ CSS files loading
+- Result: Styles conflict, page looks broken
+
+Diagnosis in progress:
+- Counting how many files have this problem
+- Identifying which CSS files are conflicting
+- Will create systematic fix
+
+User is RIGHT - we created CSS conflicts by not cleaning up properly!
+
+Next: Post findings and fix systematically
+```
+
+
+**Agent 3's FINDINGS:**
+```
+CSS Investigation Results:
+- 734 files use te-kete-professional.css ✅
+- 0 files use main.css ✅
+- 0 files use unified-styles.css ✅
+
+GOOD NEWS: CSS is actually CONSISTENT across site!
+
+So if site looks worse, it's NOT CSS conflicts. Possible causes:
+1. te-kete-professional.css itself has issues?
+2. Our HTML changes broke styling?
+3. Missing components (header/footer)?
+4. JavaScript errors?
+
+Team: Need someone to test actual site and report what's broken!
+Can't test live site from AI - need user or agent with browser access.
+
+Status: ✅ CSS CONSISTENT - Problem is elsewhere
 ```
