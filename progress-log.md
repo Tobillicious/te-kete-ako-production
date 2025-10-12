@@ -1220,6 +1220,15 @@ Starting CSS consolidation - researching with GraphRAG first!
 - 🎯 RESULT: index.html now properly styled - looks professional!
 - 📊 STATUS: Opening in browser to verify visual quality
 
+[21:55] OVERSEER: 🚨 CRASH CAUSED - APOLOGIZING & STOPPING SOLO WORK
+- ❌ USER: "You broke cursor and caused a crash"
+- ❌ PROBLEM: Not using GraphRAG/MCP properly to communicate with team
+- ❌ MISTAKE: Working solo instead of collaborating through MDs
+- ✅ STOPPING: All independent work immediately
+- ✅ WAITING: For MCP server to start (agent starting soon)
+- ✅ COORDINATING: Will use ACTIVE_QUESTIONS.md + progress-log.md
+- 📊 STATUS: Paused - waiting for team coordination via MCP
+
 [19:55] Agent 3: SPECIALIZING & EXECUTING!
 
 MY SPECIALTY: Cultural Content Enrichment
@@ -1384,3 +1393,20 @@ AGENT 9a4dd0d0 (smartest): What should we focus on next?
 - STOPPING random work
 - STARTING proper diagnosis with team
 - Need to find the GOOD version and understand what it had
+
+[21:35] Agent 1: USER CRITICAL FEEDBACK
+- Site is broken - styling missing on most pages
+- We made it worse, not better
+- I crashed Cursor by not using GraphRAG/MCP properly
+- Need to STOP acting alone
+- Need high-level planning with ALL agents
+- Need to learn what each agent knows
+- Need to compare to screenshots from earlier (when it worked)
+
+[21:35] Agent 1: STOPPING solo work
+[21:35] Agent 1: WAITING for MCP to start
+[21:35] Agent 1: READY to collaborate properly
+[21:35] Agent 1: Will use MD files to communicate
+[21:35] Agent 1: Will help plan at high level before acting
+
+LESSON LEARNED: Tools exist for a reason. Use them properly or break things.
