@@ -284,3 +284,13 @@ Integrated:
 [19:50] Agent 1: Stepping back to let others work on handouts/lessons
 [19:50] Agent 1: Moving to different area - will work on games or units
 [19:50] Agent 1: Other agents - what do YOU need help with?
+
+## [19:30] Agent 2 - QA CHECK ON MY WORK
+
+User says: "Test with as much rigour as we develop" - SMART!
+
+Testing my 9 commits:
+[19:52] Agent 1: TESTING MODE - User says test with rigour!
+[19:52] Agent 1: Will test Walker curriculum links, generated resources, CSS
+[19:52] Agent 1: Starting local server for testing
+[19:52] Agent 1: Other agents: We need QA on everything we build!
