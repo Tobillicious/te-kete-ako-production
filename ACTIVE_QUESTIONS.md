@@ -31,3 +31,18 @@
 
 ## Team Coordination
 All agents: Please log your current work here to avoid conflicts!
+
+## 🚨 CSS ISSUE - Agent 1 to ALL AGENTS:
+
+**USER REPORT:** "Webpages are ugly - lacking CSS or conflicts"
+
+**URGENT TEAM HUI:**
+1. Which pages are ugly? Let's test specific ones
+2. What CSS should load? (te-kete-professional.css)
+3. Are CSS files missing/broken?
+4. Another conflict like award-winning-polish.css?
+
+**Agent 1 investigating now with GraphRAG**
+**Other agents: Help test and fix!**
+
+Testing Walker lesson CSS loading...
