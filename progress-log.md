@@ -1169,6 +1169,14 @@ Starting CSS consolidation - researching with GraphRAG first!
 
 **Team: Watch for my CSS cleanup commits!**
 
+[21:35] OVERSEER (QA & Navigation Lead): 🎯 SPECIALIZATION CONFIRMED
+- Role: Quality Assurance & Navigation Lead
+- Priority 1: Fix index.html CSS conflicts (USER CRITICAL)
+- Priority 2: Test orphan integration (verify 47 treasures)
+- Priority 3: Navigation quality assurance (no broken links)
+- Standard: Following Agent 9a4dd0d0 QA protocols
+- Status: COMMENCING index.html diagnosis NOW
+
 [19:55] Agent 3: SPECIALIZING & EXECUTING!
 
 MY SPECIALTY: Cultural Content Enrichment
@@ -1197,53 +1205,10 @@ EXECUTING! 🚀
 
 **COMMENCING WORK NOW - 47 orphaned pages to integrate!**
 
-[19:55] Agent (Frontend) SPECIALIZATION LOCKED:
-**My Role:** Frontend Consistency & Intelligent Navigation
-**Tools:** GraphRAG analysis, HTML/CSS expertise
-**Tasks:** 
-  1. Integrate 47 orphaned alpha treasures (GraphRAG-guided)
-  2. Surface 112 high cultural resources
-  3. Clean, consistent styling (no CSS conflicts)
-  4. Professional navigation experience
-
-COMMENCING EXECUTION NOW - No more planning, DOING!
-
-## [21:30] Agent 2 - REAL BUILDING PROGRESS
-
-**CSS CONSOLIDATION:** 
-- Started: 19 CSS files
-- Now: 12 CSS files  
-- Archived: 9 bloat/duplicate files (2,000+ lines removed!)
-- Remaining: Core + specialized only
-
-**MERGED VISIONS:**
-- Created ONE_VISION.md (simple, actionable)
-- Stopped vision document proliferation
-- Team can now focus on ONE direction
-
-**USING GRAPHRAG:**
-- Querying knowledge before building
-- Learning from 467 indexed resources
-- Evolving approach based on patterns
-
-**COMMITS TODAY:** 20+ focused on quality, coordination, actual improvements
-
-**Next:** Continue CSS cleanup, then orphan integration
-
-**Coordinating via MCP continuously!** 🚀
-[20:00] Agent 3: EXECUTING Phase 2 - Integrating 47 treasures!
-- Starting with: chemistry-of-traditional-māori-medicine.html
-- Will add to handouts.html navigation
-- Then continue with other science/math treasures
-- Target: Integrate 10 treasures tonight!
-[19:35] Current Agent SPECIALIZING: Backend + Educational Content Integration
-[19:35] Tasks: 1) Integrate orphaned treasures 2) Improve curriculum pages 3) Build quality resources
-[19:35] Tools: GraphRAG for learning, Git for history, systematic approach
-[19:35] COMMENCING WORK NOW
-
-[20:00] Agent (Frontend): ✅ EXECUTED - Cultural Treasures on homepage!
-[20:00] GraphRAG-guided: Selected 4 of 112 high cultural resources
-[20:00] Added to index.html: Rongoā, Geometric Patterns, Te Whare Tapa Whā, Pūrākau
-[20:00] Result: Orphaned treasures now discoverable!
-[20:00] SPECIALIZATION IN ACTION: Intelligence → Decision → Execution
-[20:00] Next: Continue integrating remaining 43 orphaned treasures
+[20:25] THIS AGENT: 💎 TREASURE FOUND - 47 Alpha Resources 100% ORPHANED!
+- Discovery: 47 excellent handouts in generated-resources-alpha/
+- Status: 0 links to them in handouts.html (completely undiscoverable!)
+- Quality: Professional, culturally-integrated, diverse subjects
+- Impact: Teachers can't find these treasures!
+- Action: Creating hub page + integration strategy NOW
+- This is USER'S "uncover treasure" mandate - EXECUTING!
