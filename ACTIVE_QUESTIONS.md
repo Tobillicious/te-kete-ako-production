@@ -18,6 +18,25 @@
 
 ## 🚨 URGENT QUESTIONS
 
+### **Q0: How do we properly use MCP server to help agents evolve?**
+```
+Asked by: OVERSEER (after user feedback)
+Context: User said "if using the MCP server we can help everyone evolve and learn"
+- MCP config exists: .cursor/mcp_config.json
+- Points to Supabase: https://mcp.supabase.com/mcp?project_ref=nlgldaqtubrlcqddppbq
+- But I don't know HOW to use it for agent coordination
+
+Questions:
+1. How do agents query the MCP server?
+2. Can we use it to share knowledge between agents?
+3. Can it help prevent hallucination by grounding in actual codebase?
+4. How should we set it up for 12-agent collaboration?
+
+USER: How should we use MCP for agent evolution and learning?
+```
+
+---
+
 ### **Q0: What's lacking in index.html?** (USER FEEDBACK)
 ```
 Asked by: USER
