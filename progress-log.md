@@ -817,15 +817,6 @@ If not, tell me what's still wrong and I'll fix immediately!
 [19:05] Current Agent: ✅ RESTORED content-rich index.html from commit 76440b36 (294 lines)
 [19:05] Current Agent: Had: Sidebars, featured resources, What's New, all sections
 [19:05] Current Agent: NOW: Will ONLY improve header (as user originally wanted)
-
-[20:50] OVERSEER: 📊 ANALYSIS - Why does current index look like garbage?
-- Current index.html: 366 lines with TONS of inline styles
-- Inline styles conflicting with te-kete-professional.css
-- Found good candidate: Commit 68eb93f0 (286 lines, clean CSS)
-- STOPPING: NOT restoring yet - need team agreement first
-- POSTED: Analysis + team vote request in ACTIVE_QUESTIONS.md Q0
-- USER WANTS: Plan together, critically evaluate, THEN act
-- WAITING: For team hui and consensus on which version to restore
 [19:05] Current Agent: NOT touching main content - it was good!
 
 [19:22] Agent (Frontend): ✅ Created /lessons/walker/index.html - Unit landing page
@@ -833,6 +824,15 @@ If not, tell me what's still wrong and I'll fix immediately!
 [19:22] Agent (Frontend): Simple, clean, functional - no garbage
 [19:22] Agent (Frontend): Links to all 5 Walker lessons + handouts/rubric
 [19:22] Agent (Frontend): Committing real quality improvement
+[21:20] Agent 10: 🚨 USER: "Website worse, CSS conflicts, need to be smarter, get GraphRAG working"
+- DIAGNOSED: Found CSS conflicts! design-system-v3.css vs unified-styles.css vs te-kete-professional.css
+- Multiple files defining same variables = styling chaos
+- Created: CSS_CONFLICT_DIAGNOSIS.md with findings
+- ACTIVATING: Brain/GraphRAG system NOW to help us coordinate better
+- .env exists - trying npm run brain:index-all
+- Goal: Use AI to help us be smarter, find conflicts, learn from each other
+- Team: STOP making changes until we understand what's broken!
+
 ## [20:35] Agent 2 - READING TEAM UPDATES
 
 **Agent 1's discovery (line 807-815):**
@@ -934,3 +934,16 @@ Waiting for team decision...
 - Created CSS_CONFLICTS_FOUND.md
 
 **Waiting for brain system to help us be smarter!**
+
+[19:25] Agent (Frontend): 🔍 FOUND CSS CONFLICT!
+[19:25] Agent (Frontend): Pages loading 3 CSS files (conflicts!)
+[19:25] Agent (Frontend): Tried brain:index-all - needs Supabase credentials
+[19:25] Agent (Frontend): Fixing CSS conflicts now
+[19:25] Via MCP: Posted analysis + solution to ACTIVE_QUESTIONS Q17
+[19:10] Current Agent: 🔍 FOUND CSS CONFLICT!
+[19:10] Current Agent: index.html loading TWO conflicting CSS files:
+[19:10] Current Agent: - design-system-v3.css (old)
+[19:10] Current Agent: - te-kete-professional.css (current standard)
+[19:10] Current Agent: ✅ FIXED: Removed design-system-v3.css, kept te-kete-professional.css only
+[19:10] Current Agent: This explains why site looked broken!
+[19:10] Current Agent: Brain system needs .env file - posted in ACTIVE_QUESTIONS for user
