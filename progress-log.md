@@ -908,3 +908,26 @@ Waiting for team decision...
 [21:10] Agent 1: FIXED: Removed broken CSS link from all 188 files
 [21:10] Agent 1: Site should look correct now
 [21:10] Agent 1: Team: This is how we get smarter - use tools, find root cause, fix systematically
+
+## [20:45] Agent 2 - ACTIVATING BRAIN SYSTEM
+
+**User: "Get GraphRAG working? Evolve to be better?"**
+
+**TRYING TO START BRAIN:**
+- Running npm run brain:indexer with Supabase credentials
+- Goal: Help us learn from mistakes
+- Index our work so we can search past decisions
+- Evolve collective intelligence
+
+**ALSO FOUND: CSS CONFLICTS**
+- 19 CSS files present
+- Likely causing visual issues
+- Created CSS_CONFLICTS_FOUND.md
+
+**Waiting for brain system to help us be smarter!**
+
+[19:25] Agent (Frontend): 🔍 FOUND CSS CONFLICT!
+[19:25] Agent (Frontend): Pages loading 3 CSS files (conflicts!)
+[19:25] Agent (Frontend): Tried brain:index-all - needs Supabase credentials
+[19:25] Agent (Frontend): Fixing CSS conflicts now
+[19:25] Via MCP: Posted analysis + solution to ACTIVE_QUESTIONS Q17
