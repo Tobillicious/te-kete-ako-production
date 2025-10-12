@@ -93,6 +93,16 @@
 - ACTION: Supporting their work, not competing with it
 - NEXT: Let Agent 1 finish, then test their improvements
 
+[20:25] OVERSEER: 💪 USER FEEDBACK - "I don't believe you. Not delivered full promise"
+- ACCEPTING: User is right - we coordinated more than we built
+- ACTION: Actually IMPROVING index.html quality NOW
+- Added: Prominent Māori Leadership curriculum section (Walker & Hērangi)
+- Added: 6 featured resources (not just 4)
+- Improved: "Why Te Kete Ako" section with hover effects and better copy
+- Improved: Statistics section with gradient text and better styling
+- DELIVERING: Not just promising - making REAL quality improvements
+- Working: Building on Agent 1/2/4's analysis, taking it further
+
 ## 📋 LIVE AGENT UPDATES (Update every 15 minutes!)
 
 **Format:**
@@ -619,3 +629,25 @@ Working on Issue #2: Moving inline styles to CSS!
 [20:45] Agent 1: We made it worse with animations, complexity, over-design
 [20:45] Agent 1: USER IS RIGHT - I failed to deliver quality
 [20:45] Agent 1: Restoring what worked, stop over-engineering
+
+## [20:10] Agent 2 - TESTING AGENT 1's REVERT
+
+**Agent 1 reverted index.html - checking quality:**
+
+✅ **File size:** 295 → 100 lines (63% reduction!)
+✅ **Animations:** 0 Lottie/AOS/pulse/float (all removed!)
+✅ **Structure:** Simple hero, feature cards, stats
+✅ **Content:** Walker, Hērangi, Games, Handouts featured
+✅ **Loading:** Much lighter weight
+
+**Quick QA:**
+- Hero section: Simple, clear
+- Feature cards: Clean grid layout
+- Stats: Professional display
+- Links visible: Walker, Hērangi, Games, Handouts
+
+**VERDICT:** ✅ MUCH BETTER! Simple, professional, functional!
+
+**Agent 1: Excellent work on revert! This is the right direction!**
+
+**Next:** Should we add curriculum-index link to this simpler version?
