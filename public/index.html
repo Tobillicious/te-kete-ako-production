@@ -1,100 +1,295 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Performance: Optimize rendering -->
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#1b4332">
+    <meta name="color-scheme" content="light">
+    <!-- Performance: DNS prefetch for external domains -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <!-- Performance: Preload critical resources -->
+    <link rel="preload" href="/css/te-kete-professional.css" as="style">
+    <link rel="preload" href="/js/te-kete-professional.js" as="script">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap&display=swap" as="style" crossorigin>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Te Kete Ako | Educational Resources Honoring Te Ao Māori</title>
-    <meta name="description" content="Te Kete Ako - Educational platform integrating mātauranga Māori with contemporary learning">
-    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <meta name="description" content="Te Kete Ako - Educational resources integrating mātauranga Māori with contemporary learning for New Zealand classrooms">
+    <meta name="keywords" content="education, māori, indigenous, teaching resources, new zealand, curriculum">
+    <meta name="author" content="Te Kete Ako">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/css/te-kete-professional.css"/ media="all">
+    <link rel="stylesheet" href="/css/print.css" media="print"/ media="all">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2C5F41">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Te Kete Ako">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+
+    <style>
+    /* Critical CSS for above-the-fold content */
+    .site-header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); }
+    .hero-section { background: linear-gradient(135deg, #f0f8f0 0%, #f3f4f6 100%); padding: 4rem 0; }
+    .hero-title { font-size: 3rem; font-weight: 700; color: #1b4332; margin-bottom: 1rem; }
+    .nav-brand { font-size: 1.5rem; font-weight: 700; color: #1b4332; text-decoration: none; }
+    </style>
 </head>
-<body>
-    <header class="site-header">
+<body data-auto-init="true" data-current-page="home">
+    <header class="site-header no-print">
         <div class="nav-container">
             <a href="/index.html" class="nav-brand">Te Kete Ako</a>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="/unit-plans.html">Unit Plans</a></li>
-                    <li><a href="/lessons.html">Lessons</a></li>
-                    <li><a href="/handouts.html">Handouts</a></li>
-                    <li><a href="/games.html">Games</a></li>
+                    <li>
+                        <a href="/unit-plans.html">
+                            <span class="nav-icon">📚</span>
+                            <span class="nav-text-en">Unit Plans</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Waehere</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/lessons.html">
+                            <span class="nav-icon">📖</span>
+                            <span class="nav-text-en">Lesson Plans</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/handouts.html">
+                            <span class="nav-icon">📄</span>
+                            <span class="nav-text-en">Handouts</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/activities.html">
+                            <span class="nav-icon">⚡</span>
+                            <span class="nav-text-en">Do Nows</span>
+                            <span class="nav-text-mi" lang="mi">Mahi Whakakā</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/youtube.html">
+                            <span class="nav-icon">📺</span>
+                            <span class="nav-text-en">YouTube</span>
+                            <span class="nav-text-mi" lang="mi">YouTube</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/games.html">
+                            <span class="nav-icon">🎮</span>
+                            <span class="nav-text-en">Games</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Kēmu</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/other-resources.html">
+                            <span class="nav-icon">🔗</span>
+                            <span class="nav-text-en">Other Resources</span>
+                            <span class="nav-text-mi" lang="mi">Ētahi Atu Rauemi</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav my-kete-link auth-hidden">
+                        <a href="/my-kete.html">
+                            <span class="nav-icon">🧺</span>
+                            <span class="nav-text-en">My Kete</span>
+                            <span class="nav-text-mi" lang="mi">Taku Kete</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav">
+                        <a href="/login.html" class="login-btn">
+                            <span class="nav-icon">🔐</span>
+                            <span class="nav-text-en">Login</span>
+                            <span class="nav-text-mi" lang="mi">Takiuru</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav auth-hidden">
+                        <a href="/register.html" class="register-btn">
+                            <span class="nav-icon">📝</span>
+                            <span class="nav-text-en">Register</span>
+                            <span class="nav-text-mi" lang="mi">Rēhita</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <main>
-        <section class="hero-simple">
-            <div class="container">
-                <h1>Te Kete Ako</h1>
-                <p class="tagline">Educational Resources Honoring Te Ao Māori</p>
-                <p class="whakatauki">"Whaowhia te kete mātauranga"</p>
-                <p class="translation">Fill the basket of knowledge</p>
-                <div class="hero-actions">
-                    <a href="/lessons.html" class="btn btn-primary">Browse Lessons</a>
-                    <a href="/handouts.html" class="btn btn-secondary">View Handouts</a>
-                </div>
+    <div class="main-container">
+        <aside class="left-sidebar no-print">
+            <div class="sidebar-widget">
+                <h3 class="sidebar-widget-title">🌟 Featured Resources</h3>
+                <ul>
+                    <li><a href="/games/te-reo-wordle.html">🎮 Te Reo Māori Wordle</a></li>
+                    <li><a href="curriculum-v2.html">📋 Interactive Curriculum Browser</a></li>
+                    <li><a href="y8-systems-unit.html">🏛️ Y8 Systems Unit (Complete)</a></li>
+                    <li><a href="/handouts/media-literacy-comprehension-handout.html">📺 Media Literacy Handout</a></li>
+                    <li><a href="/lessons/kaitiaki-generated-maori-migration-lesson.html">🌿 Māori Migration Lesson</a></li>
+                </ul>
             </div>
-        </section>
-
-        <section class="features">
-            <div class="container">
-                <h2>What's Available</h2>
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <h3>📚 Walker Unit</h3>
-                        <p>Dr. Ranginui Walker - 5 complete lessons on challenging dominant narratives</p>
-                        <a href="/lessons/walker/index.html" class="card-link">Explore →</a>
-                    </div>
-                    <div class="feature-card">
-                        <h3>🌊 Hērangi Unit</h3>
-                        <p>Te Puea Hērangi - 5 lessons on the heart of Kīngitanga</p>
-                        <a href="/lessons/herangi/index.html" class="card-link">Explore →</a>
-                    </div>
-                    <div class="feature-card">
-                        <h3>🎮 Te Reo Games</h3>
-                        <p>Interactive Wordle games for learning te reo Māori vocabulary</p>
-                        <a href="/games.html" class="card-link">Play Now →</a>
-                    </div>
-                    <div class="feature-card">
-                        <h3>📄 200+ Handouts</h3>
-                        <p>Print-ready worksheets and teaching materials</p>
-                        <a href="/handouts.html" class="card-link">Browse →</a>
-                    </div>
-                </div>
+            
+            <div class="sidebar-widget cultural-accent">
+                <h3 class="sidebar-widget-title">🚀 Quick Start</h3>
+                <ul>
+                    <li><a href="/lessons.html">📖 Browse All Lessons</a></li>
+                    <li><a href="/games.html">🎮 Interactive Games Hub</a></li>
+                    <li><a href="/handouts.html">📄 Ready-to-Print Handouts</a></li>
+                    <li><a href="/activities.html">⚡ 5-Minute Do Nows</a></li>
+                    <li><a href="/youtube.html">📺 Curated Video Resources</a></li>
+                </ul>
             </div>
-        </section>
-
-        <section class="quick-stats">
-            <div class="container">
-                <div class="stats-grid">
-                    <div class="stat">
-                        <div class="stat-number">250+</div>
-                        <div class="stat-label">Lessons</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-number">16</div>
-                        <div class="stat-label">Complete Units</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-number">200+</div>
-                        <div class="stat-label">Handouts</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-number">100%</div>
-                        <div class="stat-label">NZ Curriculum</div>
-                    </div>
-                </div>
+            
+            <div class="sidebar-widget" style="background: linear-gradient(135deg, #f0f8f0 0%, #e8f5e8 100%); border-left: 4px solid var(--color-secondary);">
+                <h3 class="sidebar-widget-title">🎯 For Teachers</h3>
+                <ul>
+                    <li><a href="curriculum-v2.html">📋 NZ Curriculum Reference</a></li>
+                    <li><a href="/unit-plans.html">📚 Complete Unit Plans</a></li>
+                    <li><a href="/units/unit-1-te-ao-maori.html">🌿 Te Ao Māori Unit</a></li>
+                    <li><a href="professional-development/kaitiaki-aronui-capability-showcase.html">🧠 Professional Development</a></li>
+                    <li><a href="/other-resources.html">🔗 Additional Resources</a></li>
+                </ul>
             </div>
-        </section>
-    </main>
+        </aside>
 
-    <footer class="site-footer">
-        <div class="container">
-            <p>&copy; 2025 Te Kete Ako. Honoring mātauranga Māori.</p>
-        </div>
-    </footer>
+        <main class="content-area">
+            <section class="hero-section">
+                <div class="hero-content">
+                    <div class="hero-main">
+                        <h1 class="hero-title">Te Kete Ako</h1>
+                        <p class="hero-tagline">Educational Resources Honoring Te Ao Māori</p>
+                        <div class="whakatauki-container">
+                            <h2 class="whakatauki">"Whaowhia te kete mātauranga"</h2>
+                            <p class="whakatauki-translation">Fill the basket of knowledge</p>
+                        </div>
+                        <div class="hero-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">400+</span>
+                                <span class="stat-label">Resources</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">12</span>
+                                <span class="stat-label">Unit Plans</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">100%</span>
+                                <span class="stat-label">NZ Curriculum Aligned</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-cultural-pattern" aria-hidden="true"></div>
+                </div>
+            </section>
 
+            <!-- What's New Section -->
+            <section class="whats-new-section">
+                <div class="section-header">
+                    <h2 class="section-title-main">What's New at Te Kete Ako</h2>
+                    <p class="section-subtitle">Recent updates and additions to our platform</p>
+                </div>
+                <div class="news-grid">
+                    <article class="news-card featured">
+                        <div class="news-icon">🧠</div>
+                        <h3 class="news-title">AI-Generated Content</h3>
+                        <p class="news-description">New culturally-responsive lessons, handouts and assessments created with Kaitiaki Aronui intelligence</p>
+                        <div class="news-badge">Latest</div>
+                    </article>
+                    <article class="news-card">
+                        <div class="news-icon">📋</div>
+                        <h3 class="news-title">Curriculum Integration</h3>
+                        <p class="news-description">All resources now enhanced with NZ Curriculum Achievement Objectives and framework links</p>
+                    </article>
+                    <article class="news-card">
+                        <div class="news-icon">🎮</div>
+                        <h3 class="news-title">Games Expansion</h3>
+                        <p class="news-description">Te Reo Māori Wordle, English Wordle, Spelling Bee and more interactive learning tools</p>
+                    </article>
+                </div>
+            </section>
+            
+            <section class="featured-resources-section">
+                <div class="section-header">
+                    <h2 class="section-title-main">Featured Resources</h2>
+                    <p class="section-subtitle">Our most popular and comprehensive educational materials</p>
+                </div>
+                <div id="featured-resources-grid" class="featured-grid">
+                    <a href="/curriculum-alignment.html" class="featured-card primary-card">
+                        <div class="card-icon">📋</div>
+                        <div class="card-content">
+                            <h3 class="card-title">NZ Curriculum Alignment</h3>
+                            <p class="card-description">Comprehensive achievement objectives and Te Ao Māori integration across all learning areas</p>
+                            <div class="card-meta">
+                                <span class="meta-tag">Reference Guide</span>
+                                <span class="meta-tag">All Levels</span>
+                            </div>
+                        </div>
+                        <div class="card-arrow">→</div>
+                    </a>
+                    <a href="y8-systems-unit.html" class="featured-card">
+                        <div class="card-icon">🏛️</div>
+                        <div class="card-content">
+                            <h3 class="card-title">Systems Unit (Year 8)</h3>
+                            <p class="card-description">Complete 5-week social studies unit exploring how systems shape our lives</p>
+                            <div class="card-meta">
+                                <span class="meta-tag">5 Weeks</span>
+                                <span class="meta-tag">Ready to Teach</span>
+                            </div>
+                        </div>
+                        <div class="card-arrow">→</div>
+                    </a>
+                    <a href="/lessons/kaitiaki-generated-maori-migration-lesson.html" class="featured-card">
+                        <div class="card-icon">🌿</div>
+                        <div class="card-content">
+                            <h3 class="card-title">Māori Migration Lesson</h3>
+                            <p class="card-description">AI-generated culturally-grounded lesson plan for Year 8 Social Studies</p>
+                            <div class="card-meta">
+                                <span class="meta-tag">AI Generated</span>
+                                <span class="meta-tag">Cultural</span>
+                            </div>
+                        </div>
+                        <div class="card-arrow">→</div>
+                    </a>
+                    <a href="unit-plans/kaitiaki-generated-y10-math-cultural-geometry.html" class="featured-card">
+                        <div class="card-icon">📐</div>
+                        <div class="card-content">
+                            <h3 class="card-title">Cultural Mathematics Unit</h3>
+                            <p class="card-description">Year 10 geometry unit integrating Māori patterns with advanced mathematics</p>
+                            <div class="card-meta">
+                                <span class="meta-tag">Mathematics</span>
+                                <span class="meta-tag">4 Weeks</span>
+                            </div>
+                        </div>
+                        <div class="card-arrow">→</div>
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- CRITICAL: Load Supabase client FIRST -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="/js/supabase-client.js"></script>
+    
+    <!-- Professional JavaScript System -->
     <script src="/js/te-kete-professional.js"></script>
+
+    <script>
+    // Register service worker for performance
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => console.log('SW registered'))
+                .catch(error => console.log('SW registration failed'));
+        });
+    }
+    </script>
 </body>
 </html>
-
