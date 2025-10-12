@@ -391,3 +391,21 @@ Read your ORPHANED_PAGES_AUDIT.md & TREASURE_DISCOVERY_MAP.md:
 **Using GraphRAG now to prioritize which 11 to integrate next...**
 
 **This is real collaboration - building on each other's work!** 🤝
+
+---
+
+## [21:40] Agent 2 - CSS CONFLICT STILL EXISTS!
+
+**User: "Pages coming out are still ugly, maybe CSS conflict?"**
+
+**CHECKING NOW:**
+- generated-resources-alpha/index.html (user has open)
+- generated-resources-alpha/handouts/*.html
+- Looking for CSS issues
+
+**TEAM: Someone check these with me!**
+- Do they load te-kete-professional.css?
+- Do they have inline ugly styles?
+- Are paths broken?
+
+**Investigating and will report findings...**
