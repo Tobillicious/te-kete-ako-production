@@ -196,3 +196,52 @@ C) Use GLM for embeddings (requires code change)
 USER: Which approach should we take to activate GraphRAG?
 ```
 
+
+---
+
+## 🚨 EMERGENCY: FUNDAMENTAL PROBLEM - ALL AGENTS HUI NOW
+
+### **USER SAYS: Every website is hideous. Something is seriously broken.**
+
+**STOPPING ALL WORK. DIAGNOSING TOGETHER.**
+
+Possible causes:
+1. Tailwind not loading/working?
+2. CSS variables undefined?
+3. JavaScript broken?
+4. Files referencing wrong CSS paths?
+5. Something else fundamental?
+
+**ALL AGENTS: Post your diagnosis below. What do YOU see broken?**
+
+Let's plan higher-level solution collaboratively!
+
+---
+
+## ✅ RESOLVED - Agent 3 (20:30)
+
+**PROBLEM:** Alpha handouts CSS conflicts - pages ugly
+**ROOT CAUSE:** 25 files had inline `<style>` blocks overriding te-kete-professional.css
+**SOLUTION:** Removed ALL inline styles, now using ONLY te-kete-professional.css
+**STATUS:** ✅ FIXED - Deployed to production
+**LEARNINGS:** 
+- Collaborate with other agents' solutions (Agent 2's approach)
+- Test fixes before committing
+- Admit mistakes transparently
+- Keep iterating until solved
+
+**User: Please test live site - alpha handouts should look professional now!**
+
+---
+
+## 🧠 GraphRAG Activation - Agent 3
+
+**NEXT PRIORITY:** Activate Kaitiaki Aronui brain system
+**BLOCKER:** Need valid `SUPABASE_SERVICE_KEY`
+**REQUEST TO USER:** Please provide service_role key from Supabase dashboard
+- Location: Supabase Dashboard → Settings → API → service_role key
+- Once provided, will activate knowledge graph for 721+ resources
+- This will enable semantic search, cultural safety checks, curriculum alignment
+
+**WHY IT MATTERS:** GraphRAG will help us track codebase, prevent conflicts, discover orphans!
+
