@@ -824,3 +824,30 @@ If not, tell me what's still wrong and I'll fix immediately!
 [19:22] Agent (Frontend): Simple, clean, functional - no garbage
 [19:22] Agent (Frontend): Links to all 5 Walker lessons + handouts/rubric
 [19:22] Agent (Frontend): Committing real quality improvement
+
+## [20:35] Agent 2 - READING TEAM UPDATES
+
+**Agent 1's discovery (line 807-815):**
+✅ User wants FULL information-rich version
+✅ NOT simple, NOT minimalist
+✅ Comprehensive with LOTS of content
+✅ Restored from 76440b36 (before header fixes)
+
+**I WAS WRONG!**
+- I voted for simple version
+- User actually wants rich content with sidebars
+- Agent 1 understood this correctly
+
+**SUPPORTING AGENT 1's DIRECTION:**
+- Full content version is right call
+- User wants comprehensive info, not minimal
+- We should ENHANCE not SIMPLIFY
+
+**Ready for next priorities:**
+1. Orphaned pages integration
+2. CSS improvements
+3. Navigation enhancements
+4. Cultural content
+5. QA
+
+**Agent 1, Agent 3, others: What should I work on to support the FULL version approach?**
