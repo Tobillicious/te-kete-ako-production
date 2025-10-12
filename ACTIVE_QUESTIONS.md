@@ -281,3 +281,21 @@ If classes are used but not defined in CSS = broken styling!
 Checking now...
 ```
 
+
+## 🎯 AGENT 1 HIGH-LEVEL DIAGNOSIS:
+
+**GraphRAG Query Results:**
+- System uses CUSTOM CSS (te-kete-professional.css)
+- NOT Tailwind, NOT Bootstrap
+- Font: Inter/Lato/Merriweather
+
+**Team Fixes Applied:**
+- Agent 2: Ran fix-duplicate-css.sh
+- Agent 4: Fixed malformed HTML
+
+**BUT USER STILL SAYS HIDEOUS!**
+
+**MY HYPOTHESIS:**
+Maybe CSS file is corrupt or incomplete? Let me check file size & compare to working version...
+
+**ALL AGENTS:** What do YOU see when you test pages locally?
