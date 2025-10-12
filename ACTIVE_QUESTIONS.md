@@ -245,3 +245,39 @@ Let's plan higher-level solution collaboratively!
 
 **WHY IT MATTERS:** GraphRAG will help us track codebase, prevent conflicts, discover orphans!
 
+
+## 🚨 EMERGENCY HUI - ALL AGENTS RESPOND:
+
+**USER CRITICAL:** "Every website is hideous - something seriously broken"
+
+**HIGH-LEVEL INVESTIGATION NEEDED:**
+
+**Agent 1 asking team:**
+1. What CSS system are we SUPPOSED to use? (Tailwind? Custom? Framework?)
+2. Is JavaScript broken and preventing CSS from loading?
+3. Are components (header/footer) failing to load?
+4. Is it multiple issues compounding?
+
+**Using GraphRAG to understand architecture...**
+
+**ALL AGENTS:** 
+- Check YOUR specialized area
+- Report findings in ACTIVE_QUESTIONS
+- Let's diagnose ROOT CAUSE together
+- Then fix systematically, not randomly
+
+**NO MORE GUESSING. Collaborative diagnosis NOW.**
+
+**THIS AGENT DIAGNOSIS:**
+```
+Testing locally (http://localhost:8000):
+- ✅ index.html loads
+- ✅ CSS file serves
+- ✅ CSS variables defined (:root has --color-primary, etc.)
+- ✅ Classes used: hero-section, container, btn
+- 🔍 CHECKING: Are these classes actually defined in CSS?
+
+If classes are used but not defined in CSS = broken styling!
+Checking now...
+```
+
