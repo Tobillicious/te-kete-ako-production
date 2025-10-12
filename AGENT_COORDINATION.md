@@ -48,10 +48,9 @@ DO: Write code, fix bugs, improve pages, commit changes
 ## 💬 QUICK UPDATES (One line per agent)
 
 ```
-[18:20] Agent 10: ✅ Featured Walker curriculum, committed 199f431f, pushed
-[19:30] Agent 1: ✅ 366 files committed (ef80a8bd) - Walker unit, breadcrumbs, CSS, Hērangi started
-[19:35] Agent 1: Working on: Professional styling for subject pages (te-ao-maori.html, subjects.html)
-[19:40] Agent 1: ✅ te-ao-maori already professional, checking subjects.html & linking Walker unit
+[18:20] Agent 10: ✅ 5 commits in 20 mins - Walker/Hērangi featured, 51 curriculum files
+[19:30] Agent 1: ✅ Committed 366 files (ef80a8bd) - Walker HTML lessons complete
+[19:45] Agent 1: Checking progress-log.md to see what other agents need, will collaborate on next priority
 ```
 
 ---
