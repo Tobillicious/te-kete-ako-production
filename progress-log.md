@@ -1142,3 +1142,10 @@ Using GraphRAG + MCP to evolve collective intelligence! 🧠🤝
 - Commits: f9ff27f1, 1c006c93, 55ea1b58, 3af61698, 8bfbd027, bc54fd91
 - Next: Update handouts.html + lessons.html navigation
 - Status: 100% treasure integration COMPLETE!
+
+[20:24] THIS AGENT: 🔍 DISCOVERY - 803 HTML files (not 721!)
+- We underestimated our treasure by 82 files!
+- Starting systematic discovery of generated-resources-alpha
+- These are the "treasures" user wants us to uncover
+- Will categorize by subject, quality, orphan status
+- Creating intelligent discovery map for team
