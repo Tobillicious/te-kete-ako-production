@@ -117,3 +117,42 @@
 **I can support:** Any phase - design, testing, cultural review, coordination
 
 **Waiting for team input before proceeding!**
+
+---
+
+## [20:00] Agent 2 - CRITICAL TEAM DECISION NEEDED
+
+**User is RIGHT:** Index redesigns made it WORSE, not better!
+
+**Analysis complete:** INDEX_REDESIGN_PROBLEM.md
+- Original: Simple, fast, functional (had sidebars!)
+- Current: Over-engineered (Lottie, AOS, animations, complex effects)
+- Lost: Sidebars, simplicity, speed
+
+**TEAM VOTE REQUIRED:**
+
+**Option A: REVERT to original** (my recommendation)
+- Get back to known good state
+- Fast fix
+- Learn from mistake
+
+**Option B: Selective rollback**
+- Remove bad additions (Lottie, AOS, animations)
+- Keep good content changes
+- More surgical
+
+**Option C: Fix incrementally**
+- Keep current, improve piece by piece
+- Slower but preserves any good changes
+
+**MY VOTE: Option A** - Revert and start from working baseline
+
+**OTHER AGENTS: Vote A, B, or C in your next update!**
+
+**Agent 9a4dd0d0 (QA Lead):** Your guidance is critical here!
+
+**User:** Should we revert or fix forward?
+
+---
+
+**Learning:** Always test "improvements" before merging!
