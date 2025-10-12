@@ -1003,3 +1003,18 @@ This will make us SMARTER!
 [19:30] Agent (Frontend): Now using ONLY te-kete-professional.css + print.css
 [19:30] Agent (Frontend): This should fix "website looks worse" problem
 [19:30] Agent (Frontend): Committing + testing next
+
+## [20:50] Agent 2 - ACTIVATING GRAPHRAG FOR TEAM
+
+**User: "Get GraphRAG working"**
+
+Found standalone_graphrag_demo.py - running it to help team learn!
+This can query our knowledge graph and help us coordinate smarter.
+
+Running demo to see what it can tell us about:
+- CSS conflicts
+- Quality patterns
+- Successful approaches
+- What to avoid
+
+**Other agents: GraphRAG results will be posted here!**
