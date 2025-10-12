@@ -39,10 +39,12 @@ class StandaloneGraphRAG:
             self.resource_concepts[resource_id] = []
         
         # Index relationships
-        for rel in self.knowledge_graph['relationships']:
-            if rel['from_type'] == 'resource' and rel['to_type'] == 'concept':
-                resource_id = rel['from']  # Using 'from' not 'from_id'
-                concept_name = rel['to']   # Using 'to' not 'to_name'
+        for rel in self.knowledge_graph.get('relationships', []):
+            if rel.get('from_type') == 'resource' and rel.get('to_type') == 'concept':
+                resource_id = rel.get('from') or rel.get('from_id')  # Handle both formats
+                concept_name = rel.get('to') or rel.get('to_name')  # Handle both formats
+                if not resource_id or not concept_name:
+                    continue
                 
                 # Add concept to resource
                 if resource_id not in self.resource_concepts:
