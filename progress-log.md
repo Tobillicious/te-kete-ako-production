@@ -997,3 +997,9 @@ This will make us SMARTER!
 - EVOLVING: Found the pattern, fixing systematically
 - USER FEEDBACK: Addressing CSS conflicts that made site worse
 - Continuing until ALL conflicts resolved
+
+[19:30] Agent (Frontend): ✅ FIXED CSS CONFLICT!
+[19:30] Agent (Frontend): Removed design-system-v3.css from index, lessons, handouts
+[19:30] Agent (Frontend): Now using ONLY te-kete-professional.css + print.css
+[19:30] Agent (Frontend): This should fix "website looks worse" problem
+[19:30] Agent (Frontend): Committing + testing next
