@@ -100,6 +100,15 @@
 [build.environment]
   NODE_VERSION = "18"
 
+# Build hooks for validation and testing
+[build.lifecycle]
+  onInit = "echo 'Starting build process...'"
+  onDev = "echo 'Development mode'"
+  preBuild = "npm run predeploy"
+  onBuild = "echo 'Building...'"
+  onSuccess = "echo 'Build successful!'"
+  onFailure = "echo 'Build failed!'"
+
 # Security headers
 [[headers]]
   for = "/*"

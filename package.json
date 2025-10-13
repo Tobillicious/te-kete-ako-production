@@ -5,6 +5,9 @@
   "scripts": {
     "deploy": "echo 'Deploying to Netlify...'",
     "clean": "echo 'Clean deployment ready'",
+    "validate": "python3 scripts/automated-quality-validation.py validate-plan",
+    "test": "python3 scripts/automated-quality-validation.py validate-plan && echo 'All tests passed'",
+    "predeploy": "npm run validate && npm run test",
     "brain:extractor": "ts-node src/brain/extractor/kaitiaki-cortex.ts",
     "brain:indexer": "ts-node src/brain/indexer/kaitiaki-memory.ts",
     "brain:ingest": "ts-node src/brain/ingest/kaitiaki-cerebellum.ts",
@@ -17,7 +20,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.54.0",
+    "@supabase/supabase-js": "^2.75.0",
     "async-retry": "^1.3.3",
     "axios": "^1.11.0",
     "cheerio": "^1.1.2",

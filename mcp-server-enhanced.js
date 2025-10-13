@@ -8,6 +8,7 @@ class EnhancedMCPServer {
     constructor() {
         this.port = 3001;
         this.projectRoot = __dirname;
+        this.registeredAgents = new Map(); // Track registered agents
         this.instructions = {
             timestamp: new Date().toISOString(),
             priority: "START_MISSION",
@@ -77,6 +78,12 @@ class EnhancedMCPServer {
             case '/complete-page':
                 this.handleCompletePage(req, res);
                 break;
+            case '/register-agent':
+                this.handleRegisterAgent(req, res);
+                break;
+            case '/agents':
+                this.handleGetAgents(req, res);
+                break;
             default:
                 res.writeHead(404);
                 res.end(JSON.stringify({ error: 'Endpoint not found' }));
@@ -89,9 +96,61 @@ class EnhancedMCPServer {
             status: 'running',
             project: 'te-kete-ako',
             timestamp: new Date().toISOString(),
-            agents: 5,
+            agents: this.registeredAgents.size,
             files: '954+',
             coordination: 'active'
+        }));
+    }
+
+    handleRegisterAgent(req, res) {
+        if (req.method !== 'POST') {
+            res.writeHead(405);
+            res.end(JSON.stringify({ error: 'Method not allowed' }));
+            return;
+        }
+
+        let body = '';
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+
+        req.on('end', () => {
+            try {
+                const data = JSON.parse(body);
+                const { agentId, capabilities, timestamp } = data;
+                
+                // Register the agent
+                this.registeredAgents.set(agentId, {
+                    id: agentId,
+                    capabilities: capabilities || [],
+                    registeredAt: timestamp || new Date().toISOString(),
+                    lastSeen: new Date().toISOString()
+                });
+                
+                // Update progress log
+                this.updateProgressLog(`🤝 Agent ${agentId} registered with MCP`);
+                
+                res.writeHead(200);
+                res.end(JSON.stringify({ 
+                    success: true,
+                    message: `Agent ${agentId} registered successfully`,
+                    totalAgents: this.registeredAgents.size
+                }));
+            } catch (error) {
+                res.writeHead(400);
+                res.end(JSON.stringify({ error: 'Invalid request data' }));
+            }
+        });
+    }
+
+    handleGetAgents(req, res) {
+        const agents = Array.from(this.registeredAgents.values());
+        
+        res.writeHead(200);
+        res.end(JSON.stringify({ 
+            agents: agents,
+            total: agents.length,
+            timestamp: new Date().toISOString()
         }));
     }
 

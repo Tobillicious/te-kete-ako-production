@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <!-- Performance: Optimize rendering -->
     <meta name="format-detection" content="telephone=no">
     <meta name="theme-color" content="#1b4332">
@@ -50,46 +51,129 @@
       div.style.padding = '10px';
       div.style.margin = '5px 0';
       div.style.borderRadius = '5px';
-      div.style.backgroundColor = status === 'success' ? '#d4edda' : 
-                                 status === 'error' ? '#f8d7da' : '#d1ecf1';
+      
+      switch(status) {
+        case 'success':
+          div.style.backgroundColor = '#d4edda';
+          div.style.color = '#155724';
+          break;
+        case 'error':
+          div.style.backgroundColor = '#f8d7da';
+          div.style.color = '#721c24';
+          break;
+        case 'warning':
+          div.style.backgroundColor = '#fff3cd';
+          div.style.color = '#856404';
+          break;
+        default:
+          div.style.backgroundColor = '#d1ecf1';
+          div.style.color = '#0c5460';
+      }
+      
       div.innerHTML = message;
       results.appendChild(div);
-      console.log(message);
     }
 
-    async function testAuth() {
-      log('🚀 === Te Kete Ako Auth Test - 8PM Handoff ===');
-      
-      // Test 1: Connection
+    async function checkUserRole() {
       try {
-        const { error } = await supabase.from('user_progress').select('*').limit(1);
-        log(error ? '❌ Supabase connection failed' : '✅ Supabase connection successful', 
-            error ? 'error' : 'success');
-        if (error) log(`Error details: ${error.message}`, 'error');
-      } catch (err) {
-        log(`❌ Connection error: ${err.message}`, 'error');
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
+        
+        if (userError) {
+          log(`❌ Error getting user: ${userError.message}`, 'error');
+          return null;
+        }
+        
+        if (!user) {
+          log('⚠️ No user logged in', 'warning');
+          return null;
+        }
+        
+        // Get user profile with role
+        const { data: profile, error: profileError } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('user_id', user.id)
+          .single();
+          
+        if (profileError) {
+          log(`❌ Error getting profile: ${profileError.message}`, 'error');
+          return null;
+        }
+        
+        log(`✅ User role: ${profile.user_type || 'not set'}`, 'success');
+        return profile;
+      } catch (error) {
+        log(`❌ Error: ${error.message}`, 'error');
+        return null;
+      }
+    }
+
+    async function updateUserRole(role) {
+      try {
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
+        
+        if (userError) {
+          log(`❌ Error getting user: ${userError.message}`, 'error');
+          return;
+        }
+        
+        // Update user profile with role
+        const { data, error } = await supabase
+          .from('profiles')
+          .upsert({
+            user_id: user.id,
+            user_type: role,
+            updated_at: new Date()
+          });
+          
+        if (error) {
+          log(`❌ Error updating role: ${error.message}`, 'error');
+        } else {
+          log(`✅ Role updated to: ${role}`, 'success');
+        }
+      } catch (error) {
+        log(`❌ Error: ${error.message}`, 'error');
+      }
+    }
+
+    async function testRoleBasedAccess() {
+      const profile = await checkUserRole();
+      
+      if (!profile) {
+        log('⚠️ Please login first', 'warning');
         return;
       }
-
-      // Test 2: Auth state
-      const { data: { user } } = await supabase.auth.getUser();
-      log(user ? '✅ User logged in' : '⚪ No user logged in (expected)', 'info');
-      if (user) log(`User: ${user.email}`, 'success');
       
-      // Test 3: Auth system integrity
-      const { error: authError } = await supabase.auth.signInWithPassword({
-        email: 'test@nonexistent.com',
-        password: 'wrongpassword'
-      });
-      log(authError ? '✅ Auth rejection working (security intact)' : '❌ Auth should reject bad credentials', 
-          authError ? 'success' : 'error');
+      const role = profile.user_type;
       
-      log('🎉 === Auth System: READY FOR 8PM HANDOFF ===', 'success');
-      log('🔑 DeepSeek API available for continued optimization', 'info');
-      log('🚀 Workflow consolidated and streamlined', 'success');
+      if (role === 'teacher') {
+        log('👨‍🏫 Teacher access: Full resource library, lesson planning, student management', 'success');
+      } else if (role === 'student') {
+        log('👨‍🎓 Student access: Guided learning, assignments, progress tracking', 'success');
+      } else {
+        log('⚠️ Role not set. Please set your role below.', 'warning');
+      }
     }
 
-    testAuth();
+    // Initialize test
+    document.addEventListener('DOMContentLoaded', () => {
+      log('🔐 Te Kete Ako Role-Based Authentication Test', 'info');
+      log('Testing role differentiation for students and teachers...', 'info');
+      
+      // Add role selection buttons
+      const roleDiv = document.createElement('div');
+      roleDiv.style.margin = '20px 0';
+      roleDiv.innerHTML = `
+        <h3>Set Your Role:</h3>
+        <button onclick="updateUserRole('teacher')" style="margin: 5px; padding: 10px; background: #1b4332; color: white; border: none; border-radius: 5px;">Set as Teacher</button>
+        <button onclick="updateUserRole('student')" style="margin: 5px; padding: 10px; background: #2e86ab; color: white; border: none; border-radius: 5px;">Set as Student</button>
+        <button onclick="testRoleBasedAccess()" style="margin: 5px; padding: 10px; background: #f18f01; color: white; border: none; border-radius: 5px;">Test Access</button>
+      `;
+      results.appendChild(roleDiv);
+      
+      // Check current role
+      checkUserRole();
+    });
   </script>
 
     <script>

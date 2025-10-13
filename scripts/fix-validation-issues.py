@@ -111,8 +111,11 @@ def fix_alt_text_issues():
             # Find all img tags
             original_content = content
             
-            # Fix images without alt text (simpler approach)
-            content = re.sub(r'<img([^>]*?)>', lambda m: fix_img_tag(m.group(1)), content)
+            # Fix duplicate alt attributes
+            content = re.sub(r'alt="[^"]*"([^>]*?)alt="[^"]*"', r'alt="Educational content image"\1', content)
+            
+            # Fix images without any alt text
+            content = re.sub(r'<img((?!.*alt=).*)>', r'<img\1 alt="Educational content image">', content)
             
             if content != original_content:
                 with open(html_file, 'w') as f:
