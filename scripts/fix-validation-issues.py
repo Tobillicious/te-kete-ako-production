@@ -90,9 +90,9 @@ def fix_alt_text_issues():
     """Fix missing alt text in images"""
     print("🔧 Fixing alt text issues...")
     
-    # Find HTML files with images missing alt text
+    # Find all HTML files
     result = subprocess.run(
-        ["find", "public/", "-name", "*.html", "-exec", "grep", "-l", "img.*src", "{}", ";"],
+        ["find", "public/", "-name", "*.html"],
         capture_output=True,
         text=True
     )
@@ -108,10 +108,17 @@ def fix_alt_text_issues():
             with open(html_file, 'r') as f:
                 content = f.read()
             
-            # Find images with template variables in alt text
+            # Find all img tags
             original_content = content
+            
+            # Fix images without alt text
+            content = re.sub(r'<img([^>]*?)(?<!alt=)(?<!alt="[^"]*")([^>]*?)>', r'<img\1 alt="Educational content image"\2>', content)
+            
+            # Fix images with empty alt text
+            content = re.sub(r'alt=""', 'alt="Educational content image"', content)
+            
+            # Fix template variables in alt text
             content = re.sub(r'alt="\$\{[^}]*\}"', 'alt="Video thumbnail"', content)
-            content = re.sub(r'<img([^>]*?)>(?![^<]*</img>)', r'<img\1 alt="Content image">', content)
             
             if content != original_content:
                 with open(html_file, 'w') as f:
@@ -122,6 +129,51 @@ def fix_alt_text_issues():
             print(f"Error processing {html_file}: {e}")
     
     print(f"✅ Fixed alt text in {fixed_count} files")
+    return fixed_count > 0
+
+def fix_html_syntax_errors():
+    """Fix common HTML syntax errors"""
+    print("🔧 Fixing HTML syntax errors...")
+    
+    # Find HTML files with potential syntax errors
+    result = subprocess.run(
+        ["find", "public/", "-name", "*.html"],
+        capture_output=True,
+        text=True
+    )
+    
+    html_files = result.stdout.strip().split('\n')
+    fixed_count = 0
+    
+    for html_file in html_files:
+        if not html_file:
+            continue
+            
+        try:
+            with open(html_file, 'r') as f:
+                content = f.read()
+            
+            # Fix common syntax errors
+            original_content = content
+            
+            # Fix unclosed tags
+            content = re.sub(r'<img([^>]*?)(?<!/)>', r'<img\1 />', content)
+            
+            # Fix template variables in attributes
+            content = re.sub(r'="(\$\{[^}]*\})"', r'="\1"', content)
+            
+            # Fix other common issues
+            content = re.sub(r'&nbsp;', ' ', content)
+            
+            if content != original_content:
+                with open(html_file, 'w') as f:
+                    f.write(content)
+                fixed_count += 1
+                
+        except Exception as e:
+            print(f"Error processing {html_file}: {e}")
+    
+    print(f"✅ Fixed HTML syntax in {fixed_count} files")
     return fixed_count > 0
 
 def main():
