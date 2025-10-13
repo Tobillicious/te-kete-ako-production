@@ -531,6 +531,204 @@ class QualityValidator:
             "score": 75
         }
     
+    def _validate_lesson_integration(self, location: str) -> Dict:
+        """Validate lesson integration progress"""
+        errors = []
+        warnings = []
+        score = 0
+        details = {}
+        
+        try:
+            with open(location, 'r') as f:
+                discovery_results = json.load(f)
+            
+            # Count lessons
+            lessons = [item for item in discovery_results if item.get("type") == "lessons"]
+            total_lessons = len(lessons)
+            
+            if total_lessons == 0:
+                errors.append("No lessons found in discovery results")
+                return {
+                    "valid": False,
+                    "errors": errors,
+                    "warnings": warnings,
+                    "score": 0,
+                    "details": details
+                }
+            
+            details["total_lessons"] = total_lessons
+            
+            # Check for integration indicators
+            integrated_count = 0
+            high_quality_count = 0
+            
+            for lesson in lessons:
+                # Check if lesson has been integrated (has navigation links)
+                if lesson.get("quality_score", 0) >= 70:
+                    high_quality_count += 1
+                
+                # This would be replaced with actual integration checking
+                # For now, estimate based on quality score
+                if lesson.get("quality_score", 0) >= 80:
+                    integrated_count += 1
+            
+            integration_rate = integrated_count / total_lessons if total_lessons > 0 else 0
+            quality_rate = high_quality_count / total_lessons if total_lessons > 0 else 0
+            
+            score = integration_rate * 70 + quality_rate * 30  # Weight integration more heavily
+            
+            details["integrated_lessons"] = integrated_count
+            details["high_quality_lessons"] = high_quality_count
+            details["integration_rate"] = f"{integration_rate*100:.1f}%"
+            details["quality_rate"] = f"{quality_rate*100:.1f}%"
+            
+            if integration_rate < 0.3:
+                warnings.append(f"Only {integration_rate*100:.1f}% of lessons are integrated")
+            elif integration_rate < 0.7:
+                warnings.append(f"Only {integration_rate*100:.1f}% of lessons are integrated - aim for 70%+")
+            
+        except FileNotFoundError:
+            errors.append(f"Discovery results file not found: {location}")
+        except json.JSONDecodeError:
+            errors.append(f"Invalid JSON in discovery results file: {location}")
+        
+        return {
+            "valid": len(errors) == 0,
+            "errors": errors,
+            "warnings": warnings,
+            "score": min(score, 100),
+            "details": details
+        }
+    
+    def _validate_handout_integration(self, location: str) -> Dict:
+        """Validate handout integration progress"""
+        errors = []
+        warnings = []
+        score = 0
+        details = {}
+        
+        try:
+            with open(location, 'r') as f:
+                discovery_results = json.load(f)
+            
+            # Count handouts
+            handouts = [item for item in discovery_results if item.get("type") == "handouts"]
+            total_handouts = len(handouts)
+            
+            if total_handouts == 0:
+                errors.append("No handouts found in discovery results")
+                return {
+                    "valid": False,
+                    "errors": errors,
+                    "warnings": warnings,
+                    "score": 0,
+                    "details": details
+                }
+            
+            details["total_handouts"] = total_handouts
+            
+            # Check for integration indicators
+            integrated_count = 0
+            high_quality_count = 0
+            
+            for handout in handouts:
+                # Check if handout has been integrated
+                if handout.get("quality_score", 0) >= 70:
+                    high_quality_count += 1
+                
+                # This would be replaced with actual integration checking
+                # For now, estimate based on quality score
+                if handout.get("quality_score", 0) >= 80:
+                    integrated_count += 1
+            
+            integration_rate = integrated_count / total_handouts if total_handouts > 0 else 0
+            quality_rate = high_quality_count / total_handouts if total_handouts > 0 else 0
+            
+            score = integration_rate * 70 + quality_rate * 30  # Weight integration more heavily
+            
+            details["integrated_handouts"] = integrated_count
+            details["high_quality_handouts"] = high_quality_count
+            details["integration_rate"] = f"{integration_rate*100:.1f}%"
+            details["quality_rate"] = f"{quality_rate*100:.1f}%"
+            
+            if integration_rate < 0.3:
+                warnings.append(f"Only {integration_rate*100:.1f}% of handouts are integrated")
+            elif integration_rate < 0.7:
+                warnings.append(f"Only {integration_rate*100:.1f}% of handouts are integrated - aim for 70%+")
+            
+        except FileNotFoundError:
+            errors.append(f"Discovery results file not found: {location}")
+        except json.JSONDecodeError:
+            errors.append(f"Invalid JSON in discovery results file: {location}")
+        
+        return {
+            "valid": len(errors) == 0,
+            "errors": errors,
+            "warnings": warnings,
+            "score": min(score, 100),
+            "details": details
+        }
+    
+    def _validate_cultural_validation(self, location: str) -> Dict:
+        """Validate cultural content validation progress"""
+        errors = []
+        warnings = []
+        score = 0
+        details = {}
+        
+        try:
+            with open(location, 'r') as f:
+                discovery_results = json.load(f)
+            
+            # Count high cultural value content
+            high_cultural = [item for item in discovery_results if item.get("cultural_level") == "high"]
+            total_high_cultural = len(high_cultural)
+            
+            if total_high_cultural == 0:
+                errors.append("No high cultural value content found in discovery results")
+                return {
+                    "valid": False,
+                    "errors": errors,
+                    "warnings": warnings,
+                    "score": 0,
+                    "details": details
+                }
+            
+            details["total_high_cultural"] = total_high_cultural
+            
+            # Check for validation indicators
+            validated_count = 0
+            
+            for item in high_cultural:
+                # This would be replaced with actual validation checking
+                # For now, estimate based on quality score and cultural indicators
+                if item.get("quality_score", 0) >= 75:
+                    validated_count += 1
+            
+            validation_rate = validated_count / total_high_cultural if total_high_cultural > 0 else 0
+            score = validation_rate * 100
+            
+            details["validated_content"] = validated_count
+            details["validation_rate"] = f"{validation_rate*100:.1f}%"
+            
+            if validation_rate < 0.5:
+                warnings.append(f"Only {validation_rate*100:.1f}% of high cultural value content has been validated")
+            elif validation_rate < 0.8:
+                warnings.append(f"Only {validation_rate*100:.1f}% of high cultural value content has been validated - aim for 80%+")
+            
+        except FileNotFoundError:
+            errors.append(f"Discovery results file not found: {location}")
+        except json.JSONDecodeError:
+            errors.append(f"Invalid JSON in discovery results file: {location}")
+        
+        return {
+            "valid": len(errors) == 0,
+            "errors": errors,
+            "warnings": warnings,
+            "score": min(score, 100),
+            "details": details
+        }
+    
     def validate_work_plan(self, work_plan_file: str = "current-work-plan.json") -> Dict:
         """Validate all assigned tasks in a work plan"""
         try:

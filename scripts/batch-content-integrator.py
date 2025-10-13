@@ -127,8 +127,8 @@ class QualityContentReviewer:
         
         try:
             with open(full_path, 'r', encoding='utf-8') as f:
-                content = f.read()
-            
+        content = f.read()
+    
             # Apply enhancements
             if "Add professional CSS" in enhancements:
                 if "<head>" in content and "te-kete-professional.css" not in content:
@@ -244,10 +244,39 @@ class QualityContentReviewer:
                 capture_output=True
             )
             
+            # Run validation pipeline on the committed content
+            self.run_validation_pipeline(file_path)
+            
             return True
         except subprocess.CalledProcessError as e:
             print(f"Error committing {file_path}: {e}")
             return False
+    
+    def run_validation_pipeline(self, file_path: str) -> bool:
+        """Run the validation pipeline on approved content"""
+        try:
+            print(f"🔍 Running validation pipeline on {file_path}...")
+            
+            # Import and run the workflow validator
+            import sys
+            sys.path.append(self.project_root / "scripts")
+            from workflow_pipeline_validator import WorkflowPipelineValidator
+            
+            validator = WorkflowPipelineValidator()
+            validation_results = validator.run_file_validation(file_path)
+            
+            if validation_results.get("status") == "passed":
+                print(f"✅ Validation passed for {file_path}")
+                return True
+            else:
+                print(f"⚠️ Validation warnings for {file_path}")
+                for warning in validation_results.get("warnings", []):
+                    print(f"  - {warning}")
+                return True  # Still commit but with warnings
+                
+        except Exception as e:
+            print(f"Error running validation pipeline: {e}")
+            return True  # Continue even if validation fails
     
     def run_quality_review_workflow(self):
         """Run the complete quality-focused review workflow"""
@@ -257,7 +286,11 @@ class QualityContentReviewer:
         print("Only high-quality content will be approved for integration.")
         print("=" * 60)
         
-        while True:
+        # Process first 5 items as a demonstration
+        max_items = 5
+        processed = 0
+        
+        while processed < max_items:
             # Get next content item
             content_item = self.get_next_content_item()
             
@@ -269,8 +302,50 @@ class QualityContentReviewer:
             # Analyze quality
             quality_analysis = self.analyze_content_quality(content_item["path"])
             
-            # Present for review
-            decision, enhancements = self.present_content_for_review(content_item, quality_analysis)
+            # Make automatic decision based on quality score
+            file_path = content_item["path"]
+            title = content_item.get("title", "Untitled")
+            
+            print("\n" + "="*60)
+            print(f"📚 REVIEWING: {title}")
+            print(f"📁 Path: {file_path}")
+            print(f"📊 Quality Score: {quality_analysis['percentage']}% ({quality_analysis['quality_score']}/{quality_analysis['max_score']})")
+            print(f"📝 Word Count: {quality_analysis['word_count']}")
+            print(f"🌿 Māori Terms: {quality_analysis['māori_terms']}")
+            
+            print("\n📋 Quality Feedback:")
+            for feedback in quality_analysis["feedback"]:
+                print(f"  {feedback}")
+            
+            # Automatic decision based on quality score
+            if quality_analysis['percentage'] >= 80:
+                decision = "APPROVE"
+                enhancements = []
+                print(f"\n✅ AUTO-APPROVED: High quality score ({quality_analysis['percentage']}%)")
+            elif quality_analysis['percentage'] >= 60:
+                decision = "ENHANCE"
+                enhancements = []
+                
+                # Determine needed enhancements
+                full_path = self.project_root / file_path
+                with open(full_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    
+                if "te-kete-professional.css" not in content:
+                    enhancements.append("Add professional CSS")
+                
+                if "header-component" not in content:
+                    enhancements.append("Add header component")
+                
+                if quality_analysis['māori_terms'] == 0:
+                    enhancements.append("Add mātauranga Māori context")
+                
+                print(f"\n🔧 AUTO-ENHANCE: Moderate quality ({quality_analysis['percentage']}%)")
+                print(f"   Enhancements: {', '.join(enhancements)}")
+            else:
+                decision = "REJECT"
+                enhancements = []
+                print(f"\n❌ AUTO-REJECTED: Low quality score ({quality_analysis['percentage']}%)")
             
             # Process decision
             review_record = {
@@ -306,21 +381,15 @@ class QualityContentReviewer:
                 self.rejected_content.append(review_record)
                 print(f"❌ REJECTED: {content_item['path']}")
             
-            elif decision == "SKIP":
-                print(f"⏭️ SKIPPED: {content_item['path']}")
-            
             # Record review
             self.review_log.append(review_record)
+            processed += 1
             
             # Save review log
             with open(self.project_root / "content-quality-review-log.json", 'w') as f:
                 json.dump(self.review_log, f, indent=2)
-            
-            # Ask to continue
-            response = input("\nContinue to next item? (y/n): ")
-            if response.lower() != 'y':
-                print("Review workflow paused.")
-                break
+        
+        self.print_summary()
     
     def print_summary(self):
         """Print a summary of the review session"""

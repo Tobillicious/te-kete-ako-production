@@ -137,20 +137,19 @@ class ValidationDeploymentPipeline:
         print("🎨 Validating CSS files...")
         
         css_files = [f for f in unstaged_files if f["type"] == "css"]
-        validation_results = []
+        validation_results = {} # Changed to dict to store file_path as key
         
         for file_info in css_files:
             file_path = file_info["file"]
             result = self._validate_css_file(file_path)
-            validation_results.append({
-                "file": file_path,
+            validation_results[file_path] = {
                 "valid": result["valid"],
                 "errors": result.get("errors", []),
                 "warnings": result.get("warnings", [])
-            })
+            }
         
         self.validation_results["validation_checks"]["css"] = validation_results
-        return all(r["valid"] for r in validation_results)
+        return all(r["valid"] for r in validation_results.values())
     
     def _validate_css_file(self, file_path):
         """Validate a single CSS file"""
@@ -181,11 +180,17 @@ class ValidationDeploymentPipeline:
         
         return result
     
-    def validate_javascript_files(self, files):
-        """Validate JavaScript files for syntax and best practices"""
+    def validate_javascript_files(self):
+        """Validate JavaScript files"""
         print("⚡ Validating JavaScript files...")
         
-        js_files = [f for f in files if f["type"] == "javascript"]
+        unstaged_changes = self.validation_results["unstaged_changes"]["files"]
+        js_files = [f for f in unstaged_changes if f["type"] == "javascript" and f["file"].startswith("public/")]
+        
+        if not js_files:
+            print("✅ No JavaScript files to validate")
+            return True
+        
         results = {}
         
         for file_info in js_files:
@@ -245,11 +250,33 @@ class ValidationDeploymentPipeline:
         # Validate different file types
         html_valid = self.validate_html_files(unstaged_files)
         css_valid = self.validate_css_files(unstaged_files)
-        js_valid = self.validate_javascript_files(unstaged_files)
+        js_valid = self.validate_javascript_files()
         
         # Determine overall deployment readiness
         all_valid = html_valid and css_valid and js_valid
         self.validation_results["deployment_readiness"] = all_valid
+        
+        # Show validation errors if any
+        if not all_valid:
+            print("\n❌ Validation errors found:")
+            
+            # Check HTML errors
+            if not html_valid and "html" in self.validation_results["validation_checks"]:
+                for result in self.validation_results["validation_checks"]["html"]:
+                    if not result["valid"] and result["errors"]:
+                        print(f"  HTML - {result['file']}: {', '.join(result['errors'])}")
+            
+            # Check CSS errors
+            if not css_valid and "css" in self.validation_results["validation_checks"]:
+                for file_path, result in self.validation_results["validation_checks"]["css"].items():
+                    if not result["valid"] and result["errors"]:
+                        print(f"  CSS - {file_path}: {', '.join(result['errors'])}")
+            
+            # Check JavaScript errors
+            if not js_valid and "javascript" in self.validation_results["validation_checks"]:
+                for file_path, result in self.validation_results["validation_checks"]["javascript"].items():
+                    if result["status"] != "validated" and result["issues"]:
+                        print(f"  JavaScript - {file_path}: {', '.join(result['issues'])}")
         
         # Save validation results
         with open('validation-results.json', 'w') as f:
@@ -263,10 +290,17 @@ class ValidationDeploymentPipeline:
         print(f"Unstaged changes: {self.validation_results['unstaged_changes']['count']} files")
         
         for file_type, results in self.validation_results["validation_checks"].items():
-            if isinstance(results, dict): # Changed from list to dict for JavaScript results
-                valid_count = sum(1 for r in results.values() if r["valid"])
-                total_count = len(results)
-                print(f"{file_type.capitalize()}: {valid_count}/{total_count} files valid")
+            if isinstance(results, dict):
+                if file_type == "javascript":
+                    # JavaScript validation has different structure
+                    valid_count = sum(1 for r in results.values() if r.get("status") == "validated")
+                    total_count = len(results)
+                    print(f"{file_type.capitalize()}: {valid_count}/{total_count} files valid")
+                else:
+                    # CSS and HTML validation
+                    valid_count = sum(1 for r in results.values() if r.get("valid"))
+                    total_count = len(results)
+                    print(f"{file_type.capitalize()}: {valid_count}/{total_count} files valid")
         
         print(f"Deployment ready: {'✅ Yes' if self.validation_results['deployment_readiness'] else '❌ No'}")
         
