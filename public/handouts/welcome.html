@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://supabase.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: https://placehold.co; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co https://supabase.com;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Te Kete Ako | Educational Resources for New Zealand</title>
+    
+    <!-- Critical CSS inlined for fastest rendering -->
+    <style>
+        :root {
+            --color-primary: #1a1a1a;
+            --color-secondary: #00b0b9;
+            --color-accent: #f5a623;
+            --color-forest: #2C5F41;
+            --color-background: #ffffff;
+            --color-text-primary: #1a1a1a;
+            --color-text-secondary: #6c757d;
+            --color-border: #e5e7eb;
+            --font-headings: 'Montserrat', 'Helvetica', 'Arial', sans-serif;
+            --font-body: 'Lato', 'Helvetica', 'Arial', sans-serif;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-background);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .hero-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f0f8f0 0%, #e8f4f8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .hero-content {
+            max-width: 1000px;
+            text-align: center;
+        }
+        
+        .hero-logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero-title {
+            font-family: var(--font-headings);
+            font-size: 3rem;
+            color: var(--color-forest);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .hero-whakatauki {
+            font-size: 1.8rem;
+            color: var(--color-secondary);
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+        
+        .hero-translation {
+            color: var(--color-text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .stat-item {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-number {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--color-secondary);
+        }
+        
+        .stat-label {
+            display: block;
+            color: var(--color-text-secondary);
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .cta-section {
+            margin-top: 3rem;
+        }
+        
+        .cta-description {
+            font-size: 1.3rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-secondary), var(--color-forest));
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 176, 185, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 176, 185, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-forest);
+            border: 2px solid var(--color-forest);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--color-forest);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .features-preview {
+            background: rgba(255, 255, 255, 0.9);
+            margin: 3rem 0;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .feature-card {
+            text-align: left;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-title {
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .feature-description {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .hero-whakatauki {
+                font-size: 1.4rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+    
+    <!-- Preconnect to external services -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                                                    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/print.css" media="print"/>
+</head>
+<body>
+    <div id="header-component"></div>
+    <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+      <div class="container">
+        <a href="/">Home</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="/Users/">Users</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">Welcome to Te Kete Ako | Educational Resources for New Zealand</span>
+      </div>
+    </nav>
+  
+    <div class="hero-container">
+        <div class="hero-content">
+            <div class="hero-logo">🧺</div>
+            <h1 class="hero-title" class="wiley-hero-title">Te Kete Ako</h1>
+
+    <section class="learning-objectives" style="background: linear-gradient(135deg, #f0f8f0, #e8f5e9); padding: 2rem; border-radius: 12px; margin: 2rem 0; border-left: 4px solid var(--color-pounamu); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        
+
+    <section class="cultural-integration" style="background: linear-gradient(135deg, #fff7ed, #ffedd5); padding: 2rem; border-radius: 12px; margin: 2rem 0; border-left: 4px solid var(--color-accent); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <h2 style="color: var(--color-primary); margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+            <span>🌿</span>
+            <span>Cultural Context | Horopaki Ahurea</span>
+        </h2>
+        
+        <div class="whakatauaki-section" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: center; border: 2px solid var(--color-accent);">
+            <h3 style="font-size: 0.9rem; color: var(--color-text-secondary); margin: 0 0 0.5rem; text-transform: uppercase; letter-spacing: 1px;">Whakataukī</h3>
+            <p style="font-size: 1.3rem; font-style: italic; color: var(--color-primary); margin: 0.5rem 0; font-weight: 500;">"Whāia te iti kahurangi"</p>
+            <p style="font-size: 1rem; color: var(--color-text-secondary); margin: 0.5rem 0;">"Seek the treasure you value most dearly"</p>
+        </div>
+        
+        <div class="house-values" style="background: white; padding: 1.5rem; border-radius: 8px;">
+            <h3 style="font-size: 1rem; color: var(--color-primary); margin-top: 0;">🏛️ Connection to Mangakōtukutuku College Values</h3>
+            <div style="background: rgba(241, 143, 1, 0.1); padding: 1rem; border-radius: 6px; border-left: 3px solid var(--color-accent);">
+                <p style="margin: 0; font-size: 0.95rem;">
+                    <strong style="color: var(--color-accent); text-transform: capitalize;">Whaiora:</strong> Wellbeing - Caring for collective health and prosperity
+                </p>
+                <p style="margin: 0.75rem 0 0; font-size: 0.9rem; color: var(--color-text-secondary);">
+                    This learning connects to the value of <strong>whaiora</strong> by encouraging students to [engage with content in ways that embody this value].
+                </p>
+            </div>
+        </div>
+        
+        <div class="cultural-safety" style="background: rgba(27, 67, 50, 0.05); padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+            <h4 style="font-size: 0.95rem; color: var(--color-primary); margin: 0 0 0.5rem;">🛡️ Cultural Safety Considerations</h4>
+            <ul style="font-size: 0.9rem; margin: 0; color: var(--color-text-secondary);">
+                <li>Approach Māori content with respect and openness</li>
+                <li>Recognize students' diverse cultural backgrounds and experiences</li>
+                <li>Create space for Māori students to share their perspectives</li>
+                <li>Consult with whānau and local iwi for culturally sensitive topics</li>
+            </ul>
+        </div>
+    </section>
+
+<h2 style="color: var(--color-primary); margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+            <span>📚</span>
+            <span>Ngā Whāinga Ako | Learning Objectives</span>
+        </h2>
+        
+        <div style="background: white; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+            <p style="margin: 0; color: var(--color-text-secondary); font-size: 0.95rem;">
+                <strong>NZ Curriculum:</strong> Phase 4-5 (Years 9-10) | <strong>Adaptable for:</strong> Years 7-10
+            </p>
+        </div>
+        
+        <div class="walt-section" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+            <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">
+                WALT (We Are Learning To) | Ngā Whāinga:
+            </h3>
+            <ul style="margin: 0.5rem 0 0;">
+                <li><em>[Teacher: Customize based on your class focus and curriculum objectives]</em></li>
+                <li><em>Suggested: Connect to specific Achievement Objectives from NZ Curriculum</em></li>
+            </ul>
+        </div>
+        
+        <div class="sc-section" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+            <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">
+                Success Criteria (WILF - What I'm Looking For) | Ngā Paearu:
+            </h3>
+            <ul style="margin: 0.5rem 0 0;">
+                <li><em>[Teacher: Define what success looks like for your ākonga]</em></li>
+                <li><em>Consider: Different success criteria for different learners</em></li>
+            </ul>
+        </div>
+
+        <div class="maori-pedagogy" style="background: rgba(241, 143, 1, 0.1); padding: 1.5rem; border-radius: 8px; border-left: 3px solid var(--color-accent);">
+            <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">
+                🌿 Ngā Tikanga Ako | Māori Pedagogical Approaches
+            </h3>
+            <p style="margin: 0.5rem 0; font-size: 0.95rem;">This resource lends itself to authentic Māori pedagogical practices:</p>
+            <ul style="margin: 0.5rem 0 0; font-size: 0.95rem;">
+                <li><strong>Ako:</strong> Reciprocal teaching and learning - students and teachers learn together</li>
+                <li><strong>Tuakana-teina:</strong> Peer teaching with more experienced students supporting others</li>
+                <li><strong>Wānanga:</strong> Deep collaborative discussion and knowledge sharing</li>
+                <li><strong>Mahi tahi:</strong> Working together towards shared understanding</li>
+            </ul>
+            <p style="margin: 1rem 0 0; font-size: 0.9rem; font-style: italic; color: var(--color-text-secondary);">
+                💡 Teacher: Consider how these approaches can be authentically integrated into your lesson delivery.
+            </p>
+        </div>
+
+        <div class="differentiation-note" style="background: rgba(59, 130, 246, 0.1); padding: 1rem; border-radius: 8px; margin-top: 1rem; border-left: 3px solid var(--color-info);">
+            <p style="margin: 0; font-size: 0.9rem; color: var(--color-text-secondary);">
+                <strong>💡 Differentiation:</strong> Look for related resources at different NZ Curriculum phases to provide appropriate scaffolding for diverse ākonga. Consider creating learning pathways that connect resources at increasing complexity.
+            </p>
+        </div>
+    </section>
+
+            <div class="hero-whakatauki">Whaowhia te kete mātauranga</div>
+            <div class="hero-translation">Fill the basket of knowledge</div>
+            
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">467+</span>
+                    <span class="stat-label">Educational Resources</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">🧠</span>
+                    <span class="stat-label">AI-Powered Discovery</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">NZ Curriculum Aligned</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">🌿</span>
+                    <span class="stat-label">Te Ao Māori Integrated</span>
+                </div>
+            </div>
+            
+            <div class="features-preview">
+                <h2 style="text-align: center; color: var(--color-primary); margin-bottom: 1rem; font-size: 2rem;" class="wiley-section-title">
+                    Revolutionary Educational Platform for Aotearoa
+                </h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🤖</div>
+                        <h3 class="feature-title">AI Teacher Assistant</h3>
+                        <p class="feature-description">DeepSeek-powered educational AI with GraphRAG knowledge discovery and cultural integration</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📚</div>
+                        <h3 class="feature-title">Complete Resource Library</h3>
+                        <p class="feature-description">467+ handouts, lessons, unit plans, and interactive tools covering all curriculum levels</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌿</div>
+                        <h3 class="feature-title">Authentic Te Ao Māori</h3>
+                        <p class="feature-description">Culturally grounded resources validated by Māori educators with integrated tikanga</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3 class="feature-title">Adaptive Learning Paths</h3>
+                        <p class="feature-description">Personalized journeys that adapt to individual learning styles and progress</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🧺</div>
+                        <h3 class="feature-title">Personal Teaching Kete</h3>
+                        <p class="feature-description">Save, organize, and curate your favorite resources in your personalized collection</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <h3 class="feature-title">Smart Resource Discovery</h3>
+                        <p class="feature-description">AI-powered search that understands educational context and cultural nuances</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cta-section">
+                <p class="cta-description">
+                    Join thousands of New Zealand teachers already using Te Kete Ako to transform their teaching practice with culturally responsive, AI-enhanced educational resources.
+                </p>
+                
+                <div class="cta-buttons">
+                    <a href="register-simple.html" class="btn btn-primary">
+                        🚀 Start Free Account
+                    </a>
+                    <a href="login.html" class="btn btn-secondary">
+                        🔐 Teacher Login
+                    </a>
+                </div>
+                
+                <p style="margin-top: 2rem; color: var(--color-text-secondary); font-size: 0.9rem;">
+                    Already have 250+ resources available to explore immediately
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Minimal JavaScript for progressive enhancement -->
+    <script>
+        // Simple analytics tracking (if needed)
+        // Service worker temporarily disabled to resolve CSP conflicts
+        // if ('serviceWorker' in navigator) {
+        //     navigator.serviceWorker.register('/sw.js').catch(console.error);
+        // }
+        
+        // Add subtle animations on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.feature-card, .stat-item');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+                observer.observe(card);
+            });
+        });
+    </script>
+    
+
+    <section class="teacher-resources no-print" style="background: linear-gradient(135deg, #fff7ed, #ffedd5); padding: 2rem; border-radius: 12px; margin: 3rem 0; border-left: 4px solid var(--color-accent); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <h2 style="color: var(--color-primary); margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+            <span>👨‍🏫</span>
+            <span>Teacher Resources | Ngā Rauemi Kaiako</span>
+        </h2>
+        
+        <div class="resource-tabs" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+            
+            <!-- Implementation Guide -->
+            <div class="resource-card" style="background: white; padding: 1.5rem; border-radius: 8px;">
+                <h3 style="font-size: 1rem; color: var(--color-primary); margin-top: 0;">📋 Implementation Guide</h3>
+                <ul style="font-size: 0.9rem; margin: 0.5rem 0;">
+                    <li><strong>Preparation:</strong> 15-20 minutes</li>
+                    <li><strong>Materials:</strong> [List specific materials needed]</li>
+                    <li><strong>Room Setup:</strong> [Describe ideal arrangement]</li>
+                    <li><strong>Prior Knowledge:</strong> [What students should know]</li>
+                </ul>
+            </div>
+            
+            <!-- Answer Keys -->
+            <div class="resource-card" style="background: white; padding: 1.5rem; border-radius: 8px;">
+                <h3 style="font-size: 1rem; color: var(--color-primary); margin-top: 0;">🔑 Answer Keys</h3>
+                <p style="font-size: 0.9rem; margin: 0.5rem 0;"><em>[Teacher: Complete answer keys for all activities and questions will be added in next enhancement pass]</em></p>
+                <p style="font-size: 0.85rem; color: var(--color-text-secondary); margin: 0;">Include model answers, common mistakes, extension responses</p>
+            </div>
+            
+            <!-- Assessment Suite -->
+            <div class="resource-card" style="background: white; padding: 1.5rem; border-radius: 8px;">
+                <h3 style="font-size: 1rem; color: var(--color-primary); margin-top: 0;">📊 Assessment Suite</h3>
+                <details style="font-size: 0.9rem;">
+                    <summary style="cursor: pointer; font-weight: 600; margin-bottom: 0.5rem;">7 Assessment Types Available</summary>
+                    <ul style="margin: 0.5rem 0; font-size: 0.85rem;">
+                        <li>✅ Formative (exit tickets, quick checks)</li>
+                        <li>✅ Summative (tests, projects)</li>
+                        <li>✅ Self-assessment rubrics</li>
+                        <li>✅ Peer assessment protocols</li>
+                        <li>✅ Portfolio evidence guides</li>
+                        <li>✅ Practical demonstrations</li>
+                        <li>✅ Guided social inquiry projects</li>
+                    </ul>
+                </details>
+            </div>
+            
+            <!-- Differentiation -->
+            <div class="resource-card" style="background: white; padding: 1.5rem; border-radius: 8px;">
+                <h3 style="font-size: 1rem; color: var(--color-primary); margin-top: 0;">🎯 Differentiation</h3>
+                <ul style="font-size: 0.9rem; margin: 0.5rem 0;">
+                    <li><strong>Support:</strong> Simplified tasks, visual aids, sentence starters</li>
+                    <li><strong>Core:</strong> Standard activities as presented</li>
+                    <li><strong>Extension:</strong> Open-ended challenges, research tasks</li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <!-- Guided Inquiry Project (if applicable) -->
+
+        <div class="cultural-note" style="background: rgba(241, 143, 1, 0.1); padding: 1rem; border-radius: 8px; margin-top: 1.5rem; border-left: 3px solid var(--color-accent);">
+            <p style="margin: 0; font-size: 0.9rem;">
+                <strong>🌿 Cultural Note:</strong> When implementing, consider authentic Māori pedagogical approaches (ako, tuakana-teina, wānanga) and ensure cultural safety throughout.
+            </p>
+        </div>
+    </section>
+
+
+
+    <section class="assessment-tools no-print" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); padding: 2rem; border-radius: 12px; margin: 3rem 0; border-left: 4px solid var(--color-info); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <h2 style="color: var(--color-primary); margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+            <span>📊</span>
+            <span>Assessment Tools | Ngā Taputapu Aromatawai</span>
+        </h2>
+        
+        <div class="assessment-grid" style="display: grid; gap: 1.5rem; margin-top: 1.5rem;">
+            
+            <!-- Formative Assessment -->
+            <div class="assessment-card" style="background: white; padding: 1.5rem; border-radius: 8px; border-left: 3px solid var(--color-success);">
+                <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">✅ Formative Assessment (During Learning)</h3>
+                <div style="font-size: 0.9rem;">
+                    <p style="margin: 0.5rem 0;"><strong>Exit Ticket:</strong></p>
+                    <ul style="margin: 0.5rem 0;">
+                        <li>What is one thing you learned today?</li>
+                        <li>What is one question you still have?</li>
+                        <li>How does this connect to your own experience?</li>
+                    </ul>
+                    <p style="margin: 0.5rem 0;"><strong>Quick Check:</strong> Thumbs up/sideways/down for understanding</p>
+                </div>
+            </div>
+            
+            <!-- Self-Assessment -->
+            <div class="assessment-card" style="background: white; padding: 1.5rem; border-radius: 8px; border-left: 3px solid var(--color-secondary);">
+                <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">🎯 Self-Assessment Rubric</h3>
+                <table style="width: 100%; font-size: 0.85rem; border-collapse: collapse;">
+                    <tr style="background: var(--color-gray-100);">
+                        <th style="padding: 0.5rem; text-align: left;">Criteria</th>
+                        <th style="padding: 0.5rem; text-align: center;">Not Yet</th>
+                        <th style="padding: 0.5rem; text-align: center;">Getting There</th>
+                        <th style="padding: 0.5rem; text-align: center;">Got It!</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;">I understand the key concepts</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                    </tr>
+                    <tr style="background: var(--color-gray-50);">
+                        <td style="padding: 0.5rem;">I can explain it to others</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;">I can apply it to new situations</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <!-- Peer Assessment -->
+            <div class="assessment-card" style="background: white; padding: 1.5rem; border-radius: 8px; border-left: 3px solid var(--color-pounamu);">
+                <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">👥 Peer Assessment Protocol</h3>
+                <div style="font-size: 0.9rem;">
+                    <p style="margin: 0.5rem 0;"><strong>Tuakana-Teina Approach:</strong></p>
+                    <ol style="margin: 0.5rem 0;">
+                        <li>Two stars: What did they do well?</li>
+                        <li>One wish: What could be improved?</li>
+                        <li>Connection: How does this relate to our learning?</li>
+                    </ol>
+                    <p style="margin: 0.5rem 0; font-style: italic; color: var(--color-text-secondary);">Encourage manaakitanga (respect) in all feedback</p>
+                </div>
+            </div>
+            
+            <!-- Portfolio Evidence -->
+            <div class="assessment-card" style="background: white; padding: 1.5rem; border-radius: 8px; border-left: 3px solid var(--color-accent);">
+                <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">📁 Portfolio Evidence</h3>
+                <div style="font-size: 0.9rem;">
+                    <p style="margin: 0.5rem 0;"><strong>Collect:</strong></p>
+                    <ul style="margin: 0.5rem 0;">
+                        <li>Completed activities/worksheets</li>
+                        <li>Reflection journal entries</li>
+                        <li>Photos of practical work</li>
+                        <li>Peer feedback received</li>
+                    </ul>
+                    <p style="margin: 0.5rem 0;"><strong>Reflection Prompt:</strong> How does this work show your growth as a learner?</p>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="summative-assessment" style="background: rgba(239, 68, 68, 0.1); padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem; border-left: 3px solid var(--color-error);">
+            <h3 style="color: var(--color-primary); margin-top: 0;">📝 Summative Assessment Options</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; font-size: 0.9rem;">
+                <div>
+                    <h4 style="font-size: 0.95rem; margin: 0 0 0.5rem;">Written Test</h4>
+                    <p style="margin: 0; font-size: 0.85rem;">Multiple choice, short answer, extended response</p>
+                </div>
+                <div>
+                    <h4 style="font-size: 0.95rem; margin: 0 0 0.5rem;">Project</h4>
+                    <p style="margin: 0; font-size: 0.85rem;">Research, create, present findings</p>
+                </div>
+                <div>
+                    <h4 style="font-size: 0.95rem; margin: 0 0 0.5rem;">Presentation</h4>
+                    <p style="margin: 0; font-size: 0.85rem;">Oral, visual, or multimedia</p>
+                </div>
+                <div>
+                    <h4 style="font-size: 0.95rem; margin: 0 0 0.5rem;">Practical Demo</h4>
+                    <p style="margin: 0; font-size: 0.85rem;">Skills demonstration, performance task</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<div id="footer-component"></div>
+      <script src="/js/te-kete-professional.js" defer></script>
+</body>
+</html>

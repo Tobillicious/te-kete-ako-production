@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://supabase.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: https://placehold.co; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co https://supabase.com;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Te Kete Ako - Award-winning educational platform integrating mātauranga Māori with contemporary learning">
+    <meta name="keywords" content="education, māori, indigenous, ai, learning, new zealand">
+    <meta name="author" content="Te Kete Ako">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 4: Probability & Real-World Predictions | Y8 Statistics</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #431407 0%, #92400e 50%, #d97706 100%);
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.5);
+        }
+        .lesson-header {
+            background: linear-gradient(135deg, #431407 0%, #92400e 50%, #d97706 100%);
+            color: white;
+            padding: 35px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        .lesson-header::before {
+            content: '🎲🌟⚡';
+            font-size: 70px;
+            position: absolute;
+            right: 25px;
+            top: 15px;
+            opacity: 0.15;
+        }
+        .probability-hero {
+            background: linear-gradient(135deg, #7c2d12 0%, #ea580c 50%, #fb923c 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+            text-align: center;
+            border: 3px solid #fbbf24;
+        }
+        .activity-section {
+            background: linear-gradient(135deg, #fef7ff 0%, #f3e8ff 100%);
+            border: 3px solid #8b5cf6;
+            border-radius: 18px;
+            padding: 30px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .maori-term {
+            color: #dc2626;
+            font-style: italic;
+            font-weight: 700;
+            border-bottom: 2px dotted #dc2626;
+        }
+        .lesson-step {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 22px;
+            margin: 15px 0;
+            border-left: 6px solid #8b5cf6;
+        }
+        .probability-game {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 3px solid #10b981;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        .weather-challenge {
+            background: linear-gradient(135deg, #f0f9ff 0%, #dbeafe 100%);
+            border: 3px solid #0ea5e9;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        .cultural-connection {
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+            border-left: 6px solid #ec4899;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 12px;
+        }
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 40px 0;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 15px;
+        }
+        .nav-btn {
+            background: linear-gradient(135deg, #92400e 0%, #d97706 100%);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(146, 64, 14, 0.3);
+        }
+    </style>
+
+                                                    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/print.css" media="print"/>
+</head>
+<body>
+    <div id="header-component"></div>
+    <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+      <div class="container">
+        <a href="/">Home</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="/Users/">Users</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">Week 4: Probability & Real-World Predictions | Y8 Statistics</span>
+      </div>
+    </nav>
+  
+    <div class="container">
+        <div class="lesson-header">
+            <h1 class="wiley-hero-title">Week 4: Probability & Real-World Predictions</h1>
+
+    <section class="learning-objectives" style="background: linear-gradient(135deg, #f0f8f0, #e8f5e9); padding: 2rem; border-radius: 12px; margin: 2rem 0; border-left: 4px solid var(--color-pounamu); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        
+
+    <section class="cultural-integration" style="background: linear-gradient(135deg, #fff7ed, #ffedd5); padding: 2rem; border-radius: 12px; margin: 2rem 0; border-left: 4px solid var(--color-accent); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <h2 style="color: var(--color-primary); margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+            <span>🌿</span>
+            <span>Cultural Context | Horopaki Ahurea</span>
+        </h2>
+        
+        <div class="whakatauaki-section" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: center; border: 2px solid var(--color-accent);">
+            <h3 style="font-size: 0.9rem; color: var(--color-text-secondary); margin: 0 0 0.5rem; text-transform: uppercase; letter-spacing: 1px;">Whakataukī</h3>
+            <p style="font-size: 1.3rem; font-style: italic; color: var(--color-primary); margin: 0.5rem 0; font-weight: 500;">"Ko te akoranga te pūtake o te ora"</p>
+            <p style="font-size: 1rem; color: var(--color-text-secondary); margin: 0.5rem 0;">"Education is the foundation of wellbeing"</p>
+        </div>
+        
+        <div class="house-values" style="background: white; padding: 1.5rem; border-radius: 8px;">
+            <h3 style="font-size: 1rem; color: var(--color-primary); margin-top: 0;">🏛️ Connection to Mangakōtukutuku College Values</h3>
+            <div style="background: rgba(241, 143, 1, 0.1); padding: 1rem; border-radius: 6px; border-left: 3px solid var(--color-accent);">
+                <p style="margin: 0; font-size: 0.95rem;">
+                    <strong style="color: var(--color-accent); text-transform: capitalize;">Whaiora:</strong> Wellbeing - Caring for collective health and prosperity
+                </p>
+                <p style="margin: 0.75rem 0 0; font-size: 0.9rem; color: var(--color-text-secondary);">
+                    This learning connects to the value of <strong>whaiora</strong> by encouraging students to [engage with content in ways that embody this value].
+                </p>
+            </div>
+        </div>
+        
+        <div class="cultural-safety" style="background: rgba(27, 67, 50, 0.05); padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+            <h4 style="font-size: 0.95rem; color: var(--color-primary); margin: 0 0 0.5rem;">🛡️ Cultural Safety Considerations</h4>
+            <ul style="font-size: 0.9rem; margin: 0; color: var(--color-text-secondary);">
+                <li>Approach Māori content with respect and openness</li>
+                <li>Recognize students' diverse cultural backgrounds and experiences</li>
+                <li>Create space for Māori students to share their perspectives</li>
+                <li>Consult with whānau and local iwi for culturally sensitive topics</li>
+            </ul>
+        </div>
+    </section>
+
+<h2 style="color: var(--color-primary); margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+            <span>📚</span>
+            <span>Ngā Whāinga Ako | Learning Objectives</span>
+        </h2>
+        
+        <div style="background: white; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+            <p style="margin: 0; color: var(--color-text-secondary); font-size: 0.95rem;">
+                <strong>NZ Curriculum:</strong> Phase 3-4 (Years 7-8) | <strong>Adaptable for:</strong> Years 8-8
+            </p>
+        </div>
+        
+        <div class="walt-section" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+            <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">
+                WALT (We Are Learning To) | Ngā Whāinga:
+            </h3>
+            <ul style="margin: 0.5rem 0 0;">
+                <li><em>[Teacher: Customize based on your class focus and curriculum objectives]</em></li>
+                <li><em>Suggested: Connect to specific Achievement Objectives from NZ Curriculum</em></li>
+            </ul>
+        </div>
+        
+        <div class="sc-section" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+            <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">
+                Success Criteria (WILF - What I'm Looking For) | Ngā Paearu:
+            </h3>
+            <ul style="margin: 0.5rem 0 0;">
+                <li><em>[Teacher: Define what success looks like for your ākonga]</em></li>
+                <li><em>Consider: Different success criteria for different learners</em></li>
+            </ul>
+        </div>
+
+        <div class="maori-pedagogy" style="background: rgba(241, 143, 1, 0.1); padding: 1.5rem; border-radius: 8px; border-left: 3px solid var(--color-accent);">
+            <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">
+                🌿 Ngā Tikanga Ako | Māori Pedagogical Approaches
+            </h3>
+            <p style="margin: 0.5rem 0; font-size: 0.95rem;">This resource lends itself to authentic Māori pedagogical practices:</p>
+            <ul style="margin: 0.5rem 0 0; font-size: 0.95rem;">
+                <li><strong>Ako:</strong> Reciprocal teaching and learning - students and teachers learn together</li>
+                <li><strong>Tuakana-teina:</strong> Peer teaching with more experienced students supporting others</li>
+                <li><strong>Wānanga:</strong> Deep collaborative discussion and knowledge sharing</li>
+                <li><strong>Mahi tahi:</strong> Working together towards shared understanding</li>
+            </ul>
+            <p style="margin: 1rem 0 0; font-size: 0.9rem; font-style: italic; color: var(--color-text-secondary);">
+                💡 Teacher: Consider how these approaches can be authentically integrated into your lesson delivery.
+            </p>
+        </div>
+
+        <div class="differentiation-note" style="background: rgba(59, 130, 246, 0.1); padding: 1rem; border-radius: 8px; margin-top: 1rem; border-left: 3px solid var(--color-info);">
+            <p style="margin: 0; font-size: 0.9rem; color: var(--color-text-secondary);">
+                <strong>💡 Differentiation:</strong> Look for related resources at different NZ Curriculum phases to provide appropriate scaffolding for diverse ākonga. Consider creating learning pathways that connect resources at increasing complexity.
+            </p>
+        </div>
+    </section>
+
+            <h2 class="wiley-section-title"><em class="maori-term">Matapae me nga Tohu</em> - Predictions and Signs</h2>
+            <p><strong>Duration:</strong> 4 lessons (50 minutes each) | <strong>Year Level:</strong> 8</p>
+            <p>Understanding likelihood, making predictions, and connecting probability to traditional Māori knowledge</p>
+        </div>
+
+        <div class="probability-hero">
+            <h3>🎯 Big Question of the Week</h3>
+            <p style="font-size: 1.3em; font-weight: 600;"><em>"How likely is it? Understanding probability in everyday life and traditional knowledge systems"</em></p>
+        </div>
+
+        <div class="cultural-connection">
+            <h4><em class="maori-term">Whakatōhea:</em> Traditional Knowledge - Reading Signs</h4>
+            <p>In <em class="maori-term">mātauranga Māori</em>, understanding likelihood and making predictions has always been essential for survival and prosperity. Our <em class="maori-term">tīpuna</em> (ancestors) read signs in nature - wind patterns for navigation, bird behavior for weather, seasonal changes for planting. This traditional knowledge system shows sophisticated understanding of probability and risk assessment that connects beautifully with modern statistical thinking.</p>
+        </div>
+
+        <!-- LESSON 4.1 -->
+        <div class="activity-section">
+            <h3>📚 Lesson 4.1: Māori Legends & Probability</h3>
+            <p><strong>Focus:</strong> Connecting traditional stories to mathematical probability concepts</p>
+            
+            <div class="lesson-step">
+                <h4>Starter Activity: Māui and the North Island (15 minutes)</h4>
+                <div class="cultural-connection">
+                    <h5>🐟 <em class="maori-term">Pūrākau:</em> Māui's Great Fish</h5>
+                    <p><strong>The Story:</strong> Māui catches Te Ika-a-Māui (North Island) with his magical fishhook. But what if we think about this mathematically?</p>
+                    
+                    <p><strong>Probability Questions:</strong></p>
+                    <ul>
+                        <li>If Māui goes fishing 10 times, what's the probability he catches a normal fish vs something magical?</li>
+                        <li>Based on Polynesian navigation success rates, what was the probability of finding New Zealand?</li>
+                        <li>How do we balance respecting the <em class="maori-term">pūrākau</em> while exploring mathematical concepts?</li>
+                    </ul>
+                </div>
+                <p><strong>Discussion:</strong> Students share how their whānau use probability in daily decisions (weather forecasts, sports predictions, planning events).</p>
+            </div>
+
+            <div class="lesson-step">
+                <h4>Main Activity: Traditional Weather Prediction (25 minutes)</h4>
+                <div class="weather-challenge">
+                    <h5>☁️ <em class="maori-term">Mātauranga</em> Weather Forecasting</h5>
+                    <p><strong>Traditional Indicators vs MetService Data</strong></p>
+                    
+                    <p><strong>Traditional Signs (from kaumātua knowledge):</strong></p>
+                    <ul>
+                        <li><strong>Red sunrise:</strong> 70% chance of rain within 24 hours</li>
+                        <li><strong>Westerly wind + high clouds:</strong> 85% chance of clear weather</li>
+                        <li><strong>Tui singing at dawn:</strong> 60% chance of good weather</li>
+                        <li><strong>Southerly change:</strong> 90% chance of temperature drop</li>
+                    </ul>
+
+                    <p><strong>Student Challenge:</strong> Compare these traditional probability assessments with MetService forecast data for your local area. Which is more accurate over a week?</p>
+                    
+                    <div style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                        <h6>Mathematical Investigation:</h6>
+                        <ol>
+                            <li>Track traditional signs for 5 days</li>
+                            <li>Record MetService predictions for same period</li>
+                            <li>Calculate accuracy percentages for both methods</li>
+                            <li>Discuss: Why might traditional knowledge be more/less accurate in certain situations?</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lesson-step">
+                <h4>Plenary: Probability Language Building (10 minutes)</h4>
+                <p><strong>Vocabulary Development:</strong> Students create bilingual probability glossary</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin: 15px 0;">
+                    <div style="text-align: center; padding: 10px; background: #fef3c7; border-radius: 8px;">
+                        <strong>English</strong><br>
+                        Certain<br>
+                        Likely<br>
+                        Unlikely<br>
+                        Impossible
+                    </div>
+                    <div style="text-align: center; padding: 10px; background: #fed7d7; border-radius: 8px;">
+                        <strong>Te Reo Māori</strong><br>
+                        <em class="maori-term">Pono</em><br>
+                        <em class="maori-term">Atahua</em><br>
+                        <em class="maori-term">Kore rawa</em><br>
+                        <em class="maori-term">Mutu</em>
+                    </div>
+                    <div style="text-align: center; padding: 10px; background: #d1fae5; border-radius: 8px;">
+                        <strong>Mathematical</strong><br>
+                        100% (1.0)<br>
+                        >50% (>0.5)<br>
+                        <50% (<0.5)<br>
+                        0% (0.0)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LESSON 4.2 -->
+        <div class="activity-section">
+            <h3>🎲 Lesson 4.2: Dice & Card Experiments</h3>
+            <p><strong>Focus:</strong> Experimental vs theoretical probability through hands-on investigations</p>
+            
+            <div class="lesson-step">
+                <h4>Starter: Probability Predictions (10 minutes)</h4>
+                <p><strong>Quick Challenge:</strong> Before any experiments, students predict outcomes:</p>
+                <ul>
+                    <li>Rolling a 6 on a standard die: ____%</li>
+                    <li>Flipping heads on a coin: ____%</li>
+                    <li>Drawing a heart from playing cards: ____%</li>
+                    <li>Rolling doubles with two dice: ____%</li>
+                </ul>
+                <p><em>Keep predictions visible - we'll return to compare with experimental results!</em></p>
+            </div>
+
+            <div class="lesson-step">
+                <h4>Main Investigation: Multi-Station Experiments (30 minutes)</h4>
+                
+                <div class="probability-game">
+                    <h5>🎯 Probability Experiment Stations (7 minutes each + rotation)</h5>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div>
+                            <h6><strong>Station 1: Single Die Rolling</strong></h6>
+                            <ul>
+                                <li>Each pair rolls die 30 times</li>
+                                <li>Record frequency of each number (1-6)</li>
+                                <li>Calculate experimental probability for rolling a 6</li>
+                                <li>Compare to theoretical probability (1/6 ≈ 16.7%)</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h6><strong>Station 2: Coin Flipping Challenge</strong></h6>
+                            <ul>
+                                <li>Flip coin 50 times, record H/T</li>
+                                <li>Calculate experimental probability of heads</li>
+                                <li>Try prediction: "Next 10 flips will be..."</li>
+                                <li>Discuss: Why isn't it exactly 50/50?</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h6><strong>Station 3: Playing Card Probability</strong></h6>
+                            <ul>
+                                <li>Draw card, record suit, replace & shuffle</li>
+                                <li>Repeat 20 times</li>
+                                <li>Compare experimental vs theoretical for hearts (25%)</li>
+                                <li>Extension: Calculate probability of drawing face cards</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h6><strong>Station 4: Two-Dice Investigation</strong></h6>
+                            <ul>
+                                <li>Roll two dice 40 times</li>
+                                <li>Record sum each time (2-12)</li>
+                                <li>Which sum appears most often?</li>
+                                <li>Calculate experimental probability for sum of 7</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lesson-step">
+                <h4>Data Analysis & Comparison (10 minutes)</h4>
+                <p><strong>Class Data Compilation:</strong> Combine all groups' results for larger sample sizes</p>
+                
+                <div style="background: #f0f9ff; padding: 20px; border-radius: 12px; border: 2px solid #0ea5e9;">
+                    <h6>🧮 Big Questions for Analysis:</h6>
+                    <ol>
+                        <li><strong>Sample Size Effect:</strong> Do larger sample sizes get closer to theoretical probability?</li>
+                        <li><strong>Individual vs Combined:</strong> How do your pair results compare to the whole class results?</li>
+                        <li><strong>Prediction Accuracy:</strong> How close were your original predictions?</li>
+                        <li><strong>Real-World Application:</strong> Why might experimental probability differ from theoretical?</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- LESSON 4.3 -->
+        <div class="activity-section">
+            <h3>🌧️ Lesson 4.3: Weather Predictions & Data Analysis</h3>
+            <p><strong>Focus:</strong> Using real MetService data to understand probability in weather forecasting</p>
+            
+            <div class="lesson-step">
+                <h4>Starter: Weather Memory Challenge (10 minutes)</h4>
+                <p><strong>Think Back:</strong> Students discuss in pairs:</p>
+                <ul>
+                    <li>What was the weather like yesterday? Last weekend?</li>
+                    <li>When did it last rain in our area?</li>
+                    <li>How often do weather forecasts seem wrong?</li>
+                    <li>What's the difference between "30% chance of rain" and "light rain possible"?</li>
+                </ul>
+            </div>
+
+            <div class="lesson-step">
+                <h4>Main Investigation: MetService Data Analysis (25 minutes)</h4>
+                
+                <div class="weather-challenge">
+                    <h5>☔ Real Weather Data from Your Region</h5>
+                    <p><strong>Dataset:</strong> Last 30 days of weather predictions vs actual outcomes for your local area</p>
+                    
+                    <div style="background: white; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                        <h6><strong>Investigation Questions:</strong></h6>
+                        <ol>
+                            <li><strong>Accuracy Analysis:</strong> When MetService predicted "30% chance of rain," how often did it actually rain?</li>
+                            <li><strong>Temperature Predictions:</strong> Calculate the average difference between predicted and actual temperatures</li>
+                            <li><strong>Extreme Weather:</strong> Were high wind or heavy rain warnings accurate?</li>
+                            <li><strong>Seasonal Patterns:</strong> Do predictions seem more/less accurate in certain seasons?</li>
+                        </ol>
+                    </div>
+
+                    <p><strong>Mathematical Tools:</strong></p>
+                    <ul>
+                        <li><strong>Percentage Accuracy:</strong> (Correct predictions ÷ Total predictions) × 100</li>
+                        <li><strong>Mean Absolute Error:</strong> Average difference between predicted and actual temperatures</li>
+                        <li><strong>Probability Calibration:</strong> When they say "30% chance," does it rain about 3 times out of 10?</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="lesson-step">
+                <h4>Extension: Traditional vs Modern Forecasting (15 minutes)</h4>
+                <div class="cultural-connection">
+                    <h5>🌿 Comparing Knowledge Systems</h5>
+                    <p><strong>Student Research Challenge:</strong> Interview whānau or community kaumātua about traditional weather prediction methods</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div>
+                            <h6><strong>Traditional Methods</strong></h6>
+                            <ul>
+                                <li>Cloud formations and movements</li>
+                                <li>Wind direction changes</li>
+                                <li>Animal and bird behavior</li>
+                                <li>Plant responses (closing flowers, etc.)</li>
+                                <li>Ocean and tide patterns</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h6><strong>Modern Methods</strong></h6>
+                            <ul>
+                                <li>Satellite imagery and radar</li>
+                                <li>Atmospheric pressure measurements</li>
+                                <li>Computer modeling and algorithms</li>
+                                <li>Historical data analysis</li>
+                                <li>International weather station networks</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <p><strong>Critical Thinking:</strong> Both systems use pattern recognition and probability. Traditional knowledge focuses on local, immediate indicators, while modern forecasting uses global data and computer models. How might combining both approaches improve accuracy?</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- LESSON 4.4 -->
+        <div class="activity-section">
+            <h3>🎮 Lesson 4.4: Probability Game Design Challenge</h3>
+            <p><strong>Focus:</strong> Creating original games that demonstrate probability concepts with NZ cultural themes</p>
+            
+            <div class="lesson-step">
+                <h4>Design Brief Introduction (10 minutes)</h4>
+                <div class="probability-game">
+                    <h5>🎯 Game Design Challenge</h5>
+                    <p><strong>Your Task:</strong> Design an original probability game using New Zealand themes that could teach younger students about likelihood and chance.</p>
+                    
+                    <p><strong>Design Requirements:</strong></p>
+                    <ul>
+                        <li><strong>NZ Theme:</strong> Incorporate native birds, conservation, sports, or cultural elements</li>
+                        <li><strong>Clear Probability:</strong> Players must be able to calculate chances of success</li>
+                        <li><strong>Educational Value:</strong> Game teaches at least one probability concept</li>
+                        <li><strong>Playable:</strong> Can be completed in 10-15 minutes</li>
+                        <li><strong>Cultural Respect:</strong> Uses Māori elements appropriately and respectfully</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="lesson-step">
+                <h4>Game Brainstorming & Planning (15 minutes)</h4>
+                <p><strong>Theme Options (Students choose or create their own):</strong></p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 15px 0;">
+                    <div style="background: #ecfdf5; padding: 15px; border-radius: 8px; border-left: 4px solid #10b981;">
+                        <h6>🥝 Kiwi Conservation Rescue</h6>
+                        <p>Save endangered kiwi with dice rolls determining success of conservation efforts</p>
+                    </div>
+                    
+                    <div style="background: #f0f9ff; padding: 15px; border-radius: 8px; border-left: 4px solid #0ea5e9;">
+                        <h6>🏉 All Blacks Training Camp</h6>
+                        <p>Card-based game where probability determines training success and team selection</p>
+                    </div>
+                    
+                    <div style="background: #fef7ff; padding: 15px; border-radius: 8px; border-left: 4px solid #8b5cf6;">
+                        <h6>🌋 Volcanic Eruption Prediction</h6>
+                        <p>Use probability to predict eruptions and evacuate communities safely</p>
+                    </div>
+                    
+                    <div style="background: #fff7ed; padding: 15px; border-radius: 8px; border-left: 4px solid #f97316;">
+                        <h6>🐋 Whale Migration Tracker</h6>
+                        <p>Predict whale movements using probability and environmental factors</p>
+                    </div>
+                </div>
+                
+                <p><strong>Planning Template:</strong> Students sketch game board, write rules, and calculate key probabilities</p>
+            </div>
+
+            <div class="lesson-step">
+                <h4>Game Creation & Testing (20 minutes)</h4>
+                <div style="background: #f8fafc; padding: 20px; border-radius: 12px; border: 2px solid #e2e8f0;">
+                    <h6><strong>Creation Process:</strong></h6>
+                    <ol>
+                        <li><strong>Materials Provided:</strong> Cardboard, dice, cards, counters, markers</li>
+                        <li><strong>Prototype Development (12 min):</strong> Create working version of game</li>
+                        <li><strong>Peer Testing (8 min):</strong> Another pair tests your game and provides feedback</li>
+                    </ol>
+                    
+                    <h6><strong>Testing Feedback Questions:</strong></h6>
+                    <ul>
+                        <li>Are the rules clear and easy to understand?</li>
+                        <li>Can players calculate probabilities during the game?</li>
+                        <li>Is the New Zealand theme engaging and respectful?</li>
+                        <li>What would make this game even better?</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="lesson-step">
+                <h4>Game Showcase & Reflection (5 minutes)</h4>
+                <p><strong>Gallery Walk:</strong> Display all games around the room for silent viewing and sticky note feedback</p>
+                <p><strong>Quick Share:</strong> Each group gives 30-second explanation of their game's probability concept</p>
+            </div>
+        </div>
+
+        <!-- WEEK 4 ASSESSMENT -->
+        <div class="probability-game" style="border-color: #f97316; background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);">
+            <h3>📋 Week 4 Assessment: Probability Game Design</h3>
+            
+            <div style="margin-bottom: 25px;">
+                <h4>Assessment Overview</h4>
+                <p><strong>Summative Assessment:</strong> Design an original probability game with New Zealand cultural themes that teaches younger students about chance and likelihood.</p>
+                <p><strong>Components:</strong> Game prototype + Rule sheet + Probability calculations | <strong>Weight:</strong> 25% of unit grade</p>
+            </div>
+
+            <div style="background: white; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                <h5>🎯 Assessment Criteria</h5>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <h6><strong>ACHIEVED Level:</strong></h6>
+                        <ul>
+                            <li>Game includes basic probability elements</li>
+                            <li>Clear rules and NZ theme</li>
+                            <li>Shows understanding of chance concepts</li>
+                            <li>Game is playable and engaging</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h6><strong>MERIT Level:</strong></h6>
+                        <ul>
+                            <li>Sophisticated probability mechanics</li>
+                            <li>Meaningful cultural integration</li>
+                            <li>Clear mathematical calculations</li>
+                            <li>Well-designed and tested gameplay</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 15px;">
+                    <h6><strong>EXCELLENCE Level:</strong></h6>
+                    <ul>
+                        <li>Innovative and creative game design that other teachers would want to use</li>
+                        <li>Deep integration of probability concepts with engaging gameplay</li>
+                        <li>Respectful and meaningful use of cultural themes and Te Reo Māori</li>
+                        <li>Game teaches probability concepts better than traditional methods</li>
+                        <li>Professional presentation and clear educational value</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.9); padding: 15px; border-radius: 8px;">
+                <h6>🤔 Student Self-Assessment Questions</h6>
+                <ul>
+                    <li>What probability concept does your game teach most effectively?</li>
+                    <li>How did you ensure your cultural themes were respectful and meaningful?</li>
+                    <li>What was the most challenging part of balancing fun gameplay with mathematical learning?</li>
+                    <li>How would you improve your game if you had more time?</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <a href="lesson-3-census-population-trends.html" class="nav-btn">← Week 3: Census Data</a>
+            <span style="font-weight: 700; font-size: 1.1em;">Week 4 of 5</span>
+            <a href="lesson-5-final-project-presentation.html" class="nav-btn">Week 5: Final Project →</a>
+        </div>
+
+        <div style="background: linear-gradient(135deg, #431407 0%, #92400e 100%); color: white; padding: 25px; border-radius: 15px; margin-top: 30px; text-align: center;">
+            <p style="font-size: 1.3em; font-weight: 700;"><em class="maori-term" style="color: #fbbf24;">"Kia mataara ki ngā tohu - Be alert to the signs"</em></p>
+            <p style="color: #fed7aa; margin-top: 10px;"><em>Traditional wisdom meets mathematical probability</em></p>
+            <p style="margin-top: 15px; color: #fde68a;">Through understanding probability, we connect the mathematical thinking of our <em class="maori-term">tīpuna</em> with modern statistical analysis, showing that wisdom and science walk the same path toward understanding our world.</p>
+        </div>
+    </div>
+    
+
+    <section class="teacher-resources no-print" style="background: linear-gradient(135deg, #fff7ed, #ffedd5); padding: 2rem; border-radius: 12px; margin: 3rem 0; border-left: 4px solid var(--color-accent); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <h2 style="color: var(--color-primary); margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+            <span>👨‍🏫</span>
+            <span>Teacher Resources | Ngā Rauemi Kaiako</span>
+        </h2>
+        
+        <div class="resource-tabs" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+            
+            <!-- Implementation Guide -->
+            <div class="resource-card" style="background: white; padding: 1.5rem; border-radius: 8px;">
+                <h3 style="font-size: 1rem; color: var(--color-primary); margin-top: 0;">📋 Implementation Guide</h3>
+                <ul style="font-size: 0.9rem; margin: 0.5rem 0;">
+                    <li><strong>Preparation:</strong> 15-20 minutes</li>
+                    <li><strong>Materials:</strong> [List specific materials needed]</li>
+                    <li><strong>Room Setup:</strong> [Describe ideal arrangement]</li>
+                    <li><strong>Prior Knowledge:</strong> [What students should know]</li>
+                </ul>
+            </div>
+            
+            <!-- Answer Keys -->
+            <div class="resource-card" style="background: white; padding: 1.5rem; border-radius: 8px;">
+                <h3 style="font-size: 1rem; color: var(--color-primary); margin-top: 0;">🔑 Answer Keys</h3>
+                <p style="font-size: 0.9rem; margin: 0.5rem 0;"><em>[Teacher: Complete answer keys for all activities and questions will be added in next enhancement pass]</em></p>
+                <p style="font-size: 0.85rem; color: var(--color-text-secondary); margin: 0;">Include model answers, common mistakes, extension responses</p>
+            </div>
+            
+            <!-- Assessment Suite -->
+            <div class="resource-card" style="background: white; padding: 1.5rem; border-radius: 8px;">
+                <h3 style="font-size: 1rem; color: var(--color-primary); margin-top: 0;">📊 Assessment Suite</h3>
+                <details style="font-size: 0.9rem;">
+                    <summary style="cursor: pointer; font-weight: 600; margin-bottom: 0.5rem;">7 Assessment Types Available</summary>
+                    <ul style="margin: 0.5rem 0; font-size: 0.85rem;">
+                        <li>✅ Formative (exit tickets, quick checks)</li>
+                        <li>✅ Summative (tests, projects)</li>
+                        <li>✅ Self-assessment rubrics</li>
+                        <li>✅ Peer assessment protocols</li>
+                        <li>✅ Portfolio evidence guides</li>
+                        <li>✅ Practical demonstrations</li>
+                        <li>✅ Guided social inquiry projects</li>
+                    </ul>
+                </details>
+            </div>
+            
+            <!-- Differentiation -->
+            <div class="resource-card" style="background: white; padding: 1.5rem; border-radius: 8px;">
+                <h3 style="font-size: 1rem; color: var(--color-primary); margin-top: 0;">🎯 Differentiation</h3>
+                <ul style="font-size: 0.9rem; margin: 0.5rem 0;">
+                    <li><strong>Support:</strong> Simplified tasks, visual aids, sentence starters</li>
+                    <li><strong>Core:</strong> Standard activities as presented</li>
+                    <li><strong>Extension:</strong> Open-ended challenges, research tasks</li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <!-- Guided Inquiry Project (if applicable) -->
+
+        <div class="inquiry-project" style="background: rgba(59, 130, 246, 0.1); padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem; border-left: 3px solid var(--color-info);">
+            <h3 style="color: var(--color-primary); margin-top: 0;">🔍 Guided Social Inquiry Extension</h3>
+            <p style="font-size: 0.95rem; margin-bottom: 1rem;">This content can be extended into a guided social inquiry project:</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <div>
+                    <h4 style="font-size: 0.9rem; margin: 0 0 0.5rem;">1. Essential Question</h4>
+                    <p style="font-size: 0.85rem; margin: 0;">[Develop inquiry question based on content]</p>
+                </div>
+                <div>
+                    <h4 style="font-size: 0.9rem; margin: 0 0 0.5rem;">2. Research Phase</h4>
+                    <p style="font-size: 0.85rem; margin: 0;">Primary & secondary sources, community consultation</p>
+                </div>
+                <div>
+                    <h4 style="font-size: 0.9rem; margin: 0 0 0.5rem;">3. Action/Solution</h4>
+                    <p style="font-size: 0.85rem; margin: 0;">Real-world application or community project</p>
+                </div>
+                <div>
+                    <h4 style="font-size: 0.9rem; margin: 0 0 0.5rem;">4. Presentation</h4>
+                    <p style="font-size: 0.85rem; margin: 0;">Share findings with authentic audience</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="cultural-note" style="background: rgba(241, 143, 1, 0.1); padding: 1rem; border-radius: 8px; margin-top: 1.5rem; border-left: 3px solid var(--color-accent);">
+            <p style="margin: 0; font-size: 0.9rem;">
+                <strong>🌿 Cultural Note:</strong> When implementing, consider authentic Māori pedagogical approaches (ako, tuakana-teina, wānanga) and ensure cultural safety throughout.
+            </p>
+        </div>
+    </section>
+
+
+
+    <section class="assessment-tools no-print" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); padding: 2rem; border-radius: 12px; margin: 3rem 0; border-left: 4px solid var(--color-info); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <h2 style="color: var(--color-primary); margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+            <span>📊</span>
+            <span>Assessment Tools | Ngā Taputapu Aromatawai</span>
+        </h2>
+        
+        <div class="assessment-grid" style="display: grid; gap: 1.5rem; margin-top: 1.5rem;">
+            
+            <!-- Formative Assessment -->
+            <div class="assessment-card" style="background: white; padding: 1.5rem; border-radius: 8px; border-left: 3px solid var(--color-success);">
+                <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">✅ Formative Assessment (During Learning)</h3>
+                <div style="font-size: 0.9rem;">
+                    <p style="margin: 0.5rem 0;"><strong>Exit Ticket:</strong></p>
+                    <ul style="margin: 0.5rem 0;">
+                        <li>What is one thing you learned today?</li>
+                        <li>What is one question you still have?</li>
+                        <li>How does this connect to your own experience?</li>
+                    </ul>
+                    <p style="margin: 0.5rem 0;"><strong>Quick Check:</strong> Thumbs up/sideways/down for understanding</p>
+                </div>
+            </div>
+            
+            <!-- Self-Assessment -->
+            <div class="assessment-card" style="background: white; padding: 1.5rem; border-radius: 8px; border-left: 3px solid var(--color-secondary);">
+                <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">🎯 Self-Assessment Rubric</h3>
+                <table style="width: 100%; font-size: 0.85rem; border-collapse: collapse;">
+                    <tr style="background: var(--color-gray-100);">
+                        <th style="padding: 0.5rem; text-align: left;">Criteria</th>
+                        <th style="padding: 0.5rem; text-align: center;">Not Yet</th>
+                        <th style="padding: 0.5rem; text-align: center;">Getting There</th>
+                        <th style="padding: 0.5rem; text-align: center;">Got It!</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;">I understand the key concepts</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                    </tr>
+                    <tr style="background: var(--color-gray-50);">
+                        <td style="padding: 0.5rem;">I can explain it to others</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;">I can apply it to new situations</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <!-- Peer Assessment -->
+            <div class="assessment-card" style="background: white; padding: 1.5rem; border-radius: 8px; border-left: 3px solid var(--color-pounamu);">
+                <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">👥 Peer Assessment Protocol</h3>
+                <div style="font-size: 0.9rem;">
+                    <p style="margin: 0.5rem 0;"><strong>Tuakana-Teina Approach:</strong></p>
+                    <ol style="margin: 0.5rem 0;">
+                        <li>Two stars: What did they do well?</li>
+                        <li>One wish: What could be improved?</li>
+                        <li>Connection: How does this relate to our learning?</li>
+                    </ol>
+                    <p style="margin: 0.5rem 0; font-style: italic; color: var(--color-text-secondary);">Encourage manaakitanga (respect) in all feedback</p>
+                </div>
+            </div>
+            
+            <!-- Portfolio Evidence -->
+            <div class="assessment-card" style="background: white; padding: 1.5rem; border-radius: 8px; border-left: 3px solid var(--color-accent);">
+                <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">📁 Portfolio Evidence</h3>
+                <div style="font-size: 0.9rem;">
+                    <p style="margin: 0.5rem 0;"><strong>Collect:</strong></p>
+                    <ul style="margin: 0.5rem 0;">
+                        <li>Completed activities/worksheets</li>
+                        <li>Reflection journal entries</li>
+                        <li>Photos of practical work</li>
+                        <li>Peer feedback received</li>
+                    </ul>
+                    <p style="margin: 0.5rem 0;"><strong>Reflection Prompt:</strong> How does this work show your growth as a learner?</p>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="summative-assessment" style="background: rgba(239, 68, 68, 0.1); padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem; border-left: 3px solid var(--color-error);">
+            <h3 style="color: var(--color-primary); margin-top: 0;">📝 Summative Assessment Options</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; font-size: 0.9rem;">
+                <div>
+                    <h4 style="font-size: 0.95rem; margin: 0 0 0.5rem;">Written Test</h4>
+                    <p style="margin: 0; font-size: 0.85rem;">Multiple choice, short answer, extended response</p>
+                </div>
+                <div>
+                    <h4 style="font-size: 0.95rem; margin: 0 0 0.5rem;">Project</h4>
+                    <p style="margin: 0; font-size: 0.85rem;">Research, create, present findings</p>
+                </div>
+                <div>
+                    <h4 style="font-size: 0.95rem; margin: 0 0 0.5rem;">Presentation</h4>
+                    <p style="margin: 0; font-size: 0.85rem;">Oral, visual, or multimedia</p>
+                </div>
+                <div>
+                    <h4 style="font-size: 0.95rem; margin: 0 0 0.5rem;">Practical Demo</h4>
+                    <p style="margin: 0; font-size: 0.85rem;">Skills demonstration, performance task</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<div id="footer-component"></div>
+      <script src="/js/te-kete-professional.js" defer></script>
+</body>
+</html>

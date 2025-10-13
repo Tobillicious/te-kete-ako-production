@@ -1,0 +1,179 @@
+<!-- Role-Based Navigation Component for Te Kete Ako -->
+<div id="role-based-nav" class="role-based-navigation">
+    <!-- Student Navigation -->
+    <nav id="student-nav" class="role-nav" style="display: none;">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-brand">🧺 Te Kete Ako</a>
+            <nav class="main-nav no-print">
+                <ul>
+                    <li><a href="/my-learning.html"><span class="nav-icon">📚</span> My Learning</a></li>
+                    <li><a href="/subjects.html"><span class="nav-icon">📖</span> Subjects</a></li>
+                    <li><a href="/assignments.html"><span class="nav-icon">✍️</span> Assignments</a></li>
+                    <li><a href="/progress.html"><span class="nav-icon">📊</span> Progress</a></li>
+                    <li><a href="/help.html"><span class="nav-icon">💬</span> Help</a></li>
+                </ul>
+            </nav>
+        </div>
+    </nav>
+
+    <!-- Teacher Navigation -->
+    <nav id="teacher-nav" class="role-nav" style="display: none;">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-brand">🧺 Te Kete Ako</a>
+            <nav class="main-nav no-print">
+                <ul>
+                    <li><a href="/my-classroom.html"><span class="nav-icon">👨‍🏫</span> My Classroom</a></li>
+                    <li><a href="/resource-hub.html"><span class="nav-icon">📚</span> Resource Library</a></li>
+                    <li><a href="/lesson-planning.html"><span class="nav-icon">📋</span> Lesson Planning</a></li>
+                    <li><a href="/student-management.html"><span class="nav-icon">👥</span> Student Management</a></li>
+                    <li><a href="/assessment-tools.html"><span class="nav-icon">📝</span> Assessment</a></li>
+                    <li><a href="/analytics.html"><span class="nav-icon">📈</span> Analytics</a></li>
+                </ul>
+            </nav>
+        </div>
+    </nav>
+
+    <!-- Default Navigation (shown when not logged in) -->
+    <nav id="default-nav" class="role-nav">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-brand">🧺 Te Kete Ako</a>
+            <nav class="main-nav no-print">
+                <ul>
+                    <li><a href="/curriculum-index.html"><span class="nav-icon">📚</span> Curriculum</a></li>
+                    <li><a href="/lessons.html"><span class="nav-icon">📖</span> Lessons</a></li>
+                    <li><a href="/handouts/"><span class="nav-icon">📄</span> Handouts</a></li>
+                    <li><a href="/interactive/"><span class="nav-icon">🎮</span> Interactive</a></li>
+                    <li><a href="/teacher-resources/"><span class="nav-icon">👨‍🏫</span> Teacher Resources</a></li>
+                    <li><a href="/units/"><span class="nav-icon">📋</span> Units</a></li>
+                    <li><a href="/games.html"><span class="nav-icon">🎲</span> Games</a></li>
+                    <li><a href="/generated-resources-alpha/" style="color: var(--color-accent); font-weight: 600;"><span class="nav-icon">✨</span> New Resources</a></li>
+                </ul>
+            </nav>
+        </div>
+    </nav>
+</div>
+
+<script>
+// Role-based navigation controller
+document.addEventListener('DOMContentLoaded', async () => {
+    const supabaseUrl = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+    
+    // Hide all role-based navigation initially
+    document.querySelectorAll('.role-nav').forEach(nav => {
+        nav.style.display = 'none';
+    });
+    
+    try {
+        // Check if user is logged in
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
+        
+        if (userError || !user) {
+            // Show default navigation for non-logged in users
+            document.getElementById('default-nav').style.display = 'block';
+            return;
+        }
+        
+        // Get user profile with role
+        const { data: profile, error: profileError } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('user_id', user.id)
+            .single();
+            
+        if (profileError || !profile) {
+            // Show default navigation if profile not found
+            document.getElementById('default-nav').style.display = 'block';
+            return;
+        }
+        
+        // Show navigation based on user role
+        const role = profile.user_type;
+        if (role === 'teacher') {
+            document.getElementById('teacher-nav').style.display = 'block';
+        } else if (role === 'student') {
+            document.getElementById('student-nav').style.display = 'block';
+        } else {
+            // Show default navigation if role not set
+            document.getElementById('default-nav').style.display = 'block';
+        }
+        
+    } catch (error) {
+        console.error('Error loading role-based navigation:', error);
+        // Show default navigation on error
+        document.getElementById('default-nav').style.display = 'block';
+    }
+});
+</script>
+
+<style>
+.role-based-navigation {
+    width: 100%;
+}
+
+.role-nav {
+    background-color: var(--color-bg-primary);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.role-nav .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-4);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+}
+
+.role-nav .nav-brand {
+    font-size: var(--text-xl);
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+.role-nav .main-nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: var(--space-6);
+}
+
+.role-nav .main-nav a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.role-nav .main-nav a:hover {
+    color: var(--color-primary);
+}
+
+.role-nav .nav-icon {
+    font-size: var(--text-lg);
+}
+
+@media (max-width: 768px) {
+    .role-nav .nav-container {
+        flex-direction: column;
+        height: auto;
+        padding: var(--space-4);
+    }
+    
+    .role-nav .main-nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: var(--space-4);
+    }
+}
+</style>
