@@ -17,6 +17,7 @@ class QualityContentReviewer:
         self.current_index = 0
         self.approved_content = []
         self.rejected_content = []
+        self.needs_enrichment = []  # Track items needing specialist attention
         
     def get_next_content_item(self) -> Optional[Dict]:
         """Get the next content item to review"""

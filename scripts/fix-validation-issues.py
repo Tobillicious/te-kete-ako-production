@@ -111,14 +111,8 @@ def fix_alt_text_issues():
             # Find all img tags
             original_content = content
             
-            # Fix images without alt text
-            content = re.sub(r'<img([^>]*?)(?<!alt=)(?<!alt="[^"]*")([^>]*?)>', r'<img\1 alt="Educational content image"\2>', content)
-            
-            # Fix images with empty alt text
-            content = re.sub(r'alt=""', 'alt="Educational content image"', content)
-            
-            # Fix template variables in alt text
-            content = re.sub(r'alt="\$\{[^}]*\}"', 'alt="Video thumbnail"', content)
+            # Fix images without alt text (simpler approach)
+            content = re.sub(r'<img([^>]*?)>', lambda m: fix_img_tag(m.group(1)), content)
             
             if content != original_content:
                 with open(html_file, 'w') as f:
@@ -130,6 +124,18 @@ def fix_alt_text_issues():
     
     print(f"✅ Fixed alt text in {fixed_count} files")
     return fixed_count > 0
+
+def fix_img_tag(attributes):
+    """Helper function to fix img tags"""
+    if 'alt=' in attributes:
+        # Already has alt text, just fix empty alt
+        if 'alt=""' in attributes:
+            fixed_attr = attributes.replace('alt=""', 'alt="Educational content image"')
+            return f'<img{fixed_attr}>'
+        return f'<img{attributes}>'
+    else:
+        # Add alt text
+        return f'<img{attributes} alt="Educational content image">'
 
 def fix_html_syntax_errors():
     """Fix common HTML syntax errors"""
