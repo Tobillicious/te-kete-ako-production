@@ -13,12 +13,17 @@
    CULTURAL COLOR SYSTEM - Te Ao Māori Inspired
    ================================================================= */
 :root {
-  /* Primary Cultural Colors */
-  --color-primary: #1b4332; /* Deep Forest (Ngahere) */
-  --color-secondary: #2e86ab; /* Ocean Blue (Moana) */
-  --color-accent: #f18f01; /* Kowhai Gold */
-  --color-earth: #8b4513; /* Earth Brown (Whenua) */
-  --color-pounamu: #059669; /* Pounamu Green */
+  /* Primary Colors - Authentic NZ Landscapes */
+  --color-primary: #4a6e2a; /* Deep Forest Green - NZ native bush */
+  --color-secondary: #a1d2ce; /* Cool Sky Blue - Southern Alps */
+  --color-accent: #e8e1a1; /* Sunlit Yellow - West Coast golden hour */
+  --color-earth: #3c3f3f; /* Charcoal Grey - West Coast rocks */
+  --color-pounamu: #3b5b23; /* Mossy Green - dense bush undergrowth */
+  --color-nz-red: #c04000; /* Muted Coral - West Coast sunsets */
+  --color-silver-fern: #8b93a3; /* Soft Grey - alpine mist */
+  --color-warm-sand: #e1d7c1; /* Warm Sandstone - coastal cliffs */
+  --color-ocean-teal: #5c8a8a; /* Ocean Teal - NZ coastal waters */
+  --color-rich-olive: #4a823c; /* Rich Olive Green - native forest canopy */
 
   /* Neutral System */
   --color-white: #ffffff;
@@ -39,10 +44,12 @@
   --color-error: #ef4444;
   --color-info: #3b82f6;
 
-  /* Background Colors */
-  --color-bg-primary: var(--color-white);
-  --color-bg-secondary: var(--color-gray-50);
-  --color-bg-accent: #f0f8f0;
+  /* Background Colors - NZ Landscape Inspired */
+  --color-bg-primary: #f3f4f6; /* Light Mist Grey - alpine mist */
+  --color-bg-secondary: #e1d7c1; /* Warm Sandstone - coastal cliffs */
+  --color-bg-accent: #a1c6a7; /* Soft Fern Green - bush undergrowth */
+  --color-bg-warm: #f3f4f6; /* Light Mist Grey - clean, crisp */
+  --color-bg-earth: #e8e1a1; /* Sunlit Yellow - warm, inviting sections */
 
   /* Text Colors */
   --color-text-primary: var(--color-gray-900);
@@ -95,6 +102,11 @@
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
     0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  /* Transitions for smooth interactions */
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 250ms ease-in-out;
+  --transition-slow: 350ms ease-in-out;
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1),
     0 8px 10px -6px rgb(0 0 0 / 0.1);
 
@@ -128,7 +140,12 @@ body {
   font-size: var(--text-base);
   line-height: 1.6;
   color: var(--color-text-primary);
-  background-color: var(--color-bg-primary);
+  background: linear-gradient(
+    135deg,
+    var(--color-bg-primary) 0%,
+    var(--color-bg-secondary) 50%,
+    var(--color-bg-accent) 100%
+  );
   min-height: 100vh;
 }
 
@@ -232,78 +249,226 @@ a:hover {
 }
 
 /* =================================================================
-   NAVIGATION SYSTEM
+   MODERN CARD NAVIGATION SYSTEM - NZ INSPIRED
    ================================================================= */
 .site-header {
-  background-color: var(--color-bg-primary);
-  border-bottom: 1px solid var(--color-border);
+  background: linear-gradient(
+    135deg,
+    var(--color-bg-primary) 0%,
+    var(--color-bg-secondary) 100%
+  );
+  border-bottom: 3px solid var(--color-pounamu);
   position: sticky;
   top: 0;
-  z-index: 100;
-  backdrop-filter: blur(10px);
-  background-color: rgba(255, 255, 255, 0.95);
+  z-index: 1000;
+  backdrop-filter: blur(15px);
+  box-shadow: var(--shadow-lg);
 }
 
 .nav-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-4) 0;
-  max-width: 1200px;
+  padding: var(--space-6) var(--space-4);
+  max-width: 1400px;
   margin: 0 auto;
-  padding-left: var(--space-4);
-  padding-right: var(--space-4);
 }
 
 .nav-brand {
   font-family: var(--font-heading);
-  font-size: var(--text-2xl);
+  font-size: var(--text-3xl);
   font-weight: 700;
   color: var(--color-primary);
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.nav-brand::before {
+  content: "🧺";
+  font-size: var(--text-2xl);
 }
 
 .nav-brand:hover {
   text-decoration: none;
-  color: var(--color-secondary);
+  color: var(--color-pounamu);
+  transform: translateY(-1px);
+  transition: all var(--transition-fast);
+}
+
+/* Modern Card Navigation */
+.main-nav {
+  position: relative;
 }
 
 .main-nav ul {
   display: flex;
   list-style: none;
-  gap: var(--space-6);
+  gap: var(--space-2);
   align-items: center;
+  margin: 0;
+  padding: 0;
 }
 
-.main-nav a {
+.main-nav li {
+  position: relative;
+}
+
+.nav-link {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-md);
-  transition: all var(--transition-fast);
-  color: var(--color-text-secondary);
-  font-weight: 500;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-normal);
+  color: var(--color-text-primary);
+  font-weight: 600;
+  text-decoration: none;
+  background: var(--color-bg-warm);
+  border: 2px solid transparent;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
 }
 
-.main-nav a:hover {
-  background-color: var(--color-bg-secondary);
+.nav-link::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.nav-link:hover::before {
+  left: 100%;
+}
+
+.nav-link:hover {
+  background: linear-gradient(
+    135deg,
+    var(--color-bg-earth) 0%,
+    var(--color-accent) 100%
+  );
   color: var(--color-primary);
   text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-pounamu);
 }
 
 .nav-icon {
-  font-size: var(--text-lg);
+  font-size: var(--text-xl);
+  transition: transform var(--transition-fast);
+}
+
+.nav-link:hover .nav-icon {
+  transform: scale(1.1);
 }
 
 .nav-text-en {
   display: block;
+  font-size: var(--text-sm);
 }
 
 .nav-text-mi {
   display: none;
   font-style: italic;
   color: var(--color-text-muted);
+  font-size: var(--text-xs);
+}
+
+/* Dropdown Card Menus */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--color-bg-primary);
+  border: 2px solid var(--color-pounamu);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  padding: var(--space-6);
+  min-width: 280px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all var(--transition-normal);
+  z-index: 1000;
+}
+
+.nav-link:hover + .dropdown-menu,
+.dropdown-menu:hover {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-4);
+}
+
+.dropdown-card {
+  background: var(--color-bg-warm);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  overflow: hidden;
+}
+
+.dropdown-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--color-primary) 0%,
+    var(--color-accent) 100%
+  );
+}
+
+.dropdown-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-pounamu);
+  text-decoration: none;
+  color: inherit;
+}
+
+.dropdown-card-title {
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.dropdown-card-desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+.dropdown-card-icon {
+  font-size: var(--text-lg);
+  color: var(--color-pounamu);
 }
 
 /* =================================================================
@@ -510,29 +675,91 @@ a:hover {
 }
 
 /* =================================================================
-   PRINT STYLES
+   PRINT STYLES - OPTIMIZED FOR CLEAN PRINTING
    ================================================================= */
 @media print {
-  .no-print {
+  /* Hide all navigation, headers, footers, and sidebars */
+  .no-print,
+  .site-header,
+  .left-sidebar,
+  .site-footer,
+  .external-resources-section,
+  .breadcrumbs,
+  nav,
+  header,
+  footer,
+  aside {
     display: none !important;
   }
 
+  /* Clean print layout */
   body {
     font-size: 12pt;
     line-height: 1.4;
     color: black;
     background: white;
+    margin: 0;
+    padding: 0;
   }
 
-  .card {
-    border: 1px solid #ccc;
-    box-shadow: none;
+  .main-container {
+    display: block !important;
+    grid-template-columns: none !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    gap: 0 !important;
+  }
+
+  .content-area {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Clean up cards and sections for print */
+  .card,
+  section,
+  div[style*="background"] {
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
     page-break-inside: avoid;
+    background: white !important;
+    margin: 1rem 0 !important;
+    padding: 1rem !important;
+  }
+
+  /* Ensure text is readable */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: black !important;
+    page-break-after: avoid;
+  }
+
+  p,
+  li {
+    color: black !important;
   }
 
   a {
-    color: black;
-    text-decoration: underline;
+    color: black !important;
+    text-decoration: underline !important;
+  }
+
+  /* Remove gradients and fancy styling */
+  * {
+    background-image: none !important;
+    background: white !important;
+  }
+
+  /* Page breaks */
+  .page-break {
+    page-break-before: always;
   }
 }
 
@@ -1013,30 +1240,62 @@ a:hover {
 }
 
 /* =================================================================
-   LAYOUT COMPONENTS
+   LAYOUT COMPONENTS - CONSISTENT SIDEBAR SYSTEM
    ================================================================= */
 .main-container {
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 320px 1fr;
   gap: var(--space-8);
   max-width: 1400px;
   margin: 0 auto;
   padding: var(--space-6) var(--space-4);
   min-height: calc(100vh - 80px);
+  background: var(--color-bg-secondary);
 }
 
 .content-area {
   min-width: 0; /* Prevents grid overflow */
+  background: var(--color-bg-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-sm);
 }
 
 .left-sidebar {
-  background: var(--color-bg-primary);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  background: linear-gradient(
+    135deg,
+    var(--color-bg-warm) 0%,
+    var(--color-bg-earth) 100%
+  );
+  border: 2px solid var(--color-pounamu);
+  border-radius: var(--radius-xl);
   padding: var(--space-6);
   height: fit-content;
   position: sticky;
   top: 100px;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.left-sidebar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--color-primary) 0%,
+    var(--color-accent) 50%,
+    var(--color-nz-red) 100%
+  );
+}
+
+/* Ensure consistent sidebar on all pages */
+.left-sidebar {
+  display: block !important;
 }
 
 .sidebar-widget {
@@ -1090,6 +1349,54 @@ a:hover {
     var(--color-bg-secondary) 100%
   );
   border-left: 4px solid var(--color-accent);
+}
+
+/* =================================================================
+   MODERN NZ AESTHETIC ELEMENTS
+   ================================================================= */
+.nz-pattern {
+  background-image: radial-gradient(
+      circle at 25% 25%,
+      var(--color-accent) 2px,
+      transparent 2px
+    ),
+    radial-gradient(
+      circle at 75% 75%,
+      var(--color-pounamu) 2px,
+      transparent 2px
+    );
+  background-size: 40px 40px;
+  opacity: 0.1;
+}
+
+.fern-accent {
+  position: relative;
+}
+
+.fern-accent::before {
+  content: "🌿";
+  position: absolute;
+  left: -2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  opacity: 0.3;
+}
+
+.koru-border {
+  border-left: 4px solid var(--color-accent);
+  position: relative;
+}
+
+.koru-border::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: -4px;
+  width: 8px;
+  height: 8px;
+  background: var(--color-accent);
+  border-radius: 50%;
 }
 
 /* =================================================================
@@ -1321,4 +1628,96 @@ a:hover {
   .treasure-title {
     font-size: var(--text-lg);
   }
+}
+
+/* =================================================================
+   FEATURED BADGES - Visual Polish
+   ================================================================= */
+.featured-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: linear-gradient(135deg, var(--color-accent), #f59e0b);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  box-shadow: var(--shadow-md);
+  z-index: 10;
+  animation: subtle-pulse 2s ease-in-out infinite;
+}
+
+@keyframes subtle-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.featured-unit {
+  position: relative;
+  border: 2px solid var(--color-accent);
+  box-shadow: 0 8px 16px rgba(230, 167, 0, 0.15);
+}
+
+.featured-unit:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(230, 167, 0, 0.25);
+}
+
+/* =================================================================
+   CARD HOVER EFFECTS - Delightful Interactions
+   ================================================================= */
+.value-card,
+.featured-card,
+.unit-card {
+  transition: transform var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+.value-card:hover,
+.featured-card:hover,
+.unit-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* =================================================================
+   BUTTON POLISH - Professional & Inviting
+   ================================================================= */
+.btn {
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width var(--transition-slow), height var(--transition-slow);
+}
+
+.btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active {
+  transform: translateY(0);
 }
