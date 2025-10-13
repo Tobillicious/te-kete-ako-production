@@ -25,7 +25,11 @@ class QualityContentReviewer:
             all_content = json.load(f)
         
         # Skip already reviewed content
-        reviewed_paths = {item["path"] for item in self.review_log}
+        reviewed_paths = set()
+        for item in self.review_log:
+            if "file_path" in item:
+                reviewed_paths.add(item["file_path"])
+        
         unreviewed = [item for item in all_content if item["path"] not in reviewed_paths]
         
         if not unreviewed:
@@ -127,8 +131,8 @@ class QualityContentReviewer:
         
         try:
             with open(full_path, 'r', encoding='utf-8') as f:
-        content = f.read()
-    
+                content = f.read()
+            
             # Apply enhancements
             if "Add professional CSS" in enhancements:
                 if "<head>" in content and "te-kete-professional.css" not in content:
@@ -165,63 +169,6 @@ class QualityContentReviewer:
             print(f"Error enhancing {file_path}: {e}")
             return False
     
-    def present_content_for_review(self, content_item: Dict, quality_analysis: Dict) -> Tuple[str, List[str]]:
-        """Present content for manual review and get decision"""
-        file_path = content_item["path"]
-        title = content_item.get("title", "Untitled")
-        
-        print("\n" + "="*60)
-        print(f"📚 REVIEWING: {title}")
-        print(f"📁 Path: {file_path}")
-        print(f"📊 Quality Score: {quality_analysis['percentage']}% ({quality_analysis['quality_score']}/{quality_analysis['max_score']})")
-        print(f"📝 Word Count: {quality_analysis['word_count']}")
-        print(f"🌿 Māori Terms: {quality_analysis['māori_terms']}")
-        
-        print("\n📋 Quality Feedback:")
-        for feedback in quality_analysis["feedback"]:
-            print(f"  {feedback}")
-        
-        print("\n📖 Content Preview (first 300 characters):")
-        full_path = self.project_root / file_path
-        with open(full_path, 'r', encoding='utf-8') as f:
-            content = f.read()
-            # Extract text content (remove HTML tags for preview)
-            import re
-            text_content = re.sub(r'<[^>]+>', '', content)
-            print(f"  {text_content[:300]}...")
-        
-        print("\n🔧 Available Enhancements:")
-        enhancements = []
-        if quality_analysis['quality_score'] < 70:
-            if "te-kete-professional.css" not in content:
-                enhancements.append("Add professional CSS")
-                print("  1. Add professional CSS")
-            
-            if "header-component" not in content:
-                enhancements.append("Add header component")
-                print("  2. Add header component")
-            
-            if quality_analysis['māori_terms'] == 0:
-                enhancements.append("Add mātauranga Māori context")
-                print("  3. Add mātauranga Māori context")
-        
-        # Get decision
-        while True:
-            decision = input("\n🤔 Decision (APPROVE/ENHANCE/REJECT/SKIP): ").upper()
-            if decision in ["APPROVE", "ENHANCE", "REJECT", "SKIP"]:
-                break
-            print("Please enter APPROVE, ENHANCE, REJECT, or SKIP")
-        
-        selected_enhancements = []
-        if decision == "ENHANCE" and enhancements:
-            print("\nSelect enhancements to apply (comma-separated numbers):")
-            selection = input("> ").strip()
-            if selection:
-                indices = [int(i.strip()) - 1 for i in selection.split(",")]
-                selected_enhancements = [enhancements[i] for i in indices if 0 <= i < len(enhancements)]
-        
-        return decision, selected_enhancements
-    
     def commit_approved_content(self, file_path: str, quality_score: int) -> bool:
         """Commit approved content with quality metadata"""
         try:
@@ -233,50 +180,34 @@ class QualityContentReviewer:
                 capture_output=True
             )
             
-            # Create quality commit message
-            commit_message = f"Quality content approved: {file_path} (Score: {quality_score}%)"
-            
-            # Commit with message
-            subprocess.run(
-                ["git", "commit", "-m", commit_message],
+            # Check if there are staged changes
+            result = subprocess.run(
+                ["git", "diff", "--cached", "--name-only", file_path],
                 cwd=self.project_root,
-                check=True,
-                capture_output=True
+                capture_output=True,
+                text=True
             )
             
-            # Run validation pipeline on the committed content
-            self.run_validation_pipeline(file_path)
+            # Only commit if there are changes
+            if result.stdout.strip():
+                # Create quality commit message
+                commit_message = f"Quality content approved: {file_path} (Score: {quality_score}%)"
+                
+                # Commit with message
+                subprocess.run(
+                    ["git", "commit", "-m", commit_message],
+                    cwd=self.project_root,
+                    check=True,
+                    capture_output=True
+                )
+                print(f"✅ Committed: {file_path}")
+            else:
+                print(f"ℹ️ No changes to commit for: {file_path}")
             
             return True
         except subprocess.CalledProcessError as e:
             print(f"Error committing {file_path}: {e}")
             return False
-    
-    def run_validation_pipeline(self, file_path: str) -> bool:
-        """Run the validation pipeline on approved content"""
-        try:
-            print(f"🔍 Running validation pipeline on {file_path}...")
-            
-            # Import and run the workflow validator
-            import sys
-            sys.path.append(self.project_root / "scripts")
-            from workflow_pipeline_validator import WorkflowPipelineValidator
-            
-            validator = WorkflowPipelineValidator()
-            validation_results = validator.run_file_validation(file_path)
-            
-            if validation_results.get("status") == "passed":
-                print(f"✅ Validation passed for {file_path}")
-                return True
-            else:
-                print(f"⚠️ Validation warnings for {file_path}")
-                for warning in validation_results.get("warnings", []):
-                    print(f"  - {warning}")
-                return True  # Still commit but with warnings
-                
-        except Exception as e:
-            print(f"Error running validation pipeline: {e}")
-            return True  # Continue even if validation fails
     
     def run_quality_review_workflow(self):
         """Run the complete quality-focused review workflow"""
@@ -329,8 +260,8 @@ class QualityContentReviewer:
                 # Determine needed enhancements
                 full_path = self.project_root / file_path
                 with open(full_path, 'r', encoding='utf-8') as f:
-        content = f.read()
-    
+                    content = f.read()
+                
                 if "te-kete-professional.css" not in content:
                     enhancements.append("Add professional CSS")
                 

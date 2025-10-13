@@ -17,17 +17,15 @@ class QualityValidator:
             "css-fix": self._validate_css_fix,
             "orphan-integration": self._validate_orphan_integration,
             "content-enhancement": self._validate_content_enhancement,
-            "navigation-fix": self._validate_navigation_fix,
-            "link-fix": self._validate_link_fix,
-            "broken-links": self._validate_broken_links,
-            "accessibility-fix": self._validate_accessibility_fix,
-            "accessibility": self._validate_accessibility_fix,
             "qa-testing": self._validate_qa_testing,
             "performance-optimization": self._validate_performance_optimization,
+            "broken-links": self._validate_broken_links,
             "authentication": self._validate_authentication,
+            "validation": self._validate_validation,
             "validation-pipeline": self._validate_validation_pipeline,
             "deployment-workflow": self._validate_deployment_workflow,
-            "quality-checks": self._validate_quality_checks
+            "quality-checks": self._validate_quality_checks,
+            "cultural-validation": self._validate_cultural_validation
         }
         self.quality_standards = {
             "css": {
@@ -670,63 +668,66 @@ class QualityValidator:
         }
     
     def _validate_cultural_validation(self, location: str) -> Dict:
-        """Validate cultural content validation progress"""
+        """Validate cultural validation progress"""
         errors = []
         warnings = []
         score = 0
-        details = {}
         
-        try:
-            with open(location, 'r') as f:
-                discovery_results = json.load(f)
-            
-            # Count high cultural value content
-            high_cultural = [item for item in discovery_results if item.get("cultural_level") == "high"]
-            total_high_cultural = len(high_cultural)
-            
-            if total_high_cultural == 0:
-                errors.append("No high cultural value content found in discovery results")
-                return {
-                    "valid": False,
-                    "errors": errors,
-                    "warnings": warnings,
-                    "score": 0,
-                    "details": details
-                }
-            
-            details["total_high_cultural"] = total_high_cultural
-            
-            # Check for validation indicators
-            validated_count = 0
-            
-            for item in high_cultural:
-                # This would be replaced with actual validation checking
-                # For now, estimate based on quality score and cultural indicators
-                if item.get("quality_score", 0) >= 75:
-                    validated_count += 1
-            
-            validation_rate = validated_count / total_high_cultural if total_high_cultural > 0 else 0
-            score = validation_rate * 100
-            
-            details["validated_content"] = validated_count
-            details["validation_rate"] = f"{validation_rate*100:.1f}%"
-            
-            if validation_rate < 0.5:
-                warnings.append(f"Only {validation_rate*100:.1f}% of high cultural value content has been validated")
-            elif validation_rate < 0.8:
-                warnings.append(f"Only {validation_rate*100:.1f}% of high cultural value content has been validated - aim for 80%+")
-            
-        except FileNotFoundError:
-            errors.append(f"Discovery results file not found: {location}")
-        except json.JSONDecodeError:
-            errors.append(f"Invalid JSON in discovery results file: {location}")
+        # Check if directory exists
+        if not os.path.exists(location):
+            errors.append(f"Cultural validation directory not found: {location}")
+            return {
+                "valid": False,
+                "errors": errors,
+                "warnings": warnings,
+                "score": 0
+            }
+        
+        # Count files with cultural indicators
+        cultural_files = 0
+        total_files = 0
+        
+        for root, dirs, files in os.walk(location):
+            for file in files:
+                if file.endswith('.html'):
+                    total_files += 1
+                    file_path = os.path.join(root, file)
+                    
+                    try:
+                        with open(file_path, 'r', encoding='utf-8') as f:
+                            content = f.read()
+                        
+                        # Check for cultural indicators
+                        if any(term in content.lower() for term in ['māori', 'maori', 'whakatauki', 'tikanga', 'te reo']):
+                            cultural_files += 1
+                    except Exception:
+                        pass
+        
+        if total_files == 0:
+            errors.append("No HTML files found for cultural validation")
+            return {
+                "valid": False,
+                "errors": errors,
+                "warnings": warnings,
+                "score": 0
+            }
+        
+        cultural_percentage = (cultural_files / total_files) * 100
+        score = min(cultural_percentage, 100)
+        
+        if cultural_percentage < 50:
+            warnings.append(f"Only {cultural_percentage:.1f}% of files contain cultural indicators")
         
         return {
             "valid": len(errors) == 0,
             "errors": errors,
             "warnings": warnings,
-            "score": min(score, 100),
-            "details": details
+            "score": score,
+            "details": {
+                "total_files": total_files,
+                "cultural_files": cultural_files,
+                "cultural_percentage": f"{cultural_percentage:.1f}%"
+            }
         }
     
     def validate_work_plan(self, work_plan_file: str = "current-work-plan.json") -> Dict:

@@ -61,7 +61,7 @@ class DeploymentPipeline:
         """Run the validation pipeline"""
         try:
             result = subprocess.run(
-                ["python3", "scripts/workflow-pipeline-validator.py"],
+                ["python3", "scripts/validation-deployment-pipeline.py"],
                 cwd=self.base_dir,
                 capture_output=True,
                 text=True

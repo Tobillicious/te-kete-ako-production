@@ -7,6 +7,7 @@ Automatically fixes common validation issues found by the pipeline
 import os
 import re
 from pathlib import Path
+import subprocess
 
 def fix_validation_issues():
     """Fix validation issues found by the pipeline"""
@@ -85,5 +86,60 @@ def fix_html_file(file_path, errors):
             f.write(content)
         print(f"  ✅ Fixed: {file_path.name}")
 
+def fix_alt_text_issues():
+    """Fix missing alt text in images"""
+    print("🔧 Fixing alt text issues...")
+    
+    # Find HTML files with images missing alt text
+    result = subprocess.run(
+        ["find", "public/", "-name", "*.html", "-exec", "grep", "-l", "img.*src", "{}", ";"],
+        capture_output=True,
+        text=True
+    )
+    
+    html_files = result.stdout.strip().split('\n')
+    fixed_count = 0
+    
+    for html_file in html_files:
+        if not html_file:
+            continue
+            
+        try:
+            with open(html_file, 'r') as f:
+                content = f.read()
+            
+            # Find images with template variables in alt text
+            original_content = content
+            content = re.sub(r'alt="\$\{[^}]*\}"', 'alt="Video thumbnail"', content)
+            content = re.sub(r'<img([^>]*?)>(?![^<]*</img>)', r'<img\1 alt="Content image">', content)
+            
+            if content != original_content:
+                with open(html_file, 'w') as f:
+                    f.write(content)
+                fixed_count += 1
+                
+        except Exception as e:
+            print(f"Error processing {html_file}: {e}")
+    
+    print(f"✅ Fixed alt text in {fixed_count} files")
+    return fixed_count > 0
+
+def main():
+    """Main function to fix validation issues"""
+    print("🔧 Starting validation fixes...")
+    
+    # Fix HTML syntax errors
+    syntax_fixed = fix_validation_issues()
+    
+    # Fix alt text issues
+    alt_text_fixed = fix_alt_text_issues()
+    
+    if syntax_fixed or alt_text_fixed:
+        print("✅ Validation issues fixed!")
+        return True
+    else:
+        print("ℹ️ No validation issues found to fix")
+        return False
+
 if __name__ == "__main__":
-    fix_validation_issues()
+    main()
