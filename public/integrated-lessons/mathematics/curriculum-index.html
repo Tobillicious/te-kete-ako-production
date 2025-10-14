@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Curriculum | Te Kete Ako</title>
+    <link rel="preload" href="/css/te-kete-professional.css" as="style">
+    <link rel="preload" href="/js/header-dropdowns.js" as="script">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap&display=swap" as="style" crossorigin>
+    <link rel="stylesheet" href="/css/te-kete-professional.css" media="all"/>
+    <link rel="stylesheet" href="/css/print.css" media="print"/>
+    
+    <style>
+    /* Critical CSS for above-the-fold content */
+    .site-header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); }
+    .hero-section { background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: var(--space-16) 0; }
+    .hero-title { font-size: 3rem; font-weight: 700; color: var(--color-primary); margin-bottom: 1rem; }
+    .nav-brand { font-size: 1.5rem; font-weight: 700; color: var(--color-primary); text-decoration: none; }
+    
+    /* Curriculum Grid Layout */
+    .curriculum-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: var(--space-8);
+    }
+    
+        .curriculum-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: var(--space-8);
+        margin-top: var(--space-8);
+        }
+        
+        .unit-card {
+            background: white;
+        border-radius: 16px;
+        box-shadow: var(--shadow-md);
+        padding: var(--space-6);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-left: 6px solid var(--color-primary);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .unit-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 60px;
+        height: 60px;
+        background: var(--pattern-pitau);
+        opacity: 0.1;
+        transition: all 0.3s ease;
+        }
+        
+        .unit-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: var(--shadow-cultural);
+        border-left-width: 8px;
+    }
+    
+    .unit-card:hover::before {
+        opacity: 0.2;
+        transform: scale(1.1);
+        }
+        
+        .unit-title {
+        font-family: var(--font-family-maori);
+            font-size: 1.5rem;
+            font-weight: 700;
+        color: var(--color-primary);
+        margin-bottom: var(--space-2);
+        }
+        
+        .unit-meta {
+        color: var(--color-text-secondary);
+        font-size: var(--text-sm);
+        margin-bottom: var(--space-3);
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        }
+        
+        .unit-description {
+        color: var(--color-text-primary);
+            line-height: 1.6;
+        margin-bottom: var(--space-4);
+    }
+    
+    .unit-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+        margin-bottom: var(--space-4);
+        }
+        
+        .unit-badge {
+        background: #f8f9fa;
+        color: var(--color-primary);
+        padding: var(--space-xs) var(--space-sm);
+        border-radius: 20px;
+        font-size: var(--text-xs);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .unit-badge.highlight {
+        background: var(--gradient-secondary);
+        color: white;
+    }
+    
+    .unit-actions {
+        display: flex;
+        gap: var(--space-3);
+        margin-top: var(--space-4);
+    }
+    
+    .btn-unit {
+        background: var(--gradient-primary);
+        color: white;
+        border: none;
+        padding: var(--space-sm) var(--space-lg);
+        border-radius: 25px;
+        font-weight: 600;
+        font-family: var(--font-family-primary);
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-xs);
+    }
+    
+    .btn-unit:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-cultural);
+    }
+    
+    .btn-unit-secondary {
+        background: transparent;
+        color: var(--color-primary);
+        border: 2px solid var(--color-primary);
+    }
+    
+    .btn-unit-secondary:hover {
+        background: var(--color-primary);
+            color: white;
+        }
+        
+    /* Year Section Styling */
+        .year-section {
+        margin-bottom: var(--space-12);
+    }
+    
+    .year-header {
+        font-family: var(--font-family-maori);
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--color-primary);
+        margin-bottom: var(--space-6);
+        text-align: center;
+        position: relative;
+    }
+    
+    .year-header::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 3px;
+        background: var(--gradient-secondary);
+        border-radius: 2px;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .curriculum-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .year-header {
+            font-size: 2rem;
+        }
+        }
+    </style>
+</head>
+<body data-auto-init="true" data-current-page="curriculum-index">
+    <!-- Include Header Component -->
+    <div id="header-component"></div>
+
+    <main>
+        <div class="curriculum-container">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="container">
+                    <h1 class="hero-title">📚 Complete Curriculum</h1>
+                    <p class="hero-subtitle">Comprehensive curriculum units integrating mātauranga Māori with NZ Curriculum standards</p>
+        </div>
+            </section>
+
+        <!-- YEAR 7 -->
+        <div class="year-section">
+            <h2 class="year-header">Year 7 / Level 3</h2>
+            <div class="curriculum-grid">
+                <div class="unit-card">
+                    <h3 class="unit-title">🔢 Mathematics - Algebra</h3>
+                    <div class="unit-meta">8 weeks | Pattern recognition & equations</div>
+                    <p class="unit-description">Introduction to algebraic thinking through kowhaiwhai patterns and traditional Māori measurement.</p>
+                    <span class="unit-badge">Maths</span>
+                    <span class="unit-badge">Māori Patterns</span>
+                    <br><br>
+                    <a href="/units/y7-maths-algebra/index.html" class="btn btn-primary">View Unit</a>
+                </div>
+
+                <div class="unit-card">
+                    <h3 class="unit-title">🌿 Science - Ecosystems</h3>
+                    <div class="unit-meta">6 weeks | Kaitiakitanga & biodiversity</div>
+                    <p class="unit-description">Understanding ecosystems through the lens of kaitiakitanga (guardianship) and traditional Māori environmental knowledge.</p>
+                    <span class="unit-badge">Science</span>
+                    <span class="unit-badge">Kaitiakitanga</span>
+                    <br><br>
+                    <a href="/units/y7-science-ecosystems/index.html" class="btn btn-primary">View Unit</a>
+                </div>
+
+                <div class="unit-card">
+                    <h3 class="unit-title">📖 Foundational Reading</h3>
+                    <div class="unit-meta">10 weeks | Literacy development</div>
+                    <p class="unit-description">Building reading comprehension and critical literacy skills with culturally responsive texts.</p>
+                    <span class="unit-badge">English</span>
+                    <span class="unit-badge">Literacy</span>
+                    <br><br>
+                    <a href="/units/y7-foundational-reading/index.html" class="btn btn-primary">View Unit</a>
+                </div>
+
+                <div class="unit-card">
+                    <h3 class="unit-title">💻 Digital Technology</h3>
+                    <div class="unit-meta">8 weeks | Digital literacy</div>
+                    <p class="unit-description">Introduction to digital technology concepts and computational thinking.</p>
+                    <span class="unit-badge">Technology</span>
+                    <br><br>
+                    <a href="/units/y7-digital-technology/index.html" class="btn btn-primary">View Unit</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- YEAR 10 - MĀORI LEADERSHIP UNITS (NEW!) -->
+        <div class="year-section">
+            <h2 class="year-header">Year 10 / Level 5</h2>
+            <div class="curriculum-grid">
+                <div class="unit-card">
+                    <h3 class="unit-title">🌟 Ranginui Walker - Challenge to the Narrative</h3>
+                    <div class="unit-meta">5 weeks | Social Studies</div>
+                    <p class="unit-description">Explore Dr. Ranginui Walker's life and work challenging dominant historical narratives. Understand Tino Rangatiratanga and the Māori Renaissance.</p>
+                    <span class="unit-badge highlight">Social Studies</span>
+                    <span class="unit-badge">Māori Leadership</span>
+                    <span class="unit-badge">🌿 Cultural Focus</span>
+                    <div class="unit-actions">
+                        <a href="/lessons/walker-lesson-1.1-who-was-ranginui-walker.html" class="btn-unit">📖 Lesson 1: Who was Walker?</a>
+                        <a href="/lessons/walker-lesson-1.2-the-great-migration.html" class="btn-unit-secondary">📖 Lesson 2</a>
+                        <a href="/lessons/walker-lesson-1.3-years-of-anger.html" class="btn-unit-secondary">📖 Lesson 3</a>
+                    </div>
+                </div>
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">🤖 AI Ethics & Māori Data Sovereignty</h3>
+                    <div class="unit-meta">4 weeks | Digital Technology & Social Studies</div>
+                    <p class="unit-description">Examine ethical considerations in AI through the lens of Māori data sovereignty and cultural protocols.</p>
+                    <span class="unit-badge">Technology</span>
+                    <span class="unit-badge">Ethics</span>
+                    <span class="unit-badge">🌿 Cultural Focus</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/ai-ethics-through-māori-data-sovereignty.html" class="btn-unit">Start Lesson</a>
+                    </div>
+                </div>
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">🧬 Genetics & Whakapapa</h3>
+                    <div class="unit-meta">5 weeks | Science</div>
+                    <p class="unit-description">Explore genetics from both scientific and cultural perspectives, connecting DNA science with whakapapa (genealogy).</p>
+                    <span class="unit-badge">Science</span>
+                    <span class="unit-badge">🌿 Cultural Focus</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/genetics-and-whakapapa-scientific-and-cultural-perspectives.html" class="btn-unit">Start Lesson</a>
+                    </div>
+                </div>
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">🌍 Climate Change & Te Taiao</h3>
+                    <div class="unit-meta">6 weeks | Science & Geography</div>
+                    <p class="unit-description">Understand climate change through Te Taiao (Māori environmental worldview) and traditional ecological knowledge.</p>
+                    <span class="unit-badge">Science</span>
+                    <span class="unit-badge">Geography</span>
+                    <span class="unit-badge">🌿 Cultural Focus</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/climate-change-through-te-taiao-māori-lens.html" class="btn-unit">Start Lesson</a>
+                    </div>
+                </div>
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">🌍 Global Citizenship with Tangata Whenua Perspective</h3>
+                    <div class="unit-meta">5 weeks | Social Studies</div>
+                    <p class="unit-description">Understand global issues through indigenous perspectives, honoring tangata whenua worldview.</p>
+                    <span class="unit-badge">Social Studies</span>
+                    <span class="unit-badge">🌿 Cultural Focus</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/global-citizenship-with-tangata-whenua-perspective.html" class="btn-unit">Start Lesson</a>
+                        <a href="/generated-resources-alpha/handouts/global-citizenship-with-tangata-whenua-perspective.html" class="btn-unit-secondary">📄 Handout</a>
+                    </div>
+                </div>
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">🎵 Physics of Traditional Māori Instruments</h3>
+                    <div class="unit-meta">4 weeks | Science - Physics</div>
+                    <p class="unit-description">Sound physics through pūtōrino, pūkāea, and other taonga pūoro (traditional instruments).</p>
+                    <span class="unit-badge">Science</span>
+                    <span class="unit-badge">Physics</span>
+                    <span class="unit-badge">🌿 Cultural Focus</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/physics-of-traditional-māori-instruments.html" class="btn-unit">Start Lesson</a>
+                        <a href="/generated-resources-alpha/handouts/physics-of-traditional-māori-instruments.html" class="btn-unit-secondary">📄 Handout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- YEAR 8 -->
+        <div class="year-section">
+            <h2 class="year-header">Year 8 / Level 4</h2>
+            <div class="curriculum-grid">
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">💰 Financial Literacy with Māori Economic Principles</h3>
+                    <div class="unit-meta">4 weeks | Mathematics & Social Studies</div>
+                    <p class="unit-description">Money management and economic thinking through Māori economic principles and collective wealth models.</p>
+                    <span class="unit-badge">Mathematics</span>
+                    <span class="unit-badge">Economics</span>
+                    <span class="unit-badge">🌿 Cultural Focus</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/financial-literacy-with-māori-economic-principles.html" class="btn-unit">Start Lesson</a>
+                        <a href="/generated-resources-alpha/handouts/financial-literacy-with-māori-economic-principles.html" class="btn-unit-secondary">📄 Handout</a>
+                    </div>
+                </div>
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">🌾 Food Security & Traditional Knowledge</h3>
+                    <div class="unit-meta">5 weeks | Science & Health</div>
+                    <p class="unit-description">Food systems, sustainability, and security through traditional Māori kai practices and knowledge.</p>
+                    <span class="unit-badge">Science</span>
+                    <span class="unit-badge">Health</span>
+                    <span class="unit-badge">🌿 Cultural Focus</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/food-security-through-traditional-knowledge-systems.html" class="btn-unit">Start Lesson</a>
+                        <a href="/generated-resources-alpha/handouts/food-security-through-traditional-knowledge-systems.html" class="btn-unit-secondary">📄 Handout</a>
+                    </div>
+                </div>
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">✍️ Argumentative Writing on Māori Issues</h3>
+                    <div class="unit-meta">5 weeks | English</div>
+                    <p class="unit-description">Master argumentative writing through contemporary Māori issues - persuasion, evidence, rhetoric.</p>
+                    <span class="unit-badge">English</span>
+                    <span class="unit-badge">🌿 Cultural Focus</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/argumentative-writing-on-contemporary-māori-issues.html" class="btn-unit">Start Lesson</a>
+                        <a href="/generated-resources-alpha/handouts/argumentative-writing-on-contemporary-māori-issues.html" class="btn-unit-secondary">📄 Handout</a>
+                    </div>
+                </div>
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">✍️ Creative Writing with Whakataukī</h3>
+                    <div class="unit-meta">4 weeks | English</div>
+                    <p class="unit-description">Develop creative writing skills inspired by Māori proverbs and storytelling traditions.</p>
+                    <span class="unit-badge">English</span>
+                    <span class="unit-badge">🌿 Cultural Focus</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/creative-writing-inspired-by-whakataukī.html" class="btn-unit">Start Lesson</a>
+                    </div>
+                </div>
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">📜 Narrative Writing using Māori Story Structures</h3>
+                    <div class="unit-meta">5 weeks | English</div>
+                    <p class="unit-description">Craft compelling narratives using traditional Māori storytelling structures and techniques.</p>
+                    <span class="unit-badge">English</span>
+                    <span class="unit-badge">🌿 Cultural Focus</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/narrative-writing-using-māori-story-structures.html" class="btn-unit">Start Lesson</a>
+                        <a href="/generated-resources-alpha/handouts/narrative-writing-using-māori-story-structures.html" class="btn-unit-secondary">📄 Handout</a>
+                    </div>
+                </div>
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">📖 Critical Analysis of Historical Documents</h3>
+                    <div class="unit-meta">4 weeks | English & Social Studies</div>
+                    <p class="unit-description">Analyze primary sources, identify bias, evaluate evidence in historical documents.</p>
+                    <span class="unit-badge">English</span>
+                    <span class="unit-badge">History</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/critical-analysis-of-historical-documents.html" class="btn-unit">Start Lesson</a>
+                        <a href="/generated-resources-alpha/handouts/critical-analysis-of-historical-documents.html" class="btn-unit-secondary">📄 Handout</a>
+                    </div>
+                </div>
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">📖 Pūrākau Digital Storytelling</h3>
+                    <div class="unit-meta">5 weeks | English & Technology</div>
+                    <p class="unit-description">Create digital stories using traditional Māori storytelling frameworks (pūrākau).</p>
+                    <span class="unit-badge">English</span>
+                    <span class="unit-badge">Technology</span>
+                    <span class="unit-badge">🌿 Cultural Focus</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/digital-storytelling-with-pūrākau-framework.html" class="btn-unit">Start Lesson</a>
+                    </div>
+                </div>
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">🎮 Traditional Māori Games & Math</h3>
+                    <div class="unit-meta">4 weeks | Mathematics</div>
+                    <p class="unit-description">Algebraic thinking through traditional Māori games like Mū Tōrere and Poi Rakau.</p>
+                    <span class="unit-badge">Mathematics</span>
+                    <span class="unit-badge">🌿 Cultural Focus</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/algebraic-thinking-in-traditional-māori-games.html" class="btn-unit">Start Lesson</a>
+                    </div>
+                </div>
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">📊 Data Visualization of Cultural Demographics</h3>
+                    <div class="unit-meta">4 weeks | Mathematics & Social Studies</div>
+                    <p class="unit-description">Create data visualizations exploring Māori population, language revitalization, educational outcomes.</p>
+                    <span class="unit-badge">Mathematics</span>
+                    <span class="unit-badge">Data Science</span>
+                    <span class="unit-badge">🌿 Cultural Focus</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/data-visualization-of-cultural-demographics.html" class="btn-unit">Start Lesson</a>
+                        <a href="/generated-resources-alpha/handouts/data-visualization-of-cultural-demographics.html" class="btn-unit-secondary">📄 Handout</a>
+                    </div>
+                </div>
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">🌱 Leadership Development through Cultural Values</h3>
+                    <div class="unit-meta">6 weeks | Social Studies & Health</div>
+                    <p class="unit-description">Develop leadership skills grounded in Māori values - manaakitanga, kaitiakitanga, rangatiratanga.</p>
+                    <span class="unit-badge">Social Studies</span>
+                    <span class="unit-badge">Leadership</span>
+                    <span class="unit-badge">🌿 Cultural Focus</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/leadership-development-through-cultural-values.html" class="btn-unit">Start Lesson</a>
+                        <a href="/generated-resources-alpha/handouts/leadership-development-through-cultural-values.html" class="btn-unit-secondary">📄 Handout</a>
+                    </div>
+                </div>
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">📱 Information Literacy in Digital Age</h3>
+                    <div class="unit-meta">4 weeks | English & Technology</div>
+                    <p class="unit-description">Critical evaluation of online information, source verification, digital literacy skills.</p>
+                    <span class="unit-badge">English</span>
+                    <span class="unit-badge">Technology</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/information-literacy-in-the-digital-age.html" class="btn-unit">Start Lesson</a>
+                        <a href="/generated-resources-alpha/handouts/information-literacy-in-the-digital-age.html" class="btn-unit-secondary">📄 Handout</a>
+                    </div>
+                </div>
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">🛡️ Cultural Safety in Classroom Discussions</h3>
+                    <div class="unit-meta">Teacher Resource | All Years</div>
+                    <p class="unit-description">Checklists and protocols for ensuring culturally safe discussions on sensitive topics.</p>
+                    <span class="unit-badge">Teacher Resource</span>
+                    <span class="unit-badge">🌿 Cultural Safety</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/cultural-safety-checklists-for-classroom-discussions.html" class="btn-unit">View Checklist</a>
+                        <a href="/generated-resources-alpha/handouts/cultural-safety-checklists-for-classroom-discussions.html" class="btn-unit-secondary">📄 Printable</a>
+                    </div>
+                </div>
+                <div class="unit-card">
+                    <h3 class="unit-title">🗣️ Debate Skills with Māori Oratory</h3>
+                    <div class="unit-meta">4 weeks | English & Social Studies</div>
+                    <p class="unit-description">Master debate and argumentation skills through Māori oratory traditions (whaikōrero, pātere).</p>
+                    <span class="unit-badge">English</span>
+                    <span class="unit-badge">🌿 Cultural Focus</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/debate-skills-with-māori-oratory-traditions.html" class="btn-unit">Start Lesson</a>
+                    </div>
+                </div>
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">📚 Media Literacy & Māori Representation</h3>
+                    <div class="unit-meta">4 weeks | English & Media Studies</div>
+                    <p class="unit-description">Analyze how Māori people and culture are represented in media. Develop critical media literacy.</p>
+                    <span class="unit-badge">English</span>
+                    <span class="unit-badge">Media Studies</span>
+                    <span class="unit-badge">🌿 Cultural Focus</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/media-literacy-analyzing-māori-representation.html" class="btn-unit">Start Lesson</a>
+                    </div>
+                </div>
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">🏥 Health & Te Whare Tapa Whā</h3>
+                    <div class="unit-meta">5 weeks | Health & Physical Education</div>
+                    <p class="unit-description">Holistic wellbeing through Te Whare Tapa Whā model - taha tinana, hinengaro, whānau, wairua.</p>
+                    <span class="unit-badge">Health</span>
+                    <span class="unit-badge">🌿 Cultural Focus</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/health-and-wellbeing-te-whare-tapa-whā-model.html" class="btn-unit">Start Lesson</a>
+                    </div>
+                </div>
+                
+                <div class="unit-card" style="border-left-color: #FFD700;">
+                    <h3 class="unit-title">🧠 Critical Thinking ⭐</h3>
+                    <div class="unit-meta">8 lessons | Logic & reasoning</div>
+                    <p class="unit-description"><strong>EXCELLENCE BENCHMARK</strong> - Complete critical thinking curriculum with bias detection, logical fallacies, ethical decision-making, and argumentation skills.</p>
+                    <span class="unit-badge">Philosophy</span>
+                    <span class="unit-badge">8 Lessons</span>
+                    <span class="unit-badge">3,215 lines</span>
+                    <br><br>
+                    <a href="/units/y8-critical-thinking/index.html" class="btn btn-primary">View Unit</a>
+                </div>
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">📐 Geometric Patterns in Māori Art</h3>
+                    <div class="unit-meta">4 weeks | Mathematics & Arts</div>
+                    <p class="unit-description">Explore geometry through kowhaiwhai, tukutuku, and whakairo patterns.</p>
+                    <span class="unit-badge">Mathematics</span>
+                    <span class="unit-badge">Arts</span>
+                    <span class="unit-badge">🌿 Cultural Focus</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/geometric-patterns-in-māori-art-and-architecture.html" class="btn-unit">Start Lesson</a>
+                        <a href="/generated-resources-alpha/handouts/geometric-patterns-in-māori-art-and-architecture.html" class="btn-unit-secondary">📄 Handout</a>
+                    </div>
+                </div>
+
+                <div class="unit-card" style="border-left-color: #FFD700;">
+                    <h3 class="unit-title">📱 Digital Kaitiakitanga ⭐</h3>
+                    <div class="unit-meta">18 lessons | Digital citizenship</div>
+                    <p class="unit-description"><strong>LARGEST UNIT</strong> - Comprehensive digital citizenship through Te Ao Māori lens. Includes wellbeing, ethics, tikanga, and rangatiratanga.</p>
+                    <span class="unit-badge">Technology</span>
+                    <span class="unit-badge">18 Lessons</span>
+                    <span class="unit-badge">Kaitiakitanga</span>
+                    <br><br>
+                    <a href="/units/y8-digital-kaitiakitanga/index.html" class="btn btn-primary">View Unit</a>
+                </div>
+
+                <div class="unit-card">
+                    <h3 class="unit-title">📊 Statistics</h3>
+                    <div class="unit-meta">6 weeks | Data analysis</div>
+                    <p class="unit-description">Statistical thinking and data analysis using real NZ data and culturally relevant contexts.</p>
+                    <span class="unit-badge">Maths</span>
+                    <span class="unit-badge">Statistics</span>
+                    <br><br>
+                    <a href="/units/y8-statistics/lesson-2-analysing-nz-sports-data.html" class="btn btn-primary">View Unit</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- YEAR 9 -->
+        <div class="year-section">
+            <h2 class="year-header">Year 9 / Level 5</h2>
+            <div class="curriculum-grid">
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">🎨 Game Development with Cultural Themes</h3>
+                    <div class="unit-meta">6 weeks | Digital Technology</div>
+                    <p class="unit-description">Create games incorporating Māori stories, values, and cultural themes using modern game design.</p>
+                    <span class="unit-badge">Technology</span>
+                    <span class="unit-badge">Game Design</span>
+                    <span class="unit-badge">🌿 Cultural Focus</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/game-development-with-cultural-themes.html" class="btn-unit">Start Lesson</a>
+                        <a href="/generated-resources-alpha/handouts/game-development-with-cultural-themes.html" class="btn-unit-secondary">📄 Handout</a>
+                    </div>
+                </div>
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">💻 Coding with Māori Patterns</h3>
+                    <div class="unit-meta">5 weeks | Digital Technology</div>
+                    <p class="unit-description">Programming projects inspired by kowhaiwhai patterns, koru spirals, and traditional designs.</p>
+                    <span class="unit-badge">Technology</span>
+                    <span class="unit-badge">Coding</span>
+                    <span class="unit-badge">🌿 Cultural Focus</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/coding-projects-inspired-by-māori-patterns.html" class="btn-unit">Start Lesson</a>
+                        <a href="/generated-resources-alpha/handouts/coding-projects-inspired-by-māori-patterns.html" class="btn-unit-secondary">📄 Handout</a>
+                    </div>
+                </div>
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">🎯 Design Thinking & Problem-Solving</h3>
+                    <div class="unit-meta">4 weeks | Technology & Social Studies</div>
+                    <p class="unit-description">Creative problem-solving using design thinking methodology with cultural context.</p>
+                    <span class="unit-badge">Technology</span>
+                    <span class="unit-badge">Innovation</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/creative-problem-solving-with-design-thinking.html" class="btn-unit">Start Lesson</a>
+                        <a href="/generated-resources-alpha/handouts/creative-problem-solving-with-design-thinking.html" class="btn-unit-secondary">📄 Handout</a>
+                    </div>
+                </div>
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">📐 Geometry & Māori Patterns</h3>
+                    <div class="unit-meta">8 weeks | Geometric reasoning</div>
+                    <p class="unit-description">Exploring geometry through tukutuku panels, kowhaiwhai, and traditional Māori art patterns.</p>
+                    <span class="unit-badge">Maths</span>
+                    <span class="unit-badge">Māori Art</span>
+                    <br><br>
+                    <a href="/units/y9-mathematics-geometry-maori-patterns/index.html" class="btn btn-primary">View Unit</a>
+                </div>
+
+                <div class="unit-card">
+                    <h3 class="unit-title">🌱 Science - Ecology</h3>
+                    <div class="unit-meta">6 lessons | Conservation & kaitiakitanga</div>
+                    <p class="unit-description">Ecological science with focus on native species, conservation, and environmental guardianship.</p>
+                    <span class="unit-badge">Science</span>
+                    <span class="unit-badge">6 Lessons</span>
+                    <br><br>
+                    <a href="/units/y9-science-ecology/index.html" class="btn btn-primary">View Unit</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- YEAR 10 -->
+        <div class="year-section">
+            <h2 class="year-header">Year 10 / Level 5</h2>
+            <div class="curriculum-grid">
+                <div class="unit-card" style="border: 3px solid gold; background: linear-gradient(to bottom, #fffbea, white);">
+                    <h3 class="unit-title">🌟 Walker: Challenge to Narrative ⭐</h3>
+                    <div class="unit-meta">5 lessons × 75min | Dr. Ranginui Walker</div>
+                    <p class="unit-description"><strong>NEW!</strong> Historian, activist, intellectual - challenges dominant Pākehā narrative.</p>
+                    <span class="unit-badge" style="background: gold; color: #000;">9.5/10</span>
+                    <span class="unit-badge">Social Studies</span>
+                    <br><br>
+                    <a href="/lessons/walker/index.html" class="btn btn-primary" style="background: #2C5F41;">Explore Unit →</a>
+                </div>
+
+                <div class="unit-card" style="border: 3px solid gold; background: linear-gradient(to bottom, #fffbea, white);">
+                    <h3 class="unit-title">🌟 Hērangi: Heart of Kīngitanga ⭐</h3>
+                    <div class="unit-meta">5 lessons × 75min | Te Puea Hērangi</div>
+                    <p class="unit-description"><strong>NEW!</strong> Community builder, cultural leader - Kīngitanga history & revival.</p>
+                    <span class="unit-badge" style="background: gold; color: #000;">World-Class</span>
+                    <span class="unit-badge">Social Studies</span>
+                    <br><br>
+                    <a href="/lessons/herangi/index.html" class="btn btn-primary" style="background: #2C5F41;">Explore Unit →</a>
+                </div>
+
+                <div class="unit-card">
+                    <h3 class="unit-title">⚡ Physics - Forces</h3>
+                    <div class="unit-meta">6 weeks | Motion & energy</div>
+                    <p class="unit-description">Understanding forces, motion, and energy through real-world applications.</p>
+                    <span class="unit-badge">Physics</span>
+                    <br><br>
+                    <a href="/units/y10-physics-forces/index.html" class="btn btn-primary">View Unit</a>
+                </div>
+
+                <div class="unit-card">
+                    <h3 class="unit-title">🧭 Physics - Navigation</h3>
+                    <div class="unit-meta">6 weeks | Traditional navigation</div>
+                    <p class="unit-description">Physics concepts applied to traditional Māori navigation techniques and wayfinding.</p>
+                    <span class="unit-badge">Physics</span>
+                    <span class="unit-badge">Navigation</span>
+                    <br><br>
+                    <a href="/units/y10-physics-navigation/index.html" class="btn btn-primary">View Unit</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- COMING SOON -->
+        <div class="year-section">
+            <h2 class="year-header" style="background: linear-gradient(135deg, #666, #999);">Coming Soon: NCEA Levels 1-3</h2>
+            <div class="curriculum-grid">
+                <div class="unit-card">
+                    <h3 class="unit-title">💼 STEM Career Pathways for Māori</h3>
+                    <div class="unit-meta">4 weeks | NCEA Level 1 Science/Tech</div>
+                    <p class="unit-description">Explore career opportunities in STEM fields with focus on Māori success stories and pathways.</p>
+                    <span class="unit-badge">Science</span>
+                    <span class="unit-badge">Careers</span>
+                    <span class="unit-badge">🌿 Cultural Focus</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/career-pathways-in-stem-for-māori-students.html" class="btn-unit">Start Lesson</a>
+                    </div>
+                </div>
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">🧪 Chemistry of Traditional Medicine</h3>
+                    <div class="unit-meta">5 weeks | NCEA Level 1 Science</div>
+                    <p class="unit-description">Chemistry principles through rongoā Māori (traditional medicine) - compounds, reactions, healing properties.</p>
+                    <span class="unit-badge">Science</span>
+                    <span class="unit-badge">Chemistry</span>
+                    <span class="unit-badge">🌿 Cultural Focus</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/chemistry-of-traditional-māori-medicine.html" class="btn-unit">Start Lesson</a>
+                        <a href="/generated-resources-alpha/handouts/chemistry-of-traditional-māori-medicine.html" class="btn-unit-secondary">📄 Handout</a>
+                    </div>
+                </div>
+
+                <div class="unit-card">
+                    <h3 class="unit-title">📈 Calculus & Environmental Modeling</h3>
+                    <div class="unit-meta">6 weeks | NCEA Level 2 Mathematics</div>
+                    <p class="unit-description">Apply calculus to environmental modeling - population dynamics, resource management, ecosystem changes.</p>
+                    <span class="unit-badge">Mathematics</span>
+                    <span class="unit-badge">Calculus</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/calculus-applications-in-environmental-modeling.html" class="btn-unit">Start Lesson</a>
+                        <a href="/generated-resources-alpha/handouts/calculus-applications-in-environmental-modeling.html" class="btn-unit-secondary">📄 Handout</a>
+                    </div>
+                </div>
+                
+                <div class="unit-card">
+                    <h3 class="unit-title">🧬 Biotechnology Ethics & Māori Worldview</h3>
+                    <div class="unit-meta">5 weeks | NCEA Level 2 Science</div>
+                    <p class="unit-description">Biotech ethics through Māori perspectives on whakapapa, tapu, and genetic modification.</p>
+                    <span class="unit-badge">Science</span>
+                    <span class="unit-badge">Ethics</span>
+                    <span class="unit-badge">🌿 Cultural Focus</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/biotechnology-ethics-through-māori-worldview.html" class="btn-unit">Start Lesson</a>
+                        <a href="/generated-resources-alpha/handouts/biotechnology-ethics-through-māori-worldview.html" class="btn-unit-secondary">📄 Handout</a>
+                    </div>
+                </div>
+
+                <div class="unit-card">
+                    <h3 class="unit-title">📊 Mathematical Modeling of Ecosystems</h3>
+                    <div class="unit-meta">6 weeks | NCEA Level 3 Mathematics</div>
+                    <p class="unit-description">Advanced mathematical modeling applied to ecological systems and sustainability.</p>
+                    <span class="unit-badge">Mathematics</span>
+                    <span class="unit-badge">Ecology</span>
+                    <div class="unit-actions">
+                        <a href="/generated-resources-alpha/lessons/mathematical-modeling-of-ecological-systems.html" class="btn-unit">Start Lesson</a>
+                        <a href="/generated-resources-alpha/handouts/mathematical-modeling-of-ecological-systems.html" class="btn-unit-secondary">📄 Handout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </main>
+    
+    <!-- Include Footer Component -->
+    <div id="footer-component"></div>
+
+    <!-- JavaScript -->
+    <script src="/js/header-dropdowns.js"></script>
+    <script>
+        // Load header and footer components
+        fetch('/components/header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-component').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading header:', error));
+
+        fetch('/components/footer.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('footer-component').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading footer:', error));
+    </script>
+
+    <footer style="background: #1b4332; color: white; padding: 2rem; text-align: center; margin-top: 4rem;">
+        <p><em>Ko te pae tawhiti whāia kia tata, ko te pae tata whakamaua kia tīna</em></p>
+        <p>Seek the distant horizons, hold fast to those close at hand</p>
+        <p style="margin-top: 1rem;">© 2025 Te Kete Ako | Educational resources honoring mātauranga Māori</p>
+    </footer>
+</body>
+</html>
+

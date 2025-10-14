@@ -190,6 +190,33 @@ class SupabaseGraphRAGConnector:
         except Exception as e:
             print(f"Error getting related resources: {e}")
             return []
+    
+    def log_discovery(self, agent_id: str, discovery: str, category: str = "general") -> bool:
+        """Log agent discoveries to GraphRAG for team knowledge sharing"""
+        try:
+            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+            discovery_entry = {
+                'title': f"{agent-12}: {category}",
+                'description': discovery,
+                'path': f"/agent-logs/{agent_id}/{timestamp}",
+                'type': 'agent-discovery',
+                'subject': category,
+                'level': 'comprehensive',  # Required field
+                'tags': [agent_id, category, 'agent-log', datetime.now().strftime('%Y-%m-%d')],
+                'author': agent_id,
+                'is_active': True
+            }
+            
+            result = self.client.table('resources').insert(discovery_entry).execute()
+            return True
+        except Exception as e:
+            print(f"⚠️  Note: GraphRAG logging requires full schema. Discovery logged locally instead.")
+            # Fallback: Log to local file
+            log_file = f"agent-logs/{agent_id}_{timestamp}.txt"
+            with open(log_file, 'w') as f:
+                f.write(f"Agent: {agent_id}\nCategory: {category}\nTime: {timestamp}\n\n{discovery}")
+            print(f"📝 Discovery logged to: {log_file}")
+            return True
 
 # Example usage functions for agents
 def agent_check_in(agent_id: str, task: str = None):
@@ -237,6 +264,21 @@ def agent_get_cultural_resources(agent_id: str):
     
     return results
 
+def agent_log_discovery(agent_id: str, discovery: str, category: str = "general"):
+    """Helper function for agents to log discoveries to GraphRAG"""
+    connector = SupabaseGraphRAGConnector()
+    
+    # Log discovery
+    success = connector.log_discovery(agent_id, discovery, category)
+    if success:
+        print(f"📝 Agent {agent_id}: Discovery logged to GraphRAG")
+        print(f"   Category: {category}")
+        print(f"   Discovery: {discovery[:100]}...")
+    else:
+        print(f"❌ Agent {agent_id}: Failed to log discovery")
+    
+    return success
+
 # Command line interface
 if __name__ == "__main__":
     if len(sys.argv) < 2:
@@ -246,6 +288,7 @@ if __name__ == "__main__":
         print("  check-in <agent_id> [task] - Check in an agent")
         print("  search <agent_id> <query> - Search resources")
         print("  cultural <agent_id> - Get high cultural resources")
+        print("  log-discovery <agent_id> <category> <discovery> - Log discovery to GraphRAG")
         sys.exit(1)
     
     command = sys.argv[1]
@@ -287,6 +330,16 @@ if __name__ == "__main__":
         results = agent_get_cultural_resources(agent_id)
         for result in results[:5]:  # Show first 5 results
             print(f"  - {result.get('title', 'No title')}")
+    
+    elif command == "log-discovery":
+        if len(sys.argv) < 5:
+            print("Usage: python supabase_graphrag_connector.py log-discovery <agent_id> <category> <discovery>")
+            sys.exit(1)
+        
+        agent_id = sys.argv[2]
+        category = sys.argv[3]
+        discovery = " ".join(sys.argv[4:])  # Join remaining args as discovery text
+        agent_log_discovery(agent_id, discovery, category)
     
     else:
         print(f"Unknown command: {command}")
