@@ -11,17 +11,29 @@
 ### Lessons Enriched with External Resources:
 
 1. ✅ **ai-ethics-through-māori-data-sovereignty-FIXED.html** - COMPLETE
-   - Added 3 culturally appropriate resources
-   - Resources: Te Mana Raraunga (Māori Data Sovereignty), Data.govt.nz, Privacy Commissioner
-   - GraphRAG updated with validation tags
-   - Status: Ready for use
+   - Resources: Te Mana Raraunga, Data.govt.nz, Privacy Commissioner
+   - GraphRAG updated ✅
 
-###  Remaining (13 lessons):
+2. ✅ **media-literacy-analyzing-māori-representation.html** - COMPLETE
+   - Resources: RNZ Te Ao with Moera, NZ History Māori in Media, TKI Media Literacy
+   - GraphRAG updated ✅
+
+3. ✅ **narrative-writing-using-māori-story-structures.html** - COMPLETE
+   - Resources: Te Ara Māori Literature, TKI English/Creative Writing
+   - GraphRAG updated ✅
+
+4. ✅ **physics-of-traditional-māori-instruments.html** - COMPLETE
+   - Resources: Te Ara Taonga Pūoro, Science Learning Hub Sound Physics, Te Papa Teaching Resources
+   - GraphRAG updated ✅
+
+###  Remaining (10 lessons):
+
+**Note:** Some lessons already have resources embedded - focusing on lessons with NO external resources sections
 
 2. [ ] argumentative-writing-on-contemporary-māori-issues.html
 3. [ ] career-pathways-in-stem-for-māori-students.html
 4. [ ] climate-change-through-te-taiao-māori-lens.html
-5. [ ] debate-skills-with-māori-oratory-traditions.html
+5. ✅ debate-skills-with-māori-oratory-traditions.html (already has resources)
 6. [ ] game-development-with-cultural-themes.html
 7. [ ] media-literacy-analyzing-māori-representation.html
 8. [ ] narrative-writing-using-māori-story-structures.html
