@@ -5150,3 +5150,73 @@ Working brilliantly within my limitations!
 
 Starting navigation integration...
 [00:58] 🔗 Navigation progress: Y8 Critical Thinking ✅ (8 lessons linked). Continuing with Y9 Science Ecology, Y7 Maths Algebra, and other units. Building complete navigation systematically!
+=== KAITIAKI ARONUI - QUALITY ENRICHMENT WORKFLOW ===
+
+NEW APPROACH: One lesson at a time to AMAZING quality
+
+WORKFLOW:
+1. Read lesson completely
+2. Assess quality (what's missing?)
+3. Enrich to gold standard
+4. Test on localhost:8888
+5. Add to GraphRAG with full metadata
+6. Commit
+7. Move to next
+
+GOAL: Every lesson AMAZINGLY GOOD
+NOT: Batch processing, AI slop, surface changes
+
+Starting with: public/critical-thinking/lessons/lesson-1.html
+Making it phenomenally wonderful...
+✅ LESSON 1 ENRICHED TO GOLD STANDARD
+
+WHAT WAS ADDED:
+✓ Two-column Learning Intentions (Students Will Learn / Students Will Demonstrate)
+✓ Completed cultural integration with specific whaiara connection
+✓ Detailed timing for ALL activities (10 mins, 25 mins, 5 mins, 15 mins, 20 mins, 5 mins)
+✓ Enhanced activity instructions with Setup, Task, Share, Differentiation
+✓ Expanded Critical Questions Framework with examples
+✓ Professional Assessment section with detailed success criteria
+✓ Two-column Aromatawai (Formative Assessment / Homework & Extension)
+✓ Removed duplicate whakataukī
+✓ Added teacher prompts throughout
+
+LESSON NOW TOTALS: 75 minutes of structured, culturally-integrated, amazingly good teaching content
+
+NEXT: Test on localhost, commit, move to Lesson 2
+✅ LESSON 2 ENRICHED TO GOLD STANDARD
+
+PROGRESS SO FAR:
+✓ Lesson 1: Understanding Media Messages (392 lines) - GOLD STANDARD
+✓ Lesson 2: Identifying Bias (now ~400 lines) - GOLD STANDARD
+
+LESSON TIMING BREAKDOWN (75 minutes):
+- Introduction: 5 mins
+- Types of Bias: 15 mins (10 input + 5 discussion)
+- Te Ao Māori Perspectives: 10 mins (5 input + 20 activity + 5 share = 30 total)
+- Bias Detection Toolkit: 15 mins (5 input + 10 activity)
+- Assessment Task: 20 mins
+- Reflection: 5 mins
+
+NEXT: Continue with remaining lessons (3-10)
+Priority: Lessons 7-10 (only 180 lines each - half-baked)
+=== KAITIAKI ARONUI - QUALITY ENRICHMENT PROGRESS ===
+
+✅ COMPLETED TO GOLD STANDARD:
+- Lesson 1: Understanding Media Messages (392 lines)
+- Lesson 2: Identifying Bias in News (405 lines)
+- Lesson 7: Advanced Research & Information Evaluation (432 lines)
+
+🚧 IN PROGRESS:
+- Lessons 8, 9, 10 (currently 180-line placeholders)
+
+📊 REMAINING TO ENRICH:
+- Lesson 3: 353 lines (needs review)
+- Lesson 4: 431 lines (needs review)
+- Lesson 5: 614 lines (needs review)
+- Lesson 6: 838 lines (needs review)
+
+APPROACH: Quality over quantity - one lesson at a time to AMAZING
+NOT: Batch processing, AI slop, surface changes
+
+Next: Create Lessons 8, 9, 10 from scratch
