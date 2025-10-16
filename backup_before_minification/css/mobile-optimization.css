@@ -1,0 +1,350 @@
+/* =================================================================
+   TE KETE AKO - MOBILE OPTIMIZATION
+   Enhanced Mobile Experience for All Pages
+   Professional • Responsive • Touch-Friendly
+   ================================================================= */
+
+/* =================================================================
+   MOBILE-FIRST RESPONSIVE DESIGN
+   ================================================================= */
+
+/* Base mobile styles */
+@media (max-width: 768px) {
+  /* Typography scaling */
+  .lesson-title,
+  .unit-title {
+    font-size: var(--text-3xl);
+    line-height: var(--leading-tight);
+  }
+
+  .lesson-subtitle,
+  .unit-subtitle {
+    font-size: var(--text-lg);
+  }
+
+  /* Container adjustments */
+  .lesson-container,
+  .unit-index-container {
+    padding: var(--space-4) var(--space-2);
+  }
+
+  /* Header adjustments */
+  .lesson-header,
+  .unit-header {
+    padding: var(--space-6);
+    margin-bottom: var(--space-6);
+  }
+
+  /* Meta items stacking */
+  .lesson-meta,
+  .unit-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+
+  .lesson-meta-item,
+  .unit-meta-item {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  /* Grid adjustments */
+  .lessons-grid,
+  .resources-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .unit-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+
+  /* Navigation adjustments */
+  .lesson-navigation,
+  .unit-navigation {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .nav-button {
+    width: 100%;
+    justify-content: center;
+    padding: var(--space-4) var(--space-6);
+  }
+
+  /* Card adjustments */
+  .lesson-card,
+  .unit-stat-card {
+    padding: var(--space-4);
+  }
+
+  /* Activity items */
+  .activity-item {
+    padding: var(--space-3);
+  }
+
+  /* Resource cards */
+  .resource-card {
+    padding: var(--space-4);
+  }
+}
+
+/* =================================================================
+   SMALL MOBILE OPTIMIZATION
+   ================================================================= */
+@media (max-width: 480px) {
+  /* Further typography reduction */
+  .lesson-title,
+  .unit-title {
+    font-size: var(--text-2xl);
+  }
+
+  .lesson-subtitle,
+  .unit-subtitle {
+    font-size: var(--text-base);
+  }
+
+  /* Container padding */
+  .lesson-container,
+  .unit-index-container {
+    padding: var(--space-2) var(--space-1);
+  }
+
+  /* Header padding */
+  .lesson-header,
+  .unit-header {
+    padding: var(--space-4);
+  }
+
+  /* Single column stats */
+  .unit-stats {
+    grid-template-columns: 1fr;
+  }
+
+  /* Compact navigation */
+  .lesson-navigation,
+  .unit-navigation {
+    padding: var(--space-4);
+  }
+
+  /* Compact cards */
+  .lesson-card,
+  .unit-stat-card,
+  .activity-item,
+  .resource-card {
+    padding: var(--space-3);
+  }
+
+  /* Compact buttons */
+  .nav-button {
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--text-sm);
+  }
+}
+
+/* =================================================================
+   TOUCH-FRIENDLY INTERACTIONS
+   ================================================================= */
+
+/* Larger touch targets */
+@media (max-width: 768px) {
+  .nav-button,
+  .lesson-card-link,
+  .resource-item-link {
+    min-height: 44px; /* iOS recommended touch target */
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Enhanced button states */
+  .nav-button:active,
+  .lesson-card-link:active,
+  .resource-item-link:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
+
+  /* Card hover states for touch */
+  .lesson-card:active,
+  .unit-stat-card:active,
+  .activity-item:active,
+  .resource-card:active {
+    transform: scale(0.99);
+    transition: transform 0.1s ease;
+  }
+}
+
+/* =================================================================
+   MOBILE NAVIGATION ENHANCEMENTS
+   ================================================================= */
+
+/* Mobile menu adjustments */
+@media (max-width: 768px) {
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .main-nav ul {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .main-nav li {
+    width: 100%;
+  }
+
+  .main-nav a {
+    display: block;
+    padding: var(--space-3) var(--space-4);
+    text-align: center;
+    border-radius: var(--radius-lg);
+    transition: var(--transition-all);
+  }
+
+  .main-nav a:hover,
+  .main-nav a:active {
+    background: var(--color-primary-100);
+    color: var(--color-primary-700);
+  }
+}
+
+/* =================================================================
+   MOBILE PERFORMANCE OPTIMIZATIONS
+   ================================================================= */
+
+/* Reduce animations on mobile */
+@media (max-width: 768px) {
+  .lesson-card:hover,
+  .unit-stat-card:hover,
+  .activity-item:hover,
+  .resource-card:hover {
+    transform: none;
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* Simplify transitions */
+  * {
+    transition-duration: 0.2s;
+  }
+
+  /* Reduce complex animations */
+  .lesson-header::before,
+  .unit-header::before {
+    display: none;
+  }
+}
+
+/* =================================================================
+   MOBILE ACCESSIBILITY
+   ================================================================= */
+
+/* Enhanced focus states for mobile */
+@media (max-width: 768px) {
+  .nav-button:focus,
+  .lesson-card-link:focus,
+  .resource-item-link:focus {
+    outline: 3px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
+
+  /* Larger text for better readability */
+  .lesson-content,
+  .unit-description {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+  }
+
+  /* Better contrast for mobile */
+  .lesson-meta-item,
+  .unit-meta-item {
+    background: var(--color-primary-100);
+    color: var(--color-primary-800);
+  }
+}
+
+/* =================================================================
+   MOBILE PRINT OPTIMIZATIONS
+   ================================================================= */
+@media print and (max-width: 768px) {
+  .lesson-page,
+  .unit-index-page {
+    background: white;
+    padding-top: 0;
+  }
+
+  .lesson-header,
+  .unit-header {
+    background: white !important;
+    color: black !important;
+    box-shadow: none;
+    border: 1px solid var(--color-neutral-300);
+  }
+
+  .lesson-navigation,
+  .unit-navigation {
+    display: none;
+  }
+
+  /* Optimize for mobile printing */
+  .lesson-content,
+  .unit-description {
+    font-size: 12pt;
+    line-height: 1.4;
+  }
+}
+
+/* =================================================================
+   MOBILE-SPECIFIC UTILITIES
+   ================================================================= */
+
+/* Hide on mobile */
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+}
+
+/* Show only on mobile */
+@media (min-width: 769px) {
+  .mobile-only {
+    display: none !important;
+  }
+}
+
+/* Mobile-specific spacing */
+@media (max-width: 768px) {
+  .mobile-spacing {
+    margin-bottom: var(--space-4);
+  }
+
+  .mobile-padding {
+    padding: var(--space-4);
+  }
+}
+
+/* =================================================================
+   MOBILE TESTING UTILITIES
+   ================================================================= */
+
+/* Debug mobile layout */
+@media (max-width: 768px) {
+  .debug-mobile {
+    border: 2px solid red;
+    background: rgba(255, 0, 0, 0.1);
+  }
+
+  .debug-mobile * {
+    border: 1px solid blue;
+  }
+}

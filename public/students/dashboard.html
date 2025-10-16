@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard | Te Kete Ako</title>
+    <meta name="description" content="Your personalized learning dashboard with progress tracking and cultural engagement">
+    
+    <!-- UNIFIED DESIGN SYSTEM -->
+    <link rel="stylesheet" href="/css/min/te-kete-unified-design-system.min.css?v=a2c78a3f">
+    <link rel="stylesheet" href="/css/min/component-library.min.css?v=5424a2a7">
+    <link rel="stylesheet" href="/css/min/animations-professional.min.css?v=622e9c22">
+    <link rel="stylesheet" href="/css/min/beautiful-navigation.min.css?v=e2475a21">
+    <link rel="stylesheet" href="/css/min/mobile-optimization.min.css?v=f53be187">
+    <link rel="stylesheet" href="/css/min/print.min.css?v=ec9a3a60" media="print"/>
+    
+    <!-- Supabase Auth -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/js/supabase-client.js"></script>
+    
+    <style>
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, white, var(--color-surface-soft));
+            padding: 2rem;
+            border-radius: 16px;
+            border: 2px solid var(--color-primary-100);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--color-primary-500);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--color-neutral-600);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .progress-ring {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+        }
+        
+        .whakataukī-card {
+            background: linear-gradient(135deg, var(--color-primary-500), var(--color-secondary-500));
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .resource-card-student {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--color-accent-500);
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .resource-card-student:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+        
+        .achievement-badge {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--color-success-100);
+            color: var(--color-success-700);
+            border-radius: 24px;
+            font-weight: 600;
+            margin: 0.5rem;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body data-page="student-dashboard" data-auth-required="true" data-role-required="student">
+    
+    <!-- Navigation -->
+    <div id="navigation-container"></div>
+    <script>
+        fetch('/components/navigation-mega-menu.html')
+            .then(r => r.text())
+            .then(html => document.getElementById('navigation-container').innerHTML = html)
+            .catch(e => console.warn('Nav:', e));
+    </script>
+    
+    <!-- Loading State -->
+    <div id="loading" style="text-align: center; padding: 4rem;">
+        <div style="font-size: 3rem;">⏳</div>
+        <p style="font-size: 1.2rem; color: var(--color-neutral-600);">Loading your learning journey...</p>
+    </div>
+    
+    <!-- Main Dashboard (Hidden until loaded) -->
+    <main id="dashboard" class="container" style="display: none; max-width: 1400px; margin: 2rem auto; padding: 0 2rem;">
+        
+        <!-- Welcome Header -->
+        <div class="dashboard-header" style="margin-bottom: 2rem;">
+            <h1 style="font-size: 2.5rem; color: var(--color-primary-500); margin-bottom: 0.5rem;">
+                Kia ora, <span id="studentName">Student</span>! 👋
+            </h1>
+            <p style="font-size: 1.1rem; color: var(--color-neutral-600);">
+                <span id="studentSchool">Loading...</span> | Year <span id="studentYear">_</span>
+            </p>
+        </div>
+        
+        <!-- Whakataukī of the Day -->
+        <div class="whakataukī-card">
+            <p style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; margin-bottom: 0.5rem;">Whakataukī of the Day</p>
+            <p id="whakataukī-text" style="font-size: 1.4rem; font-style: italic; margin: 1rem 0;">"Mō te katoa te mātauranga"</p>
+            <p id="whakataukī-translation" style="font-size: 1.1rem; opacity: 0.9;">Knowledge is for everyone</p>
+        </div>
+        
+        <!-- Quick Stats -->
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <span class="stat-number" id="stat-lessons">0</span>
+                <span class="stat-label">Lessons Completed</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="stat-progress">0%</span>
+                <span class="stat-label">Overall Progress</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="stat-streak">🔥 0</span>
+                <span class="stat-label">Day Streak</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="stat-cultural">0%</span>
+                <span class="stat-label">Cultural Engagement</span>
+            </div>
+        </div>
+        
+        <!-- Continue Learning -->
+        <section style="margin: 3rem 0;">
+            <h2 style="color: var(--color-primary-500); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
+                <span style="font-size: 2rem;">📚</span>
+                <span>Continue Your Learning</span>
+            </h2>
+            
+            <div id="continue-learning">
+                <div class="resource-card-student" style="background: linear-gradient(135deg, var(--color-primary-50), white);">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div>
+                            <h3 style="color: var(--color-primary-500); margin-bottom: 0.5rem;">Ready to start your first lesson!</h3>
+                            <p style="color: var(--color-neutral-600);">Explore resources recommended for Year <span id="year-display">8</span></p>
+                        </div>
+                        <button class="btn btn-primary" onclick="browseResources()">Browse →</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- My Classes -->
+        <section style="margin: 3rem 0;">
+            <h2 style="color: var(--color-primary-500); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
+                <span style="font-size: 2rem;">🏫</span>
+                <span>My Classes</span>
+            </h2>
+            
+            <div id="my-classes">
+                <p style="color: var(--color-neutral-600); font-style: italic;">No classes assigned yet. Your teacher will add you to classes soon!</p>
+            </div>
+        </section>
+        
+        <!-- Recommended for You -->
+        <section style="margin: 3rem 0;">
+            <h2 style="color: var(--color-primary-500); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
+                <span style="font-size: 2rem;">✨</span>
+                <span>Recommended for You</span>
+            </h2>
+            
+            <div id="recommended-resources" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+                <!-- Dynamically loaded -->
+            </div>
+        </section>
+        
+        <!-- My Kete (Saved Resources) -->
+        <section style="margin: 3rem 0;">
+            <h2 style="color: var(--color-primary-500); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
+                <span style="font-size: 2rem;">🧺</span>
+                <span>My Kete (Saved Resources)</span>
+            </h2>
+            
+            <div id="my-kete">
+                <p style="color: var(--color-neutral-600); font-style: italic;">You haven't saved any resources yet. Click the 🧺 icon on any lesson to add it here!</p>
+            </div>
+        </section>
+        
+        <!-- Achievements -->
+        <section style="margin: 3rem 0;">
+            <h2 style="color: var(--color-primary-500); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
+                <span style="font-size: 2rem;">🏆</span>
+                <span>Your Achievements</span>
+            </h2>
+            
+            <div id="achievements" style="text-align: center; padding: 2rem;">
+                <p style="color: var(--color-neutral-600); margin-bottom: 1rem;">Complete lessons and engage with cultural content to earn badges!</p>
+                <div id="badge-container">
+                    <!-- Badges will appear here as student progresses -->
+                </div>
+            </div>
+        </section>
+        
+    </main>
+    
+    <!-- Footer -->
+    <div id="footer-component"></div>
+    <script>
+        fetch('/components/footer.html')
+            .then(r => r.text())
+            .then(html => {
+                const div = document.createElement('div');
+                div.innerHTML = html;
+                document.body.appendChild(div);
+            });
+    </script>
+    
+    <!-- Student Dashboard Logic -->
+    <script src="/js/student-dashboard.js"></script>
+    <script>
+        // Initialize dashboard when page loads
+        document.addEventListener('DOMContentLoaded', initStudentDashboard);
+    </script>
+    
+</body>
+</html>
+

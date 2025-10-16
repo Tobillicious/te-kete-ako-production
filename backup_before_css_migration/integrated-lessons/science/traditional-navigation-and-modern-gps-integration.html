@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traditional Navigation & Modern GPS Integration</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        header {
+            background-color: #1a5276;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        h1, h2, h3 {
+            color: #1a5276;
+        }
+        h1 {
+            margin-top: 0;
+        }
+        .cultural-context {
+            background-color: #eaf2f8;
+            padding: 15px;
+            border-left: 5px solid #3498db;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        .activity {
+            background-color: #e8f8f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .assessment {
+            background-color: #fef9e7;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #1a5276;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .interactive {
+            background-color: #f5eef8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .teacher-notes {
+            background-color: #fdedec;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        .resource-link {
+            color: #2874a6;
+            text-decoration: none;
+        }
+        .resource-link:hover {
+            text-decoration: underline;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #1a5276;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            margin: 5px 0;
+        }
+        .btn:hover {
+            background-color: #154360;
+        }
+    </style>
+    <link rel="stylesheet" href="/components/badge-system.html">
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/ux-professional-enhancements.css">
+    <link rel="stylesheet" href="/css/print.css" media="print"/>
+</head>
+<body>
+                    <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="../../../../../index.html" class="nav-brand">Te Kete Ako</a>
+            <nav class="main-nav">
+                <ul>
+                    <li>
+                        <a href="../../../../../unit-plans.html">
+                            <span class="nav-icon">📚</span>
+                            <span class="nav-text-en">Unit Plans</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Waehere</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../../../../../teachers/index.html">
+                            <span class="nav-icon">🧑‍🏫</span>
+                            <span class="nav-text-en">Teachers</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Kaiako</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../../../../../lessons.html">
+                            <span class="nav-icon">🎓</span>
+                            <span class="nav-text-en">Lessons</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../../../../../handouts.html">
+                            <span class="nav-icon">📄</span>
+                            <span class="nav-text-en">Handouts</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../../../../../games.html">
+                            <span class="nav-icon">🎮</span>
+                            <span class="nav-text-en">Games</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Kēmu</span>  
+                        </a>
+                    </li>
+                    <li class="auth-nav my-kete-link" style="display: none;">
+                        <a href="../../../../../my-kete.html">
+                            <span class="nav-icon">🧺</span>
+                            My Kete
+                        </a>
+                    </li>
+                    <li class="auth-nav">
+                        <a href="../../../../../login.html" class="login-btn">
+                            <span class="nav-icon">👤</span>
+                            Login
+                        </a>
+                    </li>
+                    <li class="auth-nav" style="display: none;">
+                        <a href="../../../../../register-simple.html" class="register-btn">
+                            <span class="nav-icon">📝</span>
+                            Register
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <nav class="breadcrumbs no-print" aria-label="Breadcrumb">
+                <ol id="breadcrumbs" class="breadcrumbs-list"></ol>
+            </nav>
+        </div>
+    </header>
+    <div id="search-container"></div>
+
+
+    <section>
+        <h2>Learning Objectives</h2>
+        <p>By the end of this lesson, students will be able to:</p>
+        <ul>
+            <li>Explain key principles of traditional Māori navigation (te kōkōrangi)</li>
+            <li>Describe how celestial bodies, ocean currents, and wildlife were used for wayfinding</li>
+            <li>Compare traditional navigation methods with modern GPS technology</li>
+            <li>Analyze the scientific principles underlying both systems</li>
+            <li>Create a hybrid navigation model combining traditional and modern techniques</li>
+        </ul>
+    </section>
+
+    <section class="cultural-context">
+        <h2>Cultural Context: Tikanga Considerations</h2>
+        <p>This lesson explores <strong>mātauranga Māori</strong> (Māori knowledge systems) related to navigation (<strong>whakatere waka</strong>). It's important to approach this topic with respect for the deep ancestral knowledge (<strong>mātauranga tuku iho</strong>) preserved by Polynesian navigators.</p>
+        
+        <h3>Key Concepts:</h3>
+        <ul>
+            <li><strong>Te kōkōrangi:</strong> Māori astronomical knowledge</li>
+            <li><strong>Te whānau mārama:</strong> The family of light (stars, moon, sun)</li>
+            <li><strong>Te ara o te waka:</strong> The path of the canoe</li>
+            <li><strong>Kaitiakitanga:</strong> Guardianship of knowledge and environment</li>
+        </ul>
+        
+        <h3>Protocols to Observe:</h3>
+        <ul>
+            <li>Acknowledge the iwi (tribal) origins of specific navigation knowledge</li>
+            <li>Recognize that some knowledge may be tapu (sacred) and not for public discussion</li>
+            <li>Use te reo Māori terms correctly with macrons where appropriate</li>
+            <li>Emphasize the living nature of this knowledge system</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Traditional Māori Navigation Methods</h2>
+        <p>Māori navigators used multiple environmental cues for wayfinding across the Pacific:</p>
+        
+        <div class="interactive">
+            <h3>Interactive: Star Compass</h3>
+            <p>Traditional Polynesian navigators divided the horizon into 32 directional points based on star paths:</p>
+            <div style="text-align: center; margin: 20px 0;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Polynesian_Star_Compass.svg/800px-Polynesian_Star_Compass.svg.png" alt="Polynesian Star Compass" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 5px;">
+                <p><small>Image: Polynesian Star Compass (CC BY-SA 3.0)</small></p>
+            </div>
+            <p><strong>Activity:</strong> Identify which stars would be visible tonight in your location and how they might be used for navigation.</p>
+            <a href="https://www.timeanddate.com/astronomy/night/" class="btn" target="_blank">Check Tonight's Stars</a>
+        </div>
+        
+        <h3>Key Navigation Indicators:</h3>
+        <table>
+            <tr>
+                <th>Indicator</th>
+                <th>Māori Term</th>
+                <th>Scientific Principle</th>
+            </tr>
+            <tr>
+                <td>Star paths</td>
+                <td>Ara o ngā whetū</td>
+                <td>Celestial navigation using fixed star positions</td>
+            </tr>
+            <tr>
+                <td>Ocean swells</td>
+                <td>Ngaru</td>
+                <td>Wave patterns indicate land masses</td>
+            </tr>
+            <tr>
+                <td>Bird flight patterns</td>
+                <td>Huarahi manu</td>
+                <td>Seabirds return to land at dusk</td>
+            </tr>
+            <tr>
+                <td>Cloud formations</td>
+                <td>Kapua</td>
+                <td>Clouds gather over islands</td>
+            </tr>
+            <tr>
+                <td>Water color</td>
+                <td>Tae o te moana</td>
+                <td>Reflection changes near land</td>
+            </tr>
+        </table>
+    </section>
+
+    <section>
+        <h2>Modern GPS Technology</h2>
+        <p>Global Positioning Systems (GPS) use satellite networks to determine precise locations:</p>
+        
+        <div class="interactive">
+            <h3>How GPS Works</h3>
+            <ol>
+                <li>24+ satellites orbit Earth</li>
+                <li>Each transmits its position and time signal</li>
+                <li>Receivers calculate position by timing signals from ≥4 satellites</li>
+                <li>Triangulation determines exact location</li>
+            </ol>
+            
+            <h3>Compare & Contrast Activity</h3>
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>Traditional Navigation</th>
+                    <th>GPS Navigation</th>
+                </tr>
+                <tr>
+                    <td>Energy Source</td>
+                    <td>Natural environment</td>
+                    <td>Electrical/battery</td>
+                </tr>
+                <tr>
+                    <td>Accuracy</td>
+                    <td>±100km (open ocean)</td>
+                    <td>±5 meters</td>
+                </tr>
+                <tr>
+                    <td>Failure Points</td>
+                    <td>Cloud cover, storms</td>
+                    <td>Satellite outages, battery</td>
+                </tr>
+                <tr>
+                    <td>Knowledge Required</td>
+                    <td>Years of training</td>
+                    <td>Basic operation</td>
+                </tr>
+                <tr>
+                    <td>Environmental Impact</td>
+                    <td>Minimal</td>
+                    <td>Electronic waste</td>
+                </tr>
+            </table>
+        </div>
+    </section>
+
+    <section class="activity">
+        <h2>Hands-on Activity: Hybrid Navigation Model</h2>
+        <p><strong>Task:</strong> Design a navigation system that combines traditional Māori knowledge with modern GPS technology.</p>
+        
+        <h3>Steps:</h3>
+        <ol>
+            <li>Identify 3 traditional navigation methods that could complement GPS</li>
+            <li>Explain how each method would provide redundancy if GPS failed</li>
+            <li>Create a diagram of your hybrid system</li>
+            <li>List advantages of your integrated approach</li>
+        </ol>
+        
+        <h3>Materials:</h3>
+        <ul>
+            <li>Paper/pencils or digital drawing tools</li>
+            <li>Star charts (provided)</li>
+            <li>Ocean current maps (provided)</li>
+            <li>GPS demonstration (phone app)</li>
+        </ul>
+    </section>
+
+    <section class="assessment">
+        <h2>Assessment Rubric</h2>
+        <table>
+            <tr>
+                <th>Criteria</th>
+                <th>Advanced (4)</th>
+                <th>Proficient (3)</th>
+                <th>Developing (2)</th>
+                <th>Beginning (1)</th>
+            </tr>
+            <tr>
+                <td>Understanding of Traditional Methods</td>
+                <td>Accurately explains ≥3 methods with te reo terms</td>
+                <td>Explains 2-3 methods correctly</td>
+                <td>Describes 1-2 methods with some errors</td>
+                <td>Limited understanding shown</td>
+            </tr>
+            <tr>
+                <td>GPS Technology Analysis</td>
+                <td>Detailed explanation of GPS with advantages/limitations</td>
+                <td>Clear explanation of basic GPS function</td>
+                <td>Basic description with some inaccuracies</td>
+                <td>Minimal understanding shown</td>
+            </tr>
+            <tr>
+                <td>Hybrid System Design</td>
+                <td>Innovative integration with clear redundancy plan</td>
+                <td>Logical combination of methods</td>
+                <td>Basic combination with limited integration</td>
+                <td>Little evidence of integration</td>
+            </tr>
+            <tr>
+                <td>Cultural Respect</td>
+                <td>Exceptional use of te reo and cultural protocols</td>
+                <td>Appropriate cultural references</td>
+                <td>Some cultural references present</td>
+                <td>Limited cultural consideration</td>
+            </tr>
+        </table>
+    </section>
+
+    <section>
+        <h2>Extension Activities</h2>
+        <div class="activity">
+            <h3>1. Star Compass Construction</h3>
+            <p>Create a physical star compass showing key navigation stars for Aotearoa with their Māori names.</p>
+        </div>
+        
+        <div class="activity">
+            <h3>2. Wayfinding Simulation</h3>
+            <p>Use online tools to simulate a voyage from Hawaiki to Aotearoa using only traditional methods.</p>
+            <a href="https://pvs.kcc.hawaii.edu/ike/hookele/hawaiian_star_compass.html" class="btn" target="_blank">Navigation Simulation</a>
+        </div>
+        
+        <div class="activity">
+            <h3>3. Interview Project</h3>
+            <p>Research contemporary Polynesian voyaging (e.g., Hōkūleʻa) and interview crew members about how they blend traditional and modern methods.</p>
+        </div>
+    </section>
+
+    <section class="teacher-notes">
+        <h2>Teacher Implementation Notes</h2>
+        <h3>Prior Knowledge:</h3>
+        <ul>
+            <li>Basic understanding of Earth's rotation and celestial movements</li>
+            <li>Familiarity with latitude/longitude concepts</li>
+            <li>Introduction to Māori perspectives in science</li>
+        </ul>
+        
+        <h3>Suggested Timing:</h3>
+        <ul>
+            <li>Introduction: 1 period</li>
+            <li>Traditional methods: 2 periods</li>
+            <li>GPS technology: 1 period</li>
+            <li>Hybrid activity: 2 periods</li>
+            <li>Presentations/assessment: 1 period</li>
+        </ul>
+        
+        <h3>Differentiation:</h3>
+        <p><strong>Support:</strong> Provide pre-labeled star charts and guided comparison tables<br>
+        <strong>Extension:</strong> Research specific iwi navigation traditions or current waka voyages</p>
+        
+        <h3>Safety Considerations:</h3>
+        <ul>
+            <li>If doing night sky observations, follow school safety policies</li>
+            <li>Be mindful of students with visual impairments for star-related activities</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Resources & References</h2>
+        <h3>Online Resources:</h3>
+        <ul>
+            <li><a href="https://teara.govt.nz/en/te-marama-the-moon" class="resource-link" target="_blank">Te Ara: Māori Lunar Calendar</a></li>
+            <li><a href="https://www.rnz.co.nz/programmes/the-navigators" class="resource-link" target="_blank">RNZ: The Navigators (audio series)</a></li>
+            <li><a href="https://www.hokulea.com/" class="resource-link" target="_blank">Hōkūleʻa Worldwide Voyage</a></li>
+            <li><a href="https://www.gps.gov/" class="resource-link" target="_blank">Official U.S. GPS Information</a></li>
+        </ul>
+        
+        <h3>Print Resources:</h3>
+            <li>Evans, J. (2011). <em>Polynesian Navigation and the Discovery of New Zealand</em></li>
+            <li>Matamua, R. (2017). <em>Matariki: The Star of the Year</em></li>
+            <li>Hīroa, T. (1938). <em>Vikings of the Sunrise</em></li>
+        </ul>
+        
+        <h3>Videos:</h3>
+        <ul>
+            <li><a href="https://www.nzonscreen.com/title/the-navigators-2015" class="resource-link" target="_blank">The Navigators (NZ On Screen)</a></li>
+            <li><a href="https://www.youtube.com/watch?v=KGB6D3N1Q4Y" class="resource-link" target="_blank">How GPS Works (TED-Ed)</a></li>
+        </ul>
+    </section>
+
+                    <footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-simple">
+                <div class="footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p>"Whaowhia te kete mātauranga" - Fill the basket of knowledge</p>
+                </div>
+                <div class="footer-links">
+                    <a href="../../../../../unit-plans.html">Unit Plans</a>
+                    <a href="../../../../../lessons.html">Lessons</a>
+                    <a href="../../../../../handouts.html">Handouts</a>
+                    <a href="../../../../../my-kete.html">My Kete</a>
+                    <a href="../../../../../sitemap.html">Sitemap</a>
+                    <a href="../../../../../orphans.html">Discover</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2025 Te Kete Ako - Educational resources for Aotearoa New Zealand</span>
+            </div>
+        </div>
+    </footer>
+    <script src="/js/components.js"></script>
+</body>
+</html>

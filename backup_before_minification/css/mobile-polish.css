@@ -1,0 +1,479 @@
+/**
+ * MOBILE POLISH & RESPONSIVE ENHANCEMENTS
+ * Perfect mobile experience for Te Kete Ako
+ * October 2025 - Demo Ready
+ */
+
+/* ==========================================
+   MOBILE-FIRST BREAKPOINTS
+   ========================================== */
+
+:root {
+  --mobile-padding: 1rem;
+  --tablet-padding: 2rem;
+  --desktop-padding: 3rem;
+}
+
+/* ==========================================
+   TOUCH-FRIENDLY INTERACTIONS
+   ========================================== */
+
+@media (max-width: 768px) {
+  /* Larger tap targets for mobile */
+  button,
+  a,
+  .btn,
+  .card,
+  .nav-item {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.75rem 1rem;
+  }
+
+  /* Prevent text selection on tap */
+  .nav-item,
+  .btn,
+  button {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ==========================================
+   MOBILE TYPOGRAPHY
+   ========================================== */
+
+@media (max-width: 768px) {
+  /* Scale down headings for mobile */
+  h1 {
+    font-size: 2rem !important;
+    line-height: 1.2;
+  }
+
+  h2 {
+    font-size: 1.5rem !important;
+    line-height: 1.3;
+  }
+
+  h3 {
+    font-size: 1.25rem !important;
+  }
+
+  /* Readable body text */
+  body {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  p {
+    margin-bottom: 1rem;
+  }
+}
+
+/* ==========================================
+   MOBILE NAVIGATION
+   ========================================== */
+
+@media (max-width: 768px) {
+  /* Hamburger menu styling */
+  .mobile-menu-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 10000;
+  }
+
+  .mobile-menu-toggle span {
+    width: 30px;
+    height: 3px;
+    background: #fff;
+    border-radius: 10px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: 1px;
+  }
+
+  /* Hamburger to X animation */
+  .mobile-menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg);
+  }
+
+  .mobile-menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  .mobile-menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg);
+  }
+
+  /* Full-screen mobile menu */
+  .mobile-nav-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(135deg, #2c5f41 0%, #1d3f2a 100%);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    padding: 80px 2rem 2rem;
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+  }
+
+  .mobile-nav-menu.active {
+    transform: translateX(0);
+  }
+
+  /* Mobile nav items */
+  .mobile-nav-item {
+    padding: 1rem 0;
+    font-size: 1.5rem;
+    color: #fff;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .mobile-nav-item:hover {
+    padding-left: 1rem;
+    color: #95d5b2;
+  }
+}
+
+/* ==========================================
+   MOBILE CARDS & COMPONENTS
+   ========================================== */
+
+@media (max-width: 768px) {
+  /* Stack cards vertically */
+  .card-grid,
+  .resource-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+  }
+
+  /* Full-width cards on mobile */
+  .card {
+    width: 100%;
+    margin: 0 0 1rem 0;
+  }
+
+  /* Reduce card padding */
+  .card-body {
+    padding: 1rem;
+  }
+
+  /* Mobile-friendly images */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* ==========================================
+   MOBILE SPACING
+   ========================================== */
+
+@media (max-width: 768px) {
+  /* Reduce margins and padding */
+  .container {
+    padding: 0 1rem;
+  }
+
+  section {
+    padding: 2rem 0;
+  }
+
+  .hero-section {
+    padding: 3rem 1rem;
+  }
+
+  /* Tighter spacing */
+  .mt-5,
+  .my-5 {
+    margin-top: 2rem !important;
+  }
+
+  .mb-5,
+  .my-5 {
+    margin-bottom: 2rem !important;
+  }
+}
+
+/* ==========================================
+   MOBILE FORMS
+   ========================================== */
+
+@media (max-width: 768px) {
+  /* Full-width inputs */
+  input,
+  textarea,
+  select {
+    width: 100%;
+    font-size: 16px; /* Prevent iOS zoom */
+    padding: 0.75rem;
+  }
+
+  /* Stack form groups */
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  /* Large submit buttons */
+  button[type="submit"],
+  input[type="submit"] {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+  }
+}
+
+/* ==========================================
+   MOBILE TABLES
+   ========================================== */
+
+@media (max-width: 768px) {
+  /* Responsive tables */
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Card-style table rows */
+  .table-responsive {
+    border: 0;
+  }
+
+  .table-responsive thead {
+    display: none;
+  }
+
+  .table-responsive tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+
+  .table-responsive td {
+    display: block;
+    text-align: right;
+    padding: 0.75rem;
+    border-bottom: 1px solid #eee;
+  }
+
+  .table-responsive td:before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+  }
+}
+
+/* ==========================================
+   MOBILE MODALS & OVERLAYS
+   ========================================== */
+
+@media (max-width: 768px) {
+  /* Full-screen modals */
+  .modal {
+    padding: 0;
+  }
+
+  .modal-dialog {
+    margin: 0;
+    max-width: 100%;
+    height: 100vh;
+  }
+
+  .modal-content {
+    height: 100%;
+    border-radius: 0;
+  }
+
+  /* Mobile-friendly overlay */
+  .overlay {
+    padding: 1rem;
+  }
+}
+
+/* ==========================================
+   MOBILE UTILITY CLASSES
+   ========================================== */
+
+/* Show only on mobile */
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: block;
+  }
+
+  .desktop-only {
+    display: none !important;
+  }
+}
+
+/* Mobile text alignment */
+@media (max-width: 768px) {
+  .mobile-center {
+    text-align: center !important;
+  }
+
+  .mobile-left {
+    text-align: left !important;
+  }
+}
+
+/* ==========================================
+   TABLET OPTIMIZATIONS
+   ========================================== */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* 2-column grids on tablet */
+  .card-grid,
+  .resource-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Tablet padding */
+  .container {
+    padding: 0 2rem;
+  }
+}
+
+/* ==========================================
+   LANDSCAPE MOBILE
+   ========================================== */
+
+@media (max-width: 896px) and (orientation: landscape) {
+  /* Reduce vertical spacing in landscape */
+  .hero-section {
+    padding: 2rem 1rem;
+  }
+
+  section {
+    padding: 1.5rem 0;
+  }
+
+  /* Smaller headings in landscape */
+  h1 {
+    font-size: 1.75rem !important;
+  }
+}
+
+/* ==========================================
+   MOBILE PERFORMANCE
+   ========================================== */
+
+@media (max-width: 768px) {
+  /* Reduce animations on mobile for performance */
+  .reduce-motion-mobile {
+    animation-duration: 0.3s !important;
+  }
+
+  /* Lazy load images */
+  img[loading="lazy"] {
+    background: #f0f0f0;
+  }
+}
+
+/* ==========================================
+   SAFE AREAS (iPhone X+)
+   ========================================== */
+
+@supports (padding: max(0px)) {
+  .container,
+  .hero-section,
+  section {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+
+  .mobile-nav-menu {
+    padding-top: max(80px, env(safe-area-inset-top));
+    padding-bottom: max(2rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* ==========================================
+   MOBILE ACCESSIBILITY
+   ========================================== */
+
+@media (max-width: 768px) {
+  /* Focus indicators for keyboard navigation */
+  *:focus {
+    outline: 3px solid #52b788;
+    outline-offset: 2px;
+  }
+
+  /* Skip to content link */
+  .skip-to-content {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #2c5f41;
+    color: #fff;
+    padding: 8px;
+    z-index: 100000;
+  }
+
+  .skip-to-content:focus {
+    top: 0;
+  }
+}
+
+/* ==========================================
+   DEMO-SPECIFIC MOBILE POLISH
+   (For October 22 Principal Demo)
+   ========================================== */
+
+@media (max-width: 768px) {
+  /* Ensure mega menu looks perfect on mobile demo */
+  .site-header-mega {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+  }
+
+  /* Perfect mobile stats display */
+  .hero-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .stat-item {
+    padding: 1rem;
+  }
+
+  /* Mobile showcase lessons perfect */
+  .lesson-container {
+    padding: 1rem;
+  }
+
+  .lesson-header {
+    padding: 1.5rem 1rem;
+  }
+}
+
+/* ==========================================
+   END OF MOBILE POLISH
+   ========================================== */

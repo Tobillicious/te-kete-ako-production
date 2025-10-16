@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://supabase.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: https://placehold.co; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co https://supabase.com;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Te Kete Ako - Award-winning educational platform integrating mātauranga Māori with contemporary learning">
+    <meta name="keywords" content="education, māori, indigenous, ai, learning, new zealand">
+    <meta name="author" content="Te Kete Ako">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Analytics Guide | Te Kete Ako</title>
+                                                    <link rel="stylesheet" href="/components/badge-system.html">
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/ux-professional-enhancements.css">
+    <link rel="stylesheet" href="/css/print.css" media="print"/>
+    <link rel="stylesheet" href="/css/cta-enhancements.css">
+    <link rel="stylesheet" href="/css/loading-states.css">
+</head>
+<body>
+    <!-- Professional Mega Menu Navigation -->
+    <script>
+        fetch('/components/navigation-mega-menu.html')
+            .then(r => r.text())
+            .then(html => {
+                const div = document.createElement('div');
+                div.innerHTML = html;
+                document.body.insertBefore(div.firstElementChild, document.body.firstChild);
+            });
+    </script>
+    <div id="header-component"></div>
+    <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+
+    <nav class="breadcrumb-nav">
+      <div class="container">
+        <a href="/">Home</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="/Users/">Users</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">Teacher Analytics Guide | Te Kete Ako</span>
+      </div>
+    </nav>
+  
+    <div class="guide-container">
+                            <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-brand">Te Kete Ako</a>
+            <nav class="main-nav">
+                <ul>
+                    <li>
+                        <a href="../unit-plans.html">
+                            <span class="nav-icon">📚</span>
+                            <span class="nav-text-en">Unit Plans</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Waehere</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../teachers/index.html">
+                            <span class="nav-icon">🧑‍🏫</span>
+                            <span class="nav-text-en">Teachers</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Kaiako</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../lessons.html">
+                            <span class="nav-icon">🎓</span>
+                            <span class="nav-text-en">Lessons</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../handouts.html">
+                            <span class="nav-icon">📄</span>
+                            <span class="nav-text-en">Handouts</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../games.html">
+                            <span class="nav-icon">🎮</span>
+                            <span class="nav-text-en">Games</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Kēmu</span>  
+                        </a>
+                    </li>
+                    <li class="auth-nav my-kete-link" style="display: none;">
+                        <a href="../my-kete.html">
+                            <span class="nav-icon">🧺</span>
+                            My Kete
+                        </a>
+                    </li>
+                    <li class="auth-nav">
+                        <a href="../login.html" class="login-btn">
+                            <span class="nav-icon">👤</span>
+                            Login
+                        </a>
+                    </li>
+                    <li class="auth-nav" style="display: none;">
+                        <a href="../register-simple.html" class="register-btn">
+                            <span class="nav-icon">📝</span>
+                            Register
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <nav class="breadcrumbs no-print" aria-label="Breadcrumb">
+                <ol id="breadcrumbs" class="breadcrumbs-list"></ol>
+            </nav>
+        </div>
+    </header>
+    <div id="search-container"></div>
+
+
+    <section class="learning-objectives" style="background: linear-gradient(135deg, #f0f8f0, #e8f5e9); padding: 2rem; border-radius: 12px; margin: 2rem 0; border-left: 4px solid var(--color-pounamu); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <h2 style="color: var(--color-primary); margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+            <span>📚</span>
+            <span>Ngā Whāinga Ako | Learning Objectives</span>
+        </h2>
+        
+        <div style="background: white; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+            <p style="margin: 0; color: var(--color-text-secondary); font-size: 0.95rem;">
+                <strong>NZ Curriculum:</strong> Phase 4-5 (Years 9-10) | <strong>Adaptable for:</strong> Years 7-10
+            </p>
+        </div>
+        
+        <div class="walt-section" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+            <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">
+                WALT (We Are Learning To) | Ngā Whāinga:
+            </h3>
+            <ul style="margin: 0.5rem 0 0;">
+                <li><em>[Teacher: Customize based on your class focus and curriculum objectives]</em></li>
+                <li><em>Suggested: Connect to specific Achievement Objectives from NZ Curriculum</em></li>
+            </ul>
+        </div>
+        
+        <div class="sc-section" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+            <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">
+                Success Criteria (WILF - What I'm Looking For) | Ngā Paearu:
+            </h3>
+            <ul style="margin: 0.5rem 0 0;">
+                <li><em>[Teacher: Define what success looks like for your ākonga]</em></li>
+                <li><em>Consider: Different success criteria for different learners</em></li>
+            </ul>
+        </div>
+
+        <div class="maori-pedagogy" style="background: rgba(241, 143, 1, 0.1); padding: 1.5rem; border-radius: 8px; border-left: 3px solid var(--color-accent);">
+            <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">
+                🌿 Ngā Tikanga Ako | Māori Pedagogical Approaches
+            </h3>
+            <p style="margin: 0.5rem 0; font-size: 0.95rem;">This resource lends itself to authentic Māori pedagogical practices:</p>
+            <ul style="margin: 0.5rem 0 0; font-size: 0.95rem;">
+                <li><strong>Ako:</strong> Reciprocal teaching and learning - students and teachers learn together</li>
+                <li><strong>Tuakana-teina:</strong> Peer teaching with more experienced students supporting others</li>
+                <li><strong>Wānanga:</strong> Deep collaborative discussion and knowledge sharing</li>
+                <li><strong>Mahi tahi:</strong> Working together towards shared understanding</li>
+            </ul>
+            <p style="margin: 1rem 0 0; font-size: 0.9rem; font-style: italic; color: var(--color-text-secondary);">
+                💡 Teacher: Consider how these approaches can be authentically integrated into your lesson delivery.
+            </p>
+        </div>
+
+        <div class="differentiation-note" style="background: rgba(59, 130, 246, 0.1); padding: 1rem; border-radius: 8px; margin-top: 1rem; border-left: 3px solid var(--color-info);">
+            <p style="margin: 0; font-size: 0.9rem; color: var(--color-text-secondary);">
+                <strong>💡 Differentiation:</strong> Look for related resources at different NZ Curriculum phases to provide appropriate scaffolding for diverse ākonga. Consider creating learning pathways that connect resources at increasing complexity.
+            </p>
+        </div>
+    </section>
+
+    <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
+        
+        <section class="feature-card">
+            <h2 class="wiley-section-title">🎯 Quick Start: Access Your Analytics Dashboard</h2>
+            <p><span class="step-number">1</span>Navigate to any page on Te Kete Ako</p>
+            <p><span class="step-number">2</span>Double-click the "Te Kete Ako" logo in the top-left corner</p>
+            <p><span class="step-number">3</span>Your Advanced Teacher Dashboard will open instantly!</p>
+            
+            <div class="tip-box">
+                <strong>💡 Pro Tip:</strong> The analytics system is already tracking student engagement across all pages. Even first-time users will see valuable insights!
+            </div>
+        
+            
+            <a href="index.html" class="demo-btn">🔍 Try It Now - Go to Homepage</a>
+        
+
+    <section class="cultural-integration" style="background: linear-gradient(135deg, #fff7ed, #ffedd5); padding: 2rem; border-radius: 12px; margin: 2rem 0; border-left: 4px solid var(--color-accent); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <h2 style="color: var(--color-primary); margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+            <span>🌿</span>
+            <span>Cultural Context | Horopaki Ahurea</span>
+        </h2>
+        
+        <div class="whakatauaki-section" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: center; border: 2px solid var(--color-accent);">
+            <h3 style="font-size: 0.9rem; color: var(--color-text-secondary); margin: 0 0 0.5rem; text-transform: uppercase; letter-spacing: 1px;">Whakataukī</h3>
+            <p style="font-size: 1.3rem; font-style: italic; color: var(--color-primary); margin: 0.5rem 0; font-weight: 500;">"Mā te mōhio ka ora, mā te ora ka mōhio"</p>
+            <p style="font-size: 1rem; color: var(--color-text-secondary); margin: 0.5rem 0;">"Through knowledge comes wellbeing, through wellbeing comes knowledge"</p>
+        </div>
+        
+        <div class="house-values" style="background: white; padding: 1.5rem; border-radius: 8px;">
+            <h3 style="font-size: 1rem; color: var(--color-primary); margin-top: 0;">🏛️ Connection to Mangakōtukutuku College Values</h3>
+            <div style="background: rgba(241, 143, 1, 0.1); padding: 1rem; border-radius: 6px; border-left: 3px solid var(--color-accent);">
+                <p style="margin: 0; font-size: 0.95rem;">
+                    <strong style="color: var(--color-accent); text-transform: capitalize;">Whaiora:</strong> Wellbeing - Caring for collective health and prosperity
+                </p>
+                <p style="margin: 0.75rem 0 0; font-size: 0.9rem; color: var(--color-text-secondary);">
+                    This learning connects to the value of <strong>whaiora</strong> by encouraging students to [engage with content in ways that embody this value].
+                </p>
+            </div>
+        </div>
+        
+        <div class="cultural-safety" style="background: rgba(27, 67, 50, 0.05); padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+            <h4 style="font-size: 0.95rem; color: var(--color-primary); margin: 0 0 0.5rem;">🛡️ Cultural Safety Considerations</h4>
+            <ul style="font-size: 0.9rem; margin: 0; color: var(--color-text-secondary);">
+                <li>Approach Māori content with respect and openness</li>
+                <li>Recognize students' diverse cultural backgrounds and experiences</li>
+                <li>Create space for Māori students to share their perspectives</li>
+                <li>Consult with whānau and local iwi for culturally sensitive topics</li>
+            </ul>
+        </div>
+    </section>
+
+</section>
+        
+        <section class="feature-card">
+            <h2 class="wiley-section-title">📊 Dashboard Features Overview</h2>
+            
+            <h3>🎯 Curriculum Coverage Analysis</h3>
+            <p>Track student engagement with specific NZ Curriculum Achievement Objectives. See which learning areas need more attention and celebrate progress toward curriculum goals.</p>
+            
+            <h3>📈 Learning Progression Trends</h3>
+            <p>Visualize how students navigate through your educational content. Identify effective learning pathways and optimize resource sequencing.</p>
+            
+            <h3>🧠 Content Effectiveness Metrics</h3>
+            <p>Discover which resources are most engaging and effective. Get data-driven insights on time spent, interaction depth, and learning progression.</p>
+            
+            <h3>🌟 Cultural Engagement Tracking</h3>
+            <p>Monitor student interaction with Te Ao Māori content and cultural learning elements. Ensure authentic cultural integration across all subjects.</p>
+        </section>
+        
+        <section class="feature-card">
+            <h2 class="wiley-section-title">🤖 AI-Powered Insights</h2>
+            
+            <h3>Learning Style Analysis</h3>
+            <p>The system automatically analyzes student behavior patterns to identify learning preferences:</p>
+            <ul>
+                <li><strong>Visual/Reading Learners:</strong> Prefer handouts and written materials</li>
+                <li><strong>Kinesthetic/Interactive Learners:</strong> Thrive with games and hands-on activities</li>
+                <li><strong>Auditory/Visual Learners:</strong> Benefit from video content and multimedia</li>
+                <li><strong>Multimodal Learners:</strong> Engage well with diverse approaches</li>
+            </ul>
+            
+            <h3>Predictive Recommendations</h3>
+            <p>Get personalized suggestions for:</p>
+            <ul>
+                <li>Next learning activities based on current progress</li>
+                <li>Curriculum gaps that need attention</li>
+                <li>Cultural integration opportunities</li>
+                <li>Teaching strategy adaptations</li>
+            </ul>
+            
+            <div class="tip-box">
+                <strong>🌟 Cultural Intelligence:</strong> The system includes specific recommendations for integrating Te Ao Māori perspectives and mātauranga Māori approaches.
+            </div>
+        </section>
+        
+        <section class="feature-card">
+            <h2 class="wiley-section-title">📋 Generating Reports</h2>
+            
+            <h3>Comprehensive Data Export</h3>
+            <p>Click "Export Comprehensive Report" to download detailed JSON data including:</p>
+            <ul>
+                <li>Curriculum engagement metrics</li>
+                <li>Content effectiveness scores</li>
+                <li>Learning pathway analysis</li>
+                <li>Predictive insights and recommendations</li>
+            </ul>
+            
+            <h3>Teacher-Friendly Insights Report</h3>
+            <p>Click "Generate Class Insights" for a formatted report with:</p>
+            <ul>
+                <li>Learning style analysis and teaching adaptations</li>
+                <li>Curriculum focus areas needing attention</li>
+                <li>Recommended next steps for students</li>
+                <li>Cultural integration opportunities</li>
+            </ul>
+            
+            <div class="tip-box">
+                <strong>💼 School Leadership:</strong> These reports are perfect for sharing with senior leadership, curriculum coordinators, and during appraisal discussions.
+            </div>
+        </section>
+        
+        <section class="feature-card">
+            <h2 class="wiley-section-title">🎮 Real-Time Features</h2>
+            
+            <h3>Achievement Notifications</h3>
+            <p>Students receive motivating notifications when they reach learning milestones:</p>
+            <ul>
+                <li>🎯 Curriculum Explorer (10+ Achievement Objectives)</li>
+                <li>🌟 Learning Pathfinder (20+ pages explored)</li>
+                <li>More achievements unlock automatically!</li>
+            </ul>
+            
+            <h3>Adaptive Learning Suggestions</h3>
+            <p>Personalized content recommendations appear based on individual learning patterns. Students get suggestions perfectly matched to their learning style and progress.</p>
+        </section>
+        
+        <section class="feature-card">
+            <h2 class="wiley-section-title">🔧 Technical Integration</h2>
+            
+            <h3>Seamless Operation</h3>
+            <p>The analytics system works automatically across all Te Kete Ako resources:</p>
+            <ul>
+                <li><strong>Handouts:</strong> Track reading time, scroll depth, and engagement</li>
+                <li><strong>Games:</strong> Monitor gameplay, score progression, and cultural bonus points</li>
+                <li><strong>Lessons:</strong> Analyze activity completion and assessment interactions</li>
+                <li><strong>Videos:</strong> Track YouTube resource access and educational content viewing</li>
+            </ul>
+            
+            <h3>Privacy & Data Security</h3>
+            <p>All analytics data is stored locally in the browser. No personal information is transmitted or stored externally. Teachers maintain complete control over their classroom data.</p>
+            
+            <div class="tip-box">
+                <strong>🛡️ Privacy First:</strong> This system respects student privacy while providing valuable educational insights. Perfect for schools with strict data protection requirements.
+            </div>
+        </section>
+        
+        <section class="feature-card">
+            <h2 class="wiley-section-title">🌟 Success Stories & Use Cases</h2>
+            
+            <h3>Curriculum Alignment</h3>
+            <p>"I can now clearly demonstrate how my lessons align with Achievement Objectives and track student progress across learning areas." - <em>Intermediate Teacher</em></p>
+            
+            <h3>Differentiated Learning</h3>
+            <p>"The learning style analysis helps me adapt my teaching approach for different students. Game-based learners now get more interactive content!" - <em>Secondary Educator</em></p>
+            
+            <h3>Cultural Responsiveness</h3>
+            <p>"The cultural engagement tracking ensures I'm authentically integrating Te Ao Māori perspectives across all subjects." - <em>Primary School Teacher</em></p>
+        </section>
+        
+        <section class="feature-card">
+            <h2 class="wiley-section-title">🚀 Getting Started Today</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 2rem 0;">
+                <a href="index.html" class="demo-btn" style="text-align: center; display: block;">
+                    🏠 Start with Homepage<br>
+                    <span style="font-size: 0.8rem;">Double-click logo for dashboard</span>
+                </a>
+                <a href="games.html" class="demo-btn" style="text-align: center; display: block;">
+                    🎮 Try the Games<br>
+                    <span style="font-size: 0.8rem;">Enhanced with analytics tracking</span>
+                </a>
+                <a href="handouts.html" class="demo-btn" style="text-align: center; display: block;">
+                    📄 Explore Handouts<br>
+                    <span style="font-size: 0.8rem;">Track reading engagement</span>
+                </a>
+                <a href="curriculum-alignment.html" class="demo-btn" style="text-align: center; display: block;">
+                    📋 View Curriculum<br>
+                    <span style="font-size: 0.8rem;">Achievement Objective tracking</span>
+                </a>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); color: white; border-radius: 12px;">
+                <h3>🎯 Ready to Transform Your Teaching?</h3>
+                <p>The Te Kete Ako Advanced Analytics system is live and ready to provide insights that will enhance your educational practice!</p>
+                <p style="font-size: 0.9rem; opacity: 0.9;">Start exploring any page and watch as the system builds a comprehensive picture of learning engagement in your classroom.</p>
+            </div>
+        </section>
+    </div>
+    
+    <script src="js/shared-components.js"></script>
+    <script src="js/analytics-dashboard.js"></script>
+    <script src="js/advanced-analytics.js"></script>                    <footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-simple">
+                <div class="footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p>"Whaowhia te kete mātauranga" - Fill the basket of knowledge</p>
+                </div>
+                <div class="footer-links">
+                    <a href="../unit-plans.html">Unit Plans</a>
+                    <a href="../lessons.html">Lessons</a>
+                    <a href="../handouts.html">Handouts</a>
+                    <a href="../my-kete.html">My Kete</a>
+                    <a href="../sitemap.html">Sitemap</a>
+                    <a href="../orphans.html">Discover</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2025 Te Kete Ako - Educational resources for Aotearoa New Zealand</span>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Load Supabase Client -->
+    <script src="js/supabase-client.js"></script>
+    <!-- Load Auth UI -->
+    <script src="js/auth-enhanced.js"></script>
+    
+
+    <section class="teacher-resources no-print" style="background: linear-gradient(135deg, #fff7ed, #ffedd5); padding: 2rem; border-radius: 12px; margin: 3rem 0; border-left: 4px solid var(--color-accent); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <h2 style="color: var(--color-primary); margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+            <span>👨‍🏫</span>
+            <span>Teacher Resources | Ngā Rauemi Kaiako</span>
+        </h2>
+        
+        <div class="resource-tabs" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+            
+            <!-- Implementation Guide -->
+            <div class="resource-card" style="background: white; padding: 1.5rem; border-radius: 8px;">
+                <h3 style="font-size: 1rem; color: var(--color-primary); margin-top: 0;">📋 Implementation Guide</h3>
+                <ul style="font-size: 0.9rem; margin: 0.5rem 0;">
+                    <li><strong>Preparation:</strong> 15-20 minutes</li>
+                    <li><strong>Materials:</strong> [List specific materials needed]</li>
+                    <li><strong>Room Setup:</strong> [Describe ideal arrangement]</li>
+                    <li><strong>Prior Knowledge:</strong> [What students should know]</li>
+                </ul>
+            </div>
+            
+            <!-- Answer Keys -->
+            <div class="resource-card" style="background: white; padding: 1.5rem; border-radius: 8px;">
+                <h3 style="font-size: 1rem; color: var(--color-primary); margin-top: 0;">🔑 Answer Keys</h3>
+                <p style="font-size: 0.9rem; margin: 0.5rem 0;"><em>[Teacher: Complete answer keys for all activities and questions will be added in next enhancement pass]</em></p>
+                <p style="font-size: 0.85rem; color: var(--color-text-secondary); margin: 0;">Include model answers, common mistakes, extension responses</p>
+            </div>
+            
+            <!-- Assessment Suite -->
+            <div class="resource-card" style="background: white; padding: 1.5rem; border-radius: 8px;">
+                <h3 style="font-size: 1rem; color: var(--color-primary); margin-top: 0;">📊 Assessment Suite</h3>
+                <details style="font-size: 0.9rem;">
+                    <summary style="cursor: pointer; font-weight: 600; margin-bottom: 0.5rem;">7 Assessment Types Available</summary>
+                    <ul style="margin: 0.5rem 0; font-size: 0.85rem;">
+                        <li>✅ Formative (exit tickets, quick checks)</li>
+                        <li>✅ Summative (tests, projects)</li>
+                        <li>✅ Self-assessment rubrics</li>
+                        <li>✅ Peer assessment protocols</li>
+                        <li>✅ Portfolio evidence guides</li>
+                        <li>✅ Practical demonstrations</li>
+                        <li>✅ Guided social inquiry projects</li>
+                    </ul>
+                </details>
+            </div>
+            
+            <!-- Differentiation -->
+            <div class="resource-card" style="background: white; padding: 1.5rem; border-radius: 8px;">
+                <h3 style="font-size: 1rem; color: var(--color-primary); margin-top: 0;">🎯 Differentiation</h3>
+                <ul style="font-size: 0.9rem; margin: 0.5rem 0;">
+                    <li><strong>Support:</strong> Simplified tasks, visual aids, sentence starters</li>
+                    <li><strong>Core:</strong> Standard activities as presented</li>
+                    <li><strong>Extension:</strong> Open-ended challenges, research tasks</li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <!-- Guided Inquiry Project (if applicable) -->
+
+        <div class="cultural-note" style="background: rgba(241, 143, 1, 0.1); padding: 1rem; border-radius: 8px; margin-top: 1.5rem; border-left: 3px solid var(--color-accent);">
+            <p style="margin: 0; font-size: 0.9rem;">
+                <strong>🌿 Cultural Note:</strong> When implementing, consider authentic Māori pedagogical approaches (ako, tuakana-teina, wānanga) and ensure cultural safety throughout.
+            </p>
+        </div>
+    </section>
+
+
+
+    <section class="assessment-tools no-print" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); padding: 2rem; border-radius: 12px; margin: 3rem 0; border-left: 4px solid var(--color-info); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <h2 style="color: var(--color-primary); margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+            <span>📊</span>
+            <span>Assessment Tools | Ngā Taputapu Aromatawai</span>
+        </h2>
+        
+        <div class="assessment-grid" style="display: grid; gap: 1.5rem; margin-top: 1.5rem;">
+            
+            <!-- Formative Assessment -->
+            <div class="assessment-card" style="background: white; padding: 1.5rem; border-radius: 8px; border-left: 3px solid var(--color-success);">
+                <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">✅ Formative Assessment (During Learning)</h3>
+                <div style="font-size: 0.9rem;">
+                    <p style="margin: 0.5rem 0;"><strong>Exit Ticket:</strong></p>
+                    <ul style="margin: 0.5rem 0;">
+                        <li>What is one thing you learned today?</li>
+                        <li>What is one question you still have?</li>
+                        <li>How does this connect to your own experience?</li>
+                    </ul>
+                    <p style="margin: 0.5rem 0;"><strong>Quick Check:</strong> Thumbs up/sideways/down for understanding</p>
+                </div>
+            </div>
+            
+            <!-- Self-Assessment -->
+            <div class="assessment-card" style="background: white; padding: 1.5rem; border-radius: 8px; border-left: 3px solid var(--color-secondary);">
+                <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">🎯 Self-Assessment Rubric</h3>
+                <table style="width: 100%; font-size: 0.85rem; border-collapse: collapse;">
+                    <tr style="background: var(--color-gray-100);">
+                        <th style="padding: 0.5rem; text-align: left;">Criteria</th>
+                        <th style="padding: 0.5rem; text-align: center;">Not Yet</th>
+                        <th style="padding: 0.5rem; text-align: center;">Getting There</th>
+                        <th style="padding: 0.5rem; text-align: center;">Got It!</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;">I understand the key concepts</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                    </tr>
+                    <tr style="background: var(--color-gray-50);">
+                        <td style="padding: 0.5rem;">I can explain it to others</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;">I can apply it to new situations</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <!-- Peer Assessment -->
+            <div class="assessment-card" style="background: white; padding: 1.5rem; border-radius: 8px; border-left: 3px solid var(--color-pounamu);">
+                <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">👥 Peer Assessment Protocol</h3>
+                <div style="font-size: 0.9rem;">
+                    <p style="margin: 0.5rem 0;"><strong>Tuakana-Teina Approach:</strong></p>
+                    <ol style="margin: 0.5rem 0;">
+                        <li>Two stars: What did they do well?</li>
+                        <li>One wish: What could be improved?</li>
+                        <li>Connection: How does this relate to our learning?</li>
+                    </ol>
+                    <p style="margin: 0.5rem 0; font-style: italic; color: var(--color-text-secondary);">Encourage manaakitanga (respect) in all feedback</p>
+                </div>
+            </div>
+            
+            <!-- Portfolio Evidence -->
+            <div class="assessment-card" style="background: white; padding: 1.5rem; border-radius: 8px; border-left: 3px solid var(--color-accent);">
+                <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">📁 Portfolio Evidence</h3>
+                <div style="font-size: 0.9rem;">
+                    <p style="margin: 0.5rem 0;"><strong>Collect:</strong></p>
+                    <ul style="margin: 0.5rem 0;">
+                        <li>Completed activities/worksheets</li>
+                        <li>Reflection journal entries</li>
+                        <li>Photos of practical work</li>
+                        <li>Peer feedback received</li>
+                    </ul>
+                    <p style="margin: 0.5rem 0;"><strong>Reflection Prompt:</strong> How does this work show your growth as a learner?</p>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="summative-assessment" style="background: rgba(239, 68, 68, 0.1); padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem; border-left: 3px solid var(--color-error);">
+            <h3 style="color: var(--color-primary); margin-top: 0;">📝 Summative Assessment Options</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; font-size: 0.9rem;">
+                <div>
+                    <h4 style="font-size: 0.95rem; margin: 0 0 0.5rem;">Written Test</h4>
+                    <p style="margin: 0; font-size: 0.85rem;">Multiple choice, short answer, extended response</p>
+                </div>
+                <div>
+                    <h4 style="font-size: 0.95rem; margin: 0 0 0.5rem;">Project</h4>
+                    <p style="margin: 0; font-size: 0.85rem;">Research, create, present findings</p>
+                </div>
+                <div>
+                    <h4 style="font-size: 0.95rem; margin: 0 0 0.5rem;">Presentation</h4>
+                    <p style="margin: 0; font-size: 0.85rem;">Oral, visual, or multimedia</p>
+                </div>
+                <div>
+                    <h4 style="font-size: 0.95rem; margin: 0 0 0.5rem;">Practical Demo</h4>
+                    <p style="margin: 0; font-size: 0.85rem;">Skills demonstration, performance task</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<div id="footer-component"></div>
+      <script src="/js/te-kete-professional.js" defer></script>
+    <section class="external-resources no-print" style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 2rem; border-radius: 12px; margin: 3rem 0; border-left: 4px solid var(--color-info); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <h2 style="color: var(--color-primary); margin-top: 0;"><span>🔗</span> <span>External Resources</span></h2>
+        <div style="display: grid; gap: 1rem;"><div style="background: white; padding: 1rem; border-radius: 8px;">
+            <h4 style="margin: 0 0 0.5rem; color: var(--color-primary);">📊 Assessment Resources</h4>
+            <ul style="margin: 0; font-size: 0.95rem;">
+                <li><a href="https://www.tki.org.nz/r/assessment/" target="_blank">TKI: Assessment</a></li>
+                <li><a href="https://nzqa.govt.nz/" target="_blank">NZQA</a></li>
+            </ul></div></div></section>
+    <script src="/js/loading-toast-system.js" defer></script>
+</body>
+</html>

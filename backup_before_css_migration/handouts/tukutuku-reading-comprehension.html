@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tukutuku Reading Comprehension | Te Kete Ako</title>
+    <link rel="preload" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/components/badge-system.html">
+    <link rel="stylesheet" href="/css/ux-professional-enhancements.css" as="style">
+    <link rel="preload" href="/js/header-dropdowns.js" as="script">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap&display=swap" as="style" crossorigin>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/ux-professional-enhancements.css" media="all"/>
+    <link rel="stylesheet" href="/css/print.css" media="print"/>
+    
+    <style>
+    .reading-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: var(--space-6);
+    }
+    
+    .reading-section {
+        background: white;
+        border-radius: 16px;
+        box-shadow: var(--shadow-md);
+        padding: var(--space-6);
+        margin-bottom: var(--space-6);
+        border-left: 6px solid var(--color-primary);
+    }
+    
+    .reading-header {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        margin-bottom: var(--space-4);
+    }
+    
+    .reading-number {
+        background: var(--gradient-cultural);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: var(--text-lg);
+    }
+    
+    .reading-title {
+        font-family: var(--font-family-maori);
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--color-primary);
+    }
+    
+    .reading-text {
+        line-height: 1.8;
+        font-size: 1.1rem;
+        margin-bottom: var(--space-4);
+        text-align: justify;
+    }
+    
+    .vocabulary-box {
+        background: var(--color-bg-accent);
+        padding: var(--space-4);
+        border-radius: var(--radius-md);
+        margin-bottom: var(--space-4);
+    }
+    
+    .vocabulary-term {
+        font-weight: 700;
+        color: var(--color-secondary);
+        display: inline-block;
+        margin-right: var(--space-2);
+    }
+    
+    .comprehension-questions {
+        background: var(--color-bg-secondary);
+        padding: var(--space-4);
+        border-radius: var(--radius-md);
+        margin-top: var(--space-4);
+    }
+    
+    .question-item {
+        margin-bottom: var(--space-3);
+        padding-left: var(--space-4);
+        border-left: 3px solid var(--color-accent);
+    }
+    
+    .extension-activity {
+        background: var(--color-cultural-light);
+        padding: var(--space-4);
+        border-radius: var(--radius-md);
+        margin-top: var(--space-4);
+        border-left: 4px solid var(--color-cultural);
+    }
+    
+    .answer-space {
+        background: white;
+        border: 2px dashed var(--color-primary);
+        padding: var(--space-3);
+        border-radius: var(--radius-md);
+        margin-top: var(--space-2);
+        min-height: 80px;
+    }
+    
+    @media print {
+        .reading-section {
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+    }
+    </style>
+    <link rel="stylesheet" href="/css/cta-enhancements.css">
+    <link rel="stylesheet" href="/css/loading-states.css">
+</head>
+<body data-auto-init="true" data-current-page="handout-tukutuku-reading">
+    <!-- Professional Mega Menu Navigation -->
+    <script>
+        fetch('/components/navigation-mega-menu.html')
+            .then(r => r.text())
+            .then(html => {
+                const div = document.createElement('div');
+                div.innerHTML = html;
+                document.body.insertBefore(div.firstElementChild, document.body.firstChild);
+            });
+    </script>
+                        <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-brand">Te Kete Ako</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/unit-plans.html" class="nav-link"><span class="nav-icon">📚</span><span class="nav-text-en">Unit Plans</span><span class="nav-text-mi" lang="mi">Ngā Waehere</span></a></li>
+                    <li><a href="/lessons.html" class="nav-link"><span class="nav-icon">🎓</span><span class="nav-text-en">Lessons</span><span class="nav-text-mi" lang="mi">Ngā Akoranga</span></a></li>
+                    <li><a href="/handouts.html" class="nav-link"><span class="nav-icon">📄</span><span class="nav-text-en">Handouts</span><span class="nav-text-mi" lang="mi">Ngā Rauemi</span></a></li>
+                    <li><a href="/teachers/index.html" class="nav-link"><span class="nav-icon">🧑‍🏫</span><span class="nav-text-en">Teachers</span><span class="nav-text-mi" lang="mi">Ngā Kaiako</span></a></li>
+                    <li class="auth-nav"><a href="/login.html" class="nav-link login-btn"><span class="nav-icon">👤</span>Login</a></li>
+                </ul>
+            </nav>
+            <nav class="breadcrumbs no-print" aria-label="Breadcrumb"><ol id="breadcrumbs" class="breadcrumbs-list"></ol></nav>
+        </div>
+    </header>
+    <div id="search-container"></div>
+
+
+
+    <nav class="breadcrumb-nav no-print" aria-label="Breadcrumb">
+        <div class="container">
+            <a href="/">Home</a>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-current">Handouts</span>
+        </div>
+    </nav>
+
+
+    <!-- Include Header Component -->
+    <div id="header-component"></div>
+
+    <div class="handout-container">
+        <header class="handout-header">
+            <h1 class="handout-title">Tukutuku Reading Comprehension</h1>
+            <p class="handout-subtitle">Reading texts about traditional Māori weaving patterns with comprehension activities</p>
+            <div class="handout-meta">
+                <span class="handout-subject">Mathematics & Literacy</span>
+                <span class="handout-level">Year 9</span>
+                <span class="handout-duration">2-3 lessons</span>
+            </div>
+        </header>
+
+    <section class="learning-objectives" style="background: linear-gradient(135deg, #f0f8f0, #e8f5e9); padding: 2rem; border-radius: 12px; margin: 2rem 0; border-left: 4px solid var(--color-pounamu); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        
+
+    <section class="cultural-integration" style="background: linear-gradient(135deg, #fff7ed, #ffedd5); padding: 2rem; border-radius: 12px; margin: 2rem 0; border-left: 4px solid var(--color-accent); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <h2 style="color: var(--color-primary); margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+            <span>🌿</span>
+            <span>Cultural Context | Horopaki Ahurea</span>
+        </h2>
+        
+        <div class="whakatauaki-section" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: center; border: 2px solid var(--color-accent);">
+            <h3 style="font-size: 0.9rem; color: var(--color-text-secondary); margin: 0 0 0.5rem; text-transform: uppercase; letter-spacing: 1px;">Whakataukī</h3>
+            <p style="font-size: 1.3rem; font-style: italic; color: var(--color-primary); margin: 0.5rem 0; font-weight: 500;">"Whāia te iti kahurangi"</p>
+            <p style="font-size: 1rem; color: var(--color-text-secondary); margin: 0.5rem 0;">"Seek the treasure you value most dearly"</p>
+        </div>
+        
+        <div class="house-values" style="background: white; padding: 1.5rem; border-radius: 8px;">
+            <h3 style="font-size: 1rem; color: var(--color-primary); margin-top: 0;">🏛️ Connection to Mangakōtukutuku College Values</h3>
+            <div style="background: rgba(241, 143, 1, 0.1); padding: 1rem; border-radius: 6px; border-left: 3px solid var(--color-accent);">
+                <p style="margin: 0; font-size: 0.95rem;">
+                    <strong style="color: var(--color-accent); text-transform: capitalize;">Whaimana:</strong> Integrity - Standing firm in truth and principle
+                </p>
+                <p style="margin: 0.75rem 0 0; font-size: 0.9rem; color: var(--color-text-secondary);">
+                    This learning connects to the value of <strong>whaimana</strong> by encouraging students to [engage with content in ways that embody this value].
+                </p>
+            </div>
+        </div>
+        
+        <div class="cultural-safety" style="background: rgba(27, 67, 50, 0.05); padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+            <h4 style="font-size: 0.95rem; color: var(--color-primary); margin: 0 0 0.5rem;">🛡️ Cultural Safety Considerations</h4>
+            <ul style="font-size: 0.9rem; margin: 0; color: var(--color-text-secondary);">
+                <li>Approach Māori content with respect and openness</li>
+                <li>Recognize students' diverse cultural backgrounds and experiences</li>
+                <li>Create space for Māori students to share their perspectives</li>
+                <li>Consult with whānau and local iwi for culturally sensitive topics</li>
+            </ul>
+        </div>
+    </section>
+
+<h2 style="color: var(--color-primary); margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+            <span>📚</span>
+            <span>Ngā Whāinga Ako | Learning Objectives</span>
+        </h2>
+        
+        <div style="background: white; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+            <p style="margin: 0; color: var(--color-text-secondary); font-size: 0.95rem;">
+                <strong>NZ Curriculum:</strong> Phase 4-5 (Years 9-10) | <strong>Adaptable for:</strong> Years 9-9
+            </p>
+        </div>
+        
+        <div class="walt-section" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+            <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">
+                WALT (We Are Learning To) | Ngā Whāinga:
+            </h3>
+            <ul style="margin: 0.5rem 0 0;">
+                <li><em>[Teacher: Customize based on your class focus and curriculum objectives]</em></li>
+                <li><em>Suggested: Connect to specific Achievement Objectives from NZ Curriculum</em></li>
+            </ul>
+        </div>
+        
+        <div class="sc-section" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+            <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">
+                Success Criteria (WILF - What I'm Looking For) | Ngā Paearu:
+            </h3>
+            <ul style="margin: 0.5rem 0 0;">
+                <li><em>[Teacher: Define what success looks like for your ākonga]</em></li>
+                <li><em>Consider: Different success criteria for different learners</em></li>
+            </ul>
+        </div>
+
+        <div class="maori-pedagogy" style="background: rgba(241, 143, 1, 0.1); padding: 1.5rem; border-radius: 8px; border-left: 3px solid var(--color-accent);">
+            <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">
+                🌿 Ngā Tikanga Ako | Māori Pedagogical Approaches
+            </h3>
+            <p style="margin: 0.5rem 0; font-size: 0.95rem;">This resource lends itself to authentic Māori pedagogical practices:</p>
+            <ul style="margin: 0.5rem 0 0; font-size: 0.95rem;">
+                <li><strong>Ako:</strong> Reciprocal teaching and learning - students and teachers learn together</li>
+                <li><strong>Tuakana-teina:</strong> Peer teaching with more experienced students supporting others</li>
+                <li><strong>Wānanga:</strong> Deep collaborative discussion and knowledge sharing</li>
+                <li><strong>Mahi tahi:</strong> Working together towards shared understanding</li>
+            </ul>
+            <p style="margin: 1rem 0 0; font-size: 0.9rem; font-style: italic; color: var(--color-text-secondary);">
+                💡 Teacher: Consider how these approaches can be authentically integrated into your lesson delivery.
+            </p>
+        </div>
+
+        <div class="differentiation-note" style="background: rgba(59, 130, 246, 0.1); padding: 1rem; border-radius: 8px; margin-top: 1rem; border-left: 3px solid var(--color-info);">
+            <p style="margin: 0; font-size: 0.9rem; color: var(--color-text-secondary);">
+                <strong>💡 Differentiation:</strong> Look for related resources at different NZ Curriculum phases to provide appropriate scaffolding for diverse ākonga. Consider creating learning pathways that connect resources at increasing complexity.
+            </p>
+        </div>
+    </section>
+
+
+        <div class="reading-container">
+            <!-- Reading 1: Introduction to Tukutuku -->
+            <div class="reading-section">
+                <div class="reading-header">
+                    <div class="reading-number">1</div>
+                    <h2 class="reading-title">The Art of Tukutuku: Mathematical Beauty in Weaving</h2>
+                </div>
+                
+                <div class="vocabulary-box">
+                    <p><strong>Key Vocabulary:</strong></p>
+                    <span class="vocabulary-term">tukutuku</span>
+                    <span class="vocabulary-term">pattern</span>
+                    <span class="vocabulary-term">symmetry</span>
+                    <span class="vocabulary-term">geometric</span>
+                    <span class="vocabulary-term">traditional</span>
+                </div>
+                
+                <div class="reading-text">
+                    <p>Tukutuku are ornamental lattice-work panels found in Māori meeting houses (wharenui). These intricate woven patterns serve both decorative and narrative purposes, telling stories of ancestral knowledge, tribal history, and cultural values. What makes tukutuku particularly fascinating from a mathematical perspective is the sophisticated use of geometric patterns, symmetry, and proportional relationships embedded within each design.</p>
+                    
+                    <p>Traditional tukutuku patterns are created using vertical wooden rods (kakaho) and horizontal weaving strips (aho). The weavers follow precise mathematical rules to create repeating patterns that demonstrate advanced understanding of geometry, algebra, and spatial reasoning. Each pattern has a specific name and meaning, often representing natural phenomena, celestial bodies, or important cultural concepts.</p>
+                    
+                    <p>The mathematical principles in tukutuku include transformation geometry (reflection, rotation, translation), algebraic patterns and sequences, ratio and proportion, and coordinate geometry. These traditional art forms demonstrate how Māori ancestors possessed sophisticated mathematical knowledge long before European contact, integrating mathematical thinking seamlessly into cultural expression and daily life.</p>
+                </div>
+                
+                <div class="comprehension-questions">
+                    <h3>📝 Comprehension Questions</h3>
+                    <div class="question-item">
+                        <p>1. What are the two main materials used in creating tukutuku panels?</p>
+                        <div class="answer-space"></div>
+                    </div>
+                    <div class="question-item">
+                        <p>2. Identify four mathematical principles mentioned in the text that are found in tukutuku patterns.</p>
+                        <div class="answer-space"></div>
+                    </div>
+                    <div class="question-item">
+                        <p>3. How do tukutuku patterns serve both decorative and narrative purposes?</p>
+                        <div class="answer-space"></div>
+                    </div>
+                </div>
+                
+                <div class="extension-activity">
+                    <h3>🔍 Extension Activity</h3>
+                    <p>Research one specific tukutuku pattern (such as poutama or roimata toroa) and create a presentation explaining its mathematical properties and cultural significance.</p>
+                </div>
+            </div>
+
+            <!-- Reading 2: Mathematical Analysis -->
+            <div class="reading-section">
+                <div class="reading-header">
+                    <div class="reading-number">2</div>
+                    <h2 class="reading-title">Decoding the Mathematics: Pattern Analysis</h2>
+                </div>
+                
+                <div class="vocabulary-box">
+                    <p><strong>Key Vocabulary:</strong></p>
+                    <span class="vocabulary-term">algorithm</span>
+                    <span class="vocabulary-term">sequence</span>
+                    <span class="vocabulary-term">transformation</span>
+                    <span class="vocabulary-term">coordinate</span>
+                    <span class="vocabulary-term">function</span>
+                </div>
+                
+                <div class="reading-text">
+                    <p>When mathematicians analyze tukutuku patterns, they discover sophisticated algorithms and mathematical thinking. Each pattern follows precise rules that can be expressed as mathematical functions or algorithms. For example, the poutama pattern (stairway to heaven) follows a clear geometric progression, with each step building upon the previous one in a predictable sequence.</p>
+                    
+                    <p>The mathematical analysis of tukutuku reveals several key insights. First, many patterns demonstrate understanding of coordinate geometry, with weavers mentally mapping positions and following precise spatial relationships. Second, the patterns often incorporate algebraic thinking, with weavers using variables and rules to determine where each weaving strip should be placed. Third, the patterns show advanced understanding of symmetry and transformation, with weavers applying reflection, rotation, and translation to create balanced designs.</p>
+                    
+                    <p>Perhaps most remarkably, traditional weavers could mentally visualize and execute complex mathematical algorithms without written notation. This demonstrates sophisticated cognitive abilities and suggests that mathematical thinking can be expressed and transmitted through cultural practices rather than formal mathematical notation. The integration of mathematical and cultural knowledge in tukutuku challenges Western assumptions about where and how advanced mathematics develops.</p>
+                </div>
+                
+                <div class="comprehension-questions">
+                    <h3>📝 Comprehension Questions</h3>
+                    <div class="question-item">
+                        <p>1. How does the poutama pattern demonstrate mathematical progression?</p>
+                        <div class="answer-space"></div>
+                    </div>
+                    <div class="question-item">
+                        <p>2. What three key mathematical insights are revealed when analyzing tukutuku patterns?</p>
+                        <div class="answer-space"></div>
+                    </div>
+                    <div class="question-item">
+                        <p>3. How does traditional tukutuku weaving challenge Western assumptions about mathematical knowledge?</p>
+                        <div class="answer-space"></div>
+                    </div>
+                </div>
+                
+                <div class="extension-activity">
+                    <h3>🔍 Extension Activity</h3>
+                    <p>Create a mathematical algorithm (step-by-step instructions) that could be used to teach someone how to weave a simple tukutuku pattern. Test your algorithm by having someone follow it.</p>
+                </div>
+            </div>
+
+            <!-- Reading 3: Contemporary Applications -->
+            <div class="reading-section">
+                <div class="reading-header">
+                    <div class="reading-number">3</div>
+                    <h2 class="reading-title">Ancient Patterns, Modern Applications</h2>
+                </div>
+                
+                <div class="vocabulary-box">
+                    <p><strong>Key Vocabulary:</strong></p>
+                    <span class="vocabulary-term">contemporary</span>
+                    <span class="vocabulary-term">application</span>
+                    <span class="vocabulary-term">technology</span>
+                    <span class="vocabulary-term">innovation</span>
+                    <span class="vocabulary-term">preservation</span>
+                </div>
+                
+                <div class="reading-text">
+                    <p>The mathematical principles embedded in traditional tukutuku patterns find surprising applications in contemporary fields ranging from computer science to architecture. Modern mathematicians and designers have discovered that these ancestral patterns offer elegant solutions to complex problems in digital imaging, cryptography, and even network design.</p>
+                    
+                    <p>In computer science, tukutuku patterns have inspired algorithms for image compression and data visualization. The efficient way patterns encode information using minimal elements has applications in developing more compact digital storage systems. Similarly, the mathematical relationships in tukutuku have influenced the development of cryptographic systems, where pattern recognition and sequence analysis play crucial roles.</p>
+                    
+                    <p>Architects and designers have incorporated tukutuku principles into contemporary building design, creating structures that honor traditional knowledge while meeting modern needs. The mathematical understanding of space, proportion, and harmony in tukutuku has influenced sustainable architecture and urban planning. Even in digital art and animation, tukutuku patterns provide algorithms for generating complex visual designs from simple mathematical rules.</p>
+                    
+                    <p>Perhaps most importantly, the continued study and application of tukutuku mathematics helps preserve cultural knowledge while demonstrating its ongoing relevance. By bridging traditional knowledge with contemporary applications, we ensure that ancestral wisdom continues to inform and enrich modern innovation.</p>
+                </div>
+                
+                <div class="comprehension-questions">
+                    <h3>📝 Comprehension Questions</h3>
+                    <div class="question-item">
+                        <p>1. Identify three contemporary fields where tukutuku principles are being applied.</p>
+                        <div class="answer-space"></div>
+                    </div>
+                    <div class="question-item">
+                        <p>2. How do tukutuku patterns contribute to computer science and digital technology?</p>
+                        <div class="answer-space"></div>
+                    </div>
+                    <div class="question-item">
+                        <p>3. Why is it important to bridge traditional knowledge with contemporary applications?</p>
+                        <div class="answer-space"></div>
+                    </div>
+                </div>
+                
+                <div class="extension-activity">
+                    <h3>🔍 Extension Activity</h3>
+                    <p>Design a modern application (app, website, or product) that uses tukutuku mathematical principles. Create a mock-up or prototype and explain how traditional patterns inform your design.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Assessment Criteria -->
+        <section class="assessment-section">
+            <h2>📊 Assessment Criteria</h2>
+            <div class="assessment-grid">
+                <div class="assessment-item">
+                    <h4>Reading Comprehension</h4>
+                    <ul>
+                        <li>Accurate identification of key information</li>
+                        <li>Understanding of vocabulary in context</li>
+                        <li>Ability to infer meaning from text</li>
+                    </ul>
+                </div>
+                <div class="assessment-item">
+                    <h4>Mathematical Connection</h4>
+                    <ul>
+                        <li>Recognition of mathematical concepts</li>
+                        <li>Understanding of pattern analysis</li>
+                        <li>Application of mathematical thinking</li>
+                    </ul>
+                </div>
+                <div class="assessment-item">
+                    <h4>Cultural Understanding</h4>
+                    <ul>
+                        <li>Appreciation of cultural significance</li>
+                        <li>Respectful engagement with content</li>
+                        <li>Connection to contemporary relevance</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Include Footer Component -->
+    
+
+    <section class="teacher-resources no-print" style="background: linear-gradient(135deg, #fff7ed, #ffedd5); padding: 2rem; border-radius: 12px; margin: 3rem 0; border-left: 4px solid var(--color-accent); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <h2 style="color: var(--color-primary); margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+            <span>👨‍🏫</span>
+            <span>Teacher Resources | Ngā Rauemi Kaiako</span>
+        </h2>
+        
+        <div class="resource-tabs" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+            
+            <!-- Implementation Guide -->
+            <div class="resource-card" style="background: white; padding: 1.5rem; border-radius: 8px;">
+                <h3 style="font-size: 1rem; color: var(--color-primary); margin-top: 0;">📋 Implementation Guide</h3>
+                <ul style="font-size: 0.9rem; margin: 0.5rem 0;">
+                    <li><strong>Preparation:</strong> 15-20 minutes</li>
+                    <li><strong>Materials:</strong> [List specific materials needed]</li>
+                    <li><strong>Room Setup:</strong> [Describe ideal arrangement]</li>
+                    <li><strong>Prior Knowledge:</strong> [What students should know]</li>
+                </ul>
+            </div>
+            
+            <!-- Answer Keys -->
+            <div class="resource-card" style="background: white; padding: 1.5rem; border-radius: 8px;">
+                <h3 style="font-size: 1rem; color: var(--color-primary); margin-top: 0;">🔑 Answer Keys</h3>
+                <p style="font-size: 0.9rem; margin: 0.5rem 0;"><em>[Teacher: Complete answer keys for all activities and questions will be added in next enhancement pass]</em></p>
+                <p style="font-size: 0.85rem; color: var(--color-text-secondary); margin: 0;">Include model answers, common mistakes, extension responses</p>
+            </div>
+            
+            <!-- Assessment Suite -->
+            <div class="resource-card" style="background: white; padding: 1.5rem; border-radius: 8px;">
+                <h3 style="font-size: 1rem; color: var(--color-primary); margin-top: 0;">📊 Assessment Suite</h3>
+                <details style="font-size: 0.9rem;">
+                    <summary style="cursor: pointer; font-weight: 600; margin-bottom: 0.5rem;">7 Assessment Types Available</summary>
+                    <ul style="margin: 0.5rem 0; font-size: 0.85rem;">
+                        <li>✅ Formative (exit tickets, quick checks)</li>
+                        <li>✅ Summative (tests, projects)</li>
+                        <li>✅ Self-assessment rubrics</li>
+                        <li>✅ Peer assessment protocols</li>
+                        <li>✅ Portfolio evidence guides</li>
+                        <li>✅ Practical demonstrations</li>
+                        <li>✅ Guided social inquiry projects</li>
+                    </ul>
+                </details>
+            </div>
+            
+            <!-- Differentiation -->
+            <div class="resource-card" style="background: white; padding: 1.5rem; border-radius: 8px;">
+                <h3 style="font-size: 1rem; color: var(--color-primary); margin-top: 0;">🎯 Differentiation</h3>
+                <ul style="font-size: 0.9rem; margin: 0.5rem 0;">
+                    <li><strong>Support:</strong> Simplified tasks, visual aids, sentence starters</li>
+                    <li><strong>Core:</strong> Standard activities as presented</li>
+                    <li><strong>Extension:</strong> Open-ended challenges, research tasks</li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <!-- Guided Inquiry Project (if applicable) -->
+
+        <div class="inquiry-project" style="background: rgba(59, 130, 246, 0.1); padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem; border-left: 3px solid var(--color-info);">
+            <h3 style="color: var(--color-primary); margin-top: 0;">🔍 Guided Social Inquiry Extension</h3>
+            <p style="font-size: 0.95rem; margin-bottom: 1rem;">This content can be extended into a guided social inquiry project:</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <div>
+                    <h4 style="font-size: 0.9rem; margin: 0 0 0.5rem;">1. Essential Question</h4>
+                    <p style="font-size: 0.85rem; margin: 0;">[Develop inquiry question based on content]</p>
+                </div>
+                <div>
+                    <h4 style="font-size: 0.9rem; margin: 0 0 0.5rem;">2. Research Phase</h4>
+                    <p style="font-size: 0.85rem; margin: 0;">Primary & secondary sources, community consultation</p>
+                </div>
+                <div>
+                    <h4 style="font-size: 0.9rem; margin: 0 0 0.5rem;">3. Action/Solution</h4>
+                    <p style="font-size: 0.85rem; margin: 0;">Real-world application or community project</p>
+                </div>
+                <div>
+                    <h4 style="font-size: 0.9rem; margin: 0 0 0.5rem;">4. Presentation</h4>
+                    <p style="font-size: 0.85rem; margin: 0;">Share findings with authentic audience</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="cultural-note" style="background: rgba(241, 143, 1, 0.1); padding: 1rem; border-radius: 8px; margin-top: 1.5rem; border-left: 3px solid var(--color-accent);">
+            <p style="margin: 0; font-size: 0.9rem;">
+                <strong>🌿 Cultural Note:</strong> When implementing, consider authentic Māori pedagogical approaches (ako, tuakana-teina, wānanga) and ensure cultural safety throughout.
+            </p>
+        </div>
+    </section>
+
+
+
+    <section class="assessment-tools no-print" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); padding: 2rem; border-radius: 12px; margin: 3rem 0; border-left: 4px solid var(--color-info); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <h2 style="color: var(--color-primary); margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+            <span>📊</span>
+            <span>Assessment Tools | Ngā Taputapu Aromatawai</span>
+        </h2>
+        
+        <div class="assessment-grid" style="display: grid; gap: 1.5rem; margin-top: 1.5rem;">
+            
+            <!-- Formative Assessment -->
+            <div class="assessment-card" style="background: white; padding: 1.5rem; border-radius: 8px; border-left: 3px solid var(--color-success);">
+                <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">✅ Formative Assessment (During Learning)</h3>
+                <div style="font-size: 0.9rem;">
+                    <p style="margin: 0.5rem 0;"><strong>Exit Ticket:</strong></p>
+                    <ul style="margin: 0.5rem 0;">
+                        <li>What is one thing you learned today?</li>
+                        <li>What is one question you still have?</li>
+                        <li>How does this connect to your own experience?</li>
+                    </ul>
+                    <p style="margin: 0.5rem 0;"><strong>Quick Check:</strong> Thumbs up/sideways/down for understanding</p>
+                </div>
+            </div>
+            
+            <!-- Self-Assessment -->
+            <div class="assessment-card" style="background: white; padding: 1.5rem; border-radius: 8px; border-left: 3px solid var(--color-secondary);">
+                <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">🎯 Self-Assessment Rubric</h3>
+                <table style="width: 100%; font-size: 0.85rem; border-collapse: collapse;">
+                    <tr style="background: var(--color-gray-100);">
+                        <th style="padding: 0.5rem; text-align: left;">Criteria</th>
+                        <th style="padding: 0.5rem; text-align: center;">Not Yet</th>
+                        <th style="padding: 0.5rem; text-align: center;">Getting There</th>
+                        <th style="padding: 0.5rem; text-align: center;">Got It!</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;">I understand the key concepts</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                    </tr>
+                    <tr style="background: var(--color-gray-50);">
+                        <td style="padding: 0.5rem;">I can explain it to others</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5rem;">I can apply it to new situations</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                        <td style="padding: 0.5rem; text-align: center;">☐</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <!-- Peer Assessment -->
+            <div class="assessment-card" style="background: white; padding: 1.5rem; border-radius: 8px; border-left: 3px solid var(--color-pounamu);">
+                <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">👥 Peer Assessment Protocol</h3>
+                <div style="font-size: 0.9rem;">
+                    <p style="margin: 0.5rem 0;"><strong>Tuakana-Teina Approach:</strong></p>
+                    <ol style="margin: 0.5rem 0;">
+                        <li>Two stars: What did they do well?</li>
+                        <li>One wish: What could be improved?</li>
+                        <li>Connection: How does this relate to our learning?</li>
+                    </ol>
+                    <p style="margin: 0.5rem 0; font-style: italic; color: var(--color-text-secondary);">Encourage manaakitanga (respect) in all feedback</p>
+                </div>
+            </div>
+            
+            <!-- Portfolio Evidence -->
+            <div class="assessment-card" style="background: white; padding: 1.5rem; border-radius: 8px; border-left: 3px solid var(--color-accent);">
+                <h3 style="font-size: 1.1rem; color: var(--color-primary); margin-top: 0;">📁 Portfolio Evidence</h3>
+                <div style="font-size: 0.9rem;">
+                    <p style="margin: 0.5rem 0;"><strong>Collect:</strong></p>
+                    <ul style="margin: 0.5rem 0;">
+                        <li>Completed activities/worksheets</li>
+                        <li>Reflection journal entries</li>
+                        <li>Photos of practical work</li>
+                        <li>Peer feedback received</li>
+                    </ul>
+                    <p style="margin: 0.5rem 0;"><strong>Reflection Prompt:</strong> How does this work show your growth as a learner?</p>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="summative-assessment" style="background: rgba(239, 68, 68, 0.1); padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem; border-left: 3px solid var(--color-error);">
+            <h3 style="color: var(--color-primary); margin-top: 0;">📝 Summative Assessment Options</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; font-size: 0.9rem;">
+                <div>
+                    <h4 style="font-size: 0.95rem; margin: 0 0 0.5rem;">Written Test</h4>
+                    <p style="margin: 0; font-size: 0.85rem;">Multiple choice, short answer, extended response</p>
+                </div>
+                <div>
+                    <h4 style="font-size: 0.95rem; margin: 0 0 0.5rem;">Project</h4>
+                    <p style="margin: 0; font-size: 0.85rem;">Research, create, present findings</p>
+                </div>
+                <div>
+                    <h4 style="font-size: 0.95rem; margin: 0 0 0.5rem;">Presentation</h4>
+                    <p style="margin: 0; font-size: 0.85rem;">Oral, visual, or multimedia</p>
+                </div>
+                <div>
+                    <h4 style="font-size: 0.95rem; margin: 0 0 0.5rem;">Practical Demo</h4>
+                    <p style="margin: 0; font-size: 0.85rem;">Skills demonstration, performance task</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<div id="footer-component"></div>
+
+    <!-- JavaScript -->
+    <script src="/js/header-dropdowns.js"></script>
+    <script>
+        // Load header and footer components
+        fetch('/components/header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-component').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading header:', error));
+
+        fetch('/components/footer.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('footer-component').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading footer:', error));
+    </script>
+    <script src="/js/te-kete-professional.js" defer></script>
+    <section class="external-resources no-print" style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 2rem; border-radius: 12px; margin: 3rem 0; border-left: 4px solid var(--color-info); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <h2 style="color: var(--color-primary); margin-top: 0;"><span>🔗</span> <span>External Resources</span></h2>
+        <div style="display: grid; gap: 1rem;"><div style="background: white; padding: 1rem; border-radius: 8px;">
+            <h4 style="margin: 0 0 0.5rem; color: var(--color-primary);">📚 English & Literacy</h4>
+            <ul style="margin: 0; font-size: 0.95rem;">
+                <li><a href="https://literacyonline.tki.org.nz/" target="_blank">Literacy Online</a> - NZ reading resources</li>
+                <li><a href="https://www.tki.org.nz/r/english/" target="_blank">TKI: English</a> - Curriculum support</li>
+                <li><a href="https://www.readingeggs.co.nz/" target="_blank">Reading Eggs NZ</a> - Learning platform</li>
+            </ul></div></div></section>
+    <script src="/js/components.js"></script>
+    <script src="/js/loading-toast-system.js" defer></script>
+</body>
+</html>

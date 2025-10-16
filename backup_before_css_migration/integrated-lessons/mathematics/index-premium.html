@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Performance: Optimize rendering -->
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#1b4332">
+    <meta name="color-scheme" content="light">
+    <!-- Performance: DNS prefetch for external domains -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <!-- Performance: Preload critical resources -->
+    <link rel="preload" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/components/badge-system.html">
+    <link rel="stylesheet" href="/css/ux-professional-enhancements.css" as="style">
+    <link rel="preload" href="/js/header-dropdowns.js" as="script">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Lato:wght@300;400;700;900&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" as="style" crossorigin>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Te Kete Ako | World-Class Educational Resources Honoring Te Ao Māori</title>
+    <meta name="description" content="Te Kete Ako - Award-winning educational platform integrating mātauranga Māori with contemporary learning for New Zealand classrooms. World-class resources, cultural authenticity, and pedagogical excellence.">
+    <meta name="keywords" content="education, māori, indigenous, teaching resources, new zealand, curriculum, mātauranga māori">
+    <meta name="author" content="Te Kete Ako">
+    
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/ux-professional-enhancements.css">
+    <link rel="stylesheet" href="/css/print.css" media="print"/>
+    
+    <!-- Modern Interactive Components -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2C5F41">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Te Kete Ako">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+
+    <style>
+    /* World-Class CSS Variables */
+    :root {
+        --primary-green: #2C5F41;
+        --primary-blue: #40E0D0;
+        --primary-gold: #FFD700;
+        --primary-dark: #1a3d2e;
+        --primary-light: #4a7c59;
+        --accent-purple: #6b46c1;
+        --accent-orange: #f59e0b;
+        --text-dark: #1f2937;
+        --text-light: #6b7280;
+        --bg-white: #ffffff;
+        --bg-cream: #fefdf8;
+        --bg-soft: #f8fafc;
+        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Critical CSS for above-the-fold content */
+    .site-header { 
+        position: sticky; 
+        top: 0; 
+        z-index: 100; 
+        background: rgba(255,255,255,0.95); 
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(44, 95, 65, 0.1);
+    }
+    
+    .hero-section { 
+        background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-blue) 50%, var(--primary-dark) 100%); 
+        padding: 8rem 0 6rem; 
+        color: white;
+        position: relative;
+        overflow: hidden;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+    }
+    
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: 
+            radial-gradient(circle at 20% 80%, rgba(255,215,0,0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(64,224,208,0.1) 0%, transparent 50%),
+            radial-gradient(circle at 40% 40%, rgba(255,255,255,0.05) 0%, transparent 50%);
+        pointer-events: none;
+    }
+    
+    .hero-section::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: 
+            repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px);
+        pointer-events: none;
+    }
+    
+    .hero-title { 
+        font-size: 5rem; 
+        font-weight: 900; 
+        color: white; 
+        margin-bottom: 2rem; 
+        text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+        letter-spacing: -0.03em;
+        position: relative;
+        z-index: 1;
+        line-height: 1.1;
+    }
+    
+    .hero-tagline {
+        font-size: 1.6rem;
+        color: rgba(255,255,255,0.9);
+        margin-bottom: 2.5rem;
+        position: relative;
+        z-index: 1;
+        font-weight: 500;
+        line-height: 1.5;
+    }
+    
+    .nav-brand { font-size: 1.5rem; font-weight: 700; color: var(--primary-green); text-decoration: none; }
+    
+    /* Floating animations */
+    .floating-element {
+        animation: float 8s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        33% { transform: translateY(-15px) rotate(1deg); }
+        66% { transform: translateY(-10px) rotate(-1deg); }
+    }
+    
+    .fade-in-up {
+        animation: fadeInUp 1.2s ease-out forwards;
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .pulse-glow {
+        animation: pulseGlow 3s ease-in-out infinite alternate;
+    }
+    
+    @keyframes pulseGlow {
+        from { 
+            box-shadow: 0 0 30px rgba(255,255,255,0.3);
+            transform: scale(1);
+        }
+        to { 
+            box-shadow: 0 0 60px rgba(255,255,255,0.6);
+            transform: scale(1.02);
+        }
+    }
+    
+    /* World-class resource card design */
+    .resource-card {
+        background: linear-gradient(145deg, #ffffff 0%, #f8fffe 100%);
+        border-radius: 28px;
+        padding: 3.5rem;
+        box-shadow: 
+            0 25px 80px rgba(44, 95, 65, 0.08),
+            0 10px 30px rgba(0, 0, 0, 0.04),
+            inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(44, 95, 65, 0.06);
+        transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+    }
+    
+    .resource-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, var(--primary-green), var(--primary-blue), var(--primary-gold));
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+    
+    .resource-card:hover::before {
+        opacity: 1;
+    }
+    
+    .resource-card::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(44, 95, 65, 0.03) 0%, transparent 70%);
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        pointer-events: none;
+    }
+    
+    .resource-card:hover::after {
+        opacity: 1;
+    }
+    
+    .resource-card:hover {
+        transform: translateY(-15px) scale(1.02);
+        box-shadow: 
+            0 40px 100px rgba(44, 95, 65, 0.15),
+            0 20px 50px rgba(0, 0, 0, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+    
+    .resource-card.featured {
+        background: linear-gradient(145deg, #ffffff 0%, #f0f8f4 100%);
+        border: 2px solid rgba(44, 95, 65, 0.12);
+        transform: scale(1.03);
+    }
+    
+    .resource-card.featured:hover {
+        transform: translateY(-18px) scale(1.05);
+        box-shadow: 
+            0 50px 120px rgba(44, 95, 65, 0.2),
+            0 25px 60px rgba(0, 0, 0, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    }
+    
+    /* Premium button design */
+    .btn {
+        position: relative;
+        overflow: hidden;
+        background-size: 200% 200%;
+        animation: gradientShift 4s ease infinite;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+    }
+    
+    @keyframes gradientShift {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+    }
+    
+    .btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+        transition: left 0.8s ease;
+    }
+    
+    .btn:hover::before {
+        left: 100%;
+    }
+    
+    .btn:hover {
+        transform: translateY(-4px) scale(1.05);
+        box-shadow: 
+            0 15px 45px rgba(44, 95, 65, 0.4),
+            0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .btn-primary:hover {
+        background: linear-gradient(135deg, var(--primary-dark), var(--primary-green));
+    }
+    
+    /* Section styling */
+    .featured-resources {
+        padding: 8rem 2rem;
+        background: linear-gradient(180deg, var(--bg-white) 0%, var(--bg-cream) 100%);
+        position: relative;
+    }
+    
+    .section-title {
+        font-size: 3.5rem;
+        font-weight: 900;
+        color: var(--primary-green);
+        margin-bottom: 2rem;
+        position: relative;
+        text-align: center;
+    }
+    
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 6px;
+        background: linear-gradient(90deg, var(--primary-green), var(--primary-blue), var(--primary-gold));
+        border-radius: 3px;
+    }
+    
+    .section-subtitle {
+        font-size: 1.4rem;
+        color: var(--text-light);
+        max-width: 900px;
+        margin: 0 auto 4rem;
+        line-height: 1.7;
+        text-align: center;
+        font-weight: 500;
+    }
+    
+    /* Resource grid */
+    .resources-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+        gap: 4rem;
+        max-width: 1600px;
+        margin: 0 auto;
+    }
+    
+    /* Resource card content */
+    .resource-header {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        margin-bottom: 2.5rem;
+        position: relative;
+    }
+    
+    .resource-icon {
+        font-size: 5rem;
+        background: linear-gradient(135deg, var(--primary-green), var(--primary-blue));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        filter: drop-shadow(0 6px 12px rgba(44, 95, 65, 0.2));
+        animation: iconPulse 3s ease-in-out infinite;
+    }
+    
+    @keyframes iconPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+    
+    .resource-title {
+        font-size: 2.2rem;
+        font-weight: 900;
+        color: var(--primary-green);
+        margin: 0 0 1rem 0;
+        line-height: 1.2;
+    }
+    
+    .resource-tag {
+        display: inline-block;
+        background: linear-gradient(135deg, var(--primary-blue), var(--primary-green));
+        color: white;
+        padding: 0.8rem 1.8rem;
+        border-radius: 25px;
+        font-size: 1rem;
+        font-weight: 700;
+        box-shadow: 0 6px 20px rgba(64, 224, 208, 0.3);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .resource-content p {
+        font-size: 1.3rem;
+        line-height: 1.8;
+        color: var(--text-dark);
+        margin-bottom: 3rem;
+        font-weight: 500;
+    }
+    
+    .resource-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.5rem 3rem;
+        background: linear-gradient(135deg, var(--primary-green), var(--primary-blue));
+        color: white;
+        text-decoration: none;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 1.2rem;
+        transition: all 0.4s ease;
+        box-shadow: 0 10px 30px rgba(44, 95, 65, 0.3);
+        position: relative;
+        overflow: hidden;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .hero-title { font-size: 3.5rem; }
+        .hero-tagline { font-size: 1.3rem; }
+        .section-title { font-size: 2.5rem; }
+        .resources-grid { grid-template-columns: 1fr; gap: 2rem; }
+        .resource-card { padding: 2.5rem; }
+        .resource-header { flex-direction: column; text-align: center; gap: 1rem; }
+    }
+    </style>
+</head>
+<body data-auto-init="true" data-current-page="home">
+    <!-- Include Header Component -->
+    <div id="header-component"></div>
+
+    <div class="main-container">
+        <main role="main" class="content-area">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="hero-content" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem; text-align: center;">
+                    <div class="hero-main">
+                        <h1 class="hero-title fade-in-up">Te Kete Ako</h1>
+                        <p class="hero-tagline fade-in-up" style="animation-delay: 0.3s;">World-Class Educational Resources Honoring Te Ao Māori</p>
+                        <div class="whakatauki-container fade-in-up" style="margin: 3rem 0; position: relative; z-index: 1; animation-delay: 0.6s;">
+                            <h2 class="whakatauki" style="font-size: 3rem; font-weight: 800; color: var(--primary-gold); text-shadow: 3px 3px 6px rgba(0,0,0,0.4); font-style: italic; margin-bottom: 1.5rem; line-height: 1.3;">"Whaowhia te kete mātauranga"</h2>
+                            <p class="whakatauki-translation" style="font-size: 1.4rem; color: rgba(255,255,255,0.9); font-weight: 600;">Fill the basket of knowledge</p>
+                        </div>
+                        <div class="hero-actions fade-in-up" style="display: flex; gap: 2.5rem; justify-content: center; flex-wrap: wrap; margin-top: 4rem; position: relative; z-index: 1; animation-delay: 0.9s;">
+                            <a href="/resource-hub.html" class="btn btn-primary pulse-glow" style="padding: 2rem 4rem; font-size: 1.4rem; background: rgba(255,255,255,0.15); backdrop-filter: blur(20px); color: white; border: 2px solid rgba(255,255,255,0.3); border-radius: 20px; text-decoration: none; display: inline-flex; align-items: center; gap: 1rem; box-shadow: 0 15px 50px rgba(0,0,0,0.2); transition: all 0.4s ease; min-width: 280px; justify-content: center;">
+                                🌟 Explore Resources
+                            </a>
+                            <a href="/curriculum-index.html" class="btn btn-secondary pulse-glow" style="padding: 2rem 4rem; font-size: 1.4rem; border: 2px solid white; color: white; border-radius: 20px; text-decoration: none; display: inline-flex; align-items: center; gap: 1rem; background: rgba(255,255,255,0.1); backdrop-filter: blur(20px); transition: all 0.4s ease; min-width: 280px; justify-content: center;">
+                                📚 Browse Curriculum
+                            </a>
+                        </div>
+                        
+                        <!-- Interactive Māori Pattern Animation -->
+                        <div class="floating-element" style="position: absolute; top: 15%; right: 8%; width: 120px; height: 120px; opacity: 0.4; z-index: 1;">
+                            <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_xyz.json" background="transparent" speed="0.8" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
+                        </div>
+                        
+                        <!-- Additional floating elements for visual interest -->
+                        <div class="floating-element" style="position: absolute; top: 65%; left: 8%; width: 80px; height: 80px; opacity: 0.3; z-index: 1; animation-delay: 2s;">
+                            <div style="width: 100%; height: 100%; background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%); border-radius: 50%; box-shadow: 0 0 30px rgba(255,255,255,0.3);"></div>
+                        </div>
+                        <div class="floating-element" style="position: absolute; top: 25%; left: 12%; width: 60px; height: 60px; opacity: 0.35; z-index: 1; animation-delay: 4s;">
+                            <div style="width: 100%; height: 100%; background: linear-gradient(45deg, rgba(255,215,0,0.8), rgba(255,255,255,0.4)); border-radius: 50%; box-shadow: 0 0 25px rgba(255,215,0,0.4);"></div>
+                        </div>
+                        <div class="floating-element" style="position: absolute; top: 75%; right: 15%; width: 50px; height: 50px; opacity: 0.25; z-index: 1; animation-delay: 6s;">
+                            <div style="width: 100%; height: 100%; background: linear-gradient(135deg, rgba(64,224,208,0.8), rgba(255,255,255,0.3)); border-radius: 50%; box-shadow: 0 0 20px rgba(64,224,208,0.3);"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Resources -->
+            <section class="featured-resources" data-aos="fade-up">
+                <div class="section-header" data-aos="fade-up" data-aos-delay="100">
+                    <h2 class="section-title">🌟 Featured Resources</h2>
+                    <p class="section-subtitle">Hand-picked educational treasures for your classroom - Including NEW Walker Unit on Dr. Ranginui Walker</p>
+                </div>
+                
+                <div class="resources-grid">
+                    <div class="resource-card featured" data-aos="fade-up" data-aos-delay="100">
+                        <div class="resource-header">
+                            <div class="resource-icon">🎮</div>
+                            <div class="resource-info">
+                                <h3 class="resource-title">Te Reo Māori Wordle</h3>
+                                <div class="resource-tag">Interactive Game</div>
+                            </div>
+                        </div>
+                        <div class="resource-content">
+                            <p>Engaging language learning through the popular Wordle format, featuring Te Reo Māori vocabulary and cultural context.</p>
+                            <a href="/games/te-reo-wordle-unlimited.html" class="resource-link">Play Now →</a>
+                        </div>
+                    </div>
+                    
+                    <div class="resource-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="resource-header">
+                            <div class="resource-icon">📐</div>
+                            <div class="resource-info">
+                                <h3 class="resource-title">Y9 Maths: Geometry Patterns</h3>
+                                <div class="resource-tag">Complete Unit</div>
+                            </div>
+                        </div>
+                        <div class="resource-content">
+                            <p>Explore mathematical concepts through traditional Māori patterns and designs, connecting geometry with cultural knowledge.</p>
+                            <a href="/units/y9-maths-geometry-patterns.html" class="resource-link">Explore Unit →</a>
+                        </div>
+                    </div>
+                    
+                    <div class="resource-card featured" data-aos="fade-up" data-aos-delay="300">
+                        <div class="resource-header">
+                            <div class="resource-icon">📚</div>
+                            <div class="resource-info">
+                                <h3 class="resource-title">Walker Unit: Challenge to the Narrative</h3>
+                                <div class="resource-tag">NEW! Complete Unit</div>
+                            </div>
+                        </div>
+                        <div class="resource-content">
+                            <p>NEW! Explore Dr. Ranginui Walker's groundbreaking work challenging dominant narratives in NZ history. 3 world-class lessons ready!</p>
+                            <a href="/lessons/walker/index.html" class="resource-link">Start Learning →</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Access -->
+            <section class="quick-access-section" style="padding: 6rem 2rem; background: linear-gradient(180deg, var(--bg-cream) 0%, var(--bg-white) 100%);" data-aos="fade-up">
+                <div class="section-header" style="text-align: center; margin-bottom: 4rem;" data-aos="fade-up" data-aos-delay="100">
+                    <h2 class="section-title">🚀 Quick Access</h2>
+                    <p class="section-subtitle">Find what you need quickly</p>
+                </div>
+                
+                <div class="quick-access-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto;">
+                    <a href="/lessons.html" class="quick-access-card" style="background: linear-gradient(145deg, white, #f8fffe); padding: 2.5rem; border-radius: 20px; text-decoration: none; color: var(--text-dark); transition: all 0.3s ease; box-shadow: var(--shadow-lg); border: 1px solid rgba(44, 95, 65, 0.1);" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="quick-access-icon" style="font-size: 3rem; margin-bottom: 1rem;">📖</div>
+                        <div class="quick-access-title" style="font-size: 1.5rem; font-weight: 700; color: var(--primary-green); margin-bottom: 0.5rem;">All Lessons</div>
+                        <div class="quick-access-count" style="color: var(--text-light); font-weight: 500;">250+ Resources</div>
+                    </a>
+                    
+                    <a href="/handouts.html" class="quick-access-card" style="background: linear-gradient(145deg, white, #f8fffe); padding: 2.5rem; border-radius: 20px; text-decoration: none; color: var(--text-dark); transition: all 0.3s ease; box-shadow: var(--shadow-lg); border: 1px solid rgba(44, 95, 65, 0.1);" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="quick-access-icon" style="font-size: 3rem; margin-bottom: 1rem;">📄</div>
+                        <div class="quick-access-title" style="font-size: 1.5rem; font-weight: 700; color: var(--primary-green); margin-bottom: 0.5rem;">Handouts</div>
+                        <div class="quick-access-count" style="color: var(--text-light); font-weight: 500;">150+ Printables</div>
+                    </a>
+                    
+                    <a href="/games.html" class="quick-access-card" style="background: linear-gradient(145deg, white, #f8fffe); padding: 2.5rem; border-radius: 20px; text-decoration: none; color: var(--text-dark); transition: all 0.3s ease; box-shadow: var(--shadow-lg); border: 1px solid rgba(44, 95, 65, 0.1);" data-aos="zoom-in" data-aos-delay="300">
+                        <div class="quick-access-icon" style="font-size: 3rem; margin-bottom: 1rem;">🎮</div>
+                        <div class="quick-access-title" style="font-size: 1.5rem; font-weight: 700; color: var(--primary-green); margin-bottom: 0.5rem;">Games</div>
+                        <div class="quick-access-count" style="color: var(--text-light); font-weight: 500;">25+ Interactive</div>
+                    </a>
+                    
+                    <a href="/units/index.html" class="quick-access-card" style="background: linear-gradient(145deg, white, #f8fffe); padding: 2.5rem; border-radius: 20px; text-decoration: none; color: var(--text-dark); transition: all 0.3s ease; box-shadow: var(--shadow-lg); border: 1px solid rgba(44, 95, 65, 0.1);" data-aos="zoom-in" data-aos-delay="400">
+                        <div class="quick-access-icon" style="font-size: 3rem; margin-bottom: 1rem;">📚</div>
+                        <div class="quick-access-title" style="font-size: 1.5rem; font-weight: 700; color: var(--primary-green); margin-bottom: 0.5rem;">Units</div>
+                        <div class="quick-access-count" style="color: var(--text-light); font-weight: 500;">16 Complete Units</div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Teacher Resources -->
+            <section class="teacher-resources" style="padding: 6rem 2rem; background: var(--bg-white);" data-aos="fade-up">
+                <div class="section-header" style="text-align: center; margin-bottom: 4rem;" data-aos="fade-up" data-aos-delay="100">
+                    <h2 class="section-title">👩‍🏫 For Teachers</h2>
+                    <p class="section-subtitle">Resources designed with educators in mind</p>
+                </div>
+                
+                <div class="teacher-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; max-width: 1200px; margin: 0 auto;">
+                    <div class="teacher-card" style="background: linear-gradient(145deg, white, #f8fffe); padding: 3rem; border-radius: 20px; text-align: center; transition: all 0.3s ease; box-shadow: var(--shadow-lg); border: 1px solid rgba(44, 95, 65, 0.1);" data-aos="fade-up" data-aos-delay="100">
+                        <div class="teacher-icon" style="font-size: 4rem; margin-bottom: 1.5rem;">📋</div>
+                        <h3 style="font-size: 1.8rem; font-weight: 700; color: var(--primary-green); margin-bottom: 1rem;">Curriculum Alignment</h3>
+                        <p style="color: var(--text-light); line-height: 1.6; margin-bottom: 2rem; font-weight: 500;">All resources aligned with NZ Curriculum standards</p>
+                        <a href="/curriculum-index.html" class="teacher-link" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2rem; background: linear-gradient(135deg, var(--primary-green), var(--primary-blue)); color: white; text-decoration: none; border-radius: 12px; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(44, 95, 65, 0.3);">Browse Curriculum →</a>
+                    </div>
+                    
+                    <div class="teacher-card" style="background: linear-gradient(145deg, white, #f8fffe); padding: 3rem; border-radius: 20px; text-align: center; transition: all 0.3s ease; box-shadow: var(--shadow-lg); border: 1px solid rgba(44, 95, 65, 0.1);" data-aos="fade-up" data-aos-delay="200">
+                        <div class="teacher-icon" style="font-size: 4rem; margin-bottom: 1.5rem;">📚</div>
+                        <h3 style="font-size: 1.8rem; font-weight: 700; color: var(--primary-green); margin-bottom: 1rem;">Complete Units</h3>
+                        <p style="color: var(--text-light); line-height: 1.6; margin-bottom: 2rem; font-weight: 500;">Ready-to-use unit plans with integrated resources</p>
+                        <a href="/units/index.html" class="teacher-link" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2rem; background: linear-gradient(135deg, var(--primary-green), var(--primary-blue)); color: white; text-decoration: none; border-radius: 12px; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(44, 95, 65, 0.3);">View Units →</a>
+                    </div>
+                    
+                    <div class="teacher-card" style="background: linear-gradient(145deg, white, #f8fffe); padding: 3rem; border-radius: 20px; text-align: center; transition: all 0.3s ease; box-shadow: var(--shadow-lg); border: 1px solid rgba(44, 95, 65, 0.1);" data-aos="fade-up" data-aos-delay="300">
+                        <div class="teacher-icon" style="font-size: 4rem; margin-bottom: 1.5rem;">🧠</div>
+                        <h3 style="font-size: 1.8rem; font-weight: 700; color: var(--primary-green); margin-bottom: 1rem;">Professional Development</h3>
+                        <p style="color: var(--text-light); line-height: 1.6; margin-bottom: 2rem; font-weight: 500;">Growth opportunities for educators</p>
+                        <a href="/teachers/index.html" class="teacher-link" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2rem; background: linear-gradient(135deg, var(--primary-green), var(--primary-blue)); color: white; text-decoration: none; border-radius: 12px; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(44, 95, 65, 0.3);">Professional Learning →</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Statistics -->
+            <section class="stats-section" style="padding: 6rem 2rem; background: linear-gradient(135deg, var(--primary-green), var(--primary-blue)); color: white;" data-aos="fade-up">
+                <div class="stats-container" style="max-width: 1200px; margin: 0 auto; text-align: center;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem;">
+                        <div class="stat-item" data-aos="zoom-in" data-aos-delay="100">
+                            <span class="stat-number" style="display: block; font-size: 4rem; font-weight: 900; margin-bottom: 0.5rem;">721+</span>
+                            <span class="stat-label" style="font-size: 1.2rem; font-weight: 600; opacity: 0.9;">Educational Resources</span>
+                        </div>
+                        <div class="stat-item" data-aos="zoom-in" data-aos-delay="200">
+                            <span class="stat-number" style="display: block; font-size: 4rem; font-weight: 900; margin-bottom: 0.5rem;">12</span>
+                            <span class="stat-label" style="font-size: 1.2rem; font-weight: 600; opacity: 0.9;">Complete Units</span>
+                        </div>
+                        <div class="stat-item" data-aos="zoom-in" data-aos-delay="300">
+                            <span class="stat-number" style="display: block; font-size: 4rem; font-weight: 900; margin-bottom: 0.5rem;">25+</span>
+                            <span class="stat-label" style="font-size: 1.2rem; font-weight: 600; opacity: 0.9;">Interactive Games</span>
+                        </div>
+                        <div class="stat-item" data-aos="zoom-in" data-aos-delay="400">
+                            <span class="stat-number" style="display: block; font-size: 4rem; font-weight: 900; margin-bottom: 0.5rem;">100%</span>
+                            <span class="stat-label" style="font-size: 1.2rem; font-weight: 600; opacity: 0.9;">Cultural Authenticity</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Include Footer Component -->
+    <div id="footer-component"></div>
+    
+    <!-- Initialize AOS (Animate On Scroll) -->
+    <script>
+        AOS.init({
+            duration: 1000,
+            easing: 'ease-in-out',
+            once: true,
+            offset: 100
+        });
+    </script>
+
+    <!-- JavaScript -->
+    <script src="/js/header-dropdowns.js"></script>
+    <script>
+        // Load header and footer components
+        fetch('/components/header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-component').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading header:', error));
+
+        fetch('/components/footer.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('footer-component').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading footer:', error));
+
+        // Add hover effects to quick access cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.quick-access-card, .teacher-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                    this.style.boxShadow = '0 20px 60px rgba(44, 95, 65, 0.15)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                    this.style.boxShadow = 'var(--shadow-lg)';
+                });
+            });
+        });
+    </script>
+    <script src="/js/components.js"></script>
+</body>
+</html>
