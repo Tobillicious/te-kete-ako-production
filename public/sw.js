@@ -17,7 +17,7 @@ const STATIC_RESOURCES = [
     '/css/mobile-revolution.css',
     '/js/mobile-revolution.js',
     '/js/performance-cache-manager.js',
-    '/js/auth-ui.js',
+    '/js/supabase-client.js',
     '/manifest.json',
     '/icons/icon-192x192.png'
 ];

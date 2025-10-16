@@ -1,26 +1,171 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher Sign Up | Te Kete Ako</title>
-    <meta name="description" content="Join Te Kete Ako - Professional platform for NZ teachers">
-    
-    <!-- UNIFIED DESIGN SYSTEM -->
-    <link rel="stylesheet" href="/css/te-kete-unified-design-system.css">
-    <link rel="stylesheet" href="/css/component-library.css">
-    <link rel="stylesheet" href="/css/beautiful-navigation.css">
-    <link rel="stylesheet" href="/css/print.css" media="print"/>
-    
-    <!-- Supabase Auth -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="/js/supabase-client.js"></script>
-    <script src="/js/signup-teacher.js" defer></script>
-</head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Teacher Sign Up | Te Kete Ako</title>
+<meta content="Join Te Kete Ako - Professional platform for NZ teachers" name="description"/>
+<!-- UNIFIED DESIGN SYSTEM -->
+<style id="critical-css">/* CRITICAL CSS - Above-the-fold styles for faster first paint */
+/* Inlined in <head> for immediate rendering */
+
+/* CSS Variables - Must load first */
+:root {
+  --color-primary-500: #1a4d2e;
+  --color-primary-700: #0f2818;
+  --color-secondary-500: #f5e6d3;
+  --color-accent-500: #d4a574;
+  --color-surface: #ffffff;
+  --color-text: #2c3e50;
+  --color-text-secondary: #546e7a;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Reset & Base - Critical only */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+}
+
+/* Header - Above fold, critical */
+header,
+nav {
+  background-color: var(--color-primary-700);
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: var(--shadow-md);
+}
+
+/* Navigation container */
+.nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 72px;
+}
+
+/* Logo/Branding */
+.site-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+}
+
+/* Main content container */
+main {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}
+
+/* Typography - Critical headings only */
+h1 {
+  font-size: 2.5rem;
+  color: var(--color-primary-500);
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 2rem;
+  color: var(--color-primary-700);
+  margin-bottom: 0.75rem;
+}
+
+/* Loading state - Critical for UX */
+.loading {
+  text-align: center;
+  padding: 4rem;
+  color: var(--color-text-secondary);
+}
+
+/* Skip to main content - Accessibility */
+.skip-to-main {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--color-accent-500);
+  color: white;
+  padding: 1rem;
+  text-decoration: none;
+  z-index: 9999;
+}
+
+.skip-to-main:focus {
+  left: 0;
+}
+
+/* Critical button styles */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-primary-500);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+  background-color: var(--color-primary-700);
+}
+
+/* Container - Critical layout */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Mobile - Critical breakpoint only */
+@media (max-width: 768px) {
+  .nav-container {
+    padding: 0 1rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .container,
+  main {
+    padding: 0 1rem;
+  }
+}
+</style><link href="/css/te-kete-unified-design-system.css" media="print" onload="this.media='all'" rel="stylesheet"/>
+<link href="/css/component-library.css" media="print" onload="this.media='all'" rel="stylesheet"/>
+<link href="/css/beautiful-navigation.css" media="print" onload="this.media='all'" rel="stylesheet"/>
+<link href="/css/print.css" media="print" rel="stylesheet">
+<!-- Supabase Auth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script defer="" src="/js/signup-teacher.js"></script>
+</link></head>
 <body>
-    <!-- Professional Mega Menu Navigation -->
-    <div id="beautiful-nav-container"></div>
-    <script>
+<!-- Professional Mega Menu Navigation -->
+<div id="beautiful-nav-container"></div>
+<script>
         fetch('/components/navigation-mega-menu.html')
             .then(r => r.text())
             .then(html => {
@@ -29,366 +174,313 @@
                 document.body.insertBefore(div.firstElementChild, document.body.firstChild);
             });
     </script>
-
-    
-    <!-- Navigation -->
-    <div id="navigation-container"></div>
-    
-    
-    <main class="container" style="max-width: 900px; margin: 4rem auto; padding: 2rem;">
-        
-        <!-- Header -->
-        <div style="text-align: center; margin-bottom: 3rem;">
-            <h1 style="font-size: 2.5rem; color: var(--color-primary-500); margin-bottom: 1rem;">
+<!-- Navigation -->
+<div id="navigation-container"></div>
+<main class="container" style="max-width: 900px; margin: 4rem auto; padding: 2rem;">
+<!-- Header -->
+<div style="text-align: center; margin-bottom: 3rem;">
+<h1 style="font-size: 2.5rem; color: var(--color-primary-500); margin-bottom: 1rem;">
                 🧑‍🏫 Teacher Registration
             </h1>
-            <p style="font-size: 1.2rem; color: var(--color-neutral-600);">
+<p style="font-size: 1.2rem; color: var(--color-neutral-600);">
                 Join Te Kete Ako and access world-class teaching resources
             </p>
-            <p style="font-size: 0.95rem; color: var(--color-neutral-500); margin-top: 1rem;">
+<p style="font-size: 0.95rem; color: var(--color-neutral-500); margin-top: 1rem;">
                 🌿 Honouring mātauranga Māori • NZ Curriculum aligned • Professional development
             </p>
-        </div>
-        
-        <!-- Multi-Step Form -->
-        <div class="signup-card" style="background: white; padding: 3rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-            
-            <!-- Progress Indicator -->
-            <div class="progress-steps" style="display: flex; justify-content: space-between; margin-bottom: 3rem; flex-wrap: wrap; gap: 0.5rem;">
-                <div class="step active" data-step="1" style="flex: 1; min-width: 100px;">
-                    <div class="step-number" style="width: 40px; height: 40px; margin: 0 auto 0.5rem; background: var(--color-primary-500); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">1</div>
-                    <div class="step-label" style="font-size: 0.85rem; text-align: center;">Basic Info</div>
-                </div>
-                <div class="step" data-step="2" style="flex: 1; min-width: 100px;">
-                    <div class="step-number" style="width: 40px; height: 40px; margin: 0 auto 0.5rem; background: var(--color-neutral-300); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">2</div>
-                    <div class="step-label" style="font-size: 0.85rem; text-align: center;">Professional</div>
-                </div>
-                <div class="step" data-step="3" style="flex: 1; min-width: 100px;">
-                    <div class="step-number" style="width: 40px; height: 40px; margin: 0 auto 0.5rem; background: var(--color-neutral-300); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">3</div>
-                    <div class="step-label" style="font-size: 0.85rem; text-align: center;">Teaching</div>
-                </div>
-                <div class="step" data-step="4" style="flex: 1; min-width: 100px;">
-                    <div class="step-number" style="width: 40px; height: 40px; margin: 0 auto 0.5rem; background: var(--color-neutral-300); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">4</div>
-                    <div class="step-label" style="font-size: 0.85rem; text-align: center;">KAMAR</div>
-                </div>
-                <div class="step" data-step="5" style="flex: 1; min-width: 100px;">
-                    <div class="step-number" style="width: 40px; height: 40px; margin: 0 auto 0.5rem; background: var(--color-neutral-300); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">5</div>
-                    <div class="step-label" style="font-size: 0.85rem; text-align: center;">Review</div>
-                </div>
-            </div>
-            
-            <!-- Messages -->
-            <div id="formMessage" style="display: none; padding: 1rem; border-radius: 8px; margin-bottom: 2rem;"></div>
-            
-            <!-- Form -->
-            <form id="teacherSignupForm">
-                
-                <!-- STEP 1: Basic Info -->
-                <div class="form-step active" data-step="1">
-                    <h2 style="margin-bottom: 2rem; color: var(--color-primary-500);">Welcome, Kaiako!</h2>
-                    
-                    <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label for="title" class="required" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Title</label>
-                        <select id="title" name="title" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;">
-                            <option value="">-- Select title --</option>
-                            <option value="Mr">Mr</option>
-                            <option value="Mrs">Mrs</option>
-                            <option value="Ms">Ms</option>
-                            <option value="Mx">Mx</option>
-                            <option value="Dr">Dr</option>
-                            <option value="Professor">Professor</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label for="firstName" class="required" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">First Name</label>
-                        <input type="text" id="firstName" name="firstName" required 
-                               placeholder="e.g., Sarah" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;">
-                    </div>
-                    
-                    <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label for="lastName" class="required" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Last Name</label>
-                        <input type="text" id="lastName" name="lastName" required 
-                               placeholder="e.g., Smith" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;">
-                    </div>
-                    
-                    <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label for="email" class="required" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Professional Email</label>
-                        <input type="email" id="email" name="email" required 
-                               placeholder="your.name@school.nz" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;">
-                        <small style="color: var(--color-neutral-500); font-size: 0.85rem;">School email preferred for verification</small>
-                    </div>
-                    
-                    <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label for="password" class="required" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Password</label>
-                        <input type="password" id="password" name="password" required 
-                               minlength="8" placeholder="At least 8 characters" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;">
-                        <div id="passwordStrength" style="height: 4px; background: var(--color-neutral-200); border-radius: 2px; margin-top: 0.5rem; overflow: hidden;">
-                            <div id="passwordStrengthBar" style="height: 100%; width: 0%; background: var(--color-success); transition: width 0.3s;"></div>
-                        </div>
-                        <small style="color: var(--color-neutral-500); font-size: 0.85rem;">Must be at least 8 characters</small>
-                    </div>
-                    
-                    <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label for="confirmPassword" class="required" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Confirm Password</label>
-                        <input type="password" id="confirmPassword" name="confirmPassword" required 
-                               placeholder="Re-enter your password" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;">
-                    </div>
-                </div>
-                
-                <!-- STEP 2: Professional Details -->
-                <div class="form-step" data-step="2">
-                    <h2 style="margin-bottom: 2rem; color: var(--color-primary-500);">Professional Details</h2>
-                    
-                    <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label for="schoolName" class="required" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">School Name</label>
-                        <select id="schoolName" name="schoolName" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;">
-                            <option value="">-- Select your school --</option>
-                            <option value="Mangakōtukutuku College">Mangakōtukutuku College</option>
-                            <option value="Auckland Grammar School">Auckland Grammar School</option>
-                            <option value="Wellington High School">Wellington High School</option>
-                            <option value="Christchurch Boys High School">Christchurch Boys High School</option>
-                            <option value="Otago Girls High School">Otago Girls High School</option>
-                            <option value="Hamilton Boys High School">Hamilton Boys High School</option>
-                            <option value="Mount Albert Grammar School">Mount Albert Grammar School</option>
-                            <option value="Takapuna Grammar School">Takapuna Grammar School</option>
-                            <option value="Epsom Girls Grammar School">Epsom Girls Grammar School</option>
-                            <option value="Rangitoto College">Rangitoto College</option>
-                            <option value="other">Other (type below)</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group" id="otherSchoolGroup" style="display:none; margin-bottom: 1.5rem;">
-                        <label for="otherSchool" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">School Name (type it in)</label>
-                        <input type="text" id="otherSchool" name="otherSchool" 
-                               placeholder="Type your school name" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;">
-                    </div>
-                    
-                    <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label for="registrationNumber" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Teaching Registration Number</label>
-                        <input type="text" id="registrationNumber" name="registrationNumber" 
-                               placeholder="e.g., 123456 (optional)" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;">
-                        <small style="color: var(--color-neutral-500); font-size: 0.85rem;">Optional - helps verify professional status</small>
-                    </div>
-                    
-                    <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label for="teachingRole" class="required" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Teaching Role</label>
-                        <select id="teachingRole" name="teachingRole" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;">
-                            <option value="">-- Select role --</option>
-                            <option value="Classroom Teacher">Classroom Teacher</option>
-                            <option value="Head of Department">Head of Department (HOD)</option>
-                            <option value="Deputy Principal">Deputy Principal (DP)</option>
-                            <option value="Principal">Principal</option>
-                            <option value="Learning Support">Learning Support / SENCO</option>
-                            <option value="Teacher Aide">Teacher Aide</option>
-                            <option value="Relief Teacher">Relief / Supply Teacher</option>
-                            <option value="Student Teacher">Student Teacher</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label for="yearsExperience" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Years of Teaching Experience</label>
-                        <select id="yearsExperience" name="yearsExperience" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;">
-                            <option value="">-- Select --</option>
-                            <option value="0-2">0-2 years (Beginning Teacher)</option>
-                            <option value="3-5">3-5 years</option>
-                            <option value="6-10">6-10 years</option>
-                            <option value="11-20">11-20 years</option>
-                            <option value="20+">20+ years</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <!-- STEP 3: Teaching Details -->
-                <div class="form-step" data-step="3">
-                    <h2 style="margin-bottom: 2rem; color: var(--color-primary-500);">What do you teach?</h2>
-                    
-                    <p style="color: var(--color-neutral-600); margin-bottom: 2rem; font-size: 0.95rem;">
+</div>
+<!-- Multi-Step Form -->
+<div class="signup-card" style="background: white; padding: 3rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+<!-- Progress Indicator -->
+<div class="progress-steps" style="display: flex; justify-content: space-between; margin-bottom: 3rem; flex-wrap: wrap; gap: 0.5rem;">
+<div class="step active" data-step="1" style="flex: 1; min-width: 100px;">
+<div class="step-number" style="width: 40px; height: 40px; margin: 0 auto 0.5rem; background: var(--color-primary-500); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">1</div>
+<div class="step-label" style="font-size: 0.85rem; text-align: center;">Basic Info</div>
+</div>
+<div class="step" data-step="2" style="flex: 1; min-width: 100px;">
+<div class="step-number" style="width: 40px; height: 40px; margin: 0 auto 0.5rem; background: var(--color-neutral-300); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">2</div>
+<div class="step-label" style="font-size: 0.85rem; text-align: center;">Professional</div>
+</div>
+<div class="step" data-step="3" style="flex: 1; min-width: 100px;">
+<div class="step-number" style="width: 40px; height: 40px; margin: 0 auto 0.5rem; background: var(--color-neutral-300); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">3</div>
+<div class="step-label" style="font-size: 0.85rem; text-align: center;">Teaching</div>
+</div>
+<div class="step" data-step="4" style="flex: 1; min-width: 100px;">
+<div class="step-number" style="width: 40px; height: 40px; margin: 0 auto 0.5rem; background: var(--color-neutral-300); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">4</div>
+<div class="step-label" style="font-size: 0.85rem; text-align: center;">KAMAR</div>
+</div>
+<div class="step" data-step="5" style="flex: 1; min-width: 100px;">
+<div class="step-number" style="width: 40px; height: 40px; margin: 0 auto 0.5rem; background: var(--color-neutral-300); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">5</div>
+<div class="step-label" style="font-size: 0.85rem; text-align: center;">Review</div>
+</div>
+</div>
+<!-- Messages -->
+<div id="formMessage" style="display: none; padding: 1rem; border-radius: 8px; margin-bottom: 2rem;"></div>
+<!-- Form -->
+<form id="teacherSignupForm">
+<!-- STEP 1: Basic Info -->
+<div class="form-step active" data-step="1">
+<h2 style="margin-bottom: 2rem; color: var(--color-primary-500);">Welcome, Kaiako!</h2>
+<div class="form-group" style="margin-bottom: 1.5rem;">
+<label class="required" for="title" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Title</label>
+<select id="title" name="title" required="" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;">
+<option value="">-- Select title --</option>
+<option value="Mr">Mr</option>
+<option value="Mrs">Mrs</option>
+<option value="Ms">Ms</option>
+<option value="Mx">Mx</option>
+<option value="Dr">Dr</option>
+<option value="Professor">Professor</option>
+</select>
+</div>
+<div class="form-group" style="margin-bottom: 1.5rem;">
+<label class="required" for="firstName" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">First Name</label>
+<input id="firstName" name="firstName" placeholder="e.g., Sarah" required="" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;" type="text"/>
+</div>
+<div class="form-group" style="margin-bottom: 1.5rem;">
+<label class="required" for="lastName" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Last Name</label>
+<input id="lastName" name="lastName" placeholder="e.g., Smith" required="" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;" type="text"/>
+</div>
+<div class="form-group" style="margin-bottom: 1.5rem;">
+<label class="required" for="email" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Professional Email</label>
+<input id="email" name="email" placeholder="your.name@school.nz" required="" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;" type="email"/>
+<small style="color: var(--color-neutral-500); font-size: 0.85rem;">School email preferred for verification</small>
+</div>
+<div class="form-group" style="margin-bottom: 1.5rem;">
+<label class="required" for="password" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Password</label>
+<input id="password" minlength="8" name="password" placeholder="At least 8 characters" required="" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;" type="password"/>
+<div id="passwordStrength" style="height: 4px; background: var(--color-neutral-200); border-radius: 2px; margin-top: 0.5rem; overflow: hidden;">
+<div id="passwordStrengthBar" style="height: 100%; width: 0%; background: var(--color-success); transition: width 0.3s;"></div>
+</div>
+<small style="color: var(--color-neutral-500); font-size: 0.85rem;">Must be at least 8 characters</small>
+</div>
+<div class="form-group" style="margin-bottom: 1.5rem;">
+<label class="required" for="confirmPassword" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Confirm Password</label>
+<input id="confirmPassword" name="confirmPassword" placeholder="Re-enter your password" required="" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;" type="password"/>
+</div>
+</div>
+<!-- STEP 2: Professional Details -->
+<div class="form-step" data-step="2">
+<h2 style="margin-bottom: 2rem; color: var(--color-primary-500);">Professional Details</h2>
+<div class="form-group" style="margin-bottom: 1.5rem;">
+<label class="required" for="schoolName" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">School Name</label>
+<select id="schoolName" name="schoolName" required="" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;">
+<option value="">-- Select your school --</option>
+<option value="Mangakōtukutuku College">Mangakōtukutuku College</option>
+<option value="Auckland Grammar School">Auckland Grammar School</option>
+<option value="Wellington High School">Wellington High School</option>
+<option value="Christchurch Boys High School">Christchurch Boys High School</option>
+<option value="Otago Girls High School">Otago Girls High School</option>
+<option value="Hamilton Boys High School">Hamilton Boys High School</option>
+<option value="Mount Albert Grammar School">Mount Albert Grammar School</option>
+<option value="Takapuna Grammar School">Takapuna Grammar School</option>
+<option value="Epsom Girls Grammar School">Epsom Girls Grammar School</option>
+<option value="Rangitoto College">Rangitoto College</option>
+<option value="other">Other (type below)</option>
+</select>
+</div>
+<div class="form-group" id="otherSchoolGroup" style="display:none; margin-bottom: 1.5rem;">
+<label for="otherSchool" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">School Name (type it in)</label>
+<input id="otherSchool" name="otherSchool" placeholder="Type your school name" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;" type="text"/>
+</div>
+<div class="form-group" style="margin-bottom: 1.5rem;">
+<label for="registrationNumber" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Teaching Registration Number</label>
+<input id="registrationNumber" name="registrationNumber" placeholder="e.g., 123456 (optional)" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;" type="text"/>
+<small style="color: var(--color-neutral-500); font-size: 0.85rem;">Optional - helps verify professional status</small>
+</div>
+<div class="form-group" style="margin-bottom: 1.5rem;">
+<label class="required" for="teachingRole" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Teaching Role</label>
+<select id="teachingRole" name="teachingRole" required="" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;">
+<option value="">-- Select role --</option>
+<option value="Classroom Teacher">Classroom Teacher</option>
+<option value="Head of Department">Head of Department (HOD)</option>
+<option value="Deputy Principal">Deputy Principal (DP)</option>
+<option value="Principal">Principal</option>
+<option value="Learning Support">Learning Support / SENCO</option>
+<option value="Teacher Aide">Teacher Aide</option>
+<option value="Relief Teacher">Relief / Supply Teacher</option>
+<option value="Student Teacher">Student Teacher</option>
+<option value="Other">Other</option>
+</select>
+</div>
+<div class="form-group" style="margin-bottom: 1.5rem;">
+<label for="yearsExperience" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Years of Teaching Experience</label>
+<select id="yearsExperience" name="yearsExperience" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;">
+<option value="">-- Select --</option>
+<option value="0-2">0-2 years (Beginning Teacher)</option>
+<option value="3-5">3-5 years</option>
+<option value="6-10">6-10 years</option>
+<option value="11-20">11-20 years</option>
+<option value="20+">20+ years</option>
+</select>
+</div>
+</div>
+<!-- STEP 3: Teaching Details -->
+<div class="form-step" data-step="3">
+<h2 style="margin-bottom: 2rem; color: var(--color-primary-500);">What do you teach?</h2>
+<p style="color: var(--color-neutral-600); margin-bottom: 2rem; font-size: 0.95rem;">
                         This helps us show you the most relevant resources for your teaching.
                     </p>
-                    
-                    <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label for="subjectsTaught" class="required" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Subjects Taught</label>
-                        <select id="subjectsTaught" name="subjectsTaught" multiple size="8" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;">
-                            <option value="English">English / Literacy</option>
-                            <option value="Mathematics">Mathematics / Pāngarau</option>
-                            <option value="Science">Science / Pūtaiao</option>
-                            <option value="Social Studies">Social Studies</option>
-                            <option value="Te Reo Māori">Te Reo Māori</option>
-                            <option value="Technology">Technology / Hangarau</option>
-                            <option value="Health & PE">Health & Physical Education</option>
-                            <option value="Arts">The Arts / Ngā Toi</option>
-                            <option value="Digital Technologies">Digital Technologies</option>
-                            <option value="Learning Support">Learning Support / ESOL</option>
-                            <option value="Other">Other</option>
-                        </select>
-                        <small style="color: var(--color-neutral-500); font-size: 0.85rem;">Hold Ctrl/Cmd to select multiple subjects</small>
-                    </div>
-                    
-                    <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label for="yearLevelsTaught" class="required" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Year Levels Taught</label>
-                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem;">
-                            <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; cursor: pointer;">
-                                <input type="checkbox" name="yearLevels" value="7" style="width: 18px; height: 18px;">
-                                <span>Year 7</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; cursor: pointer;">
-                                <input type="checkbox" name="yearLevels" value="8" style="width: 18px; height: 18px;">
-                                <span>Year 8</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; cursor: pointer;">
-                                <input type="checkbox" name="yearLevels" value="9" style="width: 18px; height: 18px;">
-                                <span>Year 9</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; cursor: pointer;">
-                                <input type="checkbox" name="yearLevels" value="10" style="width: 18px; height: 18px;">
-                                <span>Year 10</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; cursor: pointer;">
-                                <input type="checkbox" name="yearLevels" value="11" style="width: 18px; height: 18px;">
-                                <span>Year 11</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; cursor: pointer;">
-                                <input type="checkbox" name="yearLevels" value="12" style="width: 18px; height: 18px;">
-                                <span>Year 12</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; cursor: pointer;">
-                                <input type="checkbox" name="yearLevels" value="13" style="width: 18px; height: 18px;">
-                                <span>Year 13</span>
-                            </label>
-                        </div>
-                        <small style="color: var(--color-neutral-500); font-size: 0.85rem; display: block; margin-top: 0.5rem;">Select all year levels you teach</small>
-                    </div>
-                    
-                    <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label for="teachingContext" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Teaching Context</label>
-                        <select id="teachingContext" name="teachingContext" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;">
-                            <option value="">-- Select --</option>
-                            <option value="Secondary">Secondary School (Y7-13)</option>
-                            <option value="Intermediate">Intermediate School (Y7-8)</option>
-                            <option value="Kura Kaupapa">Kura Kaupapa Māori</option>
-                            <option value="Special Education">Special Education</option>
-                            <option value="Alternative Education">Alternative Education</option>
-                            <option value="Homeschool">Homeschool Educator</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <!-- STEP 4: KAMAR Integration (Optional) -->
-                <div class="form-step" data-step="4">
-                    <h2 style="margin-bottom: 2rem; color: var(--color-primary-500);">KAMAR Integration (Optional)</h2>
-                    
-                    <div style="background: var(--color-primary-50); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; border-left: 4px solid var(--color-primary-500);">
-                        <h3 style="margin: 0 0 0.5rem 0; color: var(--color-primary-700); font-size: 1.1rem;">🔗 What is KAMAR Integration?</h3>
-                        <p style="margin: 0; color: var(--color-neutral-700); font-size: 0.95rem;">
+<div class="form-group" style="margin-bottom: 1.5rem;">
+<label class="required" for="subjectsTaught" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Subjects Taught</label>
+<select id="subjectsTaught" multiple="" name="subjectsTaught" required="" size="8" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;">
+<option value="English">English / Literacy</option>
+<option value="Mathematics">Mathematics / Pāngarau</option>
+<option value="Science">Science / Pūtaiao</option>
+<option value="Social Studies">Social Studies</option>
+<option value="Te Reo Māori">Te Reo Māori</option>
+<option value="Technology">Technology / Hangarau</option>
+<option value="Health &amp; PE">Health &amp; Physical Education</option>
+<option value="Arts">The Arts / Ngā Toi</option>
+<option value="Digital Technologies">Digital Technologies</option>
+<option value="Learning Support">Learning Support / ESOL</option>
+<option value="Other">Other</option>
+</select>
+<small style="color: var(--color-neutral-500); font-size: 0.85rem;">Hold Ctrl/Cmd to select multiple subjects</small>
+</div>
+<div class="form-group" style="margin-bottom: 1.5rem;">
+<label class="required" for="yearLevelsTaught" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Year Levels Taught</label>
+<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem;">
+<label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; cursor: pointer;">
+<input name="yearLevels" style="width: 18px; height: 18px;" type="checkbox" value="7"/>
+<span>Year 7</span>
+</label>
+<label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; cursor: pointer;">
+<input name="yearLevels" style="width: 18px; height: 18px;" type="checkbox" value="8"/>
+<span>Year 8</span>
+</label>
+<label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; cursor: pointer;">
+<input name="yearLevels" style="width: 18px; height: 18px;" type="checkbox" value="9"/>
+<span>Year 9</span>
+</label>
+<label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; cursor: pointer;">
+<input name="yearLevels" style="width: 18px; height: 18px;" type="checkbox" value="10"/>
+<span>Year 10</span>
+</label>
+<label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; cursor: pointer;">
+<input name="yearLevels" style="width: 18px; height: 18px;" type="checkbox" value="11"/>
+<span>Year 11</span>
+</label>
+<label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; cursor: pointer;">
+<input name="yearLevels" style="width: 18px; height: 18px;" type="checkbox" value="12"/>
+<span>Year 12</span>
+</label>
+<label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; cursor: pointer;">
+<input name="yearLevels" style="width: 18px; height: 18px;" type="checkbox" value="13"/>
+<span>Year 13</span>
+</label>
+</div>
+<small style="color: var(--color-neutral-500); font-size: 0.85rem; display: block; margin-top: 0.5rem;">Select all year levels you teach</small>
+</div>
+<div class="form-group" style="margin-bottom: 1.5rem;">
+<label for="teachingContext" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Teaching Context</label>
+<select id="teachingContext" name="teachingContext" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;">
+<option value="">-- Select --</option>
+<option value="Secondary">Secondary School (Y7-13)</option>
+<option value="Intermediate">Intermediate School (Y7-8)</option>
+<option value="Kura Kaupapa">Kura Kaupapa Māori</option>
+<option value="Special Education">Special Education</option>
+<option value="Alternative Education">Alternative Education</option>
+<option value="Homeschool">Homeschool Educator</option>
+</select>
+</div>
+</div>
+<!-- STEP 4: KAMAR Integration (Optional) -->
+<div class="form-step" data-step="4">
+<h2 style="margin-bottom: 2rem; color: var(--color-primary-500);">KAMAR Integration (Optional)</h2>
+<div style="background: var(--color-primary-50); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; border-left: 4px solid var(--color-primary-500);">
+<h3 style="margin: 0 0 0.5rem 0; color: var(--color-primary-700); font-size: 1.1rem;">🔗 What is KAMAR Integration?</h3>
+<p style="margin: 0; color: var(--color-neutral-700); font-size: 0.95rem;">
                             KAMAR is a student management system used by many NZ schools. Integrating with KAMAR allows you to:
                         </p>
-                        <ul style="margin: 0.5rem 0 0 1.5rem; color: var(--color-neutral-700); font-size: 0.95rem;">
-                            <li>Sync your class lists automatically</li>
-                            <li>View student timetables</li>
-                            <li>Track attendance and assessment</li>
-                        </ul>
-                        <p style="margin: 0.5rem 0 0 0; color: var(--color-neutral-600); font-size: 0.85rem; font-style: italic;">
+<ul style="margin: 0.5rem 0 0 1.5rem; color: var(--color-neutral-700); font-size: 0.95rem;">
+<li>Sync your class lists automatically</li>
+<li>View student timetables</li>
+<li>Track attendance and assessment</li>
+</ul>
+<p style="margin: 0.5rem 0 0 0; color: var(--color-neutral-600); font-size: 0.85rem; font-style: italic;">
                             You can skip this step and add KAMAR details later in your profile settings.
                         </p>
-                    </div>
-                    
-                    <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label for="kamarSchoolCode" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">KAMAR School Code</label>
-                        <input type="text" id="kamarSchoolCode" name="kamarSchoolCode" 
-                               placeholder="e.g., MKC (optional)" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;">
-                        <small style="color: var(--color-neutral-500); font-size: 0.85rem;">Ask your school administrator if unsure</small>
-                    </div>
-                    
-                    <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label for="kamarApiKey" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">KAMAR API Key</label>
-                        <input type="password" id="kamarApiKey" name="kamarApiKey" 
-                               placeholder="Optional - from KAMAR settings" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;">
-                        <small style="color: var(--color-neutral-500); font-size: 0.85rem;">Your API key is encrypted and secure</small>
-                    </div>
-                    
-                    <div style="background: var(--color-neutral-50); padding: 1rem; border-radius: 8px; margin-top: 1.5rem;">
-                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                            <input type="checkbox" id="skipKamar" name="skipKamar" style="width: 20px; height: 20px;">
-                            <span style="color: var(--color-neutral-700);">Skip KAMAR integration for now</span>
-                        </label>
-                    </div>
-                </div>
-                
-                <!-- STEP 5: Review & Confirm -->
-                <div class="form-step" data-step="5">
-                    <h2 style="margin-bottom: 2rem; color: var(--color-primary-500);">Review & Confirm</h2>
-                    
-                    <div id="reviewSummary" style="background: var(--color-neutral-50); padding: 2rem; border-radius: 12px; margin-bottom: 2rem;">
-                        <!-- Summary will be populated by JavaScript -->
-                    </div>
-                    
-                    <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label style="display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer;">
-                            <input type="checkbox" id="termsAccepted" name="termsAccepted" required style="width: 20px; height: 20px; margin-top: 0.25rem;">
-                            <span style="color: var(--color-neutral-700);">
-                                I agree to the <a href="/terms.html" target="_blank" style="color: var(--color-primary-600); text-decoration: none; font-weight: 600;">Terms of Service</a> and 
-                                <a href="/privacy-policy.html" target="_blank" style="color: var(--color-primary-600); text-decoration: none; font-weight: 600;">Privacy Policy</a>
-                            </span>
-                        </label>
-                    </div>
-                    
-                    <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label style="display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer;">
-                            <input type="checkbox" id="emailUpdates" name="emailUpdates" style="width: 20px; height: 20px; margin-top: 0.25rem;">
-                            <span style="color: var(--color-neutral-700);">
+</div>
+<div class="form-group" style="margin-bottom: 1.5rem;">
+<label for="kamarSchoolCode" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">KAMAR School Code</label>
+<input id="kamarSchoolCode" name="kamarSchoolCode" placeholder="e.g., MKC (optional)" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;" type="text"/>
+<small style="color: var(--color-neutral-500); font-size: 0.85rem;">Ask your school administrator if unsure</small>
+</div>
+<div class="form-group" style="margin-bottom: 1.5rem;">
+<label for="kamarApiKey" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">KAMAR API Key</label>
+<input id="kamarApiKey" name="kamarApiKey" placeholder="Optional - from KAMAR settings" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-neutral-300); border-radius: 8px; font-size: 1rem;" type="password"/>
+<small style="color: var(--color-neutral-500); font-size: 0.85rem;">Your API key is encrypted and secure</small>
+</div>
+<div style="background: var(--color-neutral-50); padding: 1rem; border-radius: 8px; margin-top: 1.5rem;">
+<label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+<input id="skipKamar" name="skipKamar" style="width: 20px; height: 20px;" type="checkbox"/>
+<span style="color: var(--color-neutral-700);">Skip KAMAR integration for now</span>
+</label>
+</div>
+</div>
+<!-- STEP 5: Review & Confirm -->
+<div class="form-step" data-step="5">
+<h2 style="margin-bottom: 2rem; color: var(--color-primary-500);">Review &amp; Confirm</h2>
+<div id="reviewSummary" style="background: var(--color-neutral-50); padding: 2rem; border-radius: 12px; margin-bottom: 2rem;">
+<!-- Summary will be populated by JavaScript -->
+</div>
+<div class="form-group" style="margin-bottom: 1.5rem;">
+<label style="display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer;">
+<input id="termsAccepted" name="termsAccepted" required="" style="width: 20px; height: 20px; margin-top: 0.25rem;" type="checkbox"/>
+<span style="color: var(--color-neutral-700);">
+                                I agree to the <a href="/terms.html" style="color: var(--color-primary-600); text-decoration: none; font-weight: 600;" target="_blank">Terms of Service</a> and 
+                                <a href="/privacy-policy.html" style="color: var(--color-primary-600); text-decoration: none; font-weight: 600;" target="_blank">Privacy Policy</a>
+</span>
+</label>
+</div>
+<div class="form-group" style="margin-bottom: 1.5rem;">
+<label style="display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer;">
+<input id="emailUpdates" name="emailUpdates" style="width: 20px; height: 20px; margin-top: 0.25rem;" type="checkbox"/>
+<span style="color: var(--color-neutral-700);">
                                 Send me updates about new resources and professional development opportunities
                             </span>
-                        </label>
-                    </div>
-                    
-                    <div style="background: var(--color-accent-50); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--color-accent-500); margin-top: 2rem;">
-                        <h4 style="margin: 0 0 0.5rem 0; color: var(--color-accent-700);">📧 Email Verification Required</h4>
-                        <p style="margin: 0; color: var(--color-neutral-700); font-size: 0.95rem;">
+</label>
+</div>
+<div style="background: var(--color-accent-50); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--color-accent-500); margin-top: 2rem;">
+<h4 style="margin: 0 0 0.5rem 0; color: var(--color-accent-700);">📧 Email Verification Required</h4>
+<p style="margin: 0; color: var(--color-neutral-700); font-size: 0.95rem;">
                             After signing up, please check your email for a verification link. Your account will be activated once verified.
                         </p>
-                    </div>
-                </div>
-                
-                <!-- Navigation Buttons -->
-                <div class="form-navigation" style="display: flex; justify-content: space-between; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--color-neutral-200);">
-                    <button type="button" id="prevBtn" style="padding: 0.75rem 2rem; background: var(--color-neutral-100); color: var(--color-neutral-700); border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s; display: none;">
+</div>
+</div>
+<!-- Navigation Buttons -->
+<div class="form-navigation" style="display: flex; justify-content: space-between; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--color-neutral-200);">
+<button id="prevBtn" style="padding: 0.75rem 2rem; background: var(--color-neutral-100); color: var(--color-neutral-700); border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s; display: none;" type="button">
                         ← Previous
                     </button>
-                    <button type="button" id="nextBtn" style="padding: 0.75rem 2rem; background: var(--color-primary-600); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+<button id="nextBtn" style="padding: 0.75rem 2rem; background: var(--color-primary-600); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s;" type="button">
                         Next →
                     </button>
-                    <button type="submit" id="submitBtn" style="padding: 0.75rem 2rem; background: var(--color-success); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s; display: none;">
+<button id="submitBtn" style="padding: 0.75rem 2rem; background: var(--color-success); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s; display: none;" type="submit">
                         🎉 Create Account
                     </button>
-                </div>
-                
-            </form>
-            
-            <!-- Loading State -->
-            <div id="loadingState" style="display: none; text-align: center; padding: 3rem;">
-                <div style="width: 60px; height: 60px; border: 4px solid var(--color-neutral-200); border-top-color: var(--color-primary-600); border-radius: 50%; margin: 0 auto 1rem; animation: spin 1s linear infinite;"></div>
-                <p style="color: var(--color-neutral-600); font-weight: 600;">Creating your account...</p>
-            </div>
-            
-        </div>
-        
-        <!-- Already have an account? -->
-        <div style="text-align: center; margin-top: 2rem;">
-            <p style="color: var(--color-neutral-600);">
+</div>
+</form>
+<!-- Loading State -->
+<div id="loadingState" style="display: none; text-align: center; padding: 3rem;">
+<div style="width: 60px; height: 60px; border: 4px solid var(--color-neutral-200); border-top-color: var(--color-primary-600); border-radius: 50%; margin: 0 auto 1rem; animation: spin 1s linear infinite;"></div>
+<p style="color: var(--color-neutral-600); font-weight: 600;">Creating your account...</p>
+</div>
+</div>
+<!-- Already have an account? -->
+<div style="text-align: center; margin-top: 2rem;">
+<p style="color: var(--color-neutral-600);">
                 Already have an account? 
                 <a href="/login.html" style="color: var(--color-primary-600); text-decoration: none; font-weight: 600;">Sign in here</a>
-            </p>
-            <p style="color: var(--color-neutral-500); margin-top: 1rem; font-size: 0.9rem;">
+</p>
+<p style="color: var(--color-neutral-500); margin-top: 1rem; font-size: 0.9rem;">
                 Are you a student? 
                 <a href="/signup-student.html" style="color: var(--color-primary-600); text-decoration: none; font-weight: 600;">Register as student</a>
-            </p>
-        </div>
-        
-    </main>
-    
-    <style>
+</p>
+</div>
+</main>
+<style>
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
@@ -425,9 +517,7 @@
             color: var(--color-error);
         }
     </style>
-    
-    <!-- JavaScript -->
-    <script src="/js/signup-teacher.js"></script>
-    
+<!-- JavaScript -->
+<script src="/js/signup-teacher.js"></script>
 </body>
 </html>

@@ -1,255 +1,367 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher Dashboard | Te Kete Ako</title>
-    <meta name="description" content="Manage your classes, students, and teaching resources">
-    
-    <!-- UNIFIED DESIGN SYSTEM -->
-    <link rel="stylesheet" href="/css/te-kete-unified-design-system.css">
-    <link rel="stylesheet" href="/css/component-library.css">
-    <link rel="stylesheet" href="/css/beautiful-navigation.css">
-    <link rel="stylesheet" href="/css/print.css" media="print"/>
-    
-    <!-- Supabase Auth -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="/js/supabase-client.js"></script>
-    <script src="/js/teacher-dashboard.js" defer></script>
-</head>
-<body data-page="teacher-dashboard" data-auth-required="true" data-role-required="teacher">
-    
-    <!-- Navigation -->
-    <div id="navigation-container"></div>
-    <script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Teacher Dashboard | Te Kete Ako</title>
+<meta content="Manage your classes, students, and teaching resources" name="description"/>
+<!-- UNIFIED DESIGN SYSTEM -->
+<style id="critical-css">/* CRITICAL CSS - Above-the-fold styles for faster first paint */
+/* Inlined in <head> for immediate rendering */
+
+/* CSS Variables - Must load first */
+:root {
+  --color-primary-500: #1a4d2e;
+  --color-primary-700: #0f2818;
+  --color-secondary-500: #f5e6d3;
+  --color-accent-500: #d4a574;
+  --color-surface: #ffffff;
+  --color-text: #2c3e50;
+  --color-text-secondary: #546e7a;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Reset & Base - Critical only */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+}
+
+/* Header - Above fold, critical */
+header,
+nav {
+  background-color: var(--color-primary-700);
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: var(--shadow-md);
+}
+
+/* Navigation container */
+.nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 72px;
+}
+
+/* Logo/Branding */
+.site-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+}
+
+/* Main content container */
+main {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}
+
+/* Typography - Critical headings only */
+h1 {
+  font-size: 2.5rem;
+  color: var(--color-primary-500);
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 2rem;
+  color: var(--color-primary-700);
+  margin-bottom: 0.75rem;
+}
+
+/* Loading state - Critical for UX */
+.loading {
+  text-align: center;
+  padding: 4rem;
+  color: var(--color-text-secondary);
+}
+
+/* Skip to main content - Accessibility */
+.skip-to-main {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--color-accent-500);
+  color: white;
+  padding: 1rem;
+  text-decoration: none;
+  z-index: 9999;
+}
+
+.skip-to-main:focus {
+  left: 0;
+}
+
+/* Critical button styles */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-primary-500);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+  background-color: var(--color-primary-700);
+}
+
+/* Container - Critical layout */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Mobile - Critical breakpoint only */
+@media (max-width: 768px) {
+  .nav-container {
+    padding: 0 1rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .container,
+  main {
+    padding: 0 1rem;
+  }
+}
+</style><link href="/css/te-kete-unified-design-system.css" media="print" onload="this.media='all'" rel="stylesheet"/>
+<link href="/css/component-library.css" media="print" onload="this.media='all'" rel="stylesheet"/>
+<link href="/css/beautiful-navigation.css" media="print" onload="this.media='all'" rel="stylesheet"/>
+<link href="/css/print.css" media="print" rel="stylesheet">
+<!-- Supabase Auth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script defer="" src="/js/teacher-dashboard.js"></script>
+</link></head>
+<body data-auth-required="true" data-page="teacher-dashboard" data-role-required="teacher">
+<!-- Navigation -->
+<div id="navigation-container"></div>
+<script>
         fetch('/navigation-header.html')
             .then(r => r.text())
             .then(html => document.getElementById('navigation-container').innerHTML = html);
     </script>
-    
-    <!-- Loading State -->
-    <div id="loading" style="text-align: center; padding: 4rem;">
-        <div style="font-size: 3rem;">⏳</div>
-        <p style="font-size: 1.2rem; color: var(--color-neutral-600);">Loading your dashboard...</p>
-    </div>
-    
-    <!-- Main Dashboard (Hidden until loaded) -->
-    <main id="dashboard" class="container" style="display: none; max-width: 1400px; margin: 2rem auto; padding: 0 2rem;">
-        
-        <!-- Welcome Header -->
-        <div class="dashboard-header" style="margin-bottom: 3rem;">
-            <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 2rem;">
-                <div>
-                    <h1 style="font-size: 2.5rem; color: var(--color-primary-500); margin-bottom: 0.5rem;">
+<!-- Loading State -->
+<div id="loading" style="text-align: center; padding: 4rem;">
+<div style="font-size: 3rem;">⏳</div>
+<p style="font-size: 1.2rem; color: var(--color-neutral-600);">Loading your dashboard...</p>
+</div>
+<!-- Main Dashboard (Hidden until loaded) -->
+<main class="container" id="dashboard" style="display: none; max-width: 1400px; margin: 2rem auto; padding: 0 2rem;">
+<!-- Welcome Header -->
+<div class="dashboard-header" style="margin-bottom: 3rem;">
+<div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 2rem;">
+<div>
+<h1 style="font-size: 2.5rem; color: var(--color-primary-500); margin-bottom: 0.5rem;">
                         Kia ora, <span id="teacherName">Teacher</span>! 👋
                     </h1>
-                    <p style="font-size: 1.1rem; color: var(--color-neutral-600);" id="teacherSchool">
+<p id="teacherSchool" style="font-size: 1.1rem; color: var(--color-neutral-600);">
                         Loading...
                     </p>
-                </div>
-                <div style="display: flex; gap: 1rem;">
-                    <button class="btn btn-primary" onclick="showCreateClassModal()">
+</div>
+<div style="display: flex; gap: 1rem;">
+<button class="btn btn-primary" onclick="showCreateClassModal()">
                         ➕ Create New Class
                     </button>
-                    <button class="btn btn-secondary" onclick="syncKAMAR()" id="kamarSyncBtn">
+<button class="btn btn-secondary" id="kamarSyncBtn" onclick="syncKAMAR()">
                         🔄 Sync KAMAR
                     </button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Quick Stats Cards -->
-        <div class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
-            
-            <div class="stat-card" style="background: linear-gradient(135deg, #2C5F41, #3b5b23); color: white; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-                <div style="font-size: 1rem; opacity: 0.9; margin-bottom: 0.5rem;">Total Classes</div>
-                <div style="font-size: 3rem; font-weight: 700;" id="totalClasses">0</div>
-                <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">Across all year levels</div>
-            </div>
-            
-            <div class="stat-card" style="background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-                <div style="font-size: 1rem; opacity: 0.9; margin-bottom: 0.5rem;">Total Students</div>
-                <div style="font-size: 3rem; font-weight: 700;" id="totalStudents">0</div>
-                <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">Across all your classes</div>
-            </div>
-            
-            <div class="stat-card" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-                <div style="font-size: 1rem; opacity: 0.9; margin-bottom: 0.5rem;">Resources Assigned</div>
-                <div style="font-size: 3rem; font-weight: 700;" id="resourcesAssigned">0</div>
-                <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">This week</div>
-            </div>
-            
-            <div class="stat-card" style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-                <div style="font-size: 1rem; opacity: 0.9; margin-bottom: 0.5rem;">Avg. Progress</div>
-                <div style="font-size: 3rem; font-weight: 700;" id="avgProgress">0%</div>
-                <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">Student completion rate</div>
-            </div>
-            
-        </div>
-        
-        <!-- Main Content Tabs -->
-        <div class="dashboard-tabs" style="margin-bottom: 2rem;">
-            <div style="border-bottom: 2px solid var(--color-neutral-200); display: flex; gap: 2rem;">
-                <button class="tab-btn active" data-tab="classes" onclick="switchTab('classes')">
+</div>
+</div>
+</div>
+<!-- Quick Stats Cards -->
+<div class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+<div class="stat-card" style="background: linear-gradient(135deg, #2C5F41, #3b5b23); color: white; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+<div style="font-size: 1rem; opacity: 0.9; margin-bottom: 0.5rem;">Total Classes</div>
+<div id="totalClasses" style="font-size: 3rem; font-weight: 700;">0</div>
+<div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">Across all year levels</div>
+</div>
+<div class="stat-card" style="background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+<div style="font-size: 1rem; opacity: 0.9; margin-bottom: 0.5rem;">Total Students</div>
+<div id="totalStudents" style="font-size: 3rem; font-weight: 700;">0</div>
+<div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">Across all your classes</div>
+</div>
+<div class="stat-card" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+<div style="font-size: 1rem; opacity: 0.9; margin-bottom: 0.5rem;">Resources Assigned</div>
+<div id="resourcesAssigned" style="font-size: 3rem; font-weight: 700;">0</div>
+<div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">This week</div>
+</div>
+<div class="stat-card" style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+<div style="font-size: 1rem; opacity: 0.9; margin-bottom: 0.5rem;">Avg. Progress</div>
+<div id="avgProgress" style="font-size: 3rem; font-weight: 700;">0%</div>
+<div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">Student completion rate</div>
+</div>
+</div>
+<!-- Main Content Tabs -->
+<div class="dashboard-tabs" style="margin-bottom: 2rem;">
+<div style="border-bottom: 2px solid var(--color-neutral-200); display: flex; gap: 2rem;">
+<button class="tab-btn active" data-tab="classes" onclick="switchTab('classes')">
                     📚 My Classes
                 </button>
-                <button class="tab-btn" data-tab="students" onclick="switchTab('students')">
+<button class="tab-btn" data-tab="students" onclick="switchTab('students')">
                     👥 All Students
                 </button>
-                <button class="tab-btn" data-tab="resources" onclick="switchTab('resources')">
+<button class="tab-btn" data-tab="resources" onclick="switchTab('resources')">
                     📖 Resource Library
                 </button>
-                <button class="tab-btn" data-tab="timetable" onclick="switchTab('timetable')">
+<button class="tab-btn" data-tab="timetable" onclick="switchTab('timetable')">
                     📅 Timetable
                 </button>
-                <button class="tab-btn" data-tab="reports" onclick="switchTab('reports')">
+<button class="tab-btn" data-tab="reports" onclick="switchTab('reports')">
                     📊 Reports
                 </button>
-            </div>
-        </div>
-        
-        <!-- Tab: My Classes -->
-        <div class="tab-content active" id="tab-classes">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                <h2 style="font-size: 2rem; color: var(--color-primary-500);">My Classes</h2>
-                <input type="search" placeholder="Search classes..." style="padding: 0.75rem; border: 2px solid var(--color-neutral-300); border-radius: 8px; width: 300px;">
-            </div>
-            
-            <div id="classesList" class="classes-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem;">
-                <!-- Classes will be loaded here by JavaScript -->
-                <div style="grid-column: 1/-1; text-align: center; padding: 4rem; color: var(--color-neutral-500);">
+</div>
+</div>
+<!-- Tab: My Classes -->
+<div class="tab-content active" id="tab-classes">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+<h2 style="font-size: 2rem; color: var(--color-primary-500);">My Classes</h2>
+<input placeholder="Search classes..." style="padding: 0.75rem; border: 2px solid var(--color-neutral-300); border-radius: 8px; width: 300px;" type="search"/>
+</div>
+<div class="classes-grid" id="classesList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem;">
+<!-- Classes will be loaded here by JavaScript -->
+<div style="grid-column: 1/-1; text-align: center; padding: 4rem; color: var(--color-neutral-500);">
                     Loading your classes...
                 </div>
-            </div>
-        </div>
-        
-        <!-- Tab: All Students -->
-        <div class="tab-content" id="tab-students" style="display: none;">
-            <h2 style="font-size: 2rem; color: var(--color-primary-500); margin-bottom: 2rem;">All Students</h2>
-            
-            <div id="studentsList">
-                <p style="color: var(--color-neutral-600);">Loading students...</p>
-            </div>
-        </div>
-        
-        <!-- Tab: Resource Library -->
-        <div class="tab-content" id="tab-resources" style="display: none;">
-            <h2 style="font-size: 2rem; color: var(--color-primary-500); margin-bottom: 2rem;">Resource Library</h2>
-            
-            <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
-                <select id="filterSubject" style="padding: 0.75rem; border: 2px solid var(--color-neutral-300); border-radius: 8px;">
-                    <option value="">All Subjects</option>
-                    <option value="English">English</option>
-                    <option value="Mathematics">Mathematics</option>
-                    <option value="Science">Science</option>
-                    <option value="Social Studies">Social Studies</option>
-                    <option value="Te Reo Māori">Te Reo Māori</option>
-                </select>
-                
-                <select id="filterLevel" style="padding: 0.75rem; border: 2px solid var(--color-neutral-300); border-radius: 8px;">
-                    <option value="">All Year Levels</option>
-                    <option value="7">Year 7</option>
-                    <option value="8">Year 8</option>
-                    <option value="9">Year 9</option>
-                    <option value="10">Year 10</option>
-                    <option value="11">Year 11</option>
-                    <option value="12">Year 12</option>
-                    <option value="13">Year 13</option>
-                </select>
-            </div>
-            
-            <div id="resourcesList">
-                <p style="color: var(--color-neutral-600);">Loading resources...</p>
-            </div>
-        </div>
-        
-        <!-- Tab: Timetable -->
-        <div class="tab-content" id="tab-timetable" style="display: none;">
-            <h2 style="font-size: 2rem; color: var(--color-primary-500); margin-bottom: 2rem;">Weekly Timetable</h2>
-            
-            <div id="timetableView">
-                <p style="color: var(--color-neutral-600);">Your timetable will appear here.</p>
-                <p style="color: var(--color-neutral-500); margin-top: 1rem;">
-                    <strong>KAMAR Integration:</strong> If your school uses KAMAR, click "Sync KAMAR" to import your timetable automatically.
+</div>
+</div>
+<!-- Tab: All Students -->
+<div class="tab-content" id="tab-students" style="display: none;">
+<h2 style="font-size: 2rem; color: var(--color-primary-500); margin-bottom: 2rem;">All Students</h2>
+<div id="studentsList">
+<p style="color: var(--color-neutral-600);">Loading students...</p>
+</div>
+</div>
+<!-- Tab: Resource Library -->
+<div class="tab-content" id="tab-resources" style="display: none;">
+<h2 style="font-size: 2rem; color: var(--color-primary-500); margin-bottom: 2rem;">Resource Library</h2>
+<div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+<select id="filterSubject" style="padding: 0.75rem; border: 2px solid var(--color-neutral-300); border-radius: 8px;">
+<option value="">All Subjects</option>
+<option value="English">English</option>
+<option value="Mathematics">Mathematics</option>
+<option value="Science">Science</option>
+<option value="Social Studies">Social Studies</option>
+<option value="Te Reo Māori">Te Reo Māori</option>
+</select>
+<select id="filterLevel" style="padding: 0.75rem; border: 2px solid var(--color-neutral-300); border-radius: 8px;">
+<option value="">All Year Levels</option>
+<option value="7">Year 7</option>
+<option value="8">Year 8</option>
+<option value="9">Year 9</option>
+<option value="10">Year 10</option>
+<option value="11">Year 11</option>
+<option value="12">Year 12</option>
+<option value="13">Year 13</option>
+</select>
+</div>
+<div id="resourcesList">
+<p style="color: var(--color-neutral-600);">Loading resources...</p>
+</div>
+</div>
+<!-- Tab: Timetable -->
+<div class="tab-content" id="tab-timetable" style="display: none;">
+<h2 style="font-size: 2rem; color: var(--color-primary-500); margin-bottom: 2rem;">Weekly Timetable</h2>
+<div id="timetableView">
+<p style="color: var(--color-neutral-600);">Your timetable will appear here.</p>
+<p style="color: var(--color-neutral-500); margin-top: 1rem;">
+<strong>KAMAR Integration:</strong> If your school uses KAMAR, click "Sync KAMAR" to import your timetable automatically.
                 </p>
-            </div>
-        </div>
-        
-        <!-- Tab: Reports -->
-        <div class="tab-content" id="tab-reports" style="display: none;">
-            <h2 style="font-size: 2rem; color: var(--color-primary-500); margin-bottom: 2rem;">Student Progress Reports</h2>
-            
-            <div id="reportsView">
-                <p style="color: var(--color-neutral-600);">Generate and view student progress reports.</p>
-            </div>
-        </div>
-        
-    </main>
-    
-    <!-- Modal: Create Class -->
-    <div id="createClassModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
-        <div class="modal-content" style="background: white; padding: 3rem; border-radius: 16px; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto;">
-            <h2 style="margin-bottom: 2rem; color: var(--color-primary-500);">Create New Class</h2>
-            
-            <form id="createClassForm">
-                <div class="form-group">
-                    <label for="classCode">Class Code *</label>
-                    <input type="text" id="classCode" required placeholder="e.g., 10MAT1">
-                </div>
-                
-                <div class="form-group">
-                    <label for="className">Class Name *</label>
-                    <input type="text" id="className" required placeholder="e.g., Year 10 Mathematics">
-                </div>
-                
-                <div class="form-group">
-                    <label for="classYearLevel">Year Level *</label>
-                    <select id="classYearLevel" required>
-                        <option value="">-- Select year level --</option>
-                        <option value="7">Year 7</option>
-                        <option value="8">Year 8</option>
-                        <option value="9">Year 9</option>
-                        <option value="10">Year 10</option>
-                        <option value="11">Year 11</option>
-                        <option value="12">Year 12</option>
-                        <option value="13">Year 13</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="classSubject">Subject *</label>
-                    <select id="classSubject" required>
-                        <option value="">-- Select subject --</option>
-                        <option value="English">English</option>
-                        <option value="Mathematics">Mathematics</option>
-                        <option value="Science">Science</option>
-                        <option value="Social Studies">Social Studies</option>
-                        <option value="Te Reo Māori">Te Reo Māori</option>
-                        <option value="Digital Technologies">Digital Technologies</option>
-                        <option value="Health & PE">Health & PE</option>
-                        <option value="The Arts">The Arts</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="classRoom">Room</label>
-                    <input type="text" id="classRoom" placeholder="e.g., Room 12">
-                </div>
-                
-                <div class="form-group">
-                    <label for="classDescription">Description</label>
-                    <textarea id="classDescription" rows="3" placeholder="Optional notes about this class"></textarea>
-                </div>
-                
-                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-                    <button type="submit" class="btn btn-primary" style="flex: 1;">Create Class</button>
-                    <button type="button" class="btn btn-secondary" onclick="closeCreateClassModal()">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    
-    <style>
+</div>
+</div>
+<!-- Tab: Reports -->
+<div class="tab-content" id="tab-reports" style="display: none;">
+<h2 style="font-size: 2rem; color: var(--color-primary-500); margin-bottom: 2rem;">Student Progress Reports</h2>
+<div id="reportsView">
+<p style="color: var(--color-neutral-600);">Generate and view student progress reports.</p>
+</div>
+</div>
+</main>
+<!-- Modal: Create Class -->
+<div class="modal" id="createClassModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+<div class="modal-content" style="background: white; padding: 3rem; border-radius: 16px; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto;">
+<h2 style="margin-bottom: 2rem; color: var(--color-primary-500);">Create New Class</h2>
+<form id="createClassForm">
+<div class="form-group">
+<label for="classCode">Class Code *</label>
+<input id="classCode" placeholder="e.g., 10MAT1" required="" type="text"/>
+</div>
+<div class="form-group">
+<label for="className">Class Name *</label>
+<input id="className" placeholder="e.g., Year 10 Mathematics" required="" type="text"/>
+</div>
+<div class="form-group">
+<label for="classYearLevel">Year Level *</label>
+<select id="classYearLevel" required="">
+<option value="">-- Select year level --</option>
+<option value="7">Year 7</option>
+<option value="8">Year 8</option>
+<option value="9">Year 9</option>
+<option value="10">Year 10</option>
+<option value="11">Year 11</option>
+<option value="12">Year 12</option>
+<option value="13">Year 13</option>
+</select>
+</div>
+<div class="form-group">
+<label for="classSubject">Subject *</label>
+<select id="classSubject" required="">
+<option value="">-- Select subject --</option>
+<option value="English">English</option>
+<option value="Mathematics">Mathematics</option>
+<option value="Science">Science</option>
+<option value="Social Studies">Social Studies</option>
+<option value="Te Reo Māori">Te Reo Māori</option>
+<option value="Digital Technologies">Digital Technologies</option>
+<option value="Health &amp; PE">Health &amp; PE</option>
+<option value="The Arts">The Arts</option>
+</select>
+</div>
+<div class="form-group">
+<label for="classRoom">Room</label>
+<input id="classRoom" placeholder="e.g., Room 12" type="text"/>
+</div>
+<div class="form-group">
+<label for="classDescription">Description</label>
+<textarea id="classDescription" placeholder="Optional notes about this class" rows="3"></textarea>
+</div>
+<div style="display: flex; gap: 1rem; margin-top: 2rem;">
+<button class="btn btn-primary" style="flex: 1;" type="submit">Create Class</button>
+<button class="btn btn-secondary" onclick="closeCreateClassModal()" type="button">Cancel</button>
+</div>
+</form>
+</div>
+</div>
+<style>
         /* Tab Styling */
         .tab-btn {
             padding: 1rem 1.5rem;
@@ -325,9 +437,6 @@
             transform: translateY(-4px);
         }
     </style>
-    
-    <script src="/js/teacher-dashboard.js"></script>
-    
+<script src="/js/teacher-dashboard.js"></script>
 </body>
 </html>
-

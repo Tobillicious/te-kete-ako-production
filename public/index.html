@@ -1,64 +1,217 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori</title>
-    <meta name="description" content="Te Kete Ako - Award-winning educational platform integrating mātauranga Māori with contemporary learning for New Zealand classrooms">
-    <meta name="keywords" content="education, māori, indigenous, teaching resources, new zealand, curriculum">
-    <meta name="author" content="Te Kete Ako">
-    
-    <!-- UNIFIED DESIGN SYSTEM -->
-    
-    
-    
-    
-    
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#2C5F41">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Te Kete Ako">
-    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
-    
-    
-    
-
-    <!-- CANONICAL CSS SYSTEM -->
-    <link rel="stylesheet" href="/css/te-kete-unified-design-system.css" />
-    <link rel="stylesheet" href="/css/component-library.css" />
-    <link rel="stylesheet" href="/css/animations-professional.css" />
-    <link rel="stylesheet" href="/css/beautiful-navigation.css" />
-    <link rel="stylesheet" href="/css/mobile-optimization.css" />
-    <link rel="stylesheet" href="/css/print.css" />
-    <!-- END CANONICAL CSS -->
-</head>
-<body data-auto-init="true" data-current-page="home">
-    <!-- Professional Mega Menu Navigation -->
-    <div id="beautiful-nav-container"></div>
-    <script>
-        fetch('/components/navigation-mega-menu.html')
-            .then(r => r.text())
-            .then(html => {
-                const div = document.createElement('div');
-                div.innerHTML = html;
-                document.body.insertBefore(div.firstElementChild, document.body.firstChild);
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori</title>
+<meta content="Te Kete Ako - Award-winning educational platform integrating mātauranga Māori with contemporary learning for New Zealand classrooms" name="description"/>
+<meta content="education, māori, indigenous, teaching resources, new zealand, curriculum" name="keywords"/>
+<meta content="Te Kete Ako" name="author"/>
+<!-- UNIFIED DESIGN SYSTEM -->
+<!-- PWA Manifest -->
+<link href="/manifest.json" rel="manifest"/>
+<meta content="#1A4D2E" name="theme-color"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="Te Kete Ako" name="apple-mobile-web-app-title"/>
+<link href="/icons/icon-192x192.png" rel="apple-touch-icon"/>
+<!-- Service Worker Registration -->
+<script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(reg => console.log('✅ PWA: Service Worker registered!', reg))
+                    .catch(err => console.warn('PWA: Service Worker registration failed:', err));
             });
+        }
     </script>
+<!-- CANONICAL CSS SYSTEM -->
+<style id="critical-css">/* CRITICAL CSS - Above-the-fold styles for faster first paint */
+/* Inlined in <head> for immediate rendering */
 
-<a href="#main-content" class="skip-link">Skip to main content</a>
+/* CSS Variables - Must load first */
+:root {
+  --color-primary-500: #1a4d2e;
+  --color-primary-700: #0f2818;
+  --color-secondary-500: #f5e6d3;
+  --color-accent-500: #d4a574;
+  --color-surface: #ffffff;
+  --color-text: #2c3e50;
+  --color-text-secondary: #546e7a;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
-    <nav class="breadcrumb-nav no-print" aria-label="Breadcrumb">
-        <div class="container">
-            <a href="/">Home</a>
-            <span class="breadcrumb-separator">/</span>
-        </div>
-    </nav>
+/* Reset & Base - Critical only */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+}
 
-    <!-- BEAUTIFUL COMPLEX NAVIGATION - Loaded via component -->
-    <script>
+/* Header - Above fold, critical */
+header,
+nav {
+  background-color: var(--color-primary-700);
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: var(--shadow-md);
+}
+
+/* Navigation container */
+.nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 72px;
+}
+
+/* Logo/Branding */
+.site-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+}
+
+/* Main content container */
+main {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}
+
+/* Typography - Critical headings only */
+h1 {
+  font-size: 2.5rem;
+  color: var(--color-primary-500);
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 2rem;
+  color: var(--color-primary-700);
+  margin-bottom: 0.75rem;
+}
+
+/* Loading state - Critical for UX */
+.loading {
+  text-align: center;
+  padding: 4rem;
+  color: var(--color-text-secondary);
+}
+
+/* Skip to main content - Accessibility */
+.skip-to-main {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--color-accent-500);
+  color: white;
+  padding: 1rem;
+  text-decoration: none;
+  z-index: 9999;
+}
+
+.skip-to-main:focus {
+  left: 0;
+}
+
+/* Critical button styles */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-primary-500);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+  background-color: var(--color-primary-700);
+}
+
+/* Container - Critical layout */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Mobile - Critical breakpoint only */
+@media (max-width: 768px) {
+  .nav-container {
+    padding: 0 1rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .container,
+  main {
+    padding: 0 1rem;
+  }
+}
+</style><link href="/css/te-kete-unified-design-system.css" media="print" onload="this.media='all'" rel="stylesheet">
+<link href="/css/component-library.css" media="print" onload="this.media='all'" rel="stylesheet">
+<link href="/css/animations-professional.css" media="print" onload="this.media='all'" rel="stylesheet"/>
+<link href="/css/beautiful-navigation.css" media="print" onload="this.media='all'" rel="stylesheet"/>
+<link href="/css/mobile-optimization.css" media="print" onload="this.media='all'" rel="stylesheet"/>
+<link href="/css/print.css" media="print" onload="this.media='all'" rel="stylesheet"/>
+<!-- END CANONICAL CSS -->
+</link></link></head>
+<body data-auto-init="true" data-current-page="home">
+<!-- Professional Mega Menu Navigation -->
+<!-- PROFESSIONAL MEGA MENU NAVIGATION -->
+<script>
+        // Load mega menu navigation immediately
+        fetch('/components/navigation-mega-menu.html')
+            .then(response => response.text())
+            .then(html => {
+                console.log('🧺 Loading navigation...');
+                const container = document.createElement('div');
+                container.innerHTML = html;
+                const navElement = container.firstElementChild;
+                if (navElement) {
+                    document.body.insertBefore(navElement, document.body.firstChild);
+                    console.log('✅ Navigation loaded successfully!');
+                } else {
+                    console.error('❌ No navigation element found in HTML');
+                }
+            })
+            .catch(err => console.error('❌ Navigation loading error:', err));
+    </script>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<nav aria-label="Breadcrumb" class="breadcrumb-nav no-print">
+<div class="container">
+<a href="/">Home</a>
+<span class="breadcrumb-separator">/</span>
+</div>
+</nav>
+<!-- BEAUTIFUL COMPLEX NAVIGATION - Loaded via component -->
+<script>
         // Load beautiful navigation immediately
     
     <!-- PHENOMENAL HERO SECTION - Loaded via component -->
@@ -72,193 +225,207 @@
             })
             .catch(err => console.error('Hero loading error:', err));
     </script>
-
-    <!-- Value Proposition Section -->
-    <section class="value-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Why Choose Te Kete Ako?</h2>
-                <p>Integrating mātauranga Māori with New Zealand curriculum excellence</p>
+    
+    <!-- Quick Actions Bar -->
+    <div style="background: #1a4d2e; padding: 1rem 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; max-width: 1200px; margin: 0 auto;">
+            <div style="color: white;">
+                <strong>🎓 Ready to start learning?</strong>
             </div>
-            
-            <div class="value-grid">
-                <div class="value-card">
-                    <div class="value-icon">🌿</div>
-                    <h3>Mātauranga Māori</h3>
-                    <p>Authentic integration of indigenous knowledge systems and Māori pedagogy throughout all learning resources.</p>
-                </div>
-                
-                <div class="value-card">
-                    <div class="value-icon">📚</div>
-                    <h3>NZ Curriculum Aligned</h3>
-                    <p>Comprehensive resources designed specifically for New Zealand classrooms and curriculum requirements.</p>
-                </div>
-                
-                <div class="value-card">
-                    <div class="value-icon">🎯</div>
-                    <h3>Professional Excellence</h3>
-                    <p>World-class educational resources created by educators for educators, with proven teaching methodologies.</p>
-                </div>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <a href="/login.html" style="background: white; color: #1a4d2e; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem;">
+                    🔐 Login
+                </a>
+                <a href="/signup-student.html" style="background: #d4a574; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem;">
+                    👨‍🎓 Student Signup
+                </a>
+                <a href="/signup-teacher.html" style="background: #f5e6d3; color: #1a4d2e; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem;">
+                    👩‍🏫 Teacher Signup
+                </a>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Featured Resources Section -->
-    <section class="featured-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Featured Resources</h2>
-                <p>Discover our most popular teaching materials and learning resources</p>
-            </div>
-            
-            <!-- FEATURED: New Resources This Month -->
-            <div class="new-resources-spotlight" style="background: linear-gradient(135deg, #fef3c7, #fde68a); padding: 3rem; border-radius: 16px; margin-bottom: 3rem; border-left: 4px solid #92400e;">
-                <div style="display: flex; align-items: start; gap: 2rem;">
-                    <div style="font-size: 4rem;">✨</div>
-                    <div style="flex: 1;">
-                        <h3 style="font-size: 2rem; color: #92400e; margin-bottom: 1rem;">
+<!-- Value Proposition Section -->
+<section class="value-section">
+<div class="container">
+<div class="section-header">
+<h2>Why Choose Te Kete Ako?</h2>
+<p>Integrating mātauranga Māori with New Zealand curriculum excellence</p>
+</div>
+<div class="value-grid">
+<div class="value-card">
+<div class="value-icon">🌿</div>
+<h3>Mātauranga Māori</h3>
+<p>Authentic integration of indigenous knowledge systems and Māori pedagogy throughout all learning resources.</p>
+</div>
+<div class="value-card">
+<div class="value-icon">📚</div>
+<h3>NZ Curriculum Aligned</h3>
+<p>Comprehensive resources designed specifically for New Zealand classrooms and curriculum requirements.</p>
+</div>
+<div class="value-card">
+<div class="value-icon">🎯</div>
+<h3>Professional Excellence</h3>
+<p>World-class educational resources created by educators for educators, with proven teaching methodologies.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 🎮 GAMES SHOWCASE - PROMINENT PLACEMENT (User requested!) -->
+<div id="games-showcase-container" style="margin: 2rem auto; max-width: 1400px; padding: 0 2rem;"></div>
+<script>
+    // Load games showcase component - HIGH PRIORITY
+    fetch('/components/games-showcase.html')
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('games-showcase-container').innerHTML = html;
+            console.log('✅ Games showcase loaded - featured prominently!');
+        })
+        .catch(err => console.error('❌ Games showcase loading error:', err));
+</script>
+
+<!-- Featured Resources Section -->
+<section class="featured-section">
+<div class="container">
+<div class="section-header">
+<h2>Featured Resources</h2>
+<p>Discover our most popular teaching materials and learning resources</p>
+</div>
+<!-- FEATURED: New Resources This Month -->
+<div class="new-resources-spotlight" style="background: linear-gradient(135deg, #fef3c7, #fde68a); padding: 3rem; border-radius: 16px; margin-bottom: 3rem; border-left: 4px solid #92400e;">
+<div style="display: flex; align-items: start; gap: 2rem;">
+<div style="font-size: 4rem;">✨</div>
+<div style="flex: 1;">
+<h3 style="font-size: 2rem; color: #92400e; margin-bottom: 1rem;">
                             50 New Culturally-Integrated Resources!
                         </h3>
-                        <p style="font-size: 1.2rem; color: #78350f; margin-bottom: 2rem;">
+<p style="font-size: 1.2rem; color: #78350f; margin-bottom: 2rem;">
                             Explore mathematics through Māori games, science through traditional knowledge, and STEM careers with cultural context.
                         </p>
-                        
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
-                            <div style="background: white; padding: 1.5rem; border-radius: 12px;">
-                                <div style="font-size: 2rem; margin-bottom: 0.5rem;">📚</div>
-                                <div style="font-weight: 600; color: #92400e; margin-bottom: 0.25rem;">25 Handouts</div>
-                                <div style="font-size: 0.9rem; color: #78350f;">Print-ready classroom materials</div>
-                            </div>
-                            <div style="background: white; padding: 1.5rem; border-radius: 12px;">
-                                <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎯</div>
-                                <div style="font-weight: 600; color: #92400e; margin-bottom: 0.25rem;">22 Lessons</div>
-                                <div style="font-size: 0.9rem; color: #78350f;">Complete learning sequences</div>
-                            </div>
-                            <div style="background: white; padding: 1.5rem; border-radius: 12px;">
-                                <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌿</div>
-                                <div style="font-weight: 600; color: #92400e; margin-bottom: 0.25rem;">100% Cultural</div>
-                                <div style="font-size: 0.9rem; color: #78350f;">Authentic Te Ao Māori lens</div>
-                            </div>
-                        </div>
-                        
-                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                            <a href="/generated-resources-alpha/index.html" class="btn btn-primary" style="background: #92400e; color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 8px; font-weight: 600;">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+<div style="background: white; padding: 1.5rem; border-radius: 12px;">
+<div style="font-size: 2rem; margin-bottom: 0.5rem;">📚</div>
+<div style="font-weight: 600; color: #92400e; margin-bottom: 0.25rem;">25 Handouts</div>
+<div style="font-size: 0.9rem; color: #78350f;">Print-ready classroom materials</div>
+</div>
+<div style="background: white; padding: 1.5rem; border-radius: 12px;">
+<div style="font-size: 2rem; margin-bottom: 0.5rem;">🎯</div>
+<div style="font-weight: 600; color: #92400e; margin-bottom: 0.25rem;">22 Lessons</div>
+<div style="font-size: 0.9rem; color: #78350f;">Complete learning sequences</div>
+</div>
+<div style="background: white; padding: 1.5rem; border-radius: 12px;">
+<div style="font-size: 2rem; margin-bottom: 0.5rem;">🌿</div>
+<div style="font-weight: 600; color: #92400e; margin-bottom: 0.25rem;">100% Cultural</div>
+<div style="font-size: 0.9rem; color: #78350f;">Authentic Te Ao Māori lens</div>
+</div>
+</div>
+<div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+<a class="btn btn-primary" href="/generated-resources-alpha/index.html" style="background: #92400e; color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 8px; font-weight: 600;">
                                 Explore All 50 Resources →
                             </a>
-                            <a href="/generated-resources-alpha/handouts/" class="btn btn-secondary" style="background: white; color: #92400e; padding: 1rem 2rem; text-decoration: none; border-radius: 8px; font-weight: 600; border: 2px solid #92400e;">
+<a class="btn btn-secondary" href="/generated-resources-alpha/handouts/" style="background: white; color: #92400e; padding: 1rem 2rem; text-decoration: none; border-radius: 8px; font-weight: 600; border: 2px solid #92400e;">
                                 View Handouts
                             </a>
-                            <a href="/generated-resources-alpha/lessons/" class="btn btn-secondary" style="background: white; color: #92400e; padding: 1rem 2rem; text-decoration: none; border-radius: 8px; font-weight: 600; border: 2px solid #92400e;">
+<a class="btn btn-secondary" href="/generated-resources-alpha/lessons/" style="background: white; color: #92400e; padding: 1rem 2rem; text-decoration: none; border-radius: 8px; font-weight: 600; border: 2px solid #92400e;">
                                 View Lessons
                             </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="featured-grid">
-                <div class="featured-card">
-                    <div class="featured-image">
+</div>
+</div>
+</div>
+</div>
+<div class="featured-grid">
+<div class="featured-card">
+<div class="featured-image">
                         📖
                     </div>
-                    <div class="featured-content">
-                        <h3>Walker & Hērangi Units</h3>
-                        <p>10 complete lessons exploring Dr. Ranginui Walker and Te Puea Hērangi - Māori leadership curriculum.</p>
-                        <a href="/lessons/walker/" class="btn btn-primary">Explore Units</a>
-                    </div>
-                </div>
-                
-                <div class="featured-card">
-                    <div class="featured-image">
+<div class="featured-content">
+<h3>Walker &amp; Hērangi Units</h3>
+<p>10 complete lessons exploring Dr. Ranginui Walker and Te Puea Hērangi - Māori leadership curriculum.</p>
+<a class="btn btn-primary" href="/lessons/walker/">Explore Units</a>
+</div>
+</div>
+<div class="featured-card">
+<div class="featured-image">
                         🧪
                     </div>
-                    <div class="featured-content">
-                        <h3>STEM + Mātauranga</h3>
-                        <p>Science, math, and technology through Te Ao Māori lens: Rongoā Chemistry, Traditional Navigation, Ecological Modeling.</p>
-                        <a href="/handouts.html" class="btn btn-primary">View Handouts</a>
-                    </div>
-                </div>
-                
-                <div class="featured-card">
-                    <div class="featured-image">
+<div class="featured-content">
+<h3>STEM + Mātauranga</h3>
+<p>Science, math, and technology through Te Ao Māori lens: Rongoā Chemistry, Traditional Navigation, Ecological Modeling.</p>
+<a class="btn btn-primary" href="/handouts.html">View Handouts</a>
+</div>
+</div>
+<div class="featured-card">
+<div class="featured-image">
                         🎮
                     </div>
-                    <div class="featured-content">
-                        <h3>Te Reo Games</h3>
-                        <p>Interactive language learning: Wordle variations, pattern explorers, and cultural games.</p>
-                        <a href="/games.html" class="btn btn-primary">Play Games</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Trust Indicators -->
-    <div id="trust-indicators-component"></div>
-    
-    <!-- Teacher Resources Section -->
-    <section class="teacher-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Teacher Resources</h2>
-                <p>Professional development and teaching support for educators</p>
-            </div>
-            
-            <div class="teacher-grid">
-                <div class="teacher-item">
-                    <div class="teacher-icon">📋</div>
-                    <h3>Lesson Plans</h3>
-                    <p>Comprehensive lesson plans with cultural integration</p>
-                </div>
-                
-                <div class="teacher-item">
-                    <div class="teacher-icon">📊</div>
-                    <h3>Assessment Tools</h3>
-                    <p>Formative and summative assessment resources</p>
-                </div>
-                
-                <div class="teacher-item">
-                    <div class="teacher-icon">🎓</div>
-                    <h3>Professional Development</h3>
-                    <p>Cultural competency and teaching excellence</p>
-                </div>
-                
-                <div class="teacher-item">
-                    <div class="teacher-icon">🌏</div>
-                    <h3>Cultural Resources</h3>
-                    <p>Mātauranga Māori integration guides</p>
-                </div>
-            </div>
-            
-            <div class="text-center">
-                <a href="/teachers/" class="btn btn-primary btn-large">
+<div class="featured-content">
+<h3>Te Reo Games</h3>
+<p>Interactive language learning: Wordle variations, pattern explorers, and cultural games.</p>
+<a class="btn btn-primary" href="/games.html">Play Games</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Trust Indicators -->
+<div id="trust-indicators-component"></div>
+<!-- Teacher Resources Section -->
+<section class="teacher-section">
+<div class="container">
+<div class="section-header">
+<h2>Teacher Resources</h2>
+<p>Professional development and teaching support for educators</p>
+</div>
+<div class="teacher-grid">
+<div class="teacher-item">
+<div class="teacher-icon">📋</div>
+<h3>Lesson Plans</h3>
+<p>Comprehensive lesson plans with cultural integration</p>
+</div>
+<div class="teacher-item">
+<div class="teacher-icon">📊</div>
+<h3>Assessment Tools</h3>
+<p>Formative and summative assessment resources</p>
+</div>
+<div class="teacher-item">
+<div class="teacher-icon">🎓</div>
+<h3>Professional Development</h3>
+<p>Cultural competency and teaching excellence</p>
+</div>
+<div class="teacher-item">
+<div class="teacher-icon">🌏</div>
+<h3>Cultural Resources</h3>
+<p>Mātauranga Māori integration guides</p>
+</div>
+</div>
+<div class="text-center">
+<a class="btn btn-primary btn-large" href="/teachers/">
                     Teacher Portal
                 </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <div class="container">
-            <h2>Ready to Transform Your Teaching?</h2>
-            <p>Join thousands of New Zealand educators using Te Kete Ako to create culturally responsive learning experiences.</p>
-            <div class="cta-buttons">
-                <a href="/register.html" class="btn btn-secondary btn-large">
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="cta-section">
+<div class="container">
+<h2>Ready to Transform Your Teaching?</h2>
+<p>Join thousands of New Zealand educators using Te Kete Ako to create culturally responsive learning experiences.</p>
+<div class="cta-buttons">
+<a class="btn btn-secondary btn-large" href="/register.html">
                     Get Started Free
                 </a>
-                <a href="/resource-hub.html" class="btn btn-outline btn-large">
+<a class="btn btn-outline btn-large" href="/resource-hub.html">
                     Explore Resources
                 </a>
-            </div>
-        </div>
-    </section>
-
-    <div id="footer-component"></div>
-    
-    <script src="/js/beautiful-navigation.js"></script>
-    <script src="/js/header-dropdowns.js"></script>
-    <script>
+</div>
+</div>
+</section>
+<div id="footer-component"></div>
+<script src="/js/beautiful-navigation.js"></script>
+<script src="/js/header-dropdowns.js"></script>
+<script>
         // Load header, footer and trust indicators components
         fetch('/components/header.html').then(r=>r.text()).then(html=>{document.getElementById('header-component').innerHTML=html;});
         fetch('/components/footer.html').then(r=>r.text()).then(html=>{document.getElementById('footer-component').innerHTML=html;});
@@ -276,11 +443,9 @@
             });
         });
     </script>
-      <script src="/js/navigation-enhanced.js" defer></script>
-      <script src="/js/te-kete-professional.js" defer></script>
-      <script src="/js/ux-enhancements.js?v=3" defer></script>
-      <script src="/js/ux-professional.js" defer></script>
-    <script src="/js/loading-toast-system.js" defer></script>
+<script defer="" src="/js/navigation-enhanced.js"></script>
+<script defer="" src="/js/te-kete-professional.js"></script>
+<script defer="" src="/js/ux-professional.js"></script>
+<script defer="" src="/js/loading-toast-system.js"></script>
 </body>
 </html>
-

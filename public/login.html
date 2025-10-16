@@ -1,52 +1,190 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <!-- Performance: Optimize rendering -->
-    <meta name="format-detection" content="telephone=no">
-    <meta name="theme-color" content="#1b4332">
-    <meta name="color-scheme" content="light">
-    <!-- Performance: DNS prefetch for external domains -->
-    <link rel="dns-prefetch" href="//fonts.googleapis.com">
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
-    <!-- Performance: Preload critical resources -->
-    <link rel="preload" href="/js/te-kete-professional.js" as="script">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap&display=swap" as="style" crossorigin>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Te Kete Ako - Award-winning educational platform integrating mātauranga Māori with contemporary learning">
-    <meta name="keywords" content="education, māori, indigenous, ai, learning, new zealand">
-    <meta name="author" content="Te Kete Ako">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Te Kete Ako</title>
-    
-    
-    
-    <link rel="stylesheet" href="/components/badge-system.html">
-    
-    
-    
-    <script src="/js/breadcrumbs.js" defer></script>
-    
+<!-- Performance: Optimize rendering -->
+<meta content="telephone=no" name="format-detection"/>
+<meta content="#1b4332" name="theme-color"/>
+<meta content="light" name="color-scheme"/>
+<!-- Performance: DNS prefetch for external domains -->
+<link href="//fonts.googleapis.com" rel="dns-prefetch"/>
+<link href="//fonts.gstatic.com" rel="dns-prefetch"/>
+<link href="//cdn.jsdelivr.net" rel="dns-prefetch"/>
+<!-- Performance: Preload critical resources -->
+<link as="script" href="/js/te-kete-professional.js" rel="preload"/>
+<link as="style" crossorigin="" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Lato:wght@300;400;700&amp;family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&amp;display=swap&amp;display=swap" rel="preload"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Te Kete Ako - Award-winning educational platform integrating mātauranga Māori with contemporary learning" name="description"/>
+<meta content="education, māori, indigenous, ai, learning, new zealand" name="keywords"/>
+<meta content="Te Kete Ako" name="author"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login | Te Kete Ako</title>
+<style id="critical-css">/* CRITICAL CSS - Above-the-fold styles for faster first paint */
+/* Inlined in <head> for immediate rendering */
 
-    <!-- CANONICAL CSS SYSTEM -->
-    <link rel="stylesheet" href="/css/te-kete-unified-design-system.css" />
-    <link rel="stylesheet" href="/css/component-library.css" />
-    <link rel="stylesheet" href="/css/animations-professional.css" />
-    <link rel="stylesheet" href="/css/beautiful-navigation.css" />
-    <link rel="stylesheet" href="/css/mobile-optimization.css" />
-    <link rel="stylesheet" href="/css/print.css" />
-    <!-- END CANONICAL CSS -->
-    
-    <!-- Supabase Auth -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="/js/supabase-client.js"></script>
-    <script src="/js/login.js" defer></script>
-</head>
+/* CSS Variables - Must load first */
+:root {
+  --color-primary-500: #1a4d2e;
+  --color-primary-700: #0f2818;
+  --color-secondary-500: #f5e6d3;
+  --color-accent-500: #d4a574;
+  --color-surface: #ffffff;
+  --color-text: #2c3e50;
+  --color-text-secondary: #546e7a;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Reset & Base - Critical only */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+}
+
+/* Header - Above fold, critical */
+header,
+nav {
+  background-color: var(--color-primary-700);
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: var(--shadow-md);
+}
+
+/* Navigation container */
+.nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 72px;
+}
+
+/* Logo/Branding */
+.site-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+}
+
+/* Main content container */
+main {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}
+
+/* Typography - Critical headings only */
+h1 {
+  font-size: 2.5rem;
+  color: var(--color-primary-500);
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 2rem;
+  color: var(--color-primary-700);
+  margin-bottom: 0.75rem;
+}
+
+/* Loading state - Critical for UX */
+.loading {
+  text-align: center;
+  padding: 4rem;
+  color: var(--color-text-secondary);
+}
+
+/* Skip to main content - Accessibility */
+.skip-to-main {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--color-accent-500);
+  color: white;
+  padding: 1rem;
+  text-decoration: none;
+  z-index: 9999;
+}
+
+.skip-to-main:focus {
+  left: 0;
+}
+
+/* Critical button styles */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-primary-500);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+  background-color: var(--color-primary-700);
+}
+
+/* Container - Critical layout */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Mobile - Critical breakpoint only */
+@media (max-width: 768px) {
+  .nav-container {
+    padding: 0 1rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .container,
+  main {
+    padding: 0 1rem;
+  }
+}
+</style><link href="/components/badge-system.html" media="print" onload="this.media='all'" rel="stylesheet"/>
+<script defer="" src="/js/breadcrumbs.js"></script>
+<!-- CANONICAL CSS SYSTEM -->
+<link href="/css/te-kete-unified-design-system.css" media="print" onload="this.media='all'" rel="stylesheet">
+<link href="/css/component-library.css" media="print" onload="this.media='all'" rel="stylesheet">
+<link href="/css/animations-professional.css" media="print" onload="this.media='all'" rel="stylesheet">
+<link href="/css/beautiful-navigation.css" media="print" onload="this.media='all'" rel="stylesheet">
+<link href="/css/mobile-optimization.css" media="print" onload="this.media='all'" rel="stylesheet">
+<link href="/css/print.css" media="print" onload="this.media='all'" rel="stylesheet">
+<!-- END CANONICAL CSS -->
+<!-- Supabase Auth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script defer="" src="/js/login.js"></script>
+</link></link></link></link></link></link></head>
 <body data-auto-init="true" data-current-page="login">
-    <!-- Professional Mega Menu Navigation -->
-    <div id="beautiful-nav-container"></div>
-    <script>
+<!-- Professional Mega Menu Navigation -->
+<div id="beautiful-nav-container"></div>
+<script>
         fetch('/components/navigation-mega-menu.html')
             .then(r => r.text())
             .then(html => {
@@ -55,174 +193,155 @@
                 document.body.insertBefore(div.firstElementChild, document.body.firstChild);
             });
     </script>
-
-
-                        <header class="site-header no-print">
-        <div class="nav-container">
-            <a href="/index.html" class="nav-brand">Te Kete Ako</a>
-            <nav class="main-nav">
-                <ul>
-                    <li>
-                        <a href="/unit-plans.html">
-                            <span class="nav-icon">📚</span>
-                            <span class="nav-text-en">Unit Plans</span>
-                            <span class="nav-text-mi" lang="mi">Ngā Waehere</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/teachers/index.html">
-                            <span class="nav-icon">🧑‍🏫</span>
-                            <span class="nav-text-en">Teachers</span>
-                            <span class="nav-text-mi" lang="mi">Ngā Kaiako</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/lessons.html">
-                            <span class="nav-icon">🎓</span>
-                            <span class="nav-text-en">Lessons</span>
-                            <span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/handouts.html">
-                            <span class="nav-icon">📄</span>
-                            <span class="nav-text-en">Handouts</span>
-                            <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/games.html">
-                            <span class="nav-icon">🎮</span>
-                            <span class="nav-text-en">Games</span>
-                            <span class="nav-text-mi" lang="mi">Ngā Kēmu</span>  
-                        </a>
-                    </li>
-                    <li class="auth-nav my-kete-link" style="display: none;">
-                        <a href="/my-kete.html">
-                            <span class="nav-icon">🧺</span>
+<header class="site-header no-print">
+<div class="nav-container">
+<a class="nav-brand" href="/index.html">Te Kete Ako</a>
+<nav class="main-nav">
+<ul>
+<li>
+<a href="/unit-plans.html">
+<span class="nav-icon">📚</span>
+<span class="nav-text-en">Unit Plans</span>
+<span class="nav-text-mi" lang="mi">Ngā Waehere</span>
+</a>
+</li>
+<li>
+<a href="/teachers/index.html">
+<span class="nav-icon">🧑‍🏫</span>
+<span class="nav-text-en">Teachers</span>
+<span class="nav-text-mi" lang="mi">Ngā Kaiako</span>
+</a>
+</li>
+<li>
+<a href="/lessons.html">
+<span class="nav-icon">🎓</span>
+<span class="nav-text-en">Lessons</span>
+<span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
+</a>
+</li>
+<li>
+<a href="/handouts.html">
+<span class="nav-icon">📄</span>
+<span class="nav-text-en">Handouts</span>
+<span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+</a>
+</li>
+<li>
+<a href="/games.html">
+<span class="nav-icon">🎮</span>
+<span class="nav-text-en">Games</span>
+<span class="nav-text-mi" lang="mi">Ngā Kēmu</span>
+</a>
+</li>
+<li class="auth-nav my-kete-link" style="display: none;">
+<a href="/my-kete.html">
+<span class="nav-icon">🧺</span>
                             My Kete
                         </a>
-                    </li>
-                    <li class="auth-nav">
-                        <a href="/login.html" class="login-btn">
-                            <span class="nav-icon">👤</span>
+</li>
+<li class="auth-nav">
+<a class="login-btn" href="/login.html">
+<span class="nav-icon">👤</span>
                             Login
                         </a>
-                    </li>
-                    <li class="auth-nav" style="display: none;">
-                        <a href="/register-simple.html" class="register-btn">
-                            <span class="nav-icon">📝</span>
+</li>
+<li class="auth-nav" style="display: none;">
+<a class="register-btn" href="/register-simple.html">
+<span class="nav-icon">📝</span>
                             Register
                         </a>
-                    </li>
-                </ul>
-            </nav>
-            <nav class="breadcrumbs no-print" aria-label="Breadcrumb">
-                <ol id="breadcrumbs" class="breadcrumbs-list"></ol>
-            </nav>
-        </div>
-    </header>
-    <div id="search-container"></div>
-
-    <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
-
-    <div class="main-container">
-        <main role="main" class="content-area">
-            <div class="cultural-opening" class="bg-cultural-light">
-                
-
-    <section class="cultural-integration" style="background: linear-gradient(135deg, #fff7ed, #ffedd5); padding: 2rem; border-radius: 12px; margin: 2rem 0; border-left: 4px solid var(--color-accent); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-        <h2 style="color: var(--color-primary); margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
-            <span>🌿</span>
-            <span>Cultural Context | Horopaki Ahurea</span>
-        </h2>
-        
-        <div class="whakatauaki-section" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: center; border: 2px solid var(--color-accent);">
-            <h3 style="font-size: 0.9rem; color: var(--color-text-secondary); margin: 0 0 0.5rem; text-transform: uppercase; letter-spacing: 1px;">Whakataukī</h3>
-            <p style="font-size: 1.3rem; font-style: italic; color: var(--color-primary); margin: 0.5rem 0; font-weight: 500;">"Whāia te iti kahurangi"</p>
-            <p style="font-size: 1rem; color: var(--color-text-secondary); margin: 0.5rem 0;">"Seek the treasure you value most dearly"</p>
-        </div>
-        
-        <div class="house-values" style="background: white; padding: 1.5rem; border-radius: 8px;">
-            <h3 style="font-size: 1rem; color: var(--color-primary); margin-top: 0;">🏛️ Connection to Mangakōtukutuku College Values</h3>
-            <div style="background: rgba(241, 143, 1, 0.1); padding: 1rem; border-radius: 6px; border-left: 3px solid var(--color-accent);">
-                <p style="margin: 0; font-size: 0.95rem;">
-                    <strong style="color: var(--color-accent); text-transform: capitalize;">Whaiara:</strong> Rising Up - Taking action to create positive change
+</li>
+</ul>
+</nav>
+<nav aria-label="Breadcrumb" class="breadcrumbs no-print">
+<ol class="breadcrumbs-list" id="breadcrumbs"></ol>
+</nav>
+</div>
+</header>
+<div id="search-container"></div>
+<div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
+<div class="main-container">
+<main class="content-area" role="main">
+<div class="bg-cultural-light">
+<section class="cultural-integration" style="background: linear-gradient(135deg, #fff7ed, #ffedd5); padding: 2rem; border-radius: 12px; margin: 2rem 0; border-left: 4px solid var(--color-accent); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+<h2 style="color: var(--color-primary); margin-top: 0; display: flex; align-items: center; gap: 0.5rem;">
+<span>🌿</span>
+<span>Cultural Context | Horopaki Ahurea</span>
+</h2>
+<div class="whakatauaki-section" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: center; border: 2px solid var(--color-accent);">
+<h3 style="font-size: 0.9rem; color: var(--color-text-secondary); margin: 0 0 0.5rem; text-transform: uppercase; letter-spacing: 1px;">Whakataukī</h3>
+<p style="font-size: 1.3rem; font-style: italic; color: var(--color-primary); margin: 0.5rem 0; font-weight: 500;">"Whāia te iti kahurangi"</p>
+<p style="font-size: 1rem; color: var(--color-text-secondary); margin: 0.5rem 0;">"Seek the treasure you value most dearly"</p>
+</div>
+<div class="house-values" style="background: white; padding: 1.5rem; border-radius: 8px;">
+<h3 style="font-size: 1rem; color: var(--color-primary); margin-top: 0;">🏛️ Connection to Mangakōtukutuku College Values</h3>
+<div style="background: rgba(241, 143, 1, 0.1); padding: 1rem; border-radius: 6px; border-left: 3px solid var(--color-accent);">
+<p style="margin: 0; font-size: 0.95rem;">
+<strong style="color: var(--color-accent); text-transform: capitalize;">Whaiara:</strong> Rising Up - Taking action to create positive change
                 </p>
-                <p style="margin: 0.75rem 0 0; font-size: 0.9rem; color: var(--color-text-secondary);">
+<p style="margin: 0.75rem 0 0; font-size: 0.9rem; color: var(--color-text-secondary);">
                     This learning connects to the value of <strong>whaiara</strong> by encouraging students to [engage with content in ways that embody this value].
                 </p>
-            </div>
-        </div>
-        
-        <div class="cultural-safety" style="background: rgba(27, 67, 50, 0.05); padding: 1rem; border-radius: 8px; margin-top: 1rem;">
-            <h4 style="font-size: 0.95rem; color: var(--color-primary); margin: 0 0 0.5rem;">🛡️ Cultural Safety Considerations</h4>
-            <ul style="font-size: 0.9rem; margin: 0; color: var(--color-text-secondary);">
-                <li>Approach Māori content with respect and openness</li>
-                <li>Recognize students' diverse cultural backgrounds and experiences</li>
-                <li>Create space for Māori students to share their perspectives</li>
-                <li>Consult with whānau and local iwi for culturally sensitive topics</li>
-            </ul>
-        </div>
-    </section>
-
-<h2 style="color: var(--color-primary); margin-bottom: var(--space-2); font-size: var(--text-lg);" class="wiley-section-title">Whakataukī | Proverb</h2>
-                <p style="font-style: italic; color: var(--color-primary); margin-bottom: var(--space-2); font-size: var(--text-lg);">"Nāu te rourou, nāku te rourou, ka ora ai te iwi"</p>
-                <p style="color: var(--color-text-secondary); font-size: 0.95rem;">With your food basket and my food basket, the people will thrive.</p>
-                <p style="color: var(--color-text-secondary); font-size: var(--text-sm); margin-top: 0.5rem;">Together, kaiako and ākonga create a learning community where everyone can flourish.</p>
-            </div>
-        
-
-            <div class="auth-container">
-                <h1 class="text-center" class="wiley-hero-title">Welcome Back to Te Kete Ako</h1>
-                <p class="text-center">Sign in to access your personalized learning dashboard</p>
-                
-                <!-- Supabase Auth Info -->
-                <div style="background: #e8f5e8; border: 1px solid #4CAF50; border-radius: var(--radius-md); padding: var(--space-4); margin-bottom: 1rem; font-size: var(--text-sm);">
-                    <h4 style="margin: 0 0 0.5rem 0; color: #2E7D32;">🔥 Secure Supabase Authentication</h4>
-                    <p style="margin: 0.25rem 0; color: #555;">✅ Reliable Supabase Auth with email verification</p>
-                    <p style="margin: 0.25rem 0; color: #555;">✅ Create your account or sign in with existing credentials</p>
-                    <p style="margin: 0.25rem 0; color: #555;">✅ Secure access to all educational resources + GRAPHRAG</p>
-                </div>
-                
-                <div id="auth-status" class="message" style="background: #fff3cd; color: #856404; border: 2px solid #ffeaa7;">
+</div>
+</div>
+<div class="cultural-safety" style="background: rgba(27, 67, 50, 0.05); padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+<h4 style="font-size: 0.95rem; color: var(--color-primary); margin: 0 0 0.5rem;">🛡️ Cultural Safety Considerations</h4>
+<ul style="font-size: 0.9rem; margin: 0; color: var(--color-text-secondary);">
+<li>Approach Māori content with respect and openness</li>
+<li>Recognize students' diverse cultural backgrounds and experiences</li>
+<li>Create space for Māori students to share their perspectives</li>
+<li>Consult with whānau and local iwi for culturally sensitive topics</li>
+</ul>
+</div>
+</section>
+<h2 class="wiley-section-title" style="color: var(--color-primary); margin-bottom: var(--space-2); font-size: var(--text-lg);">Whakataukī | Proverb</h2>
+<p style="font-style: italic; color: var(--color-primary); margin-bottom: var(--space-2); font-size: var(--text-lg);">"Nāu te rourou, nāku te rourou, ka ora ai te iwi"</p>
+<p style="color: var(--color-text-secondary); font-size: 0.95rem;">With your food basket and my food basket, the people will thrive.</p>
+<p style="color: var(--color-text-secondary); font-size: var(--text-sm); margin-top: 0.5rem;">Together, kaiako and ākonga create a learning community where everyone can flourish.</p>
+</div>
+<div class="auth-container">
+<h1 class="wiley-hero-title">Welcome Back to Te Kete Ako</h1>
+<p class="text-center">Sign in to access your personalized learning dashboard</p>
+<!-- Supabase Auth Info -->
+<div style="background: #e8f5e8; border: 1px solid #4CAF50; border-radius: var(--radius-md); padding: var(--space-4); margin-bottom: 1rem; font-size: var(--text-sm);">
+<h4 style="margin: 0 0 0.5rem 0; color: #2E7D32;">🔥 Secure Supabase Authentication</h4>
+<p style="margin: 0.25rem 0; color: #555;">✅ Reliable Supabase Auth with email verification</p>
+<p style="margin: 0.25rem 0; color: #555;">✅ Create your account or sign in with existing credentials</p>
+<p style="margin: 0.25rem 0; color: #555;">✅ Secure access to all educational resources + GRAPHRAG</p>
+</div>
+<div class="message" id="auth-status" style="background: #fff3cd; color: #856404; border: 2px solid #ffeaa7;">
                     🔄 Initializing authentication system...
                 </div>
-                <div id="error-message" class="message error" style="display: none;"></div>
-                <div id="success-message" class="message success" style="display: none;"></div>
-                
-                <form id="login-form" class="auth-form">
-                    <div class="form-group">
-                        <label for="email">Email Address:</label>
-                        <input type="email" id="email" name="email" required placeholder="your.email@school.nz">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" required placeholder="Enter your password">
-                    </div>
-                    
-                    <button type="submit" class="auth-button" id="login-btn">
+<div class="message error" id="error-message" style="display: none;"></div>
+<div class="message success" id="success-message" style="display: none;"></div>
+<form class="auth-form" id="login-form">
+<div class="form-group">
+<label for="email">Email Address:</label>
+<input id="email" name="email" placeholder="your.email@school.nz" required="" type="email"/>
+</div>
+<div class="form-group">
+<label for="password">Password:</label>
+<input id="password" name="password" placeholder="Enter your password" required="" type="password"/>
+</div>
+<button class="auth-button" id="login-btn" type="submit">
                         Sign In
                     </button>
-                </form>
-                
-                <div class="auth-links">
-                    <p>Don't have an account? <a href="/register-simple.html">Register here</a></p>
-                    <p><a href="/forgot-password.html">Forgot your password?</a></p>
-                    <p><a href="/index.html">← Back to Te Kete Ako</a></p>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <!-- Load Supabase Library (CDN - Global build) -->
-    <script src="vendor/supabase.min.js" defer></script>
-    <!-- Load Environment Config -->
-    <script src="/js/env-config.js" defer></script>
-    <!-- Load Enhanced Authentication System -->
-    <!-- Load Authentication Resilience Layer -->
-    <script>
+</form>
+<div class="auth-links">
+<p>Don't have an account? <a href="/register-simple.html">Register here</a></p>
+<p><a href="/forgot-password.html">Forgot your password?</a></p>
+<p><a href="/index.html">← Back to Te Kete Ako</a></p>
+</div>
+</div>
+</main>
+</div>
+<!-- Load Supabase Library (CDN - Global build) -->
+<script defer="" src="vendor/supabase.min.js"></script>
+<!-- Load Environment Config -->
+<script defer="" src="/js/env-config.js"></script>
+<!-- Load Enhanced Authentication System -->
+<!-- Load Authentication Resilience Layer -->
+<script>
         // Debug function to check initialization status
         function debugAuthSystem() {
             const status = {
@@ -372,35 +491,32 @@
             successElement.textContent = message;
             successElement.style.display = 'block';
         }
-    </script>                    <footer class="site-footer no-print">
-        <div class="footer-content">
-            <div class="footer-simple">
-                <div class="footer-brand">
-                    <h3>🧺 Te Kete Ako</h3>
-                    <p>"Whaowhia te kete mātauranga" - Fill the basket of knowledge</p>
-                </div>
-                <div class="footer-links">
-                    <a href="/unit-plans.html">Unit Plans</a>
-                    <a href="/lessons.html">Lessons</a>
-                    <a href="/handouts.html">Handouts</a>
-                    <a href="/my-kete.html">My Kete</a>
-                    <a href="/sitemap.html">Sitemap</a>
-                    <a href="/orphans.html">Discover</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <span>© 2025 Te Kete Ako - Educational resources for Aotearoa New Zealand</span>
-            </div>
-        </div>
-    </footer>
-
-
-    <!-- Core functionality -->
-    <script src="/js/shared-components.js" defer></script>
-    <script src="/js/mobile-revolution.js" defer></script>
-    <script src="/js/pwa-registration.js" defer></script>
-
-    <script>
+    </script> <footer class="site-footer no-print">
+<div class="footer-content">
+<div class="footer-simple">
+<div class="footer-brand">
+<h3>🧺 Te Kete Ako</h3>
+<p>"Whaowhia te kete mātauranga" - Fill the basket of knowledge</p>
+</div>
+<div class="footer-links">
+<a href="/unit-plans.html">Unit Plans</a>
+<a href="/lessons.html">Lessons</a>
+<a href="/handouts.html">Handouts</a>
+<a href="/my-kete.html">My Kete</a>
+<a href="/sitemap.html">Sitemap</a>
+<a href="/orphans.html">Discover</a>
+</div>
+</div>
+<div class="footer-bottom">
+<span>© 2025 Te Kete Ako - Educational resources for Aotearoa New Zealand</span>
+</div>
+</div>
+</footer>
+<!-- Core functionality -->
+<script defer="" src="/js/shared-components.js"></script>
+<script defer="" src="/js/mobile-revolution.js"></script>
+<script defer="" src="/js/pwa-registration.js"></script>
+<script>
     // Register service worker for performance
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
