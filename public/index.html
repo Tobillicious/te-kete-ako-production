@@ -26,15 +26,27 @@
     
 
     <!-- CANONICAL CSS SYSTEM -->
-    <link rel="stylesheet" href="/css/min/te-kete-unified-design-system.min.css?v=a2c78a3f" />
-    <link rel="stylesheet" href="/css/min/component-library.min.css?v=5424a2a7" />
-    <link rel="stylesheet" href="/css/min/animations-professional.min.css?v=622e9c22" />
-    <link rel="stylesheet" href="/css/min/beautiful-navigation.min.css?v=e2475a21" />
-    <link rel="stylesheet" href="/css/min/mobile-optimization.min.css?v=f53be187" />
-    <link rel="stylesheet" href="/css/min/print.min.css?v=ec9a3a60" />
+    <link rel="stylesheet" href="/css/te-kete-unified-design-system.css" />
+    <link rel="stylesheet" href="/css/component-library.css" />
+    <link rel="stylesheet" href="/css/animations-professional.css" />
+    <link rel="stylesheet" href="/css/beautiful-navigation.css" />
+    <link rel="stylesheet" href="/css/mobile-optimization.css" />
+    <link rel="stylesheet" href="/css/print.css" />
     <!-- END CANONICAL CSS -->
 </head>
 <body data-auto-init="true" data-current-page="home">
+    <!-- Professional Mega Menu Navigation -->
+    <div id="beautiful-nav-container"></div>
+    <script>
+        fetch('/components/navigation-mega-menu.html')
+            .then(r => r.text())
+            .then(html => {
+                const div = document.createElement('div');
+                div.innerHTML = html;
+                document.body.insertBefore(div.firstElementChild, document.body.firstChild);
+            });
+    </script>
+
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <nav class="breadcrumb-nav no-print" aria-label="Breadcrumb">
@@ -46,16 +58,8 @@
 
 
     <!-- BEAUTIFUL COMPLEX NAVIGATION - Loaded via component -->
-    <div id="beautiful-nav-container"></div>
     <script>
         // Load beautiful navigation immediately
-        fetch('/navigation-header.html')
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('beautiful-nav-container').innerHTML = html;
-            })
-            .catch(err => console.error('Navigation loading error:', err));
-    </script>
     
     <!-- PHENOMENAL HERO SECTION - Loaded via component -->
     <div id="phenomenal-hero-container"></div>
@@ -107,30 +111,48 @@
                 <p>Discover our most popular teaching materials and learning resources</p>
             </div>
             
-            <!-- NEW: AI-Generated Resources Section -->
-            <div class="ai-resources-highlight">
-                <h3>✨ NEW: AI-Generated Educational Treasures</h3>
-                <p>47 high-quality resources integrating mātauranga Māori with contemporary learning</p>
-                
-                <div class="stats-grid">
-                    <div class="stat-box">
-                        <h4>📚 Handouts</h4>
-                        <p>25 practical classroom resources</p>
+            <!-- FEATURED: New Resources This Month -->
+            <div class="new-resources-spotlight" style="background: linear-gradient(135deg, #fef3c7, #fde68a); padding: 3rem; border-radius: 16px; margin-bottom: 3rem; border-left: 4px solid #92400e;">
+                <div style="display: flex; align-items: start; gap: 2rem;">
+                    <div style="font-size: 4rem;">✨</div>
+                    <div style="flex: 1;">
+                        <h3 style="font-size: 2rem; color: #92400e; margin-bottom: 1rem;">
+                            50 New Culturally-Integrated Resources!
+                        </h3>
+                        <p style="font-size: 1.2rem; color: #78350f; margin-bottom: 2rem;">
+                            Explore mathematics through Māori games, science through traditional knowledge, and STEM careers with cultural context.
+                        </p>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                            <div style="background: white; padding: 1.5rem; border-radius: 12px;">
+                                <div style="font-size: 2rem; margin-bottom: 0.5rem;">📚</div>
+                                <div style="font-weight: 600; color: #92400e; margin-bottom: 0.25rem;">25 Handouts</div>
+                                <div style="font-size: 0.9rem; color: #78350f;">Print-ready classroom materials</div>
+                            </div>
+                            <div style="background: white; padding: 1.5rem; border-radius: 12px;">
+                                <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎯</div>
+                                <div style="font-weight: 600; color: #92400e; margin-bottom: 0.25rem;">22 Lessons</div>
+                                <div style="font-size: 0.9rem; color: #78350f;">Complete learning sequences</div>
+                            </div>
+                            <div style="background: white; padding: 1.5rem; border-radius: 12px;">
+                                <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌿</div>
+                                <div style="font-weight: 600; color: #92400e; margin-bottom: 0.25rem;">100% Cultural</div>
+                                <div style="font-size: 0.9rem; color: #78350f;">Authentic Te Ao Māori lens</div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <a href="/generated-resources-alpha/index.html" class="btn btn-primary" style="background: #92400e; color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 8px; font-weight: 600;">
+                                Explore All 50 Resources →
+                            </a>
+                            <a href="/generated-resources-alpha/handouts/" class="btn btn-secondary" style="background: white; color: #92400e; padding: 1rem 2rem; text-decoration: none; border-radius: 8px; font-weight: 600; border: 2px solid #92400e;">
+                                View Handouts
+                            </a>
+                            <a href="/generated-resources-alpha/lessons/" class="btn btn-secondary" style="background: white; color: #92400e; padding: 1rem 2rem; text-decoration: none; border-radius: 8px; font-weight: 600; border: 2px solid #92400e;">
+                                View Lessons
+                            </a>
+                        </div>
                     </div>
-                    <div class="stat-box">
-                        <h4>🎯 Lessons</h4>
-                        <p>22 complete lesson plans</p>
-                    </div>
-                    <div class="stat-box">
-                        <h4>🌿 Cultural Context</h4>
-                        <p>Authentic Te Ao Māori integration</p>
-                    </div>
-                </div>
-                
-                <div class="action-buttons">
-                    <a href="/generated-resources-alpha/index.html" class="btn btn-primary btn-large">Explore All Resources</a>
-                    <a href="/generated-resources-alpha/handouts/" class="btn btn-secondary">View Handouts</a>
-                    <a href="/generated-resources-alpha/lessons/" class="btn btn-secondary">View Lessons</a>
                 </div>
             </div>
             
@@ -258,7 +280,6 @@
       <script src="/js/te-kete-professional.js" defer></script>
       <script src="/js/ux-enhancements.js?v=3" defer></script>
       <script src="/js/ux-professional.js" defer></script>
-    <script src="/js/components.js"></script>
     <script src="/js/loading-toast-system.js" defer></script>
 </body>
 </html>

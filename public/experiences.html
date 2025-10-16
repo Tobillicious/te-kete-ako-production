@@ -37,16 +37,28 @@
     
 
     <!-- CANONICAL CSS SYSTEM -->
-    <link rel="stylesheet" href="/css/min/te-kete-unified-design-system.min.css?v=a2c78a3f" />
-    <link rel="stylesheet" href="/css/min/component-library.min.css?v=5424a2a7" />
-    <link rel="stylesheet" href="/css/min/animations-professional.min.css?v=622e9c22" />
-    <link rel="stylesheet" href="/css/min/beautiful-navigation.min.css?v=e2475a21" />
-    <link rel="stylesheet" href="/css/min/mobile-optimization.min.css?v=f53be187" />
-    <link rel="stylesheet" href="/css/min/print.min.css?v=ec9a3a60" />
+    <link rel="stylesheet" href="/css/te-kete-unified-design-system.css" />
+    <link rel="stylesheet" href="/css/component-library.css" />
+    <link rel="stylesheet" href="/css/animations-professional.css" />
+    <link rel="stylesheet" href="/css/beautiful-navigation.css" />
+    <link rel="stylesheet" href="/css/mobile-optimization.css" />
+    <link rel="stylesheet" href="/css/print.css" />
     <!-- END CANONICAL CSS -->
 </head>
 
 <body>
+    <!-- Professional Mega Menu Navigation -->
+    <div id="beautiful-nav-container"></div>
+    <script>
+        fetch('/components/navigation-mega-menu.html')
+            .then(r => r.text())
+            .then(html => {
+                const div = document.createElement('div');
+                div.innerHTML = html;
+                document.body.insertBefore(div.firstElementChild, document.body.firstChild);
+            });
+    </script>
+
                     <header class="site-header no-print">
         <div class="nav-container">
             <a href="/index.html" class="nav-brand">Te Kete Ako</a>
@@ -205,7 +217,6 @@
         });
     }
     </script>
-    <script src="/js/components.js"></script>
-</body>
+    </body>
 
 </html>

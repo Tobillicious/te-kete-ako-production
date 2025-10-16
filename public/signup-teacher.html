@@ -7,10 +7,10 @@
     <meta name="description" content="Join Te Kete Ako - Professional platform for NZ teachers">
     
     <!-- UNIFIED DESIGN SYSTEM -->
-    <link rel="stylesheet" href="/css/min/te-kete-unified-design-system.min.css?v=a2c78a3f">
-    <link rel="stylesheet" href="/css/min/component-library.min.css?v=5424a2a7">
-    <link rel="stylesheet" href="/css/min/beautiful-navigation.min.css?v=e2475a21">
-    <link rel="stylesheet" href="/css/min/print.min.css?v=ec9a3a60" media="print"/>
+    <link rel="stylesheet" href="/css/te-kete-unified-design-system.css">
+    <link rel="stylesheet" href="/css/component-library.css">
+    <link rel="stylesheet" href="/css/beautiful-navigation.css">
+    <link rel="stylesheet" href="/css/print.css" media="print"/>
     
     <!-- Supabase Auth -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -18,14 +18,22 @@
     <script src="/js/signup-teacher.js" defer></script>
 </head>
 <body>
+    <!-- Professional Mega Menu Navigation -->
+    <div id="beautiful-nav-container"></div>
+    <script>
+        fetch('/components/navigation-mega-menu.html')
+            .then(r => r.text())
+            .then(html => {
+                const div = document.createElement('div');
+                div.innerHTML = html;
+                document.body.insertBefore(div.firstElementChild, document.body.firstChild);
+            });
+    </script>
+
     
     <!-- Navigation -->
     <div id="navigation-container"></div>
-    <script>
-        fetch('/navigation-header.html')
-            .then(r => r.text())
-            .then(html => document.getElementById('navigation-container').innerHTML = html);
-    </script>
+    
     
     <main class="container" style="max-width: 900px; margin: 4rem auto; padding: 2rem;">
         

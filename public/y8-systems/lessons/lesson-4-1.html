@@ -36,13 +36,13 @@
     
 
     <!-- CANONICAL CSS SYSTEM -->
-    <link rel="stylesheet" href="/css/min/te-kete-unified-design-system.min.css?v=a2c78a3f" />
-    <link rel="stylesheet" href="/css/min/component-library.min.css?v=5424a2a7" />
-    <link rel="stylesheet" href="/css/min/animations-professional.min.css?v=622e9c22" />
-    <link rel="stylesheet" href="/css/min/beautiful-navigation.min.css?v=e2475a21" />
-    <link rel="stylesheet" href="/css/min/lesson-professionalization.min.css?v=db123540" />
-    <link rel="stylesheet" href="/css/min/mobile-optimization.min.css?v=f53be187" />
-    <link rel="stylesheet" href="/css/min/print.min.css?v=ec9a3a60" />
+    <link rel="stylesheet" href="/css/te-kete-unified-design-system.css" />
+    <link rel="stylesheet" href="/css/component-library.css" />
+    <link rel="stylesheet" href="/css/animations-professional.css" />
+    <link rel="stylesheet" href="/css/beautiful-navigation.css" />
+    <link rel="stylesheet" href="/css/lesson-professionalization.css" />
+    <link rel="stylesheet" href="/css/mobile-optimization.css" />
+    <link rel="stylesheet" href="/css/print.css" />
     <!-- END CANONICAL CSS -->
 </head>
 
@@ -246,6 +246,28 @@
         <a href="../index.html" class="nav-btn secondary" style="text-decoration: none; padding: 0.75rem 1.5rem; background: #388E3C; color: white; border-radius: 4px;">↑ Y8 Systems</a>
         <a href="lesson-4-2.html" class="nav-btn" style="text-decoration: none; padding: 0.75rem 1.5rem; background: #1976D2; color: white; border-radius: 4px;">Next →</a>
     </nav>
+
+    <!-- Related Resources (GraphRAG-Powered) -->
+    <div id="related-resources-container"></div>
+    <script>
+        // Set current lesson metadata for related resources
+        setCurrentResource({
+            title: document.title,
+            subject: document.querySelector('meta[name="subject"]')?.content || 'General',
+            level: document.querySelector('meta[name="year-level"]')?.content || 'All Levels',
+            tags: [],
+            type: 'lesson'
+        });
+        
+        // Load related resources component
+        fetch('/components/related-resources.html')
+            .then(r => r.text())
+            .then(html => {
+                document.getElementById('related-resources-container').innerHTML = html;
+            })
+            .catch(err => console.error('Related resources loading error:', err));
+    </script>
+
 </main>
     </div>
     
@@ -415,8 +437,6 @@
     <!-- Load Supabase Client -->
     <script src="/js/supabase-client.js"></script>
     <!-- Load Auth UI -->
-    <script src="/js/auth-enhanced.js" defer></script>
-
     <script>
     // Register service worker for performance
     if ('serviceWorker' in navigator) {
@@ -427,7 +447,6 @@
         });
     }
     </script>
-    <script src="/js/components.js"></script>
     <script src="/js/loading-toast-system.js" defer></script>
 
 <section class="external-resources no-print" style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 2rem; border-radius: 12px; margin: 3rem 0; border-left: 4px solid var(--color-info); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">

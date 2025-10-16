@@ -40,17 +40,18 @@
     
 
     <!-- CANONICAL CSS SYSTEM -->
-    <link rel="stylesheet" href="/css/min/te-kete-unified-design-system.min.css?v=a2c78a3f" />
-    <link rel="stylesheet" href="/css/min/component-library.min.css?v=5424a2a7" />
-    <link rel="stylesheet" href="/css/min/animations-professional.min.css?v=622e9c22" />
-    <link rel="stylesheet" href="/css/min/beautiful-navigation.min.css?v=e2475a21" />
-    <link rel="stylesheet" href="/css/min/lesson-professionalization.min.css?v=db123540" />
-    <link rel="stylesheet" href="/css/min/mobile-optimization.min.css?v=f53be187" />
-    <link rel="stylesheet" href="/css/min/print.min.css?v=ec9a3a60" />
+    <link rel="stylesheet" href="/css/te-kete-unified-design-system.css" />
+    <link rel="stylesheet" href="/css/component-library.css" />
+    <link rel="stylesheet" href="/css/animations-professional.css" />
+    <link rel="stylesheet" href="/css/beautiful-navigation.css" />
+    <link rel="stylesheet" href="/css/lesson-professionalization.css" />
+    <link rel="stylesheet" href="/css/mobile-optimization.css" />
+    <link rel="stylesheet" href="/css/print.css" />
     <!-- END CANONICAL CSS -->
 </head>
 <body>
     <!-- Professional Mega Menu Navigation -->
+    <div id="beautiful-nav-container"></div>
     <script>
         fetch('/components/navigation-mega-menu.html')
             .then(r => r.text())
@@ -60,7 +61,9 @@
                 document.body.insertBefore(div.firstElementChild, document.body.firstChild);
             });
     </script>
-                    <div id="header-next-level" style="min-height: 72px;"></div>
+
+    <!-- Professional Mega Menu Navigation -->
+    <script>
     <div id="search-container"></div>
 
 
@@ -386,6 +389,28 @@
         <a href="../index.html" class="nav-btn secondary">↑ Back to Unit</a>
         <a href="lesson-4-balancing-act.html" class="nav-btn">Next: Balancing Act →</a>
     </nav>
+
+    <!-- Related Resources (GraphRAG-Powered) -->
+    <div id="related-resources-container"></div>
+    <script>
+        // Set current lesson metadata for related resources
+        setCurrentResource({
+            title: document.title,
+            subject: document.querySelector('meta[name="subject"]')?.content || 'General',
+            level: document.querySelector('meta[name="year-level"]')?.content || 'All Levels',
+            tags: [],
+            type: 'lesson'
+        });
+        
+        // Load related resources component
+        fetch('/components/related-resources.html')
+            .then(r => r.text())
+            .then(html => {
+                document.getElementById('related-resources-container').innerHTML = html;
+            })
+            .catch(err => console.error('Related resources loading error:', err));
+    </script>
+
 </main>
 
     <script>
@@ -485,7 +510,6 @@
         </div>
     </section>
 
-    <script src="/js/components.js"></script>
     <script src="/js/loading-toast-system.js" defer></script>
     <script>
         fetch('/components/header-next-level.html')
