@@ -1,230 +1,300 @@
-// Student Dashboard functionality
+/**
+ * ================================================================
+ * STUDENT DASHBOARD - TE KETE AKO
+ * Personalized student learning portal
+ * ================================================================
+ */
 
-// Authentication check and user data loading
-window.addEventListener('load', async () => {
-    // Check if user is authenticated using standard supabase client
-    try {
-        const { data: { user } } = await window.supabaseClient.auth.getUser();
-        
-        if (!user) {
-            window.location.href = 'login.html';
-            return;
-        }
+let supabaseClient = null;
+let currentStudent = null;
 
-        // For demo purposes, we'll use user data directly
-        // In production, this would come from the database
-        const currentUser = {
-            display_name: user.user_metadata?.display_name || user.email?.split('@')[0],
-            email: user.email,
-            role: 'student', // This would come from the database
-            year_level: 8, // This would come from the database
-            school_name: 'Mangakōtukutuku College' // This would come from the database
-        };
-
-        // Update welcome message
-        const welcomeMsg = document.getElementById('welcome-message');
-        const userInfo = document.getElementById('user-info');
-
-        welcomeMsg.textContent = `Kia ora, ${currentUser.display_name}!`;
-        userInfo.textContent = `Year ${currentUser.year_level} | ${currentUser.school_name}`;
-
-        // Load dashboard data
-        await loadDashboardData(currentUser);
-        
-    } catch (error) {
-        console.error('Authentication error:', error);
-        window.location.href = 'login.html';
-    }
+// Wait for Supabase to be ready
+window.addEventListener('supabaseReady', (event) => {
+    supabaseClient = event.detail.client;
+    console.log('✅ Supabase ready for student dashboard');
+    initializeDashboard();
 });
 
-async function loadDashboardData(user) {
+/**
+ * Initialize dashboard
+ */
+async function initializeDashboard() {
     try {
-        // In a real implementation, these would be API calls to Netlify Functions
-        // For now, we'll use placeholder data and localStorage for demo
+        // Check authentication
+        const { data: { user }, error: authError } = await supabaseClient.auth.getUser();
+        
+        if (authError || !user) {
+            // Not logged in - redirect to login
+            window.location.href = '/login.html?redirect=/student-dashboard.html';
+            return;
+        }
+        
+        // Get student profile
+        const { data: profile, error: profileError } = await supabaseClient
+            .from('profiles')
+            .select('*')
+            .eq('user_id', user.id)
+            .single();
+        
+        if (profileError) throw profileError;
+        
+        // Verify role is student
+        if (profile.role !== 'student') {
+            window.location.href = '/teachers/dashboard.html';
+            return;
+        }
+        
+        currentStudent = profile;
+        
+        // Load dashboard data
+        await Promise.all([
+            loadStudentInfo(profile),
+            loadRecommendedResources(profile),
+            loadSavedResources(user.id),
+            loadRecentActivity(user.id),
+            loadProgress(user.id)
+        ]);
+        
+        // Hide loading, show dashboard
+        const loading = document.getElementById('loading');
+        const dashboard = document.getElementById('dashboard');
+        
+        if (loading) loading.style.display = 'none';
+        if (dashboard) dashboard.style.display = 'block';
+        
+    } catch (error) {
+        console.error('Dashboard initialization error:', error);
+        showError('Error loading dashboard. Please refresh the page.');
+    }
+}
 
-        // Load learning progress (placeholder)
-        document.getElementById('projects-completed').textContent = '2';
-        document.getElementById('activities-done').textContent = '8';
-        document.getElementById('cultural-score').textContent = '85%';
+/**
+ * Load student information
+ */
+async function loadStudentInfo(profile) {
+    // Update welcome message
+    const studentNameEl = document.getElementById('studentName');
+    if (studentNameEl) {
+        const name = profile.first_name || 'Learner';
+        studentNameEl.textContent = name;
+    }
+    
+    // Update year level
+    const yearLevelEl = document.getElementById('studentYearLevel');
+    if (yearLevelEl && profile.year_level) {
+        yearLevelEl.textContent = `Year ${profile.year_level}`;
+    }
+}
 
-        // Load announcements (placeholder)
-        const announcementsContainer = document.getElementById('announcements-container');
-        announcementsContainer.innerHTML = `
-            <div class="announcement">
-                <h4>📢 Welcome to Te Kete Ako Digital Platform!</h4>
-                <p>Your enhanced learning experience now includes collaborative tools, project submissions, and personalized tracking. Explore your new dashboard features!</p>
+/**
+ * Load recommended resources based on student's year level
+ */
+async function loadRecommendedResources(profile) {
+    try {
+        const { data: resources, error } = await supabaseClient
+            .from('resources')
+            .select('*')
+            .eq('is_active', true)
+            .eq('level', `Year ${profile.year_level}`)
+            .order('created_at', { ascending: false })
+            .limit(6);
+        
+        if (error) throw error;
+        
+        renderRecommendedResources(resources || []);
+        
+    } catch (error) {
+        console.error('Error loading recommendations:', error);
+    }
+}
+
+/**
+ * Render recommended resources
+ */
+function renderRecommendedResources(resources) {
+    const container = document.getElementById('recommendedResources');
+    if (!container) return;
+    
+    if (resources.length === 0) {
+        container.innerHTML = `
+            <div style="text-align: center; padding: 2rem; color: var(--color-neutral-600);">
+                <p>Browse the <a href="/resource-hub.html">Resource Hub</a> to discover resources!</p>
             </div>
         `;
-
-        // Update society project status based on user data
-        const projectStatus = document.getElementById('society-project-status');
-        if (user.year_level == 8) {
-            projectStatus.textContent = 'Year 8 Systems Unit: Ready to design your ideal society with your collaborative team!';
-        } else {
-            projectStatus.textContent = 'Explore our society design resources and collaborative learning tools.';
-        }
-
-    } catch (error) {
-        console.error('Error loading dashboard data:', error);
+        return;
     }
+    
+    container.innerHTML = resources.map(resource => `
+        <div class="resource-card" style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+            <h4 style="color: var(--color-primary-500); margin-bottom: 0.5rem;">${resource.title}</h4>
+            <p style="font-size: 0.9rem; color: var(--color-neutral-600); margin-bottom: 1rem;">${resource.description?.substring(0, 100)}...</p>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                ${resource.subject ? `<span class="badge" style="background: var(--color-secondary-100); color: var(--color-secondary-700); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem;">${resource.subject}</span>` : ''}
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+                <button class="btn btn-sm btn-primary" onclick="viewResource('${resource.id}')">
+                    👁️ View
+                </button>
+                <button class="btn btn-sm btn-secondary" onclick="saveResource('${resource.id}')">
+                    🧺 Save to My Kete
+                </button>
+            </div>
+        </div>
+    `).join('');
 }
 
-// Dashboard interaction functions (placeholders for future implementation)
-function viewProgressDetails() {
-    alert('Progress details functionality coming soon!');
-}
-
-function viewProjectSubmissions() {
-    window.location.href = 'my-submissions.html';
-}
-
-function openCollaborationTools() {
-    alert('Collaboration tools coming soon!');
-}
-
-function viewPeerFeedback() {
-    alert('Peer feedback functionality coming soon!');
-}
-
-function viewSavedResources() {
-    alert('Saved resources functionality coming soon!');
-}
-
-function viewAllAchievements() {
-    alert('Achievements system coming soon!');
-}
-
-// AI Companion functionality
-async function sendAIMessage() {
-    const input = document.getElementById('ai-companion-input');
-    const chat = document.getElementById('ai-companion-chat');
-    const message = input.value.trim();
-
-    if (!message) return;
-
-    // Clear placeholder text on first use
-    if (chat.innerHTML.includes('Ask your AI companion')) {
-        chat.innerHTML = '';
-    }
-
-    // Add user message
-    addChatMessage('You', message, 'user');
-    input.value = '';
-
-    // Add loading indicator
-    addChatMessage('AI Companion', 'Thinking...', 'ai-loading');
-
+/**
+ * Load saved resources ("My Kete")
+ */
+async function loadSavedResources(userId) {
     try {
-        // Get current user
-        const { data: { user } } = await window.supabaseClient.auth.getUser();
+        const { data: saved, error } = await supabaseClient
+            .from('user_saved_resources')
+            .select(`
+                *,
+                resource:resources(*)
+            `)
+            .eq('user_id', userId)
+            .order('saved_at', { ascending: false })
+            .limit(5);
         
-        if (!user) {
-            throw new Error('Not authenticated');
+        if (error) throw error;
+        
+        const countEl = document.getElementById('savedCount');
+        if (countEl) {
+            countEl.textContent = saved?.length || 0;
         }
-
-        const response = await fetch('/.netlify/functions/ai-companion', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                query: message,
-                userRole: 'student',
-                userId: user.id,
-                context: {
-                    yearLevel: 8, // Would come from user profile
-                    currentProjects: ['society-design'] // Would come from actual data
-                }
-            })
-        });
-
-        const result = await response.json();
-
-        // Remove loading indicator
-        removeLoadingMessage();
-
-        if (result.success) {
-            const aiResponse = result.response;
-
-            // Add AI response with cultural elements
-            let responseHTML = `
-                <div style="margin-bottom: 1rem;">
-                    <strong>🌺 ${aiResponse.encouragement}</strong>
-                </div>
-                <div style="margin-bottom: 1rem;">
-                    ${aiResponse.message}
-                </div>
-            `;
-
-            if (aiResponse.whakatauki) {
-                responseHTML += `
-                    <div style="background: var(--color-cultural-light); padding: 0.75rem; border-radius: 6px; border-left: 3px solid var(--color-secondary); margin: 0.5rem 0; font-size: 0.9rem;">
-                        <div style="font-style: italic; color: var(--color-primary); margin-bottom: 0.25rem;">
-                            "${aiResponse.whakatauki.mi}"
-                        </div>
-                        <div style="color: var(--color-text-secondary); font-size: 0.8rem; margin-bottom: 0.25rem;">
-                            ${aiResponse.whakatauki.en}
-                        </div>
-                        <div style="color: var(--color-text-secondary); font-size: 0.8rem;">
-                            ${aiResponse.whakatauki.application}
-                        </div>
-                    </div>
-                `;
-            }
-
-            if (aiResponse.cultural_connection) {
-                responseHTML += `
-                    <div style="background: #f0f8f0; padding: 0.75rem; border-radius: 6px; margin: 0.5rem 0; font-size: 0.9rem;">
-                        <strong>🔗 Cultural Connection:</strong><br>
-                        ${aiResponse.cultural_connection}
-                    </div>
-                `;
-            }
-
-            addChatMessage('AI Companion', responseHTML, 'ai', true);
-        } else {
-            addChatMessage('AI Companion', 'Sorry, I\'m having trouble right now. Please try again later.', 'ai-error');
-        }
-
+        
+        renderSavedResources(saved || []);
+        
     } catch (error) {
-        console.error('AI Companion error:', error);
-        removeLoadingMessage();
-        addChatMessage('AI Companion', 'I\'m temporarily unavailable. Please try again in a moment.', 'ai-error');
+        console.error('Error loading saved resources:', error);
     }
 }
 
-function addChatMessage(sender, message, type, isHTML = false) {
-    const chat = document.getElementById('ai-companion-chat');
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `chat-message ${type}`;
-
-    let messageStyle = '';
-    if (type === 'user') {
-        messageStyle = 'background: var(--color-secondary); color: white; margin-left: 2rem; text-align: right;';
-    } else if (type === 'ai-loading') {
-        messageStyle = 'background: #e9ecef; color: var(--color-text-secondary); font-style: italic;';
-    } else if (type === 'ai-error') {
-        messageStyle = 'background: #f8d7da; color: #721c24; border-left: 3px solid #dc3545;';
-    } else {
-        messageStyle = 'background: white; border-left: 3px solid var(--color-primary);';
+/**
+ * Render saved resources
+ */
+function renderSavedResources(saved) {
+    const container = document.getElementById('savedResources');
+    if (!container) return;
+    
+    if (saved.length === 0) {
+        container.innerHTML = `
+            <div style="text-align: center; padding: 2rem; color: var(--color-neutral-600);">
+                <div style="font-size: 2rem; margin-bottom: 1rem;">🧺</div>
+                <p>Your kete is empty. Save resources to access them quickly!</p>
+            </div>
+        `;
+        return;
     }
-
-    messageDiv.style.cssText = `${messageStyle} padding: 0.75rem; margin: 0.5rem 0; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);`;
-
-    if (isHTML) {
-        messageDiv.innerHTML = `<strong>${sender}:</strong><br>${message}`;
-    } else {
-        messageDiv.innerHTML = `<strong>${sender}:</strong> ${message}`;
-    }
-
-    chat.appendChild(messageDiv);
-    chat.scrollTop = chat.scrollHeight;
+    
+    container.innerHTML = saved.map(item => `
+        <div style="padding: 1rem; border-bottom: 1px solid var(--color-neutral-200);">
+            <a href="${item.resource.path}" style="color: var(--color-primary-500); font-weight: 600; text-decoration: none;">
+                ${item.resource.title}
+            </a>
+            <div style="font-size: 0.85rem; color: var(--color-neutral-500); margin-top: 0.25rem;">
+                Saved ${new Date(item.saved_at).toLocaleDateString()}
+            </div>
+        </div>
+    `).join('');
 }
 
-function removeLoadingMessage() {
-    const chat = document.getElementById('ai-companion-chat');
-    const loadingMessage = chat.querySelector('.ai-loading');
-    if (loadingMessage) {
-        loadingMessage.remove();
+/**
+ * Load recent activity
+ */
+async function loadRecentActivity(userId) {
+    // Placeholder - in production, query actual activity
+    const container = document.getElementById('recentActivity');
+    if (!container) return;
+    
+    container.innerHTML = `
+        <div style="padding: 1rem; color: var(--color-neutral-600);">
+            <p>📖 No recent activity</p>
+        </div>
+    `;
+}
+
+/**
+ * Load student progress
+ */
+async function loadProgress(userId) {
+    // Placeholder - in production, query assessments
+    const progressEl = document.getElementById('progressPercent');
+    if (progressEl) {
+        progressEl.textContent = '0';
     }
 }
+
+/**
+ * View resource
+ */
+function viewResource(resourceId) {
+    // In production, navigate to resource page
+    window.location.href = `/resource.html?id=${resourceId}`;
+}
+
+/**
+ * Save resource to My Kete
+ */
+async function saveResource(resourceId) {
+    if (!currentStudent) return;
+    
+    try {
+        const { error } = await supabaseClient
+            .from('user_saved_resources')
+            .insert({
+                user_id: currentStudent.user_id,
+                resource_id: resourceId,
+                saved_at: new Date().toISOString()
+            });
+        
+        if (error) throw error;
+        
+        alert('✅ Resource saved to your kete!');
+        
+        // Reload saved resources
+        await loadSavedResources(currentStudent.user_id);
+        
+    } catch (error) {
+        console.error('Error saving resource:', error);
+        alert('Error saving resource. Please try again.');
+    }
+}
+
+/**
+ * Show error message
+ */
+function showError(message) {
+    const loading = document.getElementById('loading');
+    if (loading) {
+        loading.innerHTML = `
+            <div style="text-align: center; padding: 4rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
+                <p style="font-size: 1.2rem; color: var(--color-neutral-600); margin-bottom: 2rem;">${message}</p>
+                <button class="btn btn-primary" onclick="window.location.reload()">
+                    🔄 Refresh Page
+                </button>
+            </div>
+        `;
+    }
+}
+
+/**
+ * Logout function
+ */
+async function logout() {
+    const confirmed = confirm('Are you sure you want to log out?');
+    if (!confirmed) return;
+    
+    try {
+        await supabaseClient.auth.signOut();
+        window.location.href = '/';
+    } catch (error) {
+        console.error('Logout error:', error);
+        alert('Error logging out. Please try again.');
+    }
+}
+
+console.log('🎓 Student dashboard JavaScript loaded');
