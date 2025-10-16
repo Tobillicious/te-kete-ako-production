@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Sign Up | Te Kete Ako</title>
+    <meta name="description" content="Join Te Kete Ako - NZ's educational platform with personalized learning">
+    
+    <!-- UNIFIED DESIGN SYSTEM -->
+    <link rel="stylesheet" href="/css/min/te-kete-unified-design-system.min.css?v=a2c78a3f">
+    <link rel="stylesheet" href="/css/min/component-library.min.css?v=5424a2a7">
+    <link rel="stylesheet" href="/css/min/beautiful-navigation.min.css?v=e2475a21">
+    <link rel="stylesheet" href="/css/min/print.min.css?v=ec9a3a60" media="print"/>
+    
+    <!-- Supabase Auth -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/js/supabase-client.js"></script>
+</head>
+<body>
+    
+    <!-- Navigation -->
+    <div id="navigation-container"></div>
+    <script>
+        fetch('/navigation-header.html')
+            .then(r => r.text())
+            .then(html => document.getElementById('navigation-container').innerHTML = html);
+    </script>
+    
+    <main class="container" style="max-width: 800px; margin: 4rem auto; padding: 2rem;">
+        
+        <!-- Header -->
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <h1 style="font-size: 2.5rem; color: var(--color-primary-500); margin-bottom: 1rem;">
+                🎓 Student Sign Up
+            </h1>
+            <p style="font-size: 1.2rem; color: var(--color-neutral-600);">
+                Join Te Kete Ako and start your personalized learning journey
+            </p>
+        </div>
+        
+        <!-- Multi-Step Form -->
+        <div class="signup-card" style="background: white; padding: 3rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+            
+            <!-- Progress Indicator -->
+            <div class="progress-steps" style="display: flex; justify-content: space-between; margin-bottom: 3rem;">
+                <div class="step active" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Basic Info</div>
+                </div>
+                <div class="step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">School</div>
+                </div>
+                <div class="step" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Personal</div>
+                </div>
+                <div class="step" data-step="4">
+                    <div class="step-number">4</div>
+                    <div class="step-label">Preferences</div>
+                </div>
+            </div>
+            
+            <!-- Form -->
+            <form id="studentSignupForm">
+                
+                <!-- STEP 1: Basic Info -->
+                <div class="form-step active" data-step="1">
+                    <h2 style="margin-bottom: 2rem; color: var(--color-primary-500);">Let's get started!</h2>
+                    
+                    <div class="form-group">
+                        <label for="firstName" class="required">First Name</label>
+                        <input type="text" id="firstName" name="firstName" required 
+                               placeholder="e.g., Aroha">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lastName" class="required">Last Name</label>
+                        <input type="text" id="lastName" name="lastName" required 
+                               placeholder="e.g., Williams">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" class="required">Email</label>
+                        <input type="email" id="email" name="email" required 
+                               placeholder="your.email@school.nz or personal email">
+                        <small>You'll use this to log in</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password" class="required">Password</label>
+                        <input type="password" id="password" name="password" required 
+                               minlength="8" placeholder="At least 8 characters">
+                        <small>Must be at least 8 characters long</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword" class="required">Confirm Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required 
+                               placeholder="Re-enter your password">
+                    </div>
+                </div>
+                
+                <!-- STEP 2: School Details -->
+                <div class="form-step" data-step="2">
+                    <h2 style="margin-bottom: 2rem; color: var(--color-primary-500);">Tell us about your school</h2>
+                    
+                    <div class="form-group">
+                        <label for="schoolName" class="required">School Name</label>
+                        <select id="schoolName" name="schoolName" required>
+                            <option value="">-- Select your school --</option>
+                            <option value="Mangakōtukutuku College">Mangakōtukutuku College</option>
+                            <option value="Auckland Grammar School">Auckland Grammar School</option>
+                            <option value="Wellington High School">Wellington High School</option>
+                            <option value="Christchurch Boys High School">Christchurch Boys High School</option>
+                            <option value="Otago Girls High School">Otago Girls High School</option>
+                            <option value="Hamilton Boys High School">Hamilton Boys High School</option>
+                            <option value="Mount Albert Grammar School">Mount Albert Grammar School</option>
+                            <option value="Takapuna Grammar School">Takapuna Grammar School</option>
+                            <option value="other">Other (type below)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" id="otherSchoolGroup" style="display:none;">
+                        <label for="otherSchool">School Name (type it in)</label>
+                        <input type="text" id="otherSchool" name="otherSchool" 
+                               placeholder="Type your school name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="yearLevel" class="required">Year Level</label>
+                        <select id="yearLevel" name="yearLevel" required>
+                            <option value="">-- Select year level --</option>
+                            <option value="7">Year 7</option>
+                            <option value="8">Year 8</option>
+                            <option value="9">Year 9</option>
+                            <option value="10">Year 10</option>
+                            <option value="11">Year 11</option>
+                            <option value="12">Year 12</option>
+                            <option value="13">Year 13</option>
+                        </select>
+                        <small>We'll show you content matched to your level</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="parentEmail">Parent/Guardian Email</label>
+                        <input type="email" id="parentEmail" name="parentEmail" 
+                               placeholder="parent@email.com (required if under 16)">
+                        <small>Required for students under 16 years old</small>
+                    </div>
+                </div>
+                
+                <!-- STEP 3: Personal Details -->
+                <div class="form-step" data-step="3">
+                    <h2 style="margin-bottom: 2rem; color: var(--color-primary-500);">A bit about you</h2>
+                    
+                    <p style="color: var(--color-neutral-600); margin-bottom: 2rem; font-size: 0.95rem;">
+                        This helps us personalize your learning experience and show you culturally relevant content.
+                    </p>
+                    
+                    <div class="form-group">
+                        <label for="dateOfBirth">Date of Birth</label>
+                        <input type="date" id="dateOfBirth" name="dateOfBirth" 
+                               max="2012-12-31" min="1990-01-01">
+                        <small>Optional, helps us provide age-appropriate content</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select id="gender" name="gender">
+                            <option value="">-- Select if you wish --</option>
+                            <option value="Male">Male / Tāne</option>
+                            <option value="Female">Female / Wāhine</option>
+                            <option value="Non-binary">Non-binary</option>
+                            <option value="Takatāpui">Takatāpui</option>
+                            <option value="Prefer not to say">Prefer not to say</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <small>Optional, for inclusive content recommendations</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="culturalIdentity">Cultural Identity</label>
+                        <select id="culturalIdentity" name="culturalIdentity" multiple size="5">
+                            <option value="Māori">Māori</option>
+                            <option value="NZ European/Pākehā">NZ European / Pākehā</option>
+                            <option value="Pacific Peoples">Pacific Peoples</option>
+                            <option value="Asian">Asian</option>
+                            <option value="Middle Eastern">Middle Eastern</option>
+                            <option value="Latin American">Latin American</option>
+                            <option value="African">African</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <small>Hold Ctrl/Cmd to select multiple. This helps us show you relevant cultural content.</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="iwiAffiliation">Iwi Affiliation</label>
+                        <input type="text" id="iwiAffiliation" name="iwiAffiliation" 
+                               placeholder="e.g., Ngāpuhi, Ngāti Porou, Ngāi Tahu">
+                        <small>Optional, for Māori students to connect with iwi-specific content</small>
+                    </div>
+                </div>
+                
+                <!-- STEP 4: Preferences & Consent -->
+                <div class="form-step" data-step="4">
+                    <h2 style="margin-bottom: 2rem; color: var(--color-primary-500);">Almost there!</h2>
+                    
+                    <div class="form-group">
+                        <label for="preferredLanguage">Preferred Language</label>
+                        <select id="preferredLanguage" name="preferredLanguage">
+                            <option value="English">English</option>
+                            <option value="Te Reo Māori">Te Reo Māori</option>
+                            <option value="Both">Both / Bilingual</option>
+                        </select>
+                        <small>We'll prioritize content in your preferred language</small>
+                    </div>
+                    
+                    <div class="form-group" style="margin-top: 2rem;">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="termsAccepted" name="termsAccepted" required>
+                            <span>I accept the <a href="/legal/terms.html" target="_blank">Terms & Conditions</a> and <a href="/legal/privacy.html" target="_blank">Privacy Policy</a></span>
+                        </label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="dataConsent" name="dataConsent" required>
+                            <span>I consent to Te Kete Ako collecting and using my data to personalize my learning experience, as described in our Privacy Policy</span>
+                        </label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="emailUpdates" name="emailUpdates">
+                            <span>I'd like to receive educational updates and new resource notifications (optional)</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Error/Success Messages -->
+                <div id="formMessage" style="display:none; margin: 2rem 0; padding: 1rem; border-radius: 8px;"></div>
+                
+                <!-- Navigation Buttons -->
+                <div class="form-buttons" style="display: flex; justify-content: space-between; margin-top: 3rem;">
+                    <button type="button" id="prevBtn" class="btn btn-secondary" style="display: none;">
+                        ← Previous
+                    </button>
+                    <button type="button" id="nextBtn" class="btn btn-primary">
+                        Next →
+                    </button>
+                    <button type="submit" id="submitBtn" class="btn btn-primary" style="display: none;">
+                        🎉 Create Account
+                    </button>
+                </div>
+                
+            </form>
+            
+            <!-- Already have account -->
+            <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--color-neutral-200);">
+                <p style="color: var(--color-neutral-600);">
+                    Already have an account? <a href="/login.html" style="color: var(--color-primary-500); font-weight: 600;">Log in here</a>
+                </p>
+                <p style="color: var(--color-neutral-600); margin-top: 0.5rem;">
+                    Are you a teacher? <a href="/signup-teacher.html" style="color: var(--color-primary-500); font-weight: 600;">Sign up as a teacher</a>
+                </p>
+            </div>
+            
+        </div>
+        
+    </main>
+    
+    <style>
+        /* Form Styling */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            color: var(--color-neutral-700);
+            margin-bottom: 0.5rem;
+        }
+        
+        label.required::after {
+            content: " *";
+            color: var(--color-error);
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--color-neutral-300);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+        }
+        
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--color-primary-500);
+        }
+        
+        select[multiple] {
+            padding: 0.5rem;
+        }
+        
+        small {
+            display: block;
+            margin-top: 0.25rem;
+            color: var(--color-neutral-500);
+            font-size: 0.875rem;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: start;
+            gap: 0.75rem;
+            font-weight: normal;
+        }
+        
+        .checkbox-label input[type="checkbox"] {
+            width: auto;
+            margin-top: 0.25rem;
+        }
+        
+        /* Progress Steps */
+        .progress-steps {
+            position: relative;
+        }
+        
+        .progress-steps::before {
+            content: "";
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--color-neutral-200);
+            z-index: 0;
+        }
+        
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--color-neutral-200);
+            color: var(--color-neutral-500);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .step.active .step-number,
+        .step.completed .step-number {
+            background: var(--color-primary-500);
+            color: white;
+        }
+        
+        .step-label {
+            font-size: 0.875rem;
+            color: var(--color-neutral-600);
+        }
+        
+        .step.active .step-label {
+            color: var(--color-primary-500);
+            font-weight: 600;
+        }
+        
+        /* Form Steps */
+        .form-step {
+            display: none;
+        }
+        
+        .form-step.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Message Styles */
+        #formMessage.error {
+            background: #fee;
+            border: 2px solid var(--color-error);
+            color: var(--color-error);
+        }
+        
+        #formMessage.success {
+            background: #efe;
+            border: 2px solid var(--color-success);
+            color: var(--color-success);
+        }
+    </style>
+    
+    <script src="/js/signup-student.js"></script>
+    
+</body>
+</html>
+

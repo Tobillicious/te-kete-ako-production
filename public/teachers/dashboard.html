@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard | Te Kete Ako</title>
+    <meta name="description" content="Manage your classes, students, and teaching resources">
+    
+    <!-- UNIFIED DESIGN SYSTEM -->
+    <link rel="stylesheet" href="/css/min/te-kete-unified-design-system.min.css?v=a2c78a3f">
+    <link rel="stylesheet" href="/css/min/component-library.min.css?v=5424a2a7">
+    <link rel="stylesheet" href="/css/min/beautiful-navigation.min.css?v=e2475a21">
+    <link rel="stylesheet" href="/css/min/print.min.css?v=ec9a3a60" media="print"/>
+    
+    <!-- Supabase Auth -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/js/supabase-client.js"></script>
+    <script src="/js/teacher-dashboard.js" defer></script>
+</head>
+<body data-page="teacher-dashboard" data-auth-required="true" data-role-required="teacher">
+    
+    <!-- Navigation -->
+    <div id="navigation-container"></div>
+    <script>
+        fetch('/navigation-header.html')
+            .then(r => r.text())
+            .then(html => document.getElementById('navigation-container').innerHTML = html);
+    </script>
+    
+    <!-- Loading State -->
+    <div id="loading" style="text-align: center; padding: 4rem;">
+        <div style="font-size: 3rem;">⏳</div>
+        <p style="font-size: 1.2rem; color: var(--color-neutral-600);">Loading your dashboard...</p>
+    </div>
+    
+    <!-- Main Dashboard (Hidden until loaded) -->
+    <main id="dashboard" class="container" style="display: none; max-width: 1400px; margin: 2rem auto; padding: 0 2rem;">
+        
+        <!-- Welcome Header -->
+        <div class="dashboard-header" style="margin-bottom: 3rem;">
+            <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 2rem;">
+                <div>
+                    <h1 style="font-size: 2.5rem; color: var(--color-primary-500); margin-bottom: 0.5rem;">
+                        Kia ora, <span id="teacherName">Teacher</span>! 👋
+                    </h1>
+                    <p style="font-size: 1.1rem; color: var(--color-neutral-600);" id="teacherSchool">
+                        Loading...
+                    </p>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn btn-primary" onclick="showCreateClassModal()">
+                        ➕ Create New Class
+                    </button>
+                    <button class="btn btn-secondary" onclick="syncKAMAR()" id="kamarSyncBtn">
+                        🔄 Sync KAMAR
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Stats Cards -->
+        <div class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+            
+            <div class="stat-card" style="background: linear-gradient(135deg, #2C5F41, #3b5b23); color: white; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <div style="font-size: 1rem; opacity: 0.9; margin-bottom: 0.5rem;">Total Classes</div>
+                <div style="font-size: 3rem; font-weight: 700;" id="totalClasses">0</div>
+                <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">Across all year levels</div>
+            </div>
+            
+            <div class="stat-card" style="background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <div style="font-size: 1rem; opacity: 0.9; margin-bottom: 0.5rem;">Total Students</div>
+                <div style="font-size: 3rem; font-weight: 700;" id="totalStudents">0</div>
+                <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">Across all your classes</div>
+            </div>
+            
+            <div class="stat-card" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <div style="font-size: 1rem; opacity: 0.9; margin-bottom: 0.5rem;">Resources Assigned</div>
+                <div style="font-size: 3rem; font-weight: 700;" id="resourcesAssigned">0</div>
+                <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">This week</div>
+            </div>
+            
+            <div class="stat-card" style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <div style="font-size: 1rem; opacity: 0.9; margin-bottom: 0.5rem;">Avg. Progress</div>
+                <div style="font-size: 3rem; font-weight: 700;" id="avgProgress">0%</div>
+                <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">Student completion rate</div>
+            </div>
+            
+        </div>
+        
+        <!-- Main Content Tabs -->
+        <div class="dashboard-tabs" style="margin-bottom: 2rem;">
+            <div style="border-bottom: 2px solid var(--color-neutral-200); display: flex; gap: 2rem;">
+                <button class="tab-btn active" data-tab="classes" onclick="switchTab('classes')">
+                    📚 My Classes
+                </button>
+                <button class="tab-btn" data-tab="students" onclick="switchTab('students')">
+                    👥 All Students
+                </button>
+                <button class="tab-btn" data-tab="resources" onclick="switchTab('resources')">
+                    📖 Resource Library
+                </button>
+                <button class="tab-btn" data-tab="timetable" onclick="switchTab('timetable')">
+                    📅 Timetable
+                </button>
+                <button class="tab-btn" data-tab="reports" onclick="switchTab('reports')">
+                    📊 Reports
+                </button>
+            </div>
+        </div>
+        
+        <!-- Tab: My Classes -->
+        <div class="tab-content active" id="tab-classes">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h2 style="font-size: 2rem; color: var(--color-primary-500);">My Classes</h2>
+                <input type="search" placeholder="Search classes..." style="padding: 0.75rem; border: 2px solid var(--color-neutral-300); border-radius: 8px; width: 300px;">
+            </div>
+            
+            <div id="classesList" class="classes-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem;">
+                <!-- Classes will be loaded here by JavaScript -->
+                <div style="grid-column: 1/-1; text-align: center; padding: 4rem; color: var(--color-neutral-500);">
+                    Loading your classes...
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tab: All Students -->
+        <div class="tab-content" id="tab-students" style="display: none;">
+            <h2 style="font-size: 2rem; color: var(--color-primary-500); margin-bottom: 2rem;">All Students</h2>
+            
+            <div id="studentsList">
+                <p style="color: var(--color-neutral-600);">Loading students...</p>
+            </div>
+        </div>
+        
+        <!-- Tab: Resource Library -->
+        <div class="tab-content" id="tab-resources" style="display: none;">
+            <h2 style="font-size: 2rem; color: var(--color-primary-500); margin-bottom: 2rem;">Resource Library</h2>
+            
+            <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+                <select id="filterSubject" style="padding: 0.75rem; border: 2px solid var(--color-neutral-300); border-radius: 8px;">
+                    <option value="">All Subjects</option>
+                    <option value="English">English</option>
+                    <option value="Mathematics">Mathematics</option>
+                    <option value="Science">Science</option>
+                    <option value="Social Studies">Social Studies</option>
+                    <option value="Te Reo Māori">Te Reo Māori</option>
+                </select>
+                
+                <select id="filterLevel" style="padding: 0.75rem; border: 2px solid var(--color-neutral-300); border-radius: 8px;">
+                    <option value="">All Year Levels</option>
+                    <option value="7">Year 7</option>
+                    <option value="8">Year 8</option>
+                    <option value="9">Year 9</option>
+                    <option value="10">Year 10</option>
+                    <option value="11">Year 11</option>
+                    <option value="12">Year 12</option>
+                    <option value="13">Year 13</option>
+                </select>
+            </div>
+            
+            <div id="resourcesList">
+                <p style="color: var(--color-neutral-600);">Loading resources...</p>
+            </div>
+        </div>
+        
+        <!-- Tab: Timetable -->
+        <div class="tab-content" id="tab-timetable" style="display: none;">
+            <h2 style="font-size: 2rem; color: var(--color-primary-500); margin-bottom: 2rem;">Weekly Timetable</h2>
+            
+            <div id="timetableView">
+                <p style="color: var(--color-neutral-600);">Your timetable will appear here.</p>
+                <p style="color: var(--color-neutral-500); margin-top: 1rem;">
+                    <strong>KAMAR Integration:</strong> If your school uses KAMAR, click "Sync KAMAR" to import your timetable automatically.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Tab: Reports -->
+        <div class="tab-content" id="tab-reports" style="display: none;">
+            <h2 style="font-size: 2rem; color: var(--color-primary-500); margin-bottom: 2rem;">Student Progress Reports</h2>
+            
+            <div id="reportsView">
+                <p style="color: var(--color-neutral-600);">Generate and view student progress reports.</p>
+            </div>
+        </div>
+        
+    </main>
+    
+    <!-- Modal: Create Class -->
+    <div id="createClassModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+        <div class="modal-content" style="background: white; padding: 3rem; border-radius: 16px; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto;">
+            <h2 style="margin-bottom: 2rem; color: var(--color-primary-500);">Create New Class</h2>
+            
+            <form id="createClassForm">
+                <div class="form-group">
+                    <label for="classCode">Class Code *</label>
+                    <input type="text" id="classCode" required placeholder="e.g., 10MAT1">
+                </div>
+                
+                <div class="form-group">
+                    <label for="className">Class Name *</label>
+                    <input type="text" id="className" required placeholder="e.g., Year 10 Mathematics">
+                </div>
+                
+                <div class="form-group">
+                    <label for="classYearLevel">Year Level *</label>
+                    <select id="classYearLevel" required>
+                        <option value="">-- Select year level --</option>
+                        <option value="7">Year 7</option>
+                        <option value="8">Year 8</option>
+                        <option value="9">Year 9</option>
+                        <option value="10">Year 10</option>
+                        <option value="11">Year 11</option>
+                        <option value="12">Year 12</option>
+                        <option value="13">Year 13</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="classSubject">Subject *</label>
+                    <select id="classSubject" required>
+                        <option value="">-- Select subject --</option>
+                        <option value="English">English</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Science">Science</option>
+                        <option value="Social Studies">Social Studies</option>
+                        <option value="Te Reo Māori">Te Reo Māori</option>
+                        <option value="Digital Technologies">Digital Technologies</option>
+                        <option value="Health & PE">Health & PE</option>
+                        <option value="The Arts">The Arts</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="classRoom">Room</label>
+                    <input type="text" id="classRoom" placeholder="e.g., Room 12">
+                </div>
+                
+                <div class="form-group">
+                    <label for="classDescription">Description</label>
+                    <textarea id="classDescription" rows="3" placeholder="Optional notes about this class"></textarea>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">Create Class</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeCreateClassModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <style>
+        /* Tab Styling */
+        .tab-btn {
+            padding: 1rem 1.5rem;
+            border: none;
+            background: none;
+            color: var(--color-neutral-600);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+        
+        .tab-btn:hover {
+            color: var(--color-primary-500);
+        }
+        
+        .tab-btn.active {
+            color: var(--color-primary-500);
+            border-bottom-color: var(--color-primary-500);
+        }
+        
+        /* Form Styling */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--color-neutral-700);
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--color-neutral-300);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--color-primary-500);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+        }
+        
+        .modal.show {
+            display: flex !important;
+        }
+        
+        /* Class Card */
+        .class-card {
+            background: white;
+            border: 1px solid var(--color-neutral-200);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .class-card:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            transform: translateY(-4px);
+        }
+    </style>
+    
+    <script src="/js/teacher-dashboard.js"></script>
+    
+</body>
+</html>
+

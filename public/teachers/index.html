@@ -4,9 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For Teachers | Te Kete Ako</title>
-    <link rel="stylesheet" href="/css/print.css" media="print"/>
-    <link rel="stylesheet" href="/css/te-kete-professional.css"/>
+    <link rel="stylesheet" href="/components/badge-system.html">
+    
+    
+    
+    
+    
+    
     <script src="/js/breadcrumbs.js" defer></script>
+
+    <!-- CANONICAL CSS SYSTEM -->
+    <link rel="stylesheet" href="/css/min/te-kete-unified-design-system.min.css?v=a2c78a3f" />
+    <link rel="stylesheet" href="/css/min/component-library.min.css?v=5424a2a7" />
+    <link rel="stylesheet" href="/css/min/animations-professional.min.css?v=622e9c22" />
+    <link rel="stylesheet" href="/css/min/beautiful-navigation.min.css?v=e2475a21" />
+    <link rel="stylesheet" href="/css/min/mobile-optimization.min.css?v=f53be187" />
+    <link rel="stylesheet" href="/css/min/print.min.css?v=ec9a3a60" />
+    <!-- END CANONICAL CSS -->
 </head>
 <body>
                         <header class="site-header no-print">
@@ -24,9 +38,11 @@
             <nav class="breadcrumbs no-print" aria-label="Breadcrumb"><ol id="breadcrumbs" class="breadcrumbs-list"></ol></nav>
         </div>
     </header>
+    <div id="search-container"></div>
 
 
-    <div id="header-component"></div>
+
+    <div id="header-next-level"></div>
     
     <div class="teachers-container">
         <h1 style="font-size: 3rem; color: #1b4332; margin-bottom: 1rem;">👩‍🏫 Resources for Teachers</h1>
@@ -127,5 +143,17 @@
         fetch('/components/footer.html').then(r => r.text()).then(h => document.getElementById('footer-component').innerHTML = h);
     </script>
     <script src="/js/te-kete-professional.js" defer></script>
+    <script src="/js/components.js"></script>
+
+    <script>
+        // Load Next-Level Header
+        fetch('/components/header-next-level.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-next-level').innerHTML = html;
+                console.log('✅ Next-Level Header loaded');
+            })
+            .catch(error => console.error('Header load error:', error));
+    </script>
 </body>
 </html>

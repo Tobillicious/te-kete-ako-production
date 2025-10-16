@@ -10,39 +10,32 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
     <!-- Performance: Preload critical resources -->
-    <link rel="preload" href="/css/te-kete-professional.css" as="style">
     <link rel="preload" href="/js/header-dropdowns.js" as="script">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap&display=swap" as="style" crossorigin>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouTube Resources | Te Kete Ako</title>
     
-    <link rel="stylesheet" href="/css/print.css" media="print"/>
-    <link rel="stylesheet" href="/css/te-kete-professional.css"/>
-    <link rel="stylesheet" href="/css/ux-professional.css"/>
+    <link rel="stylesheet" href="/components/badge-system.html">
+    
+    
+    
     <script src="/js/breadcrumbs.js" defer></script>
     
+    
+
+    <!-- CANONICAL CSS SYSTEM -->
+    <link rel="stylesheet" href="/css/min/te-kete-unified-design-system.min.css?v=a2c78a3f" />
+    <link rel="stylesheet" href="/css/min/component-library.min.css?v=5424a2a7" />
+    <link rel="stylesheet" href="/css/min/animations-professional.min.css?v=622e9c22" />
+    <link rel="stylesheet" href="/css/min/beautiful-navigation.min.css?v=e2475a21" />
+    <link rel="stylesheet" href="/css/min/mobile-optimization.min.css?v=f53be187" />
+    <link rel="stylesheet" href="/css/min/print.min.css?v=ec9a3a60" />
+    <!-- END CANONICAL CSS -->
 </head>
 <body data-auto-init="true" data-current-page="youtube">
-                        <header class="site-header no-print">
-        <div class="nav-container">
-            <a href="/index.html" class="nav-brand">Te Kete Ako</a>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="/unit-plans.html" class="nav-link"><span class="nav-icon">📚</span><span class="nav-text-en">Unit Plans</span><span class="nav-text-mi" lang="mi">Ngā Waehere</span></a></li>
-                    <li><a href="/lessons.html" class="nav-link"><span class="nav-icon">🎓</span><span class="nav-text-en">Lessons</span><span class="nav-text-mi" lang="mi">Ngā Akoranga</span></a></li>
-                    <li><a href="/handouts.html" class="nav-link"><span class="nav-icon">📄</span><span class="nav-text-en">Handouts</span><span class="nav-text-mi" lang="mi">Ngā Rauemi</span></a></li>
-                    <li><a href="/teachers/index.html" class="nav-link"><span class="nav-icon">🧑‍🏫</span><span class="nav-text-en">Teachers</span><span class="nav-text-mi" lang="mi">Ngā Kaiako</span></a></li>
-                    <li class="auth-nav"><a href="/login.html" class="nav-link login-btn"><span class="nav-icon">👤</span>Login</a></li>
-                </ul>
-            </nav>
-            <nav class="breadcrumbs no-print" aria-label="Breadcrumb"><ol id="breadcrumbs" class="breadcrumbs-list"></ol></nav>
-        </div>
-    </header>
-
-
-    <!-- Include Header Component -->
-    <div id="header-component"></div>
+                        <!-- Include Header Component -->
+    <div id="header-next-level"></div>
     <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
 
     <div class="main-container">
@@ -525,5 +518,16 @@
     }
     </script>
     <script src="/js/te-kete-professional.js" defer></script>
+
+    <script>
+        // Load Next-Level Header
+        fetch('/components/header-next-level.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-next-level').innerHTML = html;
+                console.log('✅ Next-Level Header loaded');
+            })
+            .catch(error => console.error('Header load error:', error));
+    </script>
 </body>
 </html>
