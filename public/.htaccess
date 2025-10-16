@@ -1,0 +1,45 @@
+# Te Kete Ako - Performance Optimization
+# CSS & JS Caching Configuration
+# Generated: October 16, 2025
+
+# Enable compression
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+# Cache-Control headers for CSS and JS
+<FilesMatch "\.(css|js)$">
+  <IfModule mod_headers.c>
+    # Long-term caching (1 year) - version hashes force reload on changes
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </IfModule>
+</FilesMatch>
+
+# Cache-Control for images
+<FilesMatch "\.(jpg|jpeg|png|gif|svg|webp|ico)$">
+  <IfModule mod_headers.c>
+    Header set Cache-Control "public, max-age=2592000"
+  </IfModule>
+</FilesMatch>
+
+# Cache-Control for fonts
+<FilesMatch "\.(woff|woff2|ttf|otf|eot)$">
+  <IfModule mod_headers.c>
+    Header set Cache-Control "public, max-age=31536000"
+  </IfModule>
+</FilesMatch>
+
+# No cache for HTML
+<FilesMatch "\.html$">
+  <IfModule mod_headers.c>
+    Header set Cache-Control "no-cache, must-revalidate"
+  </IfModule>
+</FilesMatch>
+
+# MIME types
+<IfModule mod_mime.c>
+  AddType text/css .css
+  AddType application/javascript .js
+  AddType image/svg+xml .svg
+</IfModule>
+
