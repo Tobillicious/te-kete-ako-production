@@ -140,6 +140,42 @@ function setLoadingState(buttonId, isLoading) {
 }
 
 /**
+ * Role-based redirect after successful login
+ */
+async function redirectByRole(user) {
+    try {
+        // Fetch user profile to get role
+        const { data: profile, error } = await supabase
+            .from('profiles')
+            .select('role, first_name')
+            .eq('id', user.id)
+            .single();
+        
+        if (error) {
+            console.error('Error fetching profile:', error);
+            // Default redirect if profile not found
+            window.location.href = '/my-kete.html';
+            return;
+        }
+        
+        // Redirect based on role
+        if (profile.role === 'teacher') {
+            window.location.href = '/teacher-dashboard.html';
+        } else if (profile.role === 'student') {
+            window.location.href = '/student-dashboard.html';
+        } else if (profile.role === 'admin') {
+            window.location.href = '/admin/dashboard.html';
+        } else {
+            // Fallback
+            window.location.href = '/my-kete.html';
+        }
+    } catch (error) {
+        console.error('Redirect error:', error);
+        window.location.href = '/my-kete.html';
+    }
+}
+
+/**
  * Register new user with email and password using Netlify function
  */
 async function handleSignup(email, password, confirmPassword, displayName, schoolName = '', yearLevel = '', role = 'student') {
@@ -233,10 +269,16 @@ async function handleLogin(email, password) {
             // Store tokens if needed (Supabase handles this automatically)
             showSuccess('Login successful! Redirecting...');
             
-            // Redirect to dashboard
-            setTimeout(() => {
-                window.location.href = '/my-kete.html';
-            }, 1000);
+            // Get current user and redirect by role
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                await redirectByRole(user);
+            } else {
+                // Fallback if user not found
+                setTimeout(() => {
+                    window.location.href = '/my-kete.html';
+                }, 1000);
+            }
         } else {
             showError(data.message || 'Invalid email or password.');
         }
