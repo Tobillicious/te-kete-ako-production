@@ -10,7 +10,6 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
     <!-- Performance: Preload critical resources -->
-    <link rel="preload" href="/css/te-kete-professional.css" as="style">
     <link rel="preload" href="/js/te-kete-professional.js" as="script">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap&display=swap" as="style" crossorigin>
     <meta charset="UTF-8">
@@ -30,80 +29,82 @@
     
     
     
-    <link rel="stylesheet" href="/css/print.css" media="print"/>
-    <link rel="stylesheet" href="/css/te-kete-professional.css"/>
-    <link rel="stylesheet" href="/css/ux-professional.css"/>
+    <link rel="stylesheet" href="/components/badge-system.html">
+    
+    
+    
     <script src="/js/breadcrumbs.js" defer></script>
     
+    
+    
+    
+
+    <!-- CANONICAL CSS SYSTEM -->
+    <link rel="stylesheet" href="/css/min/te-kete-unified-design-system.min.css?v=a2c78a3f" />
+    <link rel="stylesheet" href="/css/min/component-library.min.css?v=5424a2a7" />
+    <link rel="stylesheet" href="/css/min/animations-professional.min.css?v=622e9c22" />
+    <link rel="stylesheet" href="/css/min/beautiful-navigation.min.css?v=e2475a21" />
+    <link rel="stylesheet" href="/css/min/lesson-professionalization.min.css?v=db123540" />
+    <link rel="stylesheet" href="/css/min/mobile-optimization.min.css?v=f53be187" />
+    <link rel="stylesheet" href="/css/min/print.min.css?v=ec9a3a60" />
+    <!-- END CANONICAL CSS -->
 </head>
 <body>
-                    <header class="site-header no-print">
-        <div class="nav-container">
-            <a href="/index.html" class="nav-brand">Te Kete Ako</a>
-            <nav class="main-nav">
-                <ul>
-                    <li>
-                        <a href="/unit-plans.html">
-                            <span class="nav-icon">📚</span>
-                            <span class="nav-text-en">Unit Plans</span>
-                            <span class="nav-text-mi" lang="mi">Ngā Waehere</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/teachers/index.html">
-                            <span class="nav-icon">🧑‍🏫</span>
-                            <span class="nav-text-en">Teachers</span>
-                            <span class="nav-text-mi" lang="mi">Ngā Kaiako</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/lessons.html">
-                            <span class="nav-icon">🎓</span>
-                            <span class="nav-text-en">Lessons</span>
-                            <span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/handouts.html">
-                            <span class="nav-icon">📄</span>
-                            <span class="nav-text-en">Handouts</span>
-                            <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/games.html">
-                            <span class="nav-icon">🎮</span>
-                            <span class="nav-text-en">Games</span>
-                            <span class="nav-text-mi" lang="mi">Ngā Kēmu</span>  
-                        </a>
-                    </li>
-                    <li class="auth-nav my-kete-link" style="display: none;">
-                        <a href="/my-kete.html">
-                            <span class="nav-icon">🧺</span>
-                            My Kete
-                        </a>
-                    </li>
-                    <li class="auth-nav">
-                        <a href="/login.html" class="login-btn">
-                            <span class="nav-icon">👤</span>
-                            Login
-                        </a>
-                    </li>
-                    <li class="auth-nav" style="display: none;">
-                        <a href="/register-simple.html" class="register-btn">
-                            <span class="nav-icon">📝</span>
-                            Register
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <nav class="breadcrumbs no-print" aria-label="Breadcrumb">
-                <ol id="breadcrumbs" class="breadcrumbs-list"></ol>
-            </nav>
+    <!-- Professional Mega Menu Navigation -->
+    <script>
+        fetch('/navigation-header.html')
+            .then(r => r.text())
+            .then(html => {
+                const div = document.createElement('div');
+                div.innerHTML = html;
+                document.body.insertBefore(div.firstElementChild, docume
+    
+    <!-- UNIFIED DESIGN SYSTEM -->
+    
+    
+    
+    
+    
+nt.body.firstChild);
+            });
+    </script>
+                    <div id="header-next-level" style="min-height: 72px;"></div>
+    <div id="search-container"></div>
+
+
+    <main role="main" class="content-area">
+<!-- PROFESSIONAL LESSON CONTENT -->
+<div class="lesson-page">
+  <div class="lesson-container">
+    
+    <!-- LESSON HEADER -->
+    <header class="lesson-header">
+      <h1 class="lesson-title">{LESSON_TITLE}</h1>
+      <p class="lesson-subtitle">{LESSON_SUBTITLE}</p>
+      
+      <div class="lesson-meta">
+        <div class="lesson-meta-item">
+          <span class="lesson-meta-icon">📚</span>
+          <span>{SUBJECT}</span>
         </div>
+        <div class="lesson-meta-item">
+          <span class="lesson-meta-icon">🎯</span>
+          <span>{LEVEL}</span>
+        </div>
+        <div class="lesson-meta-item">
+          <span class="lesson-meta-icon">⏱️</span>
+          <span>{DURATION}</span>
+        </div>
+        <div class="lesson-meta-item">
+          <span class="lesson-meta-icon">🌿</span>
+          <span>Cultural Integration</span>
+        </div>
+      </div>
     </header>
 
-    <main role="main" class="container">
+    <!-- LESSON CONTENT -->
+    <div class="lesson-content">
+
         <div class="lesson-header">
             <a href="/index.html" class="back-to-unit">← Back to Ecology Unit</a>
             <h1 class="wiley-hero-title">Lesson 6: Guardians of the Future</h1>
@@ -642,6 +643,29 @@
         <a href="../index.html" class="nav-btn secondary">↑ Back to Unit</a>
         <span></span>
     </nav>
+
+    </div>
+
+    <!-- LESSON NAVIGATION -->
+    <nav class="lesson-navigation">
+      <a href="{PREVIOUS_LESSON_LINK}" class="nav-button secondary">
+        <span class="nav-button-icon">←</span>
+        <span>Previous Lesson</span>
+      </a>
+      
+      <a href="{UNIT_INDEX_LINK}" class="nav-button secondary">
+        <span class="nav-button-icon">📚</span>
+        <span>Unit Index</span>
+      </a>
+      
+      <a href="{NEXT_LESSON_LINK}" class="nav-button">
+        <span>Next Lesson</span>
+        <span class="nav-button-icon">→</span>
+      </a>
+    </nav>
+
+  </div>
+</div>
 </main>
 
     <script>
@@ -722,5 +746,14 @@
         </div>
     </section>
 
+    <script src="/js/components.js"></script>
+    <script src="/js/loading-toast-system.js" defer></script>
+    <script>
+        fetch('/components/header-next-level.html')
+            .then(r => r.text())
+            .then(html => {
+                document.getElementById('header-next-level').innerHTML = html;
+            }).catch(e => console.warn('Header load:', e));
+    </script>
 </body>
 </html>

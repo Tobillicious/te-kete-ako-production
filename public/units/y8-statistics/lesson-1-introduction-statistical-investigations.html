@@ -10,7 +10,8 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
     <!-- Performance: Preload critical resources -->
-    <link rel="preload" href="/css/te-kete-professional.css" as="style">
+    <link rel="stylesheet" href="/components/badge-system.html">
+    
     <link rel="preload" href="/js/te-kete-professional.js" as="script">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap&display=swap" as="style" crossorigin>
     <meta charset="UTF-8">
@@ -27,11 +28,32 @@
 
 
 
-    <link rel="stylesheet" href="/css/print.css" media="print"/>
-    <link rel="stylesheet" href="/css/te-kete-professional.css"/>
+    
+    
+    
     <script src="/js/breadcrumbs.js" defer></script>
+
+    <!-- CANONICAL CSS SYSTEM -->
+    <link rel="stylesheet" href="/css/min/te-kete-unified-design-system.min.css?v=a2c78a3f" />
+    <link rel="stylesheet" href="/css/min/component-library.min.css?v=5424a2a7" />
+    <link rel="stylesheet" href="/css/min/animations-professional.min.css?v=622e9c22" />
+    <link rel="stylesheet" href="/css/min/beautiful-navigation.min.css?v=e2475a21" />
+    <link rel="stylesheet" href="/css/min/lesson-professionalization.min.css?v=db123540" />
+    <link rel="stylesheet" href="/css/min/mobile-optimization.min.css?v=f53be187" />
+    <link rel="stylesheet" href="/css/min/print.min.css?v=ec9a3a60" />
+    <!-- END CANONICAL CSS -->
 </head>
 <body>
+    <!-- Professional Mega Menu Navigation -->
+    <script>
+        fetch('/components/navigation-mega-menu.html')
+            .then(r => r.text())
+            .then(html => {
+                const div = document.createElement('div');
+                div.innerHTML = html;
+                document.body.insertBefore(div.firstElementChild, document.body.firstChild);
+            });
+    </script>
                         <header class="site-header no-print">
         <div class="nav-container">
             <a href="/index.html" class="nav-brand">Te Kete Ako</a>
@@ -47,6 +69,8 @@
             <nav class="breadcrumbs no-print" aria-label="Breadcrumb"><ol id="breadcrumbs" class="breadcrumbs-list"></ol></nav>
         </div>
     </header>
+    <div id="search-container"></div>
+
 
 
     <div class="te-kete-container">
@@ -655,5 +679,6 @@
         <a href="index.html" class="nav-btn secondary" style="text-decoration: none; padding: 0.75rem 1.5rem; background: #1976D2; color: white; border-radius: 4px;">↑ Y8 Statistics Unit</a>
         <a href="lesson-2-analysing-nz-sports-data.html" class="nav-btn" style="text-decoration: none; padding: 0.75rem 1.5rem; background: #388E3C; color: white; border-radius: 4px;">Next Lesson →</a>
     </nav>
+    <script src="/js/components.js"></script>
 </body>
 </html>
