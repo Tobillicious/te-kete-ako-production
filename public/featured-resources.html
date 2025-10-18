@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/css/beautiful-navigation.css" />
     <link rel="stylesheet" href="/css/animations-professional.css" />
     <link rel="stylesheet" href="/css/mobile-optimization.css" />
+    <link rel="stylesheet" href="/css/resource-preview-cards.css" />
     
     <style>
         .btn-primary {
@@ -195,13 +196,24 @@
 
         <section class="search-resources" style="margin-top: 3rem; padding: 2rem; background: white; border-radius: 12px; border: 1px solid #ddd;">
             <h2 style="color: var(--color-primary); margin-top: 0;">🔍 Find Exactly What You Need</h2>
-            <p>Use our advanced search to discover resources by topic, year level, subject, or keyword.</p>
+            <p>Live search across 770 high-quality resources - instant results as you type!</p>
             <div style="margin-top: 1.5rem;">
-                <input type="text" placeholder="Search 931 featured resources..." style="width: 100%; padding: 1rem; font-size: 1.1rem; border: 2px solid var(--color-pounamu); border-radius: 8px;">
+                <input type="text" id="featured-search" placeholder="Search 931 featured resources... (try: fractions, kaitiakitanga, rubric)" style="width: 100%; padding: 1rem; font-size: 1.1rem; border: 2px solid var(--color-pounamu); border-radius: 8px;">
             </div>
-            <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--color-text-secondary);">
-                <strong>Popular searches:</strong> fractions, te reo, assessment rubric, whakataukī, algebra, science inquiry
-            </p>
+            <div id="featured-results" style="margin-top: 2rem;">
+                <!-- Search results appear here -->
+            </div>
+        </section>
+        
+        <!-- Visual Gallery of Top Resources -->
+        <section class="visual-gallery" id="visual-gallery" style="margin-top: 3rem;">
+            <h2 style="color: var(--color-primary); margin-bottom: 2rem;">📚 Browse All Featured Resources</h2>
+            <div class="resource-grid">
+                <!-- Cards will be loaded dynamically -->
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+            </div>
         </section>
 
     </main>
@@ -216,6 +228,76 @@
             </div>
         </div>
     </footer>
+
+    <!-- Load search functionality -->
+    <script src="/js/search-live.js"></script>
+    <script src="/js/breadcrumbs-universal.js"></script>
+    
+    <!-- Load and render gallery -->
+    <script>
+        // Load featured resources and render as beautiful cards
+        fetch('/featured-gallery-data.json')
+            .then(r => r.json())
+            .then(data => {
+                const gallery = document.getElementById('visual-gallery');
+                if (!gallery) return;
+                
+                const grid = gallery.querySelector('.resource-grid');
+                grid.innerHTML = '';
+                
+                // Render top featured resources
+                data.featured_top_10.forEach(resource => {
+                    const card = createPreviewCard(resource);
+                    grid.appendChild(card);
+                });
+            });
+        
+        function createPreviewCard(resource) {
+            const card = document.createElement('div');
+            card.className = 'resource-preview-card';
+            
+            const badges = [];
+            if (resource.quality_score >= 8) badges.push(`<span class="badge quality">⭐ ${resource.quality_score}/10</span>`);
+            if (resource.cultural) badges.push(`<span class="badge cultural">🌿 Cultural</span>`);
+            if (resource.complete) badges.push(`<span class="badge complete">✅ Complete</span>`);
+            
+            card.innerHTML = `
+                <div class="card-header">
+                    <div style="flex: 1;">
+                        <div class="resource-badges">${badges.join('')}</div>
+                        <h3 style="margin: 0.5rem 0; color: var(--color-primary); font-size: 1.3rem;">
+                            ${resource.title}
+                        </h3>
+                    </div>
+                    <div class="cultural-symbol symbol-${resource.subject.toLowerCase().replace(' ', '')}"></div>
+                </div>
+                
+                <div class="stats-row">
+                    <span class="stat-item"><span class="stat-icon">📝</span> ${resource.word_count} words</span>
+                    <span class="stat-item"><span class="stat-icon">⏱️</span> ${resource.duration} min</span>
+                    <span class="stat-item"><span class="stat-icon">📊</span> ${resource.year_level}</span>
+                </div>
+                
+                <p class="preview-text">${resource.preview}</p>
+                
+                <div class="resource-tags">
+                    ${(resource.tags || []).map(tag => `<span class="tag">${tag}</span>`).join('')}
+                </div>
+                
+                <div class="card-actions">
+                    <a href="${resource.path}" class="btn-primary">View Resource →</a>
+                    <button onclick="showQuickPreview('${resource.path}')" class="btn-secondary">Quick Preview</button>
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        function showQuickPreview(path) {
+            alert('Quick preview feature coming soon! For now, click "View Resource"');
+            // TODO: Implement modal preview
+        }
+    </script>
 
 </body>
 </html>
