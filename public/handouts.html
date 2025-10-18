@@ -30,6 +30,66 @@
     <link rel="stylesheet" href="/css/mobile-optimization.css" />
     <link rel="stylesheet" href="/css/print.css" />
     <!-- END CANONICAL CSS -->
+
+    <style>
+        /* Enhanced Handout Discovery System */
+        .filter-btn:focus {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 2px;
+        }
+
+        .category-card {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .category-card:hover::before {
+            left: 100%;
+        }
+
+        .category-card:hover .handout-card-info {
+            transform: translateY(0);
+        }
+
+        /* Enhanced search styling */
+        .search-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 4px 16px rgba(74, 110, 42, 0.15);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .filter-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
 </head>
 <body data-auto-init="true" data-current-page="handouts">
     <!-- Professional Mega Menu Navigation -->
@@ -233,27 +293,86 @@
             <!-- Categories Section -->
             <section class="categories-section">
                 <h2>Browse by Category</h2>
+
+                <!-- Enhanced Handout Discovery System -->
+                <section class="search-section" style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); padding: 2rem; border-radius: 12px; margin: 2rem 0; border: 1px solid rgba(148, 163, 184, 0.1);">
+                    <header style="text-align: center; margin-bottom: 2rem;">
+                        <h2 style="color: var(--color-primary); margin-bottom: 0.5rem;">🔍 Discover Handouts</h2>
+                        <p style="color: var(--color-text-secondary); max-width: 600px; margin: 0 auto;">Search and filter through our comprehensive collection of culturally-integrated educational resources</p>
+                    </header>
+
+                    <div class="search-container" style="max-width: 600px; margin: 0 auto; position: relative;">
+                        <input type="search" class="search-input" id="handout-search" placeholder="Search handouts, subjects, topics, or resources..." aria-label="Search handouts" style="width: 100%; padding: 1rem 3rem 1rem 1rem; border: 2px solid #e2e8f0; border-radius: 50px; font-size: 1.1rem; transition: all 0.3s ease; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: #64748b; width: 1.5rem; height: 1.5rem;" aria-hidden="true">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="M21 21l-4.35-4.35"/>
+                        </svg>
+                    </div>
+
+                    <div class="filter-controls" style="display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; justify-content: center;">
+                        <button class="filter-btn active" data-filter="all" tabindex="0">All Handouts</button>
+                        <button class="filter-btn" data-filter="mathematics" tabindex="0">Mathematics</button>
+                        <button class="filter-btn" data-filter="english" tabindex="0">English</button>
+                        <button class="filter-btn" data-filter="science" tabindex="0">Science</button>
+                        <button class="filter-btn" data-filter="cultural" tabindex="0">Cultural</button>
+                        <button class="filter-btn" data-filter="featured" tabindex="0">Featured</button>
+                    </div>
+
+                    <div class="results-count" id="handout-results-count" style="text-align: center; color: #64748b; margin: 1rem 0; font-weight: 500;">
+                        Showing all handouts
+                    </div>
+
+                    <div class="loading-spinner" id="handout-loading-spinner" style="display: none; text-align: center; padding: 2rem;">
+                        <div class="spinner" style="width: 40px; height: 40px; border: 3px solid #e2e8f0; border-top: 3px solid var(--color-primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto;"></div>
+                        <p style="margin-top: 1rem; color: var(--color-text-secondary);">Searching handouts...</p>
+                    </div>
+
+                    <div class="no-results" id="handout-no-results" style="display: none; text-align: center; padding: 3rem; color: #64748b;">
+                        <div style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.5;">🔍</div>
+                        <h3>No handouts found</h3>
+                        <p>Try adjusting your search terms or filters</p>
+                    </div>
+                </section>
+
                 <div class="categories-grid">
-                    <div class="category-card">
+                    <div class="category-card handout-card" data-subject="mathematics" data-category="mathematics" data-featured="true" data-topics="algebra geometry statistics problem-solving māori mathematics">
+                        <div class="maori-pattern" style="position: absolute; top: 0; right: 0; width: 50px; height: 50px; opacity: 0.08; background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cpath d=%22M20,20 L80,20 L80,80 L20,80 Z%22 fill=%22none%22 stroke=%22%234a6e2a%22 stroke-width=%222%22/%3E%3Cpath d=%22M30,30 L70,30 L70,70 L30,70 Z%22 fill=%22none%22 stroke=%22%234a6e2a%22 stroke-width=%221%22/%3E%3C/svg%3E');"></div>
                         <div class="category-icon">📚</div>
                         <h3>Mathematics</h3>
                         <p>Algebra, geometry, statistics, and problem-solving resources</p>
                         <a href="#" class="category-link" data-category="mathematics">View All</a>
-</div>
-                    
-                    <div class="category-card">
+                        <div class="handout-card-info" style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.8); color: white; padding: 1rem; transform: translateY(100%); transition: transform 0.3s ease; font-size: 0.9rem;">
+                            <strong>Resources:</strong> 47 mathematics handouts<br>
+                            <strong>Topics:</strong> Algebra, geometry, statistics, cultural mathematics<br>
+                            <strong>Access:</strong> Standards-aligned, culturally responsive materials
+                        </div>
+                    </div>
+
+                    <div class="category-card handout-card" data-subject="english" data-category="english" data-featured="true" data-topics="english literacy reading writing comprehension māori language">
+                        <div class="maori-pattern" style="position: absolute; top: 0; right: 0; width: 50px; height: 50px; opacity: 0.08; background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cpath d=%22M20,20 L80,20 L80,80 L20,80 Z%22 fill=%22none%22 stroke=%22%234a6e2a%22 stroke-width=%222%22/%3E%3Cpath d=%22M30,30 L70,30 L70,70 L30,70 Z%22 fill=%22none%22 stroke=%22%234a6e2a%22 stroke-width=%221%22/%3E%3C/svg%3E');"></div>
                         <div class="category-icon">📖</div>
                         <h3>English</h3>
                         <p>Reading comprehension, writing skills, and literary analysis</p>
                         <a href="#" class="category-link" data-category="english">View All</a>
-</div>
-                    
-                    <div class="category-card">
+                        <div class="handout-card-info" style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.8); color: white; padding: 1rem; transform: translateY(100%); transition: transform 0.3s ease; font-size: 0.9rem;">
+                            <strong>Resources:</strong> 25 English handouts<br>
+                            <strong>Topics:</strong> Literacy, writing, comprehension, cultural narratives<br>
+                            <strong>Access:</strong> Bilingual and culturally contextual materials
+                        </div>
+                    </div>
+
+                    <div class="category-card handout-card" data-subject="science" data-category="science" data-featured="true" data-topics="science biology chemistry physics environment māori science kaitiakitanga">
+                        <div class="maori-pattern" style="position: absolute; top: 0; right: 0; width: 50px; height: 50px; opacity: 0.08; background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cpath d=%22M20,20 L80,20 L80,80 L20,80 Z%22 fill=%22none%22 stroke=%22%234a6e2a%22 stroke-width=%222%22/%3E%3Cpath d=%22M30,30 L70,30 L70,70 L30,70 Z%22 fill=%22none%22 stroke=%22%234a6e2a%22 stroke-width=%221%22/%3E%3C/svg%3E');"></div>
                         <div class="category-icon">🔬</div>
                         <h3>Science</h3>
                         <p>Biology, chemistry, physics, and environmental science</p>
                         <a href="#" class="category-link" data-category="science">View All</a>
-</div>
+                        <div class="handout-card-info" style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.8); color: white; padding: 1rem; transform: translateY(100%); transition: transform 0.3s ease; font-size: 0.9rem;">
+                            <strong>Resources:</strong> 22 science handouts<br>
+                            <strong>Topics:</strong> Biology, chemistry, physics, kaitiakitanga<br>
+                            <strong>Access:</strong> Indigenous knowledge integrated with modern science
+                        </div>
+                    </div>
                     
                     <div class="category-card">
                         <div class="category-icon">🌏</div>
@@ -578,6 +697,184 @@
             document.getElementById('search-filter').value = '';
             renderHandouts(handouts);
         }
+
+        // Enhanced Handout Discovery System
+        class HandoutDiscoverySystem {
+            constructor() {
+                this.searchInput = document.getElementById('handout-search');
+                this.filterButtons = document.querySelectorAll('.filter-btn');
+                this.handoutCards = document.querySelectorAll('.handout-card');
+                this.resultsCount = document.getElementById('handout-results-count');
+                this.loadingSpinner = document.getElementById('handout-loading-spinner');
+                this.noResults = document.getElementById('handout-no-results');
+
+                this.init();
+            }
+
+            init() {
+                // Set up search functionality
+                this.searchInput.addEventListener('input', (e) => {
+                    this.handleSearch(e.target.value);
+                });
+
+                // Set up filter functionality
+                this.filterButtons.forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const filter = e.target.dataset.filter;
+                        this.handleFilter(filter);
+                    });
+                });
+
+                // Initialize results count
+                this.updateResultsCount();
+            }
+
+            handleSearch(query) {
+                this.showLoading();
+
+                // Debounce search for better performance
+                clearTimeout(this.searchTimeout);
+                this.searchTimeout = setTimeout(() => {
+                    this.performSearch(query);
+                }, 300);
+            }
+
+            performSearch(query) {
+                const visibleCards = [];
+                const searchTerms = query.toLowerCase().split(' ').filter(term => term.length > 0);
+
+                this.handoutCards.forEach(card => {
+                    const cardText = this.getCardText(card).toLowerCase();
+                    const cardData = this.getCardData(card);
+
+                    // Check if card matches search terms
+                    const matchesSearch = searchTerms.length === 0 ||
+                        searchTerms.every(term =>
+                            cardText.includes(term) ||
+                            cardData.subject.includes(term) ||
+                            cardData.topics.some(topic => topic.includes(term)) ||
+                            cardData.category.includes(term)
+                        );
+
+                    if (matchesSearch) {
+                        card.style.display = 'block';
+                        visibleCards.push(card);
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                this.hideLoading();
+                this.updateResultsCount(visibleCards.length);
+                this.updateNoResults(visibleCards.length === 0);
+            }
+
+            handleFilter(filterType) {
+                // Update active filter button
+                this.filterButtons.forEach(btn => btn.classList.remove('active'));
+                event.target.classList.add('active');
+
+                this.showLoading();
+
+                setTimeout(() => {
+                    const visibleCards = [];
+
+                    this.handoutCards.forEach(card => {
+                        const cardData = this.getCardData(card);
+                        let shouldShow = false;
+
+                        if (filterType === 'all') {
+                            shouldShow = true;
+                        } else if (filterType === 'mathematics' && cardData.category === 'mathematics') {
+                            shouldShow = true;
+                        } else if (filterType === 'english' && cardData.category === 'english') {
+                            shouldShow = true;
+                        } else if (filterType === 'science' && cardData.category === 'science') {
+                            shouldShow = true;
+                        } else if (filterType === 'cultural' && cardData.topics.some(topic => topic.includes('māori') || topic.includes('cultural'))) {
+                            shouldShow = true;
+                        } else if (filterType === 'featured' && cardData.featured === 'true') {
+                            shouldShow = true;
+                        }
+
+                        if (shouldShow) {
+                            card.style.display = 'block';
+                            visibleCards.push(card);
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+
+                    this.hideLoading();
+                    this.updateResultsCount(visibleCards.length);
+                    this.updateNoResults(visibleCards.length === 0);
+                }, 100);
+            }
+
+            getCardText(card) {
+                return card.textContent || card.innerText || '';
+            }
+
+            getCardData(card) {
+                return {
+                    subject: card.dataset.subject || '',
+                    category: card.dataset.category || '',
+                    featured: card.dataset.featured || '',
+                    topics: card.dataset.topics ? card.dataset.topics.split(' ') : []
+                };
+            }
+
+            updateResultsCount(count) {
+                const total = this.handoutCards.length;
+                if (count === total) {
+                    this.resultsCount.textContent = `Showing all ${total} handouts`;
+                } else {
+                    this.resultsCount.textContent = `Showing ${count} of ${total} handouts`;
+                }
+            }
+
+            updateNoResults(show) {
+                this.noResults.style.display = show ? 'block' : 'none';
+            }
+
+            showLoading() {
+                this.loadingSpinner.style.display = 'block';
+                this.noResults.style.display = 'none';
+            }
+
+            hideLoading() {
+                this.loadingSpinner.style.display = 'none';
+            }
+        }
+
+        // Initialize the enhanced discovery system when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize existing handout system
+            renderHandouts(handouts);
+            setupFilters();
+            setupPagination();
+
+            // Initialize enhanced discovery system
+            new HandoutDiscoverySystem();
+
+            // Add keyboard navigation support
+            document.addEventListener('keydown', (e) => {
+                // Focus search with Ctrl/Cmd + K
+                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                    e.preventDefault();
+                    document.getElementById('handout-search').focus();
+                }
+
+                // Escape to clear search
+                if (e.key === 'Escape') {
+                    const searchInput = document.getElementById('handout-search');
+                    if (document.activeElement === searchInput) {
+                        searchInput.value = '';
+                        searchInput.dispatchEvent(new Event('input'));
+                    }
+                }
+            });
+        });
     </script>
     <script src="/js/te-kete-professional.js" defer></script>
     <script>
