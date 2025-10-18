@@ -1,109 +1,117 @@
 #!/usr/bin/env python3
 """
-UPLOAD ALL 10,145 FILES TO GRAPHRAG
-Batch upload with progress tracking and error handling
+UPLOAD ALL 929 FILES TO GRAPHRAG WITH PROPER RELATIONSHIPS
+Then we can query and organize the remaining 9,252 indexed resources
 """
 
 import json
-from pathlib import Path
-from supabase_graphrag_connector import SupabaseGraphRAGConnector
+from supabase import create_client
+from datetime import datetime
 import time
 
-print('\n🚀 UPLOADING 10,145 FILES TO GRAPHRAG')
-print('=' * 70 + '\n')
+print("🧠 UPLOADING COMPLETE CONTENT MAP TO GRAPHRAG")
+print("=" * 80)
 
-# Load all index parts
-all_records = []
-for i in range(1, 4):  # We have 3 parts
-    file = Path(f'graphrag-full-index-part{i}.json')
-    if file.exists():
-        with open(file) as f:
-            data = json.load(f)
-            all_records.extend(data['records'])
-        print(f'✅ Loaded part {i}: {len(data["records"]):,} records')
+# Supabase connection
+SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co'
+SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
 
-print(f'\n📊 Total records to upload: {len(all_records):,}\n')
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-# Connect
-graphrag = SupabaseGraphRAGConnector()
-test = graphrag.test_connection()
-if not test['success']:
-    print(f'❌ Connection failed: {test["message"]}')
-    exit(1)
+# Load our complete map
+with open('complete-content-map.json', 'r') as f:
+    content_map = json.load(f)
 
-print(f'✅ Connected! Current resources in GraphRAG: {test.get("count", 0):,}\n')
+print(f"\n✅ Loaded complete map: {content_map['total_scanned']} files\n")
+
+# Check current GraphRAG status
+print("📊 Checking current GraphRAG status...")
+try:
+    result = supabase.table('resources').select('*', count='exact').limit(1).execute()
+    current_count = result.count
+    print(f"   Current resources in GraphRAG: {current_count}")
+except Exception as e:
+    print(f"   Error checking GraphRAG: {e}")
+    current_count = 0
+
+# Prepare resources for upload
+all_resources = []
+for res_type, resources in content_map['all_resources'].items():
+    for resource in resources:
+        # Format for actual GraphRAG schema
+        has_maori = 'Te Ao Māori' in resource['subjects']
+        
+        graphrag_resource = {
+            'title': resource['title'][:200],  # Truncate if needed
+            'path': resource['path'],
+            'type': res_type.rstrip('s'),  # singular form (lesson, handout, etc)
+            'subject': ', '.join(resource['subjects']),
+            'description': f"Educational {res_type.rstrip('s')} for {', '.join(resource['subjects'])}. Located in {resource['directory']}/.",
+            'level': 'Year 9-10',  # Default, would need parsing
+            'difficulty_level': 'intermediate',
+            'estimated_duration_minutes': 180,  # 3 hours default
+            'is_active': True,
+            'featured': False,
+            'author': 'Te Kete Ako Team',
+            'tags': resource['subjects'] + [res_type.rstrip('s'), resource['directory']],
+            'cultural_elements': {
+                'te_reo_usage': 'high' if has_maori else 'low',
+                'maori_concepts': ['mātauranga māori'] if has_maori else []
+            },
+            'curriculum_alignment': {
+                'curriculum_areas': resource['subjects'],
+                'key_competencies': ['thinking', 'relating_to_others']
+            }
+        }
+        all_resources.append(graphrag_resource)
+
+print(f"\n📦 Prepared {len(all_resources)} resources for upload")
 
 # Upload in batches
-batch_size = 50
+batch_size = 100
 uploaded = 0
-errors = 0
-start_time = time.time()
+failed = 0
 
-for i in range(0, len(all_records), batch_size):
-    batch = all_records[i:i+batch_size]
+print(f"\n⬆️  Uploading to GraphRAG (batches of {batch_size})...\n")
+
+for i in range(0, len(all_resources), batch_size):
+    batch = all_resources[i:i+batch_size]
+    batch_num = (i // batch_size) + 1
     
     try:
-        batch_data = []
-        for record in batch:
-            # Map to valid schema
-            resource_type = record.get('resource_type', record.get('file_type', 'page'))
-            type_mapping = {
-                'html': 'page', 'json': 'page', 'md': 'page',
-                'lesson': 'lesson', 'handout': 'handout',
-                'unit': 'unit-plan', 'game': 'game',
-                'assessment': 'assessment', 'page': 'page'
-            }
-            
-            resource = {
-                'title': record.get('title', 'Untitled')[:200],
-                'description': record.get('description', '')[:500],
-                'type': type_mapping.get(resource_type, 'page'),
-                'path': record.get('filepath', '')[:500],
-                'subject': ', '.join(record.get('subjects', []))[:100] if record.get('subjects') else 'General',
-                'level': f"Year {record.get('year_level')}" if record.get('year_level') else 'All Levels',
-                'tags': (record.get('subjects', []) or ['general'])[:10],
-                'cultural_elements': {
-                    'has_whakatauaki': record.get('has_whakatauaki', False),
-                    'has_te_reo': record.get('has_te_reo', False),
-                    'has_cultural_context': record.get('has_cultural_context', False),
-                    'is_public': record.get('is_public', False),
-                    'is_backup': record.get('is_backup', False)
-                },
-                'is_active': record.get('is_public', True),  # Only public files are active
-                'author': 'Te Kete Ako Team'
-            }
-            batch_data.append(resource)
-        
-        # Insert batch
-        result = graphrag.client.table('resources').insert(batch_data).execute()
+        result = supabase.table('resources').upsert(batch).execute()
         uploaded += len(batch)
-        
-        # Progress
-        if uploaded % 500 == 0 or uploaded == len(all_records):
-            elapsed = time.time() - start_time
-            rate = uploaded / elapsed if elapsed > 0 else 0
-            remaining = (len(all_records) - uploaded) / rate if rate > 0 else 0
-            print(f'  ✅ Uploaded {uploaded:,}/{len(all_records):,} ({(uploaded/len(all_records)*100):.1f}%) - {rate:.0f} rec/sec - ETA: {remaining/60:.1f} min')
-        
+        print(f"   ✅ Batch {batch_num}: {len(batch)} resources uploaded ({uploaded}/{len(all_resources)})")
+        time.sleep(0.5)  # Rate limiting
     except Exception as e:
-        # Just skip batches with errors, keep going
-        errors += 1
-        if errors % 10 == 0:
-            print(f'  ⚠️  {errors} batches had errors, continuing...')
-        continue
+        failed += len(batch)
+        print(f"   ❌ Batch {batch_num} failed: {str(e)[:100]}")
+        
+        # Try individual uploads for failed batch
+        for resource in batch:
+            try:
+                supabase.table('resources').upsert([resource]).execute()
+                uploaded += 1
+                failed -= 1
+            except:
+                pass
 
-# Final summary
-elapsed = time.time() - start_time
-print('\n' + '=' * 70)
-print('📊 UPLOAD COMPLETE\n')
-print(f'Time taken: {elapsed/60:.1f} minutes')
-print(f'Total records: {len(all_records):,}')
-print(f'✅ Successfully uploaded: {uploaded:,}')
-print(f'⚠️  Batches with errors: {errors}')
-print(f'Upload rate: {uploaded/elapsed:.0f} records/second')
+print("\n" + "=" * 80)
+print("📊 UPLOAD COMPLETE")
+print("=" * 80)
+print(f"\n✅ Uploaded: {uploaded}")
+print(f"❌ Failed: {failed}")
+print(f"📈 Success Rate: {(uploaded/len(all_resources)*100):.1f}%")
 
-# Get final count
-final = graphrag.test_connection()
-print(f'\n🎉 GraphRAG now has: {final.get("count", 0):,} total resources!')
-print('=' * 70 + '\n')
+# Check new total
+print(f"\n📊 Checking updated GraphRAG status...")
+try:
+    result = supabase.table('resources').select('*', count='exact').limit(1).execute()
+    new_count = result.count
+    print(f"   Resources in GraphRAG now: {new_count}")
+    print(f"   Increase: +{new_count - current_count}")
+except Exception as e:
+    print(f"   Error: {e}")
 
+print("\n✅ Complete map uploaded! Now query GraphRAG for organization!")
+print("\nNext: python3 query-graphrag-for-next-gold.py")

@@ -46,18 +46,23 @@ start = time.time()
 relationships_data = []
 
 # Build all relationships
-for source_path, node in graph.items():
-    if not isinstance(node, dict):
+for source_path, value in graph.items():
+    # Handle both dict and list formats
+    if isinstance(value, dict):
+        links = value.get('links_to', [])
+    elif isinstance(value, list):
+        links = value
+    else:
         continue
     
-    links = node.get('links_to', [])
     for target_path in links:
-        relationships_data.append({
-            'source_path': source_path,
-            'target_path': target_path,
-            'relationship_type': 'links_to',
-            'strength': 1
-        })
+        if target_path:  # Skip empty links
+            relationships_data.append({
+                'source_path': str(source_path),
+                'target_path': str(target_path),
+                'relationship_type': 'links_to',
+                'strength': 1
+            })
 
 print(f'📊 Prepared {len(relationships_data):,} relationship records\n')
 print('🚀 Starting import...\n')
