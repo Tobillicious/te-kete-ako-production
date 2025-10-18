@@ -373,9 +373,70 @@
                 return;
             }
 
-            // Simple NLP to SQL conversion (basic pattern matching)
-            let sql = convertToSQL(query);
-            executeQuery(sql, 'custom');
+            const resultsDiv = document.getElementById('results');
+            const contentDiv = document.getElementById('results-content');
+            
+            resultsDiv.classList.add('active');
+            contentDiv.innerHTML = '<div class="loading"><span class="thinking-animation">🧠</span> DeepSeek AI is analyzing your question...</div>';
+
+            try {
+                // Phase 1: Use DeepSeek to understand the query
+                const response = await fetch('/.netlify/functions/deepseek-agent', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: query,
+                        use_graphrag: true,
+                        analysis_mode: 'educational'
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`DeepSeek API error: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                // Display AI-enhanced results
+                displayAIResults(data);
+
+            } catch (error) {
+                console.error('DeepSeek error, falling back to basic search:', error);
+                // Fallback to basic search
+                let sql = convertToSQL(query);
+                executeQuery(sql, 'custom');
+            }
+        }
+
+        function displayAIResults(data) {
+            const contentDiv = document.getElementById('results-content');
+            
+            let html = `
+                <div style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2)); padding: 2rem; border-radius: 16px; margin-bottom: 2rem; border-left: 4px solid #a855f7;">
+                    <h3 style="margin-top: 0; color: #a855f7;">🧠 DeepSeek AI Analysis</h3>
+                    <p style="white-space: pre-wrap; line-height: 1.8;">${data.response || data.message}</p>
+                </div>
+            `;
+
+            if (data.graphrag_results && data.graphrag_results.length > 0) {
+                html += `<h3 style="margin-top: 2rem; color: white;">📚 Related Resources (${data.graphrag_results.length})</h3>`;
+                
+                data.graphrag_results.forEach(resource => {
+                    html += `
+                        <div class="result-card">
+                            <div class="result-title">${resource.title || resource.file_path}</div>
+                            <p style="opacity: 0.9; margin: 0.5rem 0;">${resource.file_path}</p>
+                            <div class="result-meta">
+                                ${resource.quality_score ? `<span class="meta-badge">⭐ ${resource.quality_score}</span>` : ''}
+                                ${resource.subject ? `<span class="meta-badge">📚 ${resource.subject}</span>` : ''}
+                                ${resource.year_level ? `<span class="meta-badge">🎓 ${resource.year_level}</span>` : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            contentDiv.innerHTML = html;
         }
 
         function convertToSQL(query) {
