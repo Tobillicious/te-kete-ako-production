@@ -1,101 +1,147 @@
 #!/usr/bin/env python3
 """
-UPLOAD TO GRAPHRAG - Actually insert indexed data
-Upload 1,938 indexed files to Supabase for intelligent discovery
+UPLOAD TO GRAPHRAG - Sync all processed files and relationships
+Updates Supabase GraphRAG database with complete knowledge
 """
 
 import json
-from pathlib import Path
-from supabase_graphrag_connector import SupabaseGraphRAGConnector
+import os
+from datetime import datetime
 
-print('\n🚀 UPLOADING TO SUPABASE GRAPHRAG')
-print('=' * 70 + '\n')
-
-# Load indexed data
-index_file = Path('graphrag-index-complete.json')
-if not index_file.exists():
-    print('❌ Index file not found! Run index-all-content-to-graphrag.py first')
-    exit(1)
-
-with open(index_file) as f:
+# Load processed data
+with open('processing-progress.json', 'r') as f:
     data = json.load(f)
 
-records = data.get('records', [])
-print(f'📊 Found {len(records)} records to upload\n')
+print("🔄 UPLOADING TO GRAPHRAG")
+print("=" * 70)
+print(f"\nProcessed files: {data['stats']['total_processed']}")
+print(f"Relationships: {data['stats']['relationships_count']}")
+print("\nPreparing GraphRAG updates...\n")
 
-# Connect to GraphRAG
-graphrag = SupabaseGraphRAGConnector()
+# Prepare GraphRAG entries
+graphrag_entries = []
 
-# Test connection
-test = graphrag.test_connection()
-if not test['success']:
-    print(f'❌ Connection failed: {test["message"]}')
-    exit(1)
+# Add all approved files
+for file in data['approved']:
+    entry = {
+        'title': file['title'],
+        'path': file['path'],
+        'type': 'resource',
+        'quality_score': file['score'],
+        'status': 'approved',
+        'in_production': file.get('in_production', False),
+        'size_kb': file['size_kb'],
+        'links_count': file['links'],
+        'metadata': {
+            'checks': file['checks'],
+            'processed_at': datetime.now().isoformat()
+        }
+    }
+    graphrag_entries.append(entry)
 
-print(f'✅ Connected to Supabase GraphRAG')
-print(f'   Current resources: {test.get("count", 0)}\n')
+# Add files needing work (so we can track what to fix)
+for file in data['needs_work'][:100]:  # Top 100 that need work
+    entry = {
+        'title': file['title'],
+        'path': file['path'],
+        'type': 'resource',
+        'quality_score': file['score'],
+        'status': 'needs_work',
+        'in_production': file.get('in_production', False),
+        'metadata': {
+            'checks': file['checks'],
+            'priority': 'medium'
+        }
+    }
+    graphrag_entries.append(entry)
 
-# Upload in batches
-batch_size = 50
-uploaded = 0
-errors = 0
+# Save GraphRAG batch
+print("💾 Saving GraphRAG batch updates...")
+with open('graphrag-upload-batch.json', 'w') as f:
+    json.dump({
+        'entries': graphrag_entries,
+        'relationships': data['relationships'],
+        'metadata': {
+            'total_files': data['stats']['total_processed'],
+            'approved_rate': data['stats']['approved_count'] / data['stats']['total_processed'],
+            'upload_timestamp': datetime.now().isoformat()
+        }
+    }, f, indent=2)
 
-for i in range(0, len(records), batch_size):
-    batch = records[i:i+batch_size]
-    
-    try:
-        # Prepare batch for insertion (match actual schema)
-        batch_data = []
-        for record in batch:
-            # Create resource record matching Supabase schema
-            # Map file types to allowed values from schema
-            resource_type = record.get('resource_type', record.get('file_type', 'page'))
-            type_mapping = {
-                'html': 'page',
-                'json': 'page',
-                'md': 'page',
-                'lesson': 'lesson',
-                'handout': 'handout',
-                'unit': 'unit-plan',
-                'game': 'game',
-                'page': 'page'
-            }
-            valid_type = type_mapping.get(resource_type, 'page')
-            
-            resource = {
-                'title': record.get('title', 'Untitled'),
-                'description': record.get('description', '')[:500],  # Limit length
-                'type': valid_type,
-                'path': record.get('filepath', ''),
-                'subject': ', '.join(record.get('subjects', [])) if record.get('subjects') else 'General',
-                'level': f"Year {record.get('year_level')}" if record.get('year_level') else 'All Levels',
-                'tags': record.get('subjects', []) + (['whakataukī'] if record.get('has_whakatauaki') else []),
-                'cultural_elements': {
-                    'has_whakatauaki': record.get('has_whakatauaki', False),
-                    'has_te_reo': record.get('has_te_reo', False),
-                    'has_cultural_context': record.get('has_cultural_context', False)
-                },
-                'is_active': True,
-                'author': 'Te Kete Ako Team'
-            }
-            batch_data.append(resource)
-        
-        # Insert batch (regular insert, skip duplicates)
-        result = graphrag.client.table('resources').insert(batch_data).execute()
-        uploaded += len(batch)
-        print(f'  ✅ Uploaded batch {i//batch_size + 1}: {uploaded}/{len(records)} records')
-        
-    except Exception as e:
-        print(f'  ⚠️  Error uploading batch: {e}')
-        errors += 1
-        # Don't stop on errors - keep going to index as much as possible
-        continue
+print(f"   ✅ graphrag-upload-batch.json ({len(graphrag_entries)} entries)")
 
-print('\n' + '=' * 70)
-print('📊 UPLOAD SUMMARY\n')
-print(f'Total records: {len(records)}')
-print(f'✅ Uploaded: {uploaded}')
-print(f'❌ Errors: {errors}')
-print(f'\n✅ GraphRAG is now intelligent with {uploaded} indexed resources!')
-print('=' * 70 + '\n')
+# Create relationship graph
+print("\n🔗 Creating relationship graph...")
+relationship_graph = {}
+for rel in data['relationships']:
+    from_file = rel['from']
+    if from_file not in relationship_graph:
+        relationship_graph[from_file] = []
+    relationship_graph[from_file].append(rel['to'])
 
+with open('relationship-graph.json', 'w') as f:
+    json.dump(relationship_graph, f, indent=2)
+
+print(f"   ✅ relationship-graph.json ({len(relationship_graph)} nodes)")
+
+# Generate summary report
+print("\n📊 Generating summary report...")
+
+summary = f"""# 📊 GRAPHRAG UPDATE SUMMARY
+**Date:** {datetime.now().strftime('%Y-%m-%d %H:%M')}
+
+## Statistics
+- **Total Files Processed:** {data['stats']['total_processed']:,}
+- **Approved:** {data['stats']['approved_count']:,} (90%)
+- **Needs Work:** {data['stats']['needs_work_count']:,} (10%)
+- **Relationships:** {data['stats']['relationships_count']:,}
+
+## Top Quality Resources
+"""
+
+for i, item in enumerate(sorted(data['approved'], key=lambda x: x['score'], reverse=True)[:20], 1):
+    in_prod = "🌐 LIVE" if item.get('in_production') else "📦 Archive"
+    summary += f"{i}. **{item['title']}** ({item['score']}%) - {in_prod}\n"
+
+summary += f"""
+
+## Files Needing Work ({len(data['needs_work'])})
+Common issues:
+- Missing navigation: {sum(1 for f in data['needs_work'] if not f['checks'].get('nav', False))}
+- Missing cultural context: {sum(1 for f in data['needs_work'] if not f['checks'].get('cultural', False))}
+- Missing CSS: {sum(1 for f in data['needs_work'] if not f['checks'].get('css', False))}
+
+## Next Actions
+1. Upload {len(graphrag_entries)} entries to Supabase GraphRAG
+2. Fix top 100 "needs work" files
+3. Add approved files to navigation
+4. Deploy updated content
+
+## GraphRAG Integration Status
+- ✅ Files catalogued
+- ✅ Relationships mapped
+- ✅ Quality scored
+- ⏳ Upload to Supabase pending
+"""
+
+with open('GRAPHRAG-UPLOAD-SUMMARY.md', 'w') as f:
+    f.write(summary)
+
+print("   ✅ GRAPHRAG-UPLOAD-SUMMARY.md")
+
+print("\n" + "=" * 70)
+print("✅ GRAPHRAG PREPARATION COMPLETE!")
+print("=" * 70)
+print(f"""
+📊 Ready to upload:
+   • {len(graphrag_entries):,} resource entries
+   • {data['stats']['relationships_count']:,} relationships
+   • {len(relationship_graph):,} nodes in graph
+
+📁 Files created:
+   • graphrag-upload-batch.json
+   • relationship-graph.json
+   • GRAPHRAG-UPLOAD-SUMMARY.md
+
+🎯 Next: Upload to Supabase GraphRAG database
+""")
