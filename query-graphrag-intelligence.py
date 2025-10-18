@@ -36,7 +36,7 @@ print("-" * 70)
 
 cultural = supabase.table('resources')\
     .select('title,path')\
-    .ilike('keywords', '%māori%')\
+    .ilike('title', '%māori%')\
     .limit(5)\
     .execute()
 
@@ -63,14 +63,14 @@ print("\n📄 SAMPLE HANDOUTS:")
 print("-" * 70)
 
 handouts = supabase.table('resources')\
-    .select('title,year_level')\
+    .select('title,level')\
     .eq('type', 'handout')\
     .limit(5)\
     .execute()
 
 for i, item in enumerate(handouts.data[:5], 1):
-    year = item.get('year_level', 'Any')
-    print(f"{i}. [Year {year}] {item.get('title', 'Untitled')}")
+    level = item.get('level', 'Any')
+    print(f"{i}. [Level {level}] {item.get('title', 'Untitled')}")
 
 # Search capability
 print("\n🔍 SEARCH DEMO (Mathematics + Cultural):")
