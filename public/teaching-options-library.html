@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Teaching Options Library - Choose from thousands of lesson variants based on your class needs, cultural context, and time available.">
+    <title>Teaching Options Library | Te Kete Ako</title>
+    
+    <!-- CANONICAL CSS SYSTEM -->
+    <link rel="stylesheet" href="/css/te-kete-unified-design-system.css" />
+    <link rel="stylesheet" href="/css/component-library.css" />
+    <link rel="stylesheet" href="/css/animations-professional.css" />
+    <link rel="stylesheet" href="/css/beautiful-navigation.css" />
+    <link rel="stylesheet" href="/css/mobile-optimization.css" />
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div id="nav-placeholder"></div>
+    
+    <main class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="/index.html">Home</a>
+            <span>→</span>
+            <span class="current">Teaching Options Library</span>
+        </nav>
+
+        <header style="background: linear-gradient(135deg, #e0f2fe 0%, #7dd3fc 100%); padding: 4rem 2rem; text-align: center; border-radius: 16px; margin: 2rem 0;">
+            <h1 style="font-size: 3rem; color: #0c4a6e; margin-bottom: 1rem;">🎯 Teaching Options Library</h1>
+            <p style="font-size: 1.3rem; color: #075985; max-width: 800px; margin: 0 auto;">
+                Choose from <strong id="total-variants">10,000+</strong> lesson variants - same content, different approaches!
+            </p>
+            <p style="margin-top: 1rem; color: #0369a1; font-size: 1.1rem;">
+                Pick the version that fits YOUR students, YOUR time, YOUR context
+            </p>
+        </header>
+
+        <!-- Filter Panel -->
+        <section style="background: white; padding: 2rem; border-radius: 12px; margin: 2rem 0; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <h2 style="color: #1a4d2e; margin-bottom: 1.5rem;">🔍 Find Your Perfect Teaching Option</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                <!-- Cultural Integration Filter -->
+                <div>
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #1a4d2e;">
+                        🌿 Cultural Integration
+                    </label>
+                    <select id="filter-cultural" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
+                        <option value="">All Levels</option>
+                        <option value="high">High (Whakataukī, tikanga, mātauranga)</option>
+                        <option value="medium">Medium (Māori context included)</option>
+                        <option value="low">Low (Minimal cultural content)</option>
+                    </select>
+                </div>
+
+                <!-- Resource Type Filter -->
+                <div>
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #1a4d2e;">
+                        📚 Resource Type
+                    </label>
+                    <select id="filter-type" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
+                        <option value="">All Types</option>
+                        <option value="lesson">Lessons</option>
+                        <option value="handout">Handouts</option>
+                        <option value="unit-plan">Unit Plans</option>
+                        <option value="game">Games</option>
+                        <option value="assessment">Assessments</option>
+                    </select>
+                </div>
+
+                <!-- Variant Type Filter -->
+                <div>
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #1a4d2e;">
+                        🎨 Variant Type
+                    </label>
+                    <select id="filter-variant" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
+                        <option value="">All Variants</option>
+                        <option value="active">Current/Active Version</option>
+                        <option value="legacy_css">Legacy CSS (simpler styling)</option>
+                        <option value="historical">Historical Archive</option>
+                        <option value="timestamped">Timestamped Backup</option>
+                    </select>
+                </div>
+
+                <!-- Search -->
+                <div>
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #1a4d2e;">
+                        🔎 Search
+                    </label>
+                    <input type="text" id="search-box" placeholder="Search lessons..." style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
+                </div>
+            </div>
+
+            <div style="margin-top: 1.5rem; text-align: center;">
+                <button id="apply-filters" style="background: #1a4d2e; color: white; padding: 1rem 3rem; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; font-weight: 600;">
+                    🎯 Find Teaching Options
+                </button>
+                <button id="clear-filters" style="background: #6b7280; color: white; padding: 1rem 2rem; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; margin-left: 1rem;">
+                    Clear All
+                </button>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results-section" style="margin: 3rem 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h2 style="color: #1a4d2e; margin: 0;">
+                    📋 Teaching Options
+                    <span id="results-count" style="color: #6b7280; font-size: 1.2rem; font-weight: normal;"></span>
+                </h2>
+                <div style="color: #6b7280;">
+                    <span id="loading-indicator" style="display: none;">⏳ Loading...</span>
+                </div>
+            </div>
+
+            <div id="results-container" style="display: grid; gap: 1.5rem;">
+                <!-- Results will be populated here -->
+                <div style="text-align: center; padding: 4rem 2rem; color: #6b7280;">
+                    <p style="font-size: 1.2rem;">Click "Find Teaching Options" to see available variants</p>
+                    <p style="margin-top: 1rem;">Or use the filters above to narrow your search</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+    
+    <script src="/components/load-components.js"></script>
+    <script src="/js/global-scripts.js"></script>
+    
+    <script>
+        // Initialize Supabase
+        const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Load total count on page load
+        async function loadTotalCount() {
+            const { count } = await supabase
+                .from('resources')
+                .select('*', { count: 'exact', head: true });
+            
+            document.getElementById('total-variants').textContent = count.toLocaleString();
+        }
+
+        // Search and filter function
+        async function findTeachingOptions() {
+            const cultural = document.getElementById('filter-cultural').value;
+            const type = document.getElementById('filter-type').value;
+            const variant = document.getElementById('filter-variant').value;
+            const search = document.getElementById('search-box').value;
+
+            document.getElementById('loading-indicator').style.display = 'inline';
+            
+            let query = supabase.from('resources').select('*');
+
+            // Apply filters
+            if (type) {
+                query = query.eq('type', type);
+            }
+
+            if (cultural) {
+                query = query.eq('cultural_elements->>cultural_integration', cultural);
+            }
+
+            if (variant) {
+                query = query.eq('cultural_elements->>variant_type', variant);
+            }
+
+            if (search) {
+                query = query.ilike('title', `%${search}%`);
+            }
+
+            // Order by recent first, limit to 50 results
+            query = query.order('created_at', { ascending: false }).limit(50);
+
+            const { data, error, count } = await query;
+
+            document.getElementById('loading-indicator').style.display = 'none';
+
+            if (error) {
+                alert('Error loading results: ' + error.message);
+                return;
+            }
+
+            displayResults(data);
+        }
+
+        // Display results
+        function displayResults(resources) {
+            const container = document.getElementById('results-container');
+            const countSpan = document.getElementById('results-count');
+            
+            if (!resources || resources.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 3rem; color: #6b7280;"><p style="font-size: 1.2rem;">No teaching options found with these filters</p><p style="margin-top: 1rem;">Try adjusting your search criteria</p></div>';
+                countSpan.textContent = '(0 results)';
+                return;
+            }
+
+            countSpan.textContent = `(${resources.length} results shown)`;
+            
+            container.innerHTML = resources.map(resource => {
+                const cultural = resource.cultural_elements?.cultural_integration || 'unknown';
+                const variantType = resource.cultural_elements?.variant_type || 'standard';
+                
+                const culturalColor = cultural === 'high' ? '#16a34a' : (cultural === 'medium' ? '#f59e0b' : '#6b7280');
+                const culturalBg = cultural === 'high' ? '#dcfce7' : (cultural === 'medium' ? '#fef3c7' : '#f3f4f6');
+                
+                return `
+                    <div class="lesson-card" style="background: white; padding: 1.5rem; border-radius: 12px; border-left: 4px solid ${culturalColor};">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                            <h3 style="margin: 0; color: #1a4d2e; font-size: 1.3rem;">
+                                ${resource.title}
+                            </h3>
+                            <span style="background: ${culturalBg}; color: ${culturalColor}; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.85rem; white-space: nowrap;">
+                                ${cultural.toUpperCase()} Cultural
+                            </span>
+                        </div>
+                        
+                        <p style="color: #546e7a; margin: 0.5rem 0;">
+                            ${resource.description || 'Teaching resource variant'}
+                        </p>
+                        
+                        <div style="display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap;">
+                            <span style="background: #f0f9ff; color: #0369a1; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.85rem;">
+                                📚 ${resource.type}
+                            </span>
+                            <span style="background: #fef3c7; color: #92400e; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.85rem;">
+                                🎨 ${variantType.replace('_', ' ')}
+                            </span>
+                            <span style="background: #f0fdf4; color: #166534; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.85rem;">
+                                ⏱️ ${resource.estimated_duration_minutes || 60} min
+                            </span>
+                            <span style="background: #fce7f3; color: #9f1239; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.85rem;">
+                                🎓 ${resource.level || 'Multi-level'}
+                            </span>
+                        </div>
+                        
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
+                            <small style="color: #6b7280;">
+                                📁 ${resource.path ? resource.path.split('/').slice(-2).join('/') : 'Path not available'}
+                            </small>
+                        </div>
+                        
+                        <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+                            <a href="${resource.path}" target="_blank" class="btn btn-primary" style="flex: 1; text-align: center; padding: 0.75rem;">
+                                📖 View This Option
+                            </a>
+                            <button onclick="findSimilarVariants('${resource.title.split('(')[0].trim()}')" style="background: #f59e0b; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 8px; cursor: pointer;">
+                                🔍 Find Variants
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Find similar variants of the same lesson
+        async function findSimilarVariants(baseTitle) {
+            const { data } = await supabase
+                .from('resources')
+                .select('*')
+                .ilike('title', `%${baseTitle}%`)
+                .limit(20);
+            
+            if (data && data.length > 1) {
+                displayResults(data);
+                document.getElementById('results-count').textContent = `(${data.length} variants of "${baseTitle}")`;
+            }
+        }
+
+        // Clear filters
+        function clearFilters() {
+            document.getElementById('filter-cultural').value = '';
+            document.getElementById('filter-type').value = '';
+            document.getElementById('filter-variant').value = '';
+            document.getElementById('search-box').value = '';
+            
+            document.getElementById('results-container').innerHTML = '<div style="text-align: center; padding: 4rem 2rem; color: #6b7280;"><p style="font-size: 1.2rem;">Filters cleared! Click "Find Teaching Options" to browse</p></div>';
+            document.getElementById('results-count').textContent = '';
+        }
+
+        // Event listeners
+        document.getElementById('apply-filters').addEventListener('click', findTeachingOptions);
+        document.getElementById('clear-filters').addEventListener('click', clearFilters);
+        
+        // Search on Enter
+        document.getElementById('search-box').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                findTeachingOptions();
+            }
+        });
+
+        // Load total count on page load
+        loadTotalCount();
+
+        // Example searches for quick access
+        function quickSearch(searchTerm, cultural = '') {
+            document.getElementById('search-box').value = searchTerm;
+            if (cultural) {
+                document.getElementById('filter-cultural').value = cultural;
+            }
+            findTeachingOptions();
+        }
+    </script>
+
+    <!-- Quick Access Examples -->
+    <section style="margin: 3rem 0; background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 2rem; border-radius: 12px;">
+        <h3 style="color: #92400e; margin-bottom: 1rem;">⚡ Quick Examples - Try These:</h3>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <button onclick="quickSearch('algebra')" style="background: white; color: #1a4d2e; padding: 0.75rem 1.5rem; border: 2px solid #1a4d2e; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                🔢 Algebra Lessons
+            </button>
+            <button onclick="quickSearch('ecosystem', 'high')" style="background: white; color: #1a4d2e; padding: 0.75rem 1.5rem; border: 2px solid #16a34a; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                🌿 Ecosystem (High Cultural)
+            </button>
+            <button onclick="quickSearch('statistics')" style="background: white; color: #1a4d2e; padding: 0.75rem 1.5rem; border: 2px solid #1a4d2e; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                📊 Statistics
+            </button>
+            <button onclick="quickSearch('digital')" style="background: white; color: #1a4d2e; padding: 0.75rem 1.5rem; border: 2px solid #1a4d2e; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                💻 Digital Kaitiakitanga
+            </button>
+        </div>
+    </section>
+
+    <!-- Why Variants Section -->
+    <section style="margin: 4rem 0; background: white; border: 2px solid #e5e7eb; padding: 2rem; border-radius: 12px;">
+        <h2 style="color: #1a4d2e; margin-bottom: 1rem;">❓ Why Multiple Variants?</h2>
+        <p style="color: #546e7a; line-height: 1.8; margin-bottom: 1rem;">
+            The same lesson content can be taught in many different ways! We've preserved multiple versions 
+            so you can choose the approach that works best for YOUR students and YOUR context.
+        </p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+            <div style="padding: 1.5rem; background: #f0f9ff; border-radius: 8px;">
+                <h3 style="color: #0369a1; margin-bottom: 0.5rem;">🎨 Different Styling</h3>
+                <p style="color: #546e7a; font-size: 0.95rem;">Legacy CSS vs Modern CSS - choose what works for your tech setup</p>
+            </div>
+            
+            <div style="padding: 1.5rem; background: #dcfce7; border-radius: 8px;">
+                <h3 style="color: #166534; margin-bottom: 0.5rem;">🌿 Cultural Levels</h3>
+                <p style="color: #546e7a; font-size: 0.95rem;">High, medium, or low cultural integration based on your class context</p>
+            </div>
+            
+            <div style="padding: 1.5rem; background: #fef3c7; border-radius: 8px;">
+                <h3 style="color: #92400e; margin-bottom: 0.5rem;">⏱️ Time Flexibility</h3>
+                <p style="color: #546e7a; font-size: 0.95rem;">Quick versions vs extended deep-dives</p>
+            </div>
+            
+            <div style="padding: 1.5rem; background: #fce7f3; border-radius: 8px;">
+                <h3 style="color: #9f1239; margin-bottom: 0.5rem;">📈 Difficulty Levels</h3>
+                <p style="color: #546e7a; font-size: 0.95rem;">Differentiated options for diverse learners</p>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+
