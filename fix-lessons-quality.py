@@ -80,5 +80,3 @@ for filename, connection in sorted(LESSON_CONNECTIONS.items()):
 print(f"\n=" * 70)
 print(f"✅ Fixed {fixed} lessons with QUALITY cultural connections")
 print("=" * 70)
-EOF
-python3 fix-lessons-quality.py
