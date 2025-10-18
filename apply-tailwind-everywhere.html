@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tailwind CSS Integration Template - Te Kete Ako</title>
+    
+    <!-- CANONICAL CSS - Te Ao Māori Design System -->
+    <link rel="stylesheet" href="/css/te-kete-transformative-design-system.css">
+    
+    <!-- Tailwind CSS - loaded from CDN for immediate use -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'pounamu-green': '#059669',
+                        'pounamu-light': '#d1fae5',
+                        'kahurangi-blue': '#0284c7',
+                        'whenua-light': '#f5f1eb',
+                        'ocean-light': '#e0f2fe',
+                        'sunrise-yellow': '#fef3c7'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-whenua-light">
+    
+    <!-- Standardized Navigation -->
+    <div id="navigation-container"></div>
+    <script>
+        fetch('/components/navigation-standard.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('navigation-container').innerHTML = html;
+            });
+    </script>
+
+    <!-- Main Content with Tailwind -->
+    <main class="container mx-auto px-4 py-8">
+        
+        <!-- Hero Section -->
+        <div class="bg-gradient-to-r from-pounamu-green to-kahurangi-blue text-white rounded-2xl p-8 mb-8 shadow-xl">
+            <h1 class="text-4xl font-bold mb-4">Te Ao Māori Design System</h1>
+            <p class="text-xl opacity-90">
+                Beautiful, consistent, culturally-grounded design across all pages
+            </p>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <!-- Card 1 -->
+            <div class="bg-white rounded-xl p-6 shadow-lg border-l-4 border-pounamu-green hover:shadow-xl transition-shadow">
+                <h3 class="text-2xl font-bold text-pounamu-green mb-3">Professional Design</h3>
+                <p class="text-gray-700">
+                    Consistent, beautiful design system inspired by Te Ao Māori
+                </p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="bg-white rounded-xl p-6 shadow-lg border-l-4 border-kahurangi-blue hover:shadow-xl transition-shadow">
+                <h3 class="text-2xl font-bold text-kahurangi-blue mb-3">Tailwind CSS</h3>
+                <p class="text-gray-700">
+                    Utility-first CSS framework for rapid, consistent development
+                </p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-white rounded-xl p-6 shadow-lg border-l-4 border-pounamu-green hover:shadow-xl transition-shadow">
+                <h3 class="text-2xl font-bold text-pounamu-green mb-3">Cultural Colors</h3>
+                <p class="text-gray-700">
+                    Pounamu green, Kahurangi blue, Whenua earth tones
+                </p>
+            </div>
+
+        </div>
+
+        <!-- Instructions -->
+        <div class="mt-12 bg-ocean-light rounded-xl p-8">
+            <h2 class="text-3xl font-bold text-kahurangi-blue mb-4">How to Apply Everywhere</h2>
+            <div class="prose max-w-none">
+                <p class="text-lg text-gray-700 mb-4">
+                    To apply this design system to all pages:
+                </p>
+                <ol class="list-decimal list-inside space-y-3 text-gray-700">
+                    <li class="text-lg">Add Tailwind CDN to `<head>` section</li>
+                    <li class="text-lg">Include `/css/te-kete-transformative-design-system.css`</li>
+                    <li class="text-lg">Use Tailwind utility classes for layout</li>
+                    <li class="text-lg">Apply cultural colors from the palette</li>
+                    <li class="text-lg">Ensure consistent spacing and typography</li>
+                </ol>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- GraphRAG Recommendations -->
+    <div id="graphrag-recommendations-container"></div>
+    <script src="/js/graphrag-recommendations.js"></script>
+    <script>
+        if (window.GraphRAGRecommendations) {
+            const recs = new window.GraphRAGRecommendations();
+            recs.loadRecommendations();
+        }
+    </script>
+
+    <!-- Framer Motion Micro-Interactions -->
+    <script src="/js/framer-motion-interactions.js"></script>
+
+</body>
+</html>
