@@ -82,7 +82,7 @@ resource = supabase.table('resources').insert({
     'title': 'Professionalization Roadmap - Te Kete Ako UX Enhancement',
     'description': 'Comprehensive 4-phase plan for world-class UX: Quick wins (animations, search), Visual polish (typography, cultural identity), Advanced (AI recommendations, tooltips), Performance (mobile, a11y). 16 prioritized recommendations with impact ratings. Phase 1 complete!',
     'path': 'PROFESSIONALIZATION-ROADMAP.md',
-    'type': 'resource',
+    'type': 'activity',
     'subject': 'Platform Development',
     'level': 'All levels',
     'is_active': True,
