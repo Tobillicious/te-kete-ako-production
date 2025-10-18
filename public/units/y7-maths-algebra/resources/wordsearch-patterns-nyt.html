@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link rel="stylesheet" href="/css/te-kete-professional.css">
+ <link rel="stylesheet" href="/css/component-library.css"/>
+ <link rel="stylesheet" href="/css/animations-professional.css"/>
+ <link rel="stylesheet" href="/css/beautiful-navigation.css"/>
+ <link rel="stylesheet" href="/css/mobile-optimization.css"/>
+ <link rel="stylesheet" href="/css/print.css"/>
+ <title>Wordsearch: Patterns & Algebra Vocabulary | Year 7</title>
+ <style>
+ /* NYT-Style Layout */
+ .game-container{display:grid;grid-template-columns:1fr 300px;gap:2rem;max-width:1200px;margin:2rem auto;padding:0 1rem}
+ .grid-section{background:white;padding:2rem;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.08)}
+ .sidebar{background:white;padding:2rem;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.08);position:sticky;top:2rem;max-height:calc(100vh - 4rem);overflow-y:auto}
+ .wordsearch-grid{display:grid;grid-template-columns:repeat(15,1fr);gap:2px;max-width:600px;margin:0 auto;-webkit-user-select:none;user-select:none}
+ .cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:white;border:2px solid #e2e8f0;border-radius:6px;font-weight:700;font-size:1.1rem;color:#1a4d2e;cursor:pointer;transition:all 0.15s;font-family:'Courier New',monospace}
+ .cell:hover{background:#f0fdf4;border-color:#86efac;transform:scale(1.08)}
+ .cell.selecting{background:#fef3c7;border-color:#fbbf24}
+ .cell.found{background:#1a4d2e;color:white;border-color:#1a4d2e;animation:foundPulse 0.4s}
+ @keyframes foundPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+ .word-list-header{font-size:0.875rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:1rem}
+ #words{max-height:400px;overflow-y:auto;padding-right:0.5rem}
+ #words::-webkit-scrollbar{width:6px}
+ #words::-webkit-scrollbar-track{background:#f1f5f9;border-radius:3px}
+ #words::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px}
+ #words::-webkit-scrollbar-thumb:hover{background:#94a3b8}
+ .word-item{padding:0.6rem 0.75rem;margin-bottom:0.4rem;background:#f8fafc;border-radius:6px;border-left:3px solid #1a4d2e;cursor:pointer;transition:0.2s}
+ .word-item:hover{background:#f0fdf4;transform:translateX(4px)}
+ .word-item.found{background:#d1fae5;border-left-color:#10b981;text-decoration:line-through;opacity:0.6}
+ .word-text{font-weight:600;color:#1a4d2e;display:block;font-size:0.9rem}
+ .word-meaning{font-size:0.75rem;color:#64748b;font-style:italic;margin-top:0.2rem;display:block;line-height:1.3}
+ .progress-container{background:#f1f5f9;padding:1.5rem;border-radius:12px;margin-bottom:1.5rem}
+ .progress-stats{display:flex;justify-content:space-between;margin-bottom:0.75rem;font-size:0.875rem;font-weight:600}
+ .progress-bar{height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden}
+ .progress-fill{height:100%;background:linear-gradient(90deg,#10b981,#059669);transition:width 0.6s;border-radius:4px}
+ .btn{padding:0.75rem 1.25rem;border:none;border-radius:8px;font-weight:600;font-size:0.875rem;cursor:pointer;transition:0.2s}
+ .btn-primary{background:#1a4d2e;color:white}
+ .btn-primary:hover{background:#2d6a4f;transform:translateY(-1px);box-shadow:0 4px 12px rgba(26,77,46,0.3)}
+ @media(max-width:968px){.game-container{grid-template-columns:1fr}.sidebar{position:static;order:-1}}
+ @media print{@page{size:A4;margin:10mm}.no-print{display:none!important}.game-container{display:block}.wordsearch-grid{max-width:180mm;gap:0.5mm}.cell{font-size:8pt;border:0.5pt solid #1a4d2e;background:white!important;color:black!important}.sidebar{page-break-before:always}.word-item{font-size:7pt;margin-bottom:1mm;padding:1mm}.word-meaning{display:none}}
+ </style>
+</head>
+<body>
+ <script>fetch('/components/navigation-standard.html').then(r=>r.text()).then(h=>{const d=document.createElement('div');d.innerHTML=h;document.body.insertBefore(d.firstElementChild,document.body.firstChild)});</script>
+ <main role="main">
+ <div style="text-align:center;margin:2rem 0" class="no-print">
+ <h1 style="color:#1a4d2e;font-size:2.5rem;margin-bottom:0.5rem">🔍 Patterns & Algebra Vocabulary</h1>
+ <p style="font-size:1.1rem;color:#64748b">Year 7 Mathematics</p>
+ <p style="margin-top:0.5rem"><a href="/units/y7-maths-algebra/index.html" style="color:#1a4d2e">← Back to Unit</a></p>
+ </div>
+ 
+ <div style="background:linear-gradient(135deg,#fff7ed,#ffedd5);padding:1.5rem;border-radius:12px;margin:0 auto 2rem;max-width:800px;text-align:center" class="no-print">
+ <p style="font-size:1.15rem;font-style:italic;color:#1a4d2e;font-weight:500;margin:0">"He tukutuku whakairo, he mea hanga nā te hinengaro"</p>
+ <p style="font-size:0.95rem;color:#64748b;margin:0.5rem 0 0">"A woven pattern is created by the mind"</p>
+ </div>
+ 
+ <div class="game-container">
+ <div class="grid-section">
+ <div class="wordsearch-grid" id="grid"></div>
+ <div style="display:flex;gap:0.75rem;justify-content:center;margin-top:1.5rem" class="no-print">
+ <button class="btn btn-primary" onclick="game.reset()">🔄 Reset</button>
+ <button class="btn btn-primary" onclick="window.print()">🖨️ Print</button>
+ </div>
+ </div>
+ 
+ <div class="sidebar">
+ <div class="progress-container">
+ <div class="progress-stats">
+ <span><span id="found">0</span>/<span id="total">15</span> Found</span>
+ <span id="timer">0:00</span>
+ </div>
+ <div class="progress-bar"><div class="progress-fill" id="progress" style="width:0%"></div></div>
+ </div>
+ <div class="word-list-header">Words to Find</div>
+ <div id="words"></div>
+ </div>
+ </div>
+ </main>
+ 
+ <div id="footer-component" class="no-print"></div>
+ <script>
+ const VOCAB={'PATTERN':'A repeated arrangement following a rule','SEQUENCE':'An ordered list of numbers or objects','ALGEBRA':'Mathematics using symbols for numbers','VARIABLE':'A symbol representing an unknown value','EQUATION':'A mathematical statement of equality','TERM':'Individual element in a sequence','NUMBER':'Mathematical symbol for quantity','FORMULA':'A mathematical rule using symbols','EXPRESSION':'Mathematical phrase with variables','SOLUTION':'The answer to an equation','COEFFICIENT':'Number multiplied by a variable','SYMBOL':'Character representing a concept','TUKUTUKU':'Traditional Māori lattice-work with mathematical patterns','OPERATION':'Mathematical process','GRAPH':'Visual representation of functions'};
+ const GRID=[["W", "N", "O", "I", "S", "S", "E", "R", "P", "X", "E", "E", "P", "U", "L"], ["S", "K", "O", "F", "E", "R", "C", "A", "F", "A", "A", "B", "A", "B", "K"], ["G", "I", "N", "O", "P", "E", "R", "O", "M", "R", "E", "T", "T", "V", "R"], ["A", "G", "G", "R", "A", "R", "B", "E", "G", "L", "A", "O", "T", "E", "P"], ["C", "R", "E", "M", "U", "U", "Y", "T", "O", "R", "P", "I", "E", "H", "P"], ["G", "A", "A", "U", "Z", "S", "D", "A", "F", "T", "E", "W", "R", "F", "B"], ["I", "P", "E", "L", "B", "A", "I", "R", "A", "V", "F", "A", "N", "F", "K"], ["N", "H", "O", "A", "T", "N", "E", "I", "C", "I", "F", "F", "E", "O", "C"], ["O", "S", "E", "Q", "U", "E", "N", "C", "E", "T", "D", "F", "G", "R", "A"], ["I", "Y", "E", "S", "K", "G", "J", "M", "E", "C", "A", "Y", "V", "V", "H"], ["T", "K", "A", "N", "U", "M", "B", "E", "R", "M", "E", "C", "D", "N", "T"], ["A", "N", "O", "I", "T", "A", "R", "E", "P", "O", "Q", "V", "B", "L", "C"], ["U", "F", "K", "E", "C", "P", "R", "N", "S", "Y", "M", "B", "O", "L", "Y"], ["Q", "L", "U", "K", "O", "M", "I", "T", "U", "K", "U", "T", "U", "K", "U"], ["E", "N", "O", "I", "T", "U", "L", "O", "S", "T", "U", "F", "U", "T", "T"]];
+ 
+ class WordSearchGame{
+ constructor(){this.foundWords=new Set();this.selecting=false;this.selectedCells=[];this.startTime=Date.now();this.init()}
+ 
+ init(){this.renderGrid();this.renderWordList();this.startTimer();this.updateProgress()}
+ 
+ renderGrid(){const g=document.getElementById('grid');g.innerHTML='';GRID.forEach((row,r)=>{row.forEach((letter,c)=>{const cell=document.createElement('div');cell.className='cell';cell.textContent=letter;cell.dataset.row=r;cell.dataset.col=c;cell.addEventListener('mousedown',(e)=>{e.preventDefault();this.startSelection(cell)});cell.addEventListener('mouseenter',()=>this.continueSelection(cell));cell.addEventListener('mouseup',()=>this.endSelection());cell.addEventListener('touchstart',(e)=>{e.preventDefault();this.startSelection(cell)});cell.addEventListener('touchmove',(e)=>{e.preventDefault();const t=e.touches[0];const el=document.elementFromPoint(t.clientX,t.clientY);if(el&&el.classList.contains('cell'))this.continueSelection(el)});cell.addEventListener('touchend',()=>this.endSelection());g.appendChild(cell)});}); document.addEventListener('mouseup',()=>this.endSelection())}
+ 
+ renderWordList(){const l=document.getElementById('words');l.innerHTML='';Object.keys(VOCAB).forEach(word=>{const item=document.createElement('div');item.className='word-item';if(this.foundWords.has(word))item.classList.add('found');item.innerHTML=`<span class="word-text">${word}</span><span class="word-meaning">${VOCAB[word]}</span>`;l.appendChild(item)})}
+ 
+ startSelection(cell){this.selecting=true;this.selectedCells=[cell];cell.classList.add('selecting')}
+ 
+ continueSelection(cell){if(!this.selecting||this.selectedCells.includes(cell))return;if(this.selectedCells.length>0&&!this.isValidLine(cell))return;this.selectedCells.push(cell);cell.classList.add('selecting')}
+ 
+ isValidLine(newCell){if(this.selectedCells.length<2)return true;const f=this.selectedCells[0],s=this.selectedCells[1];const dr=Math.sign(parseInt(s.dataset.row)-parseInt(f.dataset.row));const dc=Math.sign(parseInt(s.dataset.col)-parseInt(f.dataset.col));const last=this.selectedCells[this.selectedCells.length-1];const expR=parseInt(last.dataset.row)+dr;const expC=parseInt(last.dataset.col)+dc;return parseInt(newCell.dataset.row)===expR&&parseInt(newCell.dataset.col)===expC}
+ 
+ endSelection(){if(!this.selecting)return;this.selecting=false;const word=this.selectedCells.map(c=>c.textContent).join('');const rev=word.split('').reverse().join('');let found=null;if(VOCAB[word]&&!this.foundWords.has(word))found=word;else if(VOCAB[rev]&&!this.foundWords.has(rev))found=rev;if(found){this.foundWords.add(found);this.selectedCells.forEach(c=>{c.classList.remove('selecting');c.classList.add('found')});this.renderWordList();this.updateProgress();if(this.foundWords.size===Object.keys(VOCAB).length)setTimeout(()=>alert('🎉 Kei te pai! All words found in '+document.getElementById('timer').textContent),500)}else{this.selectedCells.forEach(c=>c.classList.remove('selecting'))}this.selectedCells=[]}
+ 
+ updateProgress(){const f=this.foundWords.size,t=Object.keys(VOCAB).length;document.getElementById('found').textContent=f;document.getElementById('progress').style.width=(f/t*100)+'%'}
+ 
+ startTimer(){setInterval(()=>{const e=Math.floor((Date.now()-this.startTime)/1000);document.getElementById('timer').textContent=`${Math.floor(e/60)}:${(e%60).toString().padStart(2,'0')}`},1000)}
+ 
+ reset(){if(confirm('Start over?'))location.reload()}
+ }
+ 
+ let game;
+ document.addEventListener('DOMContentLoaded',()=>{game=new WordSearchGame()});
+ 
+ fetch('/components/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-component').innerHTML=h});
+ </script>
+</body>
+</html>
