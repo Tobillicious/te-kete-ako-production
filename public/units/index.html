@@ -42,6 +42,12 @@
             box-shadow: 0 4px 16px rgba(74, 110, 42, 0.15);
         }
 
+        /* Focus management for accessibility */
+        .filter-btn:focus {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 2px;
+        }
+
         .search-icon {
             position: absolute;
             right: 1rem;
@@ -144,7 +150,7 @@
             width: 60px;
             height: 60px;
             opacity: 0.1;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M20,20 L80,20 L80,80 L20,80 Z' fill='none' stroke='%234a6e2a' stroke-width='2'/%3E%3Cpath d='M30,30 L70,30 L70,70 L30,70 Z' fill='none' stroke='%234a6e2a' stroke-width='1'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' aria-hidden='true'%3E%3Cpath d='M20,20 L80,20 L80,80 L20,80 Z' fill='none' stroke='%234a6e2a' stroke-width='2'/%3E%3Cpath d='M30,30 L70,30 L70,70 L30,70 Z' fill='none' stroke='%234a6e2a' stroke-width='1'/%3E%3C/svg%3E");
         }
 
         /* Performance Indicators */
@@ -217,22 +223,26 @@
 <div class="container">
 
     <!-- Enhanced Search & Discovery Section -->
-    <div class="search-section">
+    <section class="search-section">
+        <header>
+            <h2>Discover Units</h2>
+            <p>Search and filter through our comprehensive collection of curriculum-aligned units</p>
+        </header>
         <div class="search-container">
             <input type="search" class="search-input" id="unit-search" placeholder="Search units, subjects, or topics..." aria-label="Search units">
-            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <circle cx="11" cy="11" r="8"/>
                 <path d="M21 21l-4.35-4.35"/>
             </svg>
         </div>
 
         <div class="filter-controls">
-            <button class="filter-btn active" data-filter="all">All Units</button>
-            <button class="filter-btn" data-filter="mathematics">Mathematics</button>
-            <button class="filter-btn" data-filter="science">Science</button>
-            <button class="filter-btn" data-filter="english">English</button>
-            <button class="filter-btn" data-filter="digital">Digital Tech</button>
-            <button class="filter-btn" data-filter="cultural">Cultural</button>
+            <button class="filter-btn active" data-filter="all" tabindex="0">All Units</button>
+            <button class="filter-btn" data-filter="mathematics" tabindex="0">Mathematics</button>
+            <button class="filter-btn" data-filter="science" tabindex="0">Science</button>
+            <button class="filter-btn" data-filter="english" tabindex="0">English</button>
+            <button class="filter-btn" data-filter="digital" tabindex="0">Digital Tech</button>
+            <button class="filter-btn" data-filter="cultural" tabindex="0">Cultural</button>
         </div>
 
         <div class="results-count" id="results-count">
