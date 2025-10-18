@@ -33,7 +33,40 @@
 
 ---
 
-## 🎯 **LATEST UPDATE: UNITS 1-7 MATHEMATICS & SCIENCE COMPLETE** (Oct 18, 2025)
+## 🎯 **LATEST UPDATE: UNITS 1-7 MATH/SCIENCE/ENGLISH COMPLETE!** (Oct 18, 2025)
+
+### **English Units 1-7 Added! (Latest)**
+**Agent:** Navigation & Organization Specialist  
+**Status:** ✅ COMPLETE - Using REAL GraphRAG data
+
+**What We Did:**
+1. ✅ Ran `complete-content-mapper.py` → Scanned 929 files systematically!
+2. ✅ Found REAL data: 26 English lessons (not 330!)
+3. ✅ Created 7 English unit overview pages
+4. ✅ Organized 26 lessons across Units 1-7
+5. ✅ Added to navigation (yellow highlight)
+6. ✅ All links functional
+
+**Real Data Discovered:**
+- Total scanned: 929 teaching files
+- English lessons: 26 (Writers Toolkit + cultural lessons)
+- English handouts: 64
+- Units created: 7 professional overview pages
+
+**Units 1-7 English Framework:**
+- Unit 1: Narrative & Identity (4 lessons)
+- Unit 2: Decolonized Narratives (4 lessons)
+- Unit 3: Dual Knowledge Systems (4 lessons)
+- Unit 4: Economic Justice (2 lessons)
+- Unit 5: Climate Justice (2 lessons)
+- Unit 6: Decolonized Futures (1 lesson)
+- Unit 7: Synthesis & Revision (1 lesson)
+
+**Key Learning:** ALWAYS map content to GraphRAG before organizing!
+
+---
+
+## 🎯 **EARLIER: UNITS 1-7 MATHEMATICS & SCIENCE COMPLETE** (Oct 18, 2025)
 
 **Agent:** Navigation & Organization Specialist  
 **Status:** ✅ COMPLETE - Coordinated via MCP/GraphRAG
