@@ -81,4 +81,3 @@ print(f'\n✅ DONE in {elapsed/60:.1f} minutes')
 print(f'Uploaded this session: {uploaded_this_session:,}')
 print(f'Skipped (duplicates): {skipped_duplicates:,}')
 print(f'🎉 GraphRAG now has: {final_count.count:,} resources')
-" 2>&1
