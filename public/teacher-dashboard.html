@@ -1,410 +1,446 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Teacher Dashboard | Te Kete Ako</title>
- <meta name="description" content="Quick access dashboard for teachers - curriculum-aligned resources for NZ classrooms">
- 
- <!-- UNIFIED DESIGN SYSTEM -->
- 
- 
- 
- 
-
- <!-- CANONICAL CSS SYSTEM -->
- <link rel="stylesheet" href="/css/te-kete-professional.css">
- <link rel="stylesheet" href="/css/component-library.css" />
- <link rel="stylesheet" href="/css/animations-professional.css" />
- <link rel="stylesheet" href="/css/beautiful-navigation.css" />
- <link rel="stylesheet" href="/css/mobile-optimization.css" />
- <link rel="stylesheet" href="/css/information-dense.css" />
- <link rel="stylesheet" href="/css/print.css" />
- <!-- END CANONICAL CSS -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard - Te Kete Ako</title>
+    <link rel="stylesheet" href="/css/te-kete-transformative-design-system.css"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .dashboard-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-left: 6px solid #059669;
+        }
+        .action-btn {
+            background: linear-gradient(135deg, #059669 0%, #0284c7 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(5,150,105,0.3);
+        }
+        .lesson-card {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dbeafe 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid #059669;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .lesson-card:hover {
+            transform: translateX(8px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .variant-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .variant-option {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .variant-option:hover {
+            border-color: #059669;
+            transform: scale(1.05);
+        }
+        .variant-option.selected {
+            border-color: #059669;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dbeafe 100%);
+        }
+        .cultural-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            margin: 0.25rem;
+        }
+        .tab {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .tab.active {
+            border-bottom-color: #059669;
+            font-weight: 600;
+        }
+        .whakatauki-box {
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            font-style: italic;
+        }
+    </style>
 </head>
-<body>
- <!-- Professional Mega Menu Navigation -->
- <div id="beautiful-nav-container"></div>
- <script>
- fetch('/components/navigation-standard.html')
- .then(r => r.text())
- .then(html => {
- const div = document.createElement('div');
- div.innerHTML = html;
- document.body.insertBefore(div.firstElementChild, document.body.firstChild);
- });
- </script>
+<body class="bg-gradient-to-br from-green-50 to-blue-50 min-h-screen">
+    <div class="container mx-auto max-w-7xl p-6">
+        <!-- Header -->
+        <div class="bg-white rounded-2xl shadow-xl p-6 mb-6">
+            <h1 class="text-4xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+                🎓 Teacher Dashboard
+            </h1>
+            <p class="text-gray-600 mt-2">AI-powered lesson planning • Cultural intelligence • Teaching variants</p>
+        </div>
 
- <!-- Load Professional Navigation -->
- <script>
- 
- <!-- Supabase Auth -->
- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
- <!-- Loading State -->
- <div id="dashboardLoading" style="display: flex; justify-content: center; align-items: center; min-height: 60vh;">
- <div style="text-align: center;">
- <div style="width: 60px; height: 60px; border: 4px solid var(--color-neutral-200); border-top-color: var(--color-primary-600); border-radius: 50%; margin: 0 auto 1rem; animation: spin 1s linear infinite;"></div>
- <p style="color: var(--color-neutral-600); font-weight: 600;">Loading your dashboard...</p>
- </div>
- </div>
- 
- <main id="dashboardContent" class="container" style="padding: 3rem 2rem; max-width: 1400px; margin: 0 auto; display: none;">
- 
- <!-- Dashboard Header - Personalized Greeting -->
- <div id="personalizedGreeting" style="text-align: center; margin-bottom: 3rem;">
- <h1 style="font-size: 3rem; color: var(--color-primary); margin-bottom: 1rem;">
- 👨‍🏫 Teacher Dashboard
- </h1>
- <p style="font-size: 1.3rem; color: var(--color-text-secondary); max-width: 700px; margin: 0 auto;">
- Quick access to curriculum-aligned, print-ready resources for your New Zealand classroom
- </p>
- </div>
- 
- <!-- Teacher-Specific Statistics -->
- <div id="teacherStats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
- <!-- Stats will be loaded by JavaScript -->
- </div>
- 
- <!-- Live Platform Statistics -->
- <section style="background: linear-gradient(135deg, #2C5F41 0%, #3b5b23 100%); color: white; padding: 3rem; border-radius: 16px; margin-bottom: 3rem; box-shadow: 0 10px 40px rgba(0,0,0,0.1);">
- <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2rem;">📊 Platform Overview</h2>
- 
- <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
- <div style="text-align: center;">
- <div style="font-size: 3.5rem; font-weight: 700; margin-bottom: 0.5rem;">1,496</div>
- <div style="font-size: 1.1rem; opacity: 0.9;">Total Resources</div>
- </div>
- <div style="text-align: center;">
- <div style="font-size: 3.5rem; font-weight: 700; margin-bottom: 0.5rem;">583</div>
- <div style="font-size: 1.1rem; opacity: 0.9;">Ready-to-Use Lessons</div>
- </div>
- <div style="text-align: center;">
- <div style="font-size: 3.5rem; font-weight: 700; margin-bottom: 0.5rem;">500</div>
- <div style="font-size: 1.1rem; opacity: 0.9;">Printable Handouts</div>
- </div>
- <div style="text-align: center;">
- <div style="font-size: 3.5rem; font-weight: 700; margin-bottom: 0.5rem;">Y7-13</div>
- <div style="font-size: 1.1rem; opacity: 0.9;">Full Year Coverage</div>
- </div>
- </div>
- </section>
- 
- <!-- Featured Units -->
- <section style="margin-bottom: 3rem;">
- <h2 style="font-size: 2.5rem; color: var(--color-primary); margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem;">
- <span>🎯</span>
- <span>Featured Units</span>
- <span style="font-size: 1rem; background: #fef3c7; color: #92400e; padding: 0.5rem 1rem; border-radius: 50px; font-weight: 600;">Ready to Use</span>
- </h2>
- 
- <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;">
- 
- <!-- Y8 Systems Unit -->
- <div style="background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s ease; border-left: 4px solid #2C5F41;">
- <div style="display: flex; align-items: start; gap: 1rem; margin-bottom: 1.5rem;">
- <div style="font-size: 3rem;">🏛️</div>
- <div>
- <h3 style="margin: 0 0 0.5rem; font-size: 1.5rem; color: var(--color-primary);">Y8 Systems Unit</h3>
- <p style="margin: 0; color: var(--color-text-secondary);">Government, Economics & Society</p>
- </div>
- </div>
- 
- <div style="margin-bottom: 1.5rem;">
- <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
- <span style="background: #10b981; color: white; padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.85rem;">✅ 10 Lessons</span>
- <span style="background: #3b82f6; color: white; padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.85rem;">📱 Mobile Ready</span>
- <span style="background: #7a6b1f; color: white; padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.85rem;">🌿 Cultural</span>
- </div>
- 
- <p style="line-height: 1.6; margin: 0;">
- Complete curriculum-aligned unit covering systems thinking, government structures, economics, and sustainability. All lessons include external resources from official NZ government and education sites.
- </p>
- </div>
- 
- <div style="display: flex; gap: 1rem;">
- <a href="/public/y8-systems/index.html" style="flex: 1; background: #2C5F41; color: white; padding: 0.75rem; text-align: center; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.2s ease;">
- View Unit →
- </a>
- <button onclick="alert('Print pack feature coming!')" style="background: white; border: 2px solid #2C5F41; color: #2C5F41; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer;">
- 🖨️ Print Pack
- </button>
- </div>
- </div>
- 
- <!-- Walker Unit -->
- <div style="background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s ease; border-left: 4px solid #7a6b1f;">
- <div style="display: flex; align-items: start; gap: 1rem; margin-bottom: 1.5rem;">
- <div style="font-size: 3rem;">📖</div>
- <div>
- <h3 style="margin: 0 0 0.5rem; font-size: 1.5rem; color: var(--color-primary);">Walker Unit</h3>
- <p style="margin: 0; color: var(--color-text-secondary);">Māori Renaissance & Leadership</p>
- </div>
- </div>
- 
- <div style="margin-bottom: 1.5rem;">
- <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
- <span style="background: #10b981; color: white; padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.85rem;">✅ 5 Lessons</span>
- <span style="background: #7a6b1f; color: white; padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.85rem;">🌿 High Cultural</span>
- <span style="background: #f59e0b; color: white; padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.85rem;">⭐ Gold Standard</span>
- </div>
- 
- <p style="line-height: 1.6; margin: 0;">
- Explore Dr. Ranginui Walker's legacy and the Māori renaissance movement. Perfect for demonstrating cultural integration and historical analysis.
- </p>
- </div>
- 
- <div style="display: flex; gap: 1rem;">
- <a href="/units/walker-unit/index.html" style="flex: 1; background: #7a6b1f; color: white; padding: 0.75rem; text-align: center; border-radius: 8px; text-decoration: none; font-weight: 600;">
- View Unit →
- </a>
- <button onclick="alert('Print pack feature coming!')" style="background: white; border: 2px solid #7a6b1f; color: #7a6b1f; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer;">
- 🖨️ Print Pack
- </button>
- </div>
- </div>
- 
- <!-- Te Ao Māori Unit -->
- <div style="background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s ease; border-left: 4px solid #f59e0b;">
- <div style="display: flex; align-items: start; gap: 1rem; margin-bottom: 1.5rem;">
- <div style="font-size: 3rem;">🌺</div>
- <div>
- <h3 style="margin: 0 0 0.5rem; font-size: 1.5rem; color: var(--color-primary);">Te Ao Māori Unit</h3>
- <p style="margin: 0; color: var(--color-text-secondary);">Contemporary Issues & STEM</p>
- </div>
- </div>
- 
- <div style="margin-bottom: 1.5rem;">
- <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
- <span style="background: #10b981; color: white; padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.85rem;">✅ 14 Lessons</span>
- <span style="background: #ef4444; color: white; padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.85rem;">🔥 NEW</span>
- <span style="background: #7a6b1f; color: white; padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.85rem;">🌿 Cultural</span>
- </div>
- 
- <p style="line-height: 1.6; margin: 0;">
- AI ethics, climate change, STEM careers - all through mātauranga Māori lens. Showcases innovative cultural integration.
- </p>
- </div>
- 
- <div style="display: flex; gap: 1rem;">
- <a href="/units/unit-1-te-ao-maori/index.html" style="flex: 1; background: #f59e0b; color: white; padding: 0.75rem; text-align: center; border-radius: 8px; text-decoration: none; font-weight: 600;">
- View Unit →
- </a>
- <button onclick="alert('Print pack feature coming!')" style="background: white; border: 2px solid #f59e0b; color: #f59e0b; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer;">
- 🖨️ Print Pack
- </button>
- </div>
- </div>
- 
- </div>
- </section>
- 
- <!-- Time-Saving Value Props -->
- <section style="margin-bottom: 3rem;">
- <h2 style="font-size: 2.5rem; color: var(--color-primary); margin-bottom: 2rem;">⏱️ Time-Saving Features</h2>
- 
- <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
- <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 2rem; border-radius: 12px;">
- <div style="font-size: 2.5rem; margin-bottom: 1rem;">🖨️</div>
- <h3 style="font-size: 1.3rem; margin-bottom: 1rem; color: var(--color-primary);">Print-Ready Materials</h3>
- <p style="line-height: 1.6; margin: 0;">All 500 handouts are formatted for immediate classroom use. No reformatting needed!</p>
- </div>
- 
- <div style="background: linear-gradient(135deg, #fff7ed, #ffedd5); padding: 2rem; border-radius: 12px;">
- <div style="font-size: 2.5rem; margin-bottom: 1rem;">📋</div>
- <h3 style="font-size: 1.3rem; margin-bottom: 1rem; color: var(--color-primary);">Complete Lesson Plans</h3>
- <p style="line-height: 1.6; margin: 0;">583 lessons with learning objectives, activities, assessments, and external resources.</p>
- </div>
- 
- <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 2rem; border-radius: 12px;">
- <div style="font-size: 2.5rem; margin-bottom: 1rem;">🌿</div>
- <h3 style="font-size: 1.3rem; margin-bottom: 1rem; color: var(--color-primary);">Cultural Integration</h3>
- <p style="line-height: 1.6; margin: 0;">Authentic mātauranga Māori embedded throughout, meeting Ministry expectations.</p>
- </div>
- </div>
- </section>
- 
- <!-- Recommended Resources for Your Subjects -->
- <section style="margin-bottom: 3rem;">
- <h2 style="font-size: 2.5rem; color: var(--color-primary); margin-bottom: 2rem;">🎯 Recommended for You</h2>
- <div id="recommendedResources">
- <!-- Will be populated by JavaScript -->
- </div>
- </section>
- 
- <!-- Your Classes/Year Levels -->
- <section style="margin-bottom: 3rem;">
- <h2 style="font-size: 2.5rem; color: var(--color-primary); margin-bottom: 2rem;">📚 Your Year Levels</h2>
- <div id="myClasses">
- <!-- Will be populated by JavaScript -->
- </div>
- </section>
- 
- <!-- Recent Activity -->
- <section style="margin-bottom: 3rem;">
- <div id="recentActivity">
- <!-- Will be populated by JavaScript -->
- </div>
- </section>
- 
- <!-- Quick Access by Year Level -->
- <section style="margin-bottom: 3rem;">
- <h2 style="font-size: 2.5rem; color: var(--color-primary); margin-bottom: 2rem;">📚 Browse All Year Levels</h2>
- 
- <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem;">
- <a href="/lessons.html?year=7" style="background: white; padding: 2rem 1rem; border-radius: 12px; text-align: center; text-decoration: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); transition: all 0.3s ease; border: 2px solid transparent;">
- <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">7️⃣</div>
- <div style="font-weight: 600; color: var(--color-primary);">Year 7</div>
- </a>
- <a href="/lessons.html?year=8" style="background: white; padding: 2rem 1rem; border-radius: 12px; text-align: center; text-decoration: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); transition: all 0.3s ease; border: 2px solid #2C5F41;">
- <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">8️⃣</div>
- <div style="font-weight: 600; color: var(--color-primary);">Year 8</div>
- <div style="font-size: 0.75rem; color: #7a6b1f; margin-top: 0.25rem;">DEMO UNITS</div>
- </a>
- <a href="/lessons.html?year=9" style="background: white; padding: 2rem 1rem; border-radius: 12px; text-align: center; text-decoration: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); transition: all 0.3s ease;">
- <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">9️⃣</div>
- <div style="font-weight: 600; color: var(--color-primary);">Year 9</div>
- </a>
- <a href="/lessons.html?year=10" style="background: white; padding: 2rem 1rem; border-radius: 12px; text-align: center; text-decoration: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); transition: all 0.3s ease;">
- <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔟</div>
- <div style="font-weight: 600; color: var(--color-primary);">Year 10</div>
- </a>
- <a href="/lessons.html?year=11-13" style="background: white; padding: 2rem 1rem; border-radius: 12px; text-align: center; text-decoration: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); transition: all 0.3s ease;">
- <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎓</div>
- <div style="font-weight: 600; color: var(--color-primary);">Y11-13</div>
- </a>
- </div>
- </section>
- 
- <!-- Curriculum Coverage -->
- <section style="background: #f9fafb; padding: 3rem; border-radius: 16px; margin-bottom: 3rem;">
- <h2 style="font-size: 2.5rem; color: var(--color-primary); margin-bottom: 2rem; text-align: center;">📊 NZ Curriculum Coverage</h2>
- 
- <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
- <div style="text-align: center; padding: 1.5rem;">
- <div style="font-size: 3rem; margin-bottom: 0.5rem;">🌏</div>
- <div style="font-weight: 600; color: var(--color-primary); margin-bottom: 0.25rem;">Social Studies</div>
- <div style="color: var(--color-text-secondary);">250+ resources</div>
- </div>
- <div style="text-align: center; padding: 1.5rem;">
- <div style="font-size: 3rem; margin-bottom: 0.5rem;">🔬</div>
- <div style="font-weight: 600; color: var(--color-primary); margin-bottom: 0.25rem;">Science</div>
- <div style="color: var(--color-text-secondary);">180+ resources</div>
- </div>
- <div style="text-align: center; padding: 1.5rem;">
- <div style="font-size: 3rem; margin-bottom: 0.5rem;">📊</div>
- <div style="font-weight: 600; color: var(--color-primary); margin-bottom: 0.25rem;">Mathematics</div>
- <div style="color: var(--color-text-secondary);">150+ resources</div>
- </div>
- <div style="text-align: center; padding: 1.5rem;">
- <div style="font-size: 3rem; margin-bottom: 0.5rem;">📝</div>
- <div style="font-weight: 600; color: var(--color-primary); margin-bottom: 0.25rem;">English</div>
- <div style="color: var(--color-text-secondary);">120+ resources</div>
- </div>
- </div>
- </section>
- 
- <!-- Principal Talking Points -->
- <section style="background: linear-gradient(135deg, #fef3c7, #fde68a); padding: 3rem; border-radius: 16px; border-left: 4px solid #92400e;">
- <h2 style="font-size: 2rem; color: #92400e; margin-bottom: 1.5rem;">💡 For Your Principal Meeting (Oct 22)</h2>
- 
- <div style="display: grid; gap: 1.5rem;">
- <div style="display: flex; gap: 1rem; align-items: start;">
- <div style="font-size: 2rem;">✅</div>
- <div>
- <h3 style="margin: 0 0 0.5rem; color: #92400e;">Curriculum Aligned</h3>
- <p style="margin: 0; line-height: 1.6;">All resources mapped to NZ Curriculum achievement objectives, with clear learning progressions Y7-13.</p>
- </div>
- </div>
- 
- <div style="display: flex; gap: 1rem; align-items: start;">
- <div style="font-size: 2rem;">🌿</div>
- <div>
- <h3 style="margin: 0 0 0.5rem; color: #92400e;">Cultural Authenticity</h3>
- <p style="margin: 0; line-height: 1.6;">Mātauranga Māori integration reviewed for cultural safety and authenticity, meeting Ministry expectations.</p>
- </div>
- </div>
- 
- <div style="display: flex; gap: 1rem; align-items: start;">
- <div style="font-size: 2rem;">⏱️</div>
- <div>
- <h3 style="margin: 0 0 0.5rem; color: #92400e;">Time-Saving</h3>
- <p style="margin: 0; line-height: 1.6;">Complete lesson plans save 2-3 hours per lesson in planning time. 500 print-ready handouts eliminate preparation work.</p>
- </div>
- </div>
- 
- <div style="display: flex; gap: 1rem; align-items: start;">
- <div style="font-size: 2rem;">📱</div>
- <div>
- <h3 style="margin: 0 0 0.5rem; color: #92400e;">Modern & Accessible</h3>
- <p style="margin: 0; line-height: 1.6;">Mobile-optimized, WCAG AA accessible, works on Chromebooks and tablets used in NZ classrooms.</p>
- </div>
- </div>
- </div>
- </section>
- 
- </main>
- 
- <style>
- /* Hover effects for cards */
- section > div > div:hover {
- transform: translateY(-4px);
- box-shadow: 0 6px 25px rgba(0,0,0,0.12) !important;
- }
- 
- /* Year level hover */
- section a[href*="year"]:hover {
- transform: scale(1.05);
- border-color: #2C5F41 !important;
- box-shadow: 0 4px 15px rgba(44, 95, 65, 0.2) !important;
- }
- 
- @keyframes spin {
- to { transform: rotate(360deg); }
- }
- </style>
+        <!-- Tabs -->
+        <div class="bg-white rounded-t-2xl shadow-lg flex overflow-x-auto">
+            <div class="tab active" onclick="switchTab('planner')">📚 Lesson Planner</div>
+            <div class="tab" onclick="switchTab('classes')">👥 My Classes</div>
+            <div class="tab" onclick="switchTab('favorites')">⭐ Favorites</div>
+            <div class="tab" onclick="switchTab('ai-assistant')">🤖 AI Assistant</div>
+        </div>
 
- <!-- Density Toggle Button -->
- <button class="density-toggle" id="densityToggle" onclick="toggleDensity()">
- <span id="densityIcon">📊</span>
- <span id="densityText">Compact View</span>
- </button>
+        <!-- Tab Content -->
+        <div id="planner-tab" class="dashboard-card">
+            <h2 class="text-3xl font-bold mb-4">📚 AI-Powered Lesson Planner</h2>
+            
+            <!-- Whakataukī of the Day -->
+            <div class="whakatauki-box">
+                <p class="text-xl mb-2" id="whakatauki-text">Ko te akoranga te putake o te ora</p>
+                <p class="text-sm opacity-90" id="whakatauki-meaning">Education is the foundation of wellbeing</p>
+            </div>
 
- <script>
- // Density Toggle Functionality
- function toggleDensity() {
- const body = document.body;
- const icon = document.getElementById('densityIcon');
- const text = document.getElementById('densityText');
- 
- if (body.classList.contains('compact-mode')) {
- // Switch to comfortable mode
- body.classList.remove('compact-mode');
- icon.textContent = '📊';
- text.textContent = 'Compact View';
- localStorage.setItem('viewMode', 'comfortable');
- } else {
- // Switch to compact mode
- body.classList.add('compact-mode');
- icon.textContent = '📐';
- text.textContent = 'Comfortable View';
- localStorage.setItem('viewMode', 'compact');
- }
- }
+            <!-- Quick Create -->
+            <div class="bg-gray-50 rounded-lg p-6 mb-6">
+                <h3 class="text-2xl font-bold mb-4">Create New Lesson Plan</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Subject</label>
+                        <select id="subject" class="w-full p-3 border rounded-lg">
+                            <option value="">Select subject...</option>
+                            <option value="mathematics">Mathematics</option>
+                            <option value="science">Science</option>
+                            <option value="english">English</option>
+                            <option value="te_ao_maori">Te Ao Māori</option>
+                            <option value="social_studies">Social Studies</option>
+                            <option value="technology">Technology</option>
+                            <option value="arts">Arts</option>
+                            <option value="health_pe">Health & PE</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Year Level</label>
+                        <select id="yearLevel" class="w-full p-3 border rounded-lg">
+                            <option value="">Select year...</option>
+                            <option value="Y7">Year 7</option>
+                            <option value="Y8">Year 8</option>
+                            <option value="Y9">Year 9</option>
+                            <option value="Y10">Year 10</option>
+                            <option value="Y11">Year 11</option>
+                            <option value="Y12">Year 12</option>
+                            <option value="Y13">Year 13</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold mb-2">Topic or Learning Objective</label>
+                    <input type="text" id="topic" placeholder="e.g., Climate Change, Algebraic Equations, Pōwhiri Protocol..." 
+                           class="w-full p-3 border rounded-lg"/>
+                </div>
+                <button onclick="findLessons()" class="action-btn">🔍 Find Lessons from GraphRAG</button>
+                <button onclick="generateWithAI()" class="action-btn ml-2">🤖 Generate New Lesson with AI</button>
+            </div>
 
- // Restore saved view mode on page load
- window.addEventListener('DOMContentLoaded', () => {
- const savedMode = localStorage.getItem('viewMode');
- if (savedMode === 'compact') {
- document.body.classList.add('compact-mode');
- document.getElementById('densityIcon').textContent = '📐';
- document.getElementById('densityText').textContent = 'Comfortable View';
- }
- });
- </script>
- 
- <!-- Enhanced Dashboard JavaScript -->
- <script src="/js/teacher-dashboard-enhanced.js"></script>
+            <!-- Lesson Results -->
+            <div id="lessonResults" class="hidden">
+                <h3 class="text-2xl font-bold mb-4">📖 Available Lessons</h3>
+                <div id="lessonList"></div>
+            </div>
+
+            <!-- Teaching Variant Selector -->
+            <div id="variantSelector" class="hidden">
+                <h3 class="text-2xl font-bold mb-4">🎓 Choose Your Teaching Approach</h3>
+                <p class="text-gray-600 mb-4">Select the pedagogical approach that best suits your class:</p>
+                
+                <div class="variant-selector">
+                    <div class="variant-option" onclick="selectVariant('inquiry')">
+                        <div class="text-4xl mb-2">🔍</div>
+                        <h4 class="font-bold">Inquiry-Based</h4>
+                        <p class="text-sm text-gray-600 mt-2">Student-led discovery</p>
+                        <span class="cultural-badge">Rangatiratanga</span>
+                    </div>
+                    <div class="variant-option" onclick="selectVariant('collaborative')">
+                        <div class="text-4xl mb-2">🤝</div>
+                        <h4 class="font-bold">Collaborative</h4>
+                        <p class="text-sm text-gray-600 mt-2">Group learning</p>
+                        <span class="cultural-badge">Whanaungatanga</span>
+                    </div>
+                    <div class="variant-option" onclick="selectVariant('guided')">
+                        <div class="text-4xl mb-2">📚</div>
+                        <h4 class="font-bold">Guided Learning</h4>
+                        <p class="text-sm text-gray-600 mt-2">Teacher-led scaffolding</p>
+                        <span class="cultural-badge">Ako</span>
+                    </div>
+                    <div class="variant-option" onclick="selectVariant('project')">
+                        <div class="text-4xl mb-2">🎯</div>
+                        <h4 class="font-bold">Project-Based</h4>
+                        <p class="text-sm text-gray-600 mt-2">Extended projects</p>
+                        <span class="cultural-badge">Kotahitanga</span>
+                    </div>
+                    <div class="variant-option" onclick="selectVariant('experiential')">
+                        <div class="text-4xl mb-2">🌟</div>
+                        <h4 class="font-bold">Experiential</h4>
+                        <p class="text-sm text-gray-600 mt-2">Hands-on experience</p>
+                        <span class="cultural-badge">Manaakitanga</span>
+                    </div>
+                </div>
+
+                <div id="variantDetails" class="hidden mt-6 p-6 bg-green-50 rounded-lg"></div>
+                <button onclick="saveLessonPlan()" class="action-btn mt-4">💾 Save to My Lesson Plans</button>
+            </div>
+
+            <!-- Saved Plans -->
+            <div class="mt-8">
+                <h3 class="text-2xl font-bold mb-4">📋 My Lesson Plans</h3>
+                <div id="savedPlans"></div>
+            </div>
+        </div>
+
+        <!-- Classes Tab -->
+        <div id="classes-tab" class="dashboard-card hidden">
+            <h2 class="text-3xl font-bold mb-4">👥 My Classes</h2>
+            <button onclick="createClass()" class="action-btn mb-4">➕ Add New Class</button>
+            <div id="classList"></div>
+        </div>
+
+        <!-- Favorites Tab -->
+        <div id="favorites-tab" class="dashboard-card hidden">
+            <h2 class="text-3xl font-bold mb-4">⭐ Favorite Resources</h2>
+            <div id="favoritesList"></div>
+        </div>
+
+        <!-- AI Assistant Tab -->
+        <div id="ai-assistant-tab" class="dashboard-card hidden">
+            <h2 class="text-3xl font-bold mb-4">🤖 AI Teaching Assistant</h2>
+            <div class="bg-gray-50 rounded-lg p-6">
+                <p class="text-lg mb-4">Ask me anything about lesson planning, curriculum, or pedagogy!</p>
+                <textarea id="aiQuestion" rows="4" placeholder="e.g., How can I integrate Te Ao Māori perspectives into my maths lesson on fractions?" 
+                          class="w-full p-4 border rounded-lg mb-4"></textarea>
+                <button onclick="askAI()" class="action-btn">🚀 Ask AI</button>
+                <div id="aiResponse" class="mt-6 hidden"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        window.ENV = {
+            SUPABASE_URL: 'https://nlgldaqtubrlcqddppbq.supabase.co',
+            SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc5OTY5OTQsImV4cCI6MjA0MzU3Mjk5NH0.wScWM7v-VltrUqKDFm0BSRFH9ZjPy4oEKU5Y_gVDcRA'
+        };
+        const supabase = supabase.createClient(window.ENV.SUPABASE_URL, window.ENV.SUPABASE_ANON_KEY);
+    </script>
+
+    <!-- Load Intelligence Systems -->
+    <script src="/js/graphrag-self-evolution-engine.js"></script>
+    <script src="/js/glm-graphrag-integration.js"></script>
+    <script src="/js/cultural-intelligence-layer.js"></script>
+    <script src="/js/teaching-variant-generator.js"></script>
+
+    <script>
+        let selectedLesson = null;
+        let selectedVariant = null;
+        const teacherId = 'demo-teacher-' + Date.now(); // In production, use real auth
+
+        // Tab Switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('[id$="-tab"]').forEach(t => t.classList.add('hidden'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName + '-tab').classList.remove('hidden');
+        }
+
+        // Find Lessons from GraphRAG
+        async function findLessons() {
+            const subject = document.getElementById('subject').value;
+            const yearLevel = document.getElementById('yearLevel').value;
+            const topic = document.getElementById('topic').value;
+
+            if (!subject || !yearLevel) {
+                alert('Please select subject and year level');
+                return;
+            }
+
+            const { data, error } = await supabase
+                .from('graphrag_resources')
+                .select('*')
+                .or(`metadata->>subject.eq.${subject},title.ilike.%${topic}%`)
+                .or(`metadata->>type.eq.lesson,metadata->>type.eq.unit`)
+                .order('quality_score', { ascending: false })
+                .limit(10);
+
+            displayLessons(data || []);
+        }
+
+        function displayLessons(lessons) {
+            const container = document.getElementById('lessonList');
+            const resultsDiv = document.getElementById('lessonResults');
+            
+            resultsDiv.classList.remove('hidden');
+            
+            container.innerHTML = lessons.map(lesson => `
+                <div class="lesson-card" onclick='selectLesson(${JSON.stringify(lesson)})'>
+                    <h4 class="font-bold text-lg">${lesson.title}</h4>
+                    <p class="text-gray-600 mt-2">${lesson.content_preview?.substring(0, 150)}...</p>
+                    <div class="mt-2">
+                        <span class="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">Quality: ${lesson.quality_score}</span>
+                        ${lesson.metadata?.cultural ? '<span class="cultural-badge">Cultural</span>' : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function selectLesson(lesson) {
+            selectedLesson = lesson;
+            document.getElementById('variantSelector').classList.remove('hidden');
+            document.getElementById('variantSelector').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function selectVariant(variantType) {
+            // Remove previous selection
+            document.querySelectorAll('.variant-option').forEach(v => v.classList.remove('selected'));
+            event.target.closest('.variant-option').classList.add('selected');
+            
+            selectedVariant = variantType;
+            
+            // Show variant details
+            const details = {
+                inquiry: 'Students lead learning through questions. Promotes critical thinking and autonomy (Rangatiratanga).',
+                collaborative: 'Group work and peer learning. Builds relationships and community (Whanaungatanga).',
+                guided: 'Teacher scaffolds learning with cultural context. Reciprocal teaching relationship (Ako).',
+                project: 'Extended projects with real-world impact. Unity through shared purpose (Kotahitanga).',
+                experiential: 'Hands-on experiences and reflection. Generous learning opportunities (Manaakitanga).'
+            };
+            
+            const detailsDiv = document.getElementById('variantDetails');
+            detailsDiv.classList.remove('hidden');
+            detailsDiv.innerHTML = `
+                <h4 class="font-bold text-xl mb-2">${variantType.charAt(0).toUpperCase() + variantType.slice(1)} Approach Selected</h4>
+                <p class="text-gray-700">${details[variantType]}</p>
+            `;
+        }
+
+        async function saveLessonPlan() {
+            if (!selectedLesson || !selectedVariant) {
+                alert('Please select a lesson and teaching approach');
+                return;
+            }
+
+            const { data, error } = await supabase
+                .from('teacher_lesson_plans')
+                .insert({
+                    teacher_id: teacherId,
+                    lesson_resource_path: selectedLesson.file_path,
+                    teaching_variant: selectedVariant,
+                    class_context: {
+                        subject: document.getElementById('subject').value,
+                        year_level: document.getElementById('yearLevel').value
+                    },
+                    status: 'draft'
+                });
+
+            if (!error) {
+                alert('✅ Lesson plan saved!');
+                loadSavedPlans();
+            }
+        }
+
+        async function loadSavedPlans() {
+            const { data } = await supabase
+                .from('teacher_lesson_plans')
+                .select('*')
+                .eq('teacher_id', teacherId)
+                .order('created_at', { ascending: false });
+
+            const container = document.getElementById('savedPlans');
+            container.innerHTML = (data || []).map(plan => `
+                <div class="lesson-card">
+                    <h4 class="font-bold">${plan.lesson_resource_path}</h4>
+                    <p class="text-sm text-gray-600">Approach: ${plan.teaching_variant}</p>
+                    <p class="text-sm text-gray-600">Created: ${new Date(plan.created_at).toLocaleDateString()}</p>
+                </div>
+            `).join('') || '<p class="text-gray-600">No saved plans yet. Create one above!</p>';
+        }
+
+        async function generateWithAI() {
+            const topic = document.getElementById('topic').value;
+            const subject = document.getElementById('subject').value;
+            const yearLevel = document.getElementById('yearLevel').value;
+
+            if (!topic || !subject || !yearLevel) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            alert('🤖 AI is generating a lesson... (this will take 10-20 seconds)');
+            
+            try {
+                const result = await window.GLMGraphRAG.generateTeachingContent(topic, {
+                    yearLevel,
+                    subject,
+                    culturalContext: true,
+                    teachingApproach: 'guided'
+                });
+
+                alert('✅ AI lesson generated! Check the results.');
+                console.log(result);
+            } catch (error) {
+                alert('Error generating lesson: ' + error.message);
+            }
+        }
+
+        async function askAI() {
+            const question = document.getElementById('aiQuestion').value;
+            const responseDiv = document.getElementById('aiResponse');
+            
+            if (!question) {
+                alert('Please enter a question');
+                return;
+            }
+
+            responseDiv.classList.remove('hidden');
+            responseDiv.innerHTML = '<p class="text-gray-600">🤖 AI is thinking...</p>';
+
+            try {
+                const answer = await window.GLMGraphRAG.callGLM(question, { temperature: 0.7 });
+                responseDiv.innerHTML = `<div class="bg-white p-6 rounded-lg">${answer}</div>`;
+            } catch (error) {
+                responseDiv.innerHTML = `<p class="text-red-600">Error: ${error.message}</p>`;
+            }
+        }
+
+        function createClass() {
+            alert('Class creation feature coming soon!');
+        }
+
+        // Load saved plans on page load
+        window.addEventListener('load', () => {
+            loadSavedPlans();
+        });
+    </script>
 </body>
 </html>
-
-
