@@ -107,13 +107,13 @@ def detect_relationships(resources):
             # Add relationship if detected
             if rel_type and strength > 0.5:
                 relationships.append({
-                    'source_id': resource1['id'],
-                    'target_id': resource2['id'],
+                    'source_path': resource1['path'],
+                    'target_path': resource2['path'],
                     'relationship_type': rel_type,
-                    'confidence_score': strength,
+                    'confidence': float(strength),
                     'metadata': {
-                        'source_path': resource1['path'],
-                        'target_path': resource2['path'],
+                        'source_id': str(resource1['id']),
+                        'target_id': str(resource2['id']),
                         'source_title': resource1.get('title'),
                         'target_title': resource2.get('title')
                     }
