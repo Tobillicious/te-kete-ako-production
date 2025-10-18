@@ -3,705 +3,706 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Play Te Reo Māori Wordle - Learn 20 culturally significant Māori words through an engaging word-guessing game. Educational and fun!">
     <title>🌺 Te Reo Māori Wordle | Te Kete Ako</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+ <style>
+ * {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ }
 
-        body {
-            font-family: 'Lato', Arial, sans-serif;
-            background: linear-gradient(135deg, #0f4c75 0%, #3282b8 50%, #bbe1fa 100%);
-            color: #333;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px;
-        }
+ body {
+ font-family: 'Lato', Arial, sans-serif;
+ background: linear-gradient(135deg, #0f4c75 0%, #3282b8 50%, #bbe1fa 100%);
+ color: #333;
+ min-height: 100vh;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ padding: 10px;
+ }
 
-        .game-container {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
-        }
+ .game-container {
+ background: rgba(255, 255, 255, 0.95);
+ border-radius: 20px;
+ padding: 30px;
+ box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+ backdrop-filter: blur(10px);
+ max-width: 500px;
+ width: 100%;
+ text-align: center;
+ }
 
-        .header {
-            margin-bottom: 30px;
-        }
+ .header {
+ margin-bottom: 30px;
+ }
 
-        .title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #0f4c75;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
+ .title {
+ font-size: 2.5rem;
+ font-weight: 700;
+ color: #0f4c75;
+ margin-bottom: 10px;
+ text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+ }
 
-        .subtitle {
-            color: #666;
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-        }
+ .subtitle {
+ color: #666;
+ font-size: 1.1rem;
+ margin-bottom: 20px;
+ }
 
-        .cultural-note {
-            background: linear-gradient(135deg, #e8f5e8, #f0f8f0);
-            border: 2px solid #4caf50;
-            border-radius: 12px;
-            padding: 15px;
-            margin: 20px 0;
-            font-style: italic;
-            color: #2e7d32;
-        }
+ .cultural-note {
+ background: linear-gradient(135deg, #e8f5e8, #f0f8f0);
+ border: 2px solid #4caf50;
+ border-radius: 12px;
+ padding: 15px;
+ margin: 20px 0;
+ font-style: italic;
+ color: #2e7d32;
+ }
 
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
+ .stats {
+ display: flex;
+ justify-content: space-around;
+ background: #f8f9fa;
+ border-radius: 12px;
+ padding: 15px;
+ margin-bottom: 20px;
+ }
 
-        .stat {
-            text-align: center;
-        }
+ .stat {
+ text-align: center;
+ }
 
-        .stat-number {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #0f4c75;
-        }
+ .stat-number {
+ font-size: 1.8rem;
+ font-weight: 700;
+ color: #0f4c75;
+ }
 
-        .stat-label {
-            font-size: 0.9rem;
-            color: #666;
-        }
+ .stat-label {
+ font-size: 0.9rem;
+ color: #666;
+ }
 
-        .game-board {
-            margin: 20px 0;
-        }
+ .game-board {
+ margin: 20px 0;
+ }
 
-        .board-row {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
+ .board-row {
+ display: flex;
+ justify-content: center;
+ gap: 8px;
+ margin-bottom: 8px;
+ }
 
-        .tile {
-            width: 60px;
-            height: 60px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-        }
+ .tile {
+ width: 60px;
+ height: 60px;
+ border: 2px solid #ddd;
+ border-radius: 8px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 2rem;
+ font-weight: 700;
+ text-transform: uppercase;
+ transition: all 0.3s ease;
+ }
 
-        .tile.filled {
-            border-color: #3282b8;
-            background: #f8f9fa;
-        }
+ .tile.filled {
+ border-color: #3282b8;
+ background: #f8f9fa;
+ }
 
-        .tile.correct {
-            background: #4caf50;
-            border-color: #4caf50;
-            color: white;
-            animation: flip 0.5s ease;
-        }
+ .tile.correct {
+ background: #4caf50;
+ border-color: #4caf50;
+ color: white;
+ animation: flip 0.5s ease;
+ }
 
-        .tile.present {
-            background: #ff9800;
-            border-color: #ff9800;
-            color: white;
-            animation: flip 0.5s ease;
-        }
+ .tile.present {
+ background: #ff9800;
+ border-color: #ff9800;
+ color: white;
+ animation: flip 0.5s ease;
+ }
 
-        .tile.absent {
-            background: #757575;
-            border-color: #757575;
-            color: white;
-            animation: flip 0.5s ease;
-        }
+ .tile.absent {
+ background: #757575;
+ border-color: #757575;
+ color: white;
+ animation: flip 0.5s ease;
+ }
 
-        @keyframes flip {
-            0% { transform: scaleY(1); }
-            50% { transform: scaleY(0); }
-            100% { transform: scaleY(1); }
-        }
+ @keyframes flip {
+ 0% { transform: scaleY(1); }
+ 50% { transform: scaleY(0); }
+ 100% { transform: scaleY(1); }
+ }
 
-        .keyboard {
-            margin-top: 30px;
-        }
+ .keyboard {
+ margin-top: 30px;
+ }
 
-        .keyboard-row {
-            display: flex;
-            justify-content: center;
-            gap: 6px;
-            margin-bottom: 8px;
-        }
+ .keyboard-row {
+ display: flex;
+ justify-content: center;
+ gap: 6px;
+ margin-bottom: 8px;
+ }
 
-        .key {
-            min-width: 40px;
-            height: 50px;
-            border: none;
-            border-radius: 6px;
-            background: #e0e0e0;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            padding: 0 10px;
-            text-transform: uppercase;
-        }
+ .key {
+ min-width: 40px;
+ height: 50px;
+ border: none;
+ border-radius: 6px;
+ background: #e0e0e0;
+ font-weight: 600;
+ font-size: 0.9rem;
+ cursor: pointer;
+ transition: all 0.2s ease;
+ padding: 0 10px;
+ text-transform: uppercase;
+ }
 
-        .key:hover {
-            background: #d0d0d0;
-            transform: scale(1.05);
-        }
+ .key:hover {
+ background: #d0d0d0;
+ transform: scale(1.05);
+ }
 
-        .key.wide {
-            min-width: 65px;
-        }
+ .key.wide {
+ min-width: 65px;
+ }
 
-        .key.correct {
-            background: #4caf50;
-            color: white;
-        }
+ .key.correct {
+ background: #4caf50;
+ color: white;
+ }
 
-        .key.present {
-            background: #ff9800;
-            color: white;
-        }
+ .key.present {
+ background: #ff9800;
+ color: white;
+ }
 
-        .key.absent {
-            background: #757575;
-            color: white;
-        }
+ .key.absent {
+ background: #757575;
+ color: white;
+ }
 
-        .message {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #333;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
+ .message {
+ position: fixed;
+ top: 20px;
+ left: 50%;
+ transform: translateX(-50%);
+ background: #333;
+ color: white;
+ padding: 12px 20px;
+ border-radius: 8px;
+ z-index: 1000;
+ opacity: 0;
+ transition: opacity 0.3s ease;
+ }
 
-        .message.show {
-            opacity: 1;
-        }
+ .message.show {
+ opacity: 1;
+ }
 
-        .message.error {
-            background: #f44336;
-        }
+ .message.error {
+ background: #f44336;
+ }
 
-        .message.success {
-            background: #4caf50;
-        }
+ .message.success {
+ background: #4caf50;
+ }
 
-        .word-meaning {
-            background: linear-gradient(135deg, #fff3e0, #fce4ec);
-            border: 2px solid #e91e63;
-            border-radius: 12px;
-            padding: 15px;
-            margin-top: 20px;
-            text-align: left;
-            display: none;
-        }
+ .word-meaning {
+ background: linear-gradient(135deg, #fff3e0, #fce4ec);
+ border: 2px solid #e91e63;
+ border-radius: 12px;
+ padding: 15px;
+ margin-top: 20px;
+ text-align: left;
+ display: none;
+ }
 
-        .word-meaning.show {
-            display: block;
-        }
+ .word-meaning.show {
+ display: block;
+ }
 
-        .word-meaning h3 {
-            color: #e91e63;
-            margin-bottom: 10px;
-        }
+ .word-meaning h3 {
+ color: #e91e63;
+ margin-bottom: 10px;
+ }
 
-        .share-button {
-            background: linear-gradient(135deg, #4caf50, #2e7d32);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            padding: 12px 24px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
-        }
+ .share-button {
+ background: linear-gradient(135deg, #4caf50, #2e7d32);
+ color: white;
+ border: none;
+ border-radius: 10px;
+ padding: 12px 24px;
+ font-size: 1rem;
+ font-weight: 600;
+ cursor: pointer;
+ margin-top: 15px;
+ transition: all 0.3s ease;
+ box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+ }
 
-        .share-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
-        }
+ .share-button:hover {
+ transform: translateY(-2px);
+ box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+ }
 
-        .reset-info {
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 15px;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 8px;
-        }
+ .reset-info {
+ font-size: 0.9rem;
+ color: #666;
+ margin-top: 15px;
+ padding: 10px;
+ background: #f8f9fa;
+ border-radius: 8px;
+ }
 
-        @media (max-width: 480px) {
-            .tile {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
-            }
-            
-            .title {
-                font-size: 2rem;
-            }
-            
-            .keyboard-row {
-                gap: 4px;
-            }
-            
-            .key {
-                min-width: 32px;
-                height: 45px;
-                font-size: 0.8rem;
-                padding: 0 6px;
-            }
-            
-            .key.wide {
-                min-width: 55px;
-            }
-        }
-    </style>
+ @media (max-width: 480px) {
+ .tile {
+ width: 50px;
+ height: 50px;
+ font-size: 1.5rem;
+ }
+ 
+ .title {
+ font-size: 2rem;
+ }
+ 
+ .keyboard-row {
+ gap: 4px;
+ }
+ 
+ .key {
+ min-width: 32px;
+ height: 45px;
+ font-size: 0.8rem;
+ padding: 0 6px;
+ }
+ 
+ .key.wide {
+ min-width: 55px;
+ }
+ }
+ </style>
 </head>
 
 <body>
-    <main role="main">
-    <div class="game-container">
-        <div class="header">
-            <h1 class="title">🌺 Te Reo Māori Wordle</h1>
-            <p class="subtitle">Guess the kupu Māori in 6 tries!</p>
-            <div class="cultural-note">
-                🌿 Kia ora! Each game teaches you a meaningful Te Reo Māori word. 
-                Learn the meaning after each game to deepen your cultural understanding.
-                </div>
-                </div>
+ <main role="main">
+ <div class="game-container">
+ <div class="header">
+ <h1 class="title">🌺 Te Reo Māori Wordle</h1>
+ <p class="subtitle">Guess the kupu Māori in 6 tries!</p>
+ <div class="cultural-note">
+ 🌿 Kia ora! Each game teaches you a meaningful Te Reo Māori word. 
+ Learn the meaning after each game to deepen your cultural understanding.
+ </div>
+ </div>
 
-        <div class="stats">
-            <div class="stat">
-                <div class="stat-number" id="gamesPlayed">0</div>
-                <div class="stat-label">Played</div>
-            </div>
-            <div class="stat">
-                <div class="stat-number" id="gamesWon">0</div>
-                <div class="stat-label">Won</div>
-            </div>
-            <div class="stat">
-                <div class="stat-number" id="winPercentage">0</div>
-                <div class="stat-label">Win %</div>
-        </div>
-            <div class="stat">
-                <div class="stat-number" id="currentStreak">0</div>
-                <div class="stat-label">Streak</div>
-            </div>
-        </div>
+ <div class="stats">
+ <div class="stat">
+ <div class="stat-number" id="gamesPlayed">0</div>
+ <div class="stat-label">Played</div>
+ </div>
+ <div class="stat">
+ <div class="stat-number" id="gamesWon">0</div>
+ <div class="stat-label">Won</div>
+ </div>
+ <div class="stat">
+ <div class="stat-number" id="winPercentage">0</div>
+ <div class="stat-label">Win %</div>
+ </div>
+ <div class="stat">
+ <div class="stat-number" id="currentStreak">0</div>
+ <div class="stat-label">Streak</div>
+ </div>
+ </div>
 
-        <div class="game-board" id="gameBoard"></div>
-        
-        <div class="keyboard" id="keyboard"></div>
+ <div class="game-board" id="gameBoard"></div>
+ 
+ <div class="keyboard" id="keyboard"></div>
 
-        <div class="word-meaning" id="word-meaning">
-            <h3>📖 Kupu o te Rā (Word of the Day)</h3>
-            <p><strong>Word:</strong> <span id="wordDisplay"></span></p>
-            <p><strong>Meaning:</strong> <span id="meaningDisplay"></span></p>
-            <p><strong>Example:</strong> <span id="exampleDisplay"></span></p>
-            <button class="share-button" onclick="shareResult()">Share Results 📱</button>
-            <div class="reset-info">
-                🔄 Next game starts in 24 hours, or refresh page to practice with random words!
-            </div>
-        </div>
-    </div>
+ <div class="word-meaning" id="word-meaning">
+ <h3>📖 Kupu o te Rā (Word of the Day)</h3>
+ <p><strong>Word:</strong> <span id="wordDisplay"></span></p>
+ <p><strong>Meaning:</strong> <span id="meaningDisplay"></span></p>
+ <p><strong>Example:</strong> <span id="exampleDisplay"></span></p>
+ <button class="share-button" onclick="shareResult()">Share Results 📱</button>
+ <div class="reset-info">
+ 🔄 Next game starts in 24 hours, or refresh page to practice with random words!
+ </div>
+ </div>
+ </div>
 
-    <div class="message" id="message"></div>
+ <div class="message" id="message"></div>
 
-    <script>
-        // Te Reo Māori word database with meanings and cultural context
-        const wordList = [
-            { word: 'AROHA', meaning: 'Love, compassion, empathy', example: 'Aroha atu ki a koe - Love to you' },
-            { word: 'WHAKAPAPA', meaning: 'Genealogy, connections', example: 'Ko taku whakapapa - My genealogy' },
-            { word: 'WHENUA', meaning: 'Land, placenta, country', example: 'Taku whenua - My land' },
-            { word: 'TAONGA', meaning: 'Treasure, precious thing', example: 'He taonga tēnei - This is a treasure' },
-            { word: 'MAURI', meaning: 'Life force, vital essence', example: 'Kia mauri ora - Be well' },
-            { word: 'WAIRUA', meaning: 'Spirit, soul', example: 'He wairua pai - A good spirit' },
-            { word: 'MARAE', meaning: 'Ceremonial grounds', example: 'Ki te marae - To the marae' },
-            { word: 'HONGI', meaning: 'Traditional greeting', example: 'Hongi mai - Come and hongi' },
-            { word: 'HAERE', meaning: 'Go, come, welcome', example: 'Haere mai - Welcome' },
-            { word: 'WHAANAU', meaning: 'Family, be born', example: 'Ko taku whānau - My family' },
-            { word: 'TIKANGA', meaning: 'Customs, practices', example: 'Tikanga Māori - Māori customs' },
-            { word: 'MANAAKITANGA', meaning: 'Hospitality, care', example: 'Manaakitanga pai - Good hospitality' },
-            { word: 'KAITIAKITANGA', meaning: 'Guardianship', example: 'Kaitiakitanga o te taiao - Environmental guardianship' },
-            { word: 'MOANA', meaning: 'Ocean, sea, deep water', example: 'Kei te moana mātou - We are at the ocean' },
-            { word: 'MAUNGA', meaning: 'Mountain', example: 'Te maunga - The mountain' },
-            { word: 'WAIATA', meaning: 'Song, chant', example: 'Waiata mai - Sing to us' },
-            { word: 'HANGI', meaning: 'Earth oven', example: 'Hangi kai - Earth oven food' },
-            { word: 'KORERO', meaning: 'Speech, story, talk', example: 'He kōrero pai - A good story' },
-            { word: 'MATUA', meaning: 'Parent, adult', example: 'Ko taku matua - My father' },
-            { word: 'TAMARIKI', meaning: 'Children', example: 'Ngā tamariki - The children' }
-        ];
+ <script>
+ // Te Reo Māori word database with meanings and cultural context
+ const wordList = [
+ { word: 'AROHA', meaning: 'Love, compassion, empathy', example: 'Aroha atu ki a koe - Love to you' },
+ { word: 'WHAKAPAPA', meaning: 'Genealogy, connections', example: 'Ko taku whakapapa - My genealogy' },
+ { word: 'WHENUA', meaning: 'Land, placenta, country', example: 'Taku whenua - My land' },
+ { word: 'TAONGA', meaning: 'Treasure, precious thing', example: 'He taonga tēnei - This is a treasure' },
+ { word: 'MAURI', meaning: 'Life force, vital essence', example: 'Kia mauri ora - Be well' },
+ { word: 'WAIRUA', meaning: 'Spirit, soul', example: 'He wairua pai - A good spirit' },
+ { word: 'MARAE', meaning: 'Ceremonial grounds', example: 'Ki te marae - To the marae' },
+ { word: 'HONGI', meaning: 'Traditional greeting', example: 'Hongi mai - Come and hongi' },
+ { word: 'HAERE', meaning: 'Go, come, welcome', example: 'Haere mai - Welcome' },
+ { word: 'WHAANAU', meaning: 'Family, be born', example: 'Ko taku whānau - My family' },
+ { word: 'TIKANGA', meaning: 'Customs, practices', example: 'Tikanga Māori - Māori customs' },
+ { word: 'MANAAKITANGA', meaning: 'Hospitality, care', example: 'Manaakitanga pai - Good hospitality' },
+ { word: 'KAITIAKITANGA', meaning: 'Guardianship', example: 'Kaitiakitanga o te taiao - Environmental guardianship' },
+ { word: 'MOANA', meaning: 'Ocean, sea, deep water', example: 'Kei te moana mātou - We are at the ocean' },
+ { word: 'MAUNGA', meaning: 'Mountain', example: 'Te maunga - The mountain' },
+ { word: 'WAIATA', meaning: 'Song, chant', example: 'Waiata mai - Sing to us' },
+ { word: 'HANGI', meaning: 'Earth oven', example: 'Hangi kai - Earth oven food' },
+ { word: 'KORERO', meaning: 'Speech, story, talk', example: 'He kōrero pai - A good story' },
+ { word: 'MATUA', meaning: 'Parent, adult', example: 'Ko taku matua - My father' },
+ { word: 'TAMARIKI', meaning: 'Children', example: 'Ngā tamariki - The children' }
+ ];
 
-        let targetWord;
-        let currentRow = 0;
-        let currentTile = 0;
-        let gameOver = false;
-        let guessedWords = [];
+ let targetWord;
+ let currentRow = 0;
+ let currentTile = 0;
+ let gameOver = false;
+ let guessedWords = [];
 
-        // Game statistics
-        let stats = {
-            gamesPlayed: parseInt(localStorage.getItem('gamesPlayed')) || 0,
-            gamesWon: parseInt(localStorage.getItem('gamesWon')) || 0,
-            currentStreak: parseInt(localStorage.getItem('currentStreak')) || 0,
-            maxStreak: parseInt(localStorage.getItem('maxStreak')) || 0
-        };
+ // Game statistics
+ let stats = {
+ gamesPlayed: parseInt(localStorage.getItem('gamesPlayed')) || 0,
+ gamesWon: parseInt(localStorage.getItem('gamesWon')) || 0,
+ currentStreak: parseInt(localStorage.getItem('currentStreak')) || 0,
+ maxStreak: parseInt(localStorage.getItem('maxStreak')) || 0
+ };
 
-        // Initialize game
-        function initGame() {
-            // Select random word
-            const randomIndex = Math.floor(Math.random() * wordList.length);
-            const wordData = wordList[randomIndex];
-            targetWord = wordData.word;
-            
-            console.log('Target word (for testing):', targetWord); // Remove in production
-            
-            createBoard();
-            createKeyboard();
-            updateStats();
-            
-            // Listen for keyboard input
-            document.addEventListener('keydown', handleKeyPress);
-        }
+ // Initialize game
+ function initGame() {
+ // Select random word
+ const randomIndex = Math.floor(Math.random() * wordList.length);
+ const wordData = wordList[randomIndex];
+ targetWord = wordData.word;
+ 
+ :', targetWord); // Remove in production
+ 
+ createBoard();
+ createKeyboard();
+ updateStats();
+ 
+ // Listen for keyboard input
+ document.addEventListener('keydown', handleKeyPress);
+ }
 
-        function createBoard() {
-            const board = document.getElementById('gameBoard');
-            board.innerHTML = '';
-            
-            for (let i = 0; i < 6; i++) {
-                const row = document.createElement('div');
-                row.className = 'board-row';
-                
-                for (let j = 0; j < 5; j++) {
-                    const tile = document.createElement('div');
-                    tile.className = 'tile';
-                    tile.id = `tile-${i}-${j}`;
-                    row.appendChild(tile);
-                }
-                
-                board.appendChild(row);
-            }
-        }
+ function createBoard() {
+ const board = document.getElementById('gameBoard');
+ board.innerHTML = '';
+ 
+ for (let i = 0; i < 6; i++) {
+ const row = document.createElement('div');
+ row.className = 'board-row';
+ 
+ for (let j = 0; j < 5; j++) {
+ const tile = document.createElement('div');
+ tile.className = 'tile';
+ tile.id = `tile-${i}-${j}`;
+ row.appendChild(tile);
+ }
+ 
+ board.appendChild(row);
+ }
+ }
 
-        function createKeyboard() {
-            const keyboard = document.getElementById('keyboard');
-            const keys = [
-                ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
-                ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-                ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '⌫']
-            ];
-            
-            keyboard.innerHTML = '';
-            
-            keys.forEach(row => {
-                const rowDiv = document.createElement('div');
-                rowDiv.className = 'keyboard-row';
-                
-                row.forEach(key => {
-                    const button = document.createElement('button');
-                    button.className = 'key';
-                    button.textContent = key;
-                    button.dataset.key = key;
-                    
-                    if (key === 'ENTER' || key === '⌫') {
-                        button.classList.add('wide');
-                    }
-                    
-                    button.addEventListener('click', () => handleKeyClick(key));
-                    rowDiv.appendChild(button);
-                });
-                
-                keyboard.appendChild(rowDiv);
-            });
-        }
+ function createKeyboard() {
+ const keyboard = document.getElementById('keyboard');
+ const keys = [
+ ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+ ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+ ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '⌫']
+ ];
+ 
+ keyboard.innerHTML = '';
+ 
+ keys.forEach(row => {
+ const rowDiv = document.createElement('div');
+ rowDiv.className = 'keyboard-row';
+ 
+ row.forEach(key => {
+ const button = document.createElement('button');
+ button.className = 'key';
+ button.textContent = key;
+ button.dataset.key = key;
+ 
+ if (key === 'ENTER' || key === '⌫') {
+ button.classList.add('wide');
+ }
+ 
+ button.addEventListener('click', () => handleKeyClick(key));
+ rowDiv.appendChild(button);
+ });
+ 
+ keyboard.appendChild(rowDiv);
+ });
+ }
 
-        function handleKeyPress(e) {
-            if (gameOver) return;
-            
-            const key = e.key.toUpperCase();
-            
-            if (key === 'ENTER') {
-                handleKeyClick('ENTER');
-            } else if (key === 'BACKSPACE') {
-                handleKeyClick('⌫');
-            } else if (key.match(/^[A-Z]$/)) {
-                handleKeyClick(key);
-            }
-        }
+ function handleKeyPress(e) {
+ if (gameOver) return;
+ 
+ const key = e.key.toUpperCase();
+ 
+ if (key === 'ENTER') {
+ handleKeyClick('ENTER');
+ } else if (key === 'BACKSPACE') {
+ handleKeyClick('⌫');
+ } else if (key.match(/^[A-Z]$/)) {
+ handleKeyClick(key);
+ }
+ }
 
-        function handleKeyClick(key) {
-            if (gameOver) return;
-            
-            if (key === 'ENTER') {
-                submitGuess();
-            } else if (key === '⌫') {
-                deleteLetter();
-            } else {
-                addLetter(key);
-            }
-        }
+ function handleKeyClick(key) {
+ if (gameOver) return;
+ 
+ if (key === 'ENTER') {
+ submitGuess();
+ } else if (key === '⌫') {
+ deleteLetter();
+ } else {
+ addLetter(key);
+ }
+ }
 
-        function addLetter(letter) {
-            if (currentTile < 5) {
-                const tile = document.getElementById(`tile-${currentRow}-${currentTile}`);
-                tile.textContent = letter;
-                tile.classList.add('filled');
-                currentTile++;
-            }
-        }
+ function addLetter(letter) {
+ if (currentTile < 5) {
+ const tile = document.getElementById(`tile-${currentRow}-${currentTile}`);
+ tile.textContent = letter;
+ tile.classList.add('filled');
+ currentTile++;
+ }
+ }
 
-        function deleteLetter() {
-            if (currentTile > 0) {
-                currentTile--;
-                const tile = document.getElementById(`tile-${currentRow}-${currentTile}`);
-                    tile.textContent = '';
-                    tile.classList.remove('filled');
-            }
-        }
+ function deleteLetter() {
+ if (currentTile > 0) {
+ currentTile--;
+ const tile = document.getElementById(`tile-${currentRow}-${currentTile}`);
+ tile.textContent = '';
+ tile.classList.remove('filled');
+ }
+ }
 
-        function submitGuess() {
-            if (currentTile !== 5) {
-                showMessage('Not enough letters', 'error');
-                return;
-            }
-            
-            const guess = getCurrentGuess();
-            
-            // Check if it's a valid Māori word (in our list)
-            const isValidWord = wordList.some(w => w.word === guess);
-            
-            if (!isValidWord) {
-                showMessage('Not in word list - try a Māori word!', 'error');
-                shakeTiles();
-                return;
-            }
-            
-            guessedWords.push(guess);
-            checkGuess(guess);
-            
-            if (guess === targetWord) {
-                gameOver = true;
-                stats.gamesPlayed++;
-                stats.gamesWon++;
-                stats.currentStreak++;
-                stats.maxStreak = Math.max(stats.maxStreak, stats.currentStreak);
-                saveStats();
-                
-                setTimeout(() => {
-                    showMessage('Ka rawe! (Excellent!) 🎉', 'success');
-                    revealWordMeaning();
-                }, 1500);
-            } else {
-                currentRow++;
-                currentTile = 0;
-                
-                if (currentRow === 6) {
-                    gameOver = true;
-                    stats.gamesPlayed++;
-                    stats.currentStreak = 0;
-                    saveStats();
-                    
-                setTimeout(() => {
-                        showMessage(`The word was ${targetWord}`, 'error');
-                        revealWordMeaning();
-                    }, 1500);
-                }
-            }
-            
-            updateStats();
-        }
+ function submitGuess() {
+ if (currentTile !== 5) {
+ showMessage('Not enough letters', 'error');
+ return;
+ }
+ 
+ const guess = getCurrentGuess();
+ 
+ // Check if it's a valid Māori word (in our list)
+ const isValidWord = wordList.some(w => w.word === guess);
+ 
+ if (!isValidWord) {
+ showMessage('Not in word list - try a Māori word!', 'error');
+ shakeTiles();
+ return;
+ }
+ 
+ guessedWords.push(guess);
+ checkGuess(guess);
+ 
+ if (guess === targetWord) {
+ gameOver = true;
+ stats.gamesPlayed++;
+ stats.gamesWon++;
+ stats.currentStreak++;
+ stats.maxStreak = Math.max(stats.maxStreak, stats.currentStreak);
+ saveStats();
+ 
+ setTimeout(() => {
+ showMessage('Ka rawe! (Excellent!) 🎉', 'success');
+ revealWordMeaning();
+ }, 1500);
+ } else {
+ currentRow++;
+ currentTile = 0;
+ 
+ if (currentRow === 6) {
+ gameOver = true;
+ stats.gamesPlayed++;
+ stats.currentStreak = 0;
+ saveStats();
+ 
+ setTimeout(() => {
+ showMessage(`The word was ${targetWord}`, 'error');
+ revealWordMeaning();
+ }, 1500);
+ }
+ }
+ 
+ updateStats();
+ }
 
-        function getCurrentGuess() {
-            let guess = '';
-            for (let i = 0; i < 5; i++) {
-                const tile = document.getElementById(`tile-${currentRow}-${i}`);
-                guess += tile.textContent;
-            }
-            return guess;
-        }
+ function getCurrentGuess() {
+ let guess = '';
+ for (let i = 0; i < 5; i++) {
+ const tile = document.getElementById(`tile-${currentRow}-${i}`);
+ guess += tile.textContent;
+ }
+ return guess;
+ }
 
-        function checkGuess(guess) {
-            const targetArray = targetWord.split('');
-            const guessArray = guess.split('');
-            const letterStatus = new Array(5).fill('absent');
-            const targetUsed = new Array(5).fill(false);
+ function checkGuess(guess) {
+ const targetArray = targetWord.split('');
+ const guessArray = guess.split('');
+ const letterStatus = new Array(5).fill('absent');
+ const targetUsed = new Array(5).fill(false);
 
-            // First pass: mark correct positions
-            guessArray.forEach((letter, i) => {
-                if (letter === targetArray[i]) {
-                    letterStatus[i] = 'correct';
-                    targetUsed[i] = true;
-                }
-            });
+ // First pass: mark correct positions
+ guessArray.forEach((letter, i) => {
+ if (letter === targetArray[i]) {
+ letterStatus[i] = 'correct';
+ targetUsed[i] = true;
+ }
+ });
 
-            // Second pass: mark present letters
-            guessArray.forEach((letter, i) => {
-                if (letterStatus[i] !== 'correct') {
-                    const targetIndex = targetArray.findIndex((l, idx) => 
-                        l === letter && !targetUsed[idx]
-                    );
-                    
-                    if (targetIndex !== -1) {
-                        letterStatus[i] = 'present';
-                        targetUsed[targetIndex] = true;
-                    }
-                }
-            });
-            
-            // Apply colors to tiles
-            letterStatus.forEach((status, i) => {
-                const tile = document.getElementById(`tile-${currentRow}-${i}`);
-                setTimeout(() => {
-                    tile.classList.add(status);
-                }, i * 300);
-                
-                // Update keyboard
-                const key = document.querySelector(`[data-key="${guessArray[i]}"]`);
-                if (key) {
-                    setTimeout(() => {
-                        updateKeyColor(key, status);
-                    }, i * 300);
-                }
-            });
-        }
+ // Second pass: mark present letters
+ guessArray.forEach((letter, i) => {
+ if (letterStatus[i] !== 'correct') {
+ const targetIndex = targetArray.findIndex((l, idx) => 
+ l === letter && !targetUsed[idx]
+ );
+ 
+ if (targetIndex !== -1) {
+ letterStatus[i] = 'present';
+ targetUsed[targetIndex] = true;
+ }
+ }
+ });
+ 
+ // Apply colors to tiles
+ letterStatus.forEach((status, i) => {
+ const tile = document.getElementById(`tile-${currentRow}-${i}`);
+ setTimeout(() => {
+ tile.classList.add(status);
+ }, i * 300);
+ 
+ // Update keyboard
+ const key = document.querySelector(`[data-key="${guessArray[i]}"]`);
+ if (key) {
+ setTimeout(() => {
+ updateKeyColor(key, status);
+ }, i * 300);
+ }
+ });
+ }
 
-        function updateKeyColor(keyElement, status) {
-            const currentStatus = keyElement.className.split(' ').find(c => 
-                c === 'correct' || c === 'present' || c === 'absent'
-            );
-            
-            if (!currentStatus || 
-                (status === 'correct') || 
-                (status === 'present' && currentStatus !== 'correct')) {
-                keyElement.classList.remove('correct', 'present', 'absent');
-                keyElement.classList.add(status);
-            }
-        }
+ function updateKeyColor(keyElement, status) {
+ const currentStatus = keyElement.className.split(' ').find(c => 
+ c === 'correct' || c === 'present' || c === 'absent'
+ );
+ 
+ if (!currentStatus || 
+ (status === 'correct') || 
+ (status === 'present' && currentStatus !== 'correct')) {
+ keyElement.classList.remove('correct', 'present', 'absent');
+ keyElement.classList.add(status);
+ }
+ }
 
-        function shakeTiles() {
-            for (let i = 0; i < 5; i++) {
-                const tile = document.getElementById(`tile-${currentRow}-${i}`);
-                tile.style.animation = 'shake 0.5s ease';
-                setTimeout(() => {
-                    tile.style.animation = '';
-                }, 500);
-            }
-        }
+ function shakeTiles() {
+ for (let i = 0; i < 5; i++) {
+ const tile = document.getElementById(`tile-${currentRow}-${i}`);
+ tile.style.animation = 'shake 0.5s ease';
+ setTimeout(() => {
+ tile.style.animation = '';
+ }, 500);
+ }
+ }
 
-        function showMessage(text, type = '') {
-            const message = document.getElementById('message');
-            message.textContent = text;
-            message.className = `message ${type}`;
-            message.classList.add('show');
-            
-                setTimeout(() => {
-                message.classList.remove('show');
-            }, 2000);
-        }
+ function showMessage(text, type = '') {
+ const message = document.getElementById('message');
+ message.textContent = text;
+ message.className = `message ${type}`;
+ message.classList.add('show');
+ 
+ setTimeout(() => {
+ message.classList.remove('show');
+ }, 2000);
+ }
 
-        function revealWordMeaning() {
-            const wordData = wordList.find(w => w.word === targetWord);
-            
-            document.getElementById('wordDisplay').textContent = wordData.word;
-            document.getElementById('meaningDisplay').textContent = wordData.meaning;
-            document.getElementById('exampleDisplay').textContent = wordData.example;
-            
-            const meaningDiv = document.getElementById('word-meaning');
-            setTimeout(() => {
-                meaningDiv.classList.add('show');
-            }, 500);
-        }
+ function revealWordMeaning() {
+ const wordData = wordList.find(w => w.word === targetWord);
+ 
+ document.getElementById('wordDisplay').textContent = wordData.word;
+ document.getElementById('meaningDisplay').textContent = wordData.meaning;
+ document.getElementById('exampleDisplay').textContent = wordData.example;
+ 
+ const meaningDiv = document.getElementById('word-meaning');
+ setTimeout(() => {
+ meaningDiv.classList.add('show');
+ }, 500);
+ }
 
-        function updateStats() {
-            document.getElementById('gamesPlayed').textContent = stats.gamesPlayed;
-            document.getElementById('gamesWon').textContent = stats.gamesWon;
-            const winPct = stats.gamesPlayed > 0 
-                ? Math.round((stats.gamesWon / stats.gamesPlayed) * 100)
-                : 0;
-            document.getElementById('winPercentage').textContent = winPct;
-            document.getElementById('currentStreak').textContent = stats.currentStreak;
-        }
+ function updateStats() {
+ document.getElementById('gamesPlayed').textContent = stats.gamesPlayed;
+ document.getElementById('gamesWon').textContent = stats.gamesWon;
+ const winPct = stats.gamesPlayed > 0 
+ ? Math.round((stats.gamesWon / stats.gamesPlayed) * 100)
+ : 0;
+ document.getElementById('winPercentage').textContent = winPct;
+ document.getElementById('currentStreak').textContent = stats.currentStreak;
+ }
 
-        function saveStats() {
-            localStorage.setItem('gamesPlayed', stats.gamesPlayed);
-            localStorage.setItem('gamesWon', stats.gamesWon);
-            localStorage.setItem('currentStreak', stats.currentStreak);
-            localStorage.setItem('maxStreak', stats.maxStreak);
-        }
+ function saveStats() {
+ localStorage.setItem('gamesPlayed', stats.gamesPlayed);
+ localStorage.setItem('gamesWon', stats.gamesWon);
+ localStorage.setItem('currentStreak', stats.currentStreak);
+ localStorage.setItem('maxStreak', stats.maxStreak);
+ }
 
-        function shareResult() {
-            const winText = guessedWords.length < 6 && guessedWords[guessedWords.length - 1] === targetWord
-                ? `Te Reo Māori Wordle ${guessedWords.length}/6\n\n`
-                : `Te Reo Māori Wordle X/6\n\n`;
-            
-            const wordData = wordList.find(w => w.word === targetWord);
-            const shareText = winText + 
-                `Today's kupu: ${wordData.word}\n` +
-                `Meaning: ${wordData.meaning}\n` +
-                `\nPlay at: ${window.location.href}`;
-            
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Te Reo Māori Wordle',
-                    text: shareText
-                });
-            } else if (navigator.clipboard) {
-                navigator.clipboard.writeText(shareText);
-                showMessage('Results copied to clipboard! 📋', 'success');
-            }
-        }
+ function shareResult() {
+ const winText = guessedWords.length < 6 && guessedWords[guessedWords.length - 1] === targetWord
+ ? `Te Reo Māori Wordle ${guessedWords.length}/6\n\n`
+ : `Te Reo Māori Wordle X/6\n\n`;
+ 
+ const wordData = wordList.find(w => w.word === targetWord);
+ const shareText = winText + 
+ `Today's kupu: ${wordData.word}\n` +
+ `Meaning: ${wordData.meaning}\n` +
+ `\nPlay at: ${window.location.href}`;
+ 
+ if (navigator.share) {
+ navigator.share({
+ title: 'Te Reo Māori Wordle',
+ text: shareText
+ });
+ } else if (navigator.clipboard) {
+ navigator.clipboard.writeText(shareText);
+ showMessage('Results copied to clipboard! 📋', 'success');
+ }
+ }
 
-        // Add shake animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                25% { transform: translateX(-10px); }
-                75% { transform: translateX(10px); }
-            }
-        `;
-        document.head.appendChild(style);
+ // Add shake animation
+ const style = document.createElement('style');
+ style.textContent = `
+ @keyframes shake {
+ 0%, 100% { transform: translateX(0); }
+ 25% { transform: translateX(-10px); }
+ 75% { transform: translateX(10px); }
+ }
+ `;
+ document.head.appendChild(style);
 
-        // Start game when page loads
-            initGame();
-    </script>
-    </main>
-    </body>
+ // Start game when page loads
+ initGame();
+ </script>
+ </main>
+ </body>
 </html>

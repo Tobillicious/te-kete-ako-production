@@ -1,205 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kēmu Ako | Learning Games - Te Kete Ako</title>
-    <meta name="description" content="Fun, educational games that build language skills. Te Reo Wordle, Spelling Bee, and more!">
-    
-    <link rel="stylesheet" href="/css/te-kete-unified-design-system.css">
-    <link rel="stylesheet" href="/css/component-library.css">
-    
-    <style>
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-        
-        .game-card {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-        
-        .game-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-        }
-        
-        .game-icon {
-            font-size: 3.5rem;
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-        
-        .game-title {
-            font-size: 1.5rem;
-            color: #1a4d2e;
-            margin-bottom: 0.5rem;
-        }
-        
-        .game-description {
-            color: #546e7a;
-            margin-bottom: 1rem;
-        }
-        
-        .game-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 1rem;
-            border-top: 1px solid #eee;
-        }
-        
-        .game-badge {
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            color: white;
-        }
-        
-        .badge-maori { background: #1a4d2e; }
-        .badge-english { background: #3b82f6; }
-        .badge-vocab { background: #f59e0b; }
-        .badge-timed { background: #ef4444; }
-        .badge-quick { background: #8b5cf6; }
-        
-        .play-arrow {
-            color: #d4a574;
-            font-weight: 600;
-        }
-        
-        .hero-games {
-            background: linear-gradient(135deg, #1a4d2e 0%, #2d7a4f 100%);
-            color: white;
-            padding: 4rem 2rem;
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        
-        .hero-games h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-        
-        .hero-games p {
-            font-size: 1.3rem;
-            max-width: 700px;
-            margin: 0 auto;
-            opacity: 0.9;
-        }
-    </style>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Kēmu Ako | Learning Games - Te Kete Ako</title>
+ <meta name="description" content="Fun, educational games that build language skills. Te Reo Wordle, Spelling Bee, and more!">
+ 
+ <link rel="stylesheet" href="/css/te-kete-unified-design-system.css">
+ <link rel="stylesheet" href="/css/component-library.css">
+ 
+ <style>
+ .games-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+ gap: 2rem;
+ margin: 3rem 0;
+ }
+ 
+ .game-card {
+ background: white;
+ border-radius: 12px;
+ padding: 2rem;
+ box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+ transition: transform 0.2s, box-shadow 0.2s;
+ text-decoration: none;
+ color: inherit;
+ display: block;
+ }
+ 
+ .game-card:hover {
+ transform: translateY(-4px);
+ box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+ }
+ 
+ .game-icon {
+ font-size: 3.5rem;
+ text-align: center;
+ margin-bottom: 1rem;
+ }
+ 
+ .game-title {
+ font-size: 1.5rem;
+ color: #1a4d2e;
+ margin-bottom: 0.5rem;
+ }
+ 
+ .game-description {
+ color: #546e7a;
+ margin-bottom: 1rem;
+ }
+ 
+ .game-meta {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ padding-top: 1rem;
+ border-top: 1px solid #eee;
+ }
+ 
+ .game-badge {
+ padding: 0.25rem 0.75rem;
+ border-radius: 12px;
+ font-size: 0.85rem;
+ color: white;
+ }
+ 
+ .badge-maori { background: #1a4d2e; }
+ .badge-english { background: #3b82f6; }
+ .badge-vocab { background: #f59e0b; }
+ .badge-timed { background: #ef4444; }
+ .badge-quick { background: #8b5cf6; }
+ 
+ .play-arrow {
+ color: #d4a574;
+ font-weight: 600;
+ }
+ 
+ .hero-games {
+ background: linear-gradient(135deg, #1a4d2e 0%, #2d7a4f 100%);
+ color: white;
+ padding: 4rem 2rem;
+ text-align: center;
+ margin-bottom: 3rem;
+ }
+ 
+ .hero-games h1 {
+ font-size: 3rem;
+ margin-bottom: 1rem;
+ }
+ 
+ .hero-games p {
+ font-size: 1.3rem;
+ max-width: 700px;
+ margin: 0 auto;
+ opacity: 0.9;
+ }
+ </style>
 </head>
 <body>
 
 <!-- Breadcrumbs -->
 <nav style="max-width: 1200px; margin: 0 auto 2rem; padding: 1rem 2rem; background: #f9fafb; border-radius: 8px; margin-top: 2rem;">
-    <a href="/" style="text-decoration: none; color: var(--color-primary, #1a4d2e); font-weight: 500;">🏠 Home</a> 
-    <span style="color: var(--color-text-secondary, #546e7a);">→</span> 
-    <span style="color: var(--color-text, #2c3e50); font-weight: 600;">🎮 Learning Games</span>
+ <a href="/" style="text-decoration: none; color: var(--color-primary, #1a4d2e); font-weight: 500;">🏠 Home</a> 
+ <span style="color: var(--color-text-secondary, #546e7a);">→</span> 
+ <span style="color: var(--color-text, #2c3e50); font-weight: 600;">🎮 Learning Games</span>
 </nav>
 
 <!-- Hero Section -->
 <div class="hero-games">
-    <h1>🎮 Kēmu Ako | Learning Games</h1>
-    <p>Brain breaks that build skills! Fun, engaging games that reinforce vocabulary, spelling, and quick thinking.</p>
+ <h1>🎮 Kēmu Ako | Learning Games</h1>
+ <p>Brain breaks that build skills! Fun, engaging games that reinforce vocabulary, spelling, and quick thinking.</p>
 </div>
 
 <main role="main" class="container">
-    
-    <!-- Games Grid -->
-    <div class="games-grid">
-        
-        <!-- Te Reo Wordle (5-Letter) -->
-        <a href="/games/te-reo-wordle.html" class="game-card">
-            <div class="game-icon">🇳🇿</div>
-            <h3 class="game-title">Te Reo Wordle</h3>
-            <p class="game-description">Guess the 5-letter kupu Māori! 20 culturally significant words to discover.</p>
-            <div class="game-meta">
-                <span class="game-badge badge-maori">Te Reo Māori</span>
-                <span class="play-arrow">Play →</span>
-            </div>
-        </a>
-        
-        <!-- Te Reo Wordle (6-Letter) -->
-        <a href="/games/te-reo-wordle-6.html" class="game-card">
-            <div class="game-icon">🎯</div>
-            <h3 class="game-title">Te Reo Wordle (6-Letter)</h3>
-            <p class="game-description">Advanced challenge! Longer kupu Māori for experienced learners.</p>
-            <div class="game-meta">
-                <span class="game-badge badge-maori">Advanced</span>
-                <span class="play-arrow">Play →</span>
-            </div>
-        </a>
-        
-        <!-- English Wordle -->
-        <a href="/games/english-wordle.html" class="game-card">
-            <div class="game-icon">📝</div>
-            <h3 class="game-title">English Wordle</h3>
-            <p class="game-description">Classic 5-letter word-guessing game. Perfect for vocabulary building!</p>
-            <div class="game-meta">
-                <span class="game-badge badge-english">English</span>
-                <span class="play-arrow">Play →</span>
-            </div>
-        </a>
-        
-        <!-- Spelling Bee -->
-        <a href="/games/spelling-bee.html" class="game-card">
-            <div class="game-icon">🐝</div>
-            <h3 class="game-title">Spelling Bee</h3>
-            <p class="game-description">How many words can you make from 7 letters? Challenge yourself!</p>
-            <div class="game-meta">
-                <span class="game-badge badge-vocab">Vocabulary</span>
-                <span class="play-arrow">Play →</span>
-            </div>
-        </a>
-        
-        <!-- Categories -->
-        <a href="/games/categories.html" class="game-card">
-            <div class="game-icon">📋</div>
-            <h3 class="game-title">Categories</h3>
-            <p class="game-description">Beat the clock! Think fast and fill out categories with words that start with a random letter.</p>
-            <div class="game-meta">
-                <span class="game-badge badge-quick">Quick Thinking</span>
-                <span class="play-arrow">Play →</span>
-            </div>
-        </a>
-        
-        <!-- Countdown Letters -->
-        <a href="/games/countdown-letters.html" class="game-card">
-            <div class="game-icon">⏱️</div>
-            <h3 class="game-title">Countdown Letters</h3>
-            <p class="game-description">Make the longest word you can from 9 random letters in 30 seconds!</p>
-            <div class="game-meta">
-                <span class="game-badge badge-timed">Timed Challenge</span>
-                <span class="play-arrow">Play →</span>
-            </div>
-        </a>
-        
-    </div>
-    
-    <!-- available through teacher dashboard Section -->
-    <div style="text-align: center; margin: 4rem 0; padding: 3rem; background: #f5f5f5; border-radius: 12px;">
-        <h2 style="margin-bottom: 1rem;">✨ More Games available through teacher dashboard!</h2>
-        <p style="color: #546e7a; font-size: 1.1rem;">
-            Math challenges, science quizzes, and more Te Reo games are in development.
-        </p>
-    </div>
-    
-    <!-- Back to Home -->
-    <div style="text-align: center; margin: 3rem 0;">
-        <a href="/" style="display: inline-block; padding: 1rem 2rem; background: #1a4d2e; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
-            ← Back to Home
-        </a>
-    </div>
-    
+ 
+ <!-- Games Grid -->
+ <div class="games-grid">
+ 
+ <!-- Te Reo Wordle (5-Letter) -->
+ <a href="/games/te-reo-wordle.html" class="game-card">
+ <div class="game-icon">🇳🇿</div>
+ <h3 class="game-title">Te Reo Wordle</h3>
+ <p class="game-description">Guess the 5-letter kupu Māori! 20 culturally significant words to discover.</p>
+ <div class="game-meta">
+ <span class="game-badge badge-maori">Te Reo Māori</span>
+ <span class="play-arrow">Play →</span>
+ </div>
+ </a>
+ 
+ <!-- Te Reo Wordle (6-Letter) -->
+ <a href="/games/te-reo-wordle-6.html" class="game-card">
+ <div class="game-icon">🎯</div>
+ <h3 class="game-title">Te Reo Wordle (6-Letter)</h3>
+ <p class="game-description">Advanced challenge! Longer kupu Māori for experienced learners.</p>
+ <div class="game-meta">
+ <span class="game-badge badge-maori">Advanced</span>
+ <span class="play-arrow">Play →</span>
+ </div>
+ </a>
+ 
+ <!-- English Wordle -->
+ <a href="/games/english-wordle.html" class="game-card">
+ <div class="game-icon">📝</div>
+ <h3 class="game-title">English Wordle</h3>
+ <p class="game-description">Classic 5-letter word-guessing game. Perfect for vocabulary building!</p>
+ <div class="game-meta">
+ <span class="game-badge badge-english">English</span>
+ <span class="play-arrow">Play →</span>
+ </div>
+ </a>
+ 
+ <!-- Spelling Bee -->
+ <a href="/games/spelling-bee.html" class="game-card">
+ <div class="game-icon">🐝</div>
+ <h3 class="game-title">Spelling Bee</h3>
+ <p class="game-description">How many words can you make from 7 letters? Challenge yourself!</p>
+ <div class="game-meta">
+ <span class="game-badge badge-vocab">Vocabulary</span>
+ <span class="play-arrow">Play →</span>
+ </div>
+ </a>
+ 
+ <!-- Categories -->
+ <a href="/games/categories.html" class="game-card">
+ <div class="game-icon">📋</div>
+ <h3 class="game-title">Categories</h3>
+ <p class="game-description">Beat the clock! Think fast and fill out categories with words that start with a random letter.</p>
+ <div class="game-meta">
+ <span class="game-badge badge-quick">Quick Thinking</span>
+ <span class="play-arrow">Play →</span>
+ </div>
+ </a>
+ 
+ <!-- Countdown Letters -->
+ <a href="/games/countdown-letters.html" class="game-card">
+ <div class="game-icon">⏱️</div>
+ <h3 class="game-title">Countdown Letters</h3>
+ <p class="game-description">Make the longest word you can from 9 random letters in 30 seconds!</p>
+ <div class="game-meta">
+ <span class="game-badge badge-timed">Timed Challenge</span>
+ <span class="play-arrow">Play →</span>
+ </div>
+ </a>
+ 
+ </div>
+ 
+ <!-- available through teacher dashboard Section -->
+ <div style="text-align: center; margin: 4rem 0; padding: 3rem; background: #f5f5f5; border-radius: 12px;">
+ <h2 style="margin-bottom: 1rem;">✨ More Games available through teacher dashboard!</h2>
+ <p style="color: #546e7a; font-size: 1.1rem;">
+ Math challenges, science quizzes, and more Te Reo games are in development.
+ </p>
+ </div>
+ 
+ <!-- Back to Home -->
+ <div style="text-align: center; margin: 3rem 0;">
+ <a href="/" style="display: inline-block; padding: 1rem 2rem; background: #1a4d2e; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
+ ← Back to Home
+ </a>
+ </div>
+ 
 </main>
 
 </body>
