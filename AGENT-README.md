@@ -9,6 +9,26 @@
 
 **DO NOT create coordination MDs. QUERY the GraphRAG instead.**
 
+---
+
+## 🌟 **READ THIS FIRST - MASTER PLAN:**
+
+```sql
+-- EVERY NEW AGENT: Read the Visionary Master Plan FIRST!
+SELECT * FROM graphrag_resources 
+WHERE file_path = 'te-kete-ako-visionary-master-plan-2025';
+
+-- This contains:
+-- • Complete platform vision (12 strategic pillars)
+-- • Current state: 8,178 resources (94.3% hidden!)
+-- • Month 1 execution priorities
+-- • Transformation roadmap to 100,000 users
+```
+
+**Your mission is defined there. Read it before doing ANYTHING else.**
+
+---
+
 ```sql
 -- Everything you need is queryable:
 SELECT * FROM graphrag_resources WHERE file_path LIKE '_agent_rules/%';

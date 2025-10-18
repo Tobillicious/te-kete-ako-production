@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <meta name="theme-color" content="#1b4332">
+ <link rel="stylesheet" href="/components/badge-system.html">
+ <link rel="stylesheet" href="/css/te-kete-professional.css">
+ <link rel="stylesheet" href="/css/component-library.css"/>
+ <link rel="stylesheet" href="/css/animations-professional.css"/>
+ <link rel="stylesheet" href="/css/beautiful-navigation.css"/>
+ <link rel="stylesheet" href="/css/mobile-optimization.css"/>
+ <link rel="stylesheet" href="/css/print.css"/>
+ <title>Wordsearch: Unit 7 Lesson 2 | Years 7-10</title>
+ <style>
+ .wordsearch-grid{display:grid;grid-template-columns:repeat(14,1fr);gap:3px;max-width:600px;margin:1rem auto;font-family:'Courier New',monospace;-webkit-user-select:none;-moz-user-select:none;user-select:none}
+ .wordsearch-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border:2px solid #1a4d2e;font-weight:bold;font-size:0.9rem;background:white;cursor:pointer;transition:all 0.2s;border-radius:4px}
+ .wordsearch-cell:hover{background:#e8f5e9;transform:scale(1.05)}
+ .wordsearch-cell.selected{background:#ffd700;border-color:#f59e0b}
+ .wordsearch-cell.found{background:#1a4d2e;color:white}
+ .word-list{columns:2;column-gap:2rem;margin:1rem 0}
+ .word-list-item{margin-bottom:0.75rem;padding:0.5rem;background:#f8fafc;border-radius:6px;border-left:4px solid #1a4d2e;cursor:pointer;transition:0.2s}
+ .word-list-item:hover{background:#e8f5e9}
+ .word-list-item.found{background:#d1fae5;text-decoration:line-through;opacity:0.7}
+ .word-name{font-weight:600;color:#1a4d2e;display:block}
+ .word-definition{font-size:0.85rem;color:#546e7a;font-style:italic}
+ .progress-section{background:linear-gradient(135deg,#1a4d2e,#2d6a4f);color:white;padding:1.5rem;border-radius:12px;margin:1.5rem 0;text-align:center}
+ .progress-bar{background:rgba(255,255,255,0.2);height:12px;border-radius:6px;margin:1rem 0}
+ .progress-fill{background:#ffd700;height:100%;transition:0.5s}
+ .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem}
+ .stat-item{background:rgba(255,255,255,0.1);padding:0.75rem;border-radius:8px}
+ .stat-number{font-size:1.5rem;font-weight:700}
+ .stat-label{font-size:0.85rem;opacity:0.9}
+ .definition-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:2rem;border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,0.3);max-width:500px;width:90%;z-index:1000;display:none}
+ .definition-popup.active{display:block;animation:popupFadeIn 0.3s}
+ @keyframes popupFadeIn{from{opacity:0}to{opacity:1}}
+ .popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;display:none}
+ .popup-overlay.active{display:block}
+ .celebration{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:4rem;pointer-events:none;opacity:0;animation:celebrate 1s}
+ @keyframes celebrate{0%{opacity:0;transform:translate(-50%,-50%) scale(0.5)}50%{opacity:1;scale:1.2}100%{opacity:0}}
+ .btn{padding:0.75rem 1.5rem;font-weight:600;border:none;border-radius:8px;cursor:pointer;transition:0.3s}
+ .btn-primary{background:#1a4d2e;color:white}
+ .btn-primary:hover{background:#2d6a4f;transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.2)}
+ .btn-secondary{background:#d4a574;color:white}
+ @media print{@page{size:A4;margin:10mm}.no-print{display:none!important}.wordsearch-grid{max-width:180mm;gap:1px}.wordsearch-cell{font-size:8pt;border:1pt solid #1a4d2e;background:white!important;color:black!important}.word-list{font-size:8pt;columns:3}.word-definition{display:none}}
+ </style>
+</head>
+<body>
+ <script>fetch('/components/navigation-standard.html').then(r=>r.text()).then(h=>{const d=document.createElement('div');d.innerHTML=h;document.body.insertBefore(d.firstElementChild,document.body.firstChild)});</script>
+ <header class="site-header no-print">
+ <div class="nav-container">
+ <a href="/index.html" class="nav-brand">Te Kete Ako</a>
+ <nav class="main-nav">
+ <ul>
+ <li><a href="/unit-plans.html" class="nav-link"><span class="nav-icon">📚</span><span class="nav-text-en">Unit Plans</span></a></li>
+ <li><a href="/lessons.html" class="nav-link"><span class="nav-icon">🎓</span><span class="nav-text-en">Lessons</span></a></li>
+ <li><a href="/handouts.html" class="nav-link"><span class="nav-icon">📄</span><span class="nav-text-en">Handouts</span></a></li>
+ </ul>
+ </nav>
+ </div>
+ </header>
+
+ <main role="main" class="container">
+ <h1 class="wiley-hero-title no-print">🔍 Unit 7 Lesson 2 - Vocabulary Wordsearch</h1>
+
+ <section class="cultural-integration no-print" style="background:linear-gradient(135deg,#fff7ed,#ffedd5);padding:2rem;border-radius:12px;margin:2rem 0;border-left:4px solid var(--color-accent)">
+ <div style="background:white;padding:1.5rem;border-radius:8px;text-align:center;border:2px solid var(--color-accent)">
+ <h3 style="font-size:0.9rem;color:#546e7a;margin:0 0 0.5rem;text-transform:uppercase">Whakataukī</h3>
+ <p style="font-size:1.3rem;font-style:italic;color:#1a4d2e;margin:0.5rem 0;font-weight:500">"Toitū te whenua, toitū te tangata"</p>
+ <p style="font-size:1rem;color:#546e7a">"If the land is well, the people are well"</p>
+ </div>
+ </section>
+
+ <div class="progress-section no-print">
+ <h3 style="margin-top:0">📊 Progress</h3>
+ <div class="stats-grid">
+ <div class="stat-item"><div class="stat-number" id="words-found">0</div><div class="stat-label">Found</div></div>
+ <div class="stat-item"><div class="stat-number" id="total-words">15</div><div class="stat-label">Total</div></div>
+ <div class="stat-item"><div class="stat-number" id="time-elapsed">0:00</div><div class="stat-label">Time</div></div>
+ </div>
+ <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+ <p id="completion-message"></p>
+ </div>
+
+ <section style="background:white;padding:2rem;border-radius:12px;margin:2rem 0;box-shadow:0 2px 8px rgba(0,0,0,0.1)">
+ <h2 class="wiley-section-title">🔍 Find the Vocabulary</h2>
+ <div class="wordsearch-grid" id="wordsearch-grid"><div class="wordsearch-cell">U</div><div class="wordsearch-cell">A</div><div class="wordsearch-cell">C</div><div class="wordsearch-cell">C</div><div class="wordsearch-cell">U</div><div class="wordsearch-cell">R</div><div class="wordsearch-cell">R</div><div class="wordsearch-cell">I</div><div class="wordsearch-cell">C</div><div class="wordsearch-cell">U</div><div class="wordsearch-cell">L</div><div class="wordsearch-cell">U</div><div class="wordsearch-cell">M</div><div class="wordsearch-cell">L</div><div class="wordsearch-cell">S</div><div class="wordsearch-cell">C</div><div class="wordsearch-cell">H</div><div class="wordsearch-cell">U</div><div class="wordsearch-cell">X</div><div class="wordsearch-cell">T</div><div class="wordsearch-cell">E</div><div class="wordsearch-cell">A</div><div class="wordsearch-cell">C</div><div class="wordsearch-cell">H</div><div class="wordsearch-cell">E</div><div class="wordsearch-cell">R</div><div class="wordsearch-cell">F</div><div class="wordsearch-cell">H</div><div class="wordsearch-cell">M</div><div class="wordsearch-cell">H</div><div class="wordsearch-cell">Y</div><div class="wordsearch-cell">O</div><div class="wordsearch-cell">S</div><div class="wordsearch-cell">O</div><div class="wordsearch-cell">V</div><div class="wordsearch-cell">T</div><div class="wordsearch-cell">E</div><div class="wordsearch-cell">H</div><div class="wordsearch-cell">I</div><div class="wordsearch-cell">X</div><div class="wordsearch-cell">S</div><div class="wordsearch-cell">D</div><div class="wordsearch-cell">C</div><div class="wordsearch-cell">I</div><div class="wordsearch-cell">K</div><div class="wordsearch-cell">B</div><div class="wordsearch-cell">K</div><div class="wordsearch-cell">T</div><div class="wordsearch-cell">S</div><div class="wordsearch-cell">C</div><div class="wordsearch-cell">O</div><div class="wordsearch-cell">N</div><div class="wordsearch-cell">N</div><div class="wordsearch-cell">E</div><div class="wordsearch-cell">C</div><div class="wordsearch-cell">T</div><div class="wordsearch-cell">R</div><div class="wordsearch-cell">E</div><div class="wordsearch-cell">L</div><div class="wordsearch-cell">J</div><div class="wordsearch-cell">T</div><div class="wordsearch-cell">X</div><div class="wordsearch-cell">O</div><div class="wordsearch-cell">J</div><div class="wordsearch-cell">Y</div><div class="wordsearch-cell">W</div><div class="wordsearch-cell">A</div><div class="wordsearch-cell">M</div><div class="wordsearch-cell">U</div><div class="wordsearch-cell">G</div><div class="wordsearch-cell">S</div><div class="wordsearch-cell">V</div><div class="wordsearch-cell">E</div><div class="wordsearch-cell">E</div><div class="wordsearch-cell">W</div><div class="wordsearch-cell">W</div><div class="wordsearch-cell">U</div><div class="wordsearch-cell">M</div><div class="wordsearch-cell">V</div><div class="wordsearch-cell">V</div><div class="wordsearch-cell">B</div><div class="wordsearch-cell">S</div><div class="wordsearch-cell">N</div><div class="wordsearch-cell">C</div><div class="wordsearch-cell">U</div><div class="wordsearch-cell">E</div><div class="wordsearch-cell">A</div><div class="wordsearch-cell">C</div><div class="wordsearch-cell">J</div><div class="wordsearch-cell">F</div><div class="wordsearch-cell">O</div><div class="wordsearch-cell">H</div><div class="wordsearch-cell">I</div><div class="wordsearch-cell">H</div><div class="wordsearch-cell">D</div><div class="wordsearch-cell">I</div><div class="wordsearch-cell">I</div><div class="wordsearch-cell">O</div><div class="wordsearch-cell">G</div><div class="wordsearch-cell">M</div><div class="wordsearch-cell">R</div><div class="wordsearch-cell">T</div><div class="wordsearch-cell">D</div><div class="wordsearch-cell">J</div><div class="wordsearch-cell">W</div><div class="wordsearch-cell">R</div><div class="wordsearch-cell">A</div><div class="wordsearch-cell">Z</div><div class="wordsearch-cell">N</div><div class="wordsearch-cell">R</div><div class="wordsearch-cell">O</div><div class="wordsearch-cell">N</div><div class="wordsearch-cell">G</div><div class="wordsearch-cell">E</div><div class="wordsearch-cell">N</div><div class="wordsearch-cell">I</div><div class="wordsearch-cell">L</div><div class="wordsearch-cell">E</div><div class="wordsearch-cell">F</div><div class="wordsearch-cell">A</div><div class="wordsearch-cell">K</div><div class="wordsearch-cell">R</div><div class="wordsearch-cell">E</div><div class="wordsearch-cell">K</div><div class="wordsearch-cell">C</div><div class="wordsearch-cell">S</div><div class="wordsearch-cell">E</div><div class="wordsearch-cell">N</div><div class="wordsearch-cell">I</div><div class="wordsearch-cell">V</div><div class="wordsearch-cell">Q</div><div class="wordsearch-cell">M</div><div class="wordsearch-cell">R</div><div class="wordsearch-cell">A</div><div class="wordsearch-cell">A</div><div class="wordsearch-cell">I</div><div class="wordsearch-cell">O</div><div class="wordsearch-cell">Y</div><div class="wordsearch-cell">Q</div><div class="wordsearch-cell">I</div><div class="wordsearch-cell">S</div><div class="wordsearch-cell">T</div><div class="wordsearch-cell">N</div><div class="wordsearch-cell">E</div><div class="wordsearch-cell">W</div><div class="wordsearch-cell">Z</div><div class="wordsearch-cell">R</div><div class="wordsearch-cell">E</div><div class="wordsearch-cell">U</div><div class="wordsearch-cell">O</div><div class="wordsearch-cell">N</div><div class="wordsearch-cell">B</div><div class="wordsearch-cell">T</div><div class="wordsearch-cell">D</div><div class="wordsearch-cell">T</div><div class="wordsearch-cell">M</div><div class="wordsearch-cell">G</div><div class="wordsearch-cell">S</div><div class="wordsearch-cell">I</div><div class="wordsearch-cell">Y</div><div class="wordsearch-cell">L</div><div class="wordsearch-cell">N</div><div class="wordsearch-cell">L</div><div class="wordsearch-cell">Y</div><div class="wordsearch-cell">T</div><div class="wordsearch-cell">G</div><div class="wordsearch-cell">W</div><div class="wordsearch-cell">E</div><div class="wordsearch-cell">E</div><div class="wordsearch-cell">R</div><div class="wordsearch-cell">E</div><div class="wordsearch-cell">C</div><div class="wordsearch-cell">I</div><div class="wordsearch-cell">P</div><div class="wordsearch-cell">R</div><div class="wordsearch-cell">O</div><div class="wordsearch-cell">C</div><div class="wordsearch-cell">A</div><div class="wordsearch-cell">L</div><div class="wordsearch-cell">V</div><div class="wordsearch-cell">M</div><div class="wordsearch-cell">R</div><div class="wordsearch-cell">D</div><div class="wordsearch-cell">R</div><div class="wordsearch-cell">P</div><div class="wordsearch-cell">I</div><div class="wordsearch-cell">C</div><div class="wordsearch-cell">U</div><div class="wordsearch-cell">R</div><div class="wordsearch-cell">R</div><div class="wordsearch-cell">I</div><div class="wordsearch-cell">C</div><div class="wordsearch-cell">U</div><div class="wordsearch-cell">L</div><div class="wordsearch-cell">U</div><div class="wordsearch-cell">M</div></div>
+ <div style="display:flex;gap:1rem;justify-content:center;margin:1.5rem 0" class="no-print">
+ <button class="btn btn-primary" onclick="resetPuzzle()">🔄 Reset</button>
+ <button class="btn btn-secondary" onclick="showHint()">💡 Hint</button>
+ <button class="btn btn-primary" onclick="window.print()">🖨️ Print</button>
+ </div>
+ <div class="word-list" id="word-list"></div>
+ </section>
+
+ </main>
+
+ <div class="popup-overlay" id="popup-overlay" onclick="closeDefinition()"></div>
+ <div class="definition-popup" id="definition-popup">
+ <h3 id="popup-word" style="color:#1a4d2e;margin-top:0"></h3>
+ <p id="popup-definition" style="font-size:1.1rem;margin:1rem 0"></p>
+ <p id="popup-context" style="font-size:0.95rem;color:#546e7a;font-style:italic"></p>
+ <button class="btn btn-primary" onclick="closeDefinition()">Kei te pai!</button>
+ </div>
+
+ <div id="footer-component" class="no-print"></div>
+ <script src="/js/shared-components.js" defer></script>
+ <script>
+ fetch('/components/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-component').innerHTML=h});
+ 
+ const VOCABULARY={'LEARNING':{definition:'Key concept from lesson',context:'Important concept for understanding Unit 7 Lesson 2'},'OBJECTIVES':{definition:'Key concept from lesson',context:'Important concept for understanding Unit 7 Lesson 2'},'LEARNING':{definition:'Key concept from lesson',context:'Important concept for understanding Unit 7 Lesson 2'},'TEACHER':{definition:'Key concept from lesson',context:'Important concept for understanding Unit 7 Lesson 2'},'CUSTOMIZE':{definition:'Key concept from lesson',context:'Important concept for understanding Unit 7 Lesson 2'},'SUGGESTED':{definition:'Key concept from lesson',context:'Important concept for understanding Unit 7 Lesson 2'},'CONNECT':{definition:'Key concept from lesson',context:'Important concept for understanding Unit 7 Lesson 2'},'ACHIEVEMENT':{definition:'Key concept from lesson',context:'Important concept for understanding Unit 7 Lesson 2'},'OBJECTIVES':{definition:'Key concept from lesson',context:'Important concept for understanding Unit 7 Lesson 2'},'CURRICULUM':{definition:'Key concept from lesson',context:'Important concept for understanding Unit 7 Lesson 2'},'RECIPROCAL':{definition:'Key concept from lesson',context:'Important concept for understanding Unit 7 Lesson 2'},'WORKING':{definition:'Key concept from lesson',context:'Important concept for understanding Unit 7 Lesson 2'},'LOOK':{definition:'Key concept from lesson',context:'Important concept for understanding Unit 7 Lesson 2'},'CURRICULUM':{definition:'Key concept from lesson',context:'Important concept for understanding Unit 7 Lesson 2'},'CONSIDER':{definition:'Key concept from lesson',context:'Important concept for understanding Unit 7 Lesson 2'}};
+ const GRID=[["U", "A", "C", "C", "U", "R", "R", "I", "C", "U", "L", "U", "M", "L"], ["S", "C", "H", "U", "X", "T", "E", "A", "C", "H", "E", "R", "F", "H"], ["M", "H", "Y", "O", "S", "O", "V", "T", "E", "H", "I", "X", "S", "D"], ["C", "I", "K", "B", "K", "T", "S", "C", "O", "N", "N", "E", "C", "T"], ["R", "E", "L", "J", "T", "X", "O", "J", "Y", "W", "A", "M", "U", "G"], ["S", "V", "E", "E", "W", "W", "U", "M", "V", "V", "B", "S", "N", "C"], ["U", "E", "A", "C", "J", "F", "O", "H", "I", "H", "D", "I", "I", "O"], ["G", "M", "R", "T", "D", "J", "W", "R", "A", "Z", "N", "R", "O", "N"], ["G", "E", "N", "I", "L", "E", "F", "A", "K", "R", "E", "K", "C", "S"], ["E", "N", "I", "V", "Q", "M", "R", "A", "A", "I", "O", "Y", "Q", "I"], ["S", "T", "N", "E", "W", "Z", "R", "E", "U", "O", "N", "B", "T", "D"], ["T", "M", "G", "S", "I", "Y", "L", "N", "L", "Y", "T", "G", "W", "E"], ["E", "R", "E", "C", "I", "P", "R", "O", "C", "A", "L", "V", "M", "R"], ["D", "R", "P", "I", "C", "U", "R", "R", "I", "C", "U", "L", "U", "M"]];
+ const WORD_POSITIONS={"LEARNING": {"row": 11, "col": 6, "dir": "v", "len": 8}, "OBJECTIVES": {"row": 2, "col": 3, "dir": "v", "len": 10}, "TEACHER": {"row": 1, "col": 5, "dir": "h", "len": 7}, "CUSTOMIZE": {"row": 0, "col": 2, "dir": "v", "len": 9}, "SUGGESTED": {"row": 5, "col": 0, "dir": "v", "len": 9}, "CONNECT": {"row": 3, "col": 7, "dir": "h", "len": 7}, "ACHIEVEMENT": {"row": 0, "col": 1, "dir": "v", "len": 11}, "CURRICULUM": {"row": 0, "col": 3, "dir": "h", "len": 10}, "RECIPROCAL": {"row": 12, "col": 1, "dir": "h", "len": 10}, "WORKING": {"row": 5, "col": 5, "dir": "v", "len": 7}, "LOOK": {"row": 11, "col": 8, "dir": "v", "len": 4}, "CONSIDER": {"row": 5, "col": 13, "dir": "v", "len": 8}};
+ 
+ let foundWords=new Set(),selectedCells=[],isSelecting=false,startTime=Date.now();
+ 
+ document.addEventListener('DOMContentLoaded',()=>{generateGrid();generateWordList();loadProgress();startTimer();updateProgress()});
+ 
+ function generateGrid(){const g=document.getElementById('wordsearch-grid');g.innerHTML='';GRID.forEach((row,r)=>{row.forEach((letter,c)=>{const cell=document.createElement('div');cell.className='wordsearch-cell';cell.textContent=letter;cell.dataset.row=r;cell.dataset.col=c;cell.addEventListener('mousedown',()=>startSelection(cell));cell.addEventListener('mouseenter',()=>continueSelection(cell));cell.addEventListener('mouseup',endSelection);g.appendChild(cell)})});document.addEventListener('mouseup',endSelection)}
+ 
+ function generateWordList(){const list=document.getElementById('word-list');list.innerHTML='';Object.keys(VOCABULARY).forEach(word=>{const item=document.createElement('div');item.className='word-list-item';if(foundWords.has(word))item.classList.add('found');item.innerHTML=`<span class="word-name">${word}</span><span class="word-definition">${VOCABULARY[word].definition}</span>`;item.onclick=()=>showDefinition(word);list.appendChild(item)})}
+ 
+ function startSelection(cell){isSelecting=true;selectedCells=[cell];cell.classList.add('selected')}
+ function continueSelection(cell){if(!isSelecting||selectedCells.includes(cell))return;selectedCells.push(cell);cell.classList.add('selected')}
+ function endSelection(){if(!isSelecting)return;isSelecting=false;const word=selectedCells.map(c=>c.textContent).join('');const rev=word.split('').reverse().join('');let f=null;if(VOCABULARY[word]&&!foundWords.has(word))f=word;else if(VOCABULARY[rev]&&!foundWords.has(rev))f=rev;if(f){foundWords.add(f);selectedCells.forEach(c=>{c.classList.remove('selected');c.classList.add('found')});showCelebration();setTimeout(()=>showDefinition(f),500);generateWordList();updateProgress();saveProgress();if(foundWords.size===Object.keys(VOCABULARY).length)setTimeout(showCompletion,1000)}else{selectedCells.forEach(c=>c.classList.remove('selected'))}selectedCells=[]}
+ 
+ function showDefinition(word){const v=VOCABULARY[word];document.getElementById('popup-word').textContent=word;document.getElementById('popup-definition').textContent=v.definition;document.getElementById('popup-context').textContent='💡 '+v.context;document.getElementById('definition-popup').classList.add('active');document.getElementById('popup-overlay').classList.add('active')}
+ function closeDefinition(){document.getElementById('definition-popup').classList.remove('active');document.getElementById('popup-overlay').classList.remove('active')}
+ function showCelebration(){const c=document.createElement('div');c.className='celebration';c.textContent='🎉';document.body.appendChild(c);setTimeout(()=>c.remove(),1000)}
+ function showCompletion(){document.getElementById('completion-message').innerHTML=`🎊 <strong>Kei te pai!</strong> All found in ${document.getElementById('time-elapsed').textContent}!`;for(let i=0;i<5;i++)setTimeout(showCelebration,i*200)}
+ function updateProgress(){const f=foundWords.size;const t=Object.keys(VOCABULARY).length;document.getElementById('words-found').textContent=f;document.getElementById('progress-fill').style.width=(f/t*100)+'%'}
+ function startTimer(){setInterval(()=>{const e=Math.floor((Date.now()-startTime)/1000);document.getElementById('time-elapsed').textContent=`${Math.floor(e/60)}:${(e%60).toString().padStart(2,'0')}`},1000)}
+ function resetPuzzle(){if(confirm('Reset?')){foundWords.clear();startTime=Date.now();document.querySelectorAll('.wordsearch-cell').forEach(c=>c.classList.remove('found','selected'));generateWordList();updateProgress()}}
+ function showHint(){const u=Object.keys(VOCABULARY).filter(w=>!foundWords.has(w));if(!u.length)return;alert(`💡 "${u[0]}"
+${VOCABULARY[u[0]].definition}`)}
+ function saveProgress(){localStorage.setItem('ws-unit-7-lesson-2',JSON.stringify({foundWords:Array.from(foundWords),startTime,date:new Date().toISOString()}))}
+ function loadProgress(){try{const p=JSON.parse(localStorage.getItem('ws-unit-7-lesson-2'));if(p&&new Date(p.date).toDateString()===new Date().toDateString()){foundWords=new Set(p.foundWords);startTime=p.startTime;generateWordList();updateProgress()}}catch(e){}}
+ </script>
+</body>
+</html>
