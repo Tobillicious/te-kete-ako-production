@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Te Kete Ako - Interactive Wordsearch Generator with Te Reo Māori themes. Play in browser or print 2 per A5 page.">
+    <meta name="keywords" content="wordsearch, word search, te reo māori, education, māori, learning, new zealand, printable">
+    <meta name="author" content="Te Kete Ako">
+    <title>Wordsearch Generator | Te Kete Ako</title>
+    
+    <!-- CANONICAL CSS SYSTEM -->
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/component-library.css" />
+    <link rel="stylesheet" href="/css/animations-professional.css" />
+    <link rel="stylesheet" href="/css/beautiful-navigation.css" />
+    <link rel="stylesheet" href="/css/mobile-optimization.css" />
+    <link rel="stylesheet" href="/css/print.css" />
+    
+    <style>
+        /* ===================================================================
+           WORDSEARCH GAME STYLES
+           =================================================================== */
+        
+        :root {
+            --grid-cell-size: 40px;
+            --grid-gap: 2px;
+            --color-found: #1a4d2e;
+            --color-highlight: #ffd700;
+            --color-cell-hover: #e8f5e9;
+        }
+        
+        .game-wrapper {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .game-controls {
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--color-accent);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .control-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .control-group select,
+        .control-group input {
+            width: 100%;
+            max-width: 400px;
+            padding: 0.75rem;
+            border: 2px solid var(--color-primary);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--color-primary);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .btn-secondary {
+            background: var(--color-accent);
+        }
+        
+        .btn-success {
+            background: #2d6a4f;
+        }
+        
+        .game-content {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 2rem;
+            align-items: start;
+        }
+        
+        .wordsearch-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .wordsearch-grid {
+            display: inline-grid;
+            gap: var(--grid-gap);
+            padding: 1rem;
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .grid-cell {
+            width: var(--grid-cell-size);
+            height: var(--grid-cell-size);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border: 2px solid var(--color-primary);
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+        
+        .grid-cell:hover {
+            background: var(--color-cell-hover);
+            transform: scale(1.05);
+        }
+        
+        .grid-cell.selected {
+            background: var(--color-highlight);
+            border-color: #d97706;
+        }
+        
+        .grid-cell.found {
+            background: var(--color-found);
+            color: white;
+            border-color: var(--color-found);
+        }
+        
+        .word-list {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            min-width: 250px;
+        }
+        
+        .word-list h3 {
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .word-item {
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background: #f8fafc;
+            border-radius: 6px;
+            border-left: 4px solid var(--color-primary);
+            transition: all 0.3s ease;
+        }
+        
+        .word-item.found {
+            background: #d1fae5;
+            border-left-color: var(--color-found);
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+        
+        .word-item-word {
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+        
+        .word-item-meaning {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            font-style: italic;
+            margin-top: 0.25rem;
+        }
+        
+        .stats-display {
+            background: linear-gradient(135deg, #1a4d2e, #2d6a4f);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+        }
+        
+        .stats-display h4 {
+            margin: 0 0 0.5rem;
+        }
+        
+        .progress-bar {
+            background: rgba(255,255,255,0.2);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+        
+        .progress-fill {
+            background: #ffd700;
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+        
+        /* Print Styles for 2-per-A5 Layout */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            
+            .print-area,
+            .print-area * {
+                visibility: visible;
+            }
+            
+            .print-area {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+            
+            .print-page {
+                page-break-after: always;
+                width: 210mm;
+                height: 148mm; /* A5 landscape */
+                padding: 5mm;
+            }
+            
+            .print-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 5mm;
+                height: 100%;
+            }
+            
+            .print-puzzle {
+                border: 2px solid #1a4d2e;
+                padding: 5mm;
+                border-radius: 4mm;
+                background: white;
+            }
+            
+            .print-puzzle h3 {
+                font-size: 14pt;
+                margin-bottom: 3mm;
+                color: #1a4d2e;
+            }
+            
+            .print-wordsearch-grid {
+                display: grid;
+                gap: 1px;
+                margin-bottom: 3mm;
+            }
+            
+            .print-grid-cell {
+                width: 6mm;
+                height: 6mm;
+                border: 1px solid #1a4d2e;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 8pt;
+                font-weight: bold;
+            }
+            
+            .print-word-list {
+                font-size: 8pt;
+                columns: 2;
+                column-gap: 2mm;
+            }
+            
+            .print-word-list li {
+                break-inside: avoid;
+                margin-bottom: 1mm;
+            }
+            
+            .no-print {
+                display: none !important;
+            }
+        }
+        
+        /* Cultural Enhancement */
+        .whakatauaki-section {
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--color-accent);
+            text-align: center;
+        }
+        
+        .whakatauaki-text {
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--color-primary);
+            margin: 0.5rem 0;
+            font-weight: 500;
+        }
+        
+        .whakatauaki-translation {
+            font-size: 1rem;
+            color: var(--color-text-secondary);
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .game-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .word-list {
+                order: -1;
+            }
+            
+            :root {
+                --grid-cell-size: 32px;
+            }
+            
+            .wordsearch-grid {
+                overflow-x: auto;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            :root {
+                --grid-cell-size: 28px;
+            }
+            
+            .grid-cell {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body data-auto-init="true" data-current-page="games">
+    <!-- Professional Mega Menu Navigation -->
+    <div id="beautiful-nav-container"></div>
+    <script>
+        fetch('/components/navigation-standard.html')
+            .then(r => r.text())
+            .then(html => {
+                const div = document.createElement('div');
+                div.innerHTML = html;
+                document.body.insertBefore(div.firstElementChild, document.body.firstChild);
+            });
+    </script>
+
+    <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
+    
+    <main role="main">
+        <div class="game-wrapper">
+            <!-- Cultural Context -->
+            <div class="whakatauaki-section">
+                <h3 style="font-size: 0.9rem; color: var(--color-text-secondary); margin: 0 0 0.5rem; text-transform: uppercase; letter-spacing: 1px;">Whakataukī</h3>
+                <p class="whakatauaki-text">"Kōrero mai, kōrero atu, ka ora te iwi"</p>
+                <p class="whakatauaki-translation">"Through speaking together, the people flourish"</p>
+            </div>
+
+            <div class="game-controls no-print">
+                <h1 style="color: var(--color-primary); margin-bottom: 1rem;">🔍 Wordsearch Generator | Rapu Kupu</h1>
+                <p style="margin-bottom: 2rem; color: var(--color-text-secondary);">
+                    Create beautiful wordsearches with Te Reo Māori themes. Play in your browser or print 2 per A5 page for classrooms.
+                </p>
+
+                <div class="control-group">
+                    <label for="themeSelect">📚 Select Theme | Kōwhiri Kaupapa</label>
+                    <select id="themeSelect">
+                        <option value="te_reo_basics">Te Reo Māori - Basics (Ngā Tino)</option>
+                        <option value="te_reo_numbers">Te Reo Māori - Numbers (Ngā Tau)</option>
+                        <option value="te_reo_colours">Te Reo Māori - Colours (Ngā Tae)</option>
+                        <option value="te_reo_family">Te Reo Māori - Family (Whānau)</option>
+                        <option value="te_taiao">Te Taiao - Environment</option>
+                        <option value="nz_birds">Aotearoa Birds (Ngā Manu)</option>
+                        <option value="nz_trees">Aotearoa Trees (Ngā Rākau)</option>
+                        <option value="science">Science Terms (Pūtaiao)</option>
+                        <option value="mathematics">Mathematics (Pāngarau)</option>
+                        <option value="values">Mangakōtukutuku Values</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="difficultySelect">⚡ Difficulty Level | Te Uaua</label>
+                    <select id="difficultySelect">
+                        <option value="easy">Easy (8x8 grid)</option>
+                        <option value="medium" selected>Medium (12x12 grid)</option>
+                        <option value="hard">Hard (16x16 grid)</option>
+                    </select>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn" onclick="generateWordsearch()">🎲 Generate New Puzzle</button>
+                    <button class="btn btn-secondary" onclick="resetPuzzle()">🔄 Reset Current Puzzle</button>
+                    <button class="btn btn-success" onclick="printPuzzle()">🖨️ Print (2 per A5)</button>
+                    <button class="btn btn-secondary" onclick="showAnswers()">👁️ Show Answers</button>
+                </div>
+            </div>
+
+            <div class="game-content">
+                <div class="wordsearch-container">
+                    <div id="wordsearchGrid" class="wordsearch-grid">
+                        <!-- Grid will be generated here -->
+                    </div>
+                    
+                    <div class="stats-display">
+                        <h4>📊 Progress | Te Haere Whakamua</h4>
+                        <p><span id="wordsFound">0</span> / <span id="totalWords">0</span> words found</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="word-list">
+                    <h3>📝 Find These Words</h3>
+                    <div id="wordListContainer">
+                        <!-- Word list will be generated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Print Area (Hidden until printing) -->
+    <div class="print-area" style="display: none;">
+        <!-- Will be populated when printing -->
+    </div>
+
+    <!-- Include Footer Component -->
+    <div id="footer-component" class="no-print"></div>
+
+    <!-- JavaScript -->
+    <script src="/js/shared-components.js" defer></script>
+    <script src="/js/mobile-revolution.js" defer></script>
+
+    <script>
+        // Load footer
+        fetch('/components/footer.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('footer-component').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading footer:', error));
+    </script>
+
+    <script>
+        /* ===================================================================
+           WORDSEARCH GENERATOR ENGINE
+           =================================================================== */
+        
+        // Word Lists with Cultural Context
+        const wordLists = {
+            te_reo_basics: [
+                { word: 'KIAORA', meaning: 'Hello, be well' },
+                { word: 'AROHA', meaning: 'Love, compassion' },
+                { word: 'WHANAU', meaning: 'Family' },
+                { word: 'MANA', meaning: 'Prestige, authority' },
+                { word: 'TAPU', meaning: 'Sacred, forbidden' },
+                { word: 'MAURI', meaning: 'Life force' },
+                { word: 'TANGI', meaning: 'To cry, funeral' },
+                { word: 'KAI', meaning: 'Food' },
+                { word: 'MOANA', meaning: 'Ocean, sea' },
+                { word: 'WHENUA', meaning: 'Land, placenta' }
+            ],
+            te_reo_numbers: [
+                { word: 'TAHI', meaning: 'One' },
+                { word: 'RUA', meaning: 'Two' },
+                { word: 'TORU', meaning: 'Three' },
+                { word: 'WHA', meaning: 'Four' },
+                { word: 'RIMA', meaning: 'Five' },
+                { word: 'ONO', meaning: 'Six' },
+                { word: 'WHITU', meaning: 'Seven' },
+                { word: 'WARU', meaning: 'Eight' },
+                { word: 'IWA', meaning: 'Nine' },
+                { word: 'TEKAU', meaning: 'Ten' }
+            ],
+            te_reo_colours: [
+                { word: 'WHERO', meaning: 'Red' },
+                { word: 'KAKARIKI', meaning: 'Green' },
+                { word: 'KIKORANGI', meaning: 'Blue' },
+                { word: 'KOWHAI', meaning: 'Yellow' },
+                { word: 'KARAKA', meaning: 'Orange' },
+                { word: 'PARAURI', meaning: 'Brown' },
+                { word: 'MA', meaning: 'White' },
+                { word: 'MANGU', meaning: 'Black' },
+                { word: 'WAIPOROPORO', meaning: 'Purple' },
+                { word: 'KIWIKIWI', meaning: 'Grey' }
+            ],
+            te_reo_family: [
+                { word: 'MATUA', meaning: 'Father, parent' },
+                { word: 'WHAEA', meaning: 'Mother, aunty' },
+                { word: 'TAMAITI', meaning: 'Child' },
+                { word: 'TUAKANA', meaning: 'Elder sibling' },
+                { word: 'TEINA', meaning: 'Younger sibling' },
+                { word: 'KUIA', meaning: 'Grandmother' },
+                { word: 'KOROUA', meaning: 'Grandfather' },
+                { word: 'WHANAUNGA', meaning: 'Relative' },
+                { word: 'MOKOPUNA', meaning: 'Grandchild' },
+                { word: 'TUNGANE', meaning: 'Brother of female' }
+            ],
+            te_taiao: [
+                { word: 'RANGI', meaning: 'Sky father' },
+                { word: 'PAPA', meaning: 'Earth mother' },
+                { word: 'TANE', meaning: 'God of forests' },
+                { word: 'TANGAROA', meaning: 'God of the sea' },
+                { word: 'TAWHIRIMATEA', meaning: 'God of weather' },
+                { word: 'AWA', meaning: 'River' },
+                { word: 'MAUNGA', meaning: 'Mountain' },
+                { word: 'NGAHERE', meaning: 'Forest' },
+                { word: 'MOANA', meaning: 'Ocean' },
+                { word: 'WAIRUA', meaning: 'Spirit' }
+            ],
+            nz_birds: [
+                { word: 'KIWI', meaning: 'Kiwi bird' },
+                { word: 'TUI', meaning: 'Tui (parson bird)' },
+                { word: 'PUKEKO', meaning: 'Swamp hen' },
+                { word: 'KAKA', meaning: 'Bush parrot' },
+                { word: 'KEA', meaning: 'Mountain parrot' },
+                { word: 'KERERU', meaning: 'Wood pigeon' },
+                { word: 'TAKAHE', meaning: 'Flightless rail' },
+                { word: 'WEKA', meaning: 'Woodhen' },
+                { word: 'KAKAPO', meaning: 'Night parrot' },
+                { word: 'RURU', meaning: 'Morepork owl' }
+            ],
+            nz_trees: [
+                { word: 'KAURI', meaning: 'Kauri tree' },
+                { word: 'TOTARA', meaning: 'Totara tree' },
+                { word: 'RIMU', meaning: 'Rimu tree' },
+                { word: 'KAHIKATEA', meaning: 'White pine' },
+                { word: 'MATAI', meaning: 'Black pine' },
+                { word: 'KOWHAI', meaning: 'Kowhai tree' },
+                { word: 'POHUTUKAWA', meaning: 'Christmas tree' },
+                { word: 'NIKAU', meaning: 'Native palm' },
+                { word: 'PURIRI', meaning: 'Puriri tree' },
+                { word: 'MANUKA', meaning: 'Tea tree' }
+            ],
+            science: [
+                { word: 'ATOM', meaning: 'Basic unit of matter' },
+                { word: 'ENERGY', meaning: 'Capacity to do work' },
+                { word: 'GRAVITY', meaning: 'Force of attraction' },
+                { word: 'MOLECULE', meaning: 'Group of atoms' },
+                { word: 'ELECTRON', meaning: 'Negative particle' },
+                { word: 'PHOTON', meaning: 'Light particle' },
+                { word: 'FORCE', meaning: 'Push or pull' },
+                { word: 'MASS', meaning: 'Amount of matter' },
+                { word: 'VELOCITY', meaning: 'Speed with direction' },
+                { word: 'FRICTION', meaning: 'Resistance to motion' }
+            ],
+            mathematics: [
+                { word: 'ADDITION', meaning: 'Adding numbers' },
+                { word: 'MULTIPLY', meaning: 'Repeated addition' },
+                { word: 'FRACTION', meaning: 'Part of whole' },
+                { word: 'DECIMAL', meaning: 'Base ten number' },
+                { word: 'PERCENT', meaning: 'Per hundred' },
+                { word: 'ANGLE', meaning: 'Space between lines' },
+                { word: 'TRIANGLE', meaning: 'Three-sided shape' },
+                { word: 'CIRCLE', meaning: 'Round shape' },
+                { word: 'EQUATION', meaning: 'Mathematical statement' },
+                { word: 'VARIABLE', meaning: 'Unknown value' }
+            ],
+            values: [
+                { word: 'WHAIARA', meaning: 'Rising up' },
+                { word: 'MANAAKI', meaning: 'Hospitality, care' },
+                { word: 'WHANAUNGATANGA', meaning: 'Relationships' },
+                { word: 'KAITIAKI', meaning: 'Guardianship' },
+                { word: 'RANGATIRATANGA', meaning: 'Leadership' },
+                { word: 'KOTAHITANGA', meaning: 'Unity' },
+                { word: 'TUAKIRI', meaning: 'Identity' },
+                { word: 'HAUORA', meaning: 'Wellbeing' },
+                { word: 'TIKANGA', meaning: 'Customs, protocol' },
+                { word: 'MAHITAHI', meaning: 'Collaboration' }
+            ]
+        };
+
+        // Game State
+        let currentGrid = [];
+        let currentWords = [];
+        let foundWords = [];
+        let selectedCells = [];
+        let gridSize = 12;
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            generateWordsearch();
+        });
+
+        function generateWordsearch() {
+            // Get settings
+            const theme = document.getElementById('themeSelect').value;
+            const difficulty = document.getElementById('difficultySelect').value;
+            
+            // Set grid size
+            gridSize = difficulty === 'easy' ? 8 : difficulty === 'medium' ? 12 : 16;
+            
+            // Get words
+            currentWords = [...wordLists[theme]];
+            const maxWords = Math.min(currentWords.length, difficulty === 'easy' ? 6 : difficulty === 'medium' ? 8 : 10);
+            currentWords = currentWords.slice(0, maxWords);
+            
+            // Reset state
+            foundWords = [];
+            selectedCells = [];
+            
+            // Create empty grid
+            currentGrid = Array(gridSize).fill().map(() => Array(gridSize).fill(''));
+            
+            // Place words
+            placeWords();
+            
+            // Fill empty cells
+            fillEmptyCells();
+            
+            // Render
+            renderGrid();
+            renderWordList();
+            updateStats();
+        }
+
+        function placeWords() {
+            const directions = [
+                { dx: 0, dy: 1 },   // Horizontal
+                { dx: 1, dy: 0 },   // Vertical
+                { dx: 1, dy: 1 },   // Diagonal down-right
+                { dx: -1, dy: 1 },  // Diagonal down-left
+            ];
+            
+            currentWords.forEach(wordObj => {
+                const word = wordObj.word;
+                let placed = false;
+                let attempts = 0;
+                
+                while (!placed && attempts < 100) {
+                    const direction = directions[Math.floor(Math.random() * directions.length)];
+                    const startX = Math.floor(Math.random() * gridSize);
+                    const startY = Math.floor(Math.random() * gridSize);
+                    
+                    if (canPlaceWord(word, startX, startY, direction)) {
+                        placeWord(word, startX, startY, direction);
+                        placed = true;
+                    }
+                    attempts++;
+                }
+            });
+        }
+
+        function canPlaceWord(word, x, y, direction) {
+            for (let i = 0; i < word.length; i++) {
+                const newX = x + (direction.dx * i);
+                const newY = y + (direction.dy * i);
+                
+                if (newX < 0 || newX >= gridSize || newY < 0 || newY >= gridSize) {
+                    return false;
+                }
+                
+                const cell = currentGrid[newY][newX];
+                if (cell !== '' && cell !== word[i]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function placeWord(word, x, y, direction) {
+            for (let i = 0; i < word.length; i++) {
+                const newX = x + (direction.dx * i);
+                const newY = y + (direction.dy * i);
+                currentGrid[newY][newX] = word[i];
+            }
+        }
+
+        function fillEmptyCells() {
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            for (let y = 0; y < gridSize; y++) {
+                for (let x = 0; x < gridSize; x++) {
+                    if (currentGrid[y][x] === '') {
+                        currentGrid[y][x] = letters[Math.floor(Math.random() * letters.length)];
+                    }
+                }
+            }
+        }
+
+        function renderGrid() {
+            const container = document.getElementById('wordsearchGrid');
+            container.innerHTML = '';
+            container.style.gridTemplateColumns = `repeat(${gridSize}, var(--grid-cell-size))`;
+            
+            for (let y = 0; y < gridSize; y++) {
+                for (let x = 0; x < gridSize; x++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'grid-cell';
+                    cell.textContent = currentGrid[y][x];
+                    cell.dataset.x = x;
+                    cell.dataset.y = y;
+                    
+                    cell.addEventListener('click', () => handleCellClick(x, y));
+                    cell.addEventListener('mouseenter', (e) => {
+                        if (e.buttons === 1) handleCellClick(x, y);
+                    });
+                    
+                    container.appendChild(cell);
+                }
+            }
+        }
+
+        function renderWordList() {
+            const container = document.getElementById('wordListContainer');
+            container.innerHTML = '';
+            
+            currentWords.forEach(wordObj => {
+                const item = document.createElement('div');
+                item.className = 'word-item';
+                if (foundWords.includes(wordObj.word)) {
+                    item.classList.add('found');
+                }
+                
+                item.innerHTML = `
+                    <div class="word-item-word">${wordObj.word}</div>
+                    <div class="word-item-meaning">${wordObj.meaning}</div>
+                `;
+                
+                container.appendChild(item);
+            });
+        }
+
+        function handleCellClick(x, y) {
+            const cellKey = `${x},${y}`;
+            const index = selectedCells.findIndex(c => c.key === cellKey);
+            
+            if (index > -1) {
+                selectedCells.splice(index, 1);
+            } else {
+                selectedCells.push({ x, y, key: cellKey });
+            }
+            
+            updateCellStyles();
+            checkForWord();
+        }
+
+        function updateCellStyles() {
+            document.querySelectorAll('.grid-cell').forEach(cell => {
+                const x = parseInt(cell.dataset.x);
+                const y = parseInt(cell.dataset.y);
+                const cellKey = `${x},${y}`;
+                
+                cell.classList.remove('selected');
+                if (selectedCells.some(c => c.key === cellKey)) {
+                    cell.classList.add('selected');
+                }
+            });
+        }
+
+        function checkForWord() {
+            if (selectedCells.length < 2) return;
+            
+            // Get word from selected cells
+            const word = selectedCells
+                .map(c => currentGrid[c.y][c.x])
+                .join('');
+            
+            // Check if it matches any word
+            const matchedWord = currentWords.find(w => 
+                w.word === word || w.word === word.split('').reverse().join('')
+            );
+            
+            if (matchedWord && !foundWords.includes(matchedWord.word)) {
+                foundWords.push(matchedWord.word);
+                
+                // Mark cells as found
+                selectedCells.forEach(c => {
+                    const cell = document.querySelector(`.grid-cell[data-x="${c.x}"][data-y="${c.y}"]`);
+                    cell.classList.add('found');
+                    cell.classList.remove('selected');
+                });
+                
+                selectedCells = [];
+                renderWordList();
+                updateStats();
+                
+                // Check if all words found
+                if (foundWords.length === currentWords.length) {
+                    setTimeout(() => {
+                        alert('🎉 Kei te pai! You found all the words! / Ka pai, kua kitea ngā kupu katoa!');
+                    }, 300);
+                }
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('wordsFound').textContent = foundWords.length;
+            document.getElementById('totalWords').textContent = currentWords.length;
+            
+            const percentage = currentWords.length > 0 
+                ? (foundWords.length / currentWords.length * 100) 
+                : 0;
+            document.getElementById('progressFill').style.width = percentage + '%';
+        }
+
+        function resetPuzzle() {
+            foundWords = [];
+            selectedCells = [];
+            document.querySelectorAll('.grid-cell').forEach(cell => {
+                cell.classList.remove('found', 'selected');
+            });
+            renderWordList();
+            updateStats();
+        }
+
+        function showAnswers() {
+            if (confirm('Are you sure you want to see the answers?')) {
+                currentWords.forEach(wordObj => {
+                    if (!foundWords.includes(wordObj.word)) {
+                        foundWords.push(wordObj.word);
+                    }
+                });
+                
+                document.querySelectorAll('.grid-cell').forEach(cell => {
+                    const letter = cell.textContent;
+                    const isPartOfWord = currentWords.some(wordObj => 
+                        wordObj.word.includes(letter)
+                    );
+                    if (isPartOfWord) {
+                        cell.classList.add('found');
+                    }
+                });
+                
+                renderWordList();
+                updateStats();
+            }
+        }
+
+        function printPuzzle() {
+            const printArea = document.querySelector('.print-area');
+            
+            // Generate 2 different puzzles for the print layout
+            const puzzles = [];
+            for (let i = 0; i < 2; i++) {
+                const puzzle = createPrintPuzzle();
+                puzzles.push(puzzle);
+            }
+            
+            printArea.innerHTML = `
+                <div class="print-page">
+                    <div class="print-grid">
+                        ${puzzles[0]}
+                        ${puzzles[1]}
+                    </div>
+                </div>
+            `;
+            
+            printArea.style.display = 'block';
+            window.print();
+            printArea.style.display = 'none';
+        }
+
+        function createPrintPuzzle() {
+            const theme = document.getElementById('themeSelect').value;
+            const themeName = document.getElementById('themeSelect').selectedOptions[0].text;
+            
+            // Create mini grid
+            let html = `
+                <div class="print-puzzle">
+                    <h3>${themeName}</h3>
+                    <div class="print-wordsearch-grid" style="grid-template-columns: repeat(${gridSize}, 6mm);">
+            `;
+            
+            for (let y = 0; y < gridSize; y++) {
+                for (let x = 0; x < gridSize; x++) {
+                    html += `<div class="print-grid-cell">${currentGrid[y][x]}</div>`;
+                }
+            }
+            
+            html += `
+                    </div>
+                    <ul class="print-word-list">
+            `;
+            
+            currentWords.forEach(wordObj => {
+                html += `<li>${wordObj.word}</li>`;
+            });
+            
+            html += `
+                    </ul>
+                </div>
+            `;
+            
+            return html;
+        }
+    </script>
+</body>
+</html>
+
