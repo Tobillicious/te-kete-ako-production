@@ -85,11 +85,18 @@ def detect_relationships(resources):
                 strength = 0.9
             
             # 6. CULTURAL PAIRING (same lesson, different cultural levels)
-            elif (similarity(base1, base2) > 0.7 and
-                  resource1.get('cultural_elements', {}).get('cultural_integration') != 
-                  resource2.get('cultural_elements', {}).get('cultural_integration')):
-                rel_type = 'cultural_pair'
-                strength = 0.75
+            elif similarity(base1, base2) > 0.7:
+                # Safely get cultural elements
+                cult1 = resource1.get('cultural_elements') or {}
+                cult2 = resource2.get('cultural_elements') or {}
+                if isinstance(cult1, str):
+                    cult1 = {}
+                if isinstance(cult2, str):
+                    cult2 = {}
+                
+                if cult1.get('cultural_integration') != cult2.get('cultural_integration'):
+                    rel_type = 'cultural_pair'
+                    strength = 0.75
             
             # 7. RELATED TOPIC (similar titles, same subject)
             elif (similarity(resource1.get('title', ''), resource2.get('title', '')) > 0.5 and

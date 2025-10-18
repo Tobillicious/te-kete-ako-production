@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard | Te Kete Ako</title>
+    <meta name="description" content="Personalized teacher dashboard with saved resources, class management, and teaching insights">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/te-kete-unified-design-system.css">
+    <link rel="stylesheet" href="/css/component-library.css">
+    <link rel="stylesheet" href="/css/enhanced-cards.css">
+    <link rel="stylesheet" href="/css/mobile-enhanced.css">
+    
+    <style>
+        .dashboard-hero {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            color: white;
+            padding: 3rem 2rem;
+        }
+        
+        .dashboard-grid {
+            max-width: 1400px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        
+        .dashboard-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-top: 4px solid #1e40af;
+        }
+        
+        .dashboard-card h2 {
+            color: #1a4d2e;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .quick-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+        }
+        
+        .quick-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e40af;
+        }
+        
+        .saved-item {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .saved-item:hover {
+            background: #e9ecef;
+            transform: translateX(4px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div id="nav-container"></div>
+    <script>
+        fetch('/components/navigation-standard.html')
+            .then(r => r.text())
+            .then(html => document.getElementById('nav-container').innerHTML = html);
+    </script>
+    
+    <!-- Hero -->
+    <section class="dashboard-hero">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h1 style="font-size: 3rem; margin-bottom: 0.5rem;">👩‍🏫 Kia ora, Teacher!</h1>
+            <p style="font-size: 1.25rem; opacity: 0.9;">Your personalized teaching dashboard</p>
+        </div>
+    </section>
+    
+    <!-- Dashboard Grid -->
+    <div class="dashboard-grid">
+        
+        <!-- My Saved Resources -->
+        <div class="dashboard-card">
+            <h2>💼 My Saved Resources</h2>
+            <div id="saved-resources">
+                <p style="color: #888; text-align: center; padding: 2rem;">
+                    Login to see your saved resources
+                </p>
+            </div>
+            <a href="/my-kete.html" style="display: block; text-align: center; color: #1e40af; font-weight: 700; margin-top: 1rem; text-decoration: none;">
+                View All Saved →
+            </a>
+        </div>
+        
+        <!-- Quick Stats -->
+        <div class="dashboard-card">
+            <h2>📊 Platform Quick Stats</h2>
+            <div class="quick-stat">
+                <span>Total Resources:</span>
+                <span class="quick-stat-value">20,697</span>
+            </div>
+            <div class="quick-stat">
+                <span>Active Lessons:</span>
+                <span class="quick-stat-value">414</span>
+            </div>
+            <div class="quick-stat">
+                <span>Teaching Variants:</span>
+                <span class="quick-stat-value">716</span>
+            </div>
+            <div class="quick-stat">
+                <span>Subject Areas:</span>
+                <span class="quick-stat-value">6</span>
+            </div>
+        </div>
+        
+        <!-- Quick Access -->
+        <div class="dashboard-card">
+            <h2>⚡ Quick Access</h2>
+            <div style="display: grid; gap: 0.75rem;">
+                <a href="/teaching-variants-library.html" class="saved-item">
+                    <strong style="color: #1a4d2e; display: block;">✨ Teaching Variants Library</strong>
+                    <span style="font-size: 0.875rem; color: #888;">Browse 716 teaching options</span>
+                </a>
+                <a href="/mathematics-hub.html" class="saved-item">
+                    <strong style="color: #1a4d2e; display: block;">🔢 Mathematics Hub</strong>
+                    <span style="font-size: 0.875rem; color: #888;">77+ math resources</span>
+                </a>
+                <a href="/science-hub.html" class="saved-item">
+                    <strong style="color: #1a4d2e; display: block;">🔬 Science Hub</strong>
+                    <span style="font-size: 0.875rem; color: #888;">83+ science resources</span>
+                </a>
+                <a href="/advanced-search-graphrag.html" class="saved-item">
+                    <strong style="color: #1a4d2e; display: block;">🔍 Advanced Search</strong>
+                    <span style="font-size: 0.875rem; color: #888;">Filter 20,697 resources</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Recent Activity -->
+        <div class="dashboard-card">
+            <h2>🕐 Recently Viewed</h2>
+            <p style="color: #888; text-align: center; padding: 2rem;">
+                Your recently viewed resources will appear here
+            </p>
+        </div>
+        
+        <!-- Recommendations -->
+        <div class="dashboard-card">
+            <h2>💡 AI Recommendations</h2>
+            <p style="color: #888; font-size: 0.938rem; margin-bottom: 1rem;">
+                Based on your teaching preferences and recent activity
+            </p>
+            <div id="recommendations">
+                <p style="color: #888; text-align: center; padding: 1rem;">
+                    Login to get personalized recommendations
+                </p>
+            </div>
+        </div>
+        
+        <!-- Cultural Calendar -->
+        <div class="dashboard-card">
+            <h2>🌿 Cultural Calendar</h2>
+            <div style="color: #546e7a; line-height: 1.8;">
+                <p style="margin-bottom: 1rem;">
+                    <strong style="color: #1a4d2e;">Current Moon Phase:</strong> Maramataka guidance
+                </p>
+                <p>
+                    <strong style="color: #1a4d2e;">Upcoming:</strong> Cultural events and observances relevant to curriculum
+                </p>
+            </div>
+        </div>
+        
+    </div>
+    
+    <!-- Footer -->
+    <div id="footer-container"></div>
+    <script>
+        fetch('/components/footer.html').then(r=>r.text()).then(html=>{
+            document.getElementById('footer-container').innerHTML=html;
+        });
+    </script>
+    
+    <!-- Mobile Nav & FAB -->
+    <div id="mobile-nav-bottom"></div>
+    <script>
+        fetch('/components/mobile-bottom-nav.html').then(r=>r.text()).then(html=>{
+            document.getElementById('mobile-nav-bottom').innerHTML=html;
+        });
+    </script>
+    
+    <div id="fab-quick-actions"></div>
+    <script>
+        fetch('/components/quick-actions-fab.html').then(r=>r.text()).then(html=>{
+            document.getElementById('fab-quick-actions').innerHTML=html;
+        });
+    </script>
+</body>
+</html>
+

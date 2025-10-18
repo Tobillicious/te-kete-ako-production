@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Learning Pathways | Te Kete Ako</title>
+    <meta name="description" content="Interactive visual learning pathways showing progression through curriculum from Years 7-13">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/te-kete-unified-design-system.css">
+    <link rel="stylesheet" href="/css/component-library.css">
+    <link rel="stylesheet" href="/css/enhanced-cards.css">
+    <link rel="stylesheet" href="/css/mobile-enhanced.css">
+    
+    <style>
+        .pathway-hero {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+        
+        .pathway-container {
+            max-width: 1400px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+        
+        .pathway-selector {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .pathway-tab {
+            padding: 1rem 2rem;
+            border: 3px solid #10b981;
+            background: white;
+            color: #10b981;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.125rem;
+        }
+        
+        .pathway-tab:hover,
+        .pathway-tab.active {
+            background: #10b981;
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .pathway-map {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .year-level-row {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            align-items: start;
+        }
+        
+        .year-label {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 800;
+            font-size: 1.5rem;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .units-flow {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            padding: 1rem 0;
+        }
+        
+        .unit-node {
+            min-width: 250px;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 2px solid #10b981;
+            border-radius: 16px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .unit-node:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(16, 185, 129, 0.2);
+            border-width: 3px;
+        }
+        
+        .unit-node::after {
+            content: '→';
+            position: absolute;
+            right: -1.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            color: #10b981;
+            opacity: 0.5;
+        }
+        
+        .unit-node:last-child::after {
+            display: none;
+        }
+        
+        .unit-number {
+            background: #10b981;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        
+        .unit-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #065f46;
+            margin-bottom: 0.5rem;
+        }
+        
+        .unit-lessons {
+            font-size: 0.875rem;
+            color: #047857;
+            margin-bottom: 0.75rem;
+        }
+        
+        .unit-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .unit-tag {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            background: white;
+            border-radius: 12px;
+            color: #065f46;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div id="nav-container"></div>
+    <script>
+        fetch('/components/navigation-standard.html')
+            .then(r => r.text())
+            .then(html => document.getElementById('nav-container').innerHTML = html);
+    </script>
+    
+    <!-- Hero -->
+    <section class="pathway-hero">
+        <h1 style="font-size: 4rem; margin-bottom: 1rem; font-weight: 800;">🎯 Visual Learning Pathways</h1>
+        <p style="font-size: 1.5rem; opacity: 0.95;">
+            Interactive curriculum progression maps for Years 7-13
+        </p>
+    </section>
+    
+    <!-- Main Content -->
+    <div class="pathway-container">
+        
+        <!-- Subject Selector -->
+        <div class="pathway-selector">
+            <button class="pathway-tab active" onclick="loadPathway('mathematics')">
+                🔢 Mathematics
+            </button>
+            <button class="pathway-tab" onclick="loadPathway('science')">
+                🔬 Science
+            </button>
+            <button class="pathway-tab" onclick="loadPathway('english')">
+                ✍️ English
+            </button>
+            <button class="pathway-tab" onclick="loadPathway('social-studies')">
+                🌍 Social Studies
+            </button>
+        </div>
+        
+        <!-- Pathway Map -->
+        <div class="pathway-map" id="pathway-display">
+            
+            <!-- Year 7 -->
+            <div class="year-level-row">
+                <div class="year-label">Year 7</div>
+                <div class="units-flow">
+                    <div class="unit-node" onclick="window.location.href='/units/y7-maths-algebra/'">
+                        <div class="unit-number">1</div>
+                        <div class="unit-title">Algebra Foundations</div>
+                        <div class="unit-lessons">10 lessons • 8 weeks</div>
+                        <div class="unit-tags">
+                            <span class="unit-tag">🌿 Cultural</span>
+                            <span class="unit-tag">📐 Patterns</span>
+                        </div>
+                    </div>
+                    
+                    <div class="unit-node" onclick="window.location.href='/units/y7-maths-geometry/'">
+                        <div class="unit-number">2</div>
+                        <div class="unit-title">Geometry & Measurement</div>
+                        <div class="unit-lessons">12 lessons • 10 weeks</div>
+                        <div class="unit-tags">
+                            <span class="unit-tag">🏛️ Whakairo</span>
+                            <span class="unit-tag">📏 Shapes</span>
+                        </div>
+                    </div>
+                    
+                    <div class="unit-node" onclick="window.location.href='/units/y7-maths-number/'">
+                        <div class="unit-number">3</div>
+                        <div class="unit-title">Number & Operations</div>
+                        <div class="unit-lessons">8 lessons • 6 weeks</div>
+                        <div class="unit-tags">
+                            <span class="unit-tag">🔢 Computation</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Year 8 -->
+            <div class="year-level-row">
+                <div class="year-label">Year 8</div>
+                <div class="units-flow">
+                    <div class="unit-node" onclick="window.location.href='/units/y8-maths-algebra/'">
+                        <div class="unit-number">1</div>
+                        <div class="unit-title">Advanced Algebra</div>
+                        <div class="unit-lessons">12 lessons • 10 weeks</div>
+                        <div class="unit-tags">
+                            <span class="unit-tag">📊 Equations</span>
+                            <span class="unit-tag">🎯 Problem Solving</span>
+                        </div>
+                    </div>
+                    
+                    <div class="unit-node" onclick="window.location.href='/units/y8-maths-statistics/'">
+                        <div class="unit-number">2</div>
+                        <div class="unit-title">Statistics & Probability</div>
+                        <div class="unit-lessons">10 lessons • 8 weeks</div>
+                        <div class="unit-tags">
+                            <span class="unit-tag">📈 Data</span>
+                            <span class="unit-tag">🌿 Census Data</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Year 9 -->
+            <div class="year-level-row">
+                <div class="year-label">Year 9</div>
+                <div class="units-flow">
+                    <div class="unit-node" onclick="window.location.href='/units/y9-maths-trigonometry/'">
+                        <div class="unit-number">1</div>
+                        <div class="unit-title">Trigonometry Foundations</div>
+                        <div class="unit-lessons">10 lessons • 8 weeks</div>
+                        <div class="unit-tags">
+                            <span class="unit-tag">🌊 Waka Navigation</span>
+                            <span class="unit-tag">📐 Angles</span>
+                        </div>
+                    </div>
+                    
+                    <div class="unit-node">
+                        <div class="unit-number">2</div>
+                        <div class="unit-title">Advanced Geometry</div>
+                        <div class="unit-lessons">12 lessons • 10 weeks</div>
+                        <div class="unit-tags">
+                            <span class="unit-tag">🔺 3D Shapes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- Pathway Information -->
+        <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 2.5rem; border-radius: 16px; margin-top: 3rem;">
+            <h3 style="font-size: 2rem; color: #78350f; margin-bottom: 1.5rem; text-align: center;">
+                💡 How to Use Learning Pathways
+            </h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; color: #92400e;">
+                <div>
+                    <strong style="display: block; margin-bottom: 0.5rem; color: #78350f;">📍 Track Progress</strong>
+                    <p>Visual map shows where students are and where they're going</p>
+                </div>
+                <div>
+                    <strong style="display: block; margin-bottom: 0.5rem; color: #78350f;">🔄 Flexible Paths</strong>
+                    <p>Units can be taught in different orders based on student needs</p>
+                </div>
+                <div>
+                    <strong style="display: block; margin-bottom: 0.5rem; color: #78350f;">🌿 Cultural Integration</strong>
+                    <p>Units marked with cultural elements for authentic learning</p>
+                </div>
+                <div>
+                    <strong style="display: block; margin-bottom: 0.5rem; color: #78350f;">⏱️ Time Guidance</strong>
+                    <p>Lesson counts and week estimates help with planning</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <div id="footer-container"></div>
+    <script>
+        fetch('/components/footer.html').then(r=>r.text()).then(html=>{
+            document.getElementById('footer-container').innerHTML=html;
+        });
+    </script>
+    
+    <!-- Mobile Nav & FAB -->
+    <div id="mobile-nav-bottom"></div>
+    <script>
+        fetch('/components/mobile-bottom-nav.html').then(r=>r.text()).then(html=>{
+            document.getElementById('mobile-nav-bottom').innerHTML=html;
+        });
+    </script>
+    
+    <script>
+        function loadPathway(subject) {
+            // Update active tab
+            document.querySelectorAll('.pathway-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Load different pathway (placeholder for now)
+            console.log(`Loading ${subject} pathway`);
+            // TODO: Fetch from GraphRAG and render
+        }
+    </script>
+</body>
+</html>
+

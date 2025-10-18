@@ -1,0 +1,223 @@
+/* PRINT-OPTIMIZED STYLES */
+/* Beautiful, professional print layouts for resource downloads */
+
+@media print {
+  /* Hide non-essential elements */
+  nav,
+  .nav-container,
+  .mobile-bottom-nav,
+  .fab-container,
+  .search-bar,
+  .breadcrumb-nav,
+  .progress-indicator,
+  footer,
+  .no-print,
+  button,
+  .action-button,
+  .dropdown-menu,
+  .carousel-controls,
+  .carousel-arrow {
+    display: none !important;
+  }
+
+  /* Reset page breaks */
+  * {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+  }
+
+  /* Page setup */
+  @page {
+    margin: 2cm;
+    size: A4;
+  }
+
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+    color: black;
+  }
+
+  /* Headings */
+  h1 {
+    font-size: 24pt;
+    margin-top: 0;
+    margin-bottom: 12pt;
+    page-break-after: avoid;
+  }
+
+  h2 {
+    font-size: 18pt;
+    margin-top: 18pt;
+    margin-bottom: 10pt;
+    page-break-after: avoid;
+  }
+
+  h3 {
+    font-size: 14pt;
+    margin-top: 14pt;
+    margin-bottom: 8pt;
+    page-break-after: avoid;
+  }
+
+  /* Avoid breaks inside elements */
+  .resource-card,
+  .stat-card,
+  .whakatauki-card,
+  .unit-node,
+  blockquote,
+  pre,
+  table,
+  ul,
+  ol {
+    page-break-inside: avoid;
+  }
+
+  /* Links */
+  a {
+    text-decoration: underline;
+    color: black;
+  }
+
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 10pt;
+    color: #666;
+  }
+
+  /* Tables */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 12pt 0;
+  }
+
+  th, td {
+    border: 1pt solid black;
+    padding: 6pt;
+    text-align: left;
+  }
+
+  th {
+    font-weight: bold;
+    background: #f0f0f0 !important;
+  }
+
+  /* Images */
+  img {
+    max-width: 100%;
+    page-break-inside: avoid;
+  }
+
+  /* Badges and tags - make readable */
+  .badge,
+  .unit-tag,
+  .feature-tag {
+    border: 1pt solid black !important;
+    padding: 2pt 6pt !important;
+    display: inline-block !important;
+  }
+
+  /* Print header */
+  body::before {
+    content: "Te Kete Ako - Educational Resources";
+    display: block;
+    text-align: center;
+    font-weight: bold;
+    padding-bottom: 12pt;
+    margin-bottom: 12pt;
+    border-bottom: 2pt solid black;
+  }
+
+  /* Print footer with page numbers */
+  @page {
+    @bottom-right {
+      content: "Page " counter(page) " of " counter(pages);
+      font-size: 10pt;
+    }
+  }
+
+  /* Whakataukī special formatting */
+  .whakatauki-text {
+    font-size: 14pt !important;
+    font-style: italic !important;
+    border-left: 4pt solid black !important;
+    padding-left: 12pt !important;
+    margin: 12pt 0 !important;
+  }
+
+  .whakatauki-translation {
+    background: #f5f5f5 !important;
+    border: 1pt solid black !important;
+    padding: 8pt !important;
+    margin-bottom: 12pt !important;
+  }
+
+  /* Code blocks */
+  pre, code {
+    font-family: 'Courier New', monospace;
+    font-size: 10pt;
+    background: #f5f5f5 !important;
+    border: 1pt solid black !important;
+    padding: 6pt !important;
+    page-break-inside: avoid;
+  }
+
+  /* Lists */
+  ul, ol {
+    margin-left: 20pt;
+  }
+
+  li {
+    margin-bottom: 4pt;
+  }
+
+  /* Resource metadata */
+  .resource-metadata {
+    border: 1pt solid black;
+    padding: 8pt;
+    margin: 12pt 0;
+    background: #f9f9f9 !important;
+  }
+
+  /* Ensure good contrast */
+  * {
+    color: black !important;
+    background: white !important;
+  }
+
+  /* Keep some backgrounds for context */
+  .whakatauki-translation,
+  .teaching-application,
+  .resource-metadata,
+  th {
+    background: #f5f5f5 !important;
+  }
+}
+
+/* Print button styling (not in print mode) */
+@media screen {
+  .print-button {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    padding: 1rem 2rem;
+    background: #1e40af;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.4);
+    transition: all 0.3s;
+    z-index: 998;
+  }
+
+  .print-button:hover {
+    background: #1e3a8a;
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(30, 64, 175, 0.5);
+  }
+}
+
