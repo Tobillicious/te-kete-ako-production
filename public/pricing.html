@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - Te Kete Ako</title>
+    <link rel="stylesheet" href="/css/te-kete-transformative-design-system.css">
+    <style>
+        .pricing-hero {
+            background: linear-gradient(135deg, #1a4d2e 0%, #2d5a3d 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        
+        .subscription-plans {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+        
+        .subscription-plan {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .subscription-plan:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+        
+        .subscription-plan.popular {
+            border-color: #059669;
+            transform: scale(1.05);
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #059669;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .plan-header h3 {
+            font-size: 1.5rem;
+            color: #1a4d2e;
+            margin-bottom: 1rem;
+        }
+        
+        .plan-price {
+            margin-bottom: 2rem;
+        }
+        
+        .price {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #059669;
+        }
+        
+        .period {
+            color: #6b7280;
+            font-size: 1rem;
+        }
+        
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 2rem;
+        }
+        
+        .plan-features li {
+            padding: 0.5rem 0;
+            color: #374151;
+        }
+        
+        .subscribe-btn {
+            width: 100%;
+            background: #059669;
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .subscribe-btn:hover {
+            background: #047857;
+        }
+        
+        .school-form {
+            background: #f8fafc;
+            padding: 3rem 2rem;
+            margin: 3rem 0;
+            border-radius: 16px;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #374151;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #059669;
+        }
+    </style>
+</head>
+<body>
+    <!-- Include Navigation -->
+    <div id="navigation-container"></div>
+
+    <!-- Hero Section -->
+    <section class="pricing-hero">
+        <div class="container">
+            <h1 style="font-size: 3rem; margin-bottom: 1rem;">Choose Your Plan</h1>
+            <p style="font-size: 1.2rem; opacity: 0.9; max-width: 600px; margin: 0 auto;">
+                Unlock the full potential of Te Kete Ako with our flexible pricing options
+            </p>
+        </div>
+    </section>
+
+    <!-- Subscription Plans -->
+    <section>
+        <div class="container">
+            <div id="subscription-plans" class="subscription-plans">
+                <!-- Plans will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- School License Form -->
+    <section class="school-form">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 2rem; color: #1a4d2e;">
+                🏫 School License Inquiry
+            </h2>
+            <form id="school-subscription-form" style="max-width: 600px; margin: 0 auto;">
+                <div class="form-group">
+                    <label for="schoolName">School Name</label>
+                    <input type="text" id="schoolName" name="schoolName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contactEmail">Contact Email</label>
+                    <input type="email" id="contactEmail" name="contactEmail" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="numberOfTeachers">Number of Teachers</label>
+                    <select id="numberOfTeachers" name="numberOfTeachers" required>
+                        <option value="">Select range</option>
+                        <option value="1-10">1-10 teachers</option>
+                        <option value="11-50">11-50 teachers</option>
+                        <option value="51-100">51-100 teachers</option>
+                        <option value="100+">100+ teachers</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="planType">Plan Type</label>
+                    <select id="planType" name="planType" required>
+                        <option value="">Select plan</option>
+                        <option value="school-monthly">School Monthly ($199/month)</option>
+                        <option value="school-yearly">School Yearly ($1,999/year)</option>
+                        <option value="district-monthly">District Monthly ($999/month)</option>
+                    </select>
+                </div>
+                
+                <button type="submit" style="width: 100%; background: #059669; color: white; border: none; padding: 1rem; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
+                    Request School License
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Required Scripts -->
+    <script src="/js/env-config.js"></script>
+    <script src="/vendor/supabase.min.js"></script>
+    <script src="/js/stripe-payments.js"></script>
+
+    <script>
+        // Load navigation
+        fetch('/components/navigation-standard.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('navigation-container').innerHTML = html;
+            });
+    </script>
+</body>
+</html>
