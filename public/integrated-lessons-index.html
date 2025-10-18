@@ -9,21 +9,39 @@
     <link rel="stylesheet" href="/css/te-kete-unified-design-system.css" />
     <link rel="stylesheet" href="/css/component-library.css" />
     <link rel="stylesheet" href="/css/beautiful-navigation.css" />
+    <link rel="stylesheet" href="/css/animations-professional.css" />
+    <link rel="stylesheet" href="/css/mobile-optimization.css" />
+    
+    <style>
+        .btn-primary {
+            background: var(--color-pounamu);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+    </style>
 </head>
 <body>
-    <header class="site-header">
-        <div class="nav-container">
-            <a href="/index.html" class="nav-brand">Te Kete Ako</a>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="/unit-plans.html">📚 Unit Plans</a></li>
-                    <li><a href="/integrated-lessons-index.html" class="active">🎓 Integrated Lessons</a></li>
-                    <li><a href="/handouts.html">📄 Handouts</a></li>
-                    <li><a href="/featured-resources.html">⭐ Featured</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+    <!-- Load navigation component -->
+    <div id="navigation-container"></div>
+    <script>
+        fetch('/components/navigation-standard.html')
+        .then(r => r.text())
+        .then(html => {
+            const div = document.createElement('div');
+            div.innerHTML = html;
+            document.body.insertBefore(div.firstElementChild, document.body.firstChild);
+        });
+    </script>
 
     <main role="main" style="max-width: 1400px; margin: 0 auto; padding: 2rem;">
         
