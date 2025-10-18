@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Unit Plans | Te Kete Ako</title>
- <meta name="description" content="Complete unit plans integrating mātauranga Māori with NZ Curriculum">
- 
- <link rel="stylesheet" href="/css/te-kete-unified-design-system.css">
- <link rel="stylesheet" href="/css/component-library.css">
-
- <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Plans | Te Kete Ako</title>
+    <meta name="description" content="Complete unit plans integrating mātauranga Māori with NZ Curriculum">
+    
+    <link rel="stylesheet" href="/css/te-kete-unified-design-system.css">
+    <link rel="stylesheet" href="/css/component-library.css">
+    
+    <style>
  /* Enhanced Unit Discovery System */
  .search-section {
  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
@@ -135,7 +135,7 @@
  }
 
  /* Enhanced Card Interactions */
- .unit-card {
+        .unit-card {
  cursor: pointer;
  position: relative;
  overflow: hidden;
@@ -157,30 +157,64 @@
 
  .unit-card:hover::before {
  left: 100%;
- }
-
- .unit-card:hover {
+        }
+        
+        .unit-card:hover {
  transform: translateY(-8px) scale(1.02);
  box-shadow: 0 20px 40px rgba(0,0,0,0.12), 0 8px 16px rgba(74, 110, 42, 0.15);
  border-color: rgba(74, 110, 42, 0.2);
  }
 
- .unit-card-info {
- position: absolute;
- bottom: 0;
- left: 0;
- right: 0;
- background: rgba(0,0,0,0.8);
- color: white;
- padding: 1rem;
- transform: translateY(100%);
- transition: transform 0.3s ease;
- font-size: var(--text-sm);
- }
+        .unit-card-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            font-size: var(--text-sm);
+        }
 
- .unit-card:hover .unit-card-info {
- transform: translateY(0);
- }
+        .unit-card:hover .unit-card-info {
+            transform: translateY(0);
+        }
+
+        /* Enhanced Unit Hierarchy Display */
+        .unit-hierarchy {
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .lesson-count {
+            font-size: var(--text-xs);
+            opacity: 0.8;
+            margin-bottom: 0.25rem;
+        }
+
+        .resource-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            margin-top: 0.5rem;
+        }
+
+        .resource-link {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.125rem 0.5rem;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .resource-link:hover {
+            background: rgba(255,255,255,0.3);
+        }
 
  /* Professional Typography */
  .card-title {
@@ -231,7 +265,7 @@
  border-top: 3px solid var(--color-primary);
  border-radius: 50%;
  animation: spin 1s linear infinite;
- margin: 0 auto;
+            margin: 0 auto;
  }
 
  @keyframes spin {
@@ -253,9 +287,9 @@
 
  .search-section {
  animation: fadeInUp 0.8s ease-out;
- }
-
- .year-section {
+        }
+        
+        .year-section {
  animation: fadeInUp 0.8s ease-out;
  }
 
@@ -287,17 +321,17 @@
  padding: 1.5rem;
  margin-bottom: 2rem;
  }
- }
- </style>
+        }
+    </style>
 </head>
 <body>
 
 <!-- Load Navigation -->
 <div id="nav-container"></div>
 <script>
- fetch('/components/navigation-standard.html')
- .then(r => r.text())
- .then(html => document.getElementById('nav-container').innerHTML = html);
+    fetch('/components/navigation-standard.html')
+        .then(r => r.text())
+        .then(html => document.getElementById('nav-container').innerHTML = html);
 </script>
 
 <!-- Hero Section -->
@@ -320,8 +354,8 @@
  </div>
  </div>
  </div>
-</div>
- 
+                </div>
+            
 <div class="container">
 
  <!-- Enhanced Search & Discovery Section -->
@@ -362,8 +396,8 @@
  <p>Try adjusting your search terms or filters</p>
  </div>
  </div>
-
- <!-- Year 7 Units -->
+    
+    <!-- Year 7 Units -->
  <section class="whats-new-section">
  <div class="section-header">
  <h2 class="section-title-main">Year 7 Units</h2>
@@ -380,8 +414,16 @@
  <p class="card-description">Mathematics</p>
  <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Introduction to algebraic thinking and pattern recognition</p>
  <div class="unit-card-info">
+ <div class="lesson-count">📚 Houses 8 lessons with interactive activities</div>
+ <div class="unit-hierarchy">
  <strong>Topics:</strong> Algebraic thinking, pattern recognition, problem-solving<br>
- <strong>Duration:</strong> 8 weeks • <strong>Assessment:</strong> Portfolio-based
+ <strong>Duration:</strong> 8 weeks • <strong>Assessment:</strong> Portfolio-based<br>
+ <div class="resource-links">
+ <a href="/units/y7-maths-algebra/lessons/" class="resource-link">Lesson Plans</a>
+ <a href="/units/y7-maths-algebra/handouts/" class="resource-link">Handouts</a>
+ <a href="/units/y7-maths-algebra/assessments/" class="resource-link">Assessments</a>
+ </div>
+ </div>
  </div>
  </div>
  </a>
@@ -396,8 +438,16 @@
  <p class="card-description">Science</p>
  <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Exploring local ecosystems and biodiversity</p>
  <div class="unit-card-info">
+ <div class="lesson-count">🔬 Houses 6 lessons with field activities</div>
+ <div class="unit-hierarchy">
  <strong>Topics:</strong> Biodiversity, food chains, environmental stewardship<br>
- <strong>Duration:</strong> 6 weeks • <strong>Assessment:</strong> Field observations
+ <strong>Duration:</strong> 6 weeks • <strong>Assessment:</strong> Field observations<br>
+ <div class="resource-links">
+ <a href="/units/y7-science-ecosystems/lessons/" class="resource-link">Lesson Plans</a>
+ <a href="/units/y7-science-ecosystems/handouts/" class="resource-link">Handouts</a>
+ <a href="/units/y7-science-ecosystems/activities/" class="resource-link">Activities</a>
+ </div>
+ </div>
  </div>
  </div>
  </a>
@@ -412,8 +462,16 @@
  <p class="card-description">English</p>
  <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Building strong literacy foundations</p>
  <div class="unit-card-info">
+ <div class="lesson-count">📖 Houses 10 lessons with literacy activities</div>
+ <div class="unit-hierarchy">
  <strong>Topics:</strong> Reading comprehension, vocabulary building, text analysis<br>
- <strong>Duration:</strong> 10 weeks • <strong>Assessment:</strong> Reading portfolio
+ <strong>Duration:</strong> 10 weeks • <strong>Assessment:</strong> Reading portfolio<br>
+ <div class="resource-links">
+ <a href="/units/y7-foundational-reading/lessons/" class="resource-link">Lesson Plans</a>
+ <a href="/units/y7-foundational-reading/handouts/" class="resource-link">Handouts</a>
+ <a href="/units/y7-foundational-reading/assessments/" class="resource-link">Assessments</a>
+ </div>
+ </div>
  </div>
  </div>
  </a>
@@ -432,12 +490,12 @@
  <strong>Duration:</strong> 8 weeks • <strong>Assessment:</strong> Project showcase
  </div>
  </div>
- </a>
-
- </div>
+            </a>
+            
+                </div>
  </section>
- 
- <!-- Year 8 Units -->
+            
+    <!-- Year 8 Units -->
  <section class="whats-new-section">
  <div class="section-header">
  <h2 class="section-title-main">Year 8 Units</h2>
@@ -506,12 +564,12 @@
  <strong>Duration:</strong> 8 weeks • <strong>Assessment:</strong> Critical analysis portfolio
  </div>
  </div>
- </a>
-
- </div>
+            </a>
+            
+                </div>
  </section>
- 
- <!-- Year 9 Units -->
+            
+    <!-- Year 9 Units -->
  <section class="whats-new-section">
  <div class="section-header">
  <h2 class="section-title-main">Year 9 Units</h2>
@@ -548,12 +606,12 @@
  <strong>Duration:</strong> 12 weeks • <strong>Assessment:</strong> Environmental impact study
  </div>
  </div>
- </a>
-
- </div>
+            </a>
+            
+                </div>
  </section>
-
- <!-- Year 10 Units -->
+    
+    <!-- Year 10 Units -->
  <section class="whats-new-section">
  <div class="section-header">
  <h2 class="section-title-main">Year 10 Units</h2>
@@ -590,12 +648,12 @@
  <strong>Duration:</strong> 9 weeks • <strong>Assessment:</strong> Navigation project
  </div>
  </div>
- </a>
-
- </div>
+            </a>
+            
+            </div>
  </section>
 
- <!-- Special Units -->
+    <!-- Special Units -->
  <section class="whats-new-section">
  <div class="section-header">
  <h2 class="section-title-main">Cross-Year Units</h2>
@@ -616,9 +674,9 @@
  <strong>Duration:</strong> 12 weeks • <strong>Assessment:</strong> Research portfolio
  </div>
  </div>
- </a>
-
- </div>
+            </a>
+            
+                </div>
  </section>
 
  <!-- AI-Generated Resources Section -->
@@ -684,25 +742,25 @@
  </div>
  </div>
  </a>
- </div>
+            </div>
  </section>
- 
- <!-- Back Button -->
- <div style="text-align: center; margin: 3rem 0;">
+            
+    <!-- Back Button -->
+    <div style="text-align: center; margin: 3rem 0;">
  <a href="/" class="btn" style="background: var(--color-primary); color: white; padding: 1rem 2rem; border-radius: var(--radius-lg); font-weight: 600; text-decoration: none;">
- ← Back to Home
- </a>
- </div>
- 
- </div>
- 
+            ← Back to Home
+        </a>
+            </div>
+            
+        </div>
+        
 <!-- Load Footer -->
 <div id="footer-container"></div>
-<script>
- fetch('/components/footer.html')
- .then(r => r.text())
- .then(html => document.getElementById('footer-container').innerHTML = html);
-</script>
+    <script>
+    fetch('/components/footer.html')
+        .then(r => r.text())
+        .then(html => document.getElementById('footer-container').innerHTML = html);
+    </script>
 
 <script>
  // Enhanced Unit Discovery System
@@ -899,7 +957,7 @@
  
  });
  });
-</script>
+    </script>
 
 </body>
 </html>
