@@ -1,0 +1,324 @@
+/* MOBILE ENHANCEMENTS - Touch-optimized, accessible */
+
+/* Touch-friendly tap targets (minimum 44x44px) */
+button, 
+a.button,
+.btn,
+input[type="button"],
+input[type="submit"],
+.nav-link {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.75rem 1.5rem;
+}
+
+/* Mobile navigation improvements */
+@media (max-width: 768px) {
+    /* Larger touch targets on mobile */
+    .nav-link,
+    .menu-item {
+        padding: 1rem 1.5rem;
+        font-size: 1.125rem;
+    }
+    
+    /* Bottom navigation bar (thumbs-friendly) */
+    .mobile-bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        border-top: 1px solid #e0e0e0;
+        display: flex;
+        justify-content: space-around;
+        padding: 0.5rem;
+        box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+        z-index: 1000;
+    }
+    
+    .mobile-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0.5rem;
+        color: #546e7a;
+        text-decoration: none;
+        font-size: 0.75rem;
+        min-width: 60px;
+        transition: color 0.2s;
+    }
+    
+    .mobile-nav-item:hover,
+    .mobile-nav-item.active {
+        color: #1a4d2e;
+    }
+    
+    .mobile-nav-icon {
+        font-size: 1.5rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    /* Swipe gestures enabled */
+    .carousel-container,
+    .featured-carousel-section {
+        touch-action: pan-x;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Larger form inputs on mobile */
+    input[type="text"],
+    input[type="email"],
+    input[type="search"],
+    textarea,
+    select {
+        font-size: 16px; /* Prevents zoom on iOS */
+        padding: 1rem;
+        min-height: 48px;
+    }
+    
+    /* Stack layouts on mobile */
+    .stats-grid,
+    .resource-grid,
+    .dual-narrative,
+    .dual-knowledge {
+        grid-template-columns: 1fr !important;
+    }
+    
+    /* Reduce padding on mobile */
+    main,
+    section {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+    
+    /* Hero adjustments */
+    .hero-enhanced,
+    .variants-hero,
+    .math-hero,
+    .science-hero,
+    .english-hero,
+    .cultural-hero {
+        min-height: 400px !important;
+        padding: 3rem 1rem !important;
+    }
+    
+    .hero-title,
+    .variants-hero h1,
+    .math-hero h1,
+    .science-hero h1,
+    .english-hero h1,
+    .cultural-hero h1 {
+        font-size: 2.5rem !important;
+    }
+    
+    /* Card spacing */
+    .resource-card,
+    .variant-card,
+    .stat-card {
+        margin-bottom: 1rem;
+    }
+    
+    /* Make carousels stack on mobile */
+    .carousel-slide {
+        padding: 2rem 1rem !important;
+    }
+}
+
+/* Accessibility Enhancements */
+
+/* Focus indicators (keyboard navigation) */
+a:focus,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+    outline: 3px solid #0891b2;
+    outline-offset: 2px;
+}
+
+/* Skip to main content link (for screen readers) */
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    z-index: 10000;
+    padding: 1rem 2rem;
+    background: #1a4d2e;
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.skip-link:focus {
+    left: 50%;
+    top: 1rem;
+    transform: translateX(-50%);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .resource-card,
+    .stat-card,
+    .variant-card {
+        border: 2px solid #000;
+    }
+    
+    .badge {
+        border: 1px solid currentColor;
+    }
+}
+
+/* Reduced motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .hero-pattern {
+        animation: none !important;
+    }
+}
+
+/* Dark mode support (system preference) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-surface: #1a1a1a;
+        --color-text: #e0e0e0;
+        --color-text-secondary: #b0b0b0;
+    }
+    
+    .resource-card,
+    .stat-card {
+        background: #2a2a2a;
+        border-color: #404040;
+    }
+}
+
+/* Improved text readability */
+p, li, td {
+    max-width: 70ch; /* Optimal line length */
+    line-height: 1.6;
+}
+
+/* Larger line height for better reading */
+body {
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    line-height: 1.3;
+}
+
+/* Better link visibility */
+a {
+    text-decoration-thickness: 2px;
+    text-underline-offset: 2px;
+}
+
+/* Image accessibility */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+img:not([alt]) {
+    outline: 3px solid red; /* Flag missing alt text in development */
+}
+
+/* Responsive tables */
+@media (max-width: 768px) {
+    table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* Better form labels */
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #1a4d2e;
+}
+
+/* Error states */
+input:invalid,
+select:invalid,
+textarea:invalid {
+    border-color: #dc2626;
+}
+
+input:invalid:focus,
+select:invalid:focus,
+textarea:invalid:focus {
+    outline-color: #dc2626;
+}
+
+/* Success states */
+.success {
+    color: #16a34a;
+    background: #f0fdf4;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #16a34a;
+}
+
+/* Error states */
+.error {
+    color: #dc2626;
+    background: #fef2f2;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #dc2626;
+}
+
+/* Loading states (accessible) */
+.loading::after {
+    content: '';
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid #1a4d2e;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 0.8s linear infinite;
+    margin-left: 0.5rem;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Screen reader only text */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Focus visible (modern browsers) */
+:focus-visible {
+    outline: 3px solid #0891b2;
+    outline-offset: 2px;
+}
+
+/* Safe area insets for notched devices */
+@supports(padding: max(0px)) {
+    body {
+        padding-left: max(0px, env(safe-area-inset-left));
+        padding-right: max(0px, env(safe-area-inset-right));
+    }
+    
+    .mobile-bottom-nav {
+        padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+    }
+}
+

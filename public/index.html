@@ -24,6 +24,7 @@
 <!-- ENHANCED STYLES -->
 <link rel="stylesheet" href="/css/enhanced-cards.css">
 <link rel="stylesheet" href="/css/cultural-patterns.css">
+<link rel="stylesheet" href="/css/mobile-enhanced.css">
 
 <!-- ENHANCED SEARCH -->
 <script src="/js/enhanced-search.js" defer></script>
@@ -229,6 +230,46 @@ h2 {
 <span class="breadcrumb-separator">/</span>
 </div>
 </nav>
+
+<!-- Enhanced Global Search Section -->
+<section class="enhanced-search-section" style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); padding: 3rem 2rem; margin: 2rem 0; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.1);">
+    <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+        <h2 style="font-size: 2.5rem; color: #0f2818; margin-bottom: 1rem; font-weight: 800;">🔍 Discover Excellence</h2>
+        <p style="font-size: 1.2rem; color: #4a6e2a; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+            Search across 90,000+ educational resources with intelligent discovery powered by mātauranga Māori
+        </p>
+
+        <div class="global-search-container" style="max-width: 600px; margin: 0 auto; position: relative; margin-bottom: 2rem;">
+            <input type="search" class="global-search-input" id="global-search" placeholder="Search units, lessons, resources, or topics..." aria-label="Global search" style="width: 100%; padding: 1.25rem 3rem 1.25rem 1rem; border: 2px solid #e2e8f0; border-radius: 50px; font-size: 1.2rem; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); box-shadow: 0 6px 24px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.5);">
+            <svg class="global-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position: absolute; right: 1.25rem; top: 50%; transform: translateY(-50%); color: #64748b; width: 1.75rem; height: 1.75rem;" aria-hidden="true">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="M21 21l-4.35-4.35"/>
+            </svg>
+        </div>
+
+        <div class="global-search-stats" style="display: flex; justify-content: center; gap: 3rem; margin-bottom: 2rem; opacity: 0.9;">
+            <div style="text-align: center;">
+                <div style="font-size: 2.5rem; font-weight: 800; color: #4a6e2a;">90,000+</div>
+                <div style="font-size: 1rem; color: rgba(255,255,255,0.9);">Resources</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 2.5rem; font-weight: 800; color: #4a6e2a;">12</div>
+                <div style="font-size: 1rem; color: rgba(255,255,255,0.9);">Subject Areas</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 2.5rem; font-weight: 800; color: #4a6e2a;">100%</div>
+                <div style="font-size: 1rem; color: rgba(255,255,255,0.9);">Culturally Integrated</div>
+            </div>
+        </div>
+
+        <div class="search-suggestions" style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+            <span class="suggestion-tag" style="background: rgba(74, 110, 42, 0.1); color: #4a6e2a; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem; cursor: pointer; transition: all 0.2s;" data-suggestion="māori mathematics">🌿 Māori Mathematics</span>
+            <span class="suggestion-tag" style="background: rgba(14, 165, 233, 0.1); color: #0ea5e9; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem; cursor: pointer; transition: all 0.2s;" data-suggestion="year 9 science">🔬 Year 9 Science</span>
+            <span class="suggestion-tag" style="background: rgba(236, 72, 153, 0.1); color: #ec4899; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem; cursor: pointer; transition: all 0.2s;" data-suggestion="cultural competency">🏛️ Cultural Competency</span>
+        </div>
+    </div>
+</section>
+
 <!-- ENHANCED HERO SECTION - Stunning Visual Entry -->
     <div id="hero-enhanced-container"></div>
     <script>
@@ -731,15 +772,6 @@ a[href*="teaching-options"]:hover {
         </a>
     </div>
 </section>
-
-<!-- Stats Dashboard Component -->
-<div id="stats-dashboard-container"></div>
-<script>
-    fetch('/components/stats-dashboard.html')
-        .then(response => response.text())
-        .then(html => document.getElementById('stats-dashboard-container').innerHTML = html)
-        .catch(err => console.log('Stats dashboard loading'));
-</script>
 
 <!-- Value Proposition Section -->
 <section class="value-section">
@@ -1626,5 +1658,22 @@ a[href*="teaching-options"]:hover {
 <!-- Professional JS - Main only -->
 <script defer="" src="/js/te-kete-professional.js"></script>
 <script src="/js/enhanced-search.js"></script>
+
+<!-- Mobile Bottom Navigation -->
+<div id="mobile-nav-bottom"></div>
+<script>
+    fetch('/components/mobile-bottom-nav.html').then(r=>r.text()).then(html=>{
+        document.getElementById('mobile-nav-bottom').innerHTML=html;
+    }).catch(err => console.error('Mobile nav error:', err));
+</script>
+
+<!-- Floating Action Button -->
+<div id="fab-quick-actions"></div>
+<script>
+    fetch('/components/quick-actions-fab.html').then(r=>r.text()).then(html=>{
+        document.getElementById('fab-quick-actions').innerHTML=html;
+    }).catch(err => console.error('FAB error:', err));
+</script>
+
 </body>
 </html>

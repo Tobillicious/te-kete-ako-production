@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Graph - 5,324 Connections | Te Kete Ako</title>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <div id="header-component"></div>
+    <script>
+        fetch('/components/header.html')
+            .then(response => response.text())
+            .then(html => document.getElementById('header-component').innerHTML = html);
+    </script>
+
+    <main style="max-width: 1600px; margin: 2rem auto; padding: 0 2rem;">
+        <section style="text-align: center; margin-bottom: 2rem;">
+            <h1 style="font-size: 3.5rem; font-weight: 800; color: #1a4d2e; margin-bottom: 1rem;">
+                🕸️ Knowledge Graph Visualization
+            </h1>
+            <p style="font-size: 1.3rem; color: #666; max-width: 900px; margin: 0 auto;">
+                Explore 5,324 intelligent connections across 8,037 resources. See how lessons, handouts, and units connect!
+            </p>
+        </section>
+
+        <!-- Controls -->
+        <div style="background: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                    <input type="checkbox" id="show-lessons" checked> 📖 Lessons
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                    <input type="checkbox" id="show-handouts" checked> 📄 Handouts
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                    <input type="checkbox" id="show-units" checked> 📚 Units
+                </label>
+                <select id="relationship-filter" style="padding: 0.5rem; border-radius: 6px;">
+                    <option value="all">All Relationships</option>
+                    <option value="same_subject">Same Subject</option>
+                    <option value="lesson_has_handout">Lesson → Handout</option>
+                    <option value="unit_contains_lesson">Unit → Lesson</option>
+                    <option value="prerequisite">Prerequisites</option>
+                </select>
+                <button onclick="loadGraph()" style="padding: 0.5rem 1.5rem; background: #1a4d2e; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
+                    🔄 Update Graph
+                </button>
+            </div>
+        </div>
+
+        <!-- Graph Container -->
+        <div id="graph-container" style="background: white; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); height: 800px; position: relative;"></div>
+
+        <!-- Legend -->
+        <div style="background: white; padding: 1.5rem; border-radius: 12px; margin-top: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+            <h3 style="margin-bottom: 1rem; color: #1a4d2e;">Relationship Types:</h3>
+            <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+                <div><span style="color: #7c3aed;">●</span> Same Subject (1,000)</div>
+                <div><span style="color: #059669;">●</span> Lesson → Handout (500)</div>
+                <div><span style="color: #dc2626;">●</span> Unit → Lesson (500)</div>
+                <div><span style="color: #ea580c;">●</span> Prerequisite (272)</div>
+                <div><span style="color: #0f766e;">●</span> Lesson Sequence (2,000)</div>
+                <div><span style="color: #1e40af;">●</span> Other (552)</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+
+        async function loadGraph() {
+            const container = d3.select('#graph-container');
+            container.html('<div style="text-align: center; padding: 4rem;"><div style="font-size: 3rem;">🧠</div><p>Loading knowledge graph...</p></div>');
+
+            try {
+                // Fetch sample of relationships
+                const response = await fetch(
+                    `${SUPABASE_URL}/rest/v1/graphrag_relationships?limit=200`,
+                    {
+                        headers: {
+                            'apikey': SUPABASE_ANON_KEY,
+                            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                        }
+                    }
+                );
+
+                const relationships = await response.json();
+                
+                // Build nodes and links
+                const nodes = new Map();
+                const links = [];
+
+                relationships.forEach(rel => {
+                    if (!nodes.has(rel.source_path)) {
+                        nodes.set(rel.source_path, { id: rel.source_path, group: rel.relationship_type });
+                    }
+                    if (!nodes.has(rel.target_path)) {
+                        nodes.set(rel.target_path, { id: rel.target_path, group: rel.relationship_type });
+                    }
+                    links.push({
+                        source: rel.source_path,
+                        target: rel.target_path,
+                        type: rel.relationship_type
+                    });
+                });
+
+                const graphData = {
+                    nodes: Array.from(nodes.values()).slice(0, 100),
+                    links: links.slice(0, 200)
+                };
+
+                renderGraph(graphData);
+
+            } catch (error) {
+                container.html(`<div style="text-align: center; padding: 4rem; color: #dc2626;">
+                    <div style="font-size: 3rem;">⚠️</div>
+                    <p>Error loading graph. Showing sample visualization...</p>
+                </div>`);
+                renderSampleGraph();
+            }
+        }
+
+        function renderGraph(data) {
+            const container = document.getElementById('graph-container');
+            const width = container.clientWidth;
+            const height = 800;
+
+            // Clear container
+            d3.select('#graph-container').html('');
+
+            const svg = d3.select('#graph-container')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            // Create force simulation
+            const simulation = d3.forceSimulation(data.nodes)
+                .force('link', d3.forceLink(data.links).id(d => d.id).distance(100))
+                .force('charge', d3.forceManyBody().strength(-300))
+                .force('center', d3.forceCenter(width / 2, height / 2));
+
+            // Draw links
+            const link = svg.append('g')
+                .selectAll('line')
+                .data(data.links)
+                .join('line')
+                .attr('stroke', d => getRelationshipColor(d.type))
+                .attr('stroke-width', 2)
+                .attr('opacity', 0.6);
+
+            // Draw nodes
+            const node = svg.append('g')
+                .selectAll('circle')
+                .data(data.nodes)
+                .join('circle')
+                .attr('r', 8)
+                .attr('fill', '#1a4d2e')
+                .call(drag(simulation));
+
+            // Add tooltips
+            node.append('title')
+                .text(d => d.id);
+
+            // Update positions
+            simulation.on('tick', () => {
+                link
+                    .attr('x1', d => d.source.x)
+                    .attr('y1', d => d.source.y)
+                    .attr('x2', d => d.target.x)
+                    .attr('y2', d => d.target.y);
+
+                node
+                    .attr('cx', d => d.x)
+                    .attr('cy', d => d.y);
+            });
+        }
+
+        function getRelationshipColor(type) {
+            const colors = {
+                'same_subject': '#7c3aed',
+                'lesson_has_handout': '#059669',
+                'unit_contains_lesson': '#dc2626',
+                'prerequisite': '#ea580c',
+                'lesson_sequence': '#0f766e',
+                'same_year_level': '#1e40af'
+            };
+            return colors[type] || '#64748b';
+        }
+
+        function drag(simulation) {
+            function dragstarted(event) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                event.subject.fx = event.subject.x;
+                event.subject.fy = event.subject.y;
+            }
+
+            function dragged(event) {
+                event.subject.fx = event.subject.x;
+                event.subject.fy = event.subject.y;
+            }
+
+            function dragended(event) {
+                if (!event.active) simulation.alphaTarget(0);
+                event.subject.fx = null;
+                event.subject.fy = null;
+            }
+
+            return d3.drag()
+                .on('start', dragstarted)
+                .on('drag', dragged)
+                .on('end', dragended);
+        }
+
+        function renderSampleGraph() {
+            // Fallback: Show sample connections
+            const sample = {
+                nodes: [
+                    { id: 'Mathematics', group: 1 },
+                    { id: 'Algebra', group: 1 },
+                    { id: 'Geometry', group: 1 },
+                    { id: 'Science', group: 2 },
+                    { id: 'Biology', group: 2 },
+                    { id: 'Chemistry', group: 2 }
+                ],
+                links: [
+                    { source: 'Mathematics', target: 'Algebra', type: 'contains' },
+                    { source: 'Mathematics', target: 'Geometry', type: 'contains' },
+                    { source: 'Science', target: 'Biology', type: 'contains' },
+                    { source: 'Science', target: 'Chemistry', type: 'contains' }
+                ]
+            };
+            renderGraph(sample);
+        }
+
+        // Load graph on page load
+        loadGraph();
+    </script>
+
+    <div id="footer-component"></div>
+    <script>
+        fetch('/components/footer.html')
+            .then(response => response.text())
+            .then(html => document.getElementById('footer-component').innerHTML = html);
+    </script>
+</body>
+</html>
+

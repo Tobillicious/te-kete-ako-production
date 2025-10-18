@@ -1,0 +1,211 @@
+<!-- GLOBAL SEARCH BAR -->
+<!-- Prominent GraphRAG-powered search on every page -->
+
+<style>
+.global-search-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    position: relative;
+}
+
+.search-bar {
+    width: 100%;
+    padding: 1rem 1.5rem 1rem 3.5rem;
+    font-size: 1.125rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 50px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.search-bar:focus {
+    outline: none;
+    border-color: #1a4d2e;
+    box-shadow: 0 6px 20px rgba(26, 77, 46, 0.15);
+}
+
+.search-icon {
+    position: absolute;
+    left: 1.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    color: #1a4d2e;
+    pointer-events: none;
+}
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 1rem;
+    right: 1rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+    margin-top: 0.5rem;
+    max-height: 500px;
+    overflow-y: auto;
+    display: none;
+    z-index: 100;
+}
+
+.search-result-item {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-decoration: none;
+    display: block;
+    color: inherit;
+}
+
+.search-result-item:hover {
+    background: #f8f9fa;
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.search-result-title {
+    font-weight: 700;
+    color: #1a4d2e;
+    margin-bottom: 0.25rem;
+    font-size: 1rem;
+}
+
+.search-result-meta {
+    font-size: 0.875rem;
+    color: #78909c;
+}
+
+.search-no-results {
+    padding: 2rem;
+    text-align: center;
+    color: #888;
+}
+
+.search-loading {
+    padding: 2rem;
+    text-align: center;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.search-loading::before {
+    content: '🔍';
+    display: block;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    animation: spin 2s linear infinite;
+}
+
+@media (max-width: 768px) {
+    .search-bar {
+        font-size: 1rem;
+        padding: 0.875rem 1rem 0.875rem 3rem;
+    }
+    
+    .search-icon {
+        left: 1.5rem;
+        font-size: 1.25rem;
+    }
+}
+</style>
+
+<div class="global-search-container">
+    <span class="search-icon">🔍</span>
+    <input 
+        type="search" 
+        class="search-bar" 
+        id="global-search-input"
+        placeholder="Search 20,690 resources... (e.g., 'algebra', 'whakataukī', 'Year 8')"
+        aria-label="Search all resources"
+    >
+    <div class="search-results" id="global-search-results"></div>
+</div>
+
+<script>
+(function() {
+    const input = document.getElementById('global-search-input');
+    const results = document.getElementById('global-search-results');
+    let searchTimeout;
+    
+    if (!input || !results) return;
+    
+    input.addEventListener('input', (e) => {
+        const query = e.target.value.trim();
+        
+        if (query.length < 2) {
+            results.style.display = 'none';
+            return;
+        }
+        
+        // Show loading state
+        results.innerHTML = '<div class="search-loading">Searching...</div>';
+        results.style.display = 'block';
+        
+        // Debounce search
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => performSearch(query), 300);
+    });
+    
+    async function performSearch(query) {
+        try {
+            const url = 'https://nlgldaqtubrlcqddppbq.supabase.co/rest/v1/resources';
+            const headers = {
+                'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM',
+                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
+            };
+            
+            const response = await fetch(
+                `${url}?is_active=eq.true&or=(title.ilike.*${encodeURIComponent(query)}*,description.ilike.*${encodeURIComponent(query)}*)&limit=10&select=*`,
+                { headers }
+            );
+            
+            const data = await response.json();
+            displayResults(data);
+            
+        } catch (error) {
+            results.innerHTML = '<div class="search-no-results">Search error. Please try again.</div>';
+        }
+    }
+    
+    function displayResults(data) {
+        if (!data || data.length === 0) {
+            results.innerHTML = '<div class="search-no-results">No results found. Try a different search term.</div>';
+            return;
+        }
+        
+        const html = data.map(item => `
+            <a href="${item.path}" class="search-result-item">
+                <div class="search-result-title">${item.title}</div>
+                <div class="search-result-meta">
+                    ${item.subject} • ${item.type} • ${item.level || 'All Levels'}
+                </div>
+            </a>
+        `).join('');
+        
+        results.innerHTML = html;
+    }
+    
+    // Close results when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!input.contains(e.target) && !results.contains(e.target)) {
+            results.style.display = 'none';
+        }
+    });
+    
+    // Show results when input is focused and has content
+    input.addEventListener('focus', () => {
+        if (input.value.length >= 2) {
+            results.style.display = 'block';
+        }
+    });
+})();
+</script>
+
