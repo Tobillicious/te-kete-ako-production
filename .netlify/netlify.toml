@@ -4,10 +4,10 @@ headersOrigin = "config"
 redirectsOrigin = "config"
 
 [build]
-publish = "/Users/admin/Documents/te-kete-ako-clean/public"
+publish = "/Users/admin/Documents/te-kete-ako-clean/dist"
 publishOrigin = "config"
 commandOrigin = "config"
-command = "echo 'Static site - no build needed'"
+command = "npm run build"
 base = "/Users/admin/Documents/te-kete-ako-clean"
 functions = "/Users/admin/Documents/te-kete-ako-clean/netlify/functions"
 
@@ -25,6 +25,14 @@ NODE_VERSION = "18"
 [build.processing.js]
 
 [build.services]
+
+[build.lifecycle]
+onInit = "echo 'Starting build process...'"
+onDev = "echo 'Development mode'"
+preBuild = "npm run predeploy"
+onBuild = "echo 'Building...'"
+onSuccess = "echo 'Build successful!'"
+onFailure = "echo 'Build failed!'"
 
 [functions]
 
@@ -45,7 +53,7 @@ X-Frame-Options = "DENY"
 X-XSS-Protection = "1; mode=block"
 X-Content-Type-Options = "nosniff"
 Referrer-Policy = "strict-origin-when-cross-origin"
-Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://cdn.jsdelivr.net https://unpkg.com https://supabase.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com; img-src 'self' data: https: https://placehold.co; connect-src 'self' https://*.supabase.co https://supabase.com https://api.exa.ai https://api.deepseek.com https://fonts.googleapis.com https://fonts.gstatic.com https://placehold.co;"
+Content-Security-Policy = "default-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co https://api.exa.ai https://api.deepseek.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; worker-src 'self'; child-src 'none'; upgrade-insecure-requests; block-all-mixed-content;"
 
 [[headers]]
 for = "*.css"
@@ -57,6 +65,18 @@ Content-Type = "text/css"
 from = "/api/*"
 to = "/index.html"
 status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/index"
+to = "/index.html"
+status = 301.0
 force = false
 
 [redirects.query]
@@ -104,6 +124,138 @@ force = false
 [[redirects]]
 from = "/api/*"
 to = "/.netlify/functions/:splat"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/handouts.html"
+to = "/handouts.html"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/youtube.html"
+to = "/youtube.html"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/lessons.html"
+to = "/lessons.html"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/resource-hub.html"
+to = "/resource-hub.html"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/curriculum-index.html"
+to = "/curriculum-index.html"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/teachers/index.html"
+to = "/teachers/index.html"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/games.html"
+to = "/games.html"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/guided-inquiry-unit/*"
+to = "/guided-inquiry-unit/:splat"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/units/*"
+to = "/units/:splat"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/lessons/*"
+to = "/lessons/:splat"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/handouts/*"
+to = "/handouts/:splat"
 status = 200.0
 force = false
 
