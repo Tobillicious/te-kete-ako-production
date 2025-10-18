@@ -208,35 +208,45 @@ def generate_nyt_quality_html(vocab_key: str, unit_path: str, lesson_title: str,
  <link rel="stylesheet" href="/css/print.css"/>
  <title>Wordsearch: {lesson_title} | {year_level}</title>
  <style>
- /* World-Class Game Design */
- body{{background:linear-gradient(135deg,#f8faf8 0%,#e8f5e9 100%);min-height:100vh}}
- .game-container{{display:grid;grid-template-columns:1fr 320px;gap:2.5rem;max-width:1250px;margin:2rem auto;padding:0 1.5rem}}
- .grid-section{{background:white;padding:2.5rem;border-radius:20px;box-shadow:0 8px 32px rgba(26,77,46,0.12),0 2px 8px rgba(0,0,0,0.04);border:1px solid rgba(26,77,46,0.08)}}
- .sidebar{{background:linear-gradient(135deg,#ffffff 0%,#f8faf8 100%);padding:2rem;border-radius:20px;box-shadow:0 8px 32px rgba(26,77,46,0.12),0 2px 8px rgba(0,0,0,0.04);border:1px solid rgba(26,77,46,0.08);position:sticky;top:2rem;max-height:calc(100vh - 4rem);overflow:hidden}}
- .wordsearch-grid{{display:grid;grid-template-columns:repeat(15,1fr);gap:3px;max-width:600px;margin:0 auto;padding:1rem;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-radius:12px;-webkit-user-select:none;user-select:none}}
- .cell{{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:white;border:2px solid #cbd5e1;border-radius:8px;font-weight:700;font-size:1.1rem;color:#1a4d2e;cursor:pointer;transition:all 0.2s cubic-bezier(0.4,0,0.2,1);font-family:'SF Mono','Monaco','Courier New',monospace;box-shadow:0 1px 3px rgba(0,0,0,0.05)}}
- .cell:hover{{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-color:#10b981;transform:scale(1.1);box-shadow:0 4px 12px rgba(16,185,129,0.2)}}
- .cell.selecting{{background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:#f59e0b;box-shadow:0 0 0 3px rgba(251,191,36,0.2)}}
- .cell.found{{background:linear-gradient(135deg,#1a4d2e,#0f3a23);color:white;border-color:#1a4d2e;animation:foundPulse 0.5s cubic-bezier(0.4,0,0.2,1);box-shadow:0 4px 12px rgba(26,77,46,0.3)}}
- @keyframes foundPulse{{0%{{transform:scale(1);box-shadow:0 0 0 0 rgba(26,77,46,0.7)}}50%{{transform:scale(1.15);box-shadow:0 0 0 10px rgba(26,77,46,0)}}100%{{transform:scale(1);box-shadow:0 4px 12px rgba(26,77,46,0.3)}}}}
- .word-list-header{{font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#64748b;margin-bottom:1.25rem;padding-bottom:0.75rem;border-bottom:2px solid #e2e8f0}}
- #words{{max-height:420px;overflow-y:auto;padding-right:0.75rem;margin-right:-0.25rem}}
- #words::-webkit-scrollbar{{width:8px}}
- #words::-webkit-scrollbar-track{{background:#f1f5f9;border-radius:4px;margin:4px 0}}
- #words::-webkit-scrollbar-thumb{{background:linear-gradient(180deg,#cbd5e1,#94a3b8);border-radius:4px;border:2px solid #f1f5f9}}
- #words::-webkit-scrollbar-thumb:hover{{background:linear-gradient(180deg,#94a3b8,#64748b)}}
- .word-item{{padding:0.875rem 1rem;margin-bottom:0.5rem;background:white;border-radius:10px;border-left:4px solid #1a4d2e;cursor:pointer;transition:all 0.25s cubic-bezier(0.4,0,0.2,1);box-shadow:0 1px 3px rgba(0,0,0,0.05)}}
- .word-item:hover{{background:linear-gradient(135deg,#f0fdf4,#dcfce7);transform:translateX(6px);box-shadow:0 4px 12px rgba(16,185,129,0.15);border-left-width:5px}}
- .word-item.found{{background:linear-gradient(135deg,#d1fae5,#a7f3d0);border-left-color:#10b981;text-decoration:line-through;opacity:0.7;transform:scale(0.98)}}
- .word-text{{font-weight:700;color:#1a4d2e;display:block;font-size:0.95rem;letter-spacing:0.02em}}
- .word-meaning{{font-size:0.75rem;color:#64748b;font-style:italic;margin-top:0.35rem;display:block;line-height:1.4}}
- .progress-container{{background:linear-gradient(135deg,#1a4d2e,#2d6a4f);padding:1.75rem;border-radius:14px;margin-bottom:1.5rem;box-shadow:0 4px 16px rgba(26,77,46,0.2)}}
- .progress-stats{{display:flex;justify-content:space-between;margin-bottom:0.875rem;font-size:0.875rem;font-weight:700;color:white}}
- .progress-bar{{height:10px;background:rgba(255,255,255,0.2);border-radius:5px;overflow:hidden;box-shadow:inset 0 2px 4px rgba(0,0,0,0.1)}}
- .progress-fill{{height:100%;background:linear-gradient(90deg,#fbbf24,#f59e0b);transition:width 0.6s cubic-bezier(0.4,0,0.2,1);border-radius:5px;box-shadow:0 0 10px rgba(251,191,36,0.5)}}
- .btn{{padding:0.875rem 1.5rem;border:none;border-radius:10px;font-weight:700;font-size:0.875rem;cursor:pointer;transition:all 0.25s cubic-bezier(0.4,0,0.2,1);letter-spacing:0.02em;text-transform:uppercase;box-shadow:0 2px 8px rgba(0,0,0,0.1)}}
- .btn-primary{{background:linear-gradient(135deg,#1a4d2e,#2d6a4f);color:white}}
- .btn-primary:hover{{transform:translateY(-2px);box-shadow:0 8px 20px rgba(26,77,46,0.3)}}
+ /* TE KETE AKO TRANSFORMATIVE WORDSEARCH DESIGN */
+ :root{{--pounamu-green:#059669;--pounamu-light:#d1fae5;--whenua-light:#f5f1eb;--sunrise-yellow:#fef3c7;--shadow-cultural:0 4px 6px -1px rgba(5,150,105,0.1)}}
+ body{{background:linear-gradient(135deg,#fafbfc 0%,#f0f7f4 100%);min-height:100vh;position:relative}}
+ body::before{{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 10 Q 40 20 40 30 Q 40 40 30 40 Q 20 40 20 30 Q 20 25 23 22' stroke='rgba(26,77,46,0.03)' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");opacity:0.4;pointer-events:none}}
+ .game-container{{display:grid;grid-template-columns:1fr 340px;gap:3rem;max-width:1280px;margin:2rem auto;padding:0 2rem;position:relative;z-index:1}}
+ .grid-section{{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);padding:3rem;border-radius:24px;box-shadow:0 20px 60px rgba(26,77,46,0.08),0 8px 16px rgba(0,0,0,0.04),inset 0 1px 0 rgba(255,255,255,0.8);border:1px solid rgba(255,255,255,0.6)}}
+ .sidebar{{background:linear-gradient(145deg,rgba(255,255,255,0.98) 0%,rgba(240,247,244,0.95) 100%);backdrop-filter:blur(10px);padding:2.25rem;border-radius:24px;box-shadow:0 20px 60px rgba(26,77,46,0.08),0 8px 16px rgba(0,0,0,0.04);border:1px solid rgba(255,255,255,0.6);position:sticky;top:2rem;max-height:calc(100vh - 4rem);overflow:hidden;display:flex;flex-direction:column}}
+ .wordsearch-grid{{display:grid;grid-template-columns:repeat(15,1fr);gap:4px;max-width:630px;margin:0 auto;padding:1.25rem;background:linear-gradient(145deg,#f0fdf4 0%,#dcfce7 100%);border-radius:16px;-webkit-user-select:none;user-select:none;box-shadow:inset 0 2px 8px rgba(5,150,105,0.06)}}
+ .cell{{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#ffffff 0%,#fafcfb 100%);border:2px solid #cbd5e1;border-radius:10px;font-weight:800;font-size:1.15rem;color:#1a4d2e;cursor:pointer;transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif;box-shadow:0 2px 4px rgba(0,0,0,0.04),inset 0 -1px 0 rgba(0,0,0,0.05);letter-spacing:-0.01em}}
+ .cell:hover{{background:linear-gradient(145deg,#ecfdf5,#d1fae5);border-color:#10b981;transform:scale(1.12) rotate(2deg);box-shadow:0 8px 16px rgba(16,185,129,0.25),0 0 20px rgba(16,185,129,0.15)}}
+ .cell.selecting{{background:linear-gradient(145deg,#fffbeb,#fef3c7);border-color:#f59e0b;box-shadow:0 0 0 4px rgba(251,191,36,0.15),0 4px 12px rgba(251,191,36,0.2);transform:scale(1.08)}}
+ .cell.found{{background:linear-gradient(145deg,#1a4d2e,#0f3a23);color:white;border-color:#059669;animation:celebrate 0.6s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 6px 20px rgba(26,77,46,0.4),0 0 30px rgba(16,185,129,0.3);position:relative}}
+ .cell.found::after{{content:'✓';position:absolute;top:2px;right:2px;font-size:0.6rem;opacity:0.8}}
+ @keyframes celebrate{{0%{{transform:scale(1) rotate(0deg);box-shadow:0 0 0 0 rgba(16,185,129,0.7)}}30%{{transform:scale(1.25) rotate(5deg);box-shadow:0 0 0 15px rgba(16,185,129,0)}}60%{{transform:scale(0.95) rotate(-3deg)}}100%{{transform:scale(1) rotate(0deg);box-shadow:0 6px 20px rgba(26,77,46,0.4)}}}}
+ .word-list-header{{font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:#64748b;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:2px solid rgba(226,232,240,0.8);display:flex;align-items:center;justify-content:space-between}}
+ #words{{flex:1;overflow-y:auto;padding-right:0.75rem;margin-right:-0.25rem}}
+ #words::-webkit-scrollbar{{width:6px}}
+ #words::-webkit-scrollbar-track{{background:transparent}}
+ #words::-webkit-scrollbar-thumb{{background:linear-gradient(180deg,rgba(203,213,225,0.6),rgba(148,163,184,0.8));border-radius:3px;border:1px solid rgba(255,255,255,0.5)}}
+ #words::-webkit-scrollbar-thumb:hover{{background:linear-gradient(180deg,rgba(148,163,184,0.8),rgba(100,116,139,0.9))}}
+ .word-item{{padding:1rem 1.125rem;margin-bottom:0.625rem;background:linear-gradient(145deg,#ffffff,#fafcfb);border-radius:12px;border-left:4px solid #1a4d2e;cursor:pointer;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 2px 6px rgba(0,0,0,0.04);position:relative;overflow:hidden}}
+ .word-item::before{{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent,rgba(16,185,129,0.03));opacity:0;transition:opacity 0.3s}}
+ .word-item:hover{{background:linear-gradient(145deg,#ecfdf5,#d1fae5);transform:translateX(8px) scale(1.02);box-shadow:0 8px 20px rgba(16,185,129,0.2);border-left-width:6px}}
+ .word-item:hover::before{{opacity:1}}
+ .word-item.found{{background:linear-gradient(145deg,#d1fae5,#a7f3d0);border-left-color:#10b981;opacity:0.75;transform:scale(0.97);box-shadow:0 2px 8px rgba(16,185,129,0.2)}}
+ .word-item.found .word-text{{text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:#10b981}}
+ .word-text{{font-weight:800;color:#1a4d2e;display:block;font-size:0.95rem;letter-spacing:0.03em;line-height:1.2}}
+ .word-meaning{{font-size:0.75rem;color:#64748b;font-style:italic;margin-top:0.4rem;display:block;line-height:1.5;font-weight:400}}
+ .progress-container{{background:linear-gradient(145deg,#1a4d2e 0%,#0f3a23 50%,#1a4d2e 100%);padding:2rem;border-radius:16px;margin-bottom:2rem;box-shadow:0 8px 24px rgba(26,77,46,0.25),inset 0 1px 0 rgba(255,255,255,0.1);position:relative;overflow:hidden}}
+ .progress-container::before{{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20 L10 10 L20 20 L10 30 Z M20 20 L30 10 L40 20 L30 30 Z' fill='rgba(255,255,255,0.02)'/%3E%3C/svg%3E");opacity:0.3}}
+ .progress-stats{{display:flex;justify-content:space-between;margin-bottom:1rem;font-size:0.875rem;font-weight:800;color:white;position:relative;z-index:1;letter-spacing:0.02em}}
+ .progress-bar{{height:12px;background:rgba(255,255,255,0.15);border-radius:6px;overflow:hidden;box-shadow:inset 0 2px 6px rgba(0,0,0,0.2);position:relative;z-index:1}}
+ .progress-fill{{height:100%;background:linear-gradient(90deg,#fbbf24 0%,#f59e0b 50%,#fbbf24 100%);background-size:200% 100%;animation:shimmer 3s linear infinite;transition:width 0.8s cubic-bezier(0.34,1.56,0.64,1);border-radius:6px;box-shadow:0 0 20px rgba(251,191,36,0.6),inset 0 1px 0 rgba(255,255,255,0.3)}}
+ @keyframes shimmer{{0%{{background-position:200% center}}100%{{background-position:-200% center}}}}
+ .btn{{padding:1rem 1.75rem;border:none;border-radius:12px;font-weight:800;font-size:0.875rem;cursor:pointer;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);letter-spacing:0.03em;text-transform:uppercase;box-shadow:0 4px 12px rgba(0,0,0,0.12);position:relative;overflow:hidden}}
+ .btn::before{{content:'';position:absolute;inset:0;background:linear-gradient(45deg,transparent,rgba(255,255,255,0.1),transparent);transform:translateX(-100%);transition:transform 0.6s}}
+ .btn:hover::before{{transform:translateX(100%)}}
+ .btn-primary{{background:linear-gradient(145deg,#1a4d2e,#0f3a23);color:white;border:1px solid rgba(255,255,255,0.1)}}
+ .btn-primary:hover{{transform:translateY(-3px) scale(1.02);box-shadow:0 12px 28px rgba(26,77,46,0.35)}}
  @media(max-width:968px){{.game-container{{grid-template-columns:1fr}}.sidebar{{position:static;order:-1}}}}
  @media print{{@page{{size:A4;margin:10mm}}.no-print{{display:none!important}}.game-container{{display:block}}.wordsearch-grid{{max-width:180mm;gap:0.5mm}}.cell{{font-size:8pt;border:0.5pt solid #1a4d2e;background:white!important;color:black!important}}.sidebar{{page-break-before:always}}.word-item{{font-size:7pt;margin-bottom:1mm;padding:1mm}}.word-meaning{{display:none}}}}
  </style>
