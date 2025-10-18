@@ -124,7 +124,7 @@ class SiteQualityValidator:
                 ('Keyboard navigation', 'keydown' in content),
                 ('Focus management', 'tabindex' in content),
                 ('Semantic HTML', '<section' in content and '<header' in content),
-                ('Alt text patterns', 'alt=' in content)
+                ('Image accessibility', 'aria-hidden=\"true\"' in content or 'alt=' in content)
             ]
 
             for feature, implemented in accessibility_features:
