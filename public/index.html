@@ -14,17 +14,31 @@
 <link href="/manifest.json" rel="manifest"/>
 <meta content="#1a4d2e" name="theme-color"/>
 <link rel="stylesheet" href="/css/animations.css"/>
+<link rel="stylesheet" href="/css/typography-professional.css"/>
+<link rel="stylesheet" href="/css/cultural-identity.css"/>
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
 <meta content="Te Kete Ako" name="apple-mobile-web-app-title"/>
 <link href="/icons/icon-192x192.png" rel="apple-touch-icon"/>
+
+<!-- ENHANCED STYLES -->
+<link rel="stylesheet" href="/css/enhanced-cards.css">
+<link rel="stylesheet" href="/css/cultural-patterns.css">
+
+<!-- ENHANCED SEARCH -->
+<script src="/js/enhanced-search.js" defer></script>
+
 <!-- Service Worker Registration -->
 <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/service-worker.js')
- .then(reg => )
- .catch(err => );
+                    .then(registration => {
+                        console.log('✅ PWA: Service Worker registered!', registration);
+                    })
+                    .catch(error => {
+                        console.warn('PWA: Service Worker registration failed:', error);
+                    });
             });
         }
     </script>
@@ -183,6 +197,9 @@ h2 {
 <link href="/css/mobile-optimization.css" media="print" onload="this.media='all'" rel="stylesheet"/>
 <link href="/css/print.css" media="print" onload="this.media='all'" rel="stylesheet"/>
 <link href="/css/micro-interactions.css" rel="stylesheet"/>
+<link href="/css/subject-badges.css" rel="stylesheet"/>
+<link href="/css/cultural-patterns.css" rel="stylesheet"/>
+<link href="/css/resource-preview-cards.css" rel="stylesheet"/>
 <!-- END CANONICAL CSS -->
 </head>
 <body data-auto-init="true" data-current-page="home">
@@ -212,17 +229,42 @@ h2 {
 <span class="breadcrumb-separator">/</span>
 </div>
 </nav>
-<!-- PHENOMENAL HERO SECTION - Loaded via component -->
-    <div id="phenomenal-hero-container"></div>
+<!-- ENHANCED HERO SECTION - Stunning Visual Entry -->
+    <div id="hero-enhanced-container"></div>
     <script>
-        // Load phenomenal hero section immediately
-        fetch('/components/phenomenal-hero.html')
+        fetch('/components/hero-enhanced.html')
             .then(response => response.text())
             .then(html => {
-                document.getElementById('phenomenal-hero-container').innerHTML = html;
+                document.getElementById('hero-enhanced-container').innerHTML = html;
             })
- .catch(err => );
+            .catch(err => console.error('Hero load error:', err));
     </script>
+    
+    <!-- STATS DASHBOARD - Interactive Resource Overview -->
+    <div id="stats-dashboard-container"></div>
+    <script>
+        fetch('/components/stats-dashboard.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('stats-dashboard-container').innerHTML = html;
+            })
+            .catch(err => console.error('Stats load error:', err));
+    </script>
+    
+    <!-- FEATURED CAROUSEL - Curated Collections -->
+    <div id="featured-carousel-container"></div>
+    <script>
+        fetch('/components/featured-carousel.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('featured-carousel-container').innerHTML = html;
+            })
+            .catch(err => console.error('Carousel load error:', err));
+    </script>
+ 
+ <!-- Counter Animation Script -->
+ <script src="/js/counter-animation.js"></script>
+ <script src="/js/graphrag-recommendations.js"></script>
  
  <!-- Main Content -->
  <main id="main-content" role="main">
@@ -568,9 +610,57 @@ a[href*="teaching-options"]:hover {
 }
 </style>
 
+<!-- 💎 INTEGRATED LESSONS TREASURE -->
+<section style="background: linear-gradient(135deg, #7c3aed, #6366f1); padding: 4rem 2rem; margin: 3rem 0; border-radius: 20px; box-shadow: 0 12px 32px rgba(124,58,237,0.3); position: relative; overflow: hidden;">
+    <!-- Kōwhaiwhai top border -->
+    <div style="position: absolute; top: 0; left: 0; right: 0; height: 8px; background: repeating-linear-gradient(90deg, #fbbf24 0, #fbbf24 20px, #f59e0b 20px, #f59e0b 40px, #fbbf24 40px, #fbbf24 60px);"></div>
+    
+    <div style="max-width: 1200px; margin: 0 auto; position: relative; z-index: 1;">
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <div style="display: inline-block; background: rgba(255,255,255,0.2); padding: 0.5rem 1.5rem; border-radius: 24px; margin-bottom: 1rem;">
+                <span style="color: white; font-weight: 700; font-size: 0.95rem;">💎 HIDDEN TREASURE</span>
+            </div>
+            <h2 style="font-size: 3.5rem; color: white; margin-bottom: 1rem; font-weight: 800; text-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                377 Integrated Lessons
+            </h2>
+            <p style="font-size: 1.4rem; color: rgba(255,255,255,0.95); max-width: 700px; margin: 0 auto; line-height: 1.6;">
+                40,694 lines of professional content - Science, Maths, Te Reo, English
+            </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2rem; margin: 3rem 0; text-align: center;">
+            <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 2rem; border-radius: 16px;">
+                <div style="font-size: 3rem; font-weight: 800; color: white;">122</div>
+                <div style="color: rgba(255,255,255,0.9); margin-top: 0.5rem;">🔬 Science</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 2rem; border-radius: 16px;">
+                <div style="font-size: 3rem; font-weight: 800; color: white;">105</div>
+                <div style="color: rgba(255,255,255,0.9); margin-top: 0.5rem;">🔢 Maths</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 2rem; border-radius: 16px;">
+                <div style="font-size: 3rem; font-weight: 800; color: white;">86</div>
+                <div style="color: rgba(255,255,255,0.9); margin-top: 0.5rem;">🗣️ Te Reo</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 2rem; border-radius: 16px;">
+                <div style="font-size: 3rem; font-weight: 800; color: white;">40</div>
+                <div style="color: rgba(255,255,255,0.9); margin-top: 0.5rem;">📝 English</div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="/integrated-lessons-showcase.html" style="background: white; color: #7c3aed; padding: 1.25rem 3rem; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 1.2rem; box-shadow: 0 8px 20px rgba(0,0,0,0.3); display: inline-block; transition: transform 0.2s;">
+                💎 Discover the Treasure →
+            </a>
+        </div>
+    </div>
+</section>
+
 <!-- 📚 COMPLETE CURRICULA SHOWCASE -->
-<section style="background: linear-gradient(135deg, #dcfce7 0%, #86efac 100%); padding: 4rem 2rem; margin: 3rem 0; border-radius: 16px;">
-    <div style="max-width: 1200px; margin: 0 auto;">
+<section style="background: linear-gradient(135deg, #dcfce7 0%, #86efac 100%); padding: 4rem 2rem; margin: 3rem 0; border-radius: 16px; position: relative; overflow: hidden;">
+    <!-- Kōwhaiwhai border pattern -->
+    <div style="position: absolute; top: 0; left: 0; right: 0; height: 6px; background: repeating-linear-gradient(90deg, #14b8a6 0, #14b8a6 15px, #0d9488 15px, #0d9488 30px);"></div>
+    
+    <div style="max-width: 1200px; margin: 0 auto; position: relative;">
         <div style="text-align: center; margin-bottom: 3rem;">
             <h2 style="font-size: 2.5rem; color: #14532d; margin-bottom: 1rem; font-weight: 700;">
                 🎓 Complete Year-Level Curricula
@@ -641,6 +731,15 @@ a[href*="teaching-options"]:hover {
         </a>
     </div>
 </section>
+
+<!-- Stats Dashboard Component -->
+<div id="stats-dashboard-container"></div>
+<script>
+    fetch('/components/stats-dashboard.html')
+        .then(response => response.text())
+        .then(html => document.getElementById('stats-dashboard-container').innerHTML = html)
+        .catch(err => console.log('Stats dashboard loading'));
+</script>
 
 <!-- Value Proposition Section -->
 <section class="value-section">

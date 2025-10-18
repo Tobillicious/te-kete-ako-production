@@ -1,0 +1,202 @@
+/* ENHANCED CARD STYLES - Professional Polish */
+/* Quick Win 3: Beautiful hover effects for all resource cards */
+
+.resource-card,
+.card,
+.lesson-card,
+.handout-card,
+.unit-card {
+  position: relative;
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+/* Accent bar on top */
+.resource-card::before,
+.card::before,
+.lesson-card::before,
+.handout-card::before,
+.unit-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #1a4d2e 0%, #d4a574 100%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+/* Hover effects */
+.resource-card:hover,
+.card:hover,
+.lesson-card:hover,
+.handout-card:hover,
+.unit-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(26, 77, 46, 0.15);
+  border-color: rgba(26, 77, 46, 0.2);
+}
+
+.resource-card:hover::before,
+.card:hover::before,
+.lesson-card:hover::before,
+.handout-card:hover::before,
+.unit-card:hover::before {
+  transform: scaleX(1);
+}
+
+/* Card title */
+.resource-card h3,
+.card h3,
+.lesson-card h3,
+.handout-card h3,
+.unit-card h3 {
+  color: #1a4d2e;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+  transition: color 0.3s ease;
+}
+
+.resource-card:hover h3,
+.card:hover h3,
+.lesson-card:hover h3,
+.handout-card:hover h3,
+.unit-card:hover h3 {
+  color: #0f2818;
+}
+
+/* Card description */
+.resource-card p,
+.card p,
+.lesson-card p,
+.handout-card p,
+.unit-card p {
+  color: #546e7a;
+  font-size: 0.938rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+/* Badges */
+.badge,
+.card-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.badge.subject {
+  background: #e8f5e9;
+  color: #1a4d2e;
+}
+
+.badge.level {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.badge.cultural {
+  background: #fce4ec;
+  color: #c2185b;
+}
+
+.badge.variant {
+  background: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.badge.new {
+  background: linear-gradient(135deg, #d4a574 0%, #f5e6d3 100%);
+  color: #0f2818;
+  font-weight: 700;
+}
+
+/* Card footer (metadata) */
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  font-size: 0.813rem;
+  color: #78909c;
+}
+
+/* Grid layouts */
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+@media (max-width: 768px) {
+  .resource-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+/* Link cards (entire card clickable) */
+a.resource-card,
+a.card,
+a.lesson-card,
+a.handout-card,
+a.unit-card {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+/* Loading skeleton */
+.card-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+  height: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Cultural accent */
+.cultural-accent {
+  width: 4px;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: linear-gradient(180deg, #1a4d2e 0%, #d4a574 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.resource-card:hover .cultural-accent,
+.card:hover .cultural-accent {
+  opacity: 1;
+}

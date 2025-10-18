@@ -1,0 +1,355 @@
+/**
+ * CULTURAL VISUAL IDENTITY
+ * Te Ao Māori inspired design patterns and colors
+ */
+
+/* ===================================================================
+   MĀORI COLOR PALETTE
+   =================================================================== */
+
+:root {
+  /* Primary - Forest/Kauri tones */
+  --maori-kauri-brown: #8b4513;
+  --maori-forest-deep: #1a4d2e;
+  --maori-forest-light: #2d6a4f;
+
+  /* Ocean - Moana blues */
+  --maori-ocean-deep: #006994;
+  --maori-ocean-light: #0891b2;
+  --maori-ocean-pale: #67e8f9;
+
+  /* Earth - Whenua tones */
+  --maori-earth-red: #8b0000;
+  --maori-earth-brown: #5c4033;
+  --maori-earth-gold: #d4a574;
+
+  /* Sky - Rangi tones */
+  --maori-sky-blue: #0ea5e9;
+  --maori-sky-light: #bae6fd;
+
+  /* Natural - Te Taiao */
+  --maori-kumara-gold: #cd8b3c;
+  --maori-flax-green: #6b8e23;
+  --maori-pounamu-green: #0f7173;
+}
+
+/* ===================================================================
+   KORU PATTERNS - Subtle backgrounds
+   =================================================================== */
+
+.koru-pattern-subtle {
+  background-image: url('data:image/svg+xml,<svg width="60" height="60" xmlns="http://www.w3.org/2000/svg"><path d="M30 10 Q 40 15, 45 25 T 50 45 Q 48 55, 38 58 T 20 55 Q 12 50, 10 40 T 12 25 Q 15 15, 25 12" fill="none" stroke="rgba(26,77,46,0.08)" stroke-width="2"/></svg>');
+  background-repeat: repeat;
+  background-size: 60px 60px;
+}
+
+.koru-pattern-accent {
+  position: relative;
+}
+
+.koru-pattern-accent::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  background: url('data:image/svg+xml,<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg"><path d="M100 50 Q 130 60, 150 90 T 180 150 Q 170 180, 140 190 T 80 180 Q 50 170, 40 140 T 50 90 Q 60 60, 90 55" fill="none" stroke="rgba(212,165,116,0.15)" stroke-width="3"/></svg>');
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* ===================================================================
+   CULTURAL GRADIENTS
+   =================================================================== */
+
+.gradient-forest {
+  background: linear-gradient(135deg, #1a4d2e 0%, #2d6a4f 100%);
+}
+
+.gradient-ocean {
+  background: linear-gradient(135deg, #006994 0%, #0891b2 100%);
+}
+
+.gradient-earth {
+  background: linear-gradient(135deg, #8b4513 0%, #cd8b3c 100%);
+}
+
+.gradient-cultural {
+  background: linear-gradient(
+    135deg,
+    var(--maori-forest-deep) 0%,
+    var(--maori-pounamu-green) 50%,
+    var(--maori-ocean-deep) 100%
+  );
+}
+
+/* ===================================================================
+   CULTURAL BADGES & INDICATORS
+   =================================================================== */
+
+.badge-cultural {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #1a4d2e, #2d6a4f);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  box-shadow: 0 2px 8px rgba(26, 77, 46, 0.2);
+}
+
+.badge-cultural::before {
+  content: "🌺";
+  font-size: 1.2em;
+}
+
+.badge-te-reo {
+  background: linear-gradient(135deg, #006994, #0891b2);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  font-style: italic;
+}
+
+.badge-quality {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+}
+
+/* ===================================================================
+   CULTURAL CARD DESIGNS
+   =================================================================== */
+
+.card-cultural {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid var(--maori-forest-deep);
+  transition: all 0.3s ease;
+}
+
+.card-cultural:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(26, 77, 46, 0.15);
+  border-left-width: 6px;
+}
+
+.card-cultural-ocean {
+  border-left-color: var(--maori-ocean-deep);
+}
+
+.card-cultural-earth {
+  border-left-color: var(--maori-earth-gold);
+}
+
+/* ===================================================================
+   WHAKATAUKĪ DISPLAY
+   =================================================================== */
+
+.whakataukī-container {
+  background: linear-gradient(
+    135deg,
+    rgba(26, 77, 46, 0.05) 0%,
+    rgba(212, 165, 116, 0.05) 100%
+  );
+  border-left: 6px solid var(--maori-earth-gold);
+  border-radius: 0 12px 12px 0;
+  padding: 2rem;
+  margin: 2rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.whakataukī-container::before {
+  content: '"';
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 4rem;
+  color: var(--maori-earth-gold);
+  opacity: 0.2;
+  font-family: Georgia, serif;
+}
+
+.whakataukī-text {
+  font-size: var(--text-2xl);
+  font-style: italic;
+  color: var(--maori-forest-deep);
+  font-weight: var(--font-medium);
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.whakataukī-translation {
+  font-size: var(--text-lg);
+  color: var(--color-text-secondary);
+  font-style: normal;
+  line-height: var(--leading-relaxed);
+  margin-top: 0.5rem;
+}
+
+.whakataukī-attribution {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  margin-top: 1rem;
+  font-weight: var(--font-medium);
+  text-align: right;
+}
+
+/* ===================================================================
+   CULTURAL SECTION HEADERS
+   =================================================================== */
+
+.section-header-cultural {
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.section-header-cultural h2 {
+  font-size: var(--text-4xl);
+  font-weight: var(--font-extrabold);
+  color: var(--maori-forest-deep);
+  margin-bottom: 1rem;
+}
+
+.section-header-cultural p {
+  font-size: var(--text-xl);
+  color: var(--color-text-secondary);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.section-header-cultural::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--maori-forest-deep),
+    var(--maori-earth-gold)
+  );
+  margin: 1.5rem auto 0;
+  border-radius: 2px;
+}
+
+/* ===================================================================
+   TOOLTIPS FOR CULTURAL TERMS
+   =================================================================== */
+
+.cultural-term {
+  position: relative;
+  font-style: italic;
+  color: var(--maori-forest-deep);
+  font-weight: var(--font-medium);
+  border-bottom: 2px dotted var(--maori-earth-gold);
+  cursor: help;
+}
+
+.cultural-term[data-translation]::after {
+  content: attr(data-translation);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  background: var(--maori-forest-deep);
+  color: white;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: var(--text-sm);
+  font-style: normal;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.cultural-term:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+/* Mobile - show tooltip on tap */
+@media (hover: none) {
+  .cultural-term:active::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-4px);
+  }
+}
+
+/* ===================================================================
+   RESPONSIVE TYPOGRAPHY
+   =================================================================== */
+
+@media (max-width: 1024px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 15px;
+  }
+
+  h1 {
+    font-size: var(--text-4xl);
+  }
+  h2 {
+    font-size: var(--text-3xl);
+  }
+  h3 {
+    font-size: var(--text-2xl);
+  }
+
+  .whakataukī-text {
+    font-size: var(--text-xl);
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* ===================================================================
+   PRINT STYLES
+   =================================================================== */
+
+@media print {
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+    color: black;
+  }
+
+  h1 {
+    font-size: 24pt;
+  }
+  h2 {
+    font-size: 20pt;
+  }
+  h3 {
+    font-size: 16pt;
+  }
+
+  .whakataukī-container {
+    border: 2px solid #1a4d2e;
+    background: #f5f5f5;
+  }
+}
