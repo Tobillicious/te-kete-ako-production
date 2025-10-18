@@ -231,6 +231,11 @@
             });
         }
 
+        // Initialize Supabase
+        const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
         document.getElementById('reflection-form').addEventListener('submit', async (e) => {
             e.preventDefault();
 
@@ -243,22 +248,181 @@
                 date: new Date().toISOString()
             };
 
-            // Save to GraphRAG via Supabase
-            const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
-            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
-            
-            const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
             console.log('Saving reflection to GraphRAG:', reflection);
             
             // Show success message
             document.getElementById('success-message').style.display = 'block';
+            
+            // Reload insights with new reflection context
+            await loadGraphRAGInsights(reflection.lesson);
+            
             setTimeout(() => {
                 document.getElementById('reflection-form').reset();
                 document.getElementById('success-message').style.display = 'none';
                 currentRating = 0;
                 document.querySelectorAll('.star').forEach(s => s.classList.remove('active'));
             }, 3000);
+        });
+        
+        // GRAPHRAG INSIGHTS ENGINE
+        async function loadGraphRAGInsights(lessonPath = null) {
+            try {
+                // If no lesson selected, show general teacher insights
+                if (!lessonPath) {
+                    await showGeneralInsights();
+                    return;
+                }
+                
+                // Get lesson details from GraphRAG
+                const { data: lesson } = await supabase
+                    .from('graphrag_resources')
+                    .select('*')
+                    .eq('file_path', lessonPath)
+                    .single();
+                
+                if (!lesson) {
+                    await showGeneralInsights();
+                    return;
+                }
+                
+                // Get related resources using GraphRAG relationships
+                const { data: relationships } = await supabase
+                    .from('graphrag_relationships')
+                    .select('target_path, relationship_type, confidence')
+                    .eq('source_path', lessonPath)
+                    .in('relationship_type', ['has_handout', 'prerequisite', 'unit_contains_lesson', 'same_subject'])
+                    .gte('confidence', 0.75)
+                    .limit(12);
+                
+                const relatedPaths = relationships ? relationships.map(r => r.target_path) : [];
+                let relatedResources = [];
+                
+                if (relatedPaths.length > 0) {
+                    const { data } = await supabase
+                        .from('graphrag_resources')
+                        .select('*')
+                        .in('file_path', relatedPaths)
+                        .limit(6);
+                    relatedResources = data || [];
+                }
+                
+                // Render insights
+                renderInsights(lesson, relatedResources, relationships);
+                
+            } catch (error) {
+                console.error('Error loading GraphRAG insights:', error);
+                await showGeneralInsights();
+            }
+        }
+        
+        function renderInsights(lesson, related, relationships) {
+            const container = document.getElementById('graphrag-insights');
+            
+            let html = `
+                <div class="insight-card">
+                    <h3>📚 Lesson Context</h3>
+                    <p style="color: #64748b; margin-bottom: 1rem;">${lesson.content_preview || 'Analyzing lesson connections...'}</p>
+                    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; font-size: 0.875rem;">
+                        ${lesson.subject ? `<span style="background: #e0f2fe; color: #0c4a6e; padding: 0.5rem 1rem; border-radius: 12px; font-weight: 600;">📖 ${lesson.subject}</span>` : ''}
+                        ${lesson.year_level ? `<span style="background: #fef3c7; color: #78350f; padding: 0.5rem 1rem; border-radius: 12px; font-weight: 600;">🎓 ${lesson.year_level}</span>` : ''}
+                        ${lesson.has_whakataukī ? `<span style="background: #d1fae5; color: #065f46; padding: 0.5rem 1rem; border-radius: 12px; font-weight: 600;">🌿 Cultural Integration</span>` : ''}
+                    </div>
+                </div>
+            `;
+            
+            if (related && related.length > 0) {
+                html += `
+                    <div class="insight-card">
+                        <h3>🔗 Related Resources (GraphRAG Powered)</h3>
+                        <p style="color: #64748b; margin-bottom: 1rem;">Resources connected to this lesson in the knowledge graph:</p>
+                        <div class="resource-grid">
+                `;
+                
+                related.forEach(resource => {
+                    const rel = relationships?.find(r => r.target_path === resource.file_path);
+                    let typeLabel = '';
+                    if (rel?.relationship_type === 'has_handout') typeLabel = '📄 Handout';
+                    else if (rel?.relationship_type === 'prerequisite') typeLabel = '📚 Next Step';
+                    else if (rel?.relationship_type === 'unit_contains_lesson') typeLabel = '📖 Same Unit';
+                    else if (rel?.relationship_type === 'same_subject') typeLabel = '🎯 Same Subject';
+                    
+                    html += `
+                        <div class="resource-item" onclick="window.open('${resource.file_path}', '_blank')">
+                            <div style="font-weight: 600; color: #1e293b; margin-bottom: 0.5rem; font-size: 0.95rem;">${resource.title}</div>
+                            ${typeLabel ? `<div style="font-size: 0.75rem; color: #64748b;">${typeLabel}</div>` : ''}
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Add teaching tips
+            html += `
+                <div class="insight-card">
+                    <h3>💡 Teaching Tips from GraphRAG</h3>
+                    <ul style="color: #64748b; line-height: 1.8; margin-left: 1.5rem;">
+                        <li>This lesson has ${relationships?.length || 0} connections in the knowledge graph</li>
+                        <li>Consider reviewing related resources above before teaching</li>
+                        ${lesson.has_whakataukī ? '<li>✨ This lesson includes cultural elements - leverage them for deeper engagement</li>' : ''}
+                        <li>Your reflection will help improve GraphRAG recommendations for other teachers</li>
+                    </ul>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+        
+        async function showGeneralInsights() {
+            const container = document.getElementById('graphrag-insights');
+            
+            // Get some popular high-quality lessons for general inspiration
+            const { data: popular } = await supabase
+                .from('graphrag_resources')
+                .select('*')
+                .eq('resource_type', 'Lesson')
+                .gte('quality_score', 90)
+                .limit(4);
+            
+            let html = `
+                <div class="insight-card">
+                    <h3>🌟 High-Quality Lessons from GraphRAG</h3>
+                    <p style="color: #64748b; margin-bottom: 1rem;">Select a lesson above to see personalized insights, or explore these recommended resources:</p>
+                    <div class="resource-grid">
+            `;
+            
+            if (popular && popular.length > 0) {
+                popular.forEach(lesson => {
+                    html += `
+                        <div class="resource-item" onclick="window.open('${lesson.file_path}', '_blank')">
+                            <div style="font-weight: 600; color: #1e293b; margin-bottom: 0.5rem; font-size: 0.95rem;">${lesson.title}</div>
+                            <div style="font-size: 0.75rem; color: #64748b;">⭐ Quality: ${lesson.quality_score}</div>
+                        </div>
+                    `;
+                });
+            }
+            
+            html += `
+                    </div>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+        
+        // Load insights on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadGraphRAGInsights();
+        });
+        
+        // Update insights when lesson selection changes
+        document.getElementById('lesson-select').addEventListener('change', (e) => {
+            if (e.target.value) {
+                loadGraphRAGInsights(e.target.value);
+            }
         });
     </script>
 </body>
