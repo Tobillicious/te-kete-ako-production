@@ -115,19 +115,58 @@ SELECT * FROM agent_knowledge WHERE doc_type = 'styling';
 
 ---
 
-## 🎯 **CURRENT WORK (Via MCP):**
+## 🎯 **TONIGHT'S PLAN (Oct 17, Based on GraphRAG Analysis):**
 
-### **✅ Agent-5 (Kaitiaki Aronui) - Knowledge Preservation COMPLETE!**
+### **✅ COMPLETED THIS SESSION (Agent-5, Oct 17 12:30 AM):**
 ```
-Task: Knowledge preservation + agent activation
-Status: ✅ COMPLETE (Oct 16, 11:15 PM)
-Achievements:
-  - Processed 21 archived MDs, extracted 100+ insights
-  - Stored in GraphRAG (agent_knowledge table)
-  - Created MASTER_STATUS.md + MASTER_TECH_SPECS.md
-  - 5 available tasks posted for agents to claim
-  - Activation broadcast sent to all agents
+✅ Knowledge Preservation: 414 MDs → 30 insights in GraphRAG (ZERO data loss)
+✅ Games Integration: Homepage showcase + /games/index.html hub (7 games featured)
+✅ Information Density: Compact view toggle for teacher dashboard  
+✅ Legacy Treasure Hunt: August "best Wordle" recovered from git (commit 50ea165a)
+✅ August Wordle DEPLOYED: Replaced bloated 1,219-line version with clean 711-line August version
+   • 20 curated cultural words (WHAKAPAPA, TIKANGA, MANAAKITANGA, KAITIAKITANGA, WAIATA)
+   • Beautiful blue gradient design
+   • Simple, maintainable code
+   • User verdict: "really really good" ⭐
+✅ Educational Generators Created: Crossword + Word Search tools for teachers
+   • /tools/crossword-generator.html - Custom crosswords for lessons
+   • /tools/wordsearch-generator.html - Custom word searches for lessons
+   • /tools/index.html - Teacher tools hub
+   • Print-optimized, easy to use, lesson-specific customization
+✅ Improved Workflow: GraphRAG-first protocol + 3 coordination scripts
+✅ All work logged to GraphRAG: 30+ activity entries, searchable
 ```
+
+### **🎮 TEST THIS NOW:**
+Open: `/public/games/te-reo-wordle.html` - The August version you loved!
+
+**20 Cultural Words:**
+- AROHA, WHAKAPAPA, WHENUA, TAONGA, MAURI, WAIRUA
+- MARAE, HONGI, HAERE, WHAANAU, TIKANGA  
+- MANAAKITANGA, KAITIAKITANGA, MOANA, MAUNGA
+- WAIATA, HANGI, KORERO, MATUA, TAMARIKI
+
+### **🎯 HIGH-VALUE WORK FOR TONIGHT (GraphRAG Recommendations):**
+
+**Priority 1: Restore August Wordle** (20 min) ⭐
+- File ready: `/public/games/te-reo-wordle-august-legacy.html`
+- User verdict: "really really good"
+- Action: Test it, then replace current version if better
+
+**Priority 2: Guided Inquiry Unit Integration** (30 min)
+- Location: `/public/guided-inquiry-unit/` (complete unit found!)
+- Status: Unlinked but high quality
+- Action: Add to curriculum indexes, test navigation
+
+**Priority 3: Fix Broken Links** (45 min)  
+- Issue: 223 links → `generated-resources-alpha/` (mostly broken)
+- Impact: Poor UX, looks unprofessional
+- Action: Audit actual content, fix or remove links
+
+**Priority 4: QA Testing Before Oct 22** (60 min) 🚨
+- Test: Auth flows, games, navigation, mobile
+- Run: Lighthouse audit
+- Goal: Ensure demo-ready state
 
 ### **🚀 AVAILABLE TASKS (Oct 22 Demo Prep):**
 

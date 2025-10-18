@@ -7,6 +7,11 @@
 <title>Teacher Dashboard | Te Kete Ako</title>
 <meta content="Manage your classes, students, and teaching resources" name="description"/>
 <!-- UNIFIED DESIGN SYSTEM -->
+<link rel="stylesheet" href="/css/te-kete-unified-design-system.css" />
+<link rel="stylesheet" href="/css/component-library.css" />
+<link rel="stylesheet" href="/css/animations-professional.css" />
+<link rel="stylesheet" href="/css/information-dense.css" />
+
 <style id="critical-css">/* CRITICAL CSS - Above-the-fold styles for faster first paint */
 /* Inlined in <head> for immediate rendering */
 
@@ -437,6 +442,87 @@ h2 {
             transform: translateY(-4px);
         }
     </style>
+
+    <!-- Density Toggle Button -->
+    <button class="density-toggle" id="densityToggle" onclick="toggleDensity()">
+        <span id="densityIcon">📊</span>
+        <span id="densityText">Compact View</span>
+    </button>
+
+    <script>
+        // Density Toggle Functionality
+        function toggleDensity() {
+            const body = document.body;
+            const icon = document.getElementById('densityIcon');
+            const text = document.getElementById('densityText');
+            
+            if (body.classList.contains('compact-mode')) {
+                body.classList.remove('compact-mode');
+                icon.textContent = '📊';
+                text.textContent = 'Compact View';
+                localStorage.setItem('viewMode', 'comfortable');
+            } else {
+                body.classList.add('compact-mode');
+                icon.textContent = '📐';
+                text.textContent = 'Comfortable View';
+                localStorage.setItem('viewMode', 'compact');
+            }
+        }
+
+        // Restore saved view mode
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedMode = localStorage.getItem('viewMode');
+            if (savedMode === 'compact') {
+                document.body.classList.add('compact-mode');
+                document.getElementById('densityIcon').textContent = '📐';
+                document.getElementById('densityText').textContent = 'Comfortable View';
+            }
+        });
+    </script>
+
 <script src="/js/teacher-dashboard.js"></script>
+<!-- COMPACT VIEW TOGGLE (User requested more information density!) -->
+<button class="density-toggle" onclick="toggleDensity()" aria-label="Toggle view density">
+    <span class="toggle-icon">📊</span>
+    <span class="toggle-text">Compact View</span>
+</button>
+
+<script>
+// Information Density Toggle - Function over Form!
+function toggleDensity() {
+    const body = document.body;
+    const button = document.querySelector('.density-toggle');
+    const icon = button.querySelector('.toggle-icon');
+    const text = button.querySelector('.toggle-text');
+    
+    if (body.classList.contains('compact-mode')) {
+        // Switch to comfortable
+        body.classList.remove('compact-mode');
+        icon.textContent = '📊';
+        text.textContent = 'Compact View';
+        localStorage.setItem('viewDensity', 'comfortable');
+    } else {
+        // Switch to compact (information dense)
+        body.classList.add('compact-mode');
+        icon.textContent = '📋';
+        text.textContent = 'Comfortable View';
+        localStorage.setItem('viewDensity', 'compact');
+    }
+}
+
+// Load saved preference
+document.addEventListener('DOMContentLoaded', function() {
+    const savedDensity = localStorage.getItem('viewDensity');
+    if (savedDensity === 'compact') {
+        document.body.classList.add('compact-mode');
+        const button = document.querySelector('.density-toggle');
+        if (button) {
+            button.querySelector('.toggle-icon').textContent = '📋';
+            button.querySelector('.toggle-text').textContent = 'Comfortable View';
+        }
+    }
+});
+</script>
+
 </body>
 </html>

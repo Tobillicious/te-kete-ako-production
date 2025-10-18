@@ -8,7 +8,7 @@
  * ================================================================
  */
 
-const CACHE_VERSION = 'te-kete-ako-v1.0-oct16';
+const CACHE_VERSION = 'te-kete-ako-v1.1-oct17-fixed';
 const CACHE_STATIC = `${CACHE_VERSION}-static`;
 const CACHE_DYNAMIC = `${CACHE_VERSION}-dynamic`;
 
@@ -28,11 +28,9 @@ const STATIC_ASSETS = [
     
     // Core JS
     '/js/te-kete-professional.js',
-    '/js/supabase-auth.js',
-    '/js/navigation-enhanced.js',
     
     // Core Components
-    '/components/navigation-mega-menu.html',
+    '/components/navigation-standard.html',
     '/components/footer.html',
     
     // Critical Pages

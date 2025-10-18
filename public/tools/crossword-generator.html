@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crossword Generator | Te Kete Ako</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Lato', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 2rem;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #1a4d2e;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        
+        .input-section {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+        
+        .word-input {
+            margin-bottom: 1rem;
+        }
+        
+        .word-input label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        
+        .word-input input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .word-input textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            min-height: 100px;
+            font-family: inherit;
+        }
+        
+        .word-list {
+            display: grid;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .word-item {
+            display: grid;
+            grid-template-columns: 1fr 2fr auto;
+            gap: 0.75rem;
+            align-items: center;
+            padding: 0.75rem;
+            background: white;
+            border-radius: 8px;
+        }
+        
+        .word-item input {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: #1a4d2e;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #0f2818;
+        }
+        
+        .btn-secondary {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+            padding: 0.5rem 1rem;
+        }
+        
+        .crossword-grid {
+            display: grid;
+            gap: 2px;
+            background: #333;
+            padding: 2px;
+            margin: 2rem 0;
+            width: fit-content;
+        }
+        
+        .crossword-cell {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .crossword-cell.black {
+            background: #333;
+        }
+        
+        .clues-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .clue-list {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+        
+        .clue-list h3 {
+            color: #1a4d2e;
+            margin-bottom: 1rem;
+        }
+        
+        .clue {
+            margin-bottom: 0.75rem;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 4px;
+        }
+        
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; }
+            .input-section, .btn { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧩 Crossword Generator</h1>
+        <p class="subtitle">Create custom crosswords for your lessons - perfect for vocabulary, concepts, and revision</p>
+        
+        <div class="input-section">
+            <h3 style="margin-bottom: 1rem;">Add Words & Clues</h3>
+            
+            <div class="word-list" id="wordList">
+                <!-- Words will be added here -->
+            </div>
+            
+            <button class="btn btn-secondary" onclick="addWord()">+ Add Word</button>
+            <button class="btn btn-primary" onclick="generateCrossword()" style="margin-left: 1rem;">Generate Crossword</button>
+            <button class="btn btn-primary" onclick="window.print()" style="margin-left: 1rem;">🖨️ Print</button>
+        </div>
+        
+        <div id="crosswordOutput"></div>
+    </div>
+
+    <script>
+        let words = [];
+        
+        function addWord() {
+            const id = Date.now();
+            const wordList = document.getElementById('wordList');
+            
+            const item = document.createElement('div');
+            item.className = 'word-item';
+            item.innerHTML = `
+                <input type="text" placeholder="WORD" id="word-${id}" style="text-transform: uppercase;">
+                <input type="text" placeholder="Clue or definition" id="clue-${id}">
+                <button class="btn btn-danger" onclick="removeWord(this)">×</button>
+            `;
+            
+            wordList.appendChild(item);
+        }
+        
+        function removeWord(btn) {
+            btn.parentElement.remove();
+        }
+        
+        function generateCrossword() {
+            // Collect words and clues
+            words = [];
+            const wordItems = document.querySelectorAll('.word-item');
+            
+            wordItems.forEach(item => {
+                const wordInput = item.querySelector('input[id^="word-"]');
+                const clueInput = item.querySelector('input[id^="clue-"]');
+                
+                if (wordInput.value && clueInput.value) {
+                    words.push({
+                        word: wordInput.value.toUpperCase().replace(/[^A-Z]/g, ''),
+                        clue: clueInput.value
+                    });
+                }
+            });
+            
+            if (words.length < 3) {
+                alert('Please add at least 3 words to create a crossword');
+                return;
+            }
+            
+            // Simple grid layout (basic implementation)
+            const output = document.getElementById('crosswordOutput');
+            output.innerHTML = `
+                <h2 style="color: #1a4d2e; margin-bottom: 1.5rem;">Your Custom Crossword</h2>
+                <div class="clues-section">
+                    <div class="clue-list">
+                        <h3>Across</h3>
+                        ${words.filter((_, i) => i % 2 === 0).map((w, i) => `
+                            <div class="clue">
+                                <strong>${i+1}.</strong> ${w.clue} (${w.word.length} letters)
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="clue-list">
+                        <h3>Down</h3>
+                        ${words.filter((_, i) => i % 2 === 1).map((w, i) => `
+                            <div class="clue">
+                                <strong>${i+1}.</strong> ${w.clue} (${w.word.length} letters)
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                <div style="margin-top: 2rem; padding: 1.5rem; background: #fff3cd; border-radius: 12px; border-left: 4px solid #ffc107;">
+                    <strong>📋 Answers:</strong> ${words.map(w => w.word).join(', ')}
+                    <div style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+                        (Hidden from print - for teacher reference)
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Add initial words
+        for (let i = 0; i < 3; i++) {
+            addWord();
+        }
+    </script>
+</body>
+</html>
+

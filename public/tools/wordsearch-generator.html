@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Search Generator | Te Kete Ako</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Lato', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+        
+        h1 { color: #667eea; margin-bottom: 0.5rem; }
+        .subtitle { color: #666; margin-bottom: 2rem; }
+        
+        .input-section {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            min-height: 150px;
+        }
+        
+        .grid {
+            display: grid;
+            gap: 1px;
+            background: #333;
+            padding: 1px;
+            width: fit-content;
+            margin: 2rem auto;
+            font-family: monospace;
+        }
+        
+        .cell {
+            width: 35px;
+            height: 35px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .word-list {
+            columns: 3;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .word-list div {
+            break-inside: avoid;
+            padding: 0.5rem;
+            background: #f8f9fa;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-right: 0.5rem;
+        }
+        
+        .btn-primary { background: #667eea; color: white; }
+        .btn-primary:hover { background: #5568d3; }
+        
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; }
+            .input-section, .btn { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Word Search Generator</h1>
+        <p class="subtitle">Create custom word search puzzles for your lessons - perfect for vocabulary practice!</p>
+        
+        <div class="input-section">
+            <label for="wordsInput" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">
+                Enter your words (one per line):
+            </label>
+            <textarea id="wordsInput" placeholder="Example:&#10;AROHA&#10;WHAKAPAPA&#10;WHENUA&#10;TAONGA&#10;MARAE"></textarea>
+            
+            <div style="margin-top: 1rem;">
+                <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Grid Size:</label>
+                <select id="gridSize" style="padding: 0.5rem; border-radius: 4px; border: 2px solid #ddd;">
+                    <option value="10">10×10 (Easy)</option>
+                    <option value="15" selected>15×15 (Medium)</option>
+                    <option value="20">20×20 (Hard)</option>
+                </select>
+            </div>
+            
+            <div style="margin-top: 1.5rem;">
+                <button class="btn btn-primary" onclick="generateWordSearch()">Generate Word Search</button>
+                <button class="btn btn-primary" onclick="window.print()">🖨️ Print</button>
+            </div>
+        </div>
+        
+        <div id="output"></div>
+    </div>
+
+    <script>
+        function generateWordSearch() {
+            const input = document.getElementById('wordsInput').value;
+            const size = parseInt(document.getElementById('gridSize').value);
+            
+            const words = input.split('\n')
+                .map(w => w.trim().toUpperCase())
+                .filter(w => w.length > 2 && w.length <= size);
+            
+            if (words.length === 0) {
+                alert('Please enter at least one word!');
+                return;
+            }
+            
+            const grid = createEmptyGrid(size);
+            const placedWords = [];
+            
+            // Try to place each word
+            words.forEach(word => {
+                if (placeWord(grid, word, size)) {
+                    placedWords.push(word);
+                }
+            });
+            
+            // Fill empty cells with random letters
+            fillRandomLetters(grid, size);
+            
+            // Display the puzzle
+            displayWordSearch(grid, placedWords, size);
+        }
+        
+        function createEmptyGrid(size) {
+            return Array(size).fill(null).map(() => Array(size).fill(''));
+        }
+        
+        function placeWord(grid, word, size) {
+            const directions = [
+                [0, 1],   // horizontal
+                [1, 0],   // vertical  
+                [1, 1],   // diagonal down-right
+                [1, -1]   // diagonal down-left
+            ];
+            
+            // Try random placements
+            for (let attempt = 0; attempt < 50; attempt++) {
+                const dir = directions[Math.floor(Math.random() * directions.length)];
+                const row = Math.floor(Math.random() * size);
+                const col = Math.floor(Math.random() * size);
+                
+                if (canPlaceWord(grid, word, row, col, dir, size)) {
+                    // Place the word
+                    for (let i = 0; i < word.length; i++) {
+                        grid[row + dir[0] * i][col + dir[1] * i] = word[i];
+                    }
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+        
+        function canPlaceWord(grid, word, row, col, dir, size) {
+            for (let i = 0; i < word.length; i++) {
+                const newRow = row + dir[0] * i;
+                const newCol = col + dir[1] * i;
+                
+                if (newRow < 0 || newRow >= size || newCol < 0 || newCol >= size) {
+                    return false;
+                }
+                
+                const cell = grid[newRow][newCol];
+                if (cell !== '' && cell !== word[i]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        
+        function fillRandomLetters(grid, size) {
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            for (let i = 0; i < size; i++) {
+                for (let j = 0; j < size; j++) {
+                    if (grid[i][j] === '') {
+                        grid[i][j] = letters[Math.floor(Math.random() * letters.length)];
+                    }
+                }
+            }
+        }
+        
+        function displayWordSearch(grid, words, size) {
+            const output = document.getElementById('output');
+            
+            let html = '<h2 style="color: #667eea; margin-bottom: 1rem;">Your Word Search Puzzle</h2>';
+            
+            // Grid
+            html += '<div class="grid" style="grid-template-columns: repeat(' + size + ', 35px);">';
+            for (let i = 0; i < size; i++) {
+                for (let j = 0; j < size; j++) {
+                    html += `<div class="cell">${grid[i][j]}</div>`;
+                }
+            }
+            html += '</div>';
+            
+            // Word list
+            html += '<div><h3 style="color: #667eea; margin-bottom: 1rem;">Find these words:</h3>';
+            html += '<div class="word-list">';
+            words.forEach(word => {
+                html += `<div>✓ ${word}</div>`;
+            });
+            html += '</div></div>';
+            
+            output.innerHTML = html;
+        }
+        
+        // Initialize with example
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('wordsInput').value = 'AROHA\nWHAKAPAPA\nWHENUA\nTAONGA\nMARAE\nHONGI\nWAIATA';
+        });
+    </script>
+</body>
+</html>
+

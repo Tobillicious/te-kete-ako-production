@@ -3,437 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kēmu Ako | Learning Games | Te Kete Ako</title>
-    <meta name="description" content="Brain breaks that build skills! Fun, engaging learning games for NZ students - Te Reo Wordle, Spelling Bee, Categories, Countdown & more.">
+    <title>Kēmu Ako | Learning Games - Te Kete Ako</title>
+    <meta name="description" content="Fun, educational games that build language skills. Te Reo Wordle, Spelling Bee, and more!">
     
-    <!-- Unified Design System -->
     <link rel="stylesheet" href="/css/te-kete-unified-design-system.css">
     <link rel="stylesheet" href="/css/component-library.css">
-    <link rel="stylesheet" href="/css/animations-professional.css">
     
     <style>
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #e8f5e9 100%);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        .games-hero {
-            background: linear-gradient(135deg, #1a4d2e 0%, #0f2818 100%);
-            color: white;
-            padding: 4rem 2rem;
-            text-align: center;
-            margin-bottom: 3rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-        }
-        
-        .games-hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        .games-hero p {
-            font-size: 1.4rem;
-            max-width: 700px;
-            margin: 0 auto 2rem;
-            opacity: 0.95;
-        }
-        
-        .games-stats {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            flex-wrap: wrap;
-            margin-top: 2rem;
-        }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #d4a574;
-        }
-        
-        .stat-label {
-            font-size: 1rem;
-            opacity: 0.9;
-        }
-        
-        .games-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem 4rem;
-        }
-        
-        .section-title {
-            font-size: 2.5rem;
-            color: #1a4d2e;
-            margin: 3rem 0 2rem;
-            text-align: center;
-            position: relative;
-        }
-        
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 100px;
-            height: 4px;
-            background: linear-gradient(90deg, transparent, #d4a574, transparent);
-            margin: 1rem auto 0;
-        }
-        
         .games-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 2.5rem;
-            margin-bottom: 4rem;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
         }
         
         .game-card {
             background: white;
-            border-radius: 16px;
-            padding: 2.5rem;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
             text-decoration: none;
             color: inherit;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .game-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 6px;
-            background: linear-gradient(90deg, #1a4d2e, #d4a574);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s ease;
+            display: block;
         }
         
         .game-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 32px rgba(0,0,0,0.15);
-        }
-        
-        .game-card:hover::before {
-            transform: scaleX(1);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
         }
         
         .game-icon {
-            font-size: 4rem;
+            font-size: 3.5rem;
             text-align: center;
-            margin-bottom: 1.5rem;
-            animation: bounce 2s infinite;
-        }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .game-card:hover .game-icon {
-            animation: none;
-            transform: scale(1.1);
-            transition: transform 0.3s ease;
+            margin-bottom: 1rem;
         }
         
         .game-title {
-            font-size: 1.75rem;
+            font-size: 1.5rem;
             color: #1a4d2e;
-            margin-bottom: 0.75rem;
-            font-weight: 700;
+            margin-bottom: 0.5rem;
         }
         
         .game-description {
             color: #546e7a;
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
         
         .game-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-top: 1.5rem;
-            border-top: 2px solid #f0f0f0;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
         }
         
-        .game-tag {
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
+        .game-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
             color: white;
         }
         
-        .tag-maori { background: #1a4d2e; }
-        .tag-english { background: #3b82f6; }
-        .tag-vocab { background: #f59e0b; }
-        .tag-thinking { background: #8b5cf6; }
-        .tag-timed { background: #ef4444; }
-        .tag-cultural { background: #10b981; }
+        .badge-maori { background: #1a4d2e; }
+        .badge-english { background: #3b82f6; }
+        .badge-vocab { background: #f59e0b; }
+        .badge-timed { background: #ef4444; }
+        .badge-quick { background: #8b5cf6; }
         
-        .play-button {
+        .play-arrow {
             color: #d4a574;
-            font-weight: 700;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            font-weight: 600;
         }
         
-        .game-card:hover .play-button {
-            color: #1a4d2e;
-        }
-        
-        .benefits-section {
-            background: white;
+        .hero-games {
+            background: linear-gradient(135deg, #1a4d2e 0%, #2d7a4f 100%);
+            color: white;
             padding: 4rem 2rem;
-            margin: 4rem 0;
-            border-radius: 16px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-        }
-        
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 2rem auto 0;
-        }
-        
-        .benefit-item {
             text-align: center;
-            padding: 2rem;
+            margin-bottom: 3rem;
         }
         
-        .benefit-icon {
+        .hero-games h1 {
             font-size: 3rem;
             margin-bottom: 1rem;
         }
         
-        .benefit-title {
+        .hero-games p {
             font-size: 1.3rem;
-            color: #1a4d2e;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-        
-        .benefit-description {
-            color: #546e7a;
-            line-height: 1.6;
-        }
-        
-        @media (max-width: 768px) {
-            .games-hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .games-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            
-            .games-stats {
-                gap: 1.5rem;
-            }
-            
-            .stat-number {
-                font-size: 2rem;
-            }
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <div id="navigation-container"></div>
-    <script>
-        fetch('/components/navigation-mega-menu.html')
-            .then(response => response.text())
-            .then(html => document.getElementById('navigation-container').innerHTML = html);
-    </script>
 
-    <!-- Games Hero -->
-    <div class="games-hero">
-        <h1>🎮 Kēmu Ako | Learning Games</h1>
-        <p>Brain breaks that build language skills! Engage, challenge, and reinforce learning through play.</p>
+<!-- Hero Section -->
+<div class="hero-games">
+    <h1>🎮 Kēmu Ako | Learning Games</h1>
+    <p>Brain breaks that build skills! Fun, engaging games that reinforce vocabulary, spelling, and quick thinking.</p>
+</div>
+
+<div class="container">
+    
+    <!-- Games Grid -->
+    <div class="games-grid">
         
-        <div class="games-stats">
-            <div class="stat-item">
-                <div class="stat-number">9</div>
-                <div class="stat-label">Fun Games</div>
+        <!-- Te Reo Wordle (5-Letter) -->
+        <a href="/games/te-reo-wordle.html" class="game-card">
+            <div class="game-icon">🇳🇿</div>
+            <h3 class="game-title">Te Reo Wordle</h3>
+            <p class="game-description">Guess the 5-letter kupu Māori! 20 culturally significant words to discover.</p>
+            <div class="game-meta">
+                <span class="game-badge badge-maori">Te Reo Māori</span>
+                <span class="play-arrow">Play →</span>
             </div>
-            <div class="stat-item">
-                <div class="stat-number">100%</div>
-                <div class="stat-label">Free to Play</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">Te Reo</div>
-                <div class="stat-label">Māori Integrated</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Games Container -->
-    <div class="games-container">
+        </a>
         
-        <!-- Te Reo Māori Games -->
-        <h2 class="section-title">🇳🇿 Te Reo Māori Games</h2>
-        <div class="games-grid">
-            
-            <!-- Te Reo Wordle -->
-            <a href="/games/te-reo-wordle.html" class="game-card">
-                <div class="game-icon">🇳🇿</div>
-                <h3 class="game-title">Te Reo Wordle</h3>
-                <p class="game-description">Guess the kupu Māori! This addictive word game builds your reo skills with every guess. Perfect for language learners of all levels.</p>
-                <div class="game-meta">
-                    <span class="game-tag tag-maori">Te Reo Māori</span>
-                    <span class="play-button">Play Now →</span>
-                </div>
-            </a>
-            
-            <!-- Te Reo Wordle 6-Letter -->
-            <a href="/games/te-reo-wordle-6.html" class="game-card">
-                <div class="game-icon">🔤</div>
-                <h3 class="game-title">Te Reo Wordle (6-Letter)</h3>
-                <p class="game-description">Ready for a bigger challenge? Try guessing 6-letter kupu Māori. Expand your vocabulary with longer words!</p>
-                <div class="game-meta">
-                    <span class="game-tag tag-maori">Te Reo Māori</span>
-                    <span class="play-button">Play Now →</span>
-                </div>
-            </a>
-            
-            <!-- Te Reo Wordle Unlimited -->
-            <a href="/games/te-reo-wordle-unlimited.html" class="game-card">
-                <div class="game-icon">♾️</div>
-                <h3 class="game-title">Te Reo Wordle (Unlimited)</h3>
-                <p class="game-description">Can't stop, won't stop! Play as many rounds as you want. Perfect for daily practice and skill building.</p>
-                <div class="game-meta">
-                    <span class="game-tag tag-maori">Te Reo Māori</span>
-                    <span class="play-button">Play Now →</span>
-                </div>
-            </a>
-            
-        </div>
-
-        <!-- English Games -->
-        <h2 class="section-title">📝 English Language Games</h2>
-        <div class="games-grid">
-            
-            <!-- English Wordle -->
-            <a href="/games/english-wordle.html" class="game-card">
-                <div class="game-icon">📝</div>
-                <h3 class="game-title">English Wordle</h3>
-                <p class="game-description">Classic word-guessing fun! Build vocabulary, spelling, and logical thinking skills in this timeless game.</p>
-                <div class="game-meta">
-                    <span class="game-tag tag-english">English</span>
-                    <span class="play-button">Play Now →</span>
-                </div>
-            </a>
-            
-            <!-- Spelling Bee -->
-            <a href="/games/spelling-bee.html" class="game-card">
-                <div class="game-icon">🐝</div>
-                <h3 class="game-title">Spelling Bee</h3>
-                <p class="game-description">How many words can you make? Challenge yourself to find all possible combinations. Addictive and educational!</p>
-                <div class="game-meta">
-                    <span class="game-tag tag-vocab">Vocabulary</span>
-                    <span class="play-button">Play Now →</span>
-                </div>
-            </a>
-            
-            <!-- Countdown Letters -->
-            <a href="/games/countdown-letters.html" class="game-card">
-                <div class="game-icon">⏱️</div>
-                <h3 class="game-title">Countdown Letters</h3>
-                <p class="game-description">Make the longest word from random letters in 30 seconds! Fast-paced fun that builds quick thinking and vocabulary.</p>
-                <div class="game-meta">
-                    <span class="game-tag tag-timed">Timed Challenge</span>
-                    <span class="play-button">Play Now →</span>
-                </div>
-            </a>
-            
-        </div>
-
-        <!-- Thinking Games -->
-        <h2 class="section-title">🧠 Quick Thinking Games</h2>
-        <div class="games-grid">
-            
-            <!-- Categories -->
-            <a href="/games/categories.html" class="game-card">
-                <div class="game-icon">📋</div>
-                <h3 class="game-title">Categories</h3>
-                <p class="game-description">Beat the clock and fill in categories! Think fast, type faster. Perfect for group play and friendly competition.</p>
-                <div class="game-meta">
-                    <span class="game-tag tag-thinking">Quick Thinking</span>
-                    <span class="play-button">Play Now →</span>
-                </div>
-            </a>
-            
-        </div>
-
-        <!-- Cultural Games -->
-        <h2 class="section-title">🎨 Cultural Learning Games</h2>
-        <div class="games-grid">
-            
-            <!-- Tukutuku Pattern Explorer -->
-            <a href="/games/tukutuku-pattern-explorer.html" class="game-card">
-                <div class="game-icon">🎨</div>
-                <h3 class="game-title">Tukutuku Pattern Explorer</h3>
-                <p class="game-description">Explore traditional Māori weaving patterns interactively. Learn about the meanings and stories behind each design.</p>
-                <div class="game-meta">
-                    <span class="game-tag tag-cultural">Cultural</span>
-                    <span class="play-button">Explore →</span>
-                </div>
-            </a>
-            
-        </div>
-
-        <!-- Benefits Section -->
-        <div class="benefits-section">
-            <h2 class="section-title">Why Learning Games?</h2>
-            <div class="benefits-grid">
-                <div class="benefit-item">
-                    <div class="benefit-icon">🧠</div>
-                    <h3 class="benefit-title">Cognitive Development</h3>
-                    <p class="benefit-description">Enhance memory, problem-solving, and critical thinking through engaging gameplay.</p>
-                </div>
-                <div class="benefit-item">
-                    <div class="benefit-icon">🎯</div>
-                    <h3 class="benefit-title">Skill Reinforcement</h3>
-                    <p class="benefit-description">Practice vocabulary, spelling, and language skills in a fun, low-pressure environment.</p>
-                </div>
-                <div class="benefit-item">
-                    <div class="benefit-icon">⚡</div>
-                    <h3 class="benefit-title">Brain Breaks</h3>
-                    <p class="benefit-description">Perfect 5-10 minute breaks that refresh and re-energize for continued learning.</p>
-                </div>
-                <div class="benefit-item">
-                    <div class="benefit-icon">🌿</div>
-                    <h3 class="benefit-title">Cultural Connection</h3>
-                    <p class="benefit-description">Te Reo Māori games strengthen cultural identity and language preservation.</p>
-                </div>
+        <!-- Te Reo Wordle (6-Letter) -->
+        <a href="/games/te-reo-wordle-6.html" class="game-card">
+            <div class="game-icon">🎯</div>
+            <h3 class="game-title">Te Reo Wordle (6-Letter)</h3>
+            <p class="game-description">Advanced challenge! Longer kupu Māori for experienced learners.</p>
+            <div class="game-meta">
+                <span class="game-badge badge-maori">Advanced</span>
+                <span class="play-arrow">Play →</span>
             </div>
-        </div>
-
+        </a>
+        
+        <!-- English Wordle -->
+        <a href="/games/english-wordle.html" class="game-card">
+            <div class="game-icon">📝</div>
+            <h3 class="game-title">English Wordle</h3>
+            <p class="game-description">Classic 5-letter word-guessing game. Perfect for vocabulary building!</p>
+            <div class="game-meta">
+                <span class="game-badge badge-english">English</span>
+                <span class="play-arrow">Play →</span>
+            </div>
+        </a>
+        
+        <!-- Spelling Bee -->
+        <a href="/games/spelling-bee.html" class="game-card">
+            <div class="game-icon">🐝</div>
+            <h3 class="game-title">Spelling Bee</h3>
+            <p class="game-description">How many words can you make from 7 letters? Challenge yourself!</p>
+            <div class="game-meta">
+                <span class="game-badge badge-vocab">Vocabulary</span>
+                <span class="play-arrow">Play →</span>
+            </div>
+        </a>
+        
+        <!-- Categories -->
+        <a href="/games/categories.html" class="game-card">
+            <div class="game-icon">📋</div>
+            <h3 class="game-title">Categories</h3>
+            <p class="game-description">Beat the clock! Think fast and fill out categories with words that start with a random letter.</p>
+            <div class="game-meta">
+                <span class="game-badge badge-quick">Quick Thinking</span>
+                <span class="play-arrow">Play →</span>
+            </div>
+        </a>
+        
+        <!-- Countdown Letters -->
+        <a href="/games/countdown-letters.html" class="game-card">
+            <div class="game-icon">⏱️</div>
+            <h3 class="game-title">Countdown Letters</h3>
+            <p class="game-description">Make the longest word you can from 9 random letters in 30 seconds!</p>
+            <div class="game-meta">
+                <span class="game-badge badge-timed">Timed Challenge</span>
+                <span class="play-arrow">Play →</span>
+            </div>
+        </a>
+        
     </div>
-
-    <!-- Footer -->
-    <div id="footer-container"></div>
-    <script>
-        fetch('/components/footer.html')
-            .then(response => response.text())
-            .then(html => document.getElementById('footer-container').innerHTML = html)
-            .catch(err => console.log('Footer loading:', err));
-    </script>
+    
+    <!-- Coming Soon Section -->
+    <div style="text-align: center; margin: 4rem 0; padding: 3rem; background: #f5f5f5; border-radius: 12px;">
+        <h2 style="margin-bottom: 1rem;">✨ More Games Coming Soon!</h2>
+        <p style="color: #546e7a; font-size: 1.1rem;">
+            Math challenges, science quizzes, and more Te Reo games are in development.
+        </p>
+    </div>
+    
+    <!-- Back to Home -->
+    <div style="text-align: center; margin: 3rem 0;">
+        <a href="/" style="display: inline-block; padding: 1rem 2rem; background: #1a4d2e; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
+            ← Back to Home
+        </a>
+    </div>
+    
+</div>
 
 </body>
 </html>
