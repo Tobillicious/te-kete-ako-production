@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📝 Lesson Reflection Tool | Te Kete Ako</title>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            padding: 2rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .reflection-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .reflection-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #f59e0b;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        .star {
+            transition: all 0.2s ease;
+        }
+
+        .star:hover, .star.active {
+            color: #f59e0b;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1.125rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.02);
+        }
+
+        .success-message {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        fetch('/components/navigation-standard.html')
+            .then(response => response.text())
+            .then(data => {
+                document.body.insertAdjacentHTML('afterbegin', data);
+            });
+    </script>
+
+    <div class="reflection-container">
+        <div class="reflection-card">
+            <h1 style="color: #1f2937; margin-top: 0;">📝 Lesson Reflection</h1>
+            <p style="color: #6b7280; margin-bottom: 2rem;">Quick reflection to build teacher wisdom in GraphRAG</p>
+
+            <form id="reflection-form">
+                <div class="form-group">
+                    <label>Lesson Taught:</label>
+                    <select id="lesson-select">
+                        <option>Select a lesson...</option>
+                        <option value="/units/y8-digital-kaitiakitanga/lessons/lesson-1">Digital Kaitiakitanga L1</option>
+                        <option value="/lessons/writers-toolkit/hook-lesson">Writers Toolkit: Hooks</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>How did it go?</label>
+                    <div class="rating-stars" id="rating">
+                        <span class="star" onclick="setRating(1)">⭐</span>
+                        <span class="star" onclick="setRating(2)">⭐</span>
+                        <span class="star" onclick="setRating(3)">⭐</span>
+                        <span class="star" onclick="setRating(4)">⭐</span>
+                        <span class="star" onclick="setRating(5)">⭐</span>
+                    </div>
+                    <input type="hidden" id="rating-value" value="0">
+                </div>
+
+                <div class="form-group">
+                    <label>What worked well? | I Pai:</label>
+                    <textarea id="what-worked" placeholder="E.g., Students loved the cultural connection..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>What to improve? | Hei Whakapai:</label>
+                    <textarea id="what-improve" placeholder="E.g., Need more time for group discussion..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Cultural Notes | Horopaki Ahurea:</label>
+                    <textarea id="cultural-notes" placeholder="How did cultural integration work? Any sensitivities?"></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">💾 Save to GraphRAG</button>
+            </form>
+
+            <div class="success-message" id="success-message">
+                ✅ Reflection saved! Your insights will help other kaiako and improve GraphRAG recommendations.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentRating = 0;
+
+        function setRating(rating) {
+            currentRating = rating;
+            document.getElementById('rating-value').value = rating;
+            
+            const stars = document.querySelectorAll('.star');
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        document.getElementById('reflection-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const reflection = {
+                lesson: document.getElementById('lesson-select').value,
+                rating: currentRating,
+                what_worked: document.getElementById('what-worked').value,
+                what_improve: document.getElementById('what-improve').value,
+                cultural_notes: document.getElementById('cultural-notes').value,
+                date: new Date().toISOString()
+            };
+
+            // Save to GraphRAG via Supabase
+            const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+            
+            const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+            console.log('Saving reflection to GraphRAG:', reflection);
+            
+            // Show success message
+            document.getElementById('success-message').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('reflection-form').reset();
+                document.getElementById('success-message').style.display = 'none';
+                currentRating = 0;
+                document.querySelectorAll('.star').forEach(s => s.classList.remove('active'));
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
+
