@@ -22,7 +22,6 @@ class GraphRAGStats {
       const range = response.headers.get('content-range');
       return parseInt(range.split('/')[1]);
     } catch (error) {
-      console.error('Error getting total resources:', error);
       return 0;
     }
   }
@@ -40,7 +39,6 @@ class GraphRAGStats {
       const range = response.headers.get('content-range');
       return parseInt(range.split('/')[1]);
     } catch (error) {
-      console.error('Error getting active resources:', error);
       return 0;
     }
   }
@@ -58,7 +56,6 @@ class GraphRAGStats {
       const range = response.headers.get('content-range');
       return parseInt(range.split('/')[1]);
     } catch (error) {
-      console.error('Error getting variants:', error);
       return 0;
     }
   }
@@ -76,7 +73,6 @@ class GraphRAGStats {
       const range = response.headers.get('content-range');
       return parseInt(range.split('/')[1]);
     } catch (error) {
-      console.error('Error getting subject resources:', error);
       return 0;
     }
   }
@@ -94,7 +90,6 @@ class GraphRAGStats {
       const range = response.headers.get('content-range');
       return parseInt(range.split('/')[1]);
     } catch (error) {
-      console.error('Error getting type resources:', error);
       return 0;
     }
   }
@@ -112,7 +107,6 @@ class GraphRAGStats {
       const range = response.headers.get('content-range');
       return parseInt(range.split('/')[1]);
     } catch (error) {
-      console.error('Error getting relationships:', error);
       return 0;
     }
   }
@@ -130,7 +124,6 @@ class GraphRAGStats {
       const range = response.headers.get('content-range');
       return parseInt(range.split('/')[1]);
     } catch (error) {
-      console.error('Error getting whakataukī resources:', error);
       return 0;
     }
   }
@@ -161,7 +154,7 @@ window.GraphRAGStats = GraphRAGStats;
 // Auto-load on compatible pages
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
-    console.log('GraphRAG Stats ready');
+    // GraphRAG Stats initialized
   });
 }
 
