@@ -31,15 +31,17 @@
             border: 2px solid #e2e8f0;
             border-radius: 50px;
             font-size: 1.1rem;
-            transition: all 0.3s ease;
-            background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.5);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         .search-input:focus {
             outline: none;
             border-color: var(--color-primary);
-            box-shadow: 0 4px 16px rgba(74, 110, 42, 0.15);
+            box-shadow: 0 8px 32px rgba(74, 110, 42, 0.25), 0 0 0 3px rgba(74, 110, 42, 0.1);
+            transform: translateY(-2px);
         }
 
         /* Focus management for accessibility */
@@ -89,6 +91,29 @@
             color: #64748b;
             margin: 1rem 0;
             font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        /* Professional Section Headers */
+        .section-title-main {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #0f2818;
+            margin-bottom: 2rem;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            letter-spacing: -0.025em;
+            position: relative;
+        }
+
+        .section-title-main::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #4a6e2a 0%, #2d5a1a 100%);
+            border-radius: 2px;
         }
 
         .no-results {
@@ -114,6 +139,9 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .unit-card::before {
@@ -123,12 +151,18 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s ease;
+            background: linear-gradient(90deg, transparent, rgba(74, 110, 42, 0.05), transparent);
+            transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .unit-card:hover::before {
             left: 100%;
+        }
+
+        .unit-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12), 0 8px 16px rgba(74, 110, 42, 0.15);
+            border-color: rgba(74, 110, 42, 0.2);
         }
 
         .unit-card-info {
@@ -146,6 +180,30 @@
 
         .unit-card:hover .unit-card-info {
             transform: translateY(0);
+        }
+
+        /* Professional Typography */
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #0f2818;
+            margin-bottom: 0.5rem;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            letter-spacing: -0.025em;
+            line-height: 1.2;
+        }
+
+        .card-description {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #4a6e2a;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: linear-gradient(135deg, #4a6e2a 0%, #2d5a1a 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         /* Cultural Elements */
@@ -180,6 +238,30 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* Professional Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .search-section {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .year-section {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .year-section:nth-child(2) { animation-delay: 0.1s; }
+        .year-section:nth-child(3) { animation-delay: 0.2s; }
+        .year-section:nth-child(4) { animation-delay: 0.3s; }
 
         /* Accessibility Enhancements */
         .sr-only {
@@ -223,6 +305,20 @@
     <div class="hero-content">
         <h1 class="hero-title">📚 Unit Plans</h1>
         <p class="hero-description">Complete, curriculum-aligned units integrating mātauranga Māori with modern pedagogies</p>
+        <div class="hero-stats" style="display: flex; justify-content: center; gap: 2rem; margin-top: 2rem; opacity: 0.9;">
+            <div class="stat-item" style="text-align: center;">
+                <div style="font-size: 2rem; font-weight: 800; color: #4a6e2a;">16</div>
+                <div style="font-size: 0.9rem; color: rgba(255,255,255,0.8);">Units Available</div>
+            </div>
+            <div class="stat-item" style="text-align: center;">
+                <div style="font-size: 2rem; font-weight: 800; color: #4a6e2a;">7-13</div>
+                <div style="font-size: 0.9rem; color: rgba(255,255,255,0.8);">Year Levels</div>
+            </div>
+            <div class="stat-item" style="text-align: center;">
+                <div style="font-size: 2rem; font-weight: 800; color: #4a6e2a;">100%</div>
+                <div style="font-size: 0.9rem; color: rgba(255,255,255,0.8);">Culturally Integrated</div>
+            </div>
+        </div>
     </div>
 </div>
             
