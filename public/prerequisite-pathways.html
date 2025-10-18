@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prerequisite Learning Pathways | Te Kete Ako</title>
+    <meta name="description" content="272 prerequisite relationships showing learning progression">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/te-kete-unified-design-system.css">
+    <link rel="stylesheet" href="/css/component-library.css">
+    <link rel="stylesheet" href="/css/enhanced-cards.css">
+    
+    <style>
+        .prereq-hero {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        
+        .pathway-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .pathway-item::after {
+            content: '↓';
+            position: absolute;
+            bottom: -2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            color: #dc2626;
+        }
+        
+        .pathway-item:last-child::after {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div id="nav-container"></div>
+    <script>
+        fetch('/components/navigation-standard.html')
+            .then(r => r.text())
+            .then(html => document.getElementById('nav-container').innerHTML = html);
+    </script>
+    
+    <!-- Hero -->
+    <section class="prereq-hero">
+        <h1 style="font-size: 4rem; margin-bottom: 1rem; font-weight: 800;">🎯 Learning Pathways</h1>
+        <p style="font-size: 1.5rem; opacity: 0.95;">
+            272 prerequisite relationships showing progression
+        </p>
+    </section>
+    
+    <main style="max-width: 900px; margin: 3rem auto; padding: 0 2rem;">
+        
+        <div id="pathways-container">
+            <div style="text-align: center; padding: 4rem; color: #888;">
+                <p>Loading prerequisite pathways...</p>
+            </div>
+        </div>
+        
+    </main>
+    
+    <!-- Footer -->
+    <div id="footer-container"></div>
+    <script>
+        fetch('/components/footer.html').then(r=>r.text()).then(html=>{
+            document.getElementById('footer-container').innerHTML=html;
+        });
+    </script>
+    
+    <script>
+        // Load prerequisite relationships from GraphRAG
+        async function loadPrerequisitePathways() {
+            try {
+                const url = 'https://nlgldaqtubrlcqddppbq.supabase.co/rest/v1/graphrag_relationships';
+                const headers = {
+                    'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM',
+                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
+                };
+                
+                // Query for prerequisite relationships
+                const response = await fetch(`${url}?relationship_type=eq.prerequisite&order=confidence.desc&limit=20`, { headers });
+                const prereqs = await response.json();
+                
+                displayPathways(prereqs);
+                
+            } catch (error) {
+                console.error('Error loading prerequisites:', error);
+            }
+        }
+        
+        function displayPathways(prereqs) {
+            const container = document.getElementById('pathways-container');
+            
+            if (!prereqs || prereqs.length === 0) {
+                container.innerHTML = '<p style="text-align: center;">No prerequisite pathways found.</p>';
+                return;
+            }
+            
+            const html = prereqs.map((prereq, idx) => `
+                <div class="pathway-item">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                        <div>
+                            <div style="color: #888; font-size: 0.875rem; margin-bottom: 0.5rem;">PREREQUISITE (Learn first)</div>
+                            <h3 style="color: #1a4d2e; margin-bottom: 0.5rem;">
+                                ${prereq.source_path.split('/').pop().replace('.html', '').replace(/-/g, ' ')}
+                            </h3>
+                            <a href="${prereq.source_path}" style="color: #0284c7; text-decoration: none;">View resource →</a>
+                        </div>
+                        <div style="background: #10b981; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.875rem; font-weight: 700;">
+                            ${(prereq.confidence || 0.75).toFixed(2)} confidence
+                        </div>
+                    </div>
+                    
+                    <div style="border-top: 2px dashed #e5e7eb; margin: 1.5rem 0; padding-top: 1.5rem;">
+                        <div style="color: #888; font-size: 0.875rem; margin-bottom: 0.5rem;">THEN (Learn next)</div>
+                        <h3 style="color: #dc2626; margin-bottom: 0.5rem;">
+                            ${prereq.target_path.split('/').pop().replace('.html', '').replace(/-/g, ' ')}
+                        </h3>
+                        <a href="${prereq.target_path}" style="color: #dc2626; text-decoration: none;">View resource →</a>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = html;
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadPrerequisitePathways);
+    </script>
+</body>
+</html>
+

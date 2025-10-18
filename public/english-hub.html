@@ -230,6 +230,33 @@
             document.getElementById('footer-container').innerHTML=html;
         });
     </script>
+    
+    <script>
+        // Load REAL english resources from GraphRAG
+        async function loadEnglishResources() {
+            try {
+                const url = 'https://nlgldaqtubrlcqddppbq.supabase.co/rest/v1/resources';
+                const headers = {
+                    'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM',
+                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
+                };
+                
+                const response = await fetch(`${url}?subject=ilike.%english%&is_active=eq.true&order=created_at.desc&limit=100`, { headers });
+                const resources = await response.json();
+                
+                console.log(`Loaded ${resources.length} english resources from GraphRAG`);
+                
+                const countElement = document.querySelector('.count-badge');
+                if (countElement && resources.length > 0) {
+                    countElement.textContent = `${resources.length}+ Resources`;
+                }
+            } catch (error) {
+                console.error('Error loading english resources:', error);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadEnglishResources);
+    </script>
 </body>
 </html>
 

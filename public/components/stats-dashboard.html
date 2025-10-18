@@ -13,12 +13,12 @@
         <!-- Animated stat counters -->
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
             <div style="background: white; padding: 2.5rem 2rem; border-radius: 16px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-top: 4px solid #0284c7;">
-                <div style="font-size: 3.5rem; font-weight: 800; color: #0284c7; margin-bottom: 0.5rem;" class="stat-counter" data-target="20354">
+                <div style="font-size: 3.5rem; font-weight: 800; color: #0284c7; margin-bottom: 0.5rem;" class="stat-counter" id="total-resources-stat" data-target="0">
                     0
                 </div>
                 <div style="color: #546e7a; font-size: 1rem; font-weight: 600;">Total Resources</div>
                 <div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid #e5e7eb;">
-                    <span style="color: #16a34a; font-weight: 700; font-size: 0.9rem;">↑ +153% growth</span>
+                    <span id="growth-stat" style="color: #16a34a; font-weight: 700; font-size: 0.9rem;">Loading...</span>
                 </div>
             </div>
 
@@ -119,22 +119,57 @@
     });
 
     async function loadResourceBreakdown() {
-        // This would query GraphRAG for real data
-        const breakdown = [
-            { type: 'Lessons', count: 363, color: '#0284c7' },
-            { type: 'Handouts', count: 271, color: '#f59e0b' },
-            { type: 'Unit Plans', count: 241, color: '#16a34a' },
-            { type: 'Interactive', count: 75, color: '#7c3aed' },
-            { type: 'Games', count: 22, color: '#ec4899' },
-            { type: 'Assessments', count: 13, color: '#14b8a6' }
-        ];
+        // Query REAL GraphRAG data
+        try {
+            const url = 'https://nlgldaqtubrlcqddppbq.supabase.co/rest/v1/resources';
+            const headers = {
+                'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM',
+                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
+            };
+            
+            // Get total count
+            const totalResp = await fetch(`${url}?select=*&limit=1`, { headers: new Headers({...headers, 'Prefer': 'count=exact'}) });
+            const totalCount = parseInt(totalResp.headers.get('content-range').split('/')[1]);
+            
+            // Update total resources counter
+            const totalEl = document.getElementById('total-resources-stat');
+            if (totalEl) {
+                totalEl.setAttribute('data-target', totalCount);
+                animateCounter(totalEl);
+            }
+            
+            // Update growth stat
+            const growthEl = document.getElementById('growth-stat');
+            if (growthEl) {
+                const growth = ((totalCount - 19445) / 19445 * 100).toFixed(0);
+                growthEl.textContent = `↑ +${growth}% growth today`;
+            }
+            
+            // Get type breakdown (active only)
+            const types = ['lesson', 'handout', 'unit-plan', 'interactive', 'game', 'assessment'];
+            const breakdown = [];
+            const colors = ['#0284c7', '#f59e0b', '#16a34a', '#7c3aed', '#ec4899', '#14b8a6'];
+            
+            for (let i = 0; i < types.length; i++) {
+                const typeResp = await fetch(`${url}?type=eq.${types[i]}&is_active=eq.true&select=*&limit=1`, 
+                    { headers: new Headers({...headers, 'Prefer': 'count=exact'}) });
+                const count = parseInt(typeResp.headers.get('content-range').split('/')[1]) || 0;
+                breakdown.push({ 
+                    type: types[i].replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()), 
+                    count, 
+                    color: colors[i] 
+                });
+            }
 
-        const container = document.getElementById('resource-breakdown');
-        container.innerHTML = breakdown.map(item => `
-            <div style="text-align: center; padding: 1rem; border-radius: 8px; background: ${item.color}15; border: 2px solid ${item.color}33;">
-                <div style="font-size: 2rem; font-weight: 700; color: ${item.color};">${item.count}</div>
-                <div style="color: #546e7a; font-size: 0.9rem; margin-top: 0.25rem;">${item.type}</div>
-            </div>
-        `).join('');
+            const container = document.getElementById('resource-breakdown');
+            container.innerHTML = breakdown.map(item => `
+                <div style="text-align: center; padding: 1rem; border-radius: 8px; background: ${item.color}15; border: 2px solid ${item.color}33;">
+                    <div style="font-size: 2rem; font-weight: 700; color: ${item.color};">${item.count}</div>
+                    <div style="color: #546e7a; font-size: 0.9rem; margin-top: 0.25rem;">${item.type}</div>
+                </div>
+            `).join('');
+        } catch (error) {
+            console.error('Error loading stats:', error);
+        }
     }
 </script>

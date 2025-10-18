@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Graph Explorer | Te Kete Ako</title>
+    <meta name="description" content="Explore 5,324 relationships in our knowledge graph">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/te-kete-unified-design-system.css">
+    <link rel="stylesheet" href="/css/component-library.css">
+    <link rel="stylesheet" href="/css/enhanced-cards.css">
+    
+    <style>
+        .graph-hero {
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        
+        .relationship-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 4px solid #7c3aed;
+        }
+        
+        .relationship-type {
+            display: inline-block;
+            background: #f3e8ff;
+            color: #6b21a8;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        
+        .confidence-badge {
+            float: right;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div id="nav-container"></div>
+    <script>
+        fetch('/components/navigation-standard.html')
+            .then(r => r.text())
+            .then(html => document.getElementById('nav-container').innerHTML = html);
+    </script>
+    
+    <!-- Hero -->
+    <section class="graph-hero">
+        <h1 style="font-size: 4rem; margin-bottom: 1rem; font-weight: 800;">🕸️ Knowledge Graph Explorer</h1>
+        <p style="font-size: 1.5rem; opacity: 0.95;">
+            Explore 5,324 connections in our knowledge graph
+        </p>
+    </section>
+    
+    <main style="max-width: 1200px; margin: 3rem auto; padding: 0 2rem;">
+        
+        <!-- Stats Overview -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+            <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center;">
+                <div style="font-size: 3rem; font-weight: 800; color: #7c3aed;" id="total-relationships">0</div>
+                <div style="color: #546e7a;">Total Relationships</div>
+            </div>
+            <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center;">
+                <div style="font-size: 3rem; font-weight: 800; color: #10b981;" id="relationship-types">0</div>
+                <div style="color: #546e7a;">Relationship Types</div>
+            </div>
+            <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center;">
+                <div style="font-size: 3rem; font-weight: 800; color: #f59e0b;" id="avg-confidence">0.0</div>
+                <div style="color: #546e7a;">Avg Confidence</div>
+            </div>
+        </div>
+        
+        <!-- Relationship Types -->
+        <h2 style="color: #1a4d2e; margin-bottom: 2rem;">📊 Relationship Types</h2>
+        <div id="relationship-types-grid" style="display: grid; gap: 1rem; margin-bottom: 3rem;">
+            <p style="color: #888;">Loading...</p>
+        </div>
+        
+        <!-- Sample Relationships -->
+        <h2 style="color: #1a4d2e; margin-bottom: 2rem;">🔗 Sample Connections</h2>
+        <div id="sample-relationships">
+            <p style="color: #888;">Loading...</p>
+        </div>
+        
+    </main>
+    
+    <!-- Footer -->
+    <div id="footer-container"></div>
+    <script>
+        fetch('/components/footer.html').then(r=>r.text()).then(html=>{
+            document.getElementById('footer-container').innerHTML=html;
+        });
+    </script>
+    
+    <script>
+        // Load knowledge graph data from GraphRAG
+        async function loadKnowledgeGraph() {
+            try {
+                const url = 'https://nlgldaqtubrlcqddppbq.supabase.co/rest/v1/graphrag_relationships';
+                const headers = {
+                    'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM',
+                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM',
+                    'Prefer': 'count=exact'
+                };
+                
+                // Get total count and sample
+                const response = await fetch(`${url}?select=*&limit=20&order=confidence.desc`, { headers });
+                const relationships = await response.json();
+                const totalCount = parseInt(response.headers.get('content-range').split('/')[1]);
+                
+                // Update stats
+                document.getElementById('total-relationships').textContent = totalCount.toLocaleString();
+                
+                // Get unique relationship types
+                const typesResp = await fetch(`${url}?select=relationship_type&limit=1000`, { headers });
+                const allRels = await typesResp.json();
+                const uniqueTypes = [...new Set(allRels.map(r => r.relationship_type))];
+                document.getElementById('relationship-types').textContent = uniqueTypes.length;
+                
+                // Calculate average confidence
+                const avgConf = allRels.reduce((sum, r) => sum + (r.confidence || 0), 0) / allRels.length;
+                document.getElementById('avg-confidence').textContent = avgConf.toFixed(2);
+                
+                // Display relationship types breakdown
+                displayRelationshipTypes(allRels);
+                
+                // Display sample relationships
+                displaySampleRelationships(relationships);
+                
+            } catch (error) {
+                console.error('Error loading knowledge graph:', error);
+            }
+        }
+        
+        function displayRelationshipTypes(relationships) {
+            const typeCounts = {};
+            relationships.forEach(r => {
+                const type = r.relationship_type || 'unknown';
+                typeCounts[type] = (typeCounts[type] || 0) + 1;
+            });
+            
+            const sorted = Object.entries(typeCounts).sort((a, b) => b[1] - a[1]);
+            
+            const html = sorted.map(([type, count]) => `
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color: #1a4d2e; font-weight: 600;">${type.replace(/_/g, ' ')}</span>
+                    <span style="background: #7c3aed; color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 700;">${count}</span>
+                </div>
+            `).join('');
+            
+            document.getElementById('relationship-types-grid').innerHTML = html;
+        }
+        
+        function displaySampleRelationships(relationships) {
+            const html = relationships.map(r => `
+                <div class="relationship-card">
+                    <div class="relationship-type">${r.relationship_type}</div>
+                    <span class="confidence-badge">confidence: ${(r.confidence || 0).toFixed(2)}</span>
+                    <div style="margin-top: 1rem; color: #2c3e50;">
+                        <strong>Source:</strong> ${r.source_path}<br>
+                        <strong>→ Target:</strong> ${r.target_path}
+                    </div>
+                </div>
+            `).join('');
+            
+            document.getElementById('sample-relationships').innerHTML = html;
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadKnowledgeGraph);
+    </script>
+</body>
+</html>
+

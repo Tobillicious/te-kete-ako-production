@@ -279,6 +279,36 @@
             color: white;
         }
     </style>
+    
+    <script>
+        // Load REAL mathematics resources from GraphRAG
+        async function loadMathResources() {
+            try {
+                const url = 'https://nlgldaqtubrlcqddppbq.supabase.co/rest/v1/resources';
+                const headers = {
+                    'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM',
+                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
+                };
+                
+                // Query for actual mathematics resources
+                const response = await fetch(`${url}?or=(subject.ilike.%mathematics%,subject.ilike.%math%)&is_active=eq.true&order=created_at.desc&limit=50`, { headers });
+                const resources = await response.json();
+                
+                console.log(`Loaded ${resources.length} mathematics resources from GraphRAG`);
+                
+                // Update count on page
+                const countElement = document.querySelector('.count-badge');
+                if (countElement && resources.length > 0) {
+                    countElement.textContent = `${resources.length}+ Resources`;
+                }
+                
+            } catch (error) {
+                console.error('Error loading mathematics resources:', error);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadMathResources);
+    </script>
 </body>
 </html>
 
