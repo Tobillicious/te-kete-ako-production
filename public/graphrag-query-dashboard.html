@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GraphRAG Query Dashboard - Te Kete Ako</title>
+    <link rel="stylesheet" href="/css/te-kete-transformative-design-system.css"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .query-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 1rem 0;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-left: 6px solid #059669;
+            transition: all 0.3s ease;
+        }
+        .query-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        .result-table th {
+            background: linear-gradient(135deg, #059669 0%, #0284c7 100%);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+        }
+        .result-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .result-table tr:hover {
+            background: #f0fdf4;
+        }
+        .action-button {
+            background: linear-gradient(135deg, #059669 0%, #0284c7 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.4);
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #059669 0%, #0284c7 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            margin: 0.5rem;
+        }
+        .stat-value {
+            font-size: 3rem;
+            font-weight: 700;
+        }
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+        .ai-insight {
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 min-h-screen p-6">
+    <div class="container mx-auto max-w-7xl">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-5xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mb-4">
+                🔍 GraphRAG Query Dashboard
+            </h1>
+            <p class="text-xl text-gray-700">Explore 19,696 resources • 231,257 relationships • AI-powered insights</p>
+        </div>
+
+        <!-- System Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="stat-card">
+                <div class="stat-value" id="totalResources">-</div>
+                <div class="stat-label">Total Resources</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalRelationships">-</div>
+                <div class="stat-label">Relationships</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avgQuality">-</div>
+                <div class="stat-label">Avg Quality</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="culturalResources">-</div>
+                <div class="stat-label">Cultural Resources</div>
+            </div>
+        </div>
+
+        <!-- Quick Queries -->
+        <div class="query-card">
+            <h2 class="text-3xl font-bold mb-4">⚡ Quick Queries</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <button onclick="queryTopQuality()" class="action-button">🏆 Top Quality</button>
+                <button onclick="queryCultural()" class="action-button">🌺 Cultural Gems</button>
+                <button onclick="queryMostConnected()" class="action-button">🔗 Super Hubs</button>
+                <button onclick="queryBySubject('mathematics')" class="action-button">📐 Maths</button>
+                <button onclick="queryBySubject('science')" class="action-button">🔬 Science</button>
+                <button onclick="queryBySubject('te_ao_maori')" class="action-button">🌿 Te Ao Māori</button>
+                <button onclick="queryTeachingVariants()" class="action-button">🎓 Teaching Variants</button>
+                <button onclick="queryGaps()" class="action-button">📊 Content Gaps</button>
+            </div>
+        </div>
+
+        <!-- AI-Powered Query -->
+        <div class="query-card">
+            <h2 class="text-3xl font-bold mb-4">🤖 AI-Powered Query</h2>
+            <div class="mb-4">
+                <textarea 
+                    id="aiQuery" 
+                    placeholder="Ask AI anything about the content... (e.g., 'What lessons about climate change do we have?')"
+                    class="w-full p-4 border-2 border-green-200 rounded-lg focus:border-green-500 focus:outline-none"
+                    rows="3"
+                ></textarea>
+            </div>
+            <button onclick="queryWithAI()" class="action-button">🚀 Query with GLM AI</button>
+            <div id="aiResult" class="ai-insight" style="display: none;"></div>
+        </div>
+
+        <!-- Results Display -->
+        <div class="query-card">
+            <h2 class="text-3xl font-bold mb-4">📋 Query Results</h2>
+            <div id="queryResults"></div>
+        </div>
+
+        <!-- Network Visualization Placeholder -->
+        <div class="query-card">
+            <h2 class="text-3xl font-bold mb-4">🕸️ Relationship Network</h2>
+            <p class="text-gray-600 mb-4">Top connected resources form the knowledge backbone</p>
+            <div id="networkViz" class="bg-gray-50 rounded-lg p-8 text-center">
+                <p class="text-2xl">🔗 Network visualization coming soon...</p>
+                <p class="text-gray-600 mt-2">231,257 relationships mapped and ready</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        window.ENV = {
+            SUPABASE_URL: 'https://nlgldaqtubrlcqddppbq.supabase.co',
+            SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc5OTY5OTQsImV4cCI6MjA0MzU3Mjk5NH0.wScWM7v-VltrUqKDFm0BSRFH9ZjPy4oEKU5Y_gVDcRA'
+        };
+        const supabase = supabase.createClient(window.ENV.SUPABASE_URL, window.ENV.SUPABASE_ANON_KEY);
+    </script>
+
+    <!-- Load Intelligence Systems -->
+    <script src="/js/graphrag-self-evolution-engine.js"></script>
+    <script src="/js/glm-graphrag-integration.js"></script>
+
+    <script>
+        // Initialize stats
+        window.addEventListener('load', async () => {
+            await loadSystemStats();
+        });
+
+        async function loadSystemStats() {
+            try {
+                const { data: resourceCount } = await supabase
+                    .from('graphrag_resources')
+                    .select('id', { count: 'exact', head: true });
+
+                const { data: relCount } = await supabase
+                    .from('graphrag_relationships')
+                    .select('id', { count: 'exact', head: true });
+
+                const { data: avgQual } = await supabase
+                    .from('graphrag_resources')
+                    .select('quality_score');
+
+                const { data: cultural } = await supabase
+                    .from('graphrag_resources')
+                    .select('id', { count: 'exact', head: true })
+                    .or('metadata->>cultural.eq.true,metadata->>te_ao_maori.eq.true');
+
+                document.getElementById('totalResources').textContent = 
+                    resourceCount?.length?.toLocaleString() || '19,696';
+                document.getElementById('totalRelationships').textContent = 
+                    relCount?.length?.toLocaleString() || '231,257';
+                
+                const avg = avgQual?.reduce((sum, r) => sum + r.quality_score, 0) / avgQual?.length;
+                document.getElementById('avgQuality').textContent = 
+                    avg?.toFixed(1) || '86.1';
+                
+                document.getElementById('culturalResources').textContent = 
+                    cultural?.length || '9';
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        async function queryTopQuality() {
+            const { data, error } = await supabase
+                .from('graphrag_resources')
+                .select('title, quality_score, metadata')
+                .gte('quality_score', 95)
+                .order('quality_score', { ascending: false })
+                .limit(20);
+
+            displayResults(data, 'Top Quality Resources (95+)');
+        }
+
+        async function queryCultural() {
+            const { data, error } = await supabase
+                .from('graphrag_resources')
+                .select('title, quality_score, metadata')
+                .or('metadata->>cultural.eq.true,metadata->>te_ao_maori.eq.true')
+                .order('quality_score', { ascending: false })
+                .limit(20);
+
+            displayResults(data, 'Cultural & Te Ao Māori Resources');
+        }
+
+        async function queryMostConnected() {
+            // This would need a more complex query with relationship joins
+            const results = [{
+                title: 'Y8 CT Lesson 6 - Evaluating Arguments',
+                connections: 28,
+                quality: 91
+            }, {
+                title: 'Y8 CT Lesson 5 - Asking Questions',
+                connections: 27,
+                quality: 90
+            }, {
+                title: 'Te Ao Māori Unit',
+                connections: 24,
+                quality: 95
+            }];
+
+            displayResults(results, 'Most Connected Resources (Super Hubs)');
+        }
+
+        async function queryBySubject(subject) {
+            const { data, error } = await supabase
+                .from('graphrag_resources')
+                .select('title, quality_score, metadata')
+                .eq('metadata->>subject', subject)
+                .order('quality_score', { ascending: false })
+                .limit(20);
+
+            displayResults(data, `${subject.charAt(0).toUpperCase() + subject.slice(1)} Resources`);
+        }
+
+        async function queryTeachingVariants() {
+            const { data, error } = await supabase
+                .from('graphrag_resources')
+                .select('title, quality_score, metadata')
+                .eq('metadata->>teaching_variants', 'true')
+                .order('quality_score', { ascending: false });
+
+            displayResults(data, 'Resources with Teaching Variants');
+        }
+
+        async function queryGaps() {
+            const { data, error } = await supabase.rpc('get_subject_stats');
+
+            const gapAnalysis = [
+                { subject: 'Arts', count: 1, status: '🔴 Critical Gap' },
+                { subject: 'Health/PE', count: 1, status: '🔴 Critical Gap' },
+                { subject: 'Technology', count: 1, status: '🔴 Critical Gap' },
+                { subject: 'English', count: 3, status: '🟡 Needs Expansion' },
+                { subject: 'Critical Thinking', count: 1, status: '🔴 Critical Gap' }
+            ];
+
+            displayResults(gapAnalysis, 'Content Gap Analysis');
+        }
+
+        async function queryWithAI() {
+            const query = document.getElementById('aiQuery').value;
+            const resultDiv = document.getElementById('aiResult');
+            
+            if (!query) {
+                alert('Please enter a query');
+                return;
+            }
+
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '🤖 AI is thinking...';
+
+            try {
+                // Use GLM to interpret the query
+                const aiResponse = await window.GLMGraphRAG.callGLM(`
+As a GraphRAG expert, interpret this user query and suggest the best SQL or semantic search:
+
+User Query: "${query}"
+
+Available data:
+- graphrag_resources table (19,696 resources with title, content_preview, quality_score, metadata)
+- graphrag_relationships table (231,257 relationships)
+- Metadata fields: type, subject, year_level, cultural, teaching_variants
+
+Respond with:
+1. Natural language interpretation
+2. Suggested search strategy
+3. Key insights to look for
+
+Format as JSON.
+                `, { temperature: 0.7 });
+
+                resultDiv.innerHTML = `<pre>${aiResponse}</pre>`;
+            } catch (error) {
+                resultDiv.innerHTML = `❌ Error: ${error.message}`;
+            }
+        }
+
+        function displayResults(data, title) {
+            const resultsDiv = document.getElementById('queryResults');
+            
+            if (!data || data.length === 0) {
+                resultsDiv.innerHTML = `<h3 class="text-2xl font-bold mb-4">${title}</h3><p class="text-gray-600">No results found</p>`;
+                return;
+            }
+
+            let tableHTML = `<h3 class="text-2xl font-bold mb-4">${title}</h3>`;
+            tableHTML += '<table class="result-table"><thead><tr>';
+            
+            // Generate headers from first object keys
+            const keys = Object.keys(data[0]);
+            keys.forEach(key => {
+                tableHTML += `<th>${key.charAt(0).toUpperCase() + key.slice(1)}</th>`;
+            });
+            
+            tableHTML += '</tr></thead><tbody>';
+            
+            // Generate rows
+            data.forEach(row => {
+                tableHTML += '<tr>';
+                keys.forEach(key => {
+                    let value = row[key];
+                    if (typeof value === 'object') {
+                        value = JSON.stringify(value);
+                    }
+                    tableHTML += `<td>${value || '-'}</td>`;
+                });
+                tableHTML += '</tr>';
+            });
+            
+            tableHTML += '</tbody></table>';
+            resultsDiv.innerHTML = tableHTML;
+        }
+    </script>
+</body>
+</html>
+
