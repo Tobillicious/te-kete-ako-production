@@ -158,6 +158,73 @@ h2 {
   main {
     padding: 0 1rem;
   }
+
+  /* Enhanced Resource Discovery System */
+  .resource-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+  }
+
+  .resource-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  }
+
+  .resource-icon {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .resource-meta {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+
+  .resource-count {
+    background: var(--color-primary);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-weight: 600;
+  }
+
+  .resource-type {
+    background: var(--color-secondary);
+    color: var(--color-primary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-weight: 500;
+  }
+
+  /* Enhanced search styling */
+  .search-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 4px 16px rgba(74, 110, 42, 0.15);
+  }
+
+  .filter-btn:hover,
+  .filter-btn.active {
+    background: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+  }
+
+  .filter-btn:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 }
 </style><link href="/css/te-kete-unified-design-system.css" media="print" onload="this.media='all'" rel="stylesheet"/>
 <link href="/css/component-library.css" media="print" onload="this.media='all'" rel="stylesheet"/>
@@ -608,6 +675,180 @@ document.addEventListener('DOMContentLoaded', function() {
             button.querySelector('.toggle-text').textContent = 'Comfortable View';
         }
     }
+});
+
+// Enhanced Resource Discovery System for Teachers
+class TeacherResourceDiscovery {
+    constructor() {
+        this.searchInput = document.getElementById('resource-search');
+        this.filterButtons = document.querySelectorAll('.filter-btn');
+        this.resourceCards = document.querySelectorAll('.resource-card');
+        this.resultsCount = document.getElementById('resource-results-count');
+        this.loadingSpinner = document.getElementById('resource-loading-spinner');
+        this.noResults = document.getElementById('resource-no-results');
+
+        this.init();
+    }
+
+    init() {
+        // Set up search functionality
+        this.searchInput.addEventListener('input', (e) => {
+            this.handleSearch(e.target.value);
+        });
+
+        // Set up filter functionality
+        this.filterButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const filter = e.target.dataset.filter;
+                this.handleFilter(filter);
+            });
+        });
+
+        // Initialize results count
+        this.updateResultsCount();
+    }
+
+    handleSearch(query) {
+        this.showLoading();
+
+        // Debounce search for better performance
+        clearTimeout(this.searchTimeout);
+        this.searchTimeout = setTimeout(() => {
+            this.performSearch(query);
+        }, 300);
+    }
+
+    performSearch(query) {
+        const visibleCards = [];
+        const searchTerms = query.toLowerCase().split(' ').filter(term => term.length > 0);
+
+        this.resourceCards.forEach(card => {
+            const cardText = this.getCardText(card).toLowerCase();
+            const cardData = this.getCardData(card);
+
+            // Check if card matches search terms
+            const matchesSearch = searchTerms.length === 0 ||
+                searchTerms.every(term =>
+                    cardText.includes(term) ||
+                    cardData.type.includes(term) ||
+                    cardData.topics.some(topic => topic.includes(term)) ||
+                    cardData.category.includes(term)
+                );
+
+            if (matchesSearch) {
+                card.style.display = 'block';
+                visibleCards.push(card);
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        this.hideLoading();
+        this.updateResultsCount(visibleCards.length);
+        this.updateNoResults(visibleCards.length === 0);
+    }
+
+    handleFilter(filterType) {
+        // Update active filter button
+        this.filterButtons.forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+
+        this.showLoading();
+
+        setTimeout(() => {
+            const visibleCards = [];
+
+            this.resourceCards.forEach(card => {
+                const cardData = this.getCardData(card);
+                let shouldShow = false;
+
+                if (filterType === 'all') {
+                    shouldShow = true;
+                } else if (filterType === 'units' && cardData.type === 'units') {
+                    shouldShow = true;
+                } else if (filterType === 'lessons' && cardData.type === 'lessons') {
+                    shouldShow = true;
+                } else if (filterType === 'handouts' && cardData.type === 'handouts') {
+                    shouldShow = true;
+                } else if (filterType === 'cultural' && cardData.category === 'cultural') {
+                    shouldShow = true;
+                } else if (filterType === 'featured' && cardData.category === 'featured') {
+                    shouldShow = true;
+                }
+
+                if (shouldShow) {
+                    card.style.display = 'block';
+                    visibleCards.push(card);
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            this.hideLoading();
+            this.updateResultsCount(visibleCards.length);
+            this.updateNoResults(visibleCards.length === 0);
+        }, 100);
+    }
+
+    getCardText(card) {
+        return card.textContent || card.innerText || '';
+    }
+
+    getCardData(card) {
+        return {
+            type: card.dataset.type || '',
+            category: card.dataset.category || '',
+            topics: card.dataset.topics ? card.dataset.topics.split(' ') : []
+        };
+    }
+
+    updateResultsCount(count) {
+        const total = this.resourceCards.length;
+        if (count === total) {
+            this.resultsCount.textContent = `Showing all ${total} resources`;
+        } else {
+            this.resultsCount.textContent = `Showing ${count} of ${total} resources`;
+        }
+    }
+
+    updateNoResults(show) {
+        this.noResults.style.display = show ? 'block' : 'none';
+    }
+
+    showLoading() {
+        this.loadingSpinner.style.display = 'block';
+        this.noResults.style.display = 'none';
+    }
+
+    hideLoading() {
+        this.loadingSpinner.style.display = 'none';
+    }
+}
+
+// Initialize the resource discovery system
+document.addEventListener('DOMContentLoaded', () => {
+    // Wait for dashboard to load first
+    setTimeout(() => {
+        new TeacherResourceDiscovery();
+    }, 1000);
+
+    // Add keyboard navigation support
+    document.addEventListener('keydown', (e) => {
+        // Focus search with Ctrl/Cmd + K
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            document.getElementById('resource-search').focus();
+        }
+
+        // Escape to clear search
+        if (e.key === 'Escape') {
+            const searchInput = document.getElementById('resource-search');
+            if (document.activeElement === searchInput) {
+                searchInput.value = '';
+                searchInput.dispatchEvent(new Event('input'));
+            }
+        }
+    });
 });
 </script>
 
