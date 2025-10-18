@@ -1,219 +1,183 @@
 #!/usr/bin/env python3
 """
-INDEX EVERYTHING TO GRAPHRAG
-Index all 80K+ files including backups, integrated-lessons, archives
-Complete knowledge graph of entire platform
+INDEX EVERYTHING TO GRAPHRAG!
+Complete automated indexing of entire codebase
 """
 
 import os
-import json
 import re
 from pathlib import Path
-from datetime import datetime
+from bs4 import BeautifulSoup
+import json
 
-PROJECT_ROOT = Path('/Users/admin/Documents/te-kete-ako-clean')
-
-class ComprehensiveFullIndexer:
-    def __init__(self):
-        self.stats = {
-            'total_scanned': 0,
-            'indexed': 0,
-            'skipped': 0,
-            'errors': 0,
-            'relationships': 0,
-            'by_type': {}
+def extract_metadata(html_path):
+    """Extract metadata from any HTML file"""
+    try:
+        with open(html_path, 'r', encoding='utf-8', errors='ignore') as f:
+            content = f.read()
+            soup = BeautifulSoup(content, 'html.parser')
+        
+        # Extract title
+        title_tag = soup.find('title')
+        title = title_tag.text.strip() if title_tag else Path(html_path).stem.replace('-', ' ').title()
+        title = title[:200]  # Limit length
+        
+        # Detect cultural elements
+        has_te_reo = bool(re.search(r'\b(māori|whānau|kaitiakitanga|whakapapa|tikanga|mātauranga|aroha|taonga|whenua|pūrākau|whakataukī)\b', content, re.I))
+        has_whakataukī = bool(re.search(r'whakataukī', content, re.I))
+        cultural_context = has_te_reo or has_whakataukī
+        
+        # Detect subject from path and content
+        subject = detect_subject(html_path, content)
+        year_level = detect_year_level(html_path, content)
+        resource_type = detect_resource_type(html_path)
+        
+        # Calculate quality
+        quality_score = calculate_quality(soup, content, cultural_context)
+        
+        return {
+            'file_path': f'/public/{html_path.relative_to(Path("/Users/admin/Documents/te-kete-ako-clean/public"))}',
+            'title': title,
+            'resource_type': resource_type,
+            'subject': subject,
+            'year_level': year_level,
+            'quality_score': quality_score,
+            'cultural_context': cultural_context,
+            'has_whakataukī': has_whakataukī,
+            'has_te_reo': has_te_reo
         }
-        self.records = []
-        
-    def should_index(self, filepath):
-        """Determine if file should be indexed"""
-        # Skip these directories
-        skip_dirs = ['node_modules', '.git', '__pycache__', '.venv']
-        
-        for skip in skip_dirs:
-            if skip in str(filepath):
-                return False
-        
-        # Only index these file types
-        return filepath.suffix in ['.html', '.json', '.md']
+    except Exception as e:
+        print(f"Error: {html_path.name}: {str(e)[:50]}")
+        return None
+
+def detect_subject(path, content):
+    """Detect subject from path and content"""
+    p = str(path).lower()
+    c = content.lower()
     
-    def extract_metadata(self, filepath):
-        """Extract metadata from any file"""
-        try:
-            content = filepath.read_text(encoding='utf-8', errors='ignore')
-            
-            metadata = {
-                'filepath': str(filepath.relative_to(PROJECT_ROOT)),
-                'filename': filepath.name,
-                'file_type': filepath.suffix[1:],
-                'directory': str(filepath.parent.relative_to(PROJECT_ROOT)),
-                'size_bytes': filepath.stat().st_size,
-                'modified': datetime.fromtimestamp(filepath.stat().st_mtime).isoformat(),
-                'is_public': 'public/' in str(filepath),
-                'is_backup': 'backup' in str(filepath).lower() or 'archive' in str(filepath).lower()
-            }
-            
-            # Extract from HTML
-            if filepath.suffix == '.html':
-                # Title
-                title_match = re.search(r'<title>(.*?)</title>', content, re.IGNORECASE)
-                metadata['title'] = title_match.group(1).strip() if title_match else filepath.stem
-                
-                # Meta description
-                desc_match = re.search(r'<meta\s+name="description"\s+content="([^"]*)"', content, re.IGNORECASE)
-                metadata['description'] = desc_match.group(1)[:500] if desc_match else ''
-                
-                # Year level
-                year_match = re.search(r'Year\s*(\d+)|Y(\d+)|year-(\d+)', content, re.IGNORECASE)
-                if year_match:
-                    metadata['year_level'] = year_match.group(1) or year_match.group(2) or year_match.group(3)
-                
-                # Subjects
-                subjects = []
-                content_lower = content.lower()
-                if any(word in content_lower for word in ['mathematics', 'math', 'algebra', 'geometry', 'statistics']):
-                    subjects.append('Mathematics')
-                if any(word in content_lower for word in ['science', 'physics', 'chemistry', 'biology', 'ecology']):
-                    subjects.append('Science')
-                if any(word in content_lower for word in ['english', 'literacy', 'writing', 'reading']):
-                    subjects.append('English')
-                if any(word in content_lower for word in ['social studies', 'history', 'geography', 'civics']):
-                    subjects.append('Social Studies')
-                if any(word in content_lower for word in ['te reo', 'māori language', 'maori language']):
-                    subjects.append('Te Reo Māori')
-                metadata['subjects'] = subjects
-                
-                # Cultural elements
-                metadata['has_whakatauaki'] = 'whakataukī' in content_lower or 'whakatauaki' in content_lower
-                metadata['has_te_reo'] = 'māori' in content_lower or 'maori' in content_lower
-                metadata['has_cultural_context'] = 'cultural context' in content_lower or 'te ao māori' in content_lower
-                
-                # Resource type from path
-                path_str = str(filepath).lower()
-                if '/lessons/' in path_str or 'lesson-' in path_str:
-                    metadata['resource_type'] = 'lesson'
-                elif '/handouts/' in path_str or 'handout' in path_str:
-                    metadata['resource_type'] = 'handout'
-                elif '/units/' in path_str or 'unit-' in path_str:
-                    metadata['resource_type'] = 'unit'
-                elif '/games/' in path_str or 'game' in path_str:
-                    metadata['resource_type'] = 'game'
-                elif '/assessment' in path_str:
-                    metadata['resource_type'] = 'assessment'
-                else:
-                    metadata['resource_type'] = 'page'
-                
-                # Count links
-                links = re.findall(r'href=["\'](/[^"\']+)["\']', content)
-                metadata['outbound_links'] = len([l for l in links if not l.startswith('http')])
-                self.stats['relationships'] += metadata['outbound_links']
-            
-            # Extract from JSON
-            elif filepath.suffix == '.json':
-                try:
-                    data = json.loads(content)
-                    metadata['title'] = data.get('title', data.get('name', filepath.stem))
-                    metadata['description'] = str(data.get('description', ''))[:500]
-                    metadata['json_keys'] = list(data.keys())[:20]  # First 20 keys
-                except:
-                    metadata['title'] = filepath.stem
-            
-            # Extract from Markdown
-            elif filepath.suffix == '.md':
-                lines = content.split('\n')[:50]  # First 50 lines
-                first_heading = next((line for line in lines if line.startswith('#')), None)
-                metadata['title'] = first_heading.lstrip('#').strip() if first_heading else filepath.stem
-                # Extract first paragraph as description
-                paragraphs = [l.strip() for l in lines if l.strip() and not l.startswith('#') and not l.startswith('```')]
-                metadata['description'] = paragraphs[0][:500] if paragraphs else ''
-            
-            # Track by type
-            file_type = metadata['file_type']
-            self.stats['by_type'][file_type] = self.stats['by_type'].get(file_type, 0) + 1
-            
-            return metadata
-            
-        except Exception as e:
-            return None
+    # Path-based
+    if any(x in p for x in ['math', 'algebra', 'geometry', 'calculus', 'statistics']): return 'Mathematics'
+    if any(x in p for x in ['science', 'ecology', 'physics', 'chemistry', 'biology']): return 'Science'
+    if any(x in p for x in ['english', 'writing', 'writers', 'literacy']): return 'English'
+    if any(x in p for x in ['digital', 'technology', 'coding']): return 'Technology'
+    if any(x in p for x in ['social', 'history', 'geography', 'walker']): return 'Social Studies'
+    if any(x in p for x in ['arts', 'visual', 'music', 'drama', 'haka']): return 'Arts'
+    if any(x in p for x in ['health', 'pe', 'wellbeing', 'hauora']): return 'Health & PE'
+    if any(x in p for x in ['te-reo', 'māori', 'te reo']): return 'Te Reo Māori'
+    if any(x in p for x in ['teacher', 'professional']): return 'Professional Development'
     
-    def index_all(self):
-        """Index ALL files in project"""
-        print('\n🚀 COMPREHENSIVE FULL PROJECT INDEXING')
-        print('=' * 70)
-        print(f'Scanning entire project: {PROJECT_ROOT}')
-        print('This will take a few minutes...\n')
+    # Content-based fallback
+    if any(x in c for x in ['algebra', 'equation', 'geometry']): return 'Mathematics'
+    if any(x in c for x in ['ecosystem', 'climate', 'biology']): return 'Science'
+    
+    return 'Cross-Curricular'
+
+def detect_year_level(path, content):
+    """Detect year level"""
+    p = str(path).lower()
+    
+    # Year in path
+    for y in range(1, 14):
+        if f'y{y}' in p or f'year {y}' in p or f'year-{y}' in p:
+            return f'Year {y}'
+    
+    # Level in path
+    level_match = re.search(r'level[- ](\d+)', p)
+    if level_match:
+        level = int(level_match.group(1))
+        year_map = {1: '5-6', 2: '7-8', 3: '7-8', 4: '9-10', 5: '9-10', 6: '11-12', 7: '11-13'}
+        return f'Years {year_map.get(level, "7-13")}'
+    
+    # Senior/Junior
+    if 'senior' in p: return 'Years 11-13'
+    if 'junior' in p: return 'Years 7-9'
+    if 'teacher' in p or 'professional' in p: return 'Teachers'
+    if 'student' in p: return 'Students'
+    
+    return 'Years 7-13'
+
+def detect_resource_type(path):
+    """Detect resource type from path"""
+    p = str(path).lower()
+    
+    if '/lessons/' in p or 'lesson-plan' in p or 'lesson-' in p: return 'lesson'
+    if '/handouts/' in p or 'handout' in p: return 'handout'
+    if '/games/' in p or 'game' in p or 'wordle' in p or 'wordsearch' in p: return 'interactive_game'
+    if '/assessments/' in p or 'rubric' in p or 'assessment' in p: return 'assessment'
+    if '/units/' in p and 'index.html' in p: return 'unit'
+    if 'hub' in p: return 'hub_page'
+    if '/components/' in p: return 'component'
+    if 'activity' in p or 'practice' in p: return 'activity'
+    if 'dashboard' in p: return 'dashboard'
+    if 'toolkit' in p: return 'toolkit'
+    if 'interactive' in p: return 'interactive'
+    if '/tools/' in p: return 'tool'
+    if p.endswith('index.html'): return 'index_page'
+    
+    return 'resource'
+
+def calculate_quality(soup, content, cultural):
+    """Calculate quality score"""
+    score = 75
+    
+    if soup.find(['h1', 'h2']): score += 5
+    if soup.find('nav'): score += 3
+    if cultural: score += 10
+    if soup.find('script'): score += 4
+    if len(content) > 5000: score += 3
+    if soup.find('link', href=re.compile(r'te-kete')): score += 5
+    
+    return min(score, 100)
+
+def scan_and_index():
+    """Scan entire public directory"""
+    base = Path('/Users/admin/Documents/te-kete-ako-clean/public')
+    all_html = list(base.rglob('*.html'))
+    
+    print(f"🔍 Found {len(all_html)} HTML files")
+    
+    indexed = []
+    sql_batches = []
+    
+    for i, html_file in enumerate(all_html):
+        if i % 100 == 0:
+            print(f"  Processing {i}/{len(all_html)}...")
         
-        # Scan all files
-        for filepath in PROJECT_ROOT.rglob('*'):
-            if not filepath.is_file():
-                continue
+        metadata = extract_metadata(html_file)
+        if metadata:
+            indexed.append(metadata)
             
-            self.stats['total_scanned'] += 1
+            # Generate SQL
+            sql = f"""INSERT INTO graphrag_resources (file_path, resource_type, title, subject, year_level, quality_score, cultural_context, has_whakataukī, has_te_reo, metadata) VALUES ('{metadata['file_path']}', '{metadata['resource_type']}', $${metadata['title']}$$, '{metadata['subject']}', '{metadata['year_level']}', {metadata['quality_score']}, {str(metadata['cultural_context']).lower()}, {str(metadata['has_whakataukī']).lower()}, {str(metadata['has_te_reo']).lower()}, '{{"auto_indexed": true}}'::jsonb) ON CONFLICT (file_path) DO UPDATE SET quality_score = EXCLUDED.quality_score, cultural_context = EXCLUDED.cultural_context;"""
             
-            if not self.should_index(filepath):
-                self.stats['skipped'] += 1
-                continue
-            
-            # Extract metadata
-            metadata = self.extract_metadata(filepath)
-            if metadata:
-                self.records.append(metadata)
-                self.stats['indexed'] += 1
-                
-                # Progress indicator
-                if self.stats['indexed'] % 500 == 0:
-                    print(f'  📊 Indexed {self.stats["indexed"]:,} files...')
-            else:
-                self.stats['errors'] += 1
-        
-        # Save complete index
-        print(f'\n💾 Saving index of {len(self.records):,} records...')
-        
-        # Save in chunks (JSON files can't be too large)
-        chunk_size = 5000
-        for i in range(0, len(self.records), chunk_size):
-            chunk = self.records[i:i+chunk_size]
-            output_file = f'graphrag-full-index-part{i//chunk_size + 1}.json'
-            with open(output_file, 'w') as f:
-                json.dump({
-                    'part': i//chunk_size + 1,
-                    'timestamp': datetime.now().isoformat(),
-                    'records': chunk
-                }, f, indent=2)
-            print(f'  ✅ Saved {output_file} ({len(chunk):,} records)')
-        
-        # Summary stats
-        stats_file = 'graphrag-full-index-stats.json'
-        with open(stats_file, 'w') as f:
-            json.dump({
-                'timestamp': datetime.now().isoformat(),
-                'stats': self.stats,
-                'total_records': len(self.records)
-            }, f, indent=2)
-        
-        # Print summary
-        print('\n' + '=' * 70)
-        print('📊 COMPLETE PROJECT INDEX\n')
-        print(f'Total files scanned: {self.stats["total_scanned"]:,}')
-        print(f'✅ Successfully indexed: {self.stats["indexed"]:,}')
-        print(f'⏭️  Skipped (node_modules, .git, etc): {self.stats["skipped"]:,}')
-        print(f'❌ Errors: {self.stats["errors"]:,}')
-        print(f'🔗 Relationships mapped: {self.stats["relationships"]:,}')
-        
-        print(f'\n📁 Files by Type:')
-        for file_type, count in sorted(self.stats['by_type'].items(), key=lambda x: x[1], reverse=True):
-            print(f'  - {file_type}: {count:,}')
-        
-        print(f'\n📄 Output: graphrag-full-index-part*.json')
-        print(f'📊 Stats: {stats_file}')
-        print('\n✅ COMPLETE PROJECT INDEXED!')
-        print('=' * 70 + '\n')
-        
-        return self.records
+            sql_batches.append(sql)
+    
+    # Save to SQL file
+    with open('index-everything.sql', 'w', encoding='utf-8') as f:
+        f.write("-- INDEX EVERYTHING TO GRAPHRAG\n")
+        f.write(f"-- Total files: {len(indexed)}\n")
+        f.write(f"-- Auto-generated: {len(sql_batches)} SQL statements\n\n")
+        f.write('\n'.join(sql_batches))
+    
+    print(f"\n✅ Indexed {len(indexed)} resources")
+    print(f"📄 SQL saved to: index-everything.sql")
+    
+    # Stats
+    by_type = {}
+    by_subject = {}
+    cultural_count = sum(1 for r in indexed if r['cultural_context'])
+    
+    for r in indexed:
+        by_type[r['resource_type']] = by_type.get(r['resource_type'], 0) + 1
+        by_subject[r['subject']] = by_subject.get(r['subject'], 0) + 1
+    
+    print(f"\n📊 BREAKDOWN:")
+    print(f"  Cultural: {cultural_count} ({cultural_count*100//len(indexed)}%)")
+    print(f"  Top types: {dict(sorted(by_type.items(), key=lambda x: -x[1])[:10])}")
+    print(f"  Top subjects: {dict(sorted(by_subject.items(), key=lambda x: -x[1])[:10])}")
 
 if __name__ == '__main__':
-    indexer = ComprehensiveFullIndexer()
-    records = indexer.index_all()
-    
-    print(f'🎉 Ready to upload {len(records):,} records to GraphRAG!\n')
-
+    print("🧠 INDEX EVERYTHING TO GRAPHRAG")
+    print("=" * 70)
+    scan_and_index()
+    print("\n🎯 Ready to import to GraphRAG!")

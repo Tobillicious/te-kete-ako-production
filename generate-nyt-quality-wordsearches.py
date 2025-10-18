@@ -242,6 +242,7 @@ def generate_nyt_quality_html(vocab_key: str, unit_path: str, lesson_title: str,
  .progress-bar{{height:12px;background:rgba(255,255,255,0.15);border-radius:6px;overflow:hidden;box-shadow:inset 0 2px 6px rgba(0,0,0,0.2);position:relative;z-index:1}}
  .progress-fill{{height:100%;background:linear-gradient(90deg,#fbbf24 0%,#f59e0b 50%,#fbbf24 100%);background-size:200% 100%;animation:shimmer 3s linear infinite;transition:width 0.8s cubic-bezier(0.34,1.56,0.64,1);border-radius:6px;box-shadow:0 0 20px rgba(251,191,36,0.6),inset 0 1px 0 rgba(255,255,255,0.3)}}
  @keyframes shimmer{{0%{{background-position:200% center}}100%{{background-position:-200% center}}}}
+ @keyframes pulse{{0%,100%{{opacity:1;transform:scale(1)}}50%{{opacity:0.5;transform:scale(1.5)}}}}
  .btn{{padding:1rem 1.75rem;border:none;border-radius:12px;font-weight:800;font-size:0.875rem;cursor:pointer;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);letter-spacing:0.03em;text-transform:uppercase;box-shadow:0 4px 12px rgba(0,0,0,0.12);position:relative;overflow:hidden}}
  .btn::before{{content:'';position:absolute;inset:0;background:linear-gradient(45deg,transparent,rgba(255,255,255,0.1),transparent);transform:translateX(-100%);transition:transform 0.6s}}
  .btn:hover::before{{transform:translateX(100%)}}
@@ -254,18 +255,20 @@ def generate_nyt_quality_html(vocab_key: str, unit_path: str, lesson_title: str,
 <body>
  <script>fetch('/components/navigation-standard.html').then(r=>r.text()).then(h=>{{const d=document.createElement('div');d.innerHTML=h;document.body.insertBefore(d.firstElementChild,document.body.firstChild)}});</script>
  <main role="main">
- <div style="text-align:center;margin:3rem 0 2rem" class="no-print">
- <div style="display:inline-block;background:linear-gradient(135deg,#f0fdf4,#dcfce7);padding:0.5rem 1.5rem;border-radius:24px;margin-bottom:1rem;border:2px solid #86efac">
- <span style="font-size:0.85rem;font-weight:700;color:#059669;letter-spacing:0.05em;text-transform:uppercase">{year_level} • {subject}</span>
+ <div style="text-align:center;margin:4rem auto 3rem;max-width:900px" class="no-print">
+ <div style="display:inline-flex;align-items:center;gap:0.75rem;background:linear-gradient(135deg,rgba(5,150,105,0.08),rgba(16,185,129,0.08));padding:0.625rem 1.75rem;border-radius:30px;margin-bottom:1.5rem;border:2px solid rgba(16,185,129,0.2);box-shadow:0 4px 12px rgba(5,150,105,0.1)">
+ <div style="width:8px;height:8px;background:#10b981;border-radius:50%;animation:pulse 2s infinite"></div>
+ <span style="font-size:0.8rem;font-weight:800;color:#059669;letter-spacing:0.08em;text-transform:uppercase">{year_level} • {subject}</span>
  </div>
- <h1 style="color:#1a4d2e;font-size:2.75rem;margin-bottom:0.75rem;font-weight:800;letter-spacing:-0.02em">🔍 {lesson_title}</h1>
- <p style="margin-top:0.75rem"><a href="{unit_path}" style="color:#059669;text-decoration:none;font-weight:600;font-size:0.95rem;transition:all 0.2s" onmouseover="this.style.color='#10b981'" onmouseout="this.style.color='#059669'">← Back to Unit</a></p>
+ <h1 style="background:linear-gradient(135deg,#1a4d2e 0%,#059669 50%,#1a4d2e 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:3.25rem;margin-bottom:1rem;font-weight:900;letter-spacing:-0.03em;line-height:1.1">🔍 {lesson_title}</h1>
+ <p style="margin-top:1rem"><a href="{unit_path}" style="display:inline-flex;align-items:center;gap:0.5rem;color:#059669;text-decoration:none;font-weight:700;font-size:0.95rem;padding:0.5rem 1rem;border-radius:8px;transition:all 0.3s;background:rgba(5,150,105,0.05)" onmouseover="this.style.background='rgba(5,150,105,0.1)';this.style.transform='translateX(-4px)'" onmouseout="this.style.background='rgba(5,150,105,0.05)';this.style.transform='translateX(0)'"><span>←</span><span>Back to Unit</span></a></p>
  </div>
  
- <div style="background:linear-gradient(135deg,#fffbeb 0%,#fef3c7 100%);padding:2rem;border-radius:16px;margin:0 auto 3rem;max-width:850px;text-align:center;border:2px solid #fbbf24;box-shadow:0 4px 16px rgba(251,191,36,0.15)" class="no-print">
- <div style="display:inline-block;background:white;padding:0.35rem 0.75rem;border-radius:6px;margin-bottom:0.75rem;font-size:0.7rem;font-weight:700;color:#b45309;text-transform:uppercase;letter-spacing:0.05em">Whakataukī</div>
- <p style="font-size:1.3rem;font-style:italic;color:#1a4d2e;font-weight:600;margin:0.5rem 0;line-height:1.5">"{whakatauaki}"</p>
- <p style="font-size:1rem;color:#78716c;margin:0.75rem 0 0;font-weight:500">"{translation}"</p>
+ <div style="background:linear-gradient(145deg,#fffbeb 0%,#fef3c7 100%);padding:2.5rem 3rem;border-radius:20px;margin:0 auto 3.5rem;max-width:900px;text-align:center;border:2px solid rgba(251,191,36,0.3);box-shadow:0 8px 24px rgba(251,191,36,0.12),inset 0 1px 0 rgba(255,255,255,0.5);position:relative;overflow:hidden" class="no-print">
+ <div style="position:absolute;top:0;right:0;width:200px;height:200px;background:radial-gradient(circle,rgba(251,191,36,0.1),transparent);pointer-events:none"></div>
+ <div style="display:inline-block;background:linear-gradient(145deg,#ffffff,#fffbeb);padding:0.4rem 1rem;border-radius:8px;margin-bottom:1rem;font-size:0.7rem;font-weight:800;color:#b45309;text-transform:uppercase;letter-spacing:0.08em;box-shadow:0 2px 8px rgba(180,83,9,0.1);border:1px solid rgba(251,191,36,0.2)">Whakataukī</div>
+ <p style="font-size:1.5rem;font-style:italic;color:#1a4d2e;font-weight:700;margin:1rem 0;line-height:1.6;position:relative;z-index:1">"{whakatauaki}"</p>
+ <p style="font-size:1.05rem;color:#78716c;margin:1rem 0 0;font-weight:600;position:relative;z-index:1">"{translation}"</p>
  </div>
  
  <div class="game-container">

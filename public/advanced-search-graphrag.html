@@ -4,13 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Search | Te Kete Ako</title>
-    <meta name="description" content="Search across 20,690 resources with advanced filtering. GraphRAG-powered intelligent search.">
+    <meta name="description" content="Search across 19,676 resources with advanced filtering. GraphRAG-powered intelligent search with 176,024 relationship connections.">
     
     <!-- CSS -->
     <link rel="stylesheet" href="/css/te-kete-professional.css">
     <link rel="stylesheet" href="/css/component-library.css">
     <link rel="stylesheet" href="/css/enhanced-cards.css">
     <link rel="stylesheet" href="/css/mobile-enhanced.css">
+    
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <style>
         .search-hero {
@@ -314,36 +317,45 @@
         
         async function performSearch(query) {
             const container = document.getElementById('search-results-container');
-            container.innerHTML = '<div style="text-align: center; padding: 2rem;">🔍 Searching...</div>';
+            container.innerHTML = '<div style="text-align: center; padding: 2rem;">🔍 Searching GraphRAG...</div>';
             
             try {
-                const url = 'https://nlgldaqtubrlcqddppbq.supabase.co/rest/v1/resources';
-                const headers = {
-                    'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM',
-                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
-                };
+                // Initialize Supabase client
+                const { createClient } = supabase;
+                const supabaseClient = createClient(
+                    'https://nlgldaqtubrlcqddppbq.supabase.co',
+                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5ODgxMTksImV4cCI6MjA1MjU2NDExOX0.gN5RGe7kGmxj4-yI1xnDuCuKUPFDh4f-8CQqQdqrGq0'
+                );
                 
                 // Get selected filters
                 const filters = getSelectedFilters();
                 
-                // Build query
-                let queryParams = `is_active=eq.true&or=(title.ilike.*${encodeURIComponent(query)}*,description.ilike.*${encodeURIComponent(query)}*)&limit=50&select=*`;
+                // Build query for graphrag_resources table
+                let searchQuery = supabaseClient
+                    .from('graphrag_resources')
+                    .select('*')
+                    .or(`title.ilike.%${query}%,resource_type.ilike.%${query}%`)
+                    .order('quality_score', { ascending: false })
+                    .limit(50);
                 
+                // Apply filters
                 if (filters.subject.length > 0) {
-                    queryParams += `&subject=in.(${filters.subject.map(s => `"${s}"`).join(',')})`;
+                    searchQuery = searchQuery.in('subject', filters.subject);
                 }
                 if (filters.type.length > 0) {
-                    queryParams += `&type=in.(${filters.type.join(',')})`;
+                    searchQuery = searchQuery.in('resource_type', filters.type);
                 }
                 
-                const response = await fetch(`${url}?${queryParams}`, { headers });
-                const results = await response.json();
+                const { data: results, error } = await searchQuery;
                 
-                currentResults = results;
-                displayResults(results);
+                if (error) throw error;
+                
+                currentResults = results || [];
+                displayResults(currentResults);
                 
             } catch (error) {
-                container.innerHTML = '<div style="text-align: center; padding: 2rem; color: #dc2626;">Error searching. Please try again.</div>';
+                console.error('Search error:', error);
+                container.innerHTML = '<div style="text-align: center; padding: 2rem; color: #dc2626;">Error searching GraphRAG. Please try again.</div>';
             }
         }
         
