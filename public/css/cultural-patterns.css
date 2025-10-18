@@ -1,0 +1,278 @@
+/**
+ * CULTURAL PATTERNS - Kōwhaiwhai & Tukutuku Integration
+ * SVG patterns as backgrounds and borders for cultural authenticity
+ */
+
+/* Kōwhaiwhai Pattern - Mangopare (Hammerhead Shark) */
+.pattern-mangopare {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0 Q45 15 30 30 Q15 15 30 0 M30 30 Q45 45 30 60 Q15 45 30 30' stroke='%231a4d2e' stroke-width='2' fill='none' opacity='0.1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 60px 60px;
+}
+
+/* Kōwhaiwhai Pattern - Pītau (Young Fern Frond) */
+.pattern-pitau {
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 20 Q20 10 40 20 Q60 30 70 20' stroke='%230f766e' stroke-width='2.5' fill='none' opacity='0.15'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: bottom;
+}
+
+/* Tukutuku Pattern - Poutama (Stairway to Heaven) */
+.pattern-poutama {
+  background: linear-gradient(
+    135deg,
+    transparent 25%,
+    rgba(26, 77, 46, 0.05) 25%,
+    rgba(26, 77, 46, 0.05) 50%,
+    transparent 50%,
+    transparent 75%,
+    rgba(26, 77, 46, 0.05) 75%
+  );
+  background-size: 40px 40px;
+}
+
+/* Tukutuku Pattern - Niho Taniwha (Taniwha Teeth) */
+.pattern-niho-taniwha {
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='0,0 20,20 0,40' fill='%231a4d2e' opacity='0.08'/%3E%3Cpolygon points='40,0 20,20 40,40' fill='%231a4d2e' opacity='0.08'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* Cultural Section Dividers */
+.section-divider-cultural {
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #1a4d2e 20%,
+    #d4a574 50%,
+    #1a4d2e 80%,
+    transparent
+  );
+  margin: 3rem 0;
+  position: relative;
+}
+
+.section-divider-cultural::after {
+  content: "◆";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 0 1rem;
+  color: #1a4d2e;
+  font-size: 1.2rem;
+}
+
+/* Cultural Border Accents */
+.cultural-border-left {
+  border-left: 4px solid;
+  border-image: linear-gradient(
+      to bottom,
+      #1a4d2e 0%,
+      #d4a574 50%,
+      #1a4d2e 100%
+    )
+    1;
+}
+
+.cultural-border-top {
+  border-top: 3px solid;
+  border-image: linear-gradient(
+      to right,
+      transparent 0%,
+      #1a4d2e 20%,
+      #d4a574 50%,
+      #1a4d2e 80%,
+      transparent 100%
+    )
+    1;
+  padding-top: 2rem;
+}
+
+/* Harakeke (Flax) Color Palette */
+:root {
+  --harakeke-dark: #1a4d2e;
+  --harakeke-mid: #2d6a4f;
+  --harakeke-light: #52b788;
+  --kowhai-yellow: #fbbf24;
+  --pounamu-green: #0f766e;
+  --whenua-brown: #78350f;
+}
+
+/* Cultural Gradient Backgrounds */
+.gradient-harakeke {
+  background: linear-gradient(
+    135deg,
+    var(--harakeke-dark),
+    var(--harakeke-mid)
+  );
+}
+
+.gradient-kowhai {
+  background: linear-gradient(135deg, #fef3c7, var(--kowhai-yellow));
+}
+
+.gradient-pounamu {
+  background: linear-gradient(135deg, #ccfbf1, var(--pounamu-green));
+}
+
+.gradient-cultural-primary {
+  background: linear-gradient(
+    135deg,
+    var(--harakeke-dark),
+    var(--pounamu-green),
+    var(--kowhai-yellow)
+  );
+}
+
+/* Cultural Overlay Pattern */
+.cultural-overlay {
+  position: relative;
+}
+
+.cultural-overlay::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 10 Q60 20 50 30 Q40 20 50 10' stroke='%23ffffff' stroke-width='1' fill='none' opacity='0.1'/%3E%3Cpath d='M50 40 Q60 50 50 60 Q40 50 50 40' stroke='%23ffffff' stroke-width='1' fill='none' opacity='0.1'/%3E%3Cpath d='M50 70 Q60 80 50 90 Q40 80 50 70' stroke='%23ffffff' stroke-width='1' fill='none' opacity='0.1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cultural-overlay > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Whakataukī Display - Special Typography */
+.whakataukī-display {
+  font-style: italic;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: var(--harakeke-dark);
+  padding: 1.5rem 2rem;
+  background: linear-gradient(135deg, #f0fdfa, #ccfbf1);
+  border-left: 4px solid var(--pounamu-green);
+  border-radius: 8px;
+  margin: 2rem 0;
+  position: relative;
+}
+
+.whakataukī-display::before {
+  content: '"';
+  position: absolute;
+  top: -10px;
+  left: 10px;
+  font-size: 4rem;
+  color: var(--pounamu-green);
+  opacity: 0.3;
+  font-family: Georgia, serif;
+}
+
+.whakataukī-attribution {
+  font-size: 0.9rem;
+  color: var(--pounamu-green);
+  margin-top: 0.75rem;
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* Māori Text Emphasis */
+.te-reo-emphasis {
+  font-weight: 600;
+  color: var(--pounamu-green);
+  font-style: italic;
+}
+
+/* Cultural Icons */
+.cultural-icon {
+  display: inline-block;
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* Section Headers with Cultural Elements */
+.section-header-cultural {
+  position: relative;
+  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.section-header-cultural::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--harakeke-dark) 0%,
+    var(--kowhai-yellow) 25%,
+    var(--pounamu-green) 50%,
+    var(--kowhai-yellow) 75%,
+    var(--harakeke-dark) 100%
+  );
+}
+
+/* Cultural Stats Display */
+.stat-cultural {
+  text-align: center;
+  padding: 2rem;
+  background: linear-gradient(
+    135deg,
+    var(--harakeke-dark),
+    var(--harakeke-mid)
+  );
+  border-radius: 12px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-cultural::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 70%
+  );
+  animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.stat-cultural-number {
+  font-size: 3rem;
+  font-weight: 800;
+  position: relative;
+  z-index: 2;
+}
+
+.stat-cultural-label {
+  font-size: 1rem;
+  opacity: 0.9;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 2;
+}
