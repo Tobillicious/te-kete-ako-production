@@ -74,6 +74,23 @@
             .then(html => document.getElementById('nav-container').innerHTML = html);
     </script>
     
+    <!-- GraphRAG Science-Math Connections Component -->
+    <div id="graphrag-science-math-container"></div>
+    <script>
+        fetch('/components/graphrag-science-math-connections.html')
+            .then(r => r.text())
+            .then(html => {
+                document.getElementById('graphrag-science-math-container').innerHTML = html;
+                // Execute scripts in the loaded HTML
+                const scripts = document.getElementById('graphrag-science-math-container').querySelectorAll('script');
+                scripts.forEach(script => {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = script.textContent;
+                    document.body.appendChild(newScript);
+                });
+            });
+    </script>
+    
     <!-- Hero -->
     <section class="hero-integration">
         <div style="position: relative; z-index: 2; max-width: 1000px; margin: 0 auto;">
