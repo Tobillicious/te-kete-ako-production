@@ -1,0 +1,232 @@
+<!-- GraphRAG Science Recommendations Component -->
+<section id="graphrag-recommendations" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); padding: 3rem 2rem; border-radius: 16px; margin: 3rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <div style="display: inline-block; background: linear-gradient(135deg, #10b981, #059669); padding: 0.5rem 1.5rem; border-radius: 24px; margin-bottom: 1rem;">
+            <span style="color: white; font-weight: 700; font-size: 0.9rem;">🧠 POWERED BY GRAPHRAG</span>
+        </div>
+        <h2 style="font-size: 2.25rem; color: #0284c7; margin-bottom: 0.5rem;">
+            🔬 Intelligent Science Resource Discovery
+        </h2>
+        <p style="color: #666; font-size: 1rem;">
+            Using AI-powered knowledge graphs to connect science resources with cultural context
+        </p>
+    </div>
+    
+    <div id="graphrag-loading" style="text-align: center; padding: 3rem;">
+        <div style="display: inline-block; width: 50px; height: 50px; border: 5px solid #e0f2fe; border-top-color: #0284c7; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+        <p style="color: #666; margin-top: 1rem;">Loading intelligent recommendations...</p>
+    </div>
+    
+    <div id="graphrag-resources" style="display: none;">
+        <!-- High Cultural Integration Resources -->
+        <div style="margin-bottom: 3rem;">
+            <h3 style="color: #1a4d2e; font-size: 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                🌿 High Cultural Integration
+                <span style="background: #dcfce7; color: #15803d; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem;">Quality 95+</span>
+            </h3>
+            <div id="cultural-resources" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;"></div>
+        </div>
+        
+        <!-- Related by Graph Connections -->
+        <div style="margin-bottom: 3rem;">
+            <h3 style="color: #0284c7; font-size: 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                🔗 Connected Resources
+                <span style="background: #e0f2fe; color: #0284c7; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem;">Graph-Linked</span>
+            </h3>
+            <div id="connected-resources" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;"></div>
+        </div>
+        
+        <!-- Latest Science Resources -->
+        <div>
+            <h3 style="color: #0891b2; font-size: 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                ✨ Recently Added
+                <span style="background: #fef3c7; color: #92400e; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem;">New</span>
+            </h3>
+            <div id="latest-resources" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;"></div>
+        </div>
+    </div>
+</section>
+
+<style>
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.graphrag-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    display: block;
+    border-left: 4px solid #0284c7;
+}
+
+.graphrag-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.graphrag-card.cultural {
+    border-left-color: #15803d;
+}
+
+.graphrag-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.badge-whakataukī {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.badge-te-reo {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.badge-quality {
+    background: #e0e7ff;
+    color: #3730a3;
+}
+</style>
+
+<script>
+(async function loadGraphRAGRecommendations() {
+    const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+    
+    const headers = {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json'
+    };
+    
+    try {
+        // Query 1: High cultural integration science resources
+        const culturalResponse = await fetch(
+            `${SUPABASE_URL}/rest/v1/graphrag_resources?subject=ilike.*science*&cultural_context=eq.true&has_whakataukī=eq.true&has_te_reo=eq.true&quality_score=gte.90&order=quality_score.desc&limit=6`,
+            { headers }
+        );
+        const culturalResources = await culturalResponse.json();
+        
+        // Query 2: Get relationships for science resources
+        const relationshipsResponse = await fetch(
+            `${SUPABASE_URL}/rest/v1/rpc/get_science_related_resources`,
+            { 
+                method: 'POST',
+                headers,
+                body: JSON.stringify({ subject_filter: 'science', min_confidence: 0.85 })
+            }
+        ).catch(() => ({ json: async () => [] })); // Fallback if RPC doesn't exist
+        
+        // Query 3: Latest science resources
+        const latestResponse = await fetch(
+            `${SUPABASE_URL}/rest/v1/graphrag_resources?subject=ilike.*science*&quality_score=gte.85&order=created_at.desc&limit=6`,
+            { headers }
+        );
+        const latestResources = await latestResponse.json();
+        
+        // Render cultural resources
+        const culturalContainer = document.getElementById('cultural-resources');
+        culturalResources.slice(0, 6).forEach(resource => {
+            culturalContainer.innerHTML += createResourceCard(resource, true);
+        });
+        
+        // Render latest resources
+        const latestContainer = document.getElementById('latest-resources');
+        latestResources.slice(0, 6).forEach(resource => {
+            latestContainer.innerHTML += createResourceCard(resource, false);
+        });
+        
+        // Get connected resources through manual query
+        const connectedResponse = await fetch(
+            `${SUPABASE_URL}/rest/v1/graphrag_relationships?relationship_type=in.(related_content,shared_cultural_element,unit_contains_lesson)&confidence=gte.0.85&limit=100`,
+            { headers }
+        );
+        const relationships = await connectedResponse.json();
+        
+        // Get unique target paths from relationships and fetch those resources
+        const targetPaths = [...new Set(relationships.map(r => r.target_path))].slice(0, 6);
+        if (targetPaths.length > 0) {
+            const connectedResourcesResponse = await fetch(
+                `${SUPABASE_URL}/rest/v1/graphrag_resources?file_path=in.(${targetPaths.join(',')})&subject=ilike.*science*&quality_score=gte.85&limit=6`,
+                { headers }
+            );
+            const connectedResources = await connectedResourcesResponse.json();
+            
+            const connectedContainer = document.getElementById('connected-resources');
+            connectedResources.forEach(resource => {
+                connectedContainer.innerHTML += createResourceCard(resource, false, true);
+            });
+        }
+        
+        // Show the resources and hide loading
+        document.getElementById('graphrag-loading').style.display = 'none';
+        document.getElementById('graphrag-resources').style.display = 'block';
+        
+        console.log('✅ GraphRAG: Loaded science recommendations', {
+            cultural: culturalResources.length,
+            latest: latestResources.length,
+            relationships: relationships.length
+        });
+        
+    } catch (error) {
+        console.error('❌ GraphRAG Error:', error);
+        document.getElementById('graphrag-loading').innerHTML = `
+            <p style="color: #dc2626;">Unable to load GraphRAG recommendations. Please try again later.</p>
+        `;
+    }
+})();
+
+function createResourceCard(resource, isCultural = false, isConnected = false) {
+    const icon = getResourceIcon(resource.resource_type, resource.file_path);
+    const culturalClass = isCultural ? ' cultural' : '';
+    const path = resource.file_path.startsWith('/') ? resource.file_path : `/${resource.file_path}`;
+    
+    return `
+        <a href="${path}" class="graphrag-card${culturalClass}">
+            <div style="font-size: 2rem; margin-bottom: 0.75rem;">${icon}</div>
+            <h4 style="color: ${isCultural ? '#15803d' : '#0284c7'}; font-weight: 700; margin-bottom: 0.5rem; font-size: 1.1rem;">
+                ${resource.title}
+            </h4>
+            <p style="color: #666; font-size: 0.85rem; margin-bottom: 0.75rem;">
+                ${resource.year_level || 'All Levels'} • ${resource.resource_type}
+            </p>
+            <div style="margin-bottom: 0.75rem;">
+                ${resource.has_whakataukī ? '<span class="graphrag-badge badge-whakataukī">Whakataukī</span>' : ''}
+                ${resource.has_te_reo ? '<span class="graphrag-badge badge-te-reo">Te Reo</span>' : ''}
+                ${resource.quality_score >= 95 ? '<span class="graphrag-badge badge-quality">★ ' + resource.quality_score + '</span>' : ''}
+                ${isConnected ? '<span class="graphrag-badge" style="background: #dbeafe; color: #1e40af;">🔗 Connected</span>' : ''}
+            </div>
+            ${resource.content_preview ? `<p style="color: #546e7a; font-size: 0.85rem; line-height: 1.5;">${resource.content_preview.substring(0, 120)}...</p>` : ''}
+        </a>
+    `;
+}
+
+function getResourceIcon(type, path) {
+    if (path.includes('ecology') || path.includes('ecosystem')) return '🌿';
+    if (path.includes('physics') || path.includes('instrument')) return '🎵';
+    if (path.includes('chemistry') || path.includes('medicine')) return '💊';
+    if (path.includes('genetics') || path.includes('whakapapa')) return '🧬';
+    if (path.includes('climate') || path.includes('environment')) return '🌍';
+    if (path.includes('energy') || path.includes('renewable')) return '⚡';
+    if (path.includes('biology') || path.includes('life')) return '🌱';
+    if (path.includes('astronomy') || path.includes('navigation')) return '⭐';
+    
+    if (type === 'interactive_game' || type === 'interactive_handout') return '🎮';
+    if (type === 'Lesson') return '📖';
+    if (type === 'Handout') return '📄';
+    if (type === 'Unit-Plan') return '📚';
+    
+    return '🔬';
+}
+</script>
+
