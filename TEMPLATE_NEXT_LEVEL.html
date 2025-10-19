@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{PAGE_TITLE}} | Te Kete Ako</title>
+  <meta name="description" content="{{PAGE_DESCRIPTION}}">
+  
+  <!-- NEXT-LEVEL DESIGN SYSTEM - Full Tech Stack -->
+  <link rel="stylesheet" href="/css/te-kete-next-level.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/tailwind.config.ultimate.js"></script>
+  
+  <!-- Cultural Gestures - Framer Motion Physics -->
+  <script src="/js/framer-cultural-gestures-ultimate.js" defer></script>
+  
+  <!-- PWA -->
+  <link href="/manifest.json" rel="manifest">
+  <meta name="theme-color" content="#1b7f5a">
+</head>
+
+<body class="pattern-koru-subtle bg-whenua-50">
+
+  <!-- Skip to main content - Accessibility -->
+  <a href="#main-content" class="skip-to-main">Skip to main content</a>
+
+  <!-- Navigation - Loaded Component -->
+  <div id="nav-container"></div>
+  <script>
+    fetch('/components/navigation-standard.html')
+      .then(r => r.text())
+      .then(html => {
+        const div = document.createElement('div');
+        div.innerHTML = html;
+        const nav = div.firstElementChild;
+        if (nav) document.body.insertBefore(nav, document.getElementById('nav-container'));
+      });
+  </script>
+
+  <!-- Main Content -->
+  <main id="main-content" class="container mx-auto px-4 py-8">
+    
+    <!-- Hero Section (if needed) -->
+    <section class="hero-section mb-12">
+      <div class="hero-content">
+        <h1 class="hero-title">{{HERO_TITLE}}</h1>
+        <p class="hero-subtitle">{{HERO_SUBTITLE}}</p>
+      </div>
+    </section>
+
+    <!-- Cultural Opening (if culturally relevant page) -->
+    <section class="cultural-opening animate-powhiri">
+      <h2 class="text-2xl font-display font-bold text-pounamu-600 mb-4">
+        <span class="text-3xl mr-2">🌿</span>
+        Cultural Context | Horopaki Ahurea
+      </h2>
+      
+      <div class="bg-white p-6 rounded-lg mb-4 text-center border-2 border-kowhai-500">
+        <h3 class="text-sm text-gray-600 uppercase tracking-wide mb-2">Whakataukī</h3>
+        <p class="text-xl italic text-pounamu-600 font-cultural mb-2 font-semibold">
+          "{{WHAKATAUKI}}"
+        </p>
+        <p class="text-base text-gray-600">
+          {{TRANSLATION}}
+        </p>
+      </div>
+    </section>
+
+    <!-- Content Grid - Using Tailwind classes -->
+    <section class="curriculum-grid">
+      
+      <!-- Example Card - Glass Morphism + Tailwind -->
+      <div class="glass-card hover-lift">
+        <h3 class="unit-title">🔢 {{UNIT_NAME}}</h3>
+        <div class="unit-meta">{{DURATION}} | {{TOPICS}}</div>
+        <p class="unit-description">{{DESCRIPTION}}</p>
+        
+        <!-- Tailwind utility badges -->
+        <div class="flex flex-wrap gap-2 mb-4">
+          <span class="bg-pounamu-100 text-pounamu-800 px-3 py-1 rounded-full text-sm font-semibold">
+            {{SUBJECT}}
+          </span>
+          <span class="bg-kowhai-100 text-kowhai-800 px-3 py-1 rounded-full text-sm font-semibold">
+            🌿 Cultural
+          </span>
+        </div>
+        
+        <!-- Buttons with Tailwind -->
+        <div class="flex gap-3 flex-wrap">
+          <a href="{{LINK}}" class="btn-primary">
+            View Unit →
+          </a>
+          <a href="{{SECONDARY_LINK}}" class="btn-secondary">
+            Resources
+          </a>
+        </div>
+      </div>
+
+      <!-- More cards... -->
+      
+    </section>
+
+  </main>
+
+  <!-- Footer - Loaded Component -->
+  <div id="footer-container"></div>
+  <script>
+    fetch('/components/footer.html')
+      .then(r => r.text())
+      .then(html => document.getElementById('footer-container').innerHTML = html);
+  </script>
+
+  <!-- Mobile Bottom Nav -->
+  <div id="mobile-nav-bottom"></div>
+  <script>
+    fetch('/components/mobile-bottom-nav.html')
+      .then(r => r.text())
+      .then(html => document.getElementById('mobile-nav-bottom').innerHTML = html);
+  </script>
+
+  <!-- Floating Action Button -->
+  <div id="fab-container"></div>
+  <script>
+    fetch('/components/quick-actions-fab.html')
+      .then(r => r.text())
+      .then(html => document.getElementById('fab-container').innerHTML = html);
+  </script>
+
+</body>
+</html>
+
