@@ -1,0 +1,264 @@
+<!-- GraphRAG Cross-Subject Discovery Network -->
+<section style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; padding: 4rem 2rem; margin: 3rem 0; border-radius: 20px; box-shadow: 0 12px 32px rgba(99, 102, 241, 0.3); position: relative; overflow: hidden;">
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.05; background-image: radial-gradient(circle, white 2px, transparent 2px); background-size: 40px 40px;"></div>
+    
+    <div style="max-width: 1200px; margin: 0 auto; position: relative; z-index: 2;">
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <div style="display: inline-block; background: rgba(255,255,255,0.2); padding: 0.5rem 1.5rem; border-radius: 24px; margin-bottom: 1rem;">
+                <span style="color: white; font-weight: 600; font-size: 0.9rem;">🔗 CROSS-SUBJECT INTELLIGENCE</span>
+            </div>
+            <h2 style="font-size: 2.5rem; color: white; margin-bottom: 1rem; font-weight: 800;">
+                Discover Subject Connections
+            </h2>
+            <p style="font-size: 1.2rem; color: rgba(255,255,255,0.95); max-width: 700px; margin: 0 auto; line-height: 1.6;">
+                Resources that bridge disciplines and integrate mātauranga Māori across subjects
+            </p>
+        </div>
+
+        <div id="cross-subject-network" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
+            <!-- Resources will be loaded here -->
+            <div style="text-align: center; padding: 3rem; grid-column: 1 / -1;">
+                <div style="border: 4px solid rgba(255,255,255,0.3); border-top: 4px solid white; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 0 auto 1rem;"></div>
+                <p style="opacity: 0.9;">Mapping 1,200+ cross-curricular connections...</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.cross-subject-card {
+    animation: fadeIn 0.6s ease-out forwards;
+    opacity: 0;
+}
+</style>
+
+<script>
+(async function() {
+    const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5ODgxMTksImV4cCI6MjA1MjU2NDExOX0.gN5RGe7kGmxj4-yI1xnDuCuKUPFDh4f-8CQqQdqrGq0';
+    
+    const container = document.getElementById('cross-subject-network');
+    if (!container) {
+        console.warn('Cross-subject network container not found');
+        return;
+    }
+    
+    try {
+        console.log('🔗 Loading Cross-Subject Discovery Network...');
+        
+        // Query for resources that naturally bridge multiple subjects
+        const response = await fetch(
+            `${SUPABASE_URL}/rest/v1/graphrag_resources?or=(subject.like.*%2C*,subject.like.*%2F*)&file_path=like.*/public/*&file_path=not.like.*backup*&quality_score=gte.88&select=*&order=quality_score.desc,cultural_context.desc&limit=20`,
+            {
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`,
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+        
+        if (!response.ok) {
+            throw new Error(`GraphRAG query failed: ${response.status}`);
+        }
+        
+        const resources = await response.json();
+        
+        if (!resources || resources.length === 0) {
+            container.innerHTML = `
+                <div style="text-align: center; padding: 3rem; grid-column: 1 / -1;">
+                    <p style="opacity: 0.9;">🔮 Building cross-subject connections...</p>
+                    <a href="/generated-resources-alpha/index.html" style="display: inline-block; margin-top: 1rem; background: white; color: #6366f1; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600;">
+                        Browse All Resources →
+                    </a>
+                </div>
+            `;
+            return;
+        }
+        
+        console.log(`✨ Found ${resources.length} cross-subject resources`);
+        
+        // Render resources
+        container.innerHTML = resources.map((resource, index) => {
+            // Parse subjects
+            const subjects = resource.subject ? 
+                resource.subject.split(/[,\/]/).map(s => s.trim()).filter(Boolean) : 
+                ['Multi-subject'];
+            
+            const subjectColors = {
+                'Mathematics': '#10b981',
+                'Science': '#0891b2',
+                'English': '#dc2626',
+                'Social Studies': '#f59e0b',
+                'Te Reo Māori': '#7c2d12',
+                'Te Ao Māori': '#1a4d2e',
+                'Digital Technologies': '#6366f1',
+                'digital-technology': '#6366f1'
+            };
+            
+            const primaryColor = subjectColors[subjects[0]] || '#8b5cf6';
+            
+            const culturalBadges = [];
+            if (resource.has_whakataukī) culturalBadges.push('🌿 Whakataukī');
+            if (resource.has_te_reo) culturalBadges.push('🗣️ Te Reo');
+            if (resource.cultural_context && culturalBadges.length === 0) culturalBadges.push('🌍 Cultural');
+            
+            return `
+                <a href="${resource.file_path}" 
+                   class="cross-subject-card"
+                   style="background: white; 
+                          border-radius: 16px; 
+                          padding: 1.75rem; 
+                          text-decoration: none; 
+                          box-shadow: 0 4px 16px rgba(0,0,0,0.1); 
+                          transition: all 0.3s; 
+                          display: block; 
+                          border-top: 5px solid ${primaryColor};
+                          position: relative;
+                          animation-delay: ${index * 0.08}s;">
+                    
+                    <!-- Subject Badges -->
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
+                        ${subjects.slice(0, 3).map(subject => `
+                            <span style="background: ${subjectColors[subject] || '#8b5cf6'}; 
+                                         color: white; 
+                                         padding: 0.35rem 0.85rem; 
+                                         border-radius: 12px; 
+                                         font-size: 0.75rem; 
+                                         font-weight: 700;">
+                                ${subject}
+                            </span>
+                        `).join('')}
+                        ${subjects.length > 3 ? `
+                            <span style="background: #e5e7eb; 
+                                         color: #6b7280; 
+                                         padding: 0.35rem 0.85rem; 
+                                         border-radius: 12px; 
+                                         font-size: 0.75rem; 
+                                         font-weight: 700;">
+                                +${subjects.length - 3} more
+                            </span>
+                        ` : ''}
+                    </div>
+                    
+                    <!-- Quality Score -->
+                    <div style="position: absolute; top: 1rem; right: 1rem;">
+                        <span style="background: #fef3c7; 
+                                     color: #92400e; 
+                                     padding: 0.35rem 0.75rem; 
+                                     border-radius: 12px; 
+                                     font-size: 0.75rem; 
+                                     font-weight: 700;">
+                            ⭐ ${resource.quality_score || 90}
+                        </span>
+                    </div>
+                    
+                    <!-- Title -->
+                    <h3 style="color: ${primaryColor}; 
+                               font-size: 1.1rem; 
+                               margin-bottom: 0.75rem; 
+                               font-weight: 700; 
+                               line-height: 1.4;
+                               padding-right: 3rem;">
+                        ${resource.title}
+                    </h3>
+                    
+                    <!-- Resource Type -->
+                    <p style="color: #64748b; 
+                              font-size: 0.85rem; 
+                              margin-bottom: 0.75rem;">
+                        ${resource.resource_type || 'Resource'} ${resource.year_level ? `• ${resource.year_level}` : ''}
+                    </p>
+                    
+                    <!-- Connection Indicator -->
+                    <div style="background: linear-gradient(135deg, #ede9fe, #ddd6fe); 
+                                padding: 0.75rem; 
+                                border-radius: 8px; 
+                                margin-top: 0.75rem;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <span style="color: #6366f1; font-size: 0.85rem; font-weight: 600;">
+                                🔗 Bridges ${subjects.length} ${subjects.length === 1 ? 'Subject' : 'Subjects'}
+                            </span>
+                        </div>
+                        ${culturalBadges.length > 0 ? `
+                            <div style="color: #059669; font-size: 0.75rem; font-weight: 600; margin-top: 0.5rem;">
+                                ${culturalBadges.join(' • ')}
+                            </div>
+                        ` : ''}
+                    </div>
+                    
+                    ${resource.has_whakataukī ? `
+                        <div style="position: absolute; bottom: -8px; right: -8px; 
+                                    background: ${primaryColor}; 
+                                    color: white; 
+                                    padding: 0.5rem; 
+                                    border-radius: 50%; 
+                                    width: 40px; 
+                                    height: 40px; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center; 
+                                    font-size: 1.25rem; 
+                                    box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                            🌿
+                        </div>
+                    ` : ''}
+                </a>
+            `;
+        }).join('');
+        
+        // Add exploration button
+        container.innerHTML += `
+            <div style="grid-column: 1 / -1; text-align: center; margin-top: 1.5rem;">
+                <a href="/generated-resources-alpha/index.html" 
+                   style="display: inline-block; 
+                          background: white; 
+                          color: #6366f1; 
+                          padding: 1.25rem 2.5rem; 
+                          border-radius: 12px; 
+                          font-weight: 700; 
+                          text-decoration: none; 
+                          box-shadow: 0 4px 16px rgba(0,0,0,0.15); 
+                          transition: all 0.3s; 
+                          font-size: 1.05rem;">
+                    🎓 Explore All Cross-Subject Resources →
+                </a>
+            </div>
+        `;
+        
+        console.log(`✅ Cross-Subject Network loaded successfully`);
+        console.log(`   📊 Resources: ${resources.length}`);
+        console.log(`   🔗 Total subjects bridged: ${new Set(resources.flatMap(r => r.subject?.split(/[,\/]/).map(s => s.trim()) || [])).size}`);
+        
+    } catch (error) {
+        console.error('❌ GraphRAG Cross-Subject Error:', error);
+        container.innerHTML = `
+            <div style="text-align: center; padding: 3rem; grid-column: 1 / -1;">
+                <p style="opacity: 0.9;">💡 Cross-subject mapping in progress...</p>
+                <a href="/generated-resources-alpha/index.html" 
+                   style="display: inline-block; 
+                          margin-top: 1rem; 
+                          background: white; 
+                          color: #6366f1; 
+                          padding: 0.75rem 1.5rem; 
+                          border-radius: 8px; 
+                          text-decoration: none; 
+                          font-weight: 600;">
+                    Browse All Resources →
+                </a>
+            </div>
+        `;
+    }
+})();
+</script>
+
