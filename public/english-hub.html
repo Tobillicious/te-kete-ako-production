@@ -661,14 +661,20 @@
         
         document.addEventListener('DOMContentLoaded', loadGraphRAGEnglish);
     </script>
-    <!-- GraphRAG Recommendations Component -->
+    <!-- GraphRAG English Recommendations Component -->
+    <div id="graphrag-english-container"></div>
     <script>
-        fetch('/components/graphrag-recommendations.html')
+        fetch('/components/graphrag-english-recommendations.html')
             .then(r => r.text())
             .then(html => {
-                const section = document.createElement('div');
-                section.innerHTML = html;
-                document.body.insertBefore(section.firstElementChild, document.body.querySelector('footer') || document.body.lastChild);
+                document.getElementById('graphrag-english-container').innerHTML = html;
+                // Execute scripts in the loaded HTML
+                const scripts = document.getElementById('graphrag-english-container').querySelectorAll('script');
+                scripts.forEach(script => {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = script.textContent;
+                    document.body.appendChild(newScript);
+                });
             });
     </script>
 </body>
