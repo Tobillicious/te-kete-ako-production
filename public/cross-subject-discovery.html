@@ -288,9 +288,9 @@
                 'default': '#6b7280'
             };
             
-            container.innerHTML = realConnections.map(conn => {
-                const sourceColor = subjectColors[conn.source_subject] || subjectColors.default;
-                const targetColor = subjectColors[conn.target_subject] || subjectColors.default;
+            container.innerHTML = exampleConnections.map(conn => {
+                const sourceColor = getSubjectColor(conn.source_subject);
+                const targetColor = getSubjectColor(conn.target_subject);
                 const confidencePercent = Math.round(conn.confidence * 100);
                 
                 return `
@@ -314,7 +314,7 @@
                                 <h3 style="color: ${sourceColor}; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">
                                     ${conn.source_title}
                                 </h3>
-                                <p style="color: #6b7280; font-size: 0.9rem;">${conn.source_subject} Resource</p>
+                                <p style="color: #6b7280; font-size: 0.9rem;">${conn.source_subject} Resource${conn.source_connections ? ` · ${conn.source_connections} connections` : ''}</p>
                             </div>
                             
                             <div style="font-size: 2rem; color: #10b981;">↔️</div>
@@ -323,7 +323,7 @@
                                 <h3 style="color: ${targetColor}; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">
                                     ${conn.target_title}
                                 </h3>
-                                <p style="color: #6b7280; font-size: 0.9rem;">${conn.target_subject} Resource</p>
+                                <p style="color: #6b7280; font-size: 0.9rem;">${conn.target_subject} Resource${conn.target_connections ? ` · ${conn.target_connections} connections` : ''}</p>
                             </div>
                         </div>
                         
