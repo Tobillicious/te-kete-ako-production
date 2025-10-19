@@ -415,53 +415,71 @@
         });
     </script>
     
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Load REAL English resources from GraphRAG
-        async function loadEnglishResourcesFromGraphRAG() {
+        // GraphRAG-Powered English Hub - Real Data from Knowledge Graph
+        const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5ODgxMTksImV4cCI6MjA1MjU2NDExOX0.gN5RGe7kGmxj4-yI1xnDuCuKUPFDh4f-8CQqQdqrGq0';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        async function loadGraphRAGEnglish() {
             try {
-                const url = 'https://nlgldaqtubrlcqddppbq.supabase.co/rest/v1/graphrag_resources';
-                const headers = {
-                    'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM',
-                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
-                };
+                console.log('🚀 Connecting to GraphRAG Knowledge Graph (English)...');
                 
-                // Get total count
-                const totalResponse = await fetch(`${url}?subject=ilike.%english%&select=id`, { 
-                    headers: { ...headers, 'Prefer': 'count=exact' } 
-                });
-                const totalCount = parseInt(totalResponse.headers.get('content-range')?.split('/')[1] || '2254');
+                // Query GraphRAG for English resources
+                const { data: englishData, error, count } = await supabase
+                    .from('graphrag_resources')
+                    .select('file_path, title, resource_type, quality_score, cultural_context, has_te_reo, year_level', { count: 'exact' })
+                    .or('subject.ilike.%english%,subject.ilike.%literacy%,subject.ilike.%writing%')
+                    .order('quality_score', { ascending: false })
+                    .limit(100);
                 
-                // Get cultural integration count
-                const culturalResponse = await fetch(`${url}?subject=ilike.%english%&cultural_context=eq.true&select=id`, {
-                    headers: { ...headers, 'Prefer': 'count=exact' }
-                });
-                const culturalCount = parseInt(culturalResponse.headers.get('content-range')?.split('/')[1] || '990');
-                
-                console.log(`📊 GraphRAG English Stats: ${totalCount} total, ${culturalCount} culturally integrated`);
-                
-                // Update counts in hero
-                const countElement = document.getElementById('english-resource-count');
-                const culturalElement = document.getElementById('english-cultural-count');
-                
-                if (countElement) {
-                    countElement.textContent = totalCount.toLocaleString();
-                }
-                if (culturalElement) {
-                    culturalElement.textContent = culturalCount.toLocaleString();
+                if (error) {
+                    console.error('GraphRAG Error:', error);
+                    return;
                 }
                 
-                // Log GraphRAG connection success
-                console.log('✅ Successfully connected to GraphRAG knowledge graph!');
-                console.log(`   🧠 Knowledge Graph: 19,737 resources, 231,469 relationships`);
-                console.log(`   ✍️ English Resources: ${totalCount} (${Math.round(culturalCount/totalCount*100)}% culturally integrated)`);
+                const totalCount = count || englishData.length;
+                const culturalCount = englishData.filter(r => r.cultural_context).length;
+                const teReoCount = englishData.filter(r => r.has_te_reo).length;
+                const avgQuality = englishData.reduce((sum, r) => sum + (r.quality_score || 0), 0) / englishData.length;
+                
+                // Update UI with real data
+                const countEl = document.getElementById('english-resource-count');
+                const culturalEl = document.getElementById('english-cultural-count');
+                
+                if (countEl) countEl.textContent = totalCount.toLocaleString();
+                if (culturalEl) {
+                    culturalEl.textContent = culturalCount.toLocaleString();
+                    // Update percentage in label
+                    const labelEl = culturalEl.nextElementSibling;
+                    if (labelEl) {
+                        const pct = Math.round((culturalCount / totalCount) * 100);
+                        labelEl.textContent = `Culturally Integrated (${pct}%)`;
+                    }
+                }
+                
+                // Console success
+                console.log('✅ GraphRAG Connection Successful!');
+                console.log(`   📊 Total English Resources: ${totalCount.toLocaleString()}`);
+                console.log(`   🌿 With Cultural Context: ${culturalCount} (${Math.round(culturalCount/totalCount*100)}%)`);
+                console.log(`   🗣️ With Te Reo: ${teReoCount}`);
+                console.log(`   ⭐ Average Quality Score: ${avgQuality.toFixed(1)}/100`);
+                console.log(`   🧠 Knowledge Graph: 19,737 resources × 231,469 relationships`);
+                
+                // Sample high-quality resources
+                const topResources = englishData
+                    .filter(r => r.quality_score >= 90)
+                    .slice(0, 5);
+                console.log('🏆 Top Quality English Resources:', topResources.map(r => r.title));
                 
             } catch (error) {
-                console.error('Error loading GraphRAG English data:', error);
-                // Keep default counts if GraphRAG fails
+                console.error('❌ GraphRAG Connection Error:', error);
             }
         }
         
-        document.addEventListener('DOMContentLoaded', loadEnglishResourcesFromGraphRAG);
+        document.addEventListener('DOMContentLoaded', loadGraphRAGEnglish);
     </script>
     <!-- GraphRAG Recommendations Component -->
     <script>
