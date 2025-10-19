@@ -93,12 +93,16 @@
                     <div style="font-size: 0.9rem; opacity: 0.9;">Total Relationships</div>
                 </div>
                 <div style="background: rgba(255,255,255,0.2); padding: 1rem 2rem; border-radius: 12px;">
-                    <div style="font-size: 2rem; font-weight: 800;">1,200+</div>
-                    <div style="font-size: 0.9rem; opacity: 0.9;">Cross-Curricular Links</div>
+                    <div style="font-size: 2rem; font-weight: 800;">1,576</div>
+                    <div style="font-size: 0.9rem; opacity: 0.9;">Science ↔ Math Links</div>
                 </div>
                 <div style="background: rgba(255,255,255,0.2); padding: 1rem 2rem; border-radius: 12px;">
                     <div style="font-size: 2rem; font-weight: 800;">5,062</div>
                     <div style="font-size: 0.9rem; opacity: 0.9;">Cultural Connections</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.2); padding: 1rem 2rem; border-radius: 12px;">
+                    <div style="font-size: 2rem; font-weight: 800;">4,977</div>
+                    <div style="font-size: 0.9rem; opacity: 0.9;">Cultural Resources</div>
                 </div>
             </div>
         </div>
@@ -203,11 +207,34 @@
         const container = document.getElementById('cross-subject-connections');
         
         try {
-            console.log('🔗 Loading cross-subject connections...');
+            console.log('🔗 Loading REAL cross-subject connections from GraphRAG...');
             
-            // Query for cross-curricular relationships
+            // Query for actual cross-curricular relationships from the database
+            const query = `
+                SELECT 
+                  src.title as source_title,
+                  src.subject as source_subject,
+                  tgt.title as target_title,
+                  tgt.subject as target_subject,
+                  rel.relationship_type,
+                  rel.confidence,
+                  rel.metadata
+                FROM graphrag_relationships rel
+                JOIN graphrag_resources src ON rel.source_path = src.file_path
+                JOIN graphrag_resources tgt ON rel.target_path = tgt.file_path
+                WHERE rel.relationship_type IN ('cross_curricular_link', 'shared_cultural_element')
+                  AND src.subject IS NOT NULL 
+                  AND tgt.subject IS NOT NULL
+                  AND src.subject != tgt.subject
+                  AND rel.confidence >= 0.85
+                  AND src.quality_score >= 70
+                  AND tgt.quality_score >= 70
+                ORDER BY rel.confidence DESC, src.quality_score DESC
+                LIMIT 12
+            `.trim();
+            
             const response = await fetch(
-                `${SUPABASE_URL}/rest/v1/rpc/get_cross_subject_connections`,
+                `${SUPABASE_URL}/rest/v1/rpc/exec_sql`,
                 {
                     method: 'POST',
                     headers: {
@@ -215,58 +242,42 @@
                         'Authorization': `Bearer ${SUPABASE_KEY}`,
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ limit_count: 12 })
+                    body: JSON.stringify({ query })
                 }
             );
             
-            // Fallback: Direct query if RPC doesn't exist
-            const query = `
-                SELECT * FROM graphrag_relationships
-                WHERE relationship_type IN ('cross_curricular_link', 'cross_curricular_connection', 'shared_cultural_element')
-                AND confidence >= 0.75
-                ORDER BY confidence DESC
-                LIMIT 12
-            `;
+            let connections = [];
+            if (response.ok) {
+                connections = await response.json();
+                console.log(`✅ Loaded ${connections.length} real connections from GraphRAG!`);
+            } else {
+                // Fallback to REST API query
+                console.log('📊 Using REST API fallback...');
+                const restResponse = await fetch(
+                    `${SUPABASE_URL}/rest/v1/graphrag_relationships?select=source_path,target_path,relationship_type,confidence,metadata&relationship_type=in.(cross_curricular_link,shared_cultural_element)&confidence=gte.0.85&order=confidence.desc&limit=12`,
+                    {
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': `Bearer ${SUPABASE_KEY}`
+                        }
+                    }
+                );
+                connections = await restResponse.json();
+            }
             
-            // For now, show some example connections
-            const exampleConnections = [
-                {
-                    source_title: "Algebraic Thinking in Traditional Māori Games",
-                    source_subject: "Mathematics",
-                    target_title: "Digital Storytelling with Pūrākau Framework",
-                    target_subject: "English",
-                    confidence: 0.92,
-                    connection_type: "Cultural Integration",
-                    description: "Both resources use traditional Māori knowledge systems to teach modern skills"
-                },
-                {
-                    source_title: "Climate Change Through Te Taiao Māori Lens",
-                    source_subject: "Science",
-                    target_title: "Data Visualization of Cultural Demographics",
-                    target_subject: "Mathematics",
-                    confidence: 0.88,
-                    connection_type: "Data Analysis",
-                    description: "Environmental science data meets statistical visualization"
-                },
-                {
-                    source_title: "Physics of Traditional Māori Instruments",
-                    source_subject: "Science",
-                    target_title: "Poetry Analysis Through Māori Literary Traditions",
-                    target_subject: "English",
-                    confidence: 0.85,
-                    connection_type: "Cultural Arts",
-                    description: "Sound science connects to oral traditions and performance"
-                },
-                {
-                    source_title: "Genetics and Whakapapa",
-                    source_subject: "Science",
-                    target_title: "Narrative Writing Using Māori Story Structures",
-                    target_subject: "English",
-                    confidence: 0.83,
-                    connection_type: "Cultural Concepts",
-                    description: "Scientific and narrative exploration of whakapapa (genealogy)"
-                }
-            ];
+            // Transform data for display
+            const exampleConnections = connections.slice(0, 12).map(conn => {
+                const metadata = typeof conn.metadata === 'string' ? JSON.parse(conn.metadata) : (conn.metadata || {});
+                return {
+                    source_title: conn.source_title || 'Resource',
+                    source_subject: conn.source_subject || 'General',
+                    target_title: conn.target_title || 'Connected Resource',
+                    target_subject: conn.target_subject || 'General',
+                    confidence: conn.confidence || 0.85,
+                    connection_type: metadata.concept || metadata.cultural_focus || conn.relationship_type || 'Cross-Curricular',
+                    description: metadata.reason || `Connected through ${conn.relationship_type}`
+                };
+            });
             
             // Subject colors
             const subjectColors = {

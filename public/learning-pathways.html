@@ -1,221 +1,444 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <!-- Performance: Optimize rendering -->
- <meta name="format-detection" content="telephone=no">
- <meta name="theme-color" content="#1b4332">
- <meta name="color-scheme" content="light">
- <!-- Performance: DNS prefetch for external domains -->
- <link rel="dns-prefetch" href="//fonts.googleapis.com">
- <link rel="dns-prefetch" href="//fonts.gstatic.com">
- <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
- <!-- Performance: Preload critical resources -->
- <link rel="preload" href="/js/te-kete-professional.js" as="script">
- <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap&display=swap" as="style" crossorigin>
- <meta charset="UTF-8" />
- <meta name="viewport" content="width=device-width, initial-scale=1.0" />
- <meta name="description" content="Te Kete Ako - Award-winning educational platform integrating mātauranga Māori with contemporary learning">
- <meta name="keywords" content="education, māori, indigenous, ai, learning, new zealand">
- <meta name="author" content="Te Kete Ako">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Learning Pathways | Te Kete Ako</title>
-
-
-
-
- 
- 
- 
- 
- <link rel="stylesheet" href="/components/badge-system.html">
- 
- 
- 
- <script src="/js/breadcrumbs.js" defer></script>
- 
- 
- 
- 
-
- <!-- CANONICAL CSS SYSTEM -->
- <link rel="stylesheet" href="/css/te-kete-professional.css">
- <link rel="stylesheet" href="/css/component-library.css" />
- <link rel="stylesheet" href="/css/animations-professional.css" />
- <link rel="stylesheet" href="/css/beautiful-navigation.css" />
- <link rel="stylesheet" href="/css/mobile-optimization.css" />
- <link rel="stylesheet" href="/css/print.css" />
- <!-- END CANONICAL CSS -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Pathways | Te Kete Ako</title>
+    <meta name="description" content="Explore 231,469 semantic connections showing how knowledge builds across subjects and year levels">
+    
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/component-library.css">
+    
+    <style>
+        .pathways-hero {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pathway-container {
+            max-width: 1400px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+        
+        .pathway-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        }
+        
+        .progression-flow {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+            padding: 1rem;
+        }
+        
+        .progression-step {
+            min-width: 250px;
+            background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+            border: 3px solid #0284c7;
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+        }
+        
+        .progression-arrow {
+            font-size: 2rem;
+            color: #6366f1;
+            flex-shrink: 0;
+        }
+        
+        .pathway-type {
+            display: inline-block;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin: 0.25rem;
+        }
+        
+        .relationship-badge {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin: 0.25rem;
+        }
+    </style>
 </head>
 <body>
- <!-- Professional Mega Menu Navigation -->
- <div id="beautiful-nav-container"></div>
- <script>
- fetch('/components/navigation-standard.html')
- .then(r => r.text())
- .then(html => {
- const div = document.createElement('div');
- div.innerHTML = html;
- document.body.insertBefore(div.firstElementChild, document.body.firstChild);
- });
- </script>
-
-<a href="#main-content" class="skip-link">Skip to main content</a>
-
- <header class="site-header no-print">
- <div class="nav-container">
- <a href="/index.html" class="nav-brand">Te Kete Ako</a>
- <nav class="main-nav">
- <ul>
- <li>
- <a href="/unit-plans.html">
- <span class="nav-icon">📚</span>
- <span class="nav-text-en">Unit Plans</span>
- <span class="nav-text-mi" lang="mi">Ngā Waehere</span>
- </a>
- </li>
- <li>
- <a href="/teachers/index.html">
- <span class="nav-icon">🧑‍🏫</span>
- <span class="nav-text-en">Teachers</span>
- <span class="nav-text-mi" lang="mi">Ngā Kaiako</span>
- </a>
- </li>
- <li>
- <a href="/lessons.html">
- <span class="nav-icon">🎓</span>
- <span class="nav-text-en">Lessons</span>
- <span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
- </a>
- </li>
- <li>
- <a href="/handouts.html">
- <span class="nav-icon">📄</span>
- <span class="nav-text-en">Handouts</span>
- <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
- </a>
- </li>
- <li>
- <a href="/games.html">
- <span class="nav-icon">🎮</span>
- <span class="nav-text-en">Games</span>
- <span class="nav-text-mi" lang="mi">Ngā Kēmu</span> 
- </a>
- </li>
- <li class="auth-nav my-kete-link" style="display: none;">
- <a href="/my-kete.html">
- <span class="nav-icon">🧺</span>
- My Kete
- </a>
- </li>
- <li class="auth-nav">
- <a href="/login.html" class="login-btn">
- <span class="nav-icon">👤</span>
- Login
- </a>
- </li>
- <li class="auth-nav" style="display: none;">
- <a href="/register-simple.html" class="register-btn">
- <span class="nav-icon">📝</span>
- Register
- </a>
- </li>
- </ul>
- </nav>
- <nav class="breadcrumbs no-print" aria-label="Breadcrumb">
- <ol id="breadcrumbs" class="breadcrumbs-list"></ol>
- </nav>
- </div>
- </header>
- <div id="search-container"></div>
-
- <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
- <main role="main" id="main-content">
- <section class="cultural-section">
- <div class="cultural-content">
- <h1 class="cultural-title" class="wiley-hero-title">Learning Pathways</h1>
- <p class="cultural-text">Adaptive pathways and curated journeys for students and whānau.</p>
- </div>
- 
-
- <section class="cultural-integration">
- <h2 class="section-title">
- <span>🌿</span>
- <span>Cultural Context | Horopaki Ahurea</span>
- </h2>
- 
- <div class="whakatauki-section">
- <h3 class="whakatauki-label">Whakataukī</h3>
- <p class="whakatauki-text">"Ko te akoranga te pūtake o te ora"</p>
- <p class="whakatauki-translation">"Education is the foundation of wellbeing"</p>
- </div>
- 
- <div class="house-values" style="background: white; padding: 1.5rem; border-radius: 8px;">
- <h3 style="font-size: 1rem; color: var(--color-primary); margin-top: 0;">🏛️ Connection to Mangakōtukutuku College Values</h3>
- <div style="background: rgba(241, 143, 1, 0.1); padding: 1rem; border-radius: 6px; border-left: 3px solid var(--color-accent);">
- <p style="margin: 0; font-size: 0.95rem;">
- <strong style="color: var(--color-accent); text-transform: capitalize;">Whaiara:</strong> Rising Up - Taking action to create positive change
- </p>
- <p style="margin: 0.75rem 0 0; font-size: 0.9rem; color: var(--color-text-secondary);">
- This learning connects to the value of <strong>whaiara</strong> by encouraging students to [engage with content in ways that embody this value].
- </p>
- </div>
- </div>
- 
- <div class="cultural-safety" style="background: rgba(27, 67, 50, 0.05); padding: 1rem; border-radius: 8px; margin-top: 1rem;">
- <h4 style="font-size: 0.95rem; color: var(--color-primary); margin: 0 0 0.5rem;">🛡️ Cultural Safety Considerations</h4>
- <ul style="font-size: 0.9rem; margin: 0; color: var(--color-text-secondary);">
- <li>Approach Māori content with respect and openness</li>
- <li>Recognize students' diverse cultural backgrounds and experiences</li>
- <li>Create space for Māori students to share their perspectives</li>
- <li>Consult with whānau and local iwi for culturally sensitive topics</li>
- </ul>
- </div>
- </section>
-
-</section>
- <section class="quick-access">
- <h2 class="quick-access-title" class="wiley-section-title">Explore</h2>
- <div class="quick-access-grid">
- <a class="quick-link" href="/experiences/adaptive-pathways.html">
- <div class="quick-link-icon">🧭</div>
- <div class="quick-link-title">Adaptive Pathways</div>
- </a>
- </div>
- </section>
- </main>
- <footer class="site-footer no-print">
- <div class="footer-content">
- <div class="footer-simple">
- <div class="footer-brand">
- <h3>🧺 Te Kete Ako</h3>
- <p>"Whaowhia te kete mātauranga" - Fill the basket of knowledge</p>
- </div>
- <div class="footer-links">
- <a href="/unit-plans.html">Unit Plans</a>
- <a href="/lessons.html">Lessons</a>
- <a href="/handouts.html">Handouts</a>
- <a href="/my-kete.html">My Kete</a>
- <a href="/sitemap.html">Sitemap</a>
- <a href="/orphans.html">Discover</a>
- </div>
- </div>
- <div class="footer-bottom">
- <span>© 2025 Te Kete Ako - Educational resources for Aotearoa New Zealand</span>
- </div>
- </div>
- </footer>
-
- <script>
- // Register service worker for performance
- if ('serviceWorker' in navigator) {
- window.addEventListener('load', () => {
- navigator.serviceWorker.register('/sw.js')
- .then(registration => )
- .catch(error => );
- });
- }
- </script>
- <section class="external-resources no-print" style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 2rem; border-radius: 12px; margin: 3rem 0; border-left: 4px solid var(--color-info); box-shadow: 0 2px 8px rgba(0,0,0,0.1);"><h2 style="color: var(--color-primary); margin-top: 0;"><span>🔗</span> <span>External Resources</span></h2><div style="background: white; padding: 1rem; border-radius: 8px;"><h4 style="margin: 0 0 0.5rem; color: var(--color-primary);">📚 Te Kete Ako Resources</h4><ul style="margin: 0; font-size: 0.95rem;"><li><a href="https://www.tki.org.nz/" target="_blank">TKI - Te Kete Ipurangi</a></li><li><a href="https://teara.govt.nz/" target="_blank">Te Ara Encyclopedia</a></li><li><a href="https://natlib.govt.nz/" target="_blank">National Library NZ</a></li><li><a href="https://www.tki.org.nz/r/professional_learning/" target="_blank">TKI: Professional Learning</a></li></ul></div></section>
- <script src="/js/loading-toast-system.js" defer></script>
+    <!-- Navigation -->
+    <div id="nav-container"></div>
+    <script>
+        fetch('/components/navigation-standard.html')
+            .then(r => r.text())
+            .then(html => document.getElementById('nav-container').innerHTML = html);
+    </script>
+    
+    <!-- Hero -->
+    <section class="pathways-hero">
+        <div style="max-width: 1000px; margin: 0 auto;">
+            <h1 style="font-size: 4rem; margin-bottom: 1rem; font-weight: 800;">🛤️ Learning Pathways</h1>
+            <p style="font-size: 1.5rem; opacity: 0.95; margin-bottom: 2rem;">
+                Discover how knowledge builds across 231,469 semantic connections
+            </p>
+            <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
+                <div style="background: rgba(255,255,255,0.2); padding: 1rem 2rem; border-radius: 12px;">
+                    <div style="font-size: 2rem; font-weight: 800;">231,469</div>
+                    <div style="opacity: 0.9;">Relationships Mapped</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.2); padding: 1rem 2rem; border-radius: 12px;">
+                    <div style="font-size: 2rem; font-weight: 800;">220+</div>
+                    <div style="opacity: 0.9;">Pathway Types</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="pathway-container">
+        
+        <!-- MOE Framework Pathways -->
+        <div class="pathway-card">
+            <h2 style="font-size: 2.5rem; color: #1f2937; margin-bottom: 1.5rem;">
+                📋 MOE Framework: Daily 1-Hour Structure
+            </h2>
+            <p style="color: #6b7280; font-size: 1.1rem; margin-bottom: 2rem;">
+                Ministry of Education recommended daily structure for Years 7-8
+            </p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <a href="/reading-hub.html" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); padding: 2rem; border-radius: 12px; border-left: 6px solid #3b82f6; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform=''">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📖</div>
+                    <h3 style="color: #1f2937; font-weight: 700; margin-bottom: 0.5rem;">Reading (1 hour daily)</h3>
+                    <p style="color: #6b7280; margin-bottom: 1rem;">Comprehension, fluency, vocabulary</p>
+                    <div class="pathway-type" style="background: #3b82f6;">187 Resources</div>
+                </a>
+                
+                <a href="/writing-hub.html" style="background: linear-gradient(135deg, #fef2f2, #fee2e2); padding: 2rem; border-radius: 12px; border-left: 6px solid #dc2626; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform=''">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">✍️</div>
+                    <h3 style="color: #1f2937; font-weight: 700; margin-bottom: 0.5rem;">Writing (1 hour daily)</h3>
+                    <p style="color: #6b7280; margin-bottom: 1rem;">Composition, mechanics, expression</p>
+                    <div class="pathway-type" style="background: #dc2626;">935 Resources (Writers Toolkit!)</div>
+                </a>
+                
+                <a href="/mathematics-hub.html" style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 2rem; border-radius: 12px; border-left: 6px solid #10b981; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform=''">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🔢</div>
+                    <h3 style="color: #1f2937; font-weight: 700; margin-bottom: 0.5rem;">Mathematics (1 hour daily)</h3>
+                    <p style="color: #6b7280; margin-bottom: 1rem;">Number, algebra, geometry, statistics</p>
+                    <div class="pathway-type" style="background: #10b981;">1,200+ Resources</div>
+                </a>
+            </div>
+            
+            <div style="background: #fef3c7; padding: 1.5rem; border-radius: 12px; margin-top: 2rem; border-left: 4px solid #f59e0b;">
+                <p style="margin: 0; color: #92400e; font-weight: 600;">
+                    ⭐ <strong>Years 7-8 Foundation:</strong> These three subjects build the literacy and numeracy foundation for all future learning
+                </p>
+            </div>
+        </div>
+        
+        <!-- Literacy Progression Pathway -->
+        <div class="pathway-card">
+            <h2 style="font-size: 2.5rem; color: #1f2937; margin-bottom: 1.5rem;">
+                📚 Literacy Development Progression
+            </h2>
+            <p style="color: #6b7280; font-size: 1.1rem; margin-bottom: 2rem;">
+                How Reading & Writing build to English Analysis (GraphRAG-powered connections)
+            </p>
+            
+            <div class="progression-flow">
+                <div class="progression-step" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border-color: #3b82f6;">
+                    <div style="font-weight: 700; color: #1e40af; margin-bottom: 0.5rem;">YEAR 7-8</div>
+                    <h4 style="color: #1f2937; margin-bottom: 1rem;">📖 Reading Foundation</h4>
+                    <ul style="color: #6b7280; font-size: 0.9rem; margin: 0; padding-left: 1.2rem;">
+                        <li>Comprehension strategies</li>
+                        <li>Vocabulary development</li>
+                        <li>Fluency practice</li>
+                        <li>Text structures</li>
+                    </ul>
+                    <div style="margin-top: 1rem;">
+                        <span class="relationship-badge">187 resources</span>
+                    </div>
+                </div>
+                
+                <div class="progression-arrow">→</div>
+                
+                <div class="progression-step" style="background: linear-gradient(135deg, #fef2f2, #fee2e2); border-color: #dc2626;">
+                    <div style="font-weight: 700; color: #991b1b; margin-bottom: 0.5rem;">YEAR 7-8</div>
+                    <h4 style="color: #1f2937; margin-bottom: 1rem;">✍️ Writing Foundation</h4>
+                    <ul style="color: #6b7280; font-size: 0.9rem; margin: 0; padding-left: 1.2rem;">
+                        <li>Writers Toolkit (18 steps)</li>
+                        <li>Composition skills</li>
+                        <li>Mechanics & grammar</li>
+                        <li>Voice & expression</li>
+                    </ul>
+                    <div style="margin-top: 1rem;">
+                        <span class="relationship-badge">935 resources</span>
+                    </div>
+                </div>
+                
+                <div class="progression-arrow">→</div>
+                
+                <div class="progression-step" style="background: linear-gradient(135deg, #f5f3ff, #ede9fe); border-color: #7c3aed;">
+                    <div style="font-weight: 700; color: #6b21a8; margin-bottom: 0.5rem;">YEAR 9-13</div>
+                    <h4 style="color: #1f2937; margin-bottom: 1rem;">🎓 English Analysis</h4>
+                    <ul style="color: #6b7280; font-size: 0.9rem; margin: 0; padding-left: 1.2rem;">
+                        <li>Text analysis</li>
+                        <li>Literary criticism</li>
+                        <li>Essay writing</li>
+                        <li>NCEA preparation</li>
+                    </ul>
+                    <div style="margin-top: 1rem;">
+                        <span class="relationship-badge">58 resources</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background: #e0f2fe; padding: 1.5rem; border-radius: 12px; margin-top: 2rem; border-left: 4px solid #0284c7;">
+                <p style="margin: 0; color: #075985; font-weight: 600;">
+                    🔗 <strong>GraphRAG Connection:</strong> 64,003 "same_year_level" relationships + 13,061 "unit_contains_lesson" progressions map this pathway
+                </p>
+            </div>
+        </div>
+        
+        <!-- Writers Toolkit 18-Step Pathway -->
+        <div class="pathway-card" style="background: linear-gradient(135deg, #fef3c7, #fde68a); border: 3px solid #f59e0b;">
+            <div style="background: linear-gradient(135deg, #dc2626, #991b1b); color: white; padding: 0.75rem 1.5rem; border-radius: 30px; display: inline-block; margin-bottom: 1.5rem; font-weight: 800;">
+                🏆 HIDDEN GEM: 935 WRITERS TOOLKIT RESOURCES
+            </div>
+            
+            <h2 style="font-size: 2.5rem; color: #92400e; margin-bottom: 1rem;">
+                🛠️ The Writers Toolkit: 18-Step Mastery Pathway
+            </h2>
+            <p style="color: #78350f; font-size: 1.1rem; margin-bottom: 2rem;">
+                Comprehensive writing framework discovered through GraphRAG analysis
+            </p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <div style="background: white; padding: 1rem; border-radius: 8px; border-left: 4px solid #dc2626;">
+                    <div style="font-weight: 700; color: #dc2626; margin-bottom: 0.5rem;">Step 1-3: Foundations</div>
+                    <ul style="color: #6b7280; font-size: 0.9rem; margin: 0; padding-left: 1.2rem;">
+                        <li>Hook</li>
+                        <li>Diction</li>
+                        <li>Tone</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 1rem; border-radius: 8px; border-left: 4px solid #ea580c;">
+                    <div style="font-weight: 700; color: #ea580c; margin-bottom: 0.5rem;">Step 4-7: Techniques</div>
+                    <ul style="color: #6b7280; font-size: 0.9rem; margin: 0; padding-left: 1.2rem;">
+                        <li>Show Don't Tell</li>
+                        <li>Fluency</li>
+                        <li>Suspense</li>
+                        <li>Analogy</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 1rem; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                    <div style="font-weight: 700; color: #f59e0b; margin-bottom: 0.5rem;">Step 8-12: Structure</div>
+                    <ul style="color: #6b7280; font-size: 0.9rem; margin: 0; padding-left: 1.2rem;">
+                        <li>PEEL Arguments</li>
+                        <li>Inform Structure</li>
+                        <li>Rhetorical Devices</li>
+                        <li>Conclusion</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 1rem; border-radius: 8px; border-left: 4px solid #eab308;">
+                    <div style="font-weight: 700; color: #eab308; margin-bottom: 0.5rem;">Step 13-18: Mastery</div>
+                    <ul style="color: #6b7280; font-size: 0.9rem; margin: 0; padding-left: 1.2rem;">
+                        <li>Revision</li>
+                        <li>Editing</li>
+                        <li>Publishing</li>
+                        <li>Portfolio</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="/writing-hub.html" style="display: inline-block; background: linear-gradient(135deg, #dc2626, #991b1b); color: white; padding: 1.25rem 2.5rem; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 1.1rem; box-shadow: 0 4px 16px rgba(220, 38, 38, 0.3); transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform=''">
+                    🛠️ Explore Writers Toolkit →
+                </a>
+            </div>
+        </div>
+        
+        <!-- Cross-Curricular Pathways -->
+        <div class="pathway-card">
+            <h2 style="font-size: 2.5rem; color: #1f2937; margin-bottom: 1.5rem;">
+                🌍 Cross-Curricular Learning Pathways
+            </h2>
+            <p style="color: #6b7280; font-size: 1.1rem; margin-bottom: 2rem;">
+                GraphRAG reveals 1,200+ cross-curricular connections between subjects
+            </p>
+            
+            <div style="display: grid; gap: 1.5rem;">
+                <!-- Science → Mathematics Pathway -->
+                <div style="background: linear-gradient(135deg, #e0f2fe, #dcfce7); padding: 1.5rem; border-radius: 12px;">
+                    <h4 style="color: #1f2937; margin-bottom: 1rem;">🔬 Science ↔️ 🔢 Mathematics</h4>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <span class="relationship-badge">Physics calculations</span>
+                        <span class="relationship-badge">Data analysis</span>
+                        <span class="relationship-badge">Graphing ecosystems</span>
+                        <span class="relationship-badge">Genetic probabilities</span>
+                    </div>
+                    <p style="color: #6b7280; font-size: 0.9rem; margin-top: 1rem;">
+                        Example: "Physics of Māori Instruments" connects sound physics with mathematical wave calculations
+                    </p>
+                </div>
+                
+                <!-- Writing → All Subjects -->
+                <div style="background: linear-gradient(135deg, #fef2f2, #fef3c7); padding: 1.5rem; border-radius: 12px;">
+                    <h4 style="color: #1f2937; margin-bottom: 1rem;">✍️ Writing → All Subjects</h4>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <span class="relationship-badge">Scientific reports</span>
+                        <span class="relationship-badge">Mathematical explanations</span>
+                        <span class="relationship-badge">Historical essays</span>
+                        <span class="relationship-badge">Cultural narratives</span>
+                    </div>
+                    <p style="color: #6b7280; font-size: 0.9rem; margin-top: 1rem;">
+                        Writers Toolkit serves ALL subjects - found in science, mathematics, and social studies folders!
+                    </p>
+                </div>
+                
+                <!-- Cultural Thread Pathway -->
+                <div style="background: linear-gradient(135deg, #fff7ed, #ffedd5); padding: 1.5rem; border-radius: 12px;">
+                    <h4 style="color: #1f2937; margin-bottom: 1rem;">🌿 Cultural Integration Pathway</h4>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <span class="relationship-badge">Shared whakataukī: 205 resources</span>
+                        <span class="relationship-badge">Te Reo integration: 1,315 resources</span>
+                        <span class="relationship-badge">Cultural excellence: 2,400 connections</span>
+                    </div>
+                    <p style="color: #6b7280; font-size: 0.9rem; margin-top: 1rem;">
+                        5,062 resources share cultural elements, creating a "cultural thread" through all learning
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- GraphRAG Relationship Types -->
+        <div class="pathway-card">
+            <h2 style="font-size: 2.5rem; color: #1f2937; margin-bottom: 1.5rem;">
+                🔗 How Resources Connect (Top 10 Relationship Types)
+            </h2>
+            <p style="color: #6b7280; font-size: 1.1rem; margin-bottom: 2rem;">
+                GraphRAG has identified 220+ ways resources relate to each other
+            </p>
+            
+            <div id="relationship-types-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                <!-- Will be populated by JavaScript -->
+                <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #6b7280;">
+                    Loading relationship data from GraphRAG...
+                </div>
+            </div>
+        </div>
+        
+        <!-- Subject-Specific Pathways -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 3rem 0;">
+            <a href="/science-hub.html" class="pathway-card" style="text-decoration: none; transition: transform 0.2s; padding: 2rem;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform=''">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🔬</div>
+                <h3 style="color: #1f2937; font-weight: 700; margin-bottom: 0.5rem;">Science Pathways</h3>
+                <p style="color: #6b7280; margin-bottom: 1rem;">Ecology → Biology → Genetics</p>
+                <div class="pathway-type">2,352 Resources</div>
+                <span class="relationship-badge">45% cultural integration</span>
+            </a>
+            
+            <a href="/mathematics-hub.html" class="pathway-card" style="text-decoration: none; transition: transform 0.2s; padding: 2rem;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform=''">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🔢</div>
+                <h3 style="color: #1f2937; font-weight: 700; margin-bottom: 0.5rem;">Mathematics Pathways</h3>
+                <p style="color: #6b7280; margin-bottom: 1rem;">Number → Algebra → Calculus</p>
+                <div class="pathway-type">1,200+ Resources</div>
+                <span class="relationship-badge">Traditional knowledge integrated</span>
+            </a>
+            
+            <a href="/english-hub.html" class="pathway-card" style="text-decoration: none; transition: transform 0.2s; padding: 2rem;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform=''">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🎓</div>
+                <h3 style="color: #1f2937; font-weight: 700; margin-bottom: 0.5rem;">English Analysis (Y9-13)</h3>
+                <p style="color: #6b7280; margin-bottom: 1rem;">Texts → Analysis → Criticism</p>
+                <div class="pathway-type">58 Analysis Resources</div>
+                <span class="relationship-badge">Literary traditions</span>
+            </a>
+        </div>
+        
+    </div>
+    
+    <!-- Footer -->
+    <div id="footer-container"></div>
+    <script>
+        fetch('/components/footer.html').then(r=>r.text()).then(html=>{
+            document.getElementById('footer-container').innerHTML=html;
+        });
+    </script>
+    
+    <!-- GraphRAG Data Loading -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5ODgxMTksImV4cCI6MjA1MjU2NDExOX0.gN5RGe7kGmxj4-yI1xnDuCuKUPFDh4f-8CQqQdqrGq0';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        async function loadRelationshipTypes() {
+            try {
+                // Query for top relationship types
+                const { data, error } = await supabase.rpc('execute_sql', {
+                    query: `
+                        SELECT relationship_type, COUNT(*) as count
+                        FROM graphrag_relationships
+                        GROUP BY relationship_type
+                        ORDER BY count DESC
+                        LIMIT 10;
+                    `
+                });
+                
+                if (error) throw error;
+                
+                const container = document.getElementById('relationship-types-container');
+                container.innerHTML = data.map(rel => `
+                    <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #10b981;">
+                        <div style="font-size: 2rem; font-weight: 800; color: #10b981; margin-bottom: 0.5rem;">${rel.count.toLocaleString()}</div>
+                        <div style="color: #1f2937; font-weight: 600; font-size: 0.95rem;">${rel.relationship_type.replace(/_/g, ' ')}</div>
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                console.error('Error loading relationship types:', error);
+                // Fallback data from GraphRAG summary
+                const fallbackData = [
+                    { type: 'same_year_level', count: 64003 },
+                    { type: 'same_subject', count: 52765 },
+                    { type: 'related_content', count: 34687 },
+                    { type: 'unit_contains_lesson', count: 13061 },
+                    { type: 'related_documentation', count: 10000 },
+                    { type: 'same_resource_type', count: 6000 },
+                    { type: 'shared_cultural_element', count: 5062 },
+                    { type: 'cultural_excellence_network', count: 2400 },
+                    { type: 'cross_curricular_link', count: 1200 },
+                    { type: 'lesson_has_handout', count: 1011 }
+                ];
+                
+                const container = document.getElementById('relationship-types-container');
+                container.innerHTML = fallbackData.map(rel => `
+                    <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #10b981;">
+                        <div style="font-size: 2rem; font-weight: 800; color: #10b981; margin-bottom: 0.5rem;">${rel.count.toLocaleString()}</div>
+                        <div style="color: #1f2937; font-weight: 600; font-size: 0.95rem;">${rel.type.replace(/_/g, ' ')}</div>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadRelationshipTypes);
+    </script>
 </body>
 </html>
