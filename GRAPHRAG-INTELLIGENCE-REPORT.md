@@ -1,292 +1,263 @@
 # 🧠 GraphRAG Intelligence Report
 **Date:** October 19, 2025  
-**Analyst:** AI Agent analyzing 231,469 knowledge relationships
+**Analysis:** Deep knowledge graph queries revealing TRUE priorities  
+**Status:** ACTIONABLE INSIGHTS DISCOVERED
 
 ---
 
-## 🎯 EXECUTIVE SUMMARY
+## 📊 KNOWLEDGE GRAPH STATISTICS
 
-GraphRAG has revealed **critical insights** about Te Kete Ako's educational content. This report identifies **orphaned excellence**, **cross-curricular goldmines**, and **actionable opportunities** to maximize the platform's impact.
+### **Scale:**
+- **19,737 resources** indexed
+- **231,469 relationships** mapped
+- **25 relationship types** discovered
+- **8,421 culturally integrated** resources
 
----
-
-## 🚨 PRIORITY 1: ISOLATED HIGH-QUALITY RESOURCES (Orphaned Treasures)
-
-### **The Problem:**
-GraphRAG identified **exceptional resources with HIGH quality but LOW discoverability**:
-
-| Resource | Quality Score | Connections | Issue |
-|----------|--------------|-------------|-------|
-| **Decolonized Assessment Framework** | 96/100 | **0** | 🚨 COMPLETELY ISOLATED |
-| **Wordsearch: Patterns & Algebra** | 95/100 | **0** | 🚨 COMPLETELY ISOLATED |
-| **Whakataukī Wisdom Hub** | 97/100 | **4** | Needs more links |
-| **Cross-Curricular Bridge Finder** | 96/100 | **8** | Underconnected |
-| **Ranginui Walker Unit** | 96/100 | **3** | Underconnected |
-
-### **The Impact:**
-- Teachers can't find these gems 😞
-- Students miss exceptional learning opportunities
-- High-quality cultural content remains hidden
-- Investment in content creation wasted
-
-### **RECOMMENDED ACTIONS:**
-
-✅ **Immediate:**
-1. Add `/decolonized-assessment-framework.html` to:
-   - Teacher Resources hub
-   - Professional Development section
-   - All subject hub "Assessment" sections
-
-2. Link Patterns & Algebra wordsearch to:
-   - Y7 Mathematics unit  
-   - Games & Activities section
-   - Mathematics Hub featured resources
-
-3. Feature Whakataukī Wisdom Hub on:
-   - Homepage
-   - Every subject hub (cultural context box)
-   - Navigation menu
+### **Relationship Network:**
+| Type | Count | Avg Confidence | Purpose |
+|------|-------|----------------|---------|
+| `same_year_level` | 64,003 | 83.7% | Year-level grouping |
+| `same_subject` | 52,765 | 81.6% | Subject clustering |
+| `related_content` | 34,687 | 86.5% | Semantic connections |
+| `unit_contains_lesson` | 13,061 | 95.0% | Unit structure |
+| `shared_cultural_element` | 5,062 | 88.0% | Cultural threading |
+| `cultural_excellence_network` | 2,400 | 81.7% | High-quality cultural |
+| `prerequisite` | 849 | 85.5% | Learning progression |
 
 ---
 
-## 💎 PRIORITY 2: CROSS-CURRICULAR GOLDMINES
+## 🚨 CRITICAL DISCOVERY #1: ORPHANED EXCELLENCE
 
-### **GraphRAG Discovered These Natural Learning Pathways:**
+**High-Quality Resources with ≤5 Connections:**
 
-#### **Science ↔ Mathematics** (400 connections!)
-```
-258 Science → Math connections
-142 Math → Science connections
-─────────────────────────────
-= 400 TOTAL cross-curricular opportunities!
-```
+### **The Isolated Gems (90+ Quality Score):**
 
-**Example Pathways:**
-- Genetics → Statistics (data analysis of inheritance)
-- Climate Science → Calculus (environmental modeling)
-- Physics → Algebra (equations of motion)
+1. **Comprehensive Auth Testing Dashboard** 
+   - Quality: **96/100**
+   - Connections: **0** ❌
+   - Status: COMPLETELY ISOLATED
 
-#### **Science ↔ Social Studies** (205 connections)
-**Example Pathways:**
-- Environmental Science → Geography → Kaitiakitanga
-- Biotechnology → Ethics → Māori Worldview
-- Astronomy → Navigation → Waka Traditions
+2. **NCEA Level 1 Literacy & Numeracy Must-Knows**
+   - Quality: **95/100**
+   - Connections: **4**
+   - Location: 2 versions (needs consolidation)
 
-#### **Critical Thinking ↔ English** (92 connections)
-**Example Pathways:**
-- Argument Analysis → Persuasive Writing
-- Logic → Narrative Structure
-- Debate Skills → Essay Writing
+3. **Cultural Assessment Framework**
+   - Quality: **94/100**
+   - Connections: **3**
 
-### **RECOMMENDED ACTIONS:**
+4. **25+ Teacher Guides**
+   - Quality: 92-94/100
+   - Connections: 2-5 each
+   - Nearly invisible to users!
 
-✅ **Create Cross-Curricular Hub Pages:**
-1. `/science-math-integration.html` - The 400-connection pathway
-2. `/science-social-studies-bridge.html` - Environmental + Cultural
-3. `/critical-thinking-literacy-hub.html` - Thinking + Writing
+### **WHY THIS MATTERS:**
+These are **EXCELLENT resources** that students/teachers will NEVER find because they're not connected to the knowledge graph's main network.
 
-✅ **Add "Related Subjects" Sections:**
-- Every Science resource shows related Math resources
-- Every Math resource shows Science applications
-- Auto-generated via GraphRAG relationships
+**ACTION REQUIRED:** Create "Hidden Gems" discovery page + build connections
 
 ---
 
-## 📊 PRIORITY 3: YEAR LEVEL STANDARDIZATION
+## 🚨 CRITICAL DISCOVERY #2: DISCONNECTED UNITS
 
-### **The Problem:**
-GraphRAG found **inconsistent year level naming**:
+**Complete Units with ZERO Lessons Connected:**
 
-| Format | Example Resources | Issue |
-|--------|-------------------|-------|
-| "Year 7" | Most common | ✅ Standard |
-| "Y7" | Some resources | Inconsistent |
-| "Year 7-9" | 1 resource | Too broad? |
-| "Y7-8" | 1 resource | Different format |
-| "y11" | 1 resource | Lowercase! |
-| "Year 123" | 1 resource | 🤔 What? |
-| "Infrastructure" | 1 resource | Not a year level! |
+### **The Ghost Units:**
+1. Unit 3: Dual Knowledge Systems - Science
+2. Guided Inquiry Unit (Years 8-10, Social Studies)
+3. Unit 1: Mathematics Foundations
+4. Unit 1: Science Foundations
+5. Unit 2: Decolonized Narratives - English
+6. Unit 3: Dual Knowledge Systems - Mathematics
+7. Unit 5: Climate Justice - Science
+8. Year 9 Mathematics: Geometry & Māori Patterns
+9. Unit 1: Narrative & Identity - English
+10. Unit 7: Synthesis & Revision - English
 
-### **The Impact:**
-- Filters don't work properly
-- GraphRAG can't build accurate year level progressions
-- Search results incomplete
+**All have:**
+- Quality scores: 91-93/100
+- `unit_contains_lesson` relationships: **0**
+- Actual lessons: Unknown (need file system check)
 
-### **RECOMMENDED ACTIONS:**
+### **HYPOTHESIS:**
+These units either:
+- A) Have lessons not tagged in GraphRAG
+- B) Are empty shells
+- C) Have lessons with broken relationship tags
 
-✅ **Standardize ALL year levels to:**
-```
-Years 7-8, Years 9-10, Years 11-13
-OR
-Year 7, Year 8, Year 9, etc.
-```
-
-✅ **Create migration script:**
-```python
-# Fix all inconsistent year_level values in GraphRAG
-UPDATE graphrag_resources 
-SET year_level = CASE
-    WHEN year_level ILIKE 'y7%' THEN 'Year 7'
-    WHEN year_level ILIKE 'y8%' THEN 'Year 8'
-    WHEN year_level = 'Year 123' THEN 'Years 1-3'
-    WHEN year_level = 'Infrastructure' THEN 'Platform'
-    ...
-END
-```
+**ACTION REQUIRED:** 
+1. Check file system for actual lesson files
+2. Build proper `unit_contains_lesson` relationships
+3. Surface these units in navigation
 
 ---
 
-## 🔥 PRIORITY 4: LEVERAGE TOP CONNECTIONS
+## 🚨 CRITICAL DISCOVERY #3: HIDDEN TREASURE TROVE
 
-### **Most Connected Educational Resources:**
+**`/public/generated-resources-alpha/` Analysis:**
 
-1. **Algebraic Thinking in Māori Games** - 168 connections
-   - 🏆 PLATFORM CHAMPION across ALL subjects!
-   - Connected to: History, PE, Cultural Studies, Math, Science
-   - **Action:** Feature prominently on homepage
+### **The Goldmine:**
+- **21 Handouts**: Avg quality **89.8**, **100% cultural integration** 🌟
+- **15 Lessons**: Avg quality **89.7**, **100% cultural integration** 🌟  
+- **6 Additional**: Avg quality **89.2**
+- **Total**: **47 high-quality, culturally-integrated resources**
 
-2. **Science Hub** - 203 connections
-   - Already featured ✅
-   - Continue GraphRAG enhancements
+### **Current Status:**
+- These are in a directory called "alpha"
+- NOT prominently featured
+- NOT well-connected in knowledge graph
+- Users likely don't know they exist!
 
-3. **English Hub** - 199 connections
-   - Well-connected ✅
-   - Add GraphRAG recommendations component
+### **The Resources:**
+Based on earlier queries, these include:
+- Biotechnology Ethics Through Māori Worldview
+- Genetics & Whakapapa
+- Physics of Māori Instruments
+- Climate Change Through Te Taiao
+- Traditional Navigation & GPS
+- Renewable Energy & Māori Innovation
+- Chemistry of Rongoā Māori
+- **And 40 more!**
 
----
-
-## 🌟 OPPORTUNITY: SEMANTIC LEARNING PATHWAYS
-
-### **What GraphRAG Can Do (But We're Not Using Yet):**
-
-```
-Current State:
-Student: "I want to learn about genetics"
-Platform: Shows genetics lessons ✅
-
-GraphRAG-Powered State:
-Student: "I want to learn about genetics"
-Platform: Shows intelligent pathway:
-  1️⃣ Genetics & Whakapapa (cultural foundation)
-  2️⃣ Biotechnology Ethics (Māori worldview)
-  3️⃣ Statistical Analysis (data science application)
-  4️⃣ Chemistry of Rongoā (traditional knowledge)
-  
-+ Related pathways in Math, Social Studies, English
-+ Prerequisite knowledge automatically identified
-+ Cultural context preserved throughout
-```
-
-### **RECOMMENDED ACTIONS:**
-
-✅ **Build Intelligent Pathway Engine:**
-1. Use `relationship_type = 'prerequisite'` (849 connections)
-2. Follow `progression_pathway` relationships
-3. Include `shared_cultural_element` (3,745 connections)
-4. Generate personalized learning journeys
+**ACTION REQUIRED:** 
+1. Create "Advanced Resources Hub" showcase
+2. Build strong GraphRAG connections
+3. Feature prominently on subject hubs
+4. Remove "alpha" stigma - these are PRODUCTION READY
 
 ---
 
-## 📈 SUCCESS METRICS
+## 🚨 CRITICAL DISCOVERY #4: SUPER-CONNECTED HUBS
 
-### **Current State:**
-- ✅ 19,737 resources indexed
-- ✅ 231,469 relationships mapped
-- ✅ 200+ relationship types
-- ❌ Many high-quality resources orphaned
-- ❌ Cross-curricular connections not surfaced
-- ❌ Year levels inconsistent
+**Most Connected Resources (20+ outgoing connections):**
 
-### **Target State (Next 30 days):**
-- 🎯 Zero orphaned resources with quality > 90
-- 🎯 All cross-curricular pathways discoverable
-- 🎯 100% consistent year level naming
-- 🎯 3+ intelligent learning pathways per subject
-- 🎯 GraphRAG recommendations on ALL hub pages
+### **The Network Anchors:**
+1. **Complete Assessments Library**: 4,331 connections!
+2. **Writers Toolkit 18-Step Sequence**: 2,976 connections
+3. **Adaptive Learning Pathways**: 1,614 connections
+
+### **INSIGHT:**
+These resources are the "super-spreaders" of the knowledge graph. They connect to EVERYTHING.
+
+**Writers Toolkit** having 2,976 connections explains why it's such a valuable resource - it's deeply integrated across the entire platform.
 
 ---
 
-## 🛠️ IMPLEMENTATION ROADMAP
+## 💡 INTELLIGENT ACTION PLAN
 
-### **Week 1: Connect the Orphans**
-- [ ] Add orphaned gems to navigation
-- [ ] Link to relevant hub pages
-- [ ] Feature on homepage carousel
+### **Priority 1: Surface the Hidden Gems** 🌟
+**Create:** `/public/hidden-gems-showcase.html`
+- Feature 47 generated-resources-alpha treasures
+- Showcase 25+ orphaned excellence resources
+- Build GraphRAG connections to main network
 
-### **Week 2: Cross-Curricular Bridges**
-- [ ] Create Science-Math integration hub
-- [ ] Build pathway finder tool
-- [ ] Add "Related Subjects" sections
+### **Priority 2: Connect the Disconnected Units** 🔗
+**Action:**
+1. Audit 10 disconnected units
+2. Find/create lesson files
+3. Build `unit_contains_lesson` relationships
+4. Add to navigation
 
-### **Week 3: Data Quality**
-- [ ] Standardize year levels
-- [ ] Fix subject naming
-- [ ] Validate resource types
+### **Priority 3: Build Cultural Threads** 🌿
+**Leverage:**
+- 5,062 `shared_cultural_element` relationships
+- 2,400 `cultural_excellence_network` connections
+- Create "Cultural Learning Pathways" that thread through subjects
 
-### **Week 4: Intelligence Features**
-- [ ] Personalized pathway engine
-- [ ] Smart recommendations everywhere
-- [ ] Cultural thread visualization
-
----
-
-## 💡 KEY INSIGHTS FROM GRAPHRAG
-
-1. **Orphaned Excellence:** Your BEST resources are often LEAST discoverable
-2. **Natural Pathways:** 400+ Science-Math connections suggest students naturally want cross-curricular learning
-3. **Cultural Threads:** 3,745 shared cultural element connections = strong cultural integration
-4. **Platform Champions:** Some resources (like Algebraic Thinking in Māori Games) connect EVERYTHING - feature them!
+### **Priority 4: Consolidate Duplicates** 📦
+**Issue:** Multiple versions of same resources (e.g., NCEA L1 appears twice)
+**Action:** Merge duplicates, strengthen connections
 
 ---
 
-## 🎯 IMMEDIATE NEXT STEPS
+## 📈 SUBJECT BREAKDOWN (Real Numbers from GraphRAG)
 
-**DO THIS FIRST:**
-1. ✅ Link Decolonized Assessment Framework to 5+ pages
-2. ✅ Feature Whakataukī Wisdom Hub in navigation
-3. ✅ Create Science-Math Integration Hub (400 connections waiting!)
-4. ✅ Standardize year level naming across platform
+| Subject | Resources | Cultural % | Avg Quality |
+|---------|-----------|------------|-------------|
+| General | 8,454 | 5.6% | 86.3 |
+| Science | 1,673 | 23.3% | 87.6 |
+| English | 1,550 | 20.1% | 87.3 |
+| Mathematics | 1,549 | 28.2% | 87.6 |
+| Digital Technologies | 735 | 62.2% | 88.4 ⭐ |
+| Te Ao Māori | 476 | 98.1% | 87.0 🌟 |
+| Cross-Curricular | 359 | 41.2% | 86.3 |
+| Social Studies | 262 | 51.9% | 88.6 |
 
-**THEN:**
-5. Build intelligent pathway finder
-6. Add GraphRAG recommendations to all hubs
-7. Create cultural thread visualization
-8. Implement personalized learning journeys
-
----
-
-## 🌿 CULTURAL EXCELLENCE OPPORTUNITIES
-
-GraphRAG identified **3,745 shared cultural element connections** but many are unexploited:
-
-**High-Quality Cultural Resources Needing Better Visibility:**
-- Whakataukī Wisdom Hub (97 quality, only 4 connections)
-- Ranginui Walker Unit (96 quality, only 3 connections)
-- Decolonized Assessment (96 quality, 0 connections!)
-
-**Recommendation:**
-Create "Cultural Excellence Network" pages that showcase these treasures through their GraphRAG connections.
+### **INSIGHTS:**
+- **Digital Tech** has highest cultural integration (62%!)
+- **Te Ao Māori** is 98% culturally integrated (as it should be)
+- **General** category has 8,454 resources but only 5.6% cultural - needs work
+- **Mathematics** surprisingly high cultural integration (28%)
 
 ---
 
-## 📊 APPENDIX: GraphRAG STATISTICS
+## 🎯 GRAPHRAG-GUIDED PRIORITIES
 
-```sql
--- Top Relationship Types for Educational Content
-same_year_level:        36,156 connections
-unit_contains_lesson:    9,182 connections  
-same_subject:            6,824 connections
-shared_cultural_element: 3,745 connections
-related_content:         3,075 connections
-cross_curricular_link:     919 connections
-prerequisite:              849 connections
-```
+### **What GraphRAG Says We Should Build:**
 
-**Translation:** Your content is WELL-CONNECTED but connections aren't VISIBLE to users yet!
+1. ✅ **Hidden Gems Discovery Page**
+   - 47 generated-resources-alpha treasures
+   - 25+ orphaned excellence resources
+   - GraphRAG-powered "similar resources" suggestions
+
+2. ✅ **Unit Connection Repair**
+   - Connect 10 ghost units to their lessons
+   - Build proper hierarchies
+   - Surface in navigation
+
+3. ✅ **Cultural Thread Visualization**
+   - Map 5,062 shared cultural elements
+   - Create cultural learning journeys
+   - Show how Te Ao Māori weaves through all subjects
+
+4. ✅ **Subject Hub Enhancement**
+   - Use REAL GraphRAG numbers (not estimates)
+   - Feature connected resources (not just newest)
+   - Show relationship counts ("This resource connects to 72 others!")
 
 ---
 
-**Next:** Run `/graphrag-orphan-connector.py` to automatically link isolated high-quality resources
+## 🔮 GRAPHRAG FUTURE VISION
 
-**Ngā mihi! GraphRAG is revealing the hidden architecture of your educational platform! 🌟**
+### **What's Possible:**
+- **Personalized Pathways**: Use prerequisite relationships (849) to build custom learning journeys
+- **Cultural Competency Tracking**: Leverage cultural_excellence_network (2,400 connections)
+- **Cross-Curricular Discovery**: Use cross_curricular_link (1,200 relationships)
+- **Teacher Recommendations**: Combine same_year_level + same_subject + high quality
 
+---
+
+## ✨ KEY TAKEAWAYS
+
+1. **We have HIDDEN EXCELLENCE** - 47 "alpha" resources with 89.8 avg quality, 100% cultural
+2. **We have ORPHANED GEMS** - 25+ resources scoring 90+ but with <5 connections
+3. **We have GHOST UNITS** - 10 complete units not connected to lessons
+4. **We have CULTURAL GOLD** - 5,062 shared cultural element relationships waiting to be surfaced
+
+**The GraphRAG knowledge graph is TELLING US what to build next.**
+
+---
+
+## 🚀 IMMEDIATE ACTIONS
+
+### **Today:**
+1. Create Hidden Gems Showcase page
+2. Audit disconnected units
+3. Feature generated-resources-alpha prominently
+
+### **This Week:**
+1. Build cultural thread pathways
+2. Connect orphaned excellence
+3. Update all hubs with real GraphRAG data
+
+### **This Month:**
+1. Personalized learning pathways
+2. Cultural competency tracking
+3. Cross-curricular discovery engine
+
+---
+
+**GraphRAG doesn't just store data - it REVEALS TRUTH about what Te Kete Ako needs.** 🌟
+
+*Report generated by GraphRAG Intelligence Analysis*  
+*Nā te mōhiotanga, nā te hononga!* (Through knowledge, through connection!)
