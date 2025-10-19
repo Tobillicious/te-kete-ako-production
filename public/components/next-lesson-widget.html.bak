@@ -1,0 +1,274 @@
+<!-- 
+  NEXT LESSON WIDGET - GraphRAG Powered
+  Shows recommended next lessons based on prerequisite relationships
+  Usage: Include this component at bottom of lesson pages
+-->
+
+<div class="next-lesson-widget" id="next-lesson-widget">
+    <div class="widget-header">
+        <h3>📚 What's Next?</h3>
+        <p class="widget-subtitle">Recommended lessons based on learning progression</p>
+    </div>
+    
+    <div class="next-lessons-container" id="next-lessons-container">
+        <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Finding your next learning steps...</p>
+        </div>
+    </div>
+</div>
+
+<style>
+.next-lesson-widget {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-radius: 16px;
+    padding: 2rem;
+    margin: 3rem 0;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+    border-left: 4px solid #3b82f6;
+}
+
+.widget-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.widget-header h3 {
+    font-size: 1.75rem;
+    color: #1e40af;
+    margin-bottom: 0.5rem;
+}
+
+.widget-subtitle {
+    color: #64748b;
+    font-size: 0.95rem;
+}
+
+.next-lessons-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.loading-state {
+    text-align: center;
+    padding: 2rem;
+    grid-column: 1 / -1;
+}
+
+.spinner {
+    border: 3px solid #e0f2fe;
+    border-top: 3px solid #3b82f6;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.next-lesson-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.next-lesson-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(59, 130, 246, 0.15);
+    border-color: #3b82f6;
+}
+
+.lesson-badge {
+    display: inline-block;
+    background: #3b82f6;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.lesson-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.lesson-description {
+    color: #64748b;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.lesson-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+.lesson-meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.progression-indicator {
+    background: #dbeafe;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: #1e40af;
+    text-align: center;
+}
+
+.no-next-lessons {
+    text-align: center;
+    padding: 2rem;
+    grid-column: 1 / -1;
+}
+
+.no-next-lessons h4 {
+    color: #1e40af;
+    margin-bottom: 0.5rem;
+}
+
+.no-next-lessons p {
+    color: #64748b;
+}
+
+@media (max-width: 768px) {
+    .next-lesson-widget {
+        padding: 1.5rem;
+        margin: 2rem 0;
+    }
+    
+    .next-lessons-container {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<script>
+// Next Lesson Widget - GraphRAG Powered
+(async function() {
+    const { createClient } = supabase;
+    
+    // Initialize Supabase
+    const supabaseUrl = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjg4MDA0NzYsImV4cCI6MjA0NDM3NjQ3Nn0.4eta2Wdz1MgJu63-ka1IQi_FcJBNjHdUe43Q_m5nHjY';
+    const supabaseClient = createClient(supabaseUrl, supabaseKey);
+    
+    async function loadNextLessons() {
+        try {
+            // Get current lesson path from URL
+            const currentPath = window.location.pathname;
+            
+            // Query GraphRAG for lessons that have this lesson as prerequisite
+            const { data: nextLessons, error } = await supabaseClient
+                .from('graphrag_relationships')
+                .select(`
+                    target_path,
+                    confidence,
+                    metadata
+                `)
+                .eq('source_path', currentPath)
+                .eq('relationship_type', 'prerequisite')
+                .order('confidence', { ascending: false });
+            
+            if (error) {
+                console.error('Error loading next lessons:', error);
+                showNoLessons();
+                return;
+            }
+            
+            if (!nextLessons || nextLessons.length === 0) {
+                showNoLessons();
+                return;
+            }
+            
+            // Get details for each next lesson
+            const lessonPaths = nextLessons.map(l => l.target_path);
+            const { data: lessonDetails, error: detailsError } = await supabaseClient
+                .from('graphrag_resources')
+                .select('file_path, title, content_preview, resource_type, subject, year_level')
+                .in('file_path', lessonPaths);
+            
+            if (detailsError) {
+                console.error('Error loading lesson details:', detailsError);
+                showNoLessons();
+                return;
+            }
+            
+            // Render lessons
+            renderNextLessons(lessonDetails, nextLessons);
+            
+        } catch (err) {
+            console.error('Error in loadNextLessons:', err);
+            showNoLessons();
+        }
+    }
+    
+    function renderNextLessons(lessons, relationships) {
+        const container = document.getElementById('next-lessons-container');
+        
+        const html = lessons.map((lesson, index) => {
+            const rel = relationships.find(r => r.target_path === lesson.file_path);
+            const confidence = Math.round((rel?.confidence || 0.85) * 100);
+            const progression = rel?.metadata?.progression || 'Recommended next step';
+            
+            return `
+                <div class="next-lesson-card" onclick="window.location.href='${lesson.file_path}'">
+                    <div class="lesson-badge">Next: Step ${index + 1}</div>
+                    <div class="lesson-title">${lesson.title || 'Untitled Lesson'}</div>
+                    <div class="lesson-description">
+                        ${lesson.content_preview || 'Continue your learning journey with this lesson.'}
+                    </div>
+                    <div class="lesson-meta">
+                        ${lesson.subject ? `<span>📚 ${lesson.subject}</span>` : ''}
+                        ${lesson.year_level ? `<span>🎓 ${lesson.year_level}</span>` : ''}
+                        <span>✨ ${confidence}% match</span>
+                    </div>
+                    <div class="progression-indicator">
+                        ${progression}
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+        container.innerHTML = html;
+    }
+    
+    function showNoLessons() {
+        const container = document.getElementById('next-lessons-container');
+        container.innerHTML = `
+            <div class="no-next-lessons">
+                <h4>🎉 You've completed this learning sequence!</h4>
+                <p>Explore related content or choose a new topic from the main menu.</p>
+            </div>
+        `;
+    }
+    
+    // Load lessons when page loads
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadNextLessons);
+    } else {
+        loadNextLessons();
+    }
+})();
+</script>
+

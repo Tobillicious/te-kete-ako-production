@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link rel="stylesheet" href="/css/te-kete-professional.css">
+ <link rel="stylesheet" href="/css/component-library.css"/>
+ <title>NYT-Quality Wordsearch | Te Kete Ako</title>
+ <style>
+ /* NYT-Style Game Layout */
+ .game-container {
+ display: grid;
+ grid-template-columns: 1fr 300px;
+ gap: 2rem;
+ max-width: 1200px;
+ margin: 2rem auto;
+ padding: 0 1rem;
+ }
+ 
+ .grid-section {
+ background: white;
+ padding: 2rem;
+ border-radius: 16px;
+ box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+ }
+ 
+ .sidebar {
+ background: white;
+ padding: 2rem;
+ border-radius: 16px;
+ box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+ position: sticky;
+ top: 2rem;
+ height: fit-content;
+ }
+ 
+ .wordsearch-grid {
+ display: grid;
+ grid-template-columns: repeat(15, 1fr);
+ gap: 2px;
+ max-width: 600px;
+ margin: 0 auto;
+ -webkit-user-select: none;
+ user-select: none;
+ }
+ 
+ .cell {
+ aspect-ratio: 1;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ background: white;
+ border: 2px solid #e2e8f0;
+ border-radius: 6px;
+ font-weight: 700;
+ font-size: 1.1rem;
+ color: #1a4d2e;
+ cursor: pointer;
+ transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+ font-family: 'Courier New', monospace;
+ }
+ 
+ .cell:hover {
+ background: #f0fdf4;
+ border-color: #86efac;
+ transform: scale(1.08);
+ }
+ 
+ .cell.selecting {
+ background: #fef3c7;
+ border-color: #fbbf24;
+ }
+ 
+ .cell.found {
+ background: #1a4d2e;
+ color: white;
+ border-color: #1a4d2e;
+ animation: foundPulse 0.4s ease;
+ }
+ 
+ @keyframes foundPulse {
+ 0%, 100% { transform: scale(1); }
+ 50% { transform: scale(1.15); }
+ }
+ 
+ /* Sidebar Word List - NYT Style */
+ .word-list-header {
+ font-size: 0.875rem;
+ font-weight: 600;
+ text-transform: uppercase;
+ letter-spacing: 0.05em;
+ color: #64748b;
+ margin-bottom: 1rem;
+ }
+ 
+ .word-item {
+ padding: 0.75rem;
+ margin-bottom: 0.5rem;
+ background: #f8fafc;
+ border-radius: 8px;
+ border-left: 3px solid #1a4d2e;
+ cursor: pointer;
+ transition: all 0.2s;
+ }
+ 
+ .word-item:hover {
+ background: #f0fdf4;
+ transform: translateX(4px);
+ }
+ 
+ .word-item.found {
+ background: #d1fae5;
+ border-left-color: #10b981;
+ text-decoration: line-through;
+ opacity: 0.6;
+ }
+ 
+ .word-text {
+ font-weight: 600;
+ color: #1a4d2e;
+ display: block;
+ font-size: 0.95rem;
+ }
+ 
+ .word-meaning {
+ font-size: 0.8rem;
+ color: #64748b;
+ font-style: italic;
+ margin-top: 0.25rem;
+ display: block;
+ }
+ 
+ /* Progress Bar - NYT Style */
+ .progress-container {
+ background: #f1f5f9;
+ padding: 1.5rem;
+ border-radius: 12px;
+ margin-bottom: 1.5rem;
+ }
+ 
+ .progress-stats {
+ display: flex;
+ justify-content: space-between;
+ margin-bottom: 0.75rem;
+ font-size: 0.875rem;
+ font-weight: 600;
+ }
+ 
+ .progress-bar {
+ height: 8px;
+ background: #e2e8f0;
+ border-radius: 4px;
+ overflow: hidden;
+ }
+ 
+ .progress-fill {
+ height: 100%;
+ background: linear-gradient(90deg, #10b981, #059669);
+ transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+ border-radius: 4px;
+ }
+ 
+ /* Controls */
+ .controls {
+ display: flex;
+ gap: 0.75rem;
+ margin-top: 1.5rem;
+ flex-wrap: wrap;
+ }
+ 
+ .btn {
+ padding: 0.75rem 1.25rem;
+ border: none;
+ border-radius: 8px;
+ font-weight: 600;
+ font-size: 0.875rem;
+ cursor: pointer;
+ transition: all 0.2s;
+ }
+ 
+ .btn-primary {
+ background: #1a4d2e;
+ color: white;
+ }
+ 
+ .btn-primary:hover {
+ background: #2d6a4f;
+ transform: translateY(-1px);
+ box-shadow: 0 4px 12px rgba(26, 77, 46, 0.3);
+ }
+ 
+ .btn-secondary {
+ background: white;
+ color: #1a4d2e;
+ border: 2px solid #1a4d2e;
+ }
+ 
+ .btn-secondary:hover {
+ background: #f0fdf4;
+ }
+ 
+ /* Completion Modal */
+ .modal-overlay {
+ position: fixed;
+ inset: 0;
+ background: rgba(0, 0, 0, 0.6);
+ display: none;
+ align-items: center;
+ justify-content: center;
+ z-index: 1000;
+ animation: fadeIn 0.3s;
+ }
+ 
+ .modal-overlay.active {
+ display: flex;
+ }
+ 
+ .modal {
+ background: white;
+ padding: 3rem;
+ border-radius: 20px;
+ box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+ max-width: 500px;
+ text-align: center;
+ animation: scaleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+ }
+ 
+ @keyframes fadeIn {
+ from { opacity: 0; }
+ to { opacity: 1; }
+ }
+ 
+ @keyframes scaleIn {
+ from { transform: scale(0.8); opacity: 0; }
+ to { transform: scale(1); opacity: 1; }
+ }
+ 
+ .modal h2 {
+ color: #1a4d2e;
+ margin-bottom: 1rem;
+ font-size: 2rem;
+ }
+ 
+ .modal-stats {
+ display: grid;
+ grid-template-columns: repeat(2, 1fr);
+ gap: 1rem;
+ margin: 1.5rem 0;
+ }
+ 
+ .modal-stat {
+ padding: 1rem;
+ background: #f0fdf4;
+ border-radius: 12px;
+ }
+ 
+ .modal-stat-number {
+ font-size: 2rem;
+ font-weight: 700;
+ color: #059669;
+ }
+ 
+ .modal-stat-label {
+ font-size: 0.875rem;
+ color: #64748b;
+ margin-top: 0.25rem;
+ }
+ 
+ /* Mobile Responsive */
+ @media (max-width: 968px) {
+ .game-container {
+ grid-template-columns: 1fr;
+ }
+ 
+ .sidebar {
+ position: static;
+ order: -1;
+ }
+ 
+ .cell {
+ font-size: 0.95rem;
+ }
+ }
+ 
+ @media (max-width: 640px) {
+ .cell {
+ font-size: 0.85rem;
+ border-width: 1px;
+ }
+ 
+ .wordsearch-grid {
+ gap: 1px;
+ }
+ }
+ 
+ /* Print Layout - 2 per A4 */
+ @media print {
+ @page { size: A4 portrait; margin: 10mm; }
+ 
+ .no-print { display: none !important; }
+ 
+ .game-container {
+ display: block;
+ max-width: 100%;
+ }
+ 
+ .grid-section {
+ box-shadow: none;
+ padding: 5mm;
+ }
+ 
+ .wordsearch-grid {
+ max-width: 160mm;
+ gap: 0.5mm;
+ }
+ 
+ .cell {
+ font-size: 9pt;
+ border: 0.5pt solid #1a4d2e;
+ }
+ 
+ .sidebar {
+ page-break-before: always;
+ box-shadow: none;
+ }
+ 
+ .word-list-header {
+ font-size: 10pt;
+ }
+ 
+ .word-item {
+ font-size: 8pt;
+ margin-bottom: 1mm;
+ padding: 1mm;
+ }
+ 
+ .word-meaning {
+ display: none;
+ }
+ }
+ </style>
+</head>
+<body>
+ <script>
+ fetch('/components/navigation-standard.html').then(r=>r.text()).then(h=>{const d=document.createElement('div');d.innerHTML=h;document.body.insertBefore(d.firstElementChild,document.body.firstChild)});
+ </script>
+
+ <main role="main" style="padding: 2rem 0;">
+ 
+ <div style="text-align: center; margin-bottom: 2rem;" class="no-print">
+ <h1 style="color: #1a4d2e; font-size: 2.5rem; margin-bottom: 0.5rem;">🔍 Wordsearch</h1>
+ <p style="font-size: 1.1rem; color: #64748b;">Find all the hidden words</p>
+ </div>
+ 
+ <div class="game-container">
+ 
+ <!-- Main Grid Section -->
+ <div class="grid-section">
+ <div class="wordsearch-grid" id="grid">
+ <!-- Generated by JavaScript -->
+ </div>
+ 
+ <div class="controls no-print">
+ <button class="btn btn-primary" onclick="resetGame()">🔄 New Puzzle</button>
+ <button class="btn btn-secondary" onclick="showHint()">💡 Hint</button>
+ <button class="btn btn-secondary" onclick="window.print()">🖨️ Print</button>
+ </div>
+ </div>
+ 
+ <!-- Sidebar Word List -->
+ <div class="sidebar">
+ <div class="progress-container">
+ <div class="progress-stats">
+ <span><span id="found-count">0</span>/<span id="total-count">15</span> Found</span>
+ <span id="timer">0:00</span>
+ </div>
+ <div class="progress-bar">
+ <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+ </div>
+ </div>
+ 
+ <div class="word-list-header">Words to Find</div>
+ <div id="word-list">
+ <!-- Generated by JavaScript -->
+ </div>
+ </div>
+ 
+ </div>
+ 
+ </main>
+ 
+ <!-- Completion Modal -->
+ <div class="modal-overlay" id="completion-modal">
+ <div class="modal">
+ <h2>🎉 Kei te pai!</h2>
+ <p style="font-size: 1.1rem; color: #64748b; margin-bottom: 1.5rem;">
+ You found all the words!
+ </p>
+ <div class="modal-stats">
+ <div class="modal-stat">
+ <div class="modal-stat-number" id="modal-time">0:00</div>
+ <div class="modal-stat-label">Time</div>
+ </div>
+ <div class="modal-stat">
+ <div class="modal-stat-number" id="modal-words">15</div>
+ <div class="modal-stat-label">Words</div>
+ </div>
+ </div>
+ <button class="btn btn-primary" style="margin-top: 1.5rem; width: 100%;" onclick="resetGame()">
+ Play Again
+ </button>
+ </div>
+ </div>
+ 
+ <div id="footer-component" class="no-print"></div>
+ <script src="/js/shared-components.js" defer></script>
+ 
+ <script>
+ // GAME ENGINE - NYT Quality
+ class WordSearchGame {
+ constructor(words, grid) {
+ this.words = words;
+ this.grid = grid;
+ this.foundWords = new Set();
+ this.selecting = false;
+ this.selectedCells = [];
+ this.startTime = Date.now();
+ this.timerInterval = null;
+ 
+ this.init();
+ }
+ 
+ init() {
+ this.renderGrid();
+ this.renderWordList();
+ this.startTimer();
+ this.loadProgress();
+ this.updateProgress();
+ }
+ 
+ renderGrid() {
+ const gridEl = document.getElementById('grid');
+ gridEl.innerHTML = '';
+ 
+ this.grid.forEach((row, r) => {
+ row.forEach((letter, c) => {
+ const cell = document.createElement('div');
+ cell.className = 'cell';
+ cell.textContent = letter;
+ cell.dataset.row = r;
+ cell.dataset.col = c;
+ 
+ // Mouse events
+ cell.addEventListener('mousedown', (e) => {
+ e.preventDefault();
+ this.startSelection(cell);
+ });
+ cell.addEventListener('mouseenter', () => this.continueSelection(cell));
+ cell.addEventListener('mouseup', () => this.endSelection());
+ 
+ // Touch events
+ cell.addEventListener('touchstart', (e) => {
+ e.preventDefault();
+ this.startSelection(cell);
+ });
+ cell.addEventListener('touchmove', (e) => {
+ e.preventDefault();
+ const touch = e.touches[0];
+ const element = document.elementFromPoint(touch.clientX, touch.clientY);
+ if (element && element.classList.contains('cell')) {
+ this.continueSelection(element);
+ }
+ });
+ cell.addEventListener('touchend', () => this.endSelection());
+ 
+ gridEl.appendChild(cell);
+ });
+ });
+ 
+ document.addEventListener('mouseup', () => this.endSelection());
+ }
+ 
+ renderWordList() {
+ const listEl = document.getElementById('word-list');
+ listEl.innerHTML = '';
+ 
+ Object.keys(this.words).forEach(word => {
+ const item = document.createElement('div');
+ item.className = 'word-item';
+ if (this.foundWords.has(word)) {
+ item.classList.add('found');
+ }
+ 
+ item.innerHTML = `
+ <span class="word-text">${word}</span>
+ <span class="word-meaning">${this.words[word]}</span>
+ `;
+ 
+ listEl.appendChild(item);
+ });
+ }
+ 
+ startSelection(cell) {
+ this.selecting = true;
+ this.selectedCells = [cell];
+ cell.classList.add('selecting');
+ }
+ 
+ continueSelection(cell) {
+ if (!this.selecting) return;
+ if (this.selectedCells.includes(cell)) return;
+ 
+ // Check if selection is in a valid line (straight or diagonal)
+ if (this.selectedCells.length > 0) {
+ if (!this.isValidSelection(cell)) return;
+ }
+ 
+ this.selectedCells.push(cell);
+ cell.classList.add('selecting');
+ }
+ 
+ isValidSelection(newCell) {
+ if (this.selectedCells.length === 0) return true;
+ if (this.selectedCells.length === 1) return true;
+ 
+ const first = this.selectedCells[0];
+ const second = this.selectedCells[1];
+ const newR = parseInt(newCell.dataset.row);
+ const newC = parseInt(newCell.dataset.col);
+ 
+ const firstR = parseInt(first.dataset.row);
+ const firstC = parseInt(first.dataset.col);
+ const secondR = parseInt(second.dataset.row);
+ const secondC = parseInt(second.dataset.col);
+ 
+ const dr = Math.sign(secondR - firstR);
+ const dc = Math.sign(secondC - firstC);
+ 
+ const expectedR = parseInt(this.selectedCells[this.selectedCells.length - 1].dataset.row) + dr;
+ const expectedC = parseInt(this.selectedCells[this.selectedCells.length - 1].dataset.col) + dc;
+ 
+ return newR === expectedR && newC === expectedC;
+ }
+ 
+ endSelection() {
+ if (!this.selecting) return;
+ this.selecting = false;
+ 
+ const word = this.selectedCells.map(c => c.textContent).join('');
+ const wordReverse = word.split('').reverse().join('');
+ 
+ let foundWord = null;
+ if (this.words[word] && !this.foundWords.has(word)) {
+ foundWord = word;
+ } else if (this.words[wordReverse] && !this.foundWords.has(wordReverse)) {
+ foundWord = wordReverse;
+ }
+ 
+ if (foundWord) {
+ // Mark as found
+ this.foundWords.add(foundWord);
+ this.selectedCells.forEach(c => {
+ c.classList.remove('selecting');
+ c.classList.add('found');
+ });
+ 
+ this.renderWordList();
+ this.updateProgress();
+ this.saveProgress();
+ 
+ // Check completion
+ if (this.foundWords.size === Object.keys(this.words).length) {
+ setTimeout(() => this.showCompletion(), 600);
+ }
+ } else {
+ // Clear selection
+ this.selectedCells.forEach(c => c.classList.remove('selecting'));
+ }
+ 
+ this.selectedCells = [];
+ }
+ 
+ updateProgress() {
+ const found = this.foundWords.size;
+ const total = Object.keys(this.words).length;
+ const percentage = (found / total) * 100;
+ 
+ document.getElementById('found-count').textContent = found;
+ document.getElementById('total-count').textContent = total;
+ document.getElementById('progress-fill').style.width = percentage + '%';
+ }
+ 
+ startTimer() {
+ this.timerInterval = setInterval(() => {
+ const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
+ const minutes = Math.floor(elapsed / 60);
+ const seconds = elapsed % 60;
+ document.getElementById('timer').textContent = 
+ `${minutes}:${seconds.toString().padStart(2, '0')}`;
+ }, 1000);
+ }
+ 
+ showCompletion() {
+ const elapsed = document.getElementById('timer').textContent;
+ document.getElementById('modal-time').textContent = elapsed;
+ document.getElementById('modal-words').textContent = this.foundWords.size;
+ document.getElementById('completion-modal').classList.add('active');
+ }
+ 
+ saveProgress() {
+ localStorage.setItem('wordsearch-progress', JSON.stringify({
+ foundWords: Array.from(this.foundWords),
+ startTime: this.startTime,
+ date: new Date().toISOString()
+ }));
+ }
+ 
+ loadProgress() {
+ const saved = localStorage.getItem('wordsearch-progress');
+ if (!saved) return;
+ 
+ try {
+ const data = JSON.parse(saved);
+ const savedDate = new Date(data.date);
+ 
+ if (savedDate.toDateString() === new Date().toDateString()) {
+ this.foundWords = new Set(data.foundWords);
+ this.startTime = data.startTime;
+ this.renderWordList();
+ this.updateProgress();
+ 
+ // Mark cells as found
+ // (would need position data to reconstruct)
+ }
+ } catch (e) {
+ console.error('Error loading progress:', e);
+ }
+ }
+ }
+ 
+ // DEMO DATA - Will be replaced with lesson-specific vocabulary
+ const DEMO_WORDS = {
+ 'PATTERN': 'A repeated arrangement following a rule',
+ 'SEQUENCE': 'An ordered list of numbers or objects',
+ 'ALGEBRA': 'Mathematics using symbols for numbers',
+ 'VARIABLE': 'A symbol representing an unknown value',
+ 'EQUATION': 'A mathematical statement of equality',
+ 'TERM': 'Individual element in a sequence',
+ 'NUMBER': 'Mathematical symbol for quantity',
+ 'FORMULA': 'A mathematical rule using symbols',
+ 'EXPRESSION': 'Mathematical phrase with variables',
+ 'SOLUTION': 'The answer to an equation',
+ 'COEFFICIENT': 'Number multiplied by a variable',
+ 'SYMBOL': 'Character representing a concept',
+ 'TUKUTUKU': 'Traditional Māori lattice-work panels',
+ 'OPERATION': 'Mathematical process (add, subtract, etc)',
+ 'GRAPH': 'Visual representation of data or functions'
+ };
+ 
+ const DEMO_GRID = [
+ ['E','X','P','R','E','S','S','I','O','N','B','E','T','T','A'],
+ ['S','X','I','O','I','L','L','O','C','U','L','N','U','E','M'],
+ ['H','U','E','R','U','R','M','R','I','B','E','E','P','R','R'],
+ ['E','I','K','N','I','N','U','E','A','I','D','R','A','U','M'],
+ ['C','T','E','R','M','P','O','I','C','P','B','N','R','O','R'],
+ ['O','M','U','L','O','F','R','A','I','P','R','E','V','E','R'],
+ ['E','Q','U','A','T','I','O','N','T','U','K','U','T','U','K'],
+ ['F','P','A','T','T','E','R','N','N','U','M','B','E','R','U'],
+ ['F','A','R','B','E','G','L','A','O','I','T','U','L','O','S'],
+ ['I','L','L','A','S','E','Q','U','E','N','C','E','B','M','Y'],
+ ['C','G','Y','M','B','O','L','I','O','T','A','R','E','P','O'],
+ ['I','E','N','O','I','T','A','R','E','P','O','M','L','A','G'],
+ ['E','B','I','S','O','L','U','T','I','O','N','G','R','A','P'],
+ ['N','R','V','A','R','I','A','B','L','E','T','H','E','M','H'],
+ ['T','A','C','O','D','E','E','N','U','M','E','R','A','C','Y']
+ ];
+ 
+ // Initialize game
+ let game;
+ document.addEventListener('DOMContentLoaded', () => {
+ game = new WordSearchGame(DEMO_WORDS, DEMO_GRID);
+ });
+ 
+ function resetGame() {
+ document.getElementById('completion-modal').classList.remove('active');
+ location.reload();
+ }
+ 
+ function showHint() {
+ const unfound = Object.keys(DEMO_WORDS).filter(w => !game.foundWords.has(w));
+ if (!unfound.length) {
+ alert('You found all words! 🎉');
+ return;
+ }
+ const hint = unfound[Math.floor(Math.random() * unfound.length)];
+ alert(`💡 Hint: Look for "${hint}"\n\n${DEMO_WORDS[hint]}`);
+ }
+ 
+ // Load footer
+ fetch('/components/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-component').innerHTML=h});
+ </script>
+</body>
+</html>
+

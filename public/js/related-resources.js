@@ -66,7 +66,7 @@ async function loadRelatedLessons() {
     try {
         // Build query based on current resource
         let query = supabaseClient
-            .from('resources')
+            .from('graphrag_resources')
             .select('title, path, subject, level, tags')
             .eq('type', 'lesson')
             .eq('is_active', true);
@@ -118,7 +118,7 @@ async function loadRelatedHandouts() {
     
     try {
         let query = supabaseClient
-            .from('resources')
+            .from('graphrag_resources')
             .select('title, path, subject, level')
             .eq('type', 'handout')
             .eq('is_active', true);
@@ -164,7 +164,7 @@ async function loadRelatedUnits() {
     
     try {
         let query = supabaseClient
-            .from('resources')
+            .from('graphrag_resources')
             .select('title, path, description, subject, level')
             .eq('type', 'unit-plan')
             .eq('is_active', true);
@@ -209,7 +209,7 @@ async function findBySimilarTags(tags, type, limit = 3) {
     
     try {
         const { data, error } = await supabaseClient
-            .from('resources')
+            .from('graphrag_resources')
             .select('title, path, subject, level, tags')
             .eq('type', type)
             .eq('is_active', true)

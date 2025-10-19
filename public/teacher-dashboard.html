@@ -1,446 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher Dashboard - Te Kete Ako</title>
-    <link rel="stylesheet" href="/css/te-kete-transformative-design-system.css"/>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .dashboard-card {
-            background: white;
-            border-radius: 16px;
-            padding: 2rem;
-            margin: 1rem 0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            border-left: 6px solid #059669;
-        }
-        .action-btn {
-            background: linear-gradient(135deg, #059669 0%, #0284c7 100%);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(5,150,105,0.3);
-        }
-        .lesson-card {
-            background: linear-gradient(135deg, #f0fdf4 0%, #dbeafe 100%);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            border-left: 4px solid #059669;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .lesson-card:hover {
-            transform: translateX(8px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .variant-selector {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-        .variant-option {
-            background: white;
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .variant-option:hover {
-            border-color: #059669;
-            transform: scale(1.05);
-        }
-        .variant-option.selected {
-            border-color: #059669;
-            background: linear-gradient(135deg, #f0fdf4 0%, #dbeafe 100%);
-        }
-        .cultural-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            margin: 0.25rem;
-        }
-        .tab {
-            padding: 1rem 2rem;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s ease;
-        }
-        .tab.active {
-            border-bottom-color: #059669;
-            font-weight: 600;
-        }
-        .whakatauki-box {
-            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
-            color: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin: 1rem 0;
-            font-style: italic;
-        }
-    </style>
-</head>
-<body class="bg-gradient-to-br from-green-50 to-blue-50 min-h-screen">
-    <div class="container mx-auto max-w-7xl p-6">
-        <!-- Header -->
-        <div class="bg-white rounded-2xl shadow-xl p-6 mb-6">
-            <h1 class="text-4xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-                🎓 Teacher Dashboard
-            </h1>
-            <p class="text-gray-600 mt-2">AI-powered lesson planning • Cultural intelligence • Teaching variants</p>
-        </div>
-
-        <!-- Tabs -->
-        <div class="bg-white rounded-t-2xl shadow-lg flex overflow-x-auto">
-            <div class="tab active" onclick="switchTab('planner')">📚 Lesson Planner</div>
-            <div class="tab" onclick="switchTab('classes')">👥 My Classes</div>
-            <div class="tab" onclick="switchTab('favorites')">⭐ Favorites</div>
-            <div class="tab" onclick="switchTab('ai-assistant')">🤖 AI Assistant</div>
-        </div>
-
-        <!-- Tab Content -->
-        <div id="planner-tab" class="dashboard-card">
-            <h2 class="text-3xl font-bold mb-4">📚 AI-Powered Lesson Planner</h2>
-            
-            <!-- Whakataukī of the Day -->
-            <div class="whakatauki-box">
-                <p class="text-xl mb-2" id="whakatauki-text">Ko te akoranga te putake o te ora</p>
-                <p class="text-sm opacity-90" id="whakatauki-meaning">Education is the foundation of wellbeing</p>
-            </div>
-
-            <!-- Quick Create -->
-            <div class="bg-gray-50 rounded-lg p-6 mb-6">
-                <h3 class="text-2xl font-bold mb-4">Create New Lesson Plan</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label class="block text-sm font-semibold mb-2">Subject</label>
-                        <select id="subject" class="w-full p-3 border rounded-lg">
-                            <option value="">Select subject...</option>
-                            <option value="mathematics">Mathematics</option>
-                            <option value="science">Science</option>
-                            <option value="english">English</option>
-                            <option value="te_ao_maori">Te Ao Māori</option>
-                            <option value="social_studies">Social Studies</option>
-                            <option value="technology">Technology</option>
-                            <option value="arts">Arts</option>
-                            <option value="health_pe">Health & PE</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold mb-2">Year Level</label>
-                        <select id="yearLevel" class="w-full p-3 border rounded-lg">
-                            <option value="">Select year...</option>
-                            <option value="Y7">Year 7</option>
-                            <option value="Y8">Year 8</option>
-                            <option value="Y9">Year 9</option>
-                            <option value="Y10">Year 10</option>
-                            <option value="Y11">Year 11</option>
-                            <option value="Y12">Year 12</option>
-                            <option value="Y13">Year 13</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-semibold mb-2">Topic or Learning Objective</label>
-                    <input type="text" id="topic" placeholder="e.g., Climate Change, Algebraic Equations, Pōwhiri Protocol..." 
-                           class="w-full p-3 border rounded-lg"/>
-                </div>
-                <button onclick="findLessons()" class="action-btn">🔍 Find Lessons from GraphRAG</button>
-                <button onclick="generateWithAI()" class="action-btn ml-2">🤖 Generate New Lesson with AI</button>
-            </div>
-
-            <!-- Lesson Results -->
-            <div id="lessonResults" class="hidden">
-                <h3 class="text-2xl font-bold mb-4">📖 Available Lessons</h3>
-                <div id="lessonList"></div>
-            </div>
-
-            <!-- Teaching Variant Selector -->
-            <div id="variantSelector" class="hidden">
-                <h3 class="text-2xl font-bold mb-4">🎓 Choose Your Teaching Approach</h3>
-                <p class="text-gray-600 mb-4">Select the pedagogical approach that best suits your class:</p>
-                
-                <div class="variant-selector">
-                    <div class="variant-option" onclick="selectVariant('inquiry')">
-                        <div class="text-4xl mb-2">🔍</div>
-                        <h4 class="font-bold">Inquiry-Based</h4>
-                        <p class="text-sm text-gray-600 mt-2">Student-led discovery</p>
-                        <span class="cultural-badge">Rangatiratanga</span>
-                    </div>
-                    <div class="variant-option" onclick="selectVariant('collaborative')">
-                        <div class="text-4xl mb-2">🤝</div>
-                        <h4 class="font-bold">Collaborative</h4>
-                        <p class="text-sm text-gray-600 mt-2">Group learning</p>
-                        <span class="cultural-badge">Whanaungatanga</span>
-                    </div>
-                    <div class="variant-option" onclick="selectVariant('guided')">
-                        <div class="text-4xl mb-2">📚</div>
-                        <h4 class="font-bold">Guided Learning</h4>
-                        <p class="text-sm text-gray-600 mt-2">Teacher-led scaffolding</p>
-                        <span class="cultural-badge">Ako</span>
-                    </div>
-                    <div class="variant-option" onclick="selectVariant('project')">
-                        <div class="text-4xl mb-2">🎯</div>
-                        <h4 class="font-bold">Project-Based</h4>
-                        <p class="text-sm text-gray-600 mt-2">Extended projects</p>
-                        <span class="cultural-badge">Kotahitanga</span>
-                    </div>
-                    <div class="variant-option" onclick="selectVariant('experiential')">
-                        <div class="text-4xl mb-2">🌟</div>
-                        <h4 class="font-bold">Experiential</h4>
-                        <p class="text-sm text-gray-600 mt-2">Hands-on experience</p>
-                        <span class="cultural-badge">Manaakitanga</span>
-                    </div>
-                </div>
-
-                <div id="variantDetails" class="hidden mt-6 p-6 bg-green-50 rounded-lg"></div>
-                <button onclick="saveLessonPlan()" class="action-btn mt-4">💾 Save to My Lesson Plans</button>
-            </div>
-
-            <!-- Saved Plans -->
-            <div class="mt-8">
-                <h3 class="text-2xl font-bold mb-4">📋 My Lesson Plans</h3>
-                <div id="savedPlans"></div>
-            </div>
-        </div>
-
-        <!-- Classes Tab -->
-        <div id="classes-tab" class="dashboard-card hidden">
-            <h2 class="text-3xl font-bold mb-4">👥 My Classes</h2>
-            <button onclick="createClass()" class="action-btn mb-4">➕ Add New Class</button>
-            <div id="classList"></div>
-        </div>
-
-        <!-- Favorites Tab -->
-        <div id="favorites-tab" class="dashboard-card hidden">
-            <h2 class="text-3xl font-bold mb-4">⭐ Favorite Resources</h2>
-            <div id="favoritesList"></div>
-        </div>
-
-        <!-- AI Assistant Tab -->
-        <div id="ai-assistant-tab" class="dashboard-card hidden">
-            <h2 class="text-3xl font-bold mb-4">🤖 AI Teaching Assistant</h2>
-            <div class="bg-gray-50 rounded-lg p-6">
-                <p class="text-lg mb-4">Ask me anything about lesson planning, curriculum, or pedagogy!</p>
-                <textarea id="aiQuestion" rows="4" placeholder="e.g., How can I integrate Te Ao Māori perspectives into my maths lesson on fractions?" 
-                          class="w-full p-4 border rounded-lg mb-4"></textarea>
-                <button onclick="askAI()" class="action-btn">🚀 Ask AI</button>
-                <div id="aiResponse" class="mt-6 hidden"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Load Dependencies -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!DOCTYPE html><html lang="en"><head>
+    <!-- Professional Design System -->
+<link rel="stylesheet" href="/css/te-kete-professional.css">
+<!-- 🎨 ULTIMATE BEAUTY SYSTEM - Te Kete Ako Design Excellence -->
+<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="/tailwind.config.ultimate.js"></script>
+<!-- END ULTIMATE BEAUTY SYSTEM --><meta content="te-ao-maori-integrated" name="cultural-context"/><!-- Performance: Optimize rendering --><meta content="telephone=no" name="format-detection"/><meta content="#1b4332" name="theme-color"/><meta content="light" name="color-scheme"/><!-- Performance: DNS prefetch for external domains --><link href="//fonts.googleapis.com" rel="dns-prefetch"/><link href="//fonts.gstatic.com" rel="dns-prefetch"/><link href="//cdn.jsdelivr.net" rel="dns-prefetch"/><!-- Performance: Preload critical resources --><link as="style" href="/css/te-kete-professional.css" rel="preload"/><link as="script" href="/js/te-kete-professional.js" rel="preload"/><link as="style" crossorigin="" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Lato:wght@300;400;700&amp;family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&amp;display=swap&amp;display=swap" rel="preload"/><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><title>Teacher Dashboard | Te Kete Ako</title><link href="/components/badge-system.html" rel="stylesheet"/><link href="/css/print.css" media="print" rel="stylesheet"><link href="/css/te-kete-professional.css" rel="stylesheet"><link href="/css/ux-professional-enhancements.css" rel="stylesheet"><script defer="" src="/js/breadcrumbs.js"></script><link href="/css/west-coast-nz-colors.css" rel="stylesheet"/></link></link></link></head><body data-auto-init="true" data-current-page="teacher-dashboard" class="pattern-koru-subtle"><header class="site-header no-print"><div class="nav-container"><a class="nav-brand" href="/index.html">Te Kete Ako</a><nav class="main-nav"><ul><li><a href="/unit-plans.html"><span class="nav-icon">📚</span><span class="nav-text-en">Unit Plans</span><span class="nav-text-mi" lang="mi">Ngā Waehere</span></a></li><li><a href="/teachers/index.html"><span class="nav-icon">🧑‍🏫</span><span class="nav-text-en">Teachers</span><span class="nav-text-mi" lang="mi">Ngā Kaiako</span></a></li><li><a href="/lessons.html"><span class="nav-icon">🎓</span><span class="nav-text-en">Lessons</span><span class="nav-text-mi" lang="mi">Ngā Akoranga</span></a></li><li><a href="/handouts.html"><span class="nav-icon">📄</span><span class="nav-text-en">Handouts</span><span class="nav-text-mi" lang="mi">Ngā Rauemi</span></a></li><li><a href="/games.html"><span class="nav-icon">🎮</span><span class="nav-text-en">Games</span><span class="nav-text-mi" lang="mi">Ngā Kēmu</span></a></li><li class="auth-nav my-kete-link auth-hidden"><a href="/my-kete.html"><span class="nav-icon">🧺</span>                            My Kete                        </a></li><li class="auth-nav"><a class="login-btn" href="/login.html"><span class="nav-icon">👤</span>                            Login                        </a></li><li class="auth-nav auth-hidden"><a class="register-btn" href="/register-simple.html"><span class="nav-icon">📝</span>                            Register                        </a></li></ul></nav><nav aria-label="Breadcrumb" class="breadcrumbs no-print"><ol class="breadcrumbs-list" id="breadcrumbs"></ol></nav></div></header><div id="search-container"></div><div class="mobile-nav-overlay" id="mobileNavOverlay"></div><div class="teacher-dashboard"><aside class="sidebar"><h2 class="wiley-section-title">🍃 Kaiako Dashboard</h2><ul class="sidebar-nav"><li><button class="nav-btn active" data-section="overview"><span>📊</span> Overview</button></li><li><button class="nav-btn" data-section="students"><span>👥</span> My Students</button></li><li><button class="nav-btn" data-section="submissions"><span>📤</span> Submissions</button></li><li><button class="nav-btn" data-section="collaboration"><span>🤝</span> Group Work</button></li><li><button class="nav-btn" data-section="analytics"><span>📈</span> Analytics</button></li><li><button class="nav-btn" data-section="resources"><span>📚</span> Resources</button></li><li><button class="nav-btn" data-section="settings"><span>⚙️</span> Settings</button></li></ul><div class="sidebar-actions"><div class="quick-actions-container"><h4 class="quick-actions-title">Quick Actions</h4><button class="btn btn-outline btn-full-width-mb" data-action="createNewAssignment">New Assignment</button><button class="btn btn-outline btn-full-width" data-action="exportData">Export Data</button></div><button class="logout-button" id="logout-btn">Logout</button></div></aside>    <!-- Professional Mega Menu Navigation -->
+    <div id="beautiful-nav-container"></div>
     <script>
-        window.ENV = {
-            SUPABASE_URL: 'https://nlgldaqtubrlcqddppbq.supabase.co',
-            SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc5OTY5OTQsImV4cCI6MjA0MzU3Mjk5NH0.wScWM7v-VltrUqKDFm0BSRFH9ZjPy4oEKU5Y_gVDcRA'
-        };
-        const supabase = supabase.createClient(window.ENV.SUPABASE_URL, window.ENV.SUPABASE_ANON_KEY);
+        fetch('/components/navigation-standard.html')
+            .then(r => r.text())
+            .then(html => {
+                const div = document.createElement('div');
+                div.innerHTML = html;
+                document.body.insertBefore(div.firstElementChild, document.body.firstChild);
+            });
     </script>
+    <main class="main-content" role="main"><button class="mobile-menu-toggle">☰ Menu</button><!-- Overview Section --><section class="dashboard-section active" id="overview"><div class="dashboard-header"><div class="flex"><div><h1 class="wiley-hero-title" id="welcome-message">Kia ora, Kaiako!</h1><p class="teacher-info-text" id="teacher-info">Welcome to your teaching dashboard</p></div><div class="dashboard-header-right"><div class="current-date" id="current-date"></div><div class="school-name">Mangakōtukutuku College</div></div></div><div class="bg-cultural-light"><p class="whakatauki">"Ko te manu e kai ana i te miro, nōna te ngahere. Ko te manu e kai ana i te mātauranga, nōna te ao."</p><p class="whakatauki-translation">The bird that partakes of the miro berry owns the forest. The bird that partakes of knowledge owns the world.</p></div></div><div class="stats-overview"><div class="stat-card"><div class="stat-number" id="total-students">-</div><div class="stat-label">Active Students</div><div class="stat-description">Currently enrolled in your classes</div></div><div class="stat-card"><div class="stat-number" id="pending-submissions">-</div><div class="stat-label">Pending Reviews</div><div class="stat-description">Submissions awaiting your feedback</div></div><div class="stat-card"><div class="stat-number" id="cultural-engagement">-</div><div class="stat-label">Cultural Engagement</div><div class="stat-description">Average Te Ao Māori integration score</div></div><div class="stat-card"><div class="stat-number" id="collaboration-score">-</div><div class="stat-label">Collaboration Success</div><div class="stat-description">Group work effectiveness rating</div></div></div><div class="content-grid"><div class="card"><h3><span>📈</span> Weekly Activity Overview</h3><div class="chart-placeholder">                            Interactive charts showing student engagement, submission patterns, and cultural integration metrics will be displayed here once connected to the Supabase database.                        </div></div><div class="card"><h3><span>🚨</span> Attention Needed</h3><div id="attention-items"><div class="alert alert-info"><strong>Ready for Dynamic Data!</strong><br/>                                Once connected to Supabase, this will show students who need extra support, overdue submissions, and collaboration issues.                            </div></div></div></div><div class="card"><h3><span>🎯</span> Recent Activity</h3><div id="recent-teacher-activity"><div class="submission-item"><div class="submission-info"><h4>Society Design Project - Group Alpha</h4><p>Submitted 2 hours ago • Awaiting initial review</p></div><div class="action-buttons"><button class="btn btn-primary" data-action="reviewSubmission" data-assignment="alpha-society">Review</button></div></div><div class="submission-item"><div class="submission-info"><h4>Do NOW Response - Systems Thinking</h4><p>Multiple submissions • 3 students need feedback</p></div><div class="action-buttons"><button class="btn btn-secondary" data-action="bulkReview" data-assignment="systems-thinking">Bulk Review</button></div></div></div></div></section><section class="cultural-integration" style="background: linear-gradient(135deg, #fff7ed, #ffedd5); padding: 2rem; border-radius: 12px; margin: 2rem 0; border-left: 4px solid var(--color-accent); box-shadow: 0 2px 8px rgba(0,0,0,0.1);"><h2 style="color: var(--color-primary); margin-top: 0; display: flex; align-items: center; gap: 0.5rem;"><span>🌿</span><span>Cultural Context | Horopaki Ahurea</span></h2><div class="whakatauaki-section" style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: center; border: 2px solid var(--color-accent);"><h3 style="font-size: 0.9rem; color: var(--color-text-secondary); margin: 0 0 0.5rem; text-transform: uppercase; letter-spacing: 1px;">Whakataukī</h3><p style="font-size: 1.3rem; font-style: italic; color: var(--color-primary); margin: 0.5rem 0; font-weight: 500;">"Ko te akoranga te pūtake o te ora"</p><p style="font-size: 1rem; color: var(--color-text-secondary); margin: 0.5rem 0;">"Education is the foundation of wellbeing"</p></div><div class="house-values" style="background: white; padding: 1.5rem; border-radius: 8px;"><h3 style="font-size: 1rem; color: var(--color-primary); margin-top: 0;">🏛️ Connection to Mangakōtukutuku College Values</h3><div style="background: rgba(241, 143, 1, 0.1); padding: 1rem; border-radius: 6px; border-left: 3px solid var(--color-accent);"><p style="margin: 0; font-size: 0.95rem;"><strong style="color: var(--color-accent); text-transform: capitalize;">Whaiora:</strong> Wellbeing - Caring for collective health and prosperity                </p><p style="margin: 0.75rem 0 0; font-size: 0.9rem; color: var(--color-text-secondary);">                    This learning connects to the value of <strong>whaiora</strong> by encouraging students to [engage with content in ways that embody this value].                </p></div></div><div class="cultural-safety" style="background: rgba(27, 67, 50, 0.05); padding: 1rem; border-radius: 8px; margin-top: 1rem;"><h4 style="font-size: 0.95rem; color: var(--color-primary); margin: 0 0 0.5rem;">🛡️ Cultural Safety Considerations</h4><ul style="font-size: 0.9rem; margin: 0; color: var(--color-text-secondary);"><li>Approach Māori content with respect and openness</li><li>Recognize students' diverse cultural backgrounds and experiences</li><li>Create space for Māori students to share their perspectives</li><li>Consult with whānau and local iwi for culturally sensitive topics</li></ul></div></section><!-- Students Section --><section class="dashboard-section" id="students"><div class="dashboard-header"><h2 class="wiley-section-title">👥 My Students</h2><p>Monitor individual progress and provide personalized support</p></div><div class="content-grid"><div class="card"><h3><span>🎓</span> Student Overview</h3><div class="student-list" id="students-list"><!-- Sample students for demo --><div class="student-item"><div class="student-info"><div class="student-avatar">KM</div><div class="student-details"><h4>Kaia Mitchell</h4><p>Year 8 • Last active: 2 hours ago</p></div></div><span class="status-indicator status-active">Active</span></div><div class="student-item"><div class="student-info"><div class="student-avatar">TW</div><div class="student-details"><h4>Tane Williams</h4><p>Year 8 • Last active: 1 day ago</p></div></div><span class="status-indicator status-pending">Review Due</span></div><div class="student-item"><div class="student-info"><div class="student-avatar">AR</div><div class="student-details"><h4>Aria Robinson</h4><p>Year 8 • Last active: 3 days ago</p></div></div><span class="status-indicator status-needs-attention">Check In Needed</span></div></div></div><div class="card"><h3><span>📊</span> Class Progress</h3><div class="chart-placeholder">                            Individual student progress charts, cultural engagement scores, and collaboration effectiveness will be displayed here.                        </div></div></div></section><!-- Submissions Section --><section class="dashboard-section" id="submissions"><div class="dashboard-header"><h2 class="wiley-section-title">📤 Project Submissions</h2><p>Review and provide feedback on student work</p></div><div class="card"><h3><span>🏛️</span> Recent Submissions</h3><div id="submissions-list"><div class="submission-item"><div class="submission-info"><h4>Society Design: "Sustainable Aotearoa"</h4><p>Group Beta • Submitted 1 hour ago • Government system focus</p></div><div class="action-buttons"><button class="btn btn-primary" data-action="reviewSubmission" data-assignment="beta-society">Review Now</button><button class="btn btn-outline" data-action="viewProject" data-assignment="beta-society">View Details</button></div></div><div class="submission-item"><div class="submission-info"><h4>Cultural Integration Reflection</h4><p>Individual • Multiple students • Te Ao Māori perspectives</p></div><div class="action-buttons"><button class="btn btn-secondary" data-action="bulkReview" data-assignment="cultural-reflection">Bulk Review</button></div></div></div></div></section><!-- Collaboration Section --><section class="dashboard-section" id="collaboration"><div class="dashboard-header"><h2 class="wiley-section-title">🤝 Collaborative Groups</h2><p>Monitor group dynamics and collaboration effectiveness</p></div><div class="collaboration-groups"><div class="group-card"><div class="group-header"><h4>Group Alpha: "Te Whakatōhea Nation"</h4><span class="status-indicator status-active">Active</span></div><div class="group-members"><span class="member-tag">Kaia (Design Leader)</span><span class="member-tag">Tane (Research Coord)</span><span class="member-tag">Aria (Cultural Consultant)</span><span class="member-tag">Jamie (Systems Analyst)</span></div><div class="action-buttons"><button class="btn btn-primary" data-action="viewGroupProgress" data-group="alpha">View Progress</button><button class="btn btn-outline" data-action="facilitateGroup" data-group="alpha">Facilitate</button></div></div><div class="group-card"><div class="group-header"><h4>Group Beta: "Sustainable Aotearoa"</h4><span class="status-indicator status-pending">Needs Support</span></div><div class="group-members"><span class="member-tag">Sam (Design Leader)</span><span class="member-tag">Taylor (Research Coord)</span><span class="member-tag">River (Cultural Consultant)</span><span class="member-tag">Alex (Systems Analyst)</span></div><div class="action-buttons"><button class="btn btn-primary" data-action="viewGroupProgress" data-group="beta">View Progress</button><button class="btn btn-secondary" data-action="interveneGroup" data-group="beta">Provide Support</button></div></div></div></section><!-- Analytics Section --><section class="dashboard-section" id="analytics"><div class="dashboard-header"><h2 class="wiley-section-title">📈 Learning Analytics</h2><p>Deep insights into student engagement and cultural integration</p></div><div class="content-grid"><div class="card"><h3><span>🌺</span> Cultural Engagement Metrics</h3><div class="chart-placeholder">                            Charts showing Te Ao Māori integration levels, cultural competency development, and respectful engagement with Indigenous knowledge.                        </div></div><div class="card"><h3><span>🤝</span> Collaboration Analytics</h3><div class="chart-placeholder">                            Group effectiveness metrics, peer review quality, role fulfillment tracking, and collaboration skill development.                        </div></div></div><div class="card"><h3><span>📊</span> Learning Outcomes Dashboard</h3><div class="chart-placeholder">                        Systems thinking development, critical analysis skills, design quality metrics, and curriculum achievement tracking.                    </div></div></section><!-- Resources Section --><section class="dashboard-section" id="resources"><div class="dashboard-header"><h2 class="wiley-section-title">📚 Teaching Resources</h2><p>Access enhanced teaching materials and collaborative frameworks</p></div><div class="content-grid"><div class="card"><h3><span>🏛️</span> Society Design Resources</h3><ul class="resource-list"><li class="resource-item"><a class="btn btn-primary no-decoration" href="/y8-systems/resources/society-design-collaboration-framework.html">Collaboration Framework</a><p class="resource-description">Complete role-based group work system</p></li><li class="resource-item"><a class="btn btn-secondary no-decoration" href="/y8-systems/resources/society-design-assessment-rubric.html">Assessment Rubric</a><p class="resource-description">Cultural competency integrated evaluation</p></li><li class="resource-item"><a class="btn btn-outline no-decoration" href="/units/design-your-society-unit.html">Complete Unit Plan</a><p class="resource-description">Enhanced with collaborative learning</p></li></ul></div><div class="card"><h3><span>🎯</span> Quick Access Tools</h3><div class="action-buttons"><button class="btn btn-primary" data-action="generateDoNow">Generate Do NOW</button><button class="btn btn-secondary" data-action="createRubric">Create Rubric</button><button class="btn btn-outline" data-action="exportProgress">Export Progress</button></div></div></div></section><!-- Settings Section --><section class="dashboard-section" id="settings"><div class="dashboard-header"><h2 class="wiley-section-title">⚙️ Dashboard Settings</h2><p>Customize your teaching experience</p></div><div class="card"><h3><span>👤</span> Profile Settings</h3><div class="settings-group"><label class="settings-label">Display Name:</label><input class="settings-input" id="teacher-display-name" type="text"/></div><div class="settings-group"><label class="settings-label">Notification Preferences:</label><label class="flex"><input checked="" type="checkbox"/> Email notifications for new submissions                        </label><label class="flex"><input checked="" type="checkbox"/> Weekly progress summaries                        </label><label class="flex"><input type="checkbox"/> SMS alerts for urgent issues                        </label></div><button class="btn btn-primary">Save Settings</button></div></section></main></div><script>        // Navigation functionality        document.addEventListener('DOMContentLoaded', () => {            const navButtons = document.querySelectorAll('.nav-btn');            const sections = document.querySelectorAll('.dashboard-section');            navButtons.forEach(button => {                button.addEventListener('click', () => {                    // Remove active class from all buttons and sections                    navButtons.forEach(btn => btn.classList.remove('active'));                    sections.forEach(section => section.classList.remove('active'));                    // Add active class to clicked button and corresponding section                    button.classList.add('active');                    const targetSection = button.getAttribute('data-section');                    document.getElementById(targetSection).classList.add('active');                });            });            // Initialize dashboard            initializeTeacherDashboard();        });        // Authentication check and user data loading        async function initializeTeacherDashboard() {            const token = localStorage.getItem('teKeteAko_token');            const userStr = localStorage.getItem('teKeteAko_user');            if (!token || !userStr) {                window.location.href = 'login.html';                return;            }            const user = JSON.parse(userStr);            // Ensure this is a teacher dashboard            if (user.role !== 'teacher') {                if (user.role === 'student') {                    window.location.href = 'student-dashboard.html';                } else {                    window.location.href = 'login.html';                }                return;            }            // Update welcome message and info            const welcomeMsg = document.getElementById('welcome-message');            const teacherInfo = document.getElementById('teacher-info');            const currentDate = document.getElementById('current-date');            welcomeMsg.textContent = `Kia ora, ${user.display_name || user.email.split('@')[0]}!`;            teacherInfo.textContent = `${user.school_name} • Teaching Dashboard`;            currentDate.textContent = new Date().toLocaleDateString('en-NZ', {                weekday: 'long',                year: 'numeric',                month: 'long',                day: 'numeric'            });            // Load dashboard data            await loadTeacherDashboardData(user, token);        }        async function loadTeacherDashboardData(user, token) {            try {                // Load real data from Supabase                const stats = await Promise.all([                    loadStudentCount(),                    loadPendingSubmissions(),                    loadEngagementMetrics(),                    loadRecentActivity()                ]);                // Update overview statistics with real data                document.getElementById('total-students').textContent = stats[0] || '0';                document.getElementById('pending-submissions').textContent = stats[1] || '0';                document.getElementById('cultural-engagement').textContent = stats[2] || '85%';                document.getElementById('collaboration-score').textContent = stats[3] || '90%';                // Populate teacher settings                const displayNameInput = document.getElementById('teacher-display-name');                displayNameInput.value = user.display_name || user.email.split('@')[0];            } catch (error) {                console.error('Error loading teacher dashboard data:', error);                // Fallback to placeholder data if API fails                document.getElementById('total-students').textContent = '24';                document.getElementById('pending-submissions').textContent = '7';                document.getElementById('cultural-engagement').textContent = '87%';                document.getElementById('collaboration-score').textContent = '92%';            }        }        // Live data loading functions        async function loadStudentCount() {            try {                const { data, error } = await supabase                    .from('profiles')                    .select('id', { count: 'exact' })                    .eq('role', 'student');                if (error) throw error;                return data?.length || 0;            } catch (error) {                console.error('Error loading student count:', error);                return 0;            }        }        async function loadPendingSubmissions() {            try {                const { data, error } = await supabase                    .from('student_projects')                    .select('id', { count: 'exact' })                    .in('status', ['submitted', 'under_review']);                if (error) throw error;                return data?.length || 0;            } catch (error) {                console.error('Error loading pending submissions:', error);                return 0;            }        }        async function loadEngagementMetrics() {            try {                const { data, error } = await supabase                    .from('learning_sessions')                    .select('cultural_engagement_score')                    .not('cultural_engagement_score', 'is', null);                if (error) throw error;                if (data && data.length > 0) {                    const avgScore = data.reduce((sum, session) => sum + session.cultural_engagement_score, 0) / data.length;                    return Math.round(avgScore) + '%';                }                return '85%';            } catch (error) {                console.error('Error loading engagement metrics:', error);                return '85%';            }        }        async function loadRecentActivity() {            try {                const { data, error } = await supabase                    .from('student_projects')                    .select('group_members')                    .not('group_members', 'is', null);                if (error) throw error;                // Calculate collaboration score based on group project participation                const groupProjects = data?.filter(project =>                    project.group_members && project.group_members.length > 1                ).length || 0;                const totalProjects = data?.length || 1;                const collaborationRate = Math.round((groupProjects / totalProjects) * 100);                return collaborationRate + '%';            } catch (error) {                console.error('Error loading collaboration metrics:', error);                return '90%';            }        }        // Dashboard interaction functions        function reviewSubmission(submissionId) {            }        function bulkReview(category) {            }        function viewProject(projectId) {            }        function viewGroupProgress(groupId) {            }        function facilitateGroup(groupId) {            }        function interveneGroup(groupId) {            }        function createNewAssignment() {            }        function exportData() {            }        function generateDoNow() {            window.open('activities.html', '_blank');        }        function createRubric() {            }        function exportProgress() {            }        // Logout functionality        document.getElementById('logout-btn').addEventListener('click', () => {            localStorage.removeItem('teKeteAko_token');            localStorage.removeItem('teKeteAko_refreshToken');            localStorage.removeItem('teKeteAko_user');            window.location.href = 'login.html';        });        // Mobile menu toggle (basic implementation)        document.querySelector('.mobile-menu-toggle')?.addEventListener('click', () => {            const sidebar = document.querySelector('.sidebar');            sidebar.style.display = sidebar.style.display === 'none' ? 'block' : 'none';        });    </script><footer class="site-footer no-print"><div class="footer-content"><div class="footer-simple"><div class="footer-brand"><h3>🧺 Te Kete Ako</h3><p>"Whaowhia te kete mātauranga" - Fill the basket of knowledge</p></div><div class="footer-links"><a href="/unit-plans.html">Unit Plans</a><a href="/lessons.html">Lessons</a><a href="/handouts.html">Handouts</a><a href="/my-kete.html">My Kete</a><a href="/sitemap.html">Sitemap</a><a href="/orphans.html">Discover</a></div></div><div class="footer-bottom"><span>© 2025 Te Kete Ako - Educational resources for Aotearoa New Zealand</span></div></div></footer><!-- Standard auth script includes --><script defer="" src="vendor/supabase.min.js"></script><script defer="" src="/js/env-config.js"></script><script defer="" src="/js/supabase-client.js"></script><script defer="" src="/js/auth-enhanced.js"></script><script defer="" src="/js/teacher-dashboard.js"></script><script>    // Register service worker for performance    if ('serviceWorker' in navigator) {        window.addEventListener('load', () => {            navigator.serviceWorker.register('/sw.js')                .then(registration => console.log('SW registered'))                .catch(error => console.log('SW registration failed'));        });    }    </script><script src="/js/components.js"></script>    <!-- 🎨 ULTIMATE BEAUTY SYSTEM: Complete UX -->
 
-    <!-- Load Intelligence Systems -->
-    <script src="/js/graphrag-self-evolution-engine.js"></script>
-    <script src="/js/glm-graphrag-integration.js"></script>
-    <script src="/js/cultural-intelligence-layer.js"></script>
-    <script src="/js/teaching-variant-generator.js"></script>
-
+    <!-- Footer -->
+    <div id="footer-container"></div>
     <script>
-        let selectedLesson = null;
-        let selectedVariant = null;
-        const teacherId = 'demo-teacher-' + Date.now(); // In production, use real auth
-
-        // Tab Switching
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('[id$="-tab"]').forEach(t => t.classList.add('hidden'));
-            
-            event.target.classList.add('active');
-            document.getElementById(tabName + '-tab').classList.remove('hidden');
-        }
-
-        // Find Lessons from GraphRAG
-        async function findLessons() {
-            const subject = document.getElementById('subject').value;
-            const yearLevel = document.getElementById('yearLevel').value;
-            const topic = document.getElementById('topic').value;
-
-            if (!subject || !yearLevel) {
-                alert('Please select subject and year level');
-                return;
-            }
-
-            const { data, error } = await supabase
-                .from('graphrag_resources')
-                .select('*')
-                .or(`metadata->>subject.eq.${subject},title.ilike.%${topic}%`)
-                .or(`metadata->>type.eq.lesson,metadata->>type.eq.unit`)
-                .order('quality_score', { ascending: false })
-                .limit(10);
-
-            displayLessons(data || []);
-        }
-
-        function displayLessons(lessons) {
-            const container = document.getElementById('lessonList');
-            const resultsDiv = document.getElementById('lessonResults');
-            
-            resultsDiv.classList.remove('hidden');
-            
-            container.innerHTML = lessons.map(lesson => `
-                <div class="lesson-card" onclick='selectLesson(${JSON.stringify(lesson)})'>
-                    <h4 class="font-bold text-lg">${lesson.title}</h4>
-                    <p class="text-gray-600 mt-2">${lesson.content_preview?.substring(0, 150)}...</p>
-                    <div class="mt-2">
-                        <span class="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">Quality: ${lesson.quality_score}</span>
-                        ${lesson.metadata?.cultural ? '<span class="cultural-badge">Cultural</span>' : ''}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function selectLesson(lesson) {
-            selectedLesson = lesson;
-            document.getElementById('variantSelector').classList.remove('hidden');
-            document.getElementById('variantSelector').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function selectVariant(variantType) {
-            // Remove previous selection
-            document.querySelectorAll('.variant-option').forEach(v => v.classList.remove('selected'));
-            event.target.closest('.variant-option').classList.add('selected');
-            
-            selectedVariant = variantType;
-            
-            // Show variant details
-            const details = {
-                inquiry: 'Students lead learning through questions. Promotes critical thinking and autonomy (Rangatiratanga).',
-                collaborative: 'Group work and peer learning. Builds relationships and community (Whanaungatanga).',
-                guided: 'Teacher scaffolds learning with cultural context. Reciprocal teaching relationship (Ako).',
-                project: 'Extended projects with real-world impact. Unity through shared purpose (Kotahitanga).',
-                experiential: 'Hands-on experiences and reflection. Generous learning opportunities (Manaakitanga).'
-            };
-            
-            const detailsDiv = document.getElementById('variantDetails');
-            detailsDiv.classList.remove('hidden');
-            detailsDiv.innerHTML = `
-                <h4 class="font-bold text-xl mb-2">${variantType.charAt(0).toUpperCase() + variantType.slice(1)} Approach Selected</h4>
-                <p class="text-gray-700">${details[variantType]}</p>
-            `;
-        }
-
-        async function saveLessonPlan() {
-            if (!selectedLesson || !selectedVariant) {
-                alert('Please select a lesson and teaching approach');
-                return;
-            }
-
-            const { data, error } = await supabase
-                .from('teacher_lesson_plans')
-                .insert({
-                    teacher_id: teacherId,
-                    lesson_resource_path: selectedLesson.file_path,
-                    teaching_variant: selectedVariant,
-                    class_context: {
-                        subject: document.getElementById('subject').value,
-                        year_level: document.getElementById('yearLevel').value
-                    },
-                    status: 'draft'
-                });
-
-            if (!error) {
-                alert('✅ Lesson plan saved!');
-                loadSavedPlans();
-            }
-        }
-
-        async function loadSavedPlans() {
-            const { data } = await supabase
-                .from('teacher_lesson_plans')
-                .select('*')
-                .eq('teacher_id', teacherId)
-                .order('created_at', { ascending: false });
-
-            const container = document.getElementById('savedPlans');
-            container.innerHTML = (data || []).map(plan => `
-                <div class="lesson-card">
-                    <h4 class="font-bold">${plan.lesson_resource_path}</h4>
-                    <p class="text-sm text-gray-600">Approach: ${plan.teaching_variant}</p>
-                    <p class="text-sm text-gray-600">Created: ${new Date(plan.created_at).toLocaleDateString()}</p>
-                </div>
-            `).join('') || '<p class="text-gray-600">No saved plans yet. Create one above!</p>';
-        }
-
-        async function generateWithAI() {
-            const topic = document.getElementById('topic').value;
-            const subject = document.getElementById('subject').value;
-            const yearLevel = document.getElementById('yearLevel').value;
-
-            if (!topic || !subject || !yearLevel) {
-                alert('Please fill in all fields');
-                return;
-            }
-
-            alert('🤖 AI is generating a lesson... (this will take 10-20 seconds)');
-            
-            try {
-                const result = await window.GLMGraphRAG.generateTeachingContent(topic, {
-                    yearLevel,
-                    subject,
-                    culturalContext: true,
-                    teachingApproach: 'guided'
-                });
-
-                alert('✅ AI lesson generated! Check the results.');
-                console.log(result);
-            } catch (error) {
-                alert('Error generating lesson: ' + error.message);
-            }
-        }
-
-        async function askAI() {
-            const question = document.getElementById('aiQuestion').value;
-            const responseDiv = document.getElementById('aiResponse');
-            
-            if (!question) {
-                alert('Please enter a question');
-                return;
-            }
-
-            responseDiv.classList.remove('hidden');
-            responseDiv.innerHTML = '<p class="text-gray-600">🤖 AI is thinking...</p>';
-
-            try {
-                const answer = await window.GLMGraphRAG.callGLM(question, { temperature: 0.7 });
-                responseDiv.innerHTML = `<div class="bg-white p-6 rounded-lg">${answer}</div>`;
-            } catch (error) {
-                responseDiv.innerHTML = `<p class="text-red-600">Error: ${error.message}</p>`;
-            }
-        }
-
-        function createClass() {
-            alert('Class creation feature coming soon!');
-        }
-
-        // Load saved plans on page load
-        window.addEventListener('load', () => {
-            loadSavedPlans();
+        fetch('/components/footer.html').then(r=>r.text()).then(html=>{
+            document.getElementById('footer-container').innerHTML=html;
         });
     </script>
-</body>
-</html>
+
+    <!-- Mobile Navigation -->
+    <div id="mobile-nav-bottom"></div>
+    <script>
+        fetch('/components/mobile-bottom-nav.html').then(r=>r.text()).then(html=>{
+            document.getElementById('mobile-nav-bottom').innerHTML=html;
+        });
+    </script>
+
+    <!-- Floating Action Button (Help) -->
+    <div id="fab-quick-actions"></div>
+    <script>
+        fetch('/components/quick-actions-fab.html').then(r=>r.text()).then(html=>{
+            document.getElementById('fab-quick-actions').innerHTML=html;
+        });
+    </script>
+
+    <!-- 🎨 ULTIMATE BEAUTY: Framer Cultural Gestures -->
+    <script src="/js/framer-cultural-gestures-ultimate.js" defer></script>
+
+    <!-- 📊 ULTIMATE BEAUTY: PostHog Analytics (Privacy-First) -->
+    <script src="/js/posthog-analytics.js" defer></script>
+</body></html>

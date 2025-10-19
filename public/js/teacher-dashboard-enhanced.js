@@ -97,7 +97,7 @@ async function loadTeacherStats() {
     try {
         // Get resources matching teacher's subjects and year levels
         const { data: resources, error } = await supabaseClient
-            .from('resources')
+            .from('graphrag_resources')
             .select('*')
             .overlaps('tags', teacherProfile.subjects_taught || []);
         
@@ -139,7 +139,7 @@ async function loadRecommendedResources() {
     try {
         // Get high-quality resources for teacher's subjects
         const { data: resources, error } = await supabaseClient
-            .from('resources')
+            .from('graphrag_resources')
             .select('*')
             .overlaps('tags', teacherProfile.subjects_taught || [])
             .limit(6);

@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <!-- Performance: Optimize rendering -->
+ <meta name="format-detection" content="telephone=no">
+ <meta name="theme-color" content="#1b4332">
+ <meta name="color-scheme" content="light">
+ <!-- Performance: DNS prefetch for external domains -->
+ <link rel="dns-prefetch" href="//fonts.googleapis.com">
+ <link rel="dns-prefetch" href="//fonts.gstatic.com">
+ <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+ <!-- Performance: Preload critical resources -->
+ <link rel="preload" href="/js/te-kete-professional.js" as="script">
+ <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap&display=swap" as="style" crossorigin>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <meta name="description" content="Te Kete Ako - Award-winning educational platform integrating mātauranga Māori with contemporary learning">
+ <meta name="keywords" content="education, māori, indigenous, ai, learning, new zealand">
+ <meta name="author" content="Te Kete Ako">
+ <!-- Professional Design System -->
+ <link rel="stylesheet" href="/css/te-kete-professional.css">
+ <title>Student Dashboard | Te Kete Ako</title>
+ 
+ 
+ 
+ <link rel="stylesheet" href="/components/badge-system.html">
+ 
+ 
+ 
+ <script src="/js/breadcrumbs.js" defer></script>
+ 
+
+ <!-- 🎨 ULTIMATE BEAUTY SYSTEM - Te Kete Ako Design Excellence -->
+ <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+ <script src="https://cdn.tailwindcss.com"></script>
+ <script src="/tailwind.config.ultimate.js"></script>
+ <!-- END ULTIMATE BEAUTY SYSTEM -->
+ 
+ <!-- My Kete Database Integration -->
+ <script src="/js/my-kete-database.js" defer></script>
+</head>
+
+<body data-auto-init="true" data-current-page="student-dashboard" class="pattern-koru-subtle">
+    
+    <!-- Whakataukī Banner -->
+    <div class="whakatauki-banner">
+        <p class="whakatauki-text">"Whāia te iti kahurangi, ki te tūohu koe me he maunga teitei"</p>
+        <p class="whakatauki-meaning">Pursue excellence - should you stumble, let it be to a lofty mountain</p>
+    </div>
+ <!-- Professional Mega Menu Navigation -->
+ <div id="beautiful-nav-container"></div>
+ <script>
+ fetch('/components/navigation-standard.html')
+ .then(r => r.text())
+ .then(html => {
+ const div = document.createElement('div');
+ div.innerHTML = html;
+ document.body.insertBefore(div.firstElementChild, document.body.firstChild);
+ });
+ </script>
+
+
+ <header class="site-header no-print">
+ <div class="nav-container">
+ <a href="/index.html" class="nav-brand">Te Kete Ako</a>
+ <nav class="main-nav">
+ <ul>
+ <li>
+ <a href="/unit-plans.html">
+ <span class="nav-icon">📚</span>
+ <span class="nav-text-en">Unit Plans</span>
+ <span class="nav-text-mi" lang="mi">Ngā Waehere</span>
+ </a>
+ </li>
+ <li>
+ <a href="/teachers/index.html">
+ <span class="nav-icon">🧑‍🏫</span>
+ <span class="nav-text-en">Teachers</span>
+ <span class="nav-text-mi" lang="mi">Ngā Kaiako</span>
+ </a>
+ </li>
+ <li>
+ <a href="/my-assignments.html">
+ <span class="nav-icon">📚</span>
+ <span class="nav-text-en">My Assignments</span>
+ <span class="nav-text-mi" lang="mi">Aku Mahi</span>
+ </a>
+ </li>
+ <li>
+ <a href="/lessons.html">
+ <span class="nav-icon">🎓</span>
+ <span class="nav-text-en">Lessons</span>
+ <span class="nav-text-mi" lang="mi">Ngā Akoranga</span>
+ </a>
+ </li>
+ <li>
+ <a href="/handouts.html">
+ <span class="nav-icon">📄</span>
+ <span class="nav-text-en">Handouts</span>
+ <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+ </a>
+ </li>
+ <li>
+ <a href="/games.html">
+ <span class="nav-icon">🎮</span>
+ <span class="nav-text-en">Games</span>
+ <span class="nav-text-mi" lang="mi">Ngā Kēmu</span> 
+ </a>
+ </li>
+ <li class="auth-nav my-kete-link" style="display: none;">
+ <a href="/my-kete.html">
+ <span class="nav-icon">🧺</span>
+ My Kete
+ </a>
+ </li>
+ <li class="auth-nav">
+ <a href="/login.html" class="login-btn">
+ <span class="nav-icon">👤</span>
+ Login
+ </a>
+ </li>
+ <li class="auth-nav" style="display: none;">
+ <a href="/register-simple.html" class="register-btn">
+ <span class="nav-icon">📝</span>
+ Register
+ </a>
+ </li>
+ </ul>
+ </nav>
+ <nav class="breadcrumbs no-print" aria-label="Breadcrumb">
+ <ol id="breadcrumbs" class="breadcrumbs-list"></ol>
+ </nav>
+ </div>
+ </header>
+ <div id="search-container"></div>
+
+ <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
+
+ <div class="dashboard-hero">
+ <div class="hero-content">
+ <div class="hero-title">
+ <h1 id="welcome-message" class="wiley-hero-title">Kia ora, Ākonga!</h1>
+ <p class="whakataukī" id="user-info">Welcome to your personalized learning dashboard</p>
+ </div>
+ <div class="hero-stats">
+ <div class="stat-badge">
+ <span class="stat-number" id="lessons-completed">0</span>
+ <span class="stat-label">Lessons</span>
+ </div>
+ <div class="stat-badge">
+ <span class="stat-number" id="assignments-completed">0</span>
+ <span class="stat-label">Assignments</span>
+ </div>
+ <div class="stat-badge">
+ <span class="stat-number" id="cultural-score">0%</span>
+ <span class="stat-label">Cultural</span>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <main>
+ <div id="announcements-container"></div>
+
+ <div class="dashboard-grid">
+ <div class="dashboard-card">
+ <h3><span>📊</span> My Learning Progress</h3>
+ <div class="card-content">
+ <div class="progress-section">
+ <h3>📊 Your Learning Progress</h3>
+ <p>Welcome to your personalized dashboard! Here you'll find your completed lessons, upcoming assignments, and learning streaks.</p>
+ <div class="progress-stats">
+ <div class="stat-item">
+ <span class="stat-number">0</span>
+ <span class="stat-label">Lessons Completed</span>
+ </div>
+ <div class="stat-item">
+ <span class="stat-number">0</span>
+ <span class="stat-label">Assignments Done</span>
+ </div>
+ <div class="stat-item">
+ <span class="stat-number">0</span>
+ <span class="stat-label">Day Streak</span>
+ </div>
+ </div>
+ </div>
+ <div class="dashboard-actions">
+ <a href="/lessons.html" class="dashboard-button">Browse Lessons</a>
+ <a href="/handouts.html" class="dashboard-button outline">Find Handouts</a>
+ </div>
+ </div>
+ </div>
+
+ <div class="dashboard-card">
+ <h3><span>🎯</span> Quick Start for Students</h3>
+ <div class="card-content">
+ <p style="margin-bottom: 1rem;"><strong>Welcome to Te Kete Ako!</strong> Here's how to get the most out of the platform:</p>
+ <ol style="margin: 1rem 0; padding-left: 1.5rem; line-height: 1.8;">
+ <li>Browse resources by <strong>subject</strong> (Math, Science, English, etc.)</li>
+ <li><strong>Search</strong> for specific topics using the search bar above</li>
+ <li>Try our <strong>interactive games</strong> for fun learning</li>
+ <li><strong>Save favorites</strong> to your My Kete for quick access</li>
+ </ol>
+ <div class="dashboard-actions">
+ <a href="/getting-started.html" class="dashboard-button primary">Getting Started Guide</a>
+ <a href="/games/" class="dashboard-button outline">Try Games</a>
+ </div>
+ </div>
+ </div>
+
+ <div class="dashboard-card">
+ <h3><span>🤝</span> Collaboration Hub</h3>
+ <div class="card-content">
+ <p>Connect with your group members, share ideas, and work together on projects.</p>
+ <div id="group-info">
+ <p><strong>Current Group:</strong> <span id="current-group">Not assigned yet</span></p>
+ <p><strong>Your Role:</strong> <span id="current-role">Awaiting assignment</span></p>
+ </div>
+ <div class="dashboard-actions">
+ <button class="dashboard-button" onclick="openCollaborationTools()" class="link-button">Group Workspace</button>
+ <button class="dashboard-button outline" onclick="viewPeerFeedback()" class="link-button">Peer Reviews</button>
+ </div>
+ </div>
+ </div>
+
+ <div class="dashboard-card">
+ <h3><span>🤖</span> AI Learning Companion</h3>
+ <div class="card-content">
+ <p>Get culturally-aware learning support and guidance from your AI companion.</p>
+ <div id="ai-companion-chat"
+ style="max-height: 200px; overflow-y: auto; background: #f8f9fa; border-radius: var(--radius-md); padding: var(--space-4); margin: var(--space-4) 0;">
+ <div style="font-style: italic; color: var(--color-text-secondary); text-align: center;">
+ Ask your AI companion for help with learning, cultural connections, or collaboration
+ guidance!
+ </div>
+ </div>
+ <div class="flex">
+ <input type="text" id="ai-companion-input" placeholder="Ask for learning guidance..."
+ style="flex: 1; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;"
+ onkeypress="if(event.key==='Enter') sendAIMessage()">
+ <button class="dashboard-button" onclick="sendAIMessage()">Ask</button>
+ </div>
+ </div>
+ </div>
+
+ <div class="dashboard-card">
+ <h3><span>📚</span> My Resources</h3>
+ <div class="card-content">
+ <p>Access your saved resources, bookmarked content, and personal notes.</p>
+ <div class="dashboard-actions">
+ <a href="/handouts.html" class="dashboard-button">Browse Handouts</a>
+ <button class="dashboard-button outline" onclick="viewSavedResources()" class="link-button">Saved Items</button>
+ </div>
+ </div>
+ </div>
+
+ <div class="dashboard-card">
+ <h3><span>🎯</span> Recent Activity</h3>
+ <div class="card-content">
+ <div class="recent-activity" id="recent-activity">
+ <div class="activity-item">
+ <div class="activity-icon">📖</div>
+ <div class="activity-content">
+ <div class="activity-title">Accessed Do NOW Activities</div>
+ <div class="activity-time">2 hours ago</div>
+ </div>
+ </div>
+ <div class="activity-item">
+ <div class="activity-icon">🎮</div>
+ <div class="activity-content">
+ <div class="activity-title">Played Te Reo Wordle</div>
+ <div class="activity-time">1 day ago</div>
+ </div>
+ </div>
+ <div class="activity-item">
+ <div class="activity-icon">📄</div>
+ <div class="activity-content">
+ <div class="activity-title">Downloaded Treaty Handout</div>
+ <div class="activity-time">3 days ago</div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <div class="dashboard-card">
+ <h3><span>🌟</span> Achievements</h3>
+ <div class="card-content">
+ <p>Celebrate your learning milestones and cultural connections!</p>
+ <div id="achievements-list">
+ <p style="font-style: italic; color: var(--color-text-secondary);">Your achievements will appear
+ here as you engage with Te Kete Ako.</p>
+ </div>
+ <div class="dashboard-actions">
+ <button class="dashboard-button outline" onclick="viewAllAchievements()" class="link-button">View All</button>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </main>
+
+ <script>
+ // Authentication check and user data loading
+ window.addEventListener('load', async () => {
+ // Use secure authentication system
+ if (!window.secureAuth || !window.secureAuth.isAuthenticated()) {
+ window.location.href = 'login.html';
+ return;
+ }
+
+ const currentUser = window.secureAuth.getCurrentUser();
+ 
+ // Validate authenticated user
+ if (!currentUser || !currentUser.id) {
+ window.location.href = 'login.html';
+ return;
+ }
+
+ const user = currentUser;
+
+ // Ensure this is a student dashboard
+ if (user.role !== 'student') {
+ if (user.role === 'teacher') {
+ window.location.href = 'teacher-dashboard.html';
+ } else {
+ window.location.href = 'login.html';
+ }
+ return;
+ }
+
+ // Update welcome message
+ const welcomeMsg = document.getElementById('welcome-message');
+ const userInfo = document.getElementById('user-info');
+
+ welcomeMsg.textContent = `Kia ora, ${user.display_name || user.email.split('@')[0]}!`;
+ userInfo.textContent = `Year ${user.year_level} | ${user.school_name}`;
+
+ // Load dashboard data
+ await loadDashboardData(user, token);
+ });
+
+ async function loadDashboardData(user, token) {
+ try {
+ // Load real data from Supabase
+ const supabase = window.supabase;
+
+ // Get learning progress data
+ const { data: sessions, error: sessionsError } = await supabase
+ .from('learning_sessions')
+ .select('*')
+ .eq('user_id', user.id);
+
+ if (sessionsError) {
+ console.warn('Sessions error:', sessionsError);
+ } else {
+ const totalSessions = sessions?.length || 0;
+ const totalMinutes = sessions?.reduce((sum, session) => sum + (session.total_time_minutes || 0), 0) || 0;
+ document.getElementById('lessons-completed').textContent = totalSessions;
+ }
+
+ // Get student progress data
+ const { data: progress, error: progressError } = await supabase
+ .from('student_progress')
+ .select('*')
+ .eq('student_id', user.id);
+
+ if (progressError) {
+ console.warn('Progress error:', progressError);
+ } else {
+ const completedLessons = progress?.filter(p => p.progress_percentage === 100)?.length || 0;
+ const culturalScore = progress?.reduce((sum, p) => sum + (p.cultural_engagement_score || 0), 0) / Math.max(progress?.length || 1, 1);
+ document.getElementById('assignments-completed').textContent = completedLessons;
+ document.getElementById('cultural-score').textContent = `${Math.round(culturalScore)}%`;
+ }
+
+ // Get recent assignments
+ const { data: assignments, error: assignmentsError } = await supabase
+ .from('student_assignments')
+ .select(`
+ .assignment_id,
+ assignments(title, due_date),
+ status,
+ completed_at
+ `)
+ .eq('student_id', user.id)
+ .order('completed_at', { ascending: false })
+ .limit(5);
+
+ if (assignmentsError) {
+ console.warn('Assignments error:', assignmentsError);
+ }
+
+ // Load announcements from database
+ const { data: announcements, error: announcementsError } = await supabase
+ .from('announcements')
+ .select('*')
+ .eq('target_audience', 'students')
+ .eq('is_active', true)
+ .lte('expires_at', new Date().toISOString())
+ .order('created_at', { ascending: false })
+ .limit(3);
+
+ const announcementsContainer = document.getElementById('announcements-container');
+ if (announcements && announcements.length > 0) {
+ announcementsContainer.innerHTML = announcements.map(announcement => `
+ <div class="announcement-card">
+ <div class="announcement-header">
+ <span class="announcement-priority ${announcement.priority}">${announcement.priority}</span>
+ <span class="announcement-date">${new Date(announcement.created_at).toLocaleDateString()}</span>
+ </div>
+ <h4>${announcement.title}</h4>
+ <p>${announcement.content}</p>
+ </div>
+ `).join('');
+ } else {
+ announcementsContainer.innerHTML = `
+ <div class="announcement-card">
+ <h4>📢 Welcome to Te Kete Ako Digital Platform!</h4>
+ <p>Your enhanced learning experience now includes collaborative tools, project submissions, and personalized tracking. Explore your new dashboard features!</p>
+ </div>
+ `;
+ }
+
+ // Update recent activity
+ if (sessions && sessions.length > 0) {
+ const recentActivity = document.getElementById('recent-activity');
+ if (recentActivity) {
+ const recentSessions = sessions.slice(0, 3);
+ recentActivity.innerHTML = recentSessions.map(session => `
+ <div class="activity-item">
+ <div class="activity-icon">📖</div>
+ <div class="activity-content">
+ <div class="activity-title">Learning Session</div>
+ <div class="activity-time">${new Date(session.session_start).toLocaleDateString()}</div>
+ </div>
+ </div>
+ `).join('');
+ }
+ }
+
+ } catch (error) {
+ console.error('Dashboard data loading error:', error);
+ // Fallback to placeholder data
+ document.getElementById('lessons-completed').textContent = '0';
+ document.getElementById('assignments-completed').textContent = '0';
+ document.getElementById('cultural-score').textContent = '0%';
+ }
+ }
+
+ // Logout functionality
+ document.getElementById('logout-btn').addEventListener('click', () => {
+ // Use secure logout
+ if (window.secureAuth) {
+ window.secureAuth.logout();
+ }
+ window.location.href = 'login.html';
+ });
+
+ // Dashboard interaction functions (placeholders for future implementation)
+ function viewProgressDetails() {
+ }
+
+ function viewProjectSubmissions() {
+ window.location.href = 'my-submissions.html';
+ }
+
+ function openCollaborationTools() {
+ }
+
+ function viewPeerFeedback() {
+ }
+
+ function viewSavedResources() {
+ }
+
+ function viewAllAchievements() {
+ }
+
+ // AI Companion functionality
+ async function sendAIMessage() {
+ const input = document.getElementById('ai-companion-input');
+ const chat = document.getElementById('ai-companion-chat');
+ const message = input.value.trim();
+
+ if (!message) return;
+
+ // Clear placeholder text on first use
+ if (chat.innerHTML.includes('Ask your AI companion')) {
+ chat.innerHTML = '';
+ }
+
+ // Add user message
+ addChatMessage('You', message, 'user');
+ input.value = '';
+
+ // Add loading indicator
+ addChatMessage('AI Companion', 'Thinking...', 'ai-loading');
+
+ try {
+ const token = window.secureAuth.getSecureSession('token');
+ const user = window.secureAuth.getCurrentUser();
+
+ const response = await fetch('/.netlify/functions/ai-companion', {
+ method: 'POST',
+ headers: {
+ 'Content-Type': 'application/json',
+ 'Authorization': `Bearer ${token}`
+ },
+ body: JSON.stringify({
+ query: message,
+ userRole: 'student',
+ userId: user.id,
+ context: {
+ yearLevel: user.year_level,
+ currentProjects: ['society-design'] // Would come from actual data
+ }
+ })
+ });
+
+ const result = await response.json();
+
+ // Remove loading indicator
+ removeLoadingMessage();
+
+ if (result.success) {
+ const aiResponse = result.response;
+
+ // Add AI response with cultural elements
+ let responseHTML = `
+ <div style="margin-bottom: 1rem;">
+ <strong>🌺 ${aiResponse.encouragement}</strong>
+ </div>
+ <div style="margin-bottom: 1rem;">
+ ${aiResponse.message}
+ </div>
+ `;
+
+ if (aiResponse.whakatauki) {
+ responseHTML += `
+ <div class="bg-cultural-light">
+ <div style="font-style: italic; color: var(--color-primary); margin-bottom: 0.25rem;">
+ "${aiResponse.whakatauki.mi}"
+ </div>
+ <div style="color: var(--color-text-secondary); font-size: 0.8rem; margin-bottom: 0.25rem;">
+ ${aiResponse.whakatauki.en}
+ </div>
+ <div style="color: var(--color-text-secondary); font-size: 0.8rem;">
+ ${aiResponse.whakatauki.application}
+ </div>
+ </div>
+ `;
+ }
+
+ if (aiResponse.cultural_connection) {
+ responseHTML += `
+ <div style="background: #f0f8f0; padding: 0.75rem; border-radius: 6px; margin: 0.5rem 0; font-size: var(--text-sm);">
+ <strong>🔗 Cultural Connection:</strong><br>
+ ${aiResponse.cultural_connection}
+ </div>
+ `;
+ }
+
+ addChatMessage('AI Companion', responseHTML, 'ai', true);
+ } else {
+ addChatMessage('AI Companion', 'Sorry, I\'m having trouble right now. Please try again later.', 'ai-error');
+ }
+
+ } catch (error) {
+ 
+ removeLoadingMessage();
+ addChatMessage('AI Companion', 'I\'m temporarily unavailable. Please try again in a moment.', 'ai-error');
+ }
+ }
+
+ function addChatMessage(sender, message, type, isHTML = false) {
+ const chat = document.getElementById('ai-companion-chat');
+ const messageDiv = document.createElement('div');
+ messageDiv.className = `chat-message ${type}`;
+
+ let messageStyle = '';
+ if (type === 'user') {
+ messageStyle = 'background: var(--color-secondary); color: white; margin-left: 2rem; text-align: right;';
+ } else if (type === 'ai-loading') {
+ messageStyle = 'background: #e9ecef; color: var(--color-text-secondary); font-style: italic;';
+ } else if (type === 'ai-error') {
+ messageStyle = 'background: #f8d7da; color: #721c24; border-left: 3px solid #dc3545;';
+ } else {
+ messageStyle = 'background: white; border-left: 3px solid var(--color-primary);';
+ }
+
+ messageDiv.style.cssText = `${messageStyle} padding: 0.75rem; margin: 0.5rem 0; border-radius: var(--radius-md); box-shadow: 0 1px 3px var(--shadow-md);`;
+
+ if (isHTML) {
+ messageDiv.innerHTML = `<strong>${sender}:</strong><br>${message}`;
+ } else {
+ messageDiv.innerHTML = `<strong>${sender}:</strong> ${message}`;
+ }
+
+ chat.appendChild(messageDiv);
+ chat.scrollTop = chat.scrollHeight;
+ }
+
+ function removeLoadingMessage() {
+ const chat = document.getElementById('ai-companion-chat');
+ const loadingMessage = chat.querySelector('.ai-loading');
+ if (loadingMessage) {
+ loadingMessage.remove();
+ }
+ }
+ </script>
+ <footer class="site-footer no-print">
+ <div class="footer-content">
+ <div class="footer-simple">
+ <div class="footer-brand">
+ <h3>🧺 Te Kete Ako</h3>
+ <p>"Whaowhia te kete mātauranga" - Fill the basket of knowledge</p>
+ </div>
+ <div class="footer-links">
+ <a href="/unit-plans.html">Unit Plans</a>
+ <a href="/lessons.html">Lessons</a>
+ <a href="/handouts.html">Handouts</a>
+ <a href="/my-kete.html">My Kete</a>
+ <a href="/sitemap.html">Sitemap</a>
+ <a href="/orphans.html">Discover</a>
+ </div>
+ </div>
+ <div class="footer-bottom">
+ <span>© 2025 Te Kete Ako - Educational resources for Aotearoa New Zealand</span>
+ </div>
+ </div>
+ </footer>
+
+
+ <!-- Standard auth script includes -->
+ <script src="vendor/supabase.min.js" defer></script>
+ <script src="/js/env-config.js" defer></script>
+ <script src="/js/student-dashboard.js" defer></script>
+
+ <script>
+ // Register service worker for performance
+ if ('serviceWorker' in navigator) {
+ window.addEventListener('load', () => {
+ navigator.serviceWorker.register('/sw.js')
+ .then(registration => )
+ .catch(error => );
+ });
+ }
+ </script>
+ 
+ <!-- Supabase Auth -->
+ <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+ <!-- Enhanced Dashboard JavaScript -->
+ <script src="/js/student-dashboard-enhanced.js"></script>
+ 
+ <style>
+ /* Enhanced Student Dashboard Styling */
+ .dashboard-hero {
+ background: linear-gradient(135deg, #1a4d2e 0%, #2d5a3d 100%);
+ color: white;
+ padding: 2rem;
+ box-shadow: var(--shadow-md);
+ position: relative;
+ overflow: hidden;
+ }
+
+ .dashboard-hero::before {
+ content: '';
+ position: absolute;
+ top: 0;
+ left: 0;
+ right: 0;
+ bottom: 0;
+ background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+ opacity: 0.3;
+ }
+
+ .hero-content {
+ max-width: 1400px;
+ margin: 0 auto;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ position: relative;
+ z-index: 1;
+ }
+
+ .hero-title h1 {
+ font-size: 2.5rem;
+ margin-bottom: 0.5rem;
+ }
+
+ .whakataukī {
+ font-style: italic;
+ opacity: 0.9;
+ font-size: 1.1rem;
+ }
+
+ .hero-stats {
+ display: flex;
+ gap: 2rem;
+ }
+
+ .stat-badge {
+ text-align: center;
+ background: rgba(255, 255, 255, 0.15);
+ padding: 1rem;
+ border-radius: 12px;
+ backdrop-filter: blur(10px);
+ min-width: 80px;
+ }
+
+ .stat-number {
+ display: block;
+ font-size: 1.8rem;
+ font-weight: 700;
+ color: #fbbf24;
+ }
+
+ .stat-label {
+ font-size: 0.9rem;
+ opacity: 0.9;
+ text-transform: uppercase;
+ letter-spacing: 0.5px;
+ }
+
+ @media (max-width: 768px) {
+ .hero-content {
+ flex-direction: column;
+ text-align: center;
+ gap: 1.5rem;
+ }
+
+ .hero-stats {
+ gap: 1rem;
+ }
+
+ .stat-badge {
+ min-width: 60px;
+ padding: 0.75rem;
+ }
+ }
+
+ @keyframes spin {
+ to { transform: rotate(360deg); }
+ }
+
+ /* Enhanced card styling */
+ .dashboard-card {
+ background: white;
+ border-radius: 16px;
+ box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+ border: 1px solid rgba(0, 0, 0, 0.05);
+ overflow: hidden;
+ transition: transform 0.2s ease, box-shadow 0.2s ease;
+ }
+
+ .dashboard-card:hover {
+ transform: translateY(-2px);
+ box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+ }
+
+ .dashboard-card h3 {
+ background: linear-gradient(135deg, #1a4d2e, #2d5a3d);
+ color: white;
+ margin: 0;
+ padding: 1rem 1.5rem;
+ font-size: 1.1rem;
+ display: flex;
+ align-items: center;
+ gap: 0.5rem;
+ }
+
+ .card-content {
+ padding: 1.5rem;
+ }
+
+ /* Progress visualization */
+ .progress-stats {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+ gap: 1rem;
+ margin: 1.5rem 0;
+ }
+
+ .stat-item {
+ background: #f8fafc;
+ padding: 1rem;
+ border-radius: 8px;
+ text-align: center;
+ border-left: 4px solid #059669;
+ }
+
+ .stat-item .stat-number {
+ font-size: 1.5rem;
+ font-weight: 700;
+ color: #1a4d2e;
+ }
+
+ .stat-item .stat-label {
+ font-size: 0.9rem;
+ color: #64748b;
+ text-transform: uppercase;
+ letter-spacing: 0.5px;
+ }
+
+ /* Announcement cards */
+ .announcement-card {
+ background: linear-gradient(135deg, #fef7ed, #fef3c7);
+ border: 1px solid #f59e0b;
+ border-radius: 12px;
+ padding: 1.5rem;
+ margin-bottom: 1rem;
+ box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+ }
+
+ .announcement-header {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-bottom: 0.5rem;
+ }
+
+ .announcement-priority {
+ font-size: 0.8rem;
+ font-weight: 600;
+ padding: 0.25rem 0.5rem;
+ border-radius: 4px;
+ text-transform: uppercase;
+ }
+
+ .announcement-priority.urgent {
+ background: #dc2626;
+ color: white;
+ }
+
+ .announcement-priority.high {
+ background: #ea580c;
+ color: white;
+ }
+
+ .announcement-priority.medium {
+ background: #ca8a04;
+ color: white;
+ }
+
+ .announcement-priority.low {
+ background: #16a34a;
+ color: white;
+ }
+
+ .announcement-date {
+ font-size: 0.8rem;
+ color: #64748b;
+ }
+
+ .announcement-card h4 {
+ margin: 0 0 0.5rem;
+ color: #92400e;
+ }
+
+ .announcement-card p {
+ margin: 0;
+ color: #78350f;
+ line-height: 1.6;
+ }
+ </style>
+
+<!-- 🎨 ULTIMATE BEAUTY SYSTEM: Complete UX -->
+
+<!-- Footer -->
+<div id="footer-container"></div>
+<script>
+  fetch('/components/footer.html').then(r=>r.text()).then(html=>{
+    document.getElementById('footer-container').innerHTML=html;
+  });
+</script>
+
+<!-- Mobile Navigation -->
+<div id="mobile-nav-bottom"></div>
+<script>
+  fetch('/components/mobile-bottom-nav.html').then(r=>r.text()).then(html=>{
+    document.getElementById('mobile-nav-bottom').innerHTML=html;
+  });
+</script>
+
+<!-- Floating Action Button (Help) -->
+<div id="fab-quick-actions"></div>
+<script>
+  fetch('/components/quick-actions-fab.html').then(r=>r.text()).then(html=>{
+    document.getElementById('fab-quick-actions').innerHTML=html;
+  });
+</script>
+
+<!-- 🎨 ULTIMATE BEAUTY: Framer Cultural Gestures -->
+<script src="/js/framer-cultural-gestures-ultimate.js" defer></script>
+
+
+<!-- 📊 ULTIMATE BEAUTY: PostHog Analytics (Privacy-First) -->
+<script src="/js/posthog-analytics.js" defer></script>
+
+<!-- 🌟 ONBOARDING TOUR: First-time student guidance -->
+<div id="onboarding-tour-container"></div>
+<script>
+  fetch('/components/onboarding-tour.html')
+    .then(r => r.text())
+    .then(html => {
+      const container = document.getElementById('onboarding-tour-container');
+      if (container) container.innerHTML = html;
+    });
+</script>
+
+</body>
+
+</html>

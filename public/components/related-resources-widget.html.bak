@@ -1,0 +1,78 @@
+<!-- GraphRAG-Powered Related Resources Widget -->
+<!-- Usage: Include on any resource page, set data-resource-path attribute -->
+
+<div id="graphrag-recommendations" 
+     data-resource-path=""
+     style="margin: 3rem 0;">
+    <!-- Will be populated by graphrag-recommendations.js -->
+    <div class="loading" style="text-align: center; padding: 2rem; color: #666;">
+        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🧠</div>
+        Loading AI recommendations...
+    </div>
+</div>
+
+<style>
+/* Widget Styles */
+#graphrag-recommendations .recommendation-card {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.2s;
+    border-left: 3px solid #14b8a6;
+}
+
+#graphrag-recommendations .recommendation-card:hover {
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(20,184,166,0.2);
+}
+
+#graphrag-recommendations .recommendation-icon {
+    font-size: 2rem;
+}
+
+#graphrag-recommendations .recommendation-content {
+    flex: 1;
+}
+
+#graphrag-recommendations .recommendation-title {
+    font-weight: 600;
+    color: #0f766e;
+    margin-bottom: 0.25rem;
+}
+
+#graphrag-recommendations .recommendation-meta {
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+#graphrag-recommendations .recommendation-arrow {
+    color: #14b8a6;
+    font-size: 1.5rem;
+}
+</style>
+
+<script>
+// Auto-populate widget with current page path
+document.addEventListener('DOMContentLoaded', () => {
+    const widget = document.getElementById('graphrag-recommendations');
+    if (widget && !widget.dataset.resourcePath) {
+        // Try to detect current resource path
+        const currentPath = window.location.pathname;
+        widget.dataset.resourcePath = currentPath;
+        
+        // Trigger recommendations load
+        if (window.graphragRecommendations) {
+            window.graphragRecommendations.renderRecommendationsWidget(
+                currentPath,
+                'graphrag-recommendations'
+            );
+        }
+    }
+});
+</script>
+

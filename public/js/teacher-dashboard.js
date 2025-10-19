@@ -181,7 +181,7 @@ async function loadRecentActivity(teacherId) {
 async function loadResourceLibrary(profile) {
     try {
         let query = supabaseClient
-            .from('resources')
+            .from('graphrag_resources')
             .select('*')
             .eq('is_active', true)
             .order('created_at', { ascending: false })

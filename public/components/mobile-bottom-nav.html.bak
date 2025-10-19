@@ -1,0 +1,129 @@
+<!-- MOBILE BOTTOM NAVIGATION -->
+<!-- Touch-optimized navigation bar for mobile devices -->
+
+<style>
+.mobile-bottom-nav {
+    display: none; /* Show only on mobile */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid #e0e0e0;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+    z-index: 1000;
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.mobile-nav-items {
+    display: flex;
+    justify-content: space-around;
+    align-items: stretch;
+    height: 60px;
+}
+
+.mobile-nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #546e7a;
+    font-size: 0.75rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    position: relative;
+    padding: 0.5rem 0;
+}
+
+.mobile-nav-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 3px;
+    background: #1a4d2e;
+    transform: scaleX(0);
+    transition: transform 0.2s ease;
+}
+
+.mobile-nav-item.active,
+.mobile-nav-item:active {
+    color: #1a4d2e;
+}
+
+.mobile-nav-item.active::before {
+    transform: scaleX(1);
+}
+
+.mobile-nav-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+}
+
+@media (max-width: 768px) {
+    .mobile-bottom-nav {
+        display: block;
+    }
+    
+    /* Add padding to main content so it's not hidden behind nav */
+    body {
+        padding-bottom: 70px;
+    }
+}
+
+/* Haptic feedback effect */
+.mobile-nav-item:active {
+    transform: scale(0.95);
+}
+</style>
+
+<nav class="mobile-bottom-nav" role="navigation" aria-label="Mobile navigation">
+    <div class="mobile-nav-items">
+        <a href="/" class="mobile-nav-item" data-page="home">
+            <span class="mobile-nav-icon">🏠</span>
+            <span>Home</span>
+        </a>
+        
+        <a href="/lessons.html" class="mobile-nav-item" data-page="lessons">
+            <span class="mobile-nav-icon">📚</span>
+            <span>Lessons</span>
+        </a>
+        
+        <a href="/graphrag-search.html" class="mobile-nav-item" data-page="search">
+            <span class="mobile-nav-icon">🔍</span>
+            <span>Search</span>
+        </a>
+        
+        <a href="/teaching-variants-library.html" class="mobile-nav-item" data-page="variants">
+            <span class="mobile-nav-icon">✨</span>
+            <span>Variants</span>
+        </a>
+        
+        <a href="/my-kete.html" class="mobile-nav-item" data-page="saved">
+            <span class="mobile-nav-icon">💼</span>
+            <span>My Kete</span>
+        </a>
+    </div>
+</nav>
+
+<script>
+// Set active state based on current page
+document.addEventListener('DOMContentLoaded', () => {
+    const currentPath = window.location.pathname;
+    const navItems = document.querySelectorAll('.mobile-nav-item');
+    
+    navItems.forEach(item => {
+        const page = item.getAttribute('data-page');
+        
+        if (currentPath === '/' && page === 'home') {
+            item.classList.add('active');
+        } else if (currentPath.includes(page)) {
+            item.classList.add('active');
+        }
+    });
+});
+</script>
+

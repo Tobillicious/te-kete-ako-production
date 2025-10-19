@@ -1,0 +1,256 @@
+<!-- 🏷️ BETA BADGE COMPONENT - Sets Expectations & Encourages Feedback -->
+<!-- Include this on all pages during beta testing period -->
+
+<style>
+.beta-badge-container {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 999;
+    animation: beta-badge-entrance 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+@keyframes beta-badge-entrance {
+    from {
+        opacity: 0;
+        transform: translateX(100px) rotate(12deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) rotate(0deg);
+    }
+}
+
+.beta-badge {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+    padding: 0.75rem 1.25rem;
+    border-radius: 24px 0 0 24px;
+    box-shadow: 0 4px 16px rgba(245, 158, 11, 0.4);
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.beta-badge:hover {
+    transform: translateX(-4px);
+    box-shadow: 0 6px 24px rgba(245, 158, 11, 0.6);
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+}
+
+.beta-pulse {
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    animation: pulse-animation 2s ease-in-out infinite;
+}
+
+@keyframes pulse-animation {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(1.3);
+    }
+}
+
+.beta-tooltip {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    background: white;
+    border: 2px solid #f59e0b;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    min-width: 320px;
+    max-width: 400px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    z-index: 1000;
+}
+
+.beta-tooltip.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.beta-tooltip::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #f59e0b;
+}
+
+.beta-tooltip h3 {
+    color: #1a4d2e;
+    margin: 0 0 0.75rem 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.beta-tooltip p {
+    color: #546e7a;
+    margin: 0 0 1rem 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.beta-tooltip ul {
+    margin: 0 0 1rem 0;
+    padding-left: 1.25rem;
+}
+
+.beta-tooltip li {
+    color: #546e7a;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+}
+
+.beta-feedback-button {
+    display: block;
+    width: 100%;
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    color: white;
+    text-align: center;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.beta-feedback-button:hover {
+    background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.4);
+}
+
+.beta-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #9ca3af;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.beta-close:hover {
+    background: #f3f4f6;
+    color: #1a4d2e;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .beta-badge-container {
+        top: auto;
+        bottom: 80px;
+        right: 10px;
+    }
+    
+    .beta-badge {
+        font-size: 0.8rem;
+        padding: 0.6rem 1rem;
+    }
+    
+    .beta-tooltip {
+        right: -10px;
+        min-width: 280px;
+        max-width: calc(100vw - 40px);
+    }
+}
+</style>
+
+<div class="beta-badge-container" id="beta-badge-container">
+    <div class="beta-badge" id="beta-badge">
+        <span class="beta-pulse"></span>
+        <span>BETA</span>
+        <svg style="width: 16px; height: 16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+    </div>
+    
+    <div class="beta-tooltip" id="beta-tooltip">
+        <button class="beta-close" onclick="document.getElementById('beta-tooltip').classList.remove('show')" aria-label="Close">×</button>
+        
+        <h3>🌿 Welcome to Te Kete Ako Beta!</h3>
+        
+        <p>You're using an early version of our platform. We'd love your feedback!</p>
+        
+        <p style="font-weight: 600; color: #1a4d2e; margin-bottom: 0.5rem;">What to expect:</p>
+        <ul>
+            <li>✅ 19,774 educational resources ready to use</li>
+            <li>✅ Complete units & lesson plans</li>
+            <li>🔧 Some features still being refined</li>
+            <li>💬 Your feedback shapes the platform!</li>
+        </ul>
+        
+        <a href="/beta-feedback.html" class="beta-feedback-button">
+            💬 Send Feedback
+        </a>
+        
+        <p style="font-size: 0.85rem; color: #9ca3af; margin: 1rem 0 0 0; text-align: center;">
+            Beta testing • October 2025
+        </p>
+    </div>
+</div>
+
+<script>
+// Toggle beta tooltip
+document.getElementById('beta-badge').addEventListener('click', function() {
+    const tooltip = document.getElementById('beta-tooltip');
+    tooltip.classList.toggle('show');
+});
+
+// Close tooltip when clicking outside
+document.addEventListener('click', function(event) {
+    const badge = document.getElementById('beta-badge-container');
+    const tooltip = document.getElementById('beta-tooltip');
+    
+    if (!badge.contains(event.target)) {
+        tooltip.classList.remove('show');
+    }
+});
+
+// Auto-show tooltip on first visit (localStorage)
+if (!localStorage.getItem('beta-tooltip-seen')) {
+    setTimeout(() => {
+        document.getElementById('beta-tooltip').classList.add('show');
+        localStorage.setItem('beta-tooltip-seen', 'true');
+    }, 2000);
+}
+</script>
+

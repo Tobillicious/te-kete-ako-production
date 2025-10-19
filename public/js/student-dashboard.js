@@ -167,7 +167,7 @@ function displayContinueLearning(progressRecord) {
     
     // Fetch resource details
     supabase
-        .from('resources')
+        .from('graphrag_resources')
         .select('*')
         .eq('id', progressRecord.resource_id)
         .single()
@@ -203,7 +203,7 @@ async function loadRecommendedResources() {
     try {
         // Query resources matching student's year level
         const { data, error } = await supabase
-            .from('resources')
+            .from('graphrag_resources')
             .select('*')
             .eq('level', `y${currentStudent.year_level}`)
             .eq('is_active', true)

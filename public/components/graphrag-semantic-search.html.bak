@@ -1,0 +1,264 @@
+<!-- GraphRAG Semantic Search Component -->
+<div id="graphrag-search-widget" style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); border-radius: 16px; padding: 2rem; margin: 2rem 0; box-shadow: 0 8px 30px rgba(30, 27, 75, 0.3);">
+    <div style="text-align: center; margin-bottom: 1.5rem;">
+        <h3 style="color: white; font-size: 1.75rem; margin-bottom: 0.5rem; font-weight: 700;">
+            🧠 Intelligent Resource Discovery
+        </h3>
+        <p style="color: rgba(255,255,255,0.85); font-size: 0.95rem;">
+            Powered by GraphRAG: Search by meaning, not just keywords
+        </p>
+    </div>
+    
+    <!-- Search Input -->
+    <div style="position: relative; margin-bottom: 1.5rem;">
+        <input 
+            type="text" 
+            id="graphrag-search-input" 
+            placeholder="Search by topic, concept, or cultural element..." 
+            style="width: 100%; padding: 1rem 3rem 1rem 1.5rem; border: 3px solid rgba(255,255,255,0.2); border-radius: 12px; font-size: 1.1rem; background: rgba(255,255,255,0.95); transition: all 0.3s;"
+            onfocus="this.style.borderColor='#a855f7'; this.style.background='white';"
+            onblur="this.style.borderColor='rgba(255,255,255,0.2)'; this.style.background='rgba(255,255,255,0.95)';"
+        />
+        <div style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); font-size: 1.5rem; opacity: 0.5;">🔍</div>
+    </div>
+    
+    <!-- Filters -->
+    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+        <button class="filter-btn active" data-filter="all" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid rgba(255,255,255,0.3); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-weight: 600; transition: all 0.2s;">
+            All
+        </button>
+        <button class="filter-btn" data-filter="cultural" style="background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); border: 2px solid rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-weight: 600; transition: all 0.2s;">
+            🌿 Cultural
+        </button>
+        <button class="filter-btn" data-filter="high-quality" style="background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); border: 2px solid rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-weight: 600; transition: all 0.2s;">
+            ⭐ Quality 90+
+        </button>
+        <button class="filter-btn" data-filter="te-reo" style="background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); border: 2px solid rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-weight: 600; transition: all 0.2s;">
+            🗣️ Te Reo
+        </button>
+        <button class="filter-btn" data-filter="whakataukī" style="background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); border: 2px solid rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; font-weight: 600; transition: all 0.2s;">
+            💬 Whakataukī
+        </button>
+    </div>
+    
+    <!-- Quick Search Examples -->
+    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+        <span style="color: rgba(255,255,255,0.7); font-size: 0.85rem; margin-right: 0.5rem;">Try:</span>
+        <button class="example-query" data-query="genetics whakapapa" style="background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 12px; cursor: pointer; font-size: 0.85rem; transition: background 0.2s;">
+            genetics whakapapa
+        </button>
+        <button class="example-query" data-query="kaitiakitanga" style="background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 12px; cursor: pointer; font-size: 0.85rem; transition: background 0.2s;">
+            kaitiakitanga
+        </button>
+        <button class="example-query" data-query="navigation physics" style="background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 12px; cursor: pointer; font-size: 0.85rem; transition: background 0.2s;">
+            navigation physics
+        </button>
+    </div>
+    
+    <!-- Results -->
+    <div id="graphrag-search-results" style="display: none;"></div>
+    
+    <!-- Stats Footer -->
+    <div style="text-align: center; color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-top: 1rem;">
+        Searching <span id="search-resource-count">19,752</span> resources across <span id="search-relationship-count">231,530</span> knowledge connections
+    </div>
+</div>
+
+<style>
+.filter-btn:hover {
+    background: rgba(255,255,255,0.25) !important;
+    color: white !important;
+    border-color: rgba(255,255,255,0.4) !important;
+}
+
+.filter-btn.active {
+    background: rgba(255,255,255,0.3) !important;
+    color: white !important;
+    border-color: rgba(255,255,255,0.5) !important;
+}
+
+.example-query:hover {
+    background: rgba(255,255,255,0.25) !important;
+}
+
+.search-result-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    text-decoration: none;
+    display: block;
+    border-left: 4px solid #7c3aed;
+    transition: all 0.3s;
+}
+
+.search-result-card:hover {
+    transform: translateX(8px);
+    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.2);
+}
+
+.search-result-card.cultural {
+    border-left-color: #15803d;
+}
+</style>
+
+<script>
+(function() {
+    const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5ODgxMTksImV4cCI6MjA1MjU2NDExOX0.gN5RGe7kGmxj4-yI1xnDuCuKUPFDh4f-8CQqQdqrGq0';
+    
+    let currentFilter = 'all';
+    let searchTimeout;
+    
+    // Initialize Supabase client
+    let supabase;
+    if (window.supabase && window.supabase.createClient) {
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    }
+    
+    // Search function with semantic intelligence
+    async function semanticSearch(query) {
+        if (!query || query.length < 2) {
+            document.getElementById('graphrag-search-results').style.display = 'none';
+            return;
+        }
+        
+        try {
+            // Build filter query
+            let filters = supabase
+                .from('graphrag_resources')
+                .select('file_path, title, resource_type, subject, year_level, quality_score, cultural_context, has_te_reo, has_whakataukī, content_preview')
+                .or(`title.ilike.%${query}%,subject.ilike.%${query}%,content_preview.ilike.%${query}%`)
+                .order('quality_score', { ascending: false })
+                .limit(12);
+            
+            // Apply active filter
+            if (currentFilter === 'cultural') {
+                filters = filters.eq('cultural_context', true);
+            } else if (currentFilter === 'high-quality') {
+                filters = filters.gte('quality_score', 90);
+            } else if (currentFilter === 'te-reo') {
+                filters = filters.eq('has_te_reo', true);
+            } else if (currentFilter === 'whakataukī') {
+                filters = filters.eq('has_whakataukī', true);
+            }
+            
+            const { data, error } = await filters;
+            
+            if (error) {
+                console.error('Search error:', error);
+                return;
+            }
+            
+            displayResults(data, query);
+            
+        } catch (error) {
+            console.error('Semantic search error:', error);
+        }
+    }
+    
+    // Display search results
+    function displayResults(results, query) {
+        const container = document.getElementById('graphrag-search-results');
+        
+        if (results.length === 0) {
+            container.innerHTML = `
+                <div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 12px; text-align: center; color: white;">
+                    <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">🔍 No results found</p>
+                    <p style="opacity: 0.7; font-size: 0.9rem;">Try different keywords or filters</p>
+                </div>
+            `;
+            container.style.display = 'block';
+            return;
+        }
+        
+        const resultsHTML = `
+            <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 12px; margin-bottom: 1rem;">
+                <p style="color: white; font-weight: 600;">
+                    Found <strong>${results.length}</strong> resources for "<strong>${query}</strong>"
+                </p>
+            </div>
+            <div style="max-height: 600px; overflow-y: auto; padding: 0.5rem;">
+                ${results.map(r => createResultCard(r)).join('')}
+            </div>
+        `;
+        
+        container.innerHTML = resultsHTML;
+        container.style.display = 'block';
+    }
+    
+    // Create result card
+    function createResultCard(resource) {
+        const culturalClass = resource.cultural_context ? ' cultural' : '';
+        const path = resource.file_path.startsWith('/') ? resource.file_path : `/${resource.file_path}`;
+        
+        return `
+            <a href="${path}" class="search-result-card${culturalClass}">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem;">
+                    <h4 style="color: ${resource.cultural_context ? '#15803d' : '#7c3aed'}; font-weight: 700; margin: 0; font-size: 1.1rem;">
+                        ${resource.title}
+                    </h4>
+                    <span style="background: #e0e7ff; color: #4338ca; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700; white-space: nowrap; margin-left: 1rem;">
+                        ★ ${resource.quality_score}
+                    </span>
+                </div>
+                <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 0.75rem;">
+                    ${resource.year_level || 'All Levels'} • ${resource.subject || 'General'} • ${resource.resource_type || 'Resource'}
+                </p>
+                ${resource.content_preview ? `
+                    <p style="color: #475569; font-size: 0.85rem; line-height: 1.5; margin-bottom: 0.75rem;">
+                        ${resource.content_preview.substring(0, 150)}...
+                    </p>
+                ` : ''}
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    ${resource.cultural_context ? '<span style="background: #dcfce7; color: #15803d; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem;">🌿 Cultural</span>' : ''}
+                    ${resource.has_te_reo ? '<span style="background: #dbeafe; color: #1e40af; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem;">🗣️ Te Reo</span>' : ''}
+                    ${resource.has_whakataukī ? '<span style="background: #fef3c7; color: #92400e; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem;">💬 Whakataukī</span>' : ''}
+                </div>
+            </a>
+        `;
+    }
+    
+    // Event listeners
+    const searchInput = document.getElementById('graphrag-search-input');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => semanticSearch(e.target.value), 300);
+        });
+    }
+    
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Update active state
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Update filter
+            currentFilter = btn.dataset.filter;
+            
+            // Re-run search if there's a query
+            const query = searchInput?.value;
+            if (query && query.length >= 2) {
+                semanticSearch(query);
+            }
+        });
+    });
+    
+    // Example query buttons
+    document.querySelectorAll('.example-query').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const query = btn.dataset.query;
+            if (searchInput) {
+                searchInput.value = query;
+                semanticSearch(query);
+            }
+        });
+    });
+    
+    console.log('✅ GraphRAG Semantic Search initialized');
+})();
+</script>
+

@@ -1,0 +1,205 @@
+<!-- 📄 DOWNLOAD PDF BUTTON - Professional Print/Download -->
+<!-- Solves: Teachers need to print handouts for 30 students -->
+
+<div class="pdf-download-section no-print" style="
+    display: flex;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    border-radius: 12px;
+    border: 2px solid #059669;
+">
+    <div style="flex: 1;">
+        <h3 style="margin: 0 0 0.5rem 0; color: #1a4d2e; font-size: 1.125rem;">
+            📄 Download or Print This Resource
+        </h3>
+        <p style="margin: 0; color: #6b7280; font-size: 0.875rem;">
+            Get a beautifully formatted PDF for printing or offline use. Perfect for class handouts!
+        </p>
+    </div>
+    
+    <div style="display: flex; gap: 0.75rem; align-items: center;">
+        <!-- Print/PDF Button -->
+        <button id="download-pdf-btn" class="pdf-btn" style="
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(5, 150, 105, 0.3);
+        ">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            Download PDF
+        </button>
+        
+        <!-- Quick Print Button -->
+        <button id="quick-print-btn" class="print-btn" style="
+            background: white;
+            color: #059669;
+            border: 2px solid #059669;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        ">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                <rect x="6" y="14" width="12" height="8"></rect>
+            </svg>
+            Print
+        </button>
+    </div>
+</div>
+
+<!-- Print Instructions (hidden, shown in print dialog) -->
+<div id="print-instructions" style="display: none;">
+    <div style="
+        background: white;
+        padding: 2rem;
+        max-width: 600px;
+        margin: 2rem auto;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    ">
+        <h2 style="color: #1a4d2e; margin-bottom: 1rem;">🖨️ Print Instructions</h2>
+        
+        <ol style="color: #374151; line-height: 1.8;">
+            <li><strong>Destination:</strong> Select "Save as PDF" to download</li>
+            <li><strong>Layout:</strong> Portrait (recommended)</li>
+            <li><strong>Color:</strong> Color (for cultural elements) or Black & White</li>
+            <li><strong>Margins:</strong> Default</li>
+            <li><strong>Options:</strong> Enable "Background graphics" for full styling</li>
+        </ol>
+        
+        <div style="
+            background: #f0fdf4;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            border-left: 4px solid #059669;
+        ">
+            <strong style="color: #059669;">💡 Tip:</strong> 
+            <span style="color: #374151;">
+                Navigation, buttons, and interactive elements are automatically hidden in print view.
+            </span>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Print-specific styles */
+    @media print {
+        #print-instructions {
+            display: none !important;
+        }
+    }
+    
+    /* Hover effects */
+    .pdf-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(5, 150, 105, 0.4);
+    }
+    
+    .print-btn:hover {
+        background: #f0fdf4;
+        transform: translateY(-2px);
+    }
+</style>
+
+<script>
+(function() {
+    const downloadBtn = document.getElementById('download-pdf-btn');
+    const printBtn = document.getElementById('quick-print-btn');
+    
+    // Ensure print CSS is loaded
+    if (!document.querySelector('link[href*="print-professional.css"]')) {
+        const printCSS = document.createElement('link');
+        printCSS.rel = 'stylesheet';
+        printCSS.href = '/css/print-professional.css';
+        printCSS.media = 'print';
+        document.head.appendChild(printCSS);
+    }
+    
+    // Download as PDF (opens print dialog with instructions)
+    downloadBtn.addEventListener('click', () => {
+        // Show helpful instructions toast
+        showToast('📄 Use "Save as PDF" in the print dialog to download!', 5000);
+        
+        // Small delay so user sees the toast
+        setTimeout(() => {
+            window.print();
+        }, 500);
+    });
+    
+    // Quick print
+    printBtn.addEventListener('click', () => {
+        window.print();
+    });
+    
+    // Helper: Show toast notification
+    function showToast(message, duration = 3000) {
+        const toast = document.getElementById('pdf-toast') || createToast();
+        toast.innerHTML = message;
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateX(-50%) translateY(0)';
+        
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(-50%) translateY(20px)';
+        }, duration);
+    }
+    
+    function createToast() {
+        const toast = document.createElement('div');
+        toast.id = 'pdf-toast';
+        toast.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: #1a4d2e;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 99999;
+            font-weight: 500;
+            max-width: 90%;
+            text-align: center;
+        `;
+        document.body.appendChild(toast);
+        return toast;
+    }
+    
+    // Add keyboard shortcut info
+    document.addEventListener('keydown', (e) => {
+        // Ctrl+P or Cmd+P
+        if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+            e.preventDefault();
+            showToast('💡 Tip: Use "Download PDF" button for best results!', 3000);
+            setTimeout(() => window.print(), 500);
+        }
+    });
+})();
+</script>
+

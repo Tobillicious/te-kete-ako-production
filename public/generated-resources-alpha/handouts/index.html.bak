@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>AI-Generated Handouts | Te Kete Ako</title>
+ <meta name="description" content="Culturally-integrated educational handouts for NZ classrooms">
+<!-- Professional Design System -->
+<link rel="stylesheet" href="/css/te-kete-professional.css"> 
+ <!-- 🎨 ULTIMATE BEAUTY SYSTEM - Te Kete Ako Design Excellence -->
+ <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+ <script src="https://cdn.tailwindcss.com"></script>
+ <script src="/tailwind.config.ultimate.js"></script>
+ <!-- END ULTIMATE BEAUTY SYSTEM --></head>
+<body data-auto-init="true" data-current-page="handouts" class="pattern-koru-subtle">
+ <!-- Professional Mega Menu Navigation -->
+ <div id="beautiful-nav-container"></div>
+ <script>
+ fetch('/components/navigation-standard.html')
+ .then(r => r.text())
+ .then(html => {
+ const div = document.createElement('div');
+ div.innerHTML = html;
+ document.body.insertBefore(div.firstElementChild, document.body.firstChild);
+ });
+ </script>
+
+ 
+ <main class="container" style="padding: 3rem 2rem;">
+ <header style="text-align: center; margin-bottom: 3rem;">
+ <h1 style="font-size: 3rem; color: var(--color-primary);">
+ 📄 AI-Generated Handouts
+ </h1>
+ <p style="font-size: 1.2rem; color: var(--color-text-secondary); max-width: 700px; margin: 1rem auto;">
+ 26 culturally-integrated, print-ready handouts for Years 7-13
+ </p>
+ </header>
+
+ <nav class="breadcrumb-nav" style="margin-bottom: 2rem; padding: 1rem; background: #f9fafb; border-radius: 8px;">
+ <a href="/" style="text-decoration: none; color: var(--color-primary); font-weight: 500;">🏠 Home</a> 
+ <span style="color: var(--color-text-secondary);">→</span> 
+ <a href="/generated-resources-alpha/" style="text-decoration: none; color: var(--color-primary); font-weight: 500;">✨ AI Resources</a> 
+ <span style="color: var(--color-text-secondary);">→</span> 
+ <span style="color: var(--color-text);">📄 Handouts</span>
+ </nav>
+ 
+ <!-- Quick Links -->
+ <div style="background: linear-gradient(135deg, #ecfdf5, #d1fae5); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; border-left: 4px solid #10b981;">
+ <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; justify-content: space-between;">
+ <div>
+ <h2 style="margin: 0; color: #065f46; font-size: 1.1rem;">📘 New to these resources?</h2>
+ <p style="margin: 0.25rem 0 0; color: #047857;">Read our Quick-Start Guide for a 10-minute introduction</p>
+ </div>
+ <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+ <a href="/generated-resources-alpha/TEACHER-QUICK-START-GUIDE.html" style="background: #10b981; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; white-space: nowrap;">
+ Quick-Start Guide →
+ </a>
+ <a href="/generated-resources-alpha/lessons/index.html" style="background: white; color: #10b981; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; border: 2px solid #10b981; white-space: nowrap;">
+ View Lessons
+ </a>
+ </div>
+ </div>
+ </div>
+
+ <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem;">
+ <!-- List will be auto-generated -->
+ </div>
+ </main>
+
+ <script>
+ // Auto-generate handout list
+ const handouts = [
+ 'algebraic-thinking-in-traditional-māori-games',
+ 'biotechnology-ethics-through-māori-worldview',
+ 'calculus-applications-in-environmental-modeling',
+ 'chemistry-of-traditional-māori-medicine',
+ 'chromebook-optimized-mobile-learning-guide',
+ 'coding-projects-inspired-by-māori-patterns',
+ 'cultural-safety-checklists-for-classroom-discussions',
+ 'data-visualization-of-cultural-demographics',
+ 'financial-literacy-with-māori-economic-principles',
+ 'food-security-through-traditional-knowledge-systems',
+ 'geometric-patterns-in-māori-art-and-architecture',
+ 'global-citizenship-with-tangata-whenua-perspective',
+ 'information-literacy-in-the-digital-age',
+ 'leadership-development-through-cultural-values',
+ 'mathematical-modeling-of-ecological-systems',
+ 'ncea-level-1-literacy-and-numeracy-must-knows',
+ 'probability-and-chance-in-māori-games',
+ 'public-speaking-with-cultural-confidence',
+ 'social-media-and-cultural-identity',
+ 'statistical-analysis-of-treaty-settlement-data',
+ 'sustainable-energy-solutions-from-traditional-knowledge',
+ 'te-reo-maths-glossary-key-terms-in-māori-and-english',
+ 'visual-arts-analysis-with-cultural-context',
+ 'workplace-readiness-with-cultural-competency',
+ 'year-9-starter-pack-essential-skills-for-high-school-success'
+ ];
+
+ const container = document.querySelector('.container > div');
+ handouts.forEach(slug => {
+ const title = slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+ const card = document.createElement('a');
+ card.href = slug + '.html';
+ card.className = 'card card-elevated';
+ card.style.cssText = 'text-decoration: none; transition: transform 0.2s;';
+ card.innerHTML = `
+ <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">📄 ${title}</h3>
+ <p style="color: var(--color-text-secondary); margin: 0;">View handout →</p>
+ `;
+ card.onmouseover = () => card.style.transform = 'translateY(-4px)';
+ card.onmouseout = () => card.style.transform = 'translateY(0)';
+ container.appendChild(card);
+ });
+ </script>
+
+<!-- 🎨 ULTIMATE BEAUTY SYSTEM: Complete UX -->
+
+<!-- Footer -->
+<div id="footer-container"></div>
+<script>
+  fetch('/components/footer.html').then(r=>r.text()).then(html=>{
+    document.getElementById('footer-container').innerHTML=html;
+  });
+</script>
+
+<!-- Mobile Navigation -->
+<div id="mobile-nav-bottom"></div>
+<script>
+  fetch('/components/mobile-bottom-nav.html').then(r=>r.text()).then(html=>{
+    document.getElementById('mobile-nav-bottom').innerHTML=html;
+  });
+</script>
+
+<!-- Floating Action Button (Help) -->
+<div id="fab-quick-actions"></div>
+<script>
+  fetch('/components/quick-actions-fab.html').then(r=>r.text()).then(html=>{
+    document.getElementById('fab-quick-actions').innerHTML=html;
+  });
+</script>
+
+<!-- 🎨 ULTIMATE BEAUTY: Framer Cultural Gestures -->
+<script src="/js/framer-cultural-gestures-ultimate.js" defer></script>
+
+
+<!-- 📊 ULTIMATE BEAUTY: PostHog Analytics (Privacy-First) -->
+<script src="/js/posthog-analytics.js" defer></script>
+
+</body>
+</html>

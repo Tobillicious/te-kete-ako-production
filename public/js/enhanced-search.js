@@ -24,7 +24,7 @@ class EnhancedSearch {
     }
     
     try {
-      const url = `${this.supabaseUrl}/rest/v1/resources`;
+      const url = `${this.supabaseUrl}/rest/v1/graphrag_resources`;
       const headers = {
         'apikey': this.supabaseKey,
         'Authorization': `Bearer ${this.supabaseKey}`,
@@ -34,21 +34,21 @@ class EnhancedSearch {
       // Build query
       let queryParams = new URLSearchParams();
       queryParams.append('select', '*');
-      queryParams.append('is_active', 'eq.true');
-      queryParams.append('limit', '50');
+      queryParams.append('file_path', 'like./public/*');
+      queryParams.append('limit', '100');
       
-      // Text search on title and description
-      queryParams.append('or', `title.ilike.*${query}*,description.ilike.*${query}*`);
+      // Text search on title and content_preview
+      queryParams.append('or', `title.ilike.*${query}*,content_preview.ilike.*${query}*`);
       
-      // Apply filters
+      // Apply filters (mapped to graphrag_resources schema)
       if (filters.subject) {
-        queryParams.append('subject', `eq.${filters.subject}`);
+        queryParams.append('subject', `ilike.${filters.subject}`);
       }
       if (filters.type) {
-        queryParams.append('type', `eq.${filters.type}`);
+        queryParams.append('resource_type', `ilike.${filters.type}`);
       }
       if (filters.level) {
-        queryParams.append('level', `eq.${filters.level}`);
+        queryParams.append('year_level', `ilike.*${filters.level}*`);
       }
       
       const response = await fetch(`${url}?${queryParams}`, { headers });
@@ -239,10 +239,10 @@ function initializeSearch(inputId, resultsId) {
       }
       
       const html = searchResults.map(r => `
-        <a href="${r.path}" style="display: block; padding: 1rem; border-bottom: 1px solid #eee; text-decoration: none; color: inherit;">
+        <a href="${r.file_path}" style="display: block; padding: 1rem; border-bottom: 1px solid #eee; text-decoration: none; color: inherit;">
           <strong style="color: #1a4d2e;">${r.title}</strong>
           <br>
-          <small style="color: #666;">${r.subject} • ${r.type}</small>
+          <small style="color: #666;">${r.subject || 'General'} • ${r.resource_type || 'Resource'}</small>
         </a>
       `).join('');
       

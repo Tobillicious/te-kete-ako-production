@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Student Sign Up | Te Kete Ako</title>
+    <meta name="description" content="Join Te Kete Ako and start your personalized learning journey">
+<!-- Professional Design System -->
+<link rel="stylesheet" href="/css/te-kete-professional.css">
+<meta content="Join Te Kete Ako - NZ's educational platform with personalized learning" name="description"/>
+<!-- UNIFIED DESIGN SYSTEM -->
+<style id="critical-css">/* CRITICAL CSS - Above-the-fold styles for faster first paint */
+/* Inlined in <head> for immediate rendering */
+
+/* CSS Variables - Must load first */
+:root {
+ --color-primary-500: #1a4d2e;
+ --color-primary-700: #0f2818;
+ --color-secondary-500: #f5e6d3;
+ --color-accent-500: #d4a574;
+ --color-surface: #ffffff;
+ --color-text: #2c3e50;
+ --color-text-secondary: #546e7a;
+ --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+ --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Reset & Base - Critical only */
+* {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+}
+
+body {
+ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+ "Helvetica Neue", Arial, sans-serif;
+ line-height: 1.6;
+ color: var(--color-text);
+ background-color: var(--color-surface);
+}
+
+/* Header - Above fold, critical */
+header,
+nav {
+ background-color: var(--color-primary-700);
+ color: white;
+ position: sticky;
+ top: 0;
+ z-index: 1000;
+ box-shadow: var(--shadow-md);
+}
+
+/* Navigation container */
+.nav-container {
+ max-width: 1400px;
+ margin: 0 auto;
+ padding: 0 2rem;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ height: 72px;
+}
+
+/* Logo/Branding */
+.site-logo {
+ font-size: 1.5rem;
+ font-weight: 700;
+ color: white;
+ text-decoration: none;
+}
+
+/* Main content container */
+main {
+ max-width: 1200px;
+ margin: 2rem auto;
+ padding: 0 2rem;
+}
+
+/* Typography - Critical headings only */
+h1 {
+ font-size: 2.5rem;
+ color: var(--color-primary-500);
+ margin-bottom: 1rem;
+ font-weight: 700;
+}
+
+h2 {
+ font-size: 2rem;
+ color: var(--color-primary-700);
+ margin-bottom: 0.75rem;
+}
+
+/* Loading state - Critical for UX */
+.loading {
+ text-align: center;
+ padding: 4rem;
+ color: var(--color-text-secondary);
+}
+
+/* Skip to main content - Accessibility */
+.skip-to-main {
+ position: absolute;
+ left: -9999px;
+ top: 0;
+ background: var(--color-accent-500);
+ color: white;
+ padding: 1rem;
+ text-decoration: none;
+ z-index: 9999;
+}
+
+.skip-to-main:focus {
+ left: 0;
+}
+
+/* Critical button styles */
+.btn {
+ display: inline-block;
+ padding: 0.75rem 1.5rem;
+ background-color: var(--color-primary-500);
+ color: white;
+ text-decoration: none;
+ border-radius: 8px;
+ border: none;
+ cursor: pointer;
+ font-size: 1rem;
+ font-weight: 600;
+ transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+ background-color: var(--color-primary-700);
+}
+
+/* Container - Critical layout */
+.container {
+ width: 100%;
+ max-width: 1200px;
+ margin: 0 auto;
+ padding: 0 2rem;
+}
+
+/* Mobile - Critical breakpoint only */
+@media (max-width: 768px) {
+ .nav-container {
+ padding: 0 1rem;
+ }
+
+ h1 {
+ font-size: 2rem;
+ }
+
+ .container,
+ main {
+ padding: 0 1rem;
+ }
+}
+</style><!-- 🎨 ULTIMATE BEAUTY SYSTEM - Te Kete Ako Design Excellence -->
+ <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+ <script src="https://cdn.tailwindcss.com"></script>
+ <script src="/tailwind.config.ultimate.js"></script>
+ <!-- END ULTIMATE BEAUTY SYSTEM -->
+<link href="/css/component-library.css" media="print" onload="this.media='all'" rel="stylesheet"/>
+<link href="/css/beautiful-navigation.css" media="print" onload="this.media='all'" rel="stylesheet"/>
+<link href="/css/print.css" media="print" rel="stylesheet">
+<!-- Supabase Auth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</link></head>
+<body class="pattern-koru-subtle">
+<!-- Professional Mega Menu Navigation -->
+<div id="beautiful-nav-container"></div>
+<script>
+ fetch('/components/navigation-standard.html')
+ .then(r => r.text())
+ .then(html => {
+ const div = document.createElement('div');
+ div.innerHTML = html;
+ document.body.insertBefore(div.firstElementChild, document.body.firstChild);
+ });
+ </script>
+<!-- Navigation -->
+<div id="navigation-container"></div>
+<main class="container" style="max-width: 800px; margin: 4rem auto; padding: 2rem;">
+<!-- Header -->
+<div style="text-align: center; margin-bottom: 3rem;">
+<h1 style="font-size: 2.5rem; color: var(--color-primary-500); margin-bottom: 1rem;">
+ 🎓 Student Sign Up
+ </h1>
+<p style="font-size: 1.2rem; color: var(--color-neutral-600);">
+ Join Te Kete Ako and start your personalized learning journey
+ </p>
+</div>
+<!-- Multi-Step Form -->
+<div class="signup-card" style="background: white; padding: 3rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+<!-- Progress Indicator -->
+<div class="progress-steps" style="display: flex; justify-content: space-between; margin-bottom: 3rem;">
+<div class="step active" data-step="1">
+<div class="step-number">1</div>
+<div class="step-label">Basic Info</div>
+</div>
+<div class="step" data-step="2">
+<div class="step-number">2</div>
+<div class="step-label">School</div>
+</div>
+<div class="step" data-step="3">
+<div class="step-number">3</div>
+<div class="step-label">Personal</div>
+</div>
+<div class="step" data-step="4">
+<div class="step-number">4</div>
+<div class="step-label">Preferences</div>
+</div>
+</div>
+<!-- Form -->
+<form id="studentSignupForm">
+<!-- STEP 1: Basic Info -->
+<div class="form-step active" data-step="1">
+<h2 style="margin-bottom: 2rem; color: var(--color-primary-500);">Let's get started!</h2>
+<div class="form-group">
+<label class="required" for="firstName">First Name</label>
+<input id="firstName" name="firstName" placeholder="e.g., Aroha" required="" type="text"/>
+</div>
+<div class="form-group">
+<label class="required" for="lastName">Last Name</label>
+<input id="lastName" name="lastName" placeholder="e.g., Williams" required="" type="text"/>
+</div>
+<div class="form-group">
+<label class="required" for="email">Email</label>
+<input id="email" name="email" placeholder="your.email@school.nz or personal email" required="" type="email"/>
+<small>You'll use this to log in</small>
+</div>
+<div class="form-group">
+<label class="required" for="password">Password</label>
+<input id="password" minlength="8" name="password" placeholder="At least 8 characters" required="" type="password"/>
+<small>Must be at least 8 characters long</small>
+</div>
+<div class="form-group">
+<label class="required" for="confirmPassword">Confirm Password</label>
+<input id="confirmPassword" name="confirmPassword" placeholder="Re-enter your password" required="" type="password"/>
+</div>
+</div>
+<!-- STEP 2: School Details -->
+<div class="form-step" data-step="2">
+<h2 style="margin-bottom: 2rem; color: var(--color-primary-500);">Tell us about your school</h2>
+<div class="form-group">
+<label class="required" for="schoolName">School Name</label>
+<select id="schoolName" name="schoolName" required="">
+<option value="">-- Select your school --</option>
+<option value="Mangakōtukutuku College">Mangakōtukutuku College</option>
+<option value="Auckland Grammar School">Auckland Grammar School</option>
+<option value="Wellington High School">Wellington High School</option>
+<option value="Christchurch Boys High School">Christchurch Boys High School</option>
+<option value="Otago Girls High School">Otago Girls High School</option>
+<option value="Hamilton Boys High School">Hamilton Boys High School</option>
+<option value="Mount Albert Grammar School">Mount Albert Grammar School</option>
+<option value="Takapuna Grammar School">Takapuna Grammar School</option>
+<option value="other">Other (type below)</option>
+</select>
+</div>
+<div class="form-group" id="otherSchoolGroup" style="display:none;">
+<label for="otherSchool">School Name (type it in)</label>
+<input id="otherSchool" name="otherSchool" placeholder="Type your school name" type="text"/>
+</div>
+<div class="form-group">
+<label class="required" for="yearLevel">Year Level</label>
+<select id="yearLevel" name="yearLevel" required="">
+<option value="">-- Select year level --</option>
+<option value="7">Year 7</option>
+<option value="8">Year 8</option>
+<option value="9">Year 9</option>
+<option value="10">Year 10</option>
+<option value="11">Year 11</option>
+<option value="12">Year 12</option>
+<option value="13">Year 13</option>
+</select>
+<small>We'll show you content matched to your level</small>
+</div>
+<div class="form-group">
+<label for="parentEmail">Parent/Guardian Email</label>
+<input id="parentEmail" name="parentEmail" placeholder="parent@email.com (required if under 16)" type="email"/>
+<small>Required for students under 16 years old</small>
+</div>
+</div>
+<!-- STEP 3: Personal Details -->
+<div class="form-step" data-step="3">
+<h2 style="margin-bottom: 2rem; color: var(--color-primary-500);">A bit about you</h2>
+<p style="color: var(--color-neutral-600); margin-bottom: 2rem; font-size: 0.95rem;">
+ This helps us personalize your learning experience and show you culturally relevant content.
+ </p>
+<div class="form-group">
+<label for="dateOfBirth">Date of Birth</label>
+<input id="dateOfBirth" max="2012-12-31" min="1990-01-01" name="dateOfBirth" type="date"/>
+<small>Optional, helps us provide age-appropriate content</small>
+</div>
+<div class="form-group">
+<label for="gender">Gender</label>
+<select id="gender" name="gender">
+<option value="">-- Select if you wish --</option>
+<option value="Male">Male / Tāne</option>
+<option value="Female">Female / Wāhine</option>
+<option value="Non-binary">Non-binary</option>
+<option value="Takatāpui">Takatāpui</option>
+<option value="Prefer not to say">Prefer not to say</option>
+<option value="Other">Other</option>
+</select>
+<small>Optional, for inclusive content recommendations</small>
+</div>
+<div class="form-group">
+<label for="culturalIdentity">Cultural Identity</label>
+<select id="culturalIdentity" multiple="" name="culturalIdentity" size="5">
+<option value="Māori">Māori</option>
+<option value="NZ European/Pākehā">NZ European / Pākehā</option>
+<option value="Pacific Peoples">Pacific Peoples</option>
+<option value="Asian">Asian</option>
+<option value="Middle Eastern">Middle Eastern</option>
+<option value="Latin American">Latin American</option>
+<option value="African">African</option>
+<option value="Other">Other</option>
+</select>
+<small>Hold Ctrl/Cmd to select multiple. This helps us show you relevant cultural content.</small>
+</div>
+<div class="form-group">
+<label for="iwiAffiliation">Iwi Affiliation</label>
+<input id="iwiAffiliation" name="iwiAffiliation" placeholder="e.g., Ngāpuhi, Ngāti Porou, Ngāi Tahu" type="text"/>
+<small>Optional, for Māori students to connect with iwi-specific content</small>
+</div>
+</div>
+<!-- STEP 4: Preferences & Consent -->
+<div class="form-step" data-step="4">
+<h2 style="margin-bottom: 2rem; color: var(--color-primary-500);">Almost there!</h2>
+<div class="form-group">
+<label for="preferredLanguage">Preferred Language</label>
+<select id="preferredLanguage" name="preferredLanguage">
+<option value="English">English</option>
+<option value="Te Reo Māori">Te Reo Māori</option>
+<option value="Both">Both / Bilingual</option>
+</select>
+<small>We'll prioritize content in your preferred language</small>
+</div>
+<div class="form-group" style="margin-top: 2rem;">
+<label class="checkbox-label">
+<input id="termsAccepted" name="termsAccepted" required="" type="checkbox"/>
+<span>I accept the <a href="/legal/terms.html" target="_blank">Terms &amp; Conditions</a> and <a href="/legal/privacy.html" target="_blank">Privacy Policy</a></span>
+</label>
+</div>
+<div class="form-group">
+<label class="checkbox-label">
+<input id="dataConsent" name="dataConsent" required="" type="checkbox"/>
+<span>I consent to Te Kete Ako collecting and using my data to personalize my learning experience, as described in our Privacy Policy</span>
+</label>
+</div>
+<div class="form-group">
+<label class="checkbox-label">
+<input id="emailUpdates" name="emailUpdates" type="checkbox"/>
+<span>I'd like to receive educational updates and new resource notifications (optional)</span>
+</label>
+</div>
+</div>
+<!-- Error/Success Messages -->
+<div id="formMessage" style="display:none; margin: 2rem 0; padding: 1rem; border-radius: 8px;"></div>
+<!-- Navigation Buttons -->
+<div class="form-buttons" style="display: flex; justify-content: space-between; margin-top: 3rem;">
+<button class="btn btn-secondary" id="prevBtn" style="display: none;" type="button">
+ ← Previous
+ </button>
+<button class="btn btn-primary" id="nextBtn" type="button">
+ Next →
+ </button>
+<button class="btn btn-primary" id="submitBtn" style="display: none;" type="submit">
+ 🎉 Create Account
+ </button>
+</div>
+</form>
+<!-- Already have account -->
+<div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--color-neutral-200);">
+<p style="color: var(--color-neutral-600);">
+ Already have an account? <a href="/login.html" style="color: var(--color-primary-500); font-weight: 600;">Log in here</a>
+</p>
+<p style="color: var(--color-neutral-600); margin-top: 0.5rem;">
+ Are you a teacher? <a href="/signup-teacher.html" style="color: var(--color-primary-500); font-weight: 600;">Sign up as a teacher</a>
+</p>
+</div>
+</div>
+</main>
+<style>
+ /* Form Styling */
+ .form-group {
+ margin-bottom: 1.5rem;
+ }
+ 
+ label {
+ display: block;
+ font-weight: 600;
+ color: var(--color-neutral-700);
+ margin-bottom: 0.5rem;
+ }
+ 
+ label.required::after {
+ content: " *";
+ color: var(--color-error);
+ }
+ 
+ input[type="text"],
+ input[type="email"],
+ input[type="password"],
+ input[type="date"],
+ select {
+ width: 100%;
+ padding: 0.75rem;
+ border: 2px solid var(--color-neutral-300);
+ border-radius: 8px;
+ font-size: 1rem;
+ transition: border-color 0.2s ease;
+ }
+ 
+ input:focus,
+ select:focus {
+ outline: none;
+ border-color: var(--color-primary-500);
+ }
+ 
+ select[multiple] {
+ padding: 0.5rem;
+ }
+ 
+ small {
+ display: block;
+ margin-top: 0.25rem;
+ color: var(--color-neutral-500);
+ font-size: 0.875rem;
+ }
+ 
+ .checkbox-label {
+ display: flex;
+ align-items: start;
+ gap: 0.75rem;
+ font-weight: normal;
+ }
+ 
+ .checkbox-label input[type="checkbox"] {
+ width: auto;
+ margin-top: 0.25rem;
+ }
+ 
+ /* Progress Steps */
+ .progress-steps {
+ position: relative;
+ }
+ 
+ .progress-steps::before {
+ content: "";
+ position: absolute;
+ top: 20px;
+ left: 0;
+ right: 0;
+ height: 2px;
+ background: var(--color-neutral-200);
+ z-index: 0;
+ }
+ 
+ .step {
+ flex: 1;
+ text-align: center;
+ position: relative;
+ z-index: 1;
+ }
+ 
+ .step-number {
+ width: 40px;
+ height: 40px;
+ border-radius: 50%;
+ background: var(--color-neutral-200);
+ color: var(--color-neutral-500);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ margin: 0 auto 0.5rem;
+ font-weight: 600;
+ transition: all 0.3s ease;
+ }
+ 
+ .step.active .step-number,
+ .step.completed .step-number {
+ background: var(--color-primary-500);
+ color: white;
+ }
+ 
+ .step-label {
+ font-size: 0.875rem;
+ color: var(--color-neutral-600);
+ }
+ 
+ .step.active .step-label {
+ color: var(--color-primary-500);
+ font-weight: 600;
+ }
+ 
+ /* Form Steps */
+ .form-step {
+ display: none;
+ }
+ 
+ .form-step.active {
+ display: block;
+ animation: fadeIn 0.3s ease;
+ }
+ 
+ @keyframes fadeIn {
+ from { opacity: 0; transform: translateY(10px); }
+ to { opacity: 1; transform: translateY(0); }
+ }
+ 
+ /* Message Styles */
+ #formMessage.error {
+ background: #fee;
+ border: 2px solid var(--color-error);
+ color: var(--color-error);
+ }
+ 
+ #formMessage.success {
+ background: #efe;
+ border: 2px solid var(--color-success);
+ color: var(--color-success);
+ }
+ </style>
+<script src="/js/signup-student.js"></script>
+
+<!-- 🎨 ULTIMATE BEAUTY SYSTEM: Complete UX -->
+
+<!-- Footer -->
+<div id="footer-container"></div>
+<script>
+  fetch('/components/footer.html').then(r=>r.text()).then(html=>{
+    document.getElementById('footer-container').innerHTML=html;
+  });
+</script>
+
+<!-- Mobile Navigation -->
+<div id="mobile-nav-bottom"></div>
+<script>
+  fetch('/components/mobile-bottom-nav.html').then(r=>r.text()).then(html=>{
+    document.getElementById('mobile-nav-bottom').innerHTML=html;
+  });
+</script>
+
+<!-- Floating Action Button (Help) -->
+<div id="fab-quick-actions"></div>
+<script>
+  fetch('/components/quick-actions-fab.html').then(r=>r.text()).then(html=>{
+    document.getElementById('fab-quick-actions').innerHTML=html;
+  });
+</script>
+
+<!-- 🎨 ULTIMATE BEAUTY: Framer Cultural Gestures -->
+<script src="/js/framer-cultural-gestures-ultimate.js" defer></script>
+
+
+<!-- 📊 ULTIMATE BEAUTY: PostHog Analytics (Privacy-First) -->
+<script src="/js/posthog-analytics.js" defer></script>
+
+</body>
+</html>

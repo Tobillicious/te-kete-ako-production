@@ -98,7 +98,7 @@ async function loadRecommendedResources() {
         // Get resources matching student's year level
         const yearLevel = studentProfile.year_level || 8;
         const { data: resources, error} = await supabaseClient
-            .from('resources')
+            .from('graphrag_resources')
             .select('*')
             .eq('level', `Year ${yearLevel}`)
             .limit(6);

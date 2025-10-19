@@ -153,25 +153,25 @@ async function redirectByRole(user) {
         
         if (error) {
             console.error('Error fetching profile:', error);
-            // Default redirect if profile not found
-            window.location.href = '/my-kete.html';
+            // Default redirect if profile not found - use getting started as fallback
+            window.location.href = '/getting-started.html';
             return;
         }
         
-        // Redirect based on role
-        if (profile.role === 'teacher') {
-            window.location.href = '/teacher-dashboard.html';
-        } else if (profile.role === 'student') {
+        // Role-based redirect using consistent routing
+        const userRole = profile.role || 'student';
+
+        if (userRole === 'teacher' || userRole === 'admin') {
+            window.location.href = '/teacher-dashboard-unified.html';
+        } else if (userRole === 'student') {
             window.location.href = '/student-dashboard.html';
-        } else if (profile.role === 'admin') {
-            window.location.href = '/admin/dashboard.html';
         } else {
-            // Fallback
-            window.location.href = '/my-kete.html';
+            window.location.href = '/getting-started.html';
         }
     } catch (error) {
         console.error('Redirect error:', error);
-        window.location.href = '/my-kete.html';
+        // Fallback to role-based routing
+        window.location.href = '/getting-started.html';
     }
 }
 
@@ -589,6 +589,48 @@ window.TeKeteAuth = {
     getCurrentUserToken,
     fetchWithAuth,
     supabase: () => supabase,
-    currentUser: () => currentUser
+    currentUser: () => currentUser,
+    redirectBasedOnRole: redirectBasedOnRole
 };
+
+// Centralized role-based routing function
+async function redirectBasedOnRole() {
+    try {
+        const supabase = window.getSupabaseClient();
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (!user) {
+            console.log('No authenticated user found');
+            return;
+        }
+
+        const { data: profile, error } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .single();
+
+        if (error) {
+            console.error('Error fetching profile:', error);
+            // Default redirect if profile not found
+            window.location.href = '/getting-started.html';
+            return;
+        }
+
+        const userRole = profile.role || 'student';
+
+        // Role-based redirect using consistent routing
+        if (userRole === 'teacher' || userRole === 'admin') {
+            window.location.href = '/teacher-dashboard-unified.html';
+        } else if (userRole === 'student') {
+            window.location.href = '/student-dashboard.html';
+        } else {
+            window.location.href = '/getting-started.html';
+        }
+    } catch (error) {
+        console.error('Redirect error:', error);
+        // Fallback to getting started
+        window.location.href = '/getting-started.html';
+    }
+}
 

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <!-- Performance: Optimize rendering -->
+ <meta name="format-detection" content="telephone=no">
+ <meta name="theme-color" content="#1b4332">
+ <meta name="color-scheme" content="light">
+ <!-- Performance: DNS prefetch for external domains -->
+ <link rel="dns-prefetch" href="//fonts.googleapis.com">
+ <link rel="dns-prefetch" href="//fonts.gstatic.com">
+ <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+ <!-- Performance: Preload critical resources -->
+ <link rel="preload" href="/js/te-kete-professional.js" as="script">
+ <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap&display=swap" as="style" crossorigin>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <meta name="description" content="Te Kete Ako - Award-winning educational platform integrating mātauranga Māori with contemporary learning">
+ <meta name="keywords" content="education, māori, indigenous, ai, learning, new zealand">
+ <meta name="author" content="Te Kete Ako">
+<!-- Professional Design System -->
+<link rel="stylesheet" href="/css/te-kete-professional.css"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>EXA.ai Resource Discovery | Te Kete Ako</title>
+
+
+
+
+ 
+ 
+ 
+ 
+ <link rel="stylesheet" href="/components/badge-system.html">
+ 
+ 
+ 
+ <script src="/js/breadcrumbs.js" defer></script>
+ 
+ 
+
+ <!-- 🎨 ULTIMATE BEAUTY SYSTEM - Te Kete Ako Design Excellence -->
+ <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+ <script src="https://cdn.tailwindcss.com"></script>
+ <script src="/tailwind.config.ultimate.js"></script>
+ <!-- END ULTIMATE BEAUTY SYSTEM -->
+</head>
+<body class="pattern-koru-subtle">
+ <!-- Professional Mega Menu Navigation -->
+ <div id="beautiful-nav-container"></div>
+ <script>
+ fetch('/components/navigation-standard.html')
+ .then(r => r.text())
+ .then(html => {
+ const div = document.createElement('div');
+ div.innerHTML = html;
+ document.body.insertBefore(div.firstElementChild, document.body.firstChild);
+ });
+ </script>
+
+ <header class="site-header no-print">
+ <div class="nav-container">
+ <a href="/index.html" class="nav-brand">Te Kete Ako</a>
+ <nav class="main-nav">
+ <ul>
+ <li><a href="/unit-plans.html" class="nav-link"><span class="nav-icon">📚</span><span class="nav-text-en">Unit Plans</span><span class="nav-text-mi" lang="mi">Ngā Waehere</span></a></li>
+ <li><a href="/lessons.html" class="nav-link"><span class="nav-icon">🎓</span><span class="nav-text-en">Lessons</span><span class="nav-text-mi" lang="mi">Ngā Akoranga</span></a></li>
+ <li><a href="/handouts.html" class="nav-link"><span class="nav-icon">📄</span><span class="nav-text-en">Handouts</span><span class="nav-text-mi" lang="mi">Ngā Rauemi</span></a></li>
+ <li><a href="/teachers/index.html" class="nav-link"><span class="nav-icon">🧑‍🏫</span><span class="nav-text-en">Teachers</span><span class="nav-text-mi" lang="mi">Ngā Kaiako</span></a></li>
+ <li class="auth-nav"><a href="/login.html" class="nav-link login-btn"><span class="nav-icon">👤</span>Login</a></li>
+ </ul>
+ </nav>
+ <nav class="breadcrumbs no-print" aria-label="Breadcrumb"><ol id="breadcrumbs" class="breadcrumbs-list"></ol></nav>
+ </div>
+ </header>
+ <div id="search-container"></div>
+
+
+
+ <div class="exa-container">
+ <h1 class="wiley-hero-title">🔍 EXA.ai Educational Resource Discovery</h1>
+ <input type="text" class="search-box" id="exa-query" placeholder="Search for educational resources...">
+ <button onclick="searchExa()" class="btn-primary">Search with EXA.ai</button>
+ <div id="exa-results" class="exa-results"></div>
+ </div>
+ 
+ <script src="/js/env-config.js" defer></script>
+ <script>
+ async function searchExa() {
+ const query = document.getElementById('exa-query').value;
+ const resultsDiv = document.getElementById('exa-results');
+ resultsDiv.innerHTML = 'Searching...';
+ 
+ try {
+ const response = await fetch('/.netlify/functions/exa-search', {
+ method: 'POST',
+ headers: { 'Content-Type': 'application/json' },
+ body: JSON.stringify({ query })
+ });
+ const data = await response.json();
+ resultsDiv.innerHTML = data.results.map(r => 
+ `<div class="result-item"><h3>${r.title}</h3><p>${r.snippet}</p><a href="${r.url}">View Resource</a></div>`
+ ).join('');
+ } catch (error) {
+ resultsDiv.innerHTML = 'Error: ' + error.message;
+ }
+ }
+ </script>
+
+ <!-- Load Supabase Client -->
+ <!-- Load Auth UI -->
+ <script>
+ // Register service worker for performance
+ if ('serviceWorker' in navigator) {
+ window.addEventListener('load', () => {
+ navigator.serviceWorker.register('/sw.js')
+ .then(registration => )
+ .catch(error => );
+ });
+ }
+ </script>
+ 
+<!-- 🎨 ULTIMATE BEAUTY SYSTEM: Complete UX -->
+
+<!-- Footer -->
+<div id="footer-container"></div>
+<script>
+  fetch('/components/footer.html').then(r=>r.text()).then(html=>{
+    document.getElementById('footer-container').innerHTML=html;
+  });
+</script>
+
+<!-- Mobile Navigation -->
+<div id="mobile-nav-bottom"></div>
+<script>
+  fetch('/components/mobile-bottom-nav.html').then(r=>r.text()).then(html=>{
+    document.getElementById('mobile-nav-bottom').innerHTML=html;
+  });
+</script>
+
+<!-- Floating Action Button (Help) -->
+<div id="fab-quick-actions"></div>
+<script>
+  fetch('/components/quick-actions-fab.html').then(r=>r.text()).then(html=>{
+    document.getElementById('fab-quick-actions').innerHTML=html;
+  });
+</script>
+
+<!-- 🎨 ULTIMATE BEAUTY: Framer Cultural Gestures -->
+<script src="/js/framer-cultural-gestures-ultimate.js" defer></script>
+
+
+<!-- 📊 ULTIMATE BEAUTY: PostHog Analytics (Privacy-First) -->
+<script src="/js/posthog-analytics.js" defer></script>
+
+</body>
+</html>

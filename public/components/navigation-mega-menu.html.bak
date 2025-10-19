@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<!-- MEGA MENU NAVIGATION - Te Kete Ako Professional -->
+<style>
+/* Professional Sticky Navigation with Mega Menu */
+.site-header-mega {
+ position: fixed;
+ top: 0;
+ left: 0;
+ right: 0;
+ background: linear-gradient(135deg, #2C5F41 0%, #1d3f2a 100%);
+ box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+ z-index: 9999;
+ transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.site-header-mega.scrolled {
+ background: rgba(44, 95, 65, 0.98);
+ backdrop-filter: blur(10px);
+ box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+}
+
+.nav-mega-container {
+ max-width: 1400px;
+ margin: 0 auto;
+ padding: 0.75rem 2rem;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+}
+
+.nav-brand-mega {
+ font-size: 1.5rem;
+ font-weight: 700;
+ color: white;
+ text-decoration: none;
+ display: flex;
+ align-items: center;
+ gap: 0.5rem;
+ transition: transform 0.3s ease;
+}
+
+.nav-brand-mega:hover {
+ transform: scale(1.05);
+}
+
+.nav-brand-icon {
+ font-size: 2rem;
+ animation: gentleBounce 2s ease-in-out infinite;
+}
+
+@keyframes gentleBounce {
+ 0%, 100% { transform: translateY(0); }
+ 50% { transform: translateY(-3px); }
+}
+
+.nav-mega-menu {
+ display: flex;
+ gap: 0;
+ list-style: none;
+ margin: 0;
+ padding: 0;
+}
+
+.nav-mega-item {
+ position: relative;
+}
+
+.nav-mega-link {
+ display: flex;
+ align-items: center;
+ gap: 0.5rem;
+ padding: 1rem 1.5rem;
+ color: rgba(255,255,255,0.9);
+ text-decoration: none;
+ font-weight: 500;
+ transition: all 0.3s ease;
+ position: relative;
+}
+
+.nav-mega-link::after {
+ content: '';
+ position: absolute;
+ bottom: 0;
+ left: 50%;
+ width: 0;
+ height: 3px;
+ background: linear-gradient(90deg, #FFD700, #FFA500);
+ transform: translateX(-50%);
+ transition: width 0.3s ease;
+}
+
+.nav-mega-link:hover {
+ color: white;
+ background: rgba(255,255,255,0.1);
+}
+
+.nav-mega-link:hover::after {
+ width: 80%;
+}
+
+.nav-icon {
+ font-size: 1.2rem;
+}
+
+.dropdown-indicator {
+ font-size: 0.7rem;
+ transition: transform 0.3s ease;
+}
+
+.nav-mega-item:hover .dropdown-indicator {
+ transform: rotate(180deg);
+}
+
+/* Mega Menu Dropdown */
+.mega-dropdown {
+ position: absolute;
+ top: 100%;
+ left: 0;
+ min-width: 280px;
+ background: white;
+ border-radius: 0 0 12px 12px;
+ box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+ opacity: 0;
+ visibility: hidden;
+ transform: translateY(-10px);
+ transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+ z-index: 10000;
+}
+
+.nav-mega-item:hover .mega-dropdown {
+ opacity: 1;
+ visibility: visible;
+ transform: translateY(0);
+}
+
+.mega-dropdown-section {
+ padding: 1.5rem;
+}
+
+.mega-dropdown-title {
+ font-size: 0.75rem;
+ font-weight: 700;
+ text-transform: uppercase;
+ letter-spacing: 0.05em;
+ color: var(--color-primary, #2C5F41);
+ margin: 0 0 0.75rem 0;
+ display: flex;
+ align-items: center;
+ gap: 0.5rem;
+}
+
+.mega-dropdown-list {
+ list-style: none;
+ margin: 0;
+ padding: 0;
+}
+
+.mega-dropdown-item {
+ margin: 0;
+}
+
+.mega-dropdown-link {
+ display: flex;
+ align-items: center;
+ gap: 0.75rem;
+ padding: 0.75rem 1rem;
+ color: #333;
+ text-decoration: none;
+ border-radius: 8px;
+ transition: all 0.2s ease;
+ position: relative;
+ overflow: hidden;
+}
+
+.mega-dropdown-link::before {
+ content: '';
+ position: absolute;
+ left: 0;
+ top: 0;
+ height: 100%;
+ width: 3px;
+ background: linear-gradient(180deg, #2C5F41, #7a6b1f);
+ transform: scaleY(0);
+ transition: transform 0.2s ease;
+}
+
+.mega-dropdown-link:hover {
+ background: linear-gradient(135deg, #f0f9f4, #e8f5e8);
+ transform: translateX(5px);
+}
+
+.mega-dropdown-link:hover::before {
+ transform: scaleY(1);
+}
+
+.mega-dropdown-icon {
+ font-size: 1.2rem;
+ min-width: 24px;
+}
+
+.mega-dropdown-content {
+ flex: 1;
+}
+
+.mega-dropdown-label {
+ font-weight: 500;
+ display: block;
+}
+
+.mega-dropdown-desc {
+ font-size: 0.8rem;
+ color: #666;
+ margin-top: 0.25rem;
+}
+
+.badge-new {
+ background: linear-gradient(135deg, #4CAF50, #66BB6A);
+ color: white;
+ font-size: 0.65rem;
+ padding: 0.2rem 0.5rem;
+ border-radius: 12px;
+ font-weight: 600;
+ margin-left: 0.5rem;
+}
+
+/* Wide Mega Menu for Units */
+.mega-dropdown-wide {
+ min-width: 600px;
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 0;
+}
+
+/* Mobile Navigation Toggle */
+.mobile-nav-toggle {
+ display: none;
+ background: none;
+ border: none;
+ color: white;
+ font-size: 1.5rem;
+ cursor: pointer;
+ padding: 0.5rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 1024px) {
+ .mobile-nav-toggle {
+ display: block;
+ }
+ 
+ .nav-mega-menu {
+ position: fixed;
+ top: 0;
+ right: -100%;
+ width: 320px;
+ max-width: 90vw;
+ height: 100vh;
+ background: white;
+ flex-direction: column;
+ padding: 5rem 0 2rem 0;
+ box-shadow: -5px 0 25px rgba(0,0,0,0.2);
+ transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+ overflow-y: auto;
+ z-index: 10001;
+ }
+ 
+ .nav-mega-menu.active {
+ right: 0;
+ }
+ 
+ .nav-mega-link {
+ color: #333;
+ border-bottom: 1px solid #eee;
+ }
+ 
+ .mega-dropdown {
+ position: static;
+ opacity: 1;
+ visibility: visible;
+ transform: none;
+ box-shadow: none;
+ max-height: 0;
+ overflow: hidden;
+ transition: max-height 0.3s ease;
+ }
+ 
+ .nav-mega-item.active .mega-dropdown {
+ max-height: 1000px;
+ }
+ 
+ .mega-dropdown-wide {
+ grid-template-columns: 1fr;
+ }
+}
+
+/* Scroll Body Lock (when mobile menu open) */
+body.nav-open {
+ overflow: hidden;
+}
+
+/* Mobile Overlay */
+.nav-overlay {
+ position: fixed;
+ top: 0;
+ left: 0;
+ right: 0;
+ bottom: 0;
+ background: rgba(0,0,0,0.6);
+ opacity: 0;
+ visibility: hidden;
+ transition: all 0.3s ease;
+ z-index: 9998;
+}
+
+.nav-overlay.active {
+ opacity: 1;
+ visibility: visible;
+}
+</style>
+
+<header class="site-header-mega" role="banner">
+ <nav class="nav-mega-container" role="navigation" aria-label="Main navigation">
+ <a href="/index.html" class="nav-brand-mega">
+ <span class="nav-brand-icon">🧺</span>
+ <span>Te Kete Ako</span>
+ </a>
+ 
+ <button class="mobile-nav-toggle" aria-label="Toggle navigation" onclick="toggleMobileNav()">
+ ☰
+ </button>
+ 
+ <ul class="nav-mega-menu" id="navMegaMenu">
+ <!-- Units & Lessons -->
+ <li class="nav-mega-item">
+ <a href="/units/index.html" class="nav-mega-link">
+ <span class="nav-icon">📚</span>
+ <span>Units</span>
+ <span class="dropdown-indicator">▼</span>
+ </a>
+ <div class="mega-dropdown mega-dropdown-wide">
+ <div class="mega-dropdown-section">
+ <h3 class="mega-dropdown-title">🌿 Featured Units</h3>
+ <ul class="mega-dropdown-list">
+ <li class="mega-dropdown-item">
+ <a href="/units/unit-1-te-ao-maori/index.html" class="mega-dropdown-link">
+ <span class="mega-dropdown-icon">🌿</span>
+ <div class="mega-dropdown-content">
+ <span class="mega-dropdown-label">Te Ao Māori <span class="badge-new">NEW</span></span>
+ <span class="mega-dropdown-desc">14 culturally-integrated lessons</span>
+ </div>
+ </a>
+ </li>
+ <li class="mega-dropdown-item">
+ <a href="/y8-systems/index.html" class="mega-dropdown-link">
+ <span class="mega-dropdown-icon">🏛️</span>
+ <div class="mega-dropdown-content">
+ <span class="mega-dropdown-label">Y8 Systems & Civics</span>
+ <span class="mega-dropdown-desc">10 lessons on NZ government</span>
+ </div>
+ </a>
+ </li>
+ <li class="mega-dropdown-item">
+ <a href="/units/y8-digital-kaitiakitanga/index.html" class="mega-dropdown-link">
+ <span class="mega-dropdown-icon">💻</span>
+ <div class="mega-dropdown-content">
+ <span class="mega-dropdown-label">Digital Kaitiakitanga</span>
+ <span class="mega-dropdown-desc">20 lessons on digital citizenship</span>
+ </div>
+ </a>
+ </li>
+ <li class="mega-dropdown-item">
+ <a href="/guided-inquiry-unit/index.html" class="mega-dropdown-link">
+ <span class="mega-dropdown-icon">🔍</span>
+ <div class="mega-dropdown-content">
+ <span class="mega-dropdown-label">Guided Inquiry</span>
+ <span class="mega-dropdown-desc">6 student-centered projects</span>
+ </div>
+ </a>
+ </li>
+ </ul>
+ </div>
+ <div class="mega-dropdown-section">
+ <h3 class="mega-dropdown-title">📖 More Units</h3>
+ <ul class="mega-dropdown-list">
+ <li class="mega-dropdown-item">
+ <a href="/critical-thinking/index.html" class="mega-dropdown-link">
+ <span class="mega-dropdown-icon">🧠</span>
+ <div class="mega-dropdown-content">
+ <span class="mega-dropdown-label">Critical Thinking</span>
+ </div>
+ </a>
+ </li>
+ <li class="mega-dropdown-item">
+ <a href="/writers-toolkit/index.html" class="mega-dropdown-link">
+ <span class="mega-dropdown-icon">✍️</span>
+ <div class="mega-dropdown-content">
+ <span class="mega-dropdown-label">Writers Toolkit</span>
+ </div>
+ </a>
+ </li>
+ <li class="mega-dropdown-item">
+ <a href="/units/index.html" class="mega-dropdown-link">
+ <span class="mega-dropdown-icon">📋</span>
+ <div class="mega-dropdown-content">
+ <span class="mega-dropdown-label">View All Units →</span>
+ </div>
+ </a>
+ </li>
+ </ul>
+ </div>
+ </div>
+ </li>
+
+ <!-- Resources -->
+ <li class="nav-mega-item">
+ <a href="/resource-hub.html" class="nav-mega-link">
+ <span class="nav-icon">📄</span>
+ <span>Resources</span>
+ <span class="dropdown-indicator">▼</span>
+ </a>
+ <div class="mega-dropdown">
+ <div class="mega-dropdown-section">
+ <h3 class="mega-dropdown-title">📚 Resource Types</h3>
+ <ul class="mega-dropdown-list">
+ <li class="mega-dropdown-item">
+ <a href="/lessons.html" class="mega-dropdown-link">
+ <span class="mega-dropdown-icon">📖</span>
+ <div class="mega-dropdown-content">
+ <span class="mega-dropdown-label">Lessons</span>
+ <span class="mega-dropdown-desc">583 ready-to-use</span>
+ </div>
+ </a>
+ </li>
+ <li class="mega-dropdown-item">
+ <a href="/handouts/index.html" class="mega-dropdown-link">
+ <span class="mega-dropdown-icon">📄</span>
+ <div class="mega-dropdown-content">
+ <span class="mega-dropdown-label">Handouts</span>
+ <span class="mega-dropdown-desc">500+ printable materials</span>
+ </div>
+ </a>
+ </li>
+ <li class="mega-dropdown-item">
+ <a href="/activities.html" class="mega-dropdown-link">
+ <span class="mega-dropdown-icon">⚡</span>
+ <div class="mega-dropdown-content">
+ <span class="mega-dropdown-label">Activities</span>
+ <span class="mega-dropdown-desc">Interactive & engaging</span>
+ </div>
+ </a>
+ </li>
+ <li class="mega-dropdown-item" style="background: linear-gradient(135deg, #d4a574 0%, #f5e6d3 100%); border-radius: 8px; padding: 0.25rem; margin: 0.5rem 0;">
+ <a href="/games/" class="mega-dropdown-link" style="color: #1a4d2e; font-weight: 700;">
+ <span class="mega-dropdown-icon" style="font-size: 1.5rem;">🎮</span>
+ <div class="mega-dropdown-content">
+ <span class="mega-dropdown-label" style="color: #1a4d2e; font-weight: 700;">Kēmu Ako | Games ✨</span>
+ <span class="mega-dropdown-desc" style="color: #2c5f41;">Te Reo Wordle, Spelling Bee & More!</span>
+ </div>
+ </a>
+ </li>
+ </ul>
+ </div>
+ </div>
+ </li>
+
+ <!-- AI Resources -->
+ <li class="nav-mega-item">
+ <a href="/generated-resources-alpha/index.html" class="nav-mega-link" style="color: #FFD700;">
+ <span class="nav-icon">✨</span>
+ <span>AI Resources</span>
+ <span class="badge-new" style="margin-left: 0.3rem;">NEW</span>
+ <span class="dropdown-indicator">▼</span>
+ </a>
+ <div class="mega-dropdown">
+ <div class="mega-dropdown-section">
+ <h3 class="mega-dropdown-title">✨ AI-Generated Content</h3>
+ <ul class="mega-dropdown-list">
+ <li class="mega-dropdown-item">
+ <a href="/generated-resources-alpha/handouts/index.html" class="mega-dropdown-link">
+ <span class="mega-dropdown-icon">📄</span>
+ <div class="mega-dropdown-content">
+ <span class="mega-dropdown-label">AI Handouts</span>
+ <span class="mega-dropdown-desc">45+ innovative resources</span>
+ </div>
+ </a>
+ </li>
+ <li class="mega-dropdown-item">
+ <a href="/generated-resources-alpha/lessons/index.html" class="mega-dropdown-link">
+ <span class="mega-dropdown-icon">🤖</span>
+ <div class="mega-dropdown-content">
+ <span class="mega-dropdown-label">AI Lessons</span>
+ <span class="mega-dropdown-desc">Cutting-edge pedagogy</span>
+ </div>
+ </a>
+ </li>
+ </ul>
+ </div>
+ </div>
+ </li>
+
+ <!-- Teacher Tools -->
+ <li class="nav-mega-item">
+ <a href="/teachers/index.html" class="nav-mega-link">
+ <span class="nav-icon">👨‍🏫</span>
+ <span>Teachers</span>
+ <span class="dropdown-indicator">▼</span>
+ </a>
+ <div class="mega-dropdown">
+ <div class="mega-dropdown-section">
+ <h3 class="mega-dropdown-title">👨‍🏫 Teacher Resources</h3>
+ <ul class="mega-dropdown-list">
+ <li class="mega-dropdown-item">
+ <a href="/unit-plans.html" class="mega-dropdown-link">
+ <span class="mega-dropdown-icon">📋</span>
+ <div class="mega-dropdown-content">
+ <span class="mega-dropdown-label">Unit Plans</span>
+ <span class="mega-dropdown-desc">Complete sequences</span>
+ </div>
+ </a>
+ </li>
+ <li class="mega-dropdown-item">
+ <a href="/teacher-dashboard-ai.html" class="mega-dropdown-link">
+ <span class="mega-dropdown-icon">📊</span>
+ <div class="mega-dropdown-content">
+ <span class="mega-dropdown-label">Dashboard</span>
+ <span class="mega-dropdown-desc">Track & organize</span>
+ </div>
+ </a>
+ </li>
+ <li class="mega-dropdown-item">
+ <a href="/youtube-library.html" class="mega-dropdown-link">
+ <span class="mega-dropdown-icon">📺</span>
+ <div class="mega-dropdown-content">
+ <span class="mega-dropdown-label">Video Library</span>
+ <span class="mega-dropdown-desc">Curated educational videos</span>
+ </div>
+ </a>
+ </li>
+ </ul>
+ </div>
+ </div>
+ </li>
+
+ <!-- About/Help -->
+ <li class="nav-mega-item">
+ <a href="/about.html" class="nav-mega-link">
+ <span class="nav-icon">ℹ️</span>
+ <span>About</span>
+ </a>
+ </li>
+ </ul>
+ </nav>
+</header>
+
+<!-- Spacer to prevent content jumping under fixed header -->
+<div style="height: 70px;"></div>
+
+<!-- Mobile Overlay -->
+<div class="nav-overlay" id="navOverlay" onclick="closeMobileNav()"></div>
+
+<script>
+// Sticky header on scroll
+let lastScroll = 0;
+const header = document.querySelector('.site-header-mega');
+
+window.addEventListener('scroll', () => {
+ const currentScroll = window.pageYOffset;
+ 
+ if (currentScroll > 50) {
+ header?.classList.add('scrolled');
+ } else {
+ header?.classList.remove('scrolled');
+ }
+ 
+ lastScroll = currentScroll;
+});
+
+// Mobile navigation
+function toggleMobileNav() {
+ const menu = document.getElementById('navMegaMenu');
+ const overlay = document.getElementById('navOverlay');
+ const isActive = menu.classList.contains('active');
+ 
+ if (isActive) {
+ closeMobileNav();
+ } else {
+ menu.classList.add('active');
+ overlay.classList.add('active');
+ document.body.classList.add('nav-open');
+ }
+}
+
+function closeMobileNav() {
+ const menu = document.getElementById('navMegaMenu');
+ const overlay = document.getElementById('navOverlay');
+ 
+ menu.classList.remove('active');
+ overlay.classList.remove('active');
+ document.body.classList.remove('nav-open');
+}
+
+// Mobile dropdown toggle
+document.querySelectorAll('.nav-mega-item').forEach(item => {
+ item.addEventListener('click', function(e) {
+ if (window.innerWidth <= 1024) {
+ const link = this.querySelector('.nav-mega-link');
+ const dropdown = this.querySelector('.mega-dropdown');
+ 
+ if (dropdown && e.target === link) {
+ e.preventDefault();
+ this.classList.toggle('active');
+ }
+ }
+ });
+});
+
+// Close mobile nav on escape key
+document.addEventListener('keydown', (e) => {
+ if (e.key === 'Escape') {
+ closeMobileNav();
+ }
+});
+
+// Console branding
+
+
+</script>
+

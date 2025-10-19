@@ -1,0 +1,153 @@
+<!-- GraphRAG-Powered Recommendations Component -->
+<!-- Usage: Include this component on any page to show smart, contextual recommendations -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<section id="graphrag-recommendations" style="background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); color: white; padding: 4rem 2rem; margin: 3rem 0; border-radius: 20px; box-shadow: 0 12px 32px rgba(0,0,0,0.15);">
+    <div style="max-width: 1200px; margin: 0 auto;">
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <div style="display: inline-block; background: rgba(255,255,255,0.2); padding: 0.5rem 1.5rem; border-radius: 24px; margin-bottom: 1rem;">
+                <span style="color: white; font-weight: 600; font-size: 0.9rem;">🧠 AI POWERED</span>
+            </div>
+            <h2 style="font-size: 2.5rem; color: white; margin-bottom: 1rem; font-weight: 800;">
+                Recommended For You
+            </h2>
+            <p style="font-size: 1.2rem; color: rgba(255,255,255,0.95); max-width: 700px; margin: 0 auto; line-height: 1.6;">
+                Powered by 231,469 GraphRAG relationships across 19,737 resources
+            </p>
+        </div>
+
+        <div id="graphrag-recommendations-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+            <!-- Recommendations will be loaded here -->
+            <div style="text-align: center; padding: 3rem; grid-column: 1 / -1;">
+                <div style="border: 4px solid rgba(255,255,255,0.3); border-top: 4px solid white; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 0 auto 1rem;"></div>
+                <p style="opacity: 0.9;">Loading intelligent recommendations...</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>
+
+<script>
+(async function() {
+    const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5ODgxMTksImV4cCI6MjA1MjU2NDExOX0.gN5RGe7kGmxj4-yI1xnDuCuKUPFDh4f-8CQqQdqrGq0';
+    
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    // Get current page path
+    const currentPath = window.location.pathname;
+    
+    try {
+        // Query GraphRAG for related resources
+        const { data: relationships, error } = await supabase
+            .from('graphrag_relationships')
+            .select('target_path, relationship_type, confidence, metadata')
+            .eq('source_path', currentPath)
+            .in('relationship_type', [
+                'related_content',
+                'prerequisite',
+                'has_handout',
+                'shared_cultural_element',
+                'same_subject',
+                'complementary_tool',
+                'unit_contains_lesson'
+            ])
+            .gte('confidence', 0.75)
+            .order('confidence', { ascending: false })
+            .limit(12);
+        
+        if (error) throw error;
+        
+        if (!relationships || relationships.length === 0) {
+            // Show fallback if no relationships
+            document.getElementById('graphrag-recommendations-container').innerHTML = `
+                <div style="text-align: center; padding: 3rem; grid-column: 1 / -1;">
+                    <p style="opacity: 0.9;">🔮 No recommendations available yet - this content is being indexed!</p>
+                </div>
+            `;
+            return;
+        }
+        
+        // Get resource details for targets
+        const targetPaths = relationships.map(r => r.target_path);
+        const { data: resources, error: resourceError } = await supabase
+            .from('graphrag_resources')
+            .select('file_path, title, resource_type, quality_score, subject')
+            .in('file_path', targetPaths)
+            .order('quality_score', { ascending: false })
+            .limit(6);
+        
+        if (resourceError) throw resourceError;
+        
+        // Render recommendations
+        const container = document.getElementById('graphrag-recommendations-container');
+        container.innerHTML = resources.map(resource => {
+            const rel = relationships.find(r => r.target_path === resource.file_path);
+            const relType = rel?.relationship_type || 'related';
+            const confidence = Math.round((rel?.confidence || 0.8) * 100);
+            
+            // Badge colors by relationship type
+            const badges = {
+                'prerequisite': { emoji: '📚', label: 'Foundation', color: '#3b82f6' },
+                'related_content': { emoji: '🔗', label: 'Related', color: '#10b981' },
+                'has_handout': { emoji: '📄', label: 'Handout', color: '#f59e0b' },
+                'shared_cultural_element': { emoji: '🌿', label: 'Cultural', color: '#14b8a6' },
+                'same_subject': { emoji: '📖', label: 'Same Subject', color: '#6366f1' },
+                'complementary_tool': { emoji: '🛠️', label: 'Tool', color: '#8b5cf6' },
+                'unit_contains_lesson': { emoji: '🎓', label: 'In Unit', color: '#ec4899' }
+            };
+            
+            const badge = badges[relType] || { emoji: '⭐', label: 'Related', color: '#6b7280' };
+            
+            return `
+                <a href="${resource.file_path}" style="background: white; border-radius: 12px; padding: 1.5rem; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s; display: block; border-top: 4px solid ${badge.color};">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem;">
+                        <span style="background: ${badge.color}; color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">
+                            ${badge.emoji} ${badge.label}
+                        </span>
+                        <span style="background: #fef3c7; color: #92400e; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">
+                            ⭐ ${resource.quality_score || 85}
+                        </span>
+                    </div>
+                    <h3 style="color: #1a4d2e; font-size: 1.1rem; margin-bottom: 0.5rem; font-weight: 700;">
+                        ${resource.title}
+                    </h3>
+                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 0.75rem;">
+                        ${resource.resource_type || 'Resource'} ${resource.subject ? `• ${resource.subject}` : ''}
+                    </p>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 1rem;">
+                        <div style="flex: 1; height: 4px; background: #e5e7eb; border-radius: 2px; overflow: hidden;">
+                            <div style="height: 100%; background: linear-gradient(90deg, #7c3aed, #a855f7); width: ${confidence}%;"></div>
+                        </div>
+                        <span style="color: #7c3aed; font-size: 0.75rem; font-weight: 600;">${confidence}%</span>
+                    </div>
+                </a>
+            `;
+        }).join('');
+        
+        // Add "View All" button
+        container.innerHTML += `
+            <div style="grid-column: 1 / -1; text-align: center; margin-top: 1.5rem;">
+                <a href="/advanced-search-graphrag.html" style="display: inline-block; background: white; color: #7c3aed; padding: 1rem 2rem; border-radius: 12px; font-weight: 700; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s;">
+                    Explore GraphRAG Intelligence →
+                </a>
+            </div>
+        `;
+        
+    } catch (error) {
+        console.error('GraphRAG Recommendations Error:', error);
+        document.getElementById('graphrag-recommendations-container').innerHTML = `
+            <div style="text-align: center; padding: 3rem; grid-column: 1 / -1;">
+                <p style="opacity: 0.9;">💡 Unable to load recommendations right now</p>
+            </div>
+        `;
+    }
+})();
+</script>
+

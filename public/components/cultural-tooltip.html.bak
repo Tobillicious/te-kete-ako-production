@@ -1,0 +1,202 @@
+<!-- CULTURAL TOOLTIPS -->
+<!-- Interactive tooltips for Māori terms with pronunciation and meaning -->
+
+<style>
+.cultural-term {
+    position: relative;
+    border-bottom: 2px dotted #1a4d2e;
+    cursor: help;
+    color: #1a4d2e;
+    font-weight: 600;
+}
+
+.cultural-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #1a4d2e 0%, #0f2818 100%);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    min-width: 250px;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    margin-bottom: 0.5rem;
+}
+
+.cultural-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 8px solid transparent;
+    border-top-color: #0f2818;
+}
+
+.cultural-term:hover .cultural-tooltip,
+.cultural-term:focus .cultural-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-8px);
+    pointer-events: all;
+}
+
+.tooltip-pronunciation {
+    font-size: 1.125rem;
+    font-style: italic;
+    margin-bottom: 0.5rem;
+    color: #d4a574;
+}
+
+.tooltip-meaning {
+    font-size: 0.938rem;
+    line-height: 1.6;
+}
+
+.tooltip-audio {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    font-size: 0.875rem;
+    opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+    .cultural-tooltip {
+        position: fixed;
+        left: 1rem;
+        right: 1rem;
+        bottom: auto;
+        top: 50%;
+        transform: translateY(-50%);
+        min-width: auto;
+    }
+    
+    .cultural-tooltip::after {
+        display: none;
+    }
+}
+</style>
+
+<!-- Example usage in content -->
+<script>
+/**
+ * Initialize cultural tooltips
+ * Automatically adds tooltips to common Māori terms
+ */
+const culturalTerms = {
+    'mātauranga': {
+        pronunciation: 'maa-tau-RUNG-a',
+        meaning: 'Māori knowledge, wisdom, understanding, skill'
+    },
+    'tikanga': {
+        pronunciation: 'tee-KUNG-a',
+        meaning: 'Correct procedure, custom, protocol, the right way of doing things'
+    },
+    'whakapapa': {
+        pronunciation: 'fuk-a-PUP-a',
+        meaning: 'Genealogy, lineage, descent, cultural identity'
+    },
+    'whakataukī': {
+        pronunciation: 'fuk-a-tau-KEE',
+        meaning: 'Proverb, significant saying, formulaic saying'
+    },
+    'pūrākau': {
+        pronunciation: 'poo-RAA-kau',
+        meaning: 'Story, myth, legend - traditional narratives'
+    },
+    'kaitiakitanga': {
+        pronunciation: 'kai-tee-a-kee-TUNG-a',
+        meaning: 'Guardianship, stewardship, trusteeship'
+    },
+    'tangata whenua': {
+        pronunciation: 'tung-AH-ta FEN-ua',
+        meaning: 'People of the land, local people, indigenous people'
+    },
+    'mana': {
+        pronunciation: 'MUN-a',
+        meaning: 'Prestige, authority, power, influence, spiritual power'
+    },
+    'tapu': {
+        pronunciation: 'TAP-oo',
+        meaning: 'Sacred, forbidden, under restriction'
+    },
+    'noa': {
+        pronunciation: 'NO-a',
+        meaning: 'Free from tapu, unrestricted, ordinary'
+    }
+};
+
+function initializeCulturalTooltips() {
+    // Find all cultural terms in text
+    const content = document.body;
+    const walker = document.createTreeWalker(
+        content,
+        NodeFilter.SHOW_TEXT,
+        null
+    );
+
+    const textsToReplace = [];
+    while (walker.nextNode()) {
+        const node = walker.currentNode;
+        if (node.parentElement.classList.contains('cultural-term')) continue;
+        
+        for (const term in culturalTerms) {
+            const regex = new RegExp(`\\b${term}\\b`, 'gi');
+            if (regex.test(node.textContent)) {
+                textsToReplace.push({ node, term });
+            }
+        }
+    }
+
+    // Replace text nodes with tooltip markup
+    textsToReplace.forEach(({ node, term }) => {
+        const data = culturalTerms[term.toLowerCase()];
+        const span = document.createElement('span');
+        span.className = 'cultural-term';
+        span.setAttribute('role', 'tooltip');
+        span.setAttribute('aria-label', `${term}: ${data.meaning}`);
+        
+        const tooltip = document.createElement('div');
+        tooltip.className = 'cultural-tooltip';
+        tooltip.innerHTML = `
+            <div class="tooltip-pronunciation">[${data.pronunciation}]</div>
+            <div class="tooltip-meaning">${data.meaning}</div>
+            <div class="tooltip-audio">🔊 Click to hear pronunciation</div>
+        `;
+        
+        span.textContent = term;
+        span.appendChild(tooltip);
+        
+        const parent = node.parentElement;
+        const text = node.textContent;
+        const parts = text.split(new RegExp(`(\\b${term}\\b)`, 'i'));
+        
+        // Only replace first occurrence to avoid duplicates
+        const fragment = document.createDocumentFragment();
+        let replaced = false;
+        parts.forEach(part => {
+            if (part.toLowerCase() === term.toLowerCase() && !replaced) {
+                fragment.appendChild(span.cloneNode(true));
+                replaced = true;
+            } else {
+                fragment.appendChild(document.createTextNode(part));
+            }
+        });
+        
+        parent.replaceChild(fragment, node);
+    });
+}
+
+// Initialize on DOM ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeCulturalTooltips);
+} else {
+    initializeCulturalTooltips();
+}
+</script>
+
