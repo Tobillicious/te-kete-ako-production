@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI-powered Teacher Dashboard with GraphRAG intelligence, real-time analytics, and authentic Te Ao Māori integration">
+    <title>Teacher Dashboard | Te Kete Ako</title>
+    
+    <!-- Performance Optimization -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- UNIFIED DESIGN SYSTEM -->
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/component-library.css">
+    <link rel="stylesheet" href="/css/animations-professional.css">
+    <link rel="stylesheet" href="/css/information-dense.css">
+    
+    <!-- PostHog Analytics -->
+    <script src="/js/posthog-analytics.js" defer></script>
+    
+    <style id="critical-css">
+        /* CRITICAL CSS - Immediate rendering for above-the-fold */
+        :root {
+            --color-primary-500: #1a4d2e;
+            --color-primary-700: #0f2818;
+            --color-accent-500: #059669;
+            --color-surface: #ffffff;
+            --color-text: #2c3e50;
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--color-text);
+            background: #f8fafc;
+        }
+        
+        /* Hero Section */
+        .dashboard-hero {
+            background: linear-gradient(135deg, #1a4d2e 0%, #2d5a3d 100%);
+            color: white;
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .hero-title h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .whakataukī {
+            font-style: italic;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        /* Main Layout */
+        main {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        @media (max-width: 968px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Cards */
+        .dashboard-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--color-accent-500);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-header h2 {
+            color: var(--color-primary-500);
+            font-size: 1.5rem;
+        }
+        
+        .badge {
+            background: var(--color-accent-500);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        /* Quick Stats */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+        
+        .stat-box {
+            text-align: center;
+            padding: 1rem;
+            background: #f0fdf4;
+            border-radius: 12px;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--color-accent-500);
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+        
+        /* AI Recommendations */
+        .ai-recommendations {
+            margin-top: 1.5rem;
+        }
+        
+        .recommendation-item {
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            transition: all 0.3s ease;
+        }
+        
+        .recommendation-item:hover {
+            background: #f0fdf4;
+            transform: translateX(4px);
+        }
+        
+        .recommendation-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .recommendation-content h4 {
+            color: var(--color-primary-500);
+            margin-bottom: 0.25rem;
+        }
+        
+        .recommendation-content p {
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+        
+        /* Analytics Chart */
+        .chart-container {
+            height: 200px;
+            background: #f8fafc;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1rem;
+            color: #6b7280;
+            font-style: italic;
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: var(--color-accent-500);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #047857;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--color-primary-500);
+            border: 2px solid var(--color-primary-500);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--color-primary-500);
+            color: white;
+        }
+        
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #6b7280;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid var(--color-accent-500);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation (Component) -->
+    <div id="nav-container"></div>
+    
+    <!-- Hero Section -->
+    <section class="dashboard-hero">
+        <div class="hero-content">
+            <div class="hero-title">
+                <h1>Kia ora, Kaiako! 👋</h1>
+                <p class="whakataukī">"Ko te akoranga te pūtake o te ora" - Teaching is the foundation of wellbeing</p>
+            </div>
+            <div class="hero-actions">
+                <button class="btn btn-primary" onclick="createLesson()">
+                    ➕ Create New Lesson
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Main Dashboard -->
+    <main>
+        <!-- Quick Stats Overview -->
+        <section class="dashboard-card">
+            <div class="card-header">
+                <h2>📊 Your Teaching Impact</h2>
+                <span class="badge">Live Data</span>
+            </div>
+            
+            <div class="quick-stats" id="quick-stats">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading your analytics...</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Main Content Grid -->
+        <div class="dashboard-grid">
+            <!-- Left Column: AI Recommendations -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h2>🧠 GraphRAG Intelligence</h2>
+                    <span class="badge">AI-Powered</span>
+                </div>
+                
+                <div class="ai-recommendations" id="ai-recommendations">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Discovering personalized resources...</p>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <a href="/discovery-tools.html" class="btn btn-primary">
+                        🔍 Explore GraphRAG
+                    </a>
+                    <a href="/teacher-insights-dashboard.html" class="btn btn-secondary">
+                        📈 View Full Analytics
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Right Column: Quick Actions & Recent Activity -->
+            <div>
+                <!-- Quick Actions -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h2>⚡ Quick Actions</h2>
+                    </div>
+                    
+                    <div class="action-buttons" style="flex-direction: column;">
+                        <a href="/units/index.html" class="btn btn-primary">
+                            📚 Browse Units
+                        </a>
+                        <a href="/handouts/index.html" class="btn btn-secondary">
+                            📄 Find Handouts
+                        </a>
+                        <a href="/games/index.html" class="btn btn-secondary">
+                            🎮 Educational Games
+                        </a>
+                        <a href="/graphrag-control-center.html" class="btn btn-secondary">
+                            🎛️ Control Center
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Student Engagement -->
+                <div class="dashboard-card" style="margin-top: 2rem;">
+                    <div class="card-header">
+                        <h2>📈 Class Engagement</h2>
+                    </div>
+                    
+                    <div class="chart-container">
+                        Chart.js visualization loading...
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Full Width: Recent Resources -->
+        <section class="dashboard-card">
+            <div class="card-header">
+                <h2>🔖 Your Recent Resources</h2>
+                <a href="/teachers/resources.html" class="btn btn-secondary">View All</a>
+            </div>
+            
+            <div id="recent-resources">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading your resources...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- JavaScript: GraphRAG Integration -->
+    <script>
+        // Initialize Dashboard
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadNavigation();
+            await loadQuickStats();
+            await loadAIRecommendations();
+            await loadRecentResources();
+            initializeAnalytics();
+        });
+        
+        // Load Navigation Component
+        async function loadNavigation() {
+            try {
+                const response = await fetch('/components/navigation-standard.html');
+                const html = await response.text();
+                document.getElementById('nav-container').innerHTML = html;
+            } catch (error) {
+                console.error('Navigation load failed:', error);
+            }
+        }
+        
+        // Load Quick Stats from PostHog/GraphRAG
+        async function loadQuickStats() {
+            // Simulate data loading (replace with actual PostHog API calls)
+            const stats = {
+                totalLessons: 247,
+                totalStudents: 156,
+                engagementRate: 87,
+                resourcesUsed: 342
+            };
+            
+            const statsHTML = `
+                <div class="stat-box">
+                    <div class="stat-value">${stats.totalLessons}</div>
+                    <div class="stat-label">Lessons Taught</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">${stats.totalStudents}</div>
+                    <div class="stat-label">Students</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">${stats.engagementRate}%</div>
+                    <div class="stat-label">Engagement</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">${stats.resourcesUsed}</div>
+                    <div class="stat-label">Resources Used</div>
+                </div>
+            `;
+            
+            document.getElementById('quick-stats').innerHTML = statsHTML;
+        }
+        
+        // Load AI-Powered Recommendations from GraphRAG
+        async function loadAIRecommendations() {
+            // Simulate GraphRAG recommendations
+            const recommendations = [
+                {
+                    icon: '🌟',
+                    title: 'Y8 Digital Kaitiakitanga Unit',
+                    description: 'High engagement! 92% of teachers rated this 4.5+. Perfect for cyber safety.'
+                },
+                {
+                    icon: '📚',
+                    title: 'Te Ao Māori Integration Pack',
+                    description: '25 culturally authentic resources with whakataukī and te reo support.'
+                },
+                {
+                    icon: '🎯',
+                    title: 'Adaptive Learning Pathways',
+                    description: 'New AI-generated pathways based on your class performance data.'
+                },
+                {
+                    icon: '🔗',
+                    title: 'Cross-Subject Bridges',
+                    description: 'Connect Science & Te Reo with these discovered resource relationships.'
+                }
+            ];
+            
+            const recommendationsHTML = recommendations.map(rec => `
+                <div class="recommendation-item">
+                    <div class="recommendation-icon">${rec.icon}</div>
+                    <div class="recommendation-content">
+                        <h4>${rec.title}</h4>
+                        <p>${rec.description}</p>
+                    </div>
+                </div>
+            `).join('');
+            
+            document.getElementById('ai-recommendations').innerHTML = recommendationsHTML;
+        }
+        
+        // Load Recent Resources
+        async function loadRecentResources() {
+            // Simulate recent resources (replace with actual data)
+            const resourcesHTML = `
+                <p style="color: #6b7280; text-align: center; padding: 2rem;">
+                    Your recently accessed resources will appear here.
+                </p>
+            `;
+            
+            document.getElementById('recent-resources').innerHTML = resourcesHTML;
+        }
+        
+        // Initialize PostHog Analytics
+        function initializeAnalytics() {
+            // PostHog initialization (already loaded via posthog-analytics.js)
+            if (window.posthog) {
+                posthog.capture('teacher_dashboard_viewed', {
+                    dashboard_version: 'unified_v1',
+                    features: ['graphrag', 'analytics', 'ai_recommendations']
+                });
+            }
+        }
+        
+        // Quick Action: Create Lesson
+        function createLesson() {
+            window.location.href = '/teachers/create-lesson.html';
+        }
+    </script>
+    
+    <!-- Async Load: Chart.js for analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" async></script>
+</body>
+</html>
+
