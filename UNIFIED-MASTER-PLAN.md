@@ -52,6 +52,7 @@ UNITS (48 units)
         ↓
         ├── Teaching Sequence
         ├── WALT (We Are Learning To)
+        ├── Success Criteria (clear indicators - NOT "WILF")
         ├── WAGOLL (What A Good One Looks Like)
         ├── Handouts/Activities (630 resources)
         ├── GraphRAG Widgets (Next Lesson, Related Resources)
