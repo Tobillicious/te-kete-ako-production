@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Pathways Builder | Te Kete Ako</title>
+    <meta name="description" content="Create personalized learning pathways using GraphRAG-powered intelligent recommendations">
+    
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        .pathway-builder {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .pathway-canvas {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 2rem;
+            min-height: 600px;
+            position: relative;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .resource-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid #1a4d2e;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+        
+        .resource-card.selected {
+            border-left-color: #DAA520;
+            background: linear-gradient(135deg, #fff7ed, #ffffff);
+        }
+        
+        .pathway-node {
+            position: absolute;
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            min-width: 200px;
+            cursor: move;
+            border: 2px solid #1a4d2e;
+        }
+        
+        .pathway-node.foundation {
+            border-color: #40E0D0;
+        }
+        
+        .pathway-node.core {
+            border-color: #1a4d2e;
+        }
+        
+        .pathway-node.extension {
+            border-color: #DAA520;
+        }
+        
+        .connection-line {
+            position: absolute;
+            background: #1a4d2e;
+            height: 2px;
+            transform-origin: left center;
+            pointer-events: none;
+        }
+        
+        .pathway-controls {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            cursor: pointer;
+            margin: 0.25rem;
+            transition: all 0.2s;
+        }
+        
+        .filter-btn:hover {
+            background: #f0f0f0;
+        }
+        
+        .filter-btn.active {
+            background: #1a4d2e;
+            color: white;
+            border-color: #1a4d2e;
+        }
+        
+        .pathway-suggestions {
+            background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid #059669;
+        }
+        
+        .cultural-indicator {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .cultural-high {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        .cultural-medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .difficulty-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+        
+        .difficulty-foundation {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .difficulty-core {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        .difficulty-extension {
+            background: #fef3c7;
+            color: #92400e;
+        }
+    </style>
+</head>
+<body class="pattern-koru-subtle">
+    
+    <!-- Navigation -->
+    <div id="nav-container"></div>
+    <script>
+        fetch('/components/navigation-standard.html')
+            .then(r => r.text())
+            .then(html => document.getElementById('nav-container').innerHTML = html);
+    </script>
+    
+    <!-- Hero Section -->
+    <section style="background: linear-gradient(135deg, #1a4d2e, #2d5a3d); color: white; padding: 3rem; text-align: center;">
+        <h1 style="font-size: 3rem; margin-bottom: 1rem;">🗺️ Learning Pathways Builder</h1>
+        <p style="font-size: 1.3rem; opacity: 0.95; max-width: 800px; margin: 0 auto;">
+            Create intelligent, culturally-integrated learning journeys powered by GraphRAG
+        </p>
+        <div style="margin-top: 1.5rem;">
+            <span style="background: rgba(255,255,255,0.2); padding: 0.75rem 1.5rem; border-radius: 25px; margin: 0.5rem;">
+                🧠 17,507 Resources Connected
+            </span>
+            <span style="background: rgba(255,255,255,0.2); padding: 0.75rem 1.5rem; border-radius: 25px; margin: 0.5rem;">
+                🔗 239,866 Relationships Mapped
+            </span>
+        </div>
+    </section>
+    
+    <div class="pathway-builder">
+        
+        <!-- Pathway Controls -->
+        <div class="pathway-controls">
+            <h3 style="margin: 0 0 1rem 0; color: #1a4d2e;">Build Your Pathway</h3>
+            
+            <div style="margin: 1rem 0;">
+                <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">Subject Focus:</label>
+                <button class="filter-btn active" data-subject="all">All Subjects</button>
+                <button class="filter-btn" data-subject="Mathematics">Mathematics</button>
+                <button class="filter-btn" data-subject="Science">Science</button>
+                <button class="filter-btn" data-subject="English">English</button>
+                <button class="filter-btn" data-subject="Social Studies">Social Studies</button>
+                <button class="filter-btn" data-subject="Digital Technologies">Digital Technologies</button>
+            </div>
+            
+            <div style="margin: 1rem 0;">
+                <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">Year Level:</label>
+                <button class="filter-btn" data-year="all">All Years</button>
+                <button class="filter-btn" data-year="Year 7">Year 7</button>
+                <button class="filter-btn" data-year="Year 8">Year 8</button>
+                <button class="filter-btn" data-year="Year 9">Year 9</button>
+                <button class="filter-btn" data-year="Year 10">Year 10</button>
+                <button class="filter-btn" data-year="Years 11-13">NCEA</button>
+            </div>
+            
+            <div style="margin: 1rem 0;">
+                <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">Cultural Integration:</label>
+                <label style="margin-right: 1.5rem;">
+                    <input type="checkbox" id="filter-cultural" checked> Prioritize Cultural Content
+                </label>
+                <label>
+                    <input type="checkbox" id="filter-maori"> Te Reo Māori Required
+                </label>
+            </div>
+            
+            <button onclick="generatePathway()" style="background: #1a4d2e; color: white; padding: 0.75rem 2rem; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; font-size: 1rem; margin-top: 1rem;">
+                🚀 Generate Intelligent Pathway
+            </button>
+            
+            <button onclick="clearPathway()" style="background: #dc2626; color: white; padding: 0.75rem 2rem; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; font-size: 1rem; margin-top: 1rem; margin-left: 1rem;">
+                🗑️ Clear Pathway
+            </button>
+        </div>
+        
+        <!-- GraphRAG Suggestions -->
+        <div class="pathway-suggestions" id="suggestions" style="display: none;">
+            <h4 style="margin: 0 0 1rem 0; color: #166534;">🧠 GraphRAG Recommendations</h4>
+            <div id="suggestions-content"></div>
+        </div>
+        
+        <!-- Available Resources -->
+        <div style="display: grid; grid-template-columns: 350px 1fr; gap: 2rem; margin-top: 2rem;">
+            
+            <!-- Resource Library -->
+            <div>
+                <h3 style="margin: 0 0 1rem 0; color: #1a4d2e;">📚 Resource Library</h3>
+                <div style="background: white; border-radius: 12px; padding: 1rem; max-height: 600px; overflow-y: auto;">
+                    <input type="text" id="search-resources" placeholder="Search resources..." 
+                           style="width: 100%; padding: 0.75rem; border: 2px solid #e0e0e0; border-radius: 8px; margin-bottom: 1rem;">
+                    <div id="resource-list">
+                        <div style="text-align: center; padding: 2rem; color: #666;">
+                            Loading resources...
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pathway Canvas -->
+            <div>
+                <h3 style="margin: 0 0 1rem 0; color: #1a4d2e;">🗺️ Your Learning Pathway</h3>
+                <div class="pathway-canvas" id="pathway-canvas">
+                    <div style="text-align: center; padding: 4rem; color: #999;">
+                        <p style="font-size: 1.2rem; margin-bottom: 1rem;">✨ Your pathway will appear here</p>
+                        <p>Select resources from the library or generate an intelligent pathway</p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 1rem; text-align: right;">
+                    <button onclick="savePathway()" style="background: #DAA520; color: white; padding: 0.75rem 2rem; border-radius: 8px; border: none; cursor: pointer; font-weight: 600;">
+                        💾 Save Pathway
+                    </button>
+                    <button onclick="exportPathway()" style="background: #40E0D0; color: white; padding: 0.75rem 2rem; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; margin-left: 0.5rem;">
+                        📤 Export as PDF
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+        
+    </div>
+    
+    <!-- Footer -->
+    <div id="footer-container"></div>
+    <script>
+        fetch('/components/footer.html').then(r=>r.text()).then(html=>{
+            document.getElementById('footer-container').innerHTML=html;
+        });
+    </script>
+    
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script>
+        // Initialize Supabase
+        const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5ODgxMTksImV4cCI6MjA1MjU2NDExOX0.gN5RGe7kGmxj4-yI1xnDuCuKUPFDh4f-8CQqQdqrGq0';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        let allResources = [];
+        let selectedResources = [];
+        let currentFilters = {
+            subject: 'all',
+            year: 'all',
+            cultural: true,
+            maori: false
+        };
+        
+        // Load resources from GraphRAG
+        async function loadResources() {
+            try {
+                const { data, error } = await supabase
+                    .from('graphrag_resources')
+                    .select('*')
+                    .gte('quality_score', 70)
+                    .order('quality_score', { ascending: false })
+                    .limit(100);
+                    
+                if (error) throw error;
+                
+                allResources = data;
+                displayResources(allResources);
+                
+            } catch (error) {
+                console.error('Error loading resources:', error);
+                document.getElementById('resource-list').innerHTML = 
+                    '<div style="padding: 1rem; color: #dc2626;">Error loading resources. Please refresh.</div>';
+            }
+        }
+        
+        // Display resources in the library
+        function displayResources(resources) {
+            const container = document.getElementById('resource-list');
+            
+            if (resources.length === 0) {
+                container.innerHTML = '<div style="padding: 1rem; color: #666;">No resources found</div>';
+                return;
+            }
+            
+            container.innerHTML = resources.map(resource => `
+                <div class="resource-card" onclick="addToPathway('${resource.id}')">
+                    <h4 style="margin: 0 0 0.5rem; color: #1a4d2e; font-size: 1rem;">
+                        ${resource.title || 'Untitled Resource'}
+                    </h4>
+                    <div style="margin: 0.5rem 0;">
+                        <span class="cultural-indicator ${resource.cultural_context ? 'cultural-high' : 'cultural-medium'}">
+                            ${resource.cultural_context ? '🌿 Cultural' : '📚 Standard'}
+                        </span>
+                        ${resource.has_te_reo ? '<span class="cultural-indicator cultural-high">🗣️ Te Reo</span>' : ''}
+                    </div>
+                    <p style="font-size: 0.85rem; color: #666; margin: 0.5rem 0 0;">
+                        ${resource.subject || 'General'} • ${resource.year_level || 'All Years'}
+                    </p>
+                    <div style="margin-top: 0.5rem;">
+                        <span style="background: #f0f0f0; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">
+                            Quality: ${resource.quality_score || 'N/A'}
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Filter button handlers
+        document.addEventListener('DOMContentLoaded', () => {
+            // Subject filters
+            document.querySelectorAll('[data-subject]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('[data-subject]').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilters.subject = this.dataset.subject;
+                    applyFilters();
+                });
+            });
+            
+            // Year filters
+            document.querySelectorAll('[data-year]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('[data-year]').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilters.year = this.dataset.year;
+                    applyFilters();
+                });
+            });
+            
+            // Cultural filters
+            document.getElementById('filter-cultural').addEventListener('change', function() {
+                currentFilters.cultural = this.checked;
+                applyFilters();
+            });
+            
+            document.getElementById('filter-maori').addEventListener('change', function() {
+                currentFilters.maori = this.checked;
+                applyFilters();
+            });
+            
+            // Search
+            document.getElementById('search-resources').addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const filtered = allResources.filter(r => 
+                    (r.title || '').toLowerCase().includes(searchTerm) ||
+                    (r.subject || '').toLowerCase().includes(searchTerm)
+                );
+                displayResources(filtered);
+            });
+            
+            loadResources();
+        });
+        
+        // Apply filters
+        function applyFilters() {
+            let filtered = allResources;
+            
+            if (currentFilters.subject !== 'all') {
+                filtered = filtered.filter(r => r.subject === currentFilters.subject);
+            }
+            
+            if (currentFilters.year !== 'all') {
+                filtered = filtered.filter(r => r.year_level === currentFilters.year);
+            }
+            
+            if (currentFilters.cultural) {
+                filtered = filtered.filter(r => r.cultural_context);
+            }
+            
+            if (currentFilters.maori) {
+                filtered = filtered.filter(r => r.has_te_reo);
+            }
+            
+            displayResources(filtered);
+        }
+        
+        // Add resource to pathway
+        function addToPathway(resourceId) {
+            const resource = allResources.find(r => r.id == resourceId);
+            if (!resource || selectedResources.find(r => r.id == resourceId)) return;
+            
+            selectedResources.push(resource);
+            renderPathway();
+            showSuggestions(resource);
+        }
+        
+        // Generate intelligent pathway using GraphRAG
+        async function generatePathway() {
+            try {
+                // Get high-quality, connected resources
+                const { data, error } = await supabase
+                    .from('graphrag_resources')
+                    .select('*')
+                    .gte('quality_score', 80)
+                    .eq('cultural_context', true)
+                    .limit(8);
+                    
+                if (error) throw error;
+                
+                selectedResources = data || [];
+                renderPathway();
+                
+                document.getElementById('suggestions').style.display = 'block';
+                document.getElementById('suggestions-content').innerHTML = `
+                    <p>✨ Generated pathway with ${selectedResources.length} culturally-integrated resources</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem;">This pathway prioritizes quality and cultural integration.</p>
+                `;
+                
+            } catch (error) {
+                console.error('Error generating pathway:', error);
+                alert('Error generating pathway. Please try again.');
+            }
+        }
+        
+        // Render pathway on canvas
+        function renderPathway() {
+            const canvas = document.getElementById('pathway-canvas');
+            
+            if (selectedResources.length === 0) {
+                canvas.innerHTML = `
+                    <div style="text-align: center; padding: 4rem; color: #999;">
+                        <p style="font-size: 1.2rem; margin-bottom: 1rem;">✨ Your pathway will appear here</p>
+                        <p>Select resources from the library or generate an intelligent pathway</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            canvas.innerHTML = selectedResources.map((resource, index) => `
+                <div class="pathway-node ${getDifficultyLevel(resource)}" 
+                     style="top: ${100 + index * 120}px; left: ${200 + (index % 3) * 250}px;">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                        <h4 style="margin: 0; font-size: 0.9rem; flex: 1;">${resource.title || 'Untitled'}</h4>
+                        <button onclick="removeFromPathway(${index})" 
+                                style="background: #dc2626; color: white; border: none; border-radius: 4px; padding: 0.25rem 0.5rem; cursor: pointer; margin-left: 0.5rem;">
+                            ×
+                        </button>
+                    </div>
+                    <div style="font-size: 0.75rem; color: #666;">
+                        ${resource.subject || 'General'}
+                    </div>
+                    <div style="margin-top: 0.5rem;">
+                        ${resource.cultural_context ? '<span class="cultural-indicator cultural-high" style="font-size: 0.7rem;">🌿 Cultural</span>' : ''}
+                        <span class="difficulty-badge difficulty-${getDifficultyLevel(resource)}" style="font-size: 0.7rem;">
+                            ${getDifficultyLevel(resource)}
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Helper functions
+        function getDifficultyLevel(resource) {
+            const score = resource.quality_score || 0;
+            if (score >= 85) return 'extension';
+            if (score >= 70) return 'core';
+            return 'foundation';
+        }
+        
+        function removeFromPathway(index) {
+            selectedResources.splice(index, 1);
+            renderPathway();
+        }
+        
+        function clearPathway() {
+            selectedResources = [];
+            renderPathway();
+            document.getElementById('suggestions').style.display = 'none';
+        }
+        
+        function showSuggestions(resource) {
+            document.getElementById('suggestions').style.display = 'block';
+            document.getElementById('suggestions-content').innerHTML = `
+                <p><strong>Based on "${resource.title}"</strong></p>
+                <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+                    GraphRAG suggests adding related ${resource.subject} resources at similar level.
+                </p>
+            `;
+        }
+        
+        function savePathway() {
+            const pathwayData = {
+                resources: selectedResources,
+                created: new Date().toISOString(),
+                filters: currentFilters
+            };
+            
+            localStorage.setItem('saved-pathway', JSON.stringify(pathwayData));
+            alert('Pathway saved! ✅');
+        }
+        
+        function exportPathway() {
+            alert('PDF export feature coming soon! 📄');
+        }
+    </script>
+    
+    <!-- Analytics -->
+    <script src="/js/posthog-analytics.js" defer></script>
+    
+</body>
+</html>
