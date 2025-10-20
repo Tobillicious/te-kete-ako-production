@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excellence Showcase - 221 Cultural Gems | Te Kete Ako</title>
+    <meta name="description" content="Our finest 221 resources - Quality 90+ with authentic cultural integration">
+    
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <link rel="stylesheet" href="/css/mobile-enhanced.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        .excellence-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .gem-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-left: 4px solid #DAA520;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .gem-card::before {
+            content: '💎';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 4rem;
+            opacity: 0.1;
+        }
+        
+        .gem-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            border-left-color: #1a4d2e;
+        }
+        
+        .quality-badge {
+            background: linear-gradient(135deg, #DAA520, #FFD700);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            display: inline-block;
+        }
+        
+        .cultural-badge {
+            background: linear-gradient(135deg, #059669, #10b981);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-left: 0.5rem;
+        }
+        
+        .filter-bar {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 80px;
+            z-index: 10;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            cursor: pointer;
+            margin: 0.25rem;
+            transition: all 0.2s;
+        }
+        
+        .filter-btn:hover {
+            background: #f0f0f0;
+        }
+        
+        .filter-btn.active {
+            background: #1a4d2e;
+            color: white;
+            border-color: #1a4d2e;
+        }
+    </style>
+</head>
+<body class="pattern-koru-subtle">
+    
+    <!-- Navigation -->
+    <div id="nav-container"></div>
+    <script>
+        fetch('/components/navigation-standard.html')
+            .then(r => r.text())
+            .then(html => document.getElementById('nav-container').innerHTML = html);
+    </script>
+    
+    <!-- Hero Section -->
+    <section style="background: linear-gradient(135deg, #DAA520, #FFD700); color: white; padding: 4rem 2rem; text-align: center;">
+        <div style="max-width: 1000px; margin: 0 auto;">
+            <div style="font-size: 5rem; margin-bottom: 1rem;">💎</div>
+            <h1 style="font-size: 3.5rem; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">
+                Excellence Showcase
+            </h1>
+            <p style="font-size: 1.5rem; opacity: 0.95; margin-bottom: 1rem;">
+                221 Cultural Gems - Our Finest Resources
+            </p>
+            <p style="font-size: 1.1rem; opacity: 0.9;">
+                Quality Score 90+ with Authentic Cultural Integration
+            </p>
+            <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+                <div style="background: rgba(255,255,255,0.2); padding: 1rem 2rem; border-radius: 12px;">
+                    <div style="font-size: 2rem; font-weight: 800;">221</div>
+                    <div>Excellence Resources</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.2); padding: 1rem 2rem; border-radius: 12px;">
+                    <div style="font-size: 2rem; font-weight: 800;">100%</div>
+                    <div>Cultural Integration</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.2); padding: 1rem 2rem; border-radius: 12px;">
+                    <div style="font-size: 2rem; font-weight: 800;" id="te-reo-count">--</div>
+                    <div>With Te Reo Māori</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div style="max-width: 1400px; margin: 0 auto; padding: 2rem;">
+        
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <h3 style="margin: 0 0 1rem 0; color: #1a4d2e;">🔍 Filter Excellence Resources</h3>
+            
+            <div style="margin-bottom: 1rem;">
+                <strong>Subject:</strong><br>
+                <button class="filter-btn active" data-filter="subject" data-value="all">All Subjects</button>
+                <button class="filter-btn" data-filter="subject" data-value="Mathematics">Mathematics</button>
+                <button class="filter-btn" data-filter="subject" data-value="Science">Science</button>
+                <button class="filter-btn" data-filter="subject" data-value="English">English</button>
+                <button class="filter-btn" data-filter="subject" data-value="Social Studies">Social Studies</button>
+                <button class="filter-btn" data-filter="subject" data-value="Digital Technologies">Digital Technologies</button>
+                <button class="filter-btn" data-filter="subject" data-value="Te Ao Māori">Te Ao Māori</button>
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+                <strong>Features:</strong><br>
+                <button class="filter-btn" data-filter="feature" data-value="te-reo">🗣️ Te Reo Māori</button>
+                <button class="filter-btn" data-filter="feature" data-value="whakatauki">📜 Whakataukī</button>
+                <button class="filter-btn" data-filter="feature" data-value="quality-100">⭐ Perfect Score (100)</button>
+            </div>
+            
+            <div>
+                <span id="results-count" style="color: #666; font-weight: 600;">Loading...</span>
+            </div>
+        </div>
+        
+        <!-- Excellence Grid -->
+        <div class="excellence-grid" id="excellence-grid">
+            <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #666;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">✨</div>
+                <p style="font-size: 1.2rem;">Loading cultural excellence from GraphRAG...</p>
+            </div>
+        </div>
+        
+    </div>
+    
+    <!-- Footer -->
+    <div id="footer-container"></div>
+    <script>
+        fetch('/components/footer.html').then(r=>r.text()).then(html=>{
+            document.getElementById('footer-container').innerHTML=html;
+        });
+    </script>
+    
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script>
+        const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        let allGems = [];
+        let filteredGems = [];
+        let currentFilters = {
+            subject: 'all',
+            feature: null
+        };
+        
+        async function loadExcellenceResources() {
+            try {
+                // Load all quality 90+ with cultural context
+                const { data, error } = await supabase
+                    .from('graphrag_resources')
+                    .select('*')
+                    .gte('quality_score', 90)
+                    .eq('cultural_context', true)
+                    .order('quality_score', { ascending: false });
+                    
+                if (error) throw error;
+                
+                allGems = data || [];
+                filteredGems = allGems;
+                
+                // Update stats
+                const teReoCount = allGems.filter(r => r.has_te_reo).length;
+                document.getElementById('te-reo-count').textContent = teReoCount;
+                
+                displayGems(filteredGems);
+                updateResultsCount();
+                
+            } catch (error) {
+                console.error('Error loading resources:', error);
+                document.getElementById('excellence-grid').innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #dc2626;">
+                        <p>Error loading resources. Please refresh the page.</p>
+                    </div>
+                `;
+            }
+        }
+        
+        function displayGems(gems) {
+            const container = document.getElementById('excellence-grid');
+            
+            if (gems.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #666;">
+                        <p>No resources match your filters. Try adjusting your selection.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = gems.map(gem => {
+                const teReo = gem.has_te_reo ? '🗣️ Te Reo' : '';
+                const whakatauki = gem.has_whakataukī ? '📜 Whakataukī' : '';
+                const features = [teReo, whakatauki].filter(f => f).join(' ');
+                
+                return `
+                    <div class="gem-card">
+                        <div style="margin-bottom: 1rem;">
+                            <span class="quality-badge">⭐ ${gem.quality_score}</span>
+                            <span class="cultural-badge">🌿 Cultural</span>
+                        </div>
+                        
+                        <h3 style="color: #1a4d2e; margin-bottom: 0.75rem; font-size: 1.2rem; line-height: 1.3;">
+                            ${gem.title || 'Untitled Resource'}
+                        </h3>
+                        
+                        <div style="margin-bottom: 1rem;">
+                            <span style="background: #f0f0f0; padding: 0.25rem 0.75rem; border-radius: 15px; font-size: 0.85rem; color: #666; margin-right: 0.5rem;">
+                                ${gem.subject || 'General'}
+                            </span>
+                            <span style="background: #e0f2fe; padding: 0.25rem 0.75rem; border-radius: 15px; font-size: 0.85rem; color: #0369a1;">
+                                ${gem.year_level || 'All Years'}
+                            </span>
+                        </div>
+                        
+                        ${features ? `
+                            <div style="margin-bottom: 1rem; font-size: 0.9rem; color: #059669;">
+                                ${features}
+                            </div>
+                        ` : ''}
+                        
+                        <p style="color: #666; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem;">
+                            ${gem.content_preview ? gem.content_preview.substring(0, 120) + '...' : 'High-quality culturally-integrated resource'}
+                        </p>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: #999; font-size: 0.85rem;">
+                                ${gem.resource_type || 'Resource'}
+                            </span>
+                            <a href="${gem.file_path}" style="color: #1a4d2e; font-weight: 600; text-decoration: none;">
+                                View →
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function updateResultsCount() {
+            document.getElementById('results-count').textContent = 
+                `Showing ${filteredGems.length} of 221 excellence resources`;
+        }
+        
+        function applyFilters() {
+            filteredGems = allGems;
+            
+            // Apply subject filter
+            if (currentFilters.subject !== 'all') {
+                filteredGems = filteredGems.filter(g => g.subject === currentFilters.subject);
+            }
+            
+            // Apply feature filters
+            if (currentFilters.feature === 'te-reo') {
+                filteredGems = filteredGems.filter(g => g.has_te_reo);
+            } else if (currentFilters.feature === 'whakatauki') {
+                filteredGems = filteredGems.filter(g => g.has_whakataukī);
+            } else if (currentFilters.feature === 'quality-100') {
+                filteredGems = filteredGems.filter(g => g.quality_score === 100);
+            }
+            
+            displayGems(filteredGems);
+            updateResultsCount();
+        }
+        
+        // Setup filter buttons
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const filterType = this.dataset.filter;
+                    const filterValue = this.dataset.value;
+                    
+                    // Update active state for buttons in same group
+                    document.querySelectorAll(`[data-filter="${filterType}"]`).forEach(b => {
+                        b.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Update filters
+                    if (filterType === 'subject') {
+                        currentFilters.subject = filterValue;
+                    } else if (filterType === 'feature') {
+                        // Toggle feature filter
+                        if (currentFilters.feature === filterValue) {
+                            currentFilters.feature = null;
+                            this.classList.remove('active');
+                        } else {
+                            currentFilters.feature = filterValue;
+                        }
+                    }
+                    
+                    applyFilters();
+                });
+            });
+            
+            loadExcellenceResources();
+        });
+    </script>
+    
+    <!-- Analytics -->
+    <script src="/js/posthog-analytics.js" defer></script>
+    
+</body>
+</html>

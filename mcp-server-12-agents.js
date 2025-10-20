@@ -90,8 +90,9 @@ class TwelveAgentMCPServer {
     handleRequest(req, res) {
         res.setHeader('Content-Type', 'application/json');
         res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, apikey, X-Requested-With, x-client-info');
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
         
         if (req.method === 'OPTIONS') {
             res.writeHead(200);
@@ -104,6 +105,9 @@ class TwelveAgentMCPServer {
         switch (url.pathname) {
             case '/status':
                 this.handleStatus(req, res);
+                break;
+            case '/register':
+                this.handleRegister(req, res);
                 break;
             case '/check-in':
                 this.handleCheckIn(req, res);
@@ -133,6 +137,53 @@ class TwelveAgentMCPServer {
                 res.writeHead(404);
                 res.end(JSON.stringify({ error: 'Endpoint not found' }));
         }
+    }
+
+    handleRegister(req, res) {
+        if (req.method !== 'POST') {
+            res.writeHead(405);
+            res.end(JSON.stringify({ error: 'Method not allowed' }));
+            return;
+        }
+
+        let body = '';
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+
+        req.on('end', () => {
+            try {
+                const data = JSON.parse(body);
+                const { agentId, capabilities } = data;
+
+                if (!agentId) {
+                    res.writeHead(400);
+                    res.end(JSON.stringify({ error: 'agentId required' }));
+                    return;
+                }
+
+                if (!this.activeAgents.has(agentId)) {
+                    this.activeAgents.set(agentId, {
+                        id: agentId,
+                        status: 'online',
+                        lastSeen: new Date().toISOString(),
+                        currentTask: null,
+                        capabilities: Array.isArray(capabilities) && capabilities.length > 0 ? capabilities : ['general']
+                    });
+                }
+
+                this.updateProgressLog(`🤝 Registered agent ${agentId}`);
+
+                res.writeHead(200);
+                res.end(JSON.stringify({
+                    success: true,
+                    agent: this.activeAgents.get(agentId)
+                }));
+            } catch (error) {
+                res.writeHead(400);
+                res.end(JSON.stringify({ error: 'Invalid request data' }));
+            }
+        });
     }
 
     handleStatus(req, res) {
@@ -168,17 +219,22 @@ class TwelveAgentMCPServer {
                 const data = JSON.parse(body);
                 const { agentId, status, currentTask } = data;
                 
+                // Auto-register unknown agents for true multi-agent support
                 if (!this.activeAgents.has(agentId)) {
-                    res.writeHead(400);
-                    res.end(JSON.stringify({ error: 'Invalid agent ID' }));
-                    return;
+                    this.activeAgents.set(agentId, {
+                        id: agentId,
+                        status: status || 'online',
+                        lastSeen: new Date().toISOString(),
+                        currentTask: currentTask || null,
+                        capabilities: ['general']
+                    });
+                } else {
+                    // Update agent status
+                    const agent = this.activeAgents.get(agentId);
+                    agent.status = status || 'online';
+                    agent.lastSeen = new Date().toISOString();
+                    agent.currentTask = currentTask || null;
                 }
-                
-                // Update agent status
-                const agent = this.activeAgents.get(agentId);
-                agent.status = status || 'online';
-                agent.lastSeen = new Date().toISOString();
-                agent.currentTask = currentTask || null;
                 
                 // Update progress log
                 this.updateProgressLog(`Agent ${agentId} checked in: ${status} - ${currentTask || 'No task'}`);
