@@ -64,8 +64,9 @@ class SupabaseMCPServer {
     async handleRequest(req, res) {
         res.setHeader('Content-Type', 'application/json');
         res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, apikey, X-Requested-With, x-client-info');
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
         
         if (req.method === 'OPTIONS') {
             res.writeHead(200);
@@ -147,17 +148,23 @@ class SupabaseMCPServer {
                 const data = JSON.parse(body);
                 const { agentId, agentType, capabilities } = data;
                 
+                // Dynamically register unknown agents to support many concurrent agents
                 if (!this.activeAgents.has(agentId)) {
-                    res.writeHead(400);
-                    res.end(JSON.stringify({ error: 'Invalid agent ID' }));
-                    return;
+                    this.activeAgents.set(agentId, {
+                        id: agentId,
+                        status: 'active',
+                        lastSeen: new Date().toISOString(),
+                        type: agentType,
+                        capabilities: capabilities || [],
+                        skills: capabilities || []
+                    });
+                } else {
+                    const agent = this.activeAgents.get(agentId);
+                    agent.status = 'active';
+                    agent.lastSeen = new Date().toISOString();
+                    agent.type = agentType;
+                    agent.capabilities = capabilities;
                 }
-                
-                const agent = this.activeAgents.get(agentId);
-                agent.status = 'active';
-                agent.lastSeen = new Date().toISOString();
-                agent.type = agentType;
-                agent.capabilities = capabilities;
                 
                 console.log(`🤖 Agent ${agentId} registered (${agentType})`);
                 
