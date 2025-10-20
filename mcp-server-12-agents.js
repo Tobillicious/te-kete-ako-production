@@ -3,6 +3,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const { execFile } = require('child_process');
 
 // Supabase configuration
 const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
@@ -133,6 +134,9 @@ class TwelveAgentMCPServer {
             case '/complete-task':
                 this.handleCompleteTask(req, res);
                 break;
+            case '/exec':
+                this.handleExec(req, res);
+                break;
             default:
                 res.writeHead(404);
                 res.end(JSON.stringify({ error: 'Endpoint not found' }));
@@ -180,6 +184,72 @@ class TwelveAgentMCPServer {
                     agent: this.activeAgents.get(agentId)
                 }));
             } catch (error) {
+                res.writeHead(400);
+                res.end(JSON.stringify({ error: 'Invalid request data' }));
+            }
+        });
+    }
+
+    handleExec(req, res) {
+        if (req.method !== 'POST') {
+            res.writeHead(405);
+            res.end(JSON.stringify({ error: 'Method not allowed' }));
+            return;
+        }
+
+        let body = '';
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+
+        req.on('end', () => {
+            try {
+                const data = JSON.parse(body || '{}');
+                const agentId = data.agentId || 'unknown-agent';
+                const command = (data.command || '').trim();
+                const args = Array.isArray(data.args) ? data.args : [];
+
+                const allowlist = {
+                    npm: new Set(['ci', 'run', 'build', '-v', '--version']),
+                    node: new Set(['-v', '--version'])
+                };
+
+                if (!command || !(command in allowlist)) {
+                    res.writeHead(400);
+                    res.end(JSON.stringify({ error: 'Command not allowed' }));
+                    return;
+                }
+                if (args.some(a => typeof a !== 'string')) {
+                    res.writeHead(400);
+                    res.end(JSON.stringify({ error: 'Invalid args' }));
+                    return;
+                }
+                const primaryArg = args[0] || '';
+                if (primaryArg && !allowlist[command].has(primaryArg)) {
+                    res.writeHead(400);
+                    res.end(JSON.stringify({ error: 'Argument not allowed' }));
+                    return;
+                }
+
+                execFile(command, args, {
+                    cwd: this.projectRoot,
+                    timeout: 20000,
+                    maxBuffer: 1024 * 1024
+                }, (error, stdout, stderr) => {
+                    const response = {
+                        success: !error,
+                        exitCode: error && typeof error.code === 'number' ? error.code : 0,
+                        stdout: (stdout || '').slice(0, 100000),
+                        stderr: (stderr || '').slice(0, 100000)
+                    };
+                    this.updateProgressLog(`Exec by ${agentId}: ${command} ${args.join(' ')}`);
+                    res.writeHead(200);
+                    res.end(JSON.stringify(response));
+                }).on('error', (spawnErr) => {
+                    res.writeHead(500);
+                    res.end(JSON.stringify({ error: String(spawnErr) }));
+                });
+            } catch (e) {
                 res.writeHead(400);
                 res.end(JSON.stringify({ error: 'Invalid request data' }));
             }
