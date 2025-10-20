@@ -12,6 +12,35 @@ class EnhancedSearch {
   }
 
   /**
+   * Show loading state
+   */
+  showLoading() {
+    const resultsContainer = document.getElementById('search-results') || document.querySelector('.search-results');
+    if (resultsContainer) {
+      resultsContainer.innerHTML = `
+        <div style="text-align: center; padding: 3rem; color: #6b7280;">
+          <div class="spinner" style="width: 40px; height: 40px; border: 4px solid #f3f4f6; border-top: 4px solid #1a4d2e; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 1rem;"></div>
+          <p style="font-size: 1.1rem; font-weight: 600;">Searching...</p>
+          <p style="font-size: 0.9rem; margin-top: 0.5rem;">Searching across 20,000+ resources with GraphRAG intelligence</p>
+        </div>
+      `;
+    }
+  }
+
+  /**
+   * Hide loading state
+   */
+  hideLoading() {
+    const resultsContainer = document.getElementById('search-results') || document.querySelector('.search-results');
+    if (resultsContainer) {
+      const spinner = resultsContainer.querySelector('.spinner');
+      if (spinner && spinner.parentElement) {
+        spinner.parentElement.remove();
+      }
+    }
+  }
+
+  /**
    * Search resources with natural language query
    */
   async search(query, filters = {}) {
@@ -22,6 +51,9 @@ class EnhancedSearch {
     if (this.cache.has(cacheKey)) {
       return this.cache.get(cacheKey);
     }
+    
+    // Show loading indicator
+    this.showLoading();
     
     try {
       const url = `${this.supabaseUrl}/rest/v1/graphrag_resources`;
@@ -54,12 +86,16 @@ class EnhancedSearch {
       const response = await fetch(`${url}?${queryParams}`, { headers });
       const results = await response.json();
       
+      // Hide loading indicator
+      this.hideLoading();
+      
       // Cache results
       this.cache.set(cacheKey, results);
       
       return results;
     } catch (error) {
       console.error('Search error:', error);
+      this.hideLoading();
       return [];
     }
   }

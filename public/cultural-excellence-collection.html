@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌿 Cultural Excellence Collection | 199 High-Integration Resources | Te Kete Ako</title>
+    <meta name="description" content="Discover 199 resources with exceptional cultural integration. Mātauranga Māori excellence across all subjects - lessons, games, and handouts featuring deep cultural connection.">
+    
+    <!-- Ultimate Beauty System -->
+        <link rel="stylesheet" href="/css/te-kete-professional.css">
+<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/tailwind.config.ultimate.js"></script>
+    
+    <!-- Supabase for GraphRAG -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 50%, #fed7aa 100%);
+        }
+        
+        .cultural-hero {
+            background: linear-gradient(135deg, #1B7F5A 0%, #15803d 50%, #166534 100%);
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cultural-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.1;
+            background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 10 Q 50 25 50 40 Q 50 55 40 60 Q 30 55 30 40 Q 30 25 40 10 M 40 20 Q 45 30 45 40 Q 45 50 40 55' stroke='white' fill='none' stroke-width='2'/%3E%3C/svg%3E");
+        }
+        
+        .cultural-hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            margin-bottom: 1.5rem;
+            font-weight: 900;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .cultural-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .cultural-stat {
+            text-align: center;
+        }
+        
+        .cultural-stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            display: block;
+            color: #fbbf24;
+        }
+        
+        .cultural-stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .resources-grid {
+            max-width: 1400px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .resource-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(27, 127, 90, 0.1);
+            transition: all 0.3s;
+            border-left: 4px solid #15803d;
+            position: relative;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 50px rgba(27, 127, 90, 0.15);
+        }
+        
+        .resource-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        .resource-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .resource-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+        }
+        
+        .resource-type {
+            display: inline-block;
+            background: #dcfce7;
+            color: #166534;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .resource-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #15803d, #166534);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .resource-link:hover {
+            background: linear-gradient(135deg, #166534, #14532d);
+            transform: translateX(4px);
+        }
+        
+        .filter-bar {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .filter-button {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 50px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .filter-button:hover,
+        .filter-button.active {
+            background: #15803d;
+            color: white;
+            border-color: #15803d;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 4rem;
+            font-size: 1.5rem;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body class="pattern-koru-subtle">
+    <!-- Navigation -->
+    <div id="nav-container"></div>
+    <script>
+        fetch('/components/navigation-standard.html')
+            .then(r => r.text())
+            .then(html => document.getElementById('nav-container').innerHTML = html);
+    </script>
+    
+    <!-- Whakataukī -->
+    <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 2rem; text-align: center; border-bottom: 4px solid #15803d;">
+        <p style="font-size: 1.5rem; color: #166534; font-style: italic; margin-bottom: 0.75rem; font-weight: 700;">
+            "Ko te pae tawhiti, whāia kia tata; ko te pae tata, whakamaua kia tīna"
+        </p>
+        <p style="font-size: 1.1rem; color: #4d7c0f; font-weight: 500;">
+            Seek out distant horizons and cherish those you attain — Excellence in cultural integration
+        </p>
+    </div>
+    
+    <!-- Hero Section -->
+    <section class="cultural-hero">
+        <h1>🌿 Cultural Excellence Collection</h1>
+        <p style="font-size: 1.4rem; max-width: 900px; margin: 0 auto; line-height: 1.6;">
+            Discover 199 resources with exceptional mātauranga Māori integration. 
+            Each resource demonstrates deep cultural connection, authentic Te Reo usage, 
+            and meaningful integration of Māori worldviews across all curriculum areas.
+        </p>
+        
+        <div class="cultural-stats">
+            <div class="cultural-stat">
+                <span class="cultural-stat-number" id="total-resources">199</span>
+                <span class="cultural-stat-label">High Cultural Resources</span>
+            </div>
+            <div class="cultural-stat">
+                <span class="cultural-stat-number">100%</span>
+                <span class="cultural-stat-label">Authentic Integration</span>
+            </div>
+            <div class="cultural-stat">
+                <span class="cultural-stat-number">All</span>
+                <span class="cultural-stat-label">Subject Areas</span>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <span style="font-weight: 700; color: #64748b;">Filter by:</span>
+        <button class="filter-button active" onclick="filterResources('all')">All Resources</button>
+        <button class="filter-button" onclick="filterResources('lesson')">Lessons</button>
+        <button class="filter-button" onclick="filterResources('game')">Games</button>
+        <button class="filter-button" onclick="filterResources('handout')">Handouts</button>
+        <button class="filter-button" onclick="filterResources('unit-plan')">Units</button>
+        <button class="filter-button" onclick="filterResources('interactive')">Interactive</button>
+    </div>
+    
+    <!-- Resources Grid -->
+    <div class="resources-grid" id="resources-container">
+        <div class="loading">
+            🔄 Loading cultural excellence resources from GraphRAG...
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer style="background: #f8fafc; padding: 3rem 2rem; text-align: center; margin-top: 4rem; border-top: 1px solid #e5e7eb;">
+        <p style="color: #64748b; font-size: 1rem; margin-bottom: 0.5rem;">
+            <strong>199 resources</strong> with exceptional cultural integration powered by GraphRAG
+        </p>
+        <p style="color: #94a3b8; font-size: 0.9rem;">
+            Updated October 2025 | Real-time Supabase integration
+        </p>
+    </footer>
+    
+    <script>
+        // Initialize Supabase
+        const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        let allResources = [];
+        let currentFilter = 'all';
+        
+        // Resource type icons
+        const typeIcons = {
+            'lesson': '📚',
+            'game': '🎮',
+            'handout': '📄',
+            'interactive': '💻',
+            'unit-plan': '📋',
+            'assessment': '✅',
+            'activity': '🎯'
+        };
+        
+        async function loadResources() {
+            try {
+                // Query resources with high cultural integration
+                const { data, error } = await supabase
+                    .from('resources')
+                    .select('*')
+                    .order('title');
+                
+                if (error) throw error;
+                
+                // Filter for high cultural integration
+                allResources = data.filter(resource => {
+                    const cultural = resource.cultural_elements?.cultural_integration;
+                    return cultural === 'high' || cultural === 'essential';
+                });
+                
+                // Update count
+                document.getElementById('total-resources').textContent = allResources.length;
+                
+                // Render all resources
+                renderResources(allResources);
+                
+            } catch (error) {
+                console.error('Error loading resources:', error);
+                document.getElementById('resources-container').innerHTML = `
+                    <div class="loading">
+                        ❌ Error loading resources. Please refresh the page.
+                    </div>
+                `;
+            }
+        }
+        
+        function renderResources(resources) {
+            const container = document.getElementById('resources-container');
+            
+            if (resources.length === 0) {
+                container.innerHTML = `
+                    <div class="loading">
+                        No resources found for this filter.
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = resources.map(resource => {
+                const type = resource.type || 'resource';
+                const icon = typeIcons[type] || '📦';
+                const path = resource.path || '#';
+                const title = resource.title || 'Untitled Resource';
+                const description = resource.description || 'High cultural integration resource';
+                
+                return `
+                    <div class="resource-card" data-type="${type}">
+                        <div class="resource-badge">High Cultural</div>
+                        <div class="resource-icon">${icon}</div>
+                        <div class="resource-type">${type}</div>
+                        <h3 class="resource-title">${title}</h3>
+                        <p style="color: #64748b; line-height: 1.6; font-size: 0.95rem;">
+                            ${description.substring(0, 150)}${description.length > 150 ? '...' : ''}
+                        </p>
+                        <a href="${path}" class="resource-link">
+                            Explore Resource →
+                        </a>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function filterResources(type) {
+            currentFilter = type;
+            
+            // Update button states
+            document.querySelectorAll('.filter-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Filter and render
+            if (type === 'all') {
+                renderResources(allResources);
+            } else {
+                const filtered = allResources.filter(r => r.type === type);
+                renderResources(filtered);
+            }
+        }
+        
+        // Make function global
+        window.filterResources = filterResources;
+        
+        // Load resources on page load
+        document.addEventListener('DOMContentLoaded', loadResources);
+    </script>
+    
+    <!-- Cultural Motion System -->
+    <script src="/js/framer-cultural-gestures-ultimate.js" defer></script>
+    
+    <!-- PostHog Analytics -->
+    <script src="/js/posthog-analytics.js" defer></script>
+</body>
+</html>
+

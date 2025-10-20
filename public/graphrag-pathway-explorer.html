@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GraphRAG Pathway Explorer</title>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <style>
+      .container { max-width: 1100px; margin: 0 auto; padding: 1rem; }
+      .inputs { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem; }
+      .card { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 1rem; }
+      .chain { display: grid; gap: 0.75rem; }
+      .node { border-left: 4px solid #2563eb; padding-left: 0.75rem; }
+      .badge { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 9999px; background: #eef2ff; color: #3730a3; font-size: 0.8rem; }
+      .muted { color: #6b7280; }
+      .row { display: flex; align-items: center; gap: 0.5rem; }
+      .arrow { color: #6b7280; }
+      .mb1 { margin-bottom: 1rem; }
+      .grow { flex: 1; min-width: 280px; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="card mb1">
+        <h1>GraphRAG Pathway Explorer</h1>
+        <p class="muted">Visualize prerequisite learning chains. Start from any resource path.</p>
+      </header>
+
+      <section class="card mb1">
+        <div class="inputs">
+          <input id="startPath" class="grow" type="text" placeholder="/public/generated-resources-alpha/science/biology/genetics.html">
+          <button id="exploreBtn" class="btn-primary">Explore Pathway</button>
+        </div>
+        <div id="status" class="muted">Enter a resource path and click Explore.</div>
+      </section>
+
+      <section id="results" class="card">
+        <div id="chain" class="chain"></div>
+      </section>
+    </div>
+
+    <script type="module" src="/public/js/graphrag-config.js"></script>
+    <script type="module" src="/public/js/graphrag-pathway-explorer.js"></script>
+  </body>
+  </html>
+
+
