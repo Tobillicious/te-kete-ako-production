@@ -1,5 +1,7 @@
 // Tailwind CSS Configuration for Te Kete Ako Ultimate Beauty System
-tailwind.config = {
+// Wait for Tailwind to load before configuring
+if (typeof tailwind !== 'undefined') {
+  tailwind.config = {
   theme: {
     extend: {
       colors: {
@@ -40,4 +42,8 @@ tailwind.config = {
     'transition-all',
     'duration-300',
   ]
+  }
+} else {
+  // Fallback if Tailwind isn't loaded yet
+  console.log('🎨 Tailwind CSS not yet loaded, config will apply when ready');
 }

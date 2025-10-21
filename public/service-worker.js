@@ -8,7 +8,7 @@
  * ================================================================
  */
 
-const CACHE_VERSION = 'te-kete-ako-v1.1-oct17-fixed';
+const CACHE_VERSION = 'te-kete-ako-v2.0-oct21-kaitiaki-aronui';
 const CACHE_STATIC = `${CACHE_VERSION}-static`;
 const CACHE_DYNAMIC = `${CACHE_VERSION}-dynamic`;
 
