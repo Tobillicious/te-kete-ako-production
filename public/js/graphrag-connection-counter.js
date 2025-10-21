@@ -218,6 +218,50 @@ class GraphRAGConnectionCounter {
     }
 }
 
+GraphRAGConnectionCounter.prototype.injectBadgesIfMissing = function(){
+    try {
+        var selectors = [
+            'a[href^="/generated-resources-alpha/"]',
+            'a[href^="/units/"]',
+            'a[href^="/handouts/"]',
+            'a[href^="/integrated-lessons/"]'
+        ];
+        var links = [];
+        selectors.forEach(function(sel){ links = links.concat(Array.from(document.querySelectorAll(sel))); });
+        links.forEach(function(a){
+            if (!a.querySelector('.connection-badge')) {
+                var href = a.getAttribute('href') || '';
+                if (!href) return;
+                // Normalize to /public path if not already absolute
+                var publicPath = href.indexOf('/public/') === 0 ? href : ('/public' + (href.startsWith('/') ? href : ('/' + href)));
+                a.style.position = a.style.position || 'relative';
+                var b = document.createElement('div');
+                b.className = 'connection-badge';
+                b.setAttribute('data-resource-path', publicPath);
+                b.setAttribute('style','position:absolute; top:-12px; right:12px; background:#e0f2fe; color:#075985; padding:0.35rem 0.75rem; border-radius:18px; font-weight:800; font-size:0.75rem;');
+                b.textContent = '🔄 Loading...';
+                a.insertBefore(b, a.firstChild);
+            }
+        });
+    } catch (e) { console.warn('Badge auto-inject failed', e); }
+};
+
+// Hook into init to inject before updating
+const _origInit = GraphRAGConnectionCounter.prototype.init;
+GraphRAGConnectionCounter.prototype.init = async function(){
+    if (window.supabase && window.supabase.createClient) {
+        this.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        console.log('✅ GraphRAG Connection Counter initialized');
+        // New: inject missing badges
+        this.injectBadgesIfMissing();
+        // Then update
+        this.updateAllBadges();
+    } else {
+        console.warn('⚠️ Supabase not loaded yet, retrying...');
+        setTimeout(() => this.init(), 500);
+    }
+};
+
 // Auto-initialize when DOM is ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {

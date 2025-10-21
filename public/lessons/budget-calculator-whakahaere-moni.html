@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Budget Calculator - Whakahaere Moni | Te Kete Ako</title>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        .budget-form { background: white; padding: 2rem; border-radius: 12px; margin: 2rem 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .form-section { margin: 1.5rem 0; padding: 1.5rem; background: #f9fafb; border-radius: 8px; }
+        .form-section h3 { color: var(--color-primary); margin-top: 0; }
+        .input-row { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin: 0.75rem 0; align-items: center; }
+        .input-row label { font-weight: 500; }
+        .input-row input { padding: 0.5rem; border: 2px solid #e5e7eb; border-radius: 4px; font-size: 1rem; }
+        .calculate-btn { background: var(--color-primary); color: white; padding: 1rem 2rem; border: none; border-radius: 6px; font-size: 1.1rem; cursor: pointer; margin-top: 1rem; width: 100%; }
+        .calculate-btn:hover { background: var(--color-pounamu); }
+        .result-section { background: linear-gradient(135deg, #e3f2fd, #bbdefb); padding: 2rem; border-radius: 12px; margin: 2rem 0; display: none; }
+        .result-section.show { display: block; }
+        .big-number { font-size: 3rem; font-weight: bold; color: var(--color-primary); text-align: center; margin: 1rem 0; }
+        .status-positive { color: #10b981; }
+        .status-negative { color: #ef4444; }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="nav-container"><a href="/index.html" class="nav-brand">Te Kete Ako</a></div>
+    </header>
+    <main class="container">
+        <h1>Whakahaere Moni - Budget Calculator</h1>
+        <section class="cultural-integration" style="background: #fff7ed; padding: 2rem; border-radius: 12px; margin: 2rem 0;">
+            <p style="text-align: center; font-style: italic; font-size: 1.2rem;">"Kotahi te kōhao o te ngira"</p>
+            <p style="text-align: center;">"There is but one eye of the needle" - Working together with resources</p>
+        </section>
+        <h2>Learning Objectives</h2>
+        <ul>
+            <li>Calculate income and expenses for budgeting</li>
+            <li>Understand financial literacy concepts</li>
+            <li>Make informed financial decisions</li>
+            <li>Connect to Māori economic principles (tikanga ōhanga)</li>
+        </ul>
+        <div class="budget-form">
+            <h2>💰 Personal Budget Planner</h2>
+            <div class="form-section">
+                <h3>Income / Moni Whiwhi</h3>
+                <div class="input-row">
+                    <label>Weekly pocket money/allowance:</label>
+                    <input type="number" id="pocketMoney" value="20" min="0" step="0.01">
+                </div>
+                <div class="input-row">
+                    <label>Part-time job earnings (weekly):</label>
+                    <input type="number" id="jobEarnings" value="0" min="0" step="0.01">
+                </div>
+                <div class="input-row">
+                    <label>Other income (weekly):</label>
+                    <input type="number" id="otherIncome" value="0" min="0" step="0.01">
+                </div>
+            </div>
+            <div class="form-section">
+                <h3>Expenses / Ngā Utu</h3>
+                <div class="input-row">
+                    <label>Transport/petrol:</label>
+                    <input type="number" id="transport" value="10" min="0" step="0.01">
+                </div>
+                <div class="input-row">
+                    <label>Food/snacks:</label>
+                    <input type="number" id="food" value="15" min="0" step="0.01">
+                </div>
+                <div class="input-row">
+                    <label>Entertainment/hobbies:</label>
+                    <input type="number" id="entertainment" value="20" min="0" step="0.01">
+                </div>
+                <div class="input-row">
+                    <label>Phone/data:</label>
+                    <input type="number" id="phone" value="10" min="0" step="0.01">
+                </div>
+                <div class="input-row">
+                    <label>Savings goal:</label>
+                    <input type="number" id="savings" value="10" min="0" step="0.01">
+                </div>
+                <div class="input-row">
+                    <label>Other expenses:</label>
+                    <input type="number" id="other" value="5" min="0" step="0.01">
+                </div>
+            </div>
+            <button class="calculate-btn" onclick="calculateBudget()">📊 Calculate Budget</button>
+        </div>
+        <div id="results" class="result-section">
+            <h2>Your Budget Summary</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div>
+                    <h3>Total Income:</h3>
+                    <div class="big-number" id="totalIncome">$0</div>
+                </div>
+                <div>
+                    <h3>Total Expenses:</h3>
+                    <div class="big-number" id="totalExpenses">$0</div>
+                </div>
+            </div>
+            <div style="text-align: center; margin: 2rem 0;">
+                <h3>Balance:</h3>
+                <div class="big-number" id="balance">$0</div>
+                <p id="status" style="font-size: 1.2rem; font-weight: bold;"></p>
+            </div>
+            <div class="chart-container" style="height: 400px; margin: 2rem 0;">
+                <canvas id="budgetChart"></canvas>
+            </div>
+            <div id="recommendations" style="background: white; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;"></div>
+        </div>
+        <h2>Tikanga Ōhanga - Māori Economic Principles</h2>
+        <div class="activity-card">
+            <ul>
+                <li><strong>Manaakitanga:</strong> Generosity and reciprocity - supporting whānau</li>
+                <li><strong>Kaitiakitanga:</strong> Guardianship of resources</li>
+                <li><strong>Whanaungatanga:</strong> Collective wellbeing over individual wealth</li>
+                <li><strong>Aroha:</strong> Compassion in financial decisions</li>
+            </ul>
+            <p><em>Traditional Māori economics emphasized sustainable resource management and collective prosperity.</em></p>
+        </div>
+        <h2>Assessment</h2>
+        <ol>
+            <li>Create a realistic budget for yourself for 4 weeks</li>
+            <li>Identify areas where you could reduce expenses</li>
+            <li>Set a savings goal and plan how to reach it</li>
+            <li>Explain how tikanga ōhanga applies to modern budgeting</li>
+        </ol>
+    </main>
+    <footer class="site-footer"><p>© 2025 Te Kete Ako</p></footer>
+    <script>
+        let budgetChart;
+        function calculateBudget() {
+            const income = {
+                pocketMoney: parseFloat(document.getElementById('pocketMoney').value) || 0,
+                jobEarnings: parseFloat(document.getElementById('jobEarnings').value) || 0,
+                otherIncome: parseFloat(document.getElementById('otherIncome').value) || 0
+            };
+            const expenses = {
+                transport: parseFloat(document.getElementById('transport').value) || 0,
+                food: parseFloat(document.getElementById('food').value) || 0,
+                entertainment: parseFloat(document.getElementById('entertainment').value) || 0,
+                phone: parseFloat(document.getElementById('phone').value) || 0,
+                savings: parseFloat(document.getElementById('savings').value) || 0,
+                other: parseFloat(document.getElementById('other').value) || 0
+            };
+            const totalIncome = Object.values(income).reduce((a, b) => a + b, 0);
+            const totalExpenses = Object.values(expenses).reduce((a, b) => a + b, 0);
+            const balance = totalIncome - totalExpenses;
+            document.getElementById('totalIncome').textContent = '$' + totalIncome.toFixed(2);
+            document.getElementById('totalExpenses').textContent = '$' + totalExpenses.toFixed(2);
+            document.getElementById('balance').textContent = '$' + balance.toFixed(2);
+            const statusEl = document.getElementById('status');
+            if (balance > 0) {
+                statusEl.textContent = '✅ Budget Surplus - Ka pai!';
+                statusEl.className = 'status-positive';
+            } else if (balance === 0) {
+                statusEl.textContent = '⚖️ Balanced Budget';
+                statusEl.style.color = '#f59e0b';
+            } else {
+                statusEl.textContent = '⚠️ Budget Deficit - Review expenses';
+                statusEl.className = 'status-negative';
+            }
+            document.getElementById('results').classList.add('show');
+            
+            // Chart
+            const ctx = document.getElementById('budgetChart').getContext('2d');
+            if (budgetChart) budgetChart.destroy();
+            budgetChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Transport', 'Food', 'Entertainment', 'Phone', 'Savings', 'Other'],
+                    datasets: [{
+                        data: Object.values(expenses),
+                        backgroundColor: ['#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#6b7280']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { title: { display: true, text: 'Expense Breakdown' }, legend: { position: 'bottom' } }
+                }
+            });
+            
+            // Recommendations
+            const recEl = document.getElementById('recommendations');
+            let recs = '<h4>💡 Budget Tips:</h4><ul>';
+            if (balance < 0) {
+                recs += '<li>⚠️ You\'re spending more than you earn! Consider cutting back.</li>';
+            }
+            if (expenses.entertainment > totalIncome * 0.3) {
+                recs += '<li>Entertainment is over 30% of income - could you reduce this?</li>';
+            }
+            if (expenses.savings < totalIncome * 0.1) {
+                recs += '<li>Try to save at least 10% of your income!</li>';
+            }
+            if (balance > totalIncome * 0.5) {
+                recs += '<li>Great surplus! Consider increasing your savings goal.</li>';
+            }
+            recs += '<li>🌱 Remember kaitiakitanga - be a good guardian of your resources!</li>';
+            recs += '</ul>';
+            recEl.innerHTML = recs;
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Critical Pages Test Suite | Te Kete Ako</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            background: #f9fafb;
+        }
+        .test-result {
+            background: white;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 8px;
+            border-left: 4px solid #6b7280;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .test-result.pass {
+            border-left-color: #10b981;
+            background: #f0fdf4;
+        }
+        .test-result.fail {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+        .test-result.pending {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+        }
+        .run-button {
+            background: #3b82f6;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin: 2rem 0;
+        }
+        .run-button:hover {
+            background: #2563eb;
+        }
+        .summary {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="font-size: 2.5rem; color: #1a4d2e; margin-bottom: 1rem;">
+        🧪 Critical Pages Test Suite
+    </h1>
+    <p style="color: #666; font-size: 1.1rem; margin-bottom: 2rem;">
+        Automated testing of critical functionality before deployment
+    </p>
+
+    <button class="run-button" onclick="runAllTests()">
+        ▶️ RUN ALL TESTS
+    </button>
+
+    <div class="summary" id="summary">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">⏳</div>
+        <p>Click "RUN ALL TESTS" to begin</p>
+    </div>
+
+    <div id="test-results"></div>
+
+    <script>
+        const tests = [
+            {
+                name: "Homepage Exists",
+                url: "/index.html",
+                check: (html) => html.includes('Te Kete Ako') && html.includes('7,391')
+            },
+            {
+                name: "Navigation Component Exists",
+                url: "/components/navigation-standard.html",
+                check: (html) => html.includes('nav') && html.includes('Discovery')
+            },
+            {
+                name: "Global Search Script Exists",
+                url: "/js/global-search.js",
+                check: (code) => code.includes('performSearch') && code.includes('SUPABASE')
+            },
+            {
+                name: "Browse Lessons Page Exists",
+                url: "/browse-lessons.html",
+                check: (html) => html.includes('Browse Lessons') || html.includes('1,855')
+            },
+            {
+                name: "Browse Handouts Page Exists",
+                url: "/browse-handouts.html",
+                check: (html) => html.includes('Browse Handouts') || html.includes('3,629')
+            },
+            {
+                name: "Year 7 Hub Exists",
+                url: "/year-7-hub.html",
+                check: (html) => html.includes('Year 7') && html.includes('478')
+            },
+            {
+                name: "Cultural Hub Exists",
+                url: "/cultural-hub.html",
+                check: (html) => html.includes('Cultural') && html.includes('7,391')
+            },
+            {
+                name: "Integration Tools Showcase Exists",
+                url: "/integration-tools-showcase.html",
+                check: (html) => html.includes('Integration Tools') && html.includes('16')
+            },
+            {
+                name: "Science Hub Exists",
+                url: "/science-hub.html",
+                check: (html) => html.includes('Science') || html.length > 1000
+            },
+            {
+                name: "Hērangi Unit Index Exists",
+                url: "/units/herangi-unit/index.html",
+                check: (html) => html.includes('Hērangi') || html.includes('Te Puea')
+            },
+            {
+                name: "Generated Alpha Handouts Index",
+                url: "/generated-resources-alpha/handouts/index.html",
+                check: (html) => html.includes('Handouts') && html.includes('Excellence Alpha')
+            },
+            {
+                name: "Generated Alpha Lessons Index",
+                url: "/generated-resources-alpha/lessons/index.html",
+                check: (html) => html.includes('Lessons') && html.includes('Excellence Alpha')
+            },
+            {
+                name: "Professional CSS Exists",
+                url: "/css/te-kete-professional.css",
+                check: (css) => css.includes('header') || css.includes('nav')
+            },
+            {
+                name: "Cultural Excellence Network",
+                url: "/cultural-excellence-network.html",
+                check: (html) => html.includes('Cultural Excellence') && html.includes('2,800')
+            },
+            {
+                name: "Perfect Learning Pathways",
+                url: "/perfect-learning-pathways.html",
+                check: (html) => html.includes('Perfect') && html.includes('594')
+            }
+        ];
+
+        async function runAllTests() {
+            const resultsContainer = document.getElementById('test-results');
+            resultsContainer.innerHTML = '<h2 style="margin: 2rem 0 1rem;">Test Results:</h2>';
+
+            let passed = 0;
+            let failed = 0;
+
+            for (const test of tests) {
+                const resultDiv = document.createElement('div');
+                resultDiv.className = 'test-result pending';
+                resultDiv.innerHTML = `
+                    <div>
+                        <strong>${test.name}</strong>
+                        <div style="font-size: 0.85rem; color: #666;">${test.url}</div>
+                    </div>
+                    <div id="status-${tests.indexOf(test)}">⏳ Testing...</div>
+                `;
+                resultsContainer.appendChild(resultDiv);
+
+                try {
+                    const response = await fetch(test.url);
+                    const content = await response.text();
+                    
+                    if (response.ok && test.check(content)) {
+                        resultDiv.className = 'test-result pass';
+                        document.getElementById(`status-${tests.indexOf(test)}`).innerHTML = '✅ PASS';
+                        passed++;
+                    } else {
+                        resultDiv.className = 'test-result fail';
+                        document.getElementById(`status-${tests.indexOf(test)}`).innerHTML = '❌ FAIL';
+                        failed++;
+                    }
+                } catch (error) {
+                    resultDiv.className = 'test-result fail';
+                    document.getElementById(`status-${tests.indexOf(test)}`).innerHTML = `❌ ERROR: ${error.message}`;
+                    failed++;
+                }
+
+                // Small delay to avoid overwhelming browser
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+
+            // Update summary
+            const summaryDiv = document.getElementById('summary');
+            const passRate = Math.round((passed / tests.length) * 100);
+            
+            if (failed === 0) {
+                summaryDiv.innerHTML = `
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">🎉</div>
+                    <h2 style="color: #10b981; font-size: 2rem; margin-bottom: 1rem;">
+                        ALL ${tests.length} TESTS PASSED!
+                    </h2>
+                    <p style="color: #065f46; font-size: 1.2rem; font-weight: 600; margin-bottom: 1.5rem;">
+                        Site is READY TO DEPLOY! 🚀
+                    </p>
+                    <div style="background: #f0fdf4; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #10b981;">
+                        <p style="color: #065f46; margin: 0;">
+                            <strong>Next Step:</strong> Run deployment commands in DEPLOY-NOW-GUIDE.md
+                        </p>
+                    </div>
+                `;
+            } else {
+                summaryDiv.innerHTML = `
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">⚠️</div>
+                    <h2 style="color: #dc2626; font-size: 2rem; margin-bottom: 1rem;">
+                        ${failed} Tests Failed
+                    </h2>
+                    <p style="color: #991b1b; font-size: 1.2rem; margin-bottom: 1rem;">
+                        Passed: ${passed}/${tests.length} (${passRate}%)
+                    </p>
+                    <p style="color: #666;">
+                        Fix failing tests before deploying
+                    </p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
+

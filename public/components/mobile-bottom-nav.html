@@ -1,1 +1,196 @@
-<!-- MOBILE BOTTOM NAVIGATION --><!-- Touch-optimized navigation bar for mobile devices --><style>.mobile-bottom-nav {    display: none; /* Show only on mobile */    position: fixed;    bottom: 0;    left: 0;    right: 0;    background: white;    border-top: 1px solid #e0e0e0;    box-shadow: 0 -4px 12px rgba(0,0,0,0.1);    z-index: 1000;    padding-bottom: env(safe-area-inset-bottom);}.mobile-nav-items {    display: flex;    justify-content: space-around;    align-items: stretch;    height: 60px;}.mobile-nav-item {    flex: 1;    display: flex;    flex-direction: column;    align-items: center;    justify-content: center;    text-decoration: none;    color: #546e7a;    font-size: 0.75rem;    font-weight: 600;    transition: all 0.2s ease;    position: relative;    padding: 0.5rem 0;}.mobile-nav-item::before {    content: '';    position: absolute;    top: 0;    left: 10%;    right: 10%;    height: 3px;    background: #1a4d2e;    transform: scaleX(0);    transition: transform 0.2s ease;}.mobile-nav-item.active,.mobile-nav-item:active {    color: #1a4d2e;}.mobile-nav-item.active::before {    transform: scaleX(1);}.mobile-nav-icon {    font-size: 1.5rem;    margin-bottom: 0.25rem;}@media (max-width: 768px) {    .mobile-bottom-nav {        display: block;    }    /* Add padding to main content so it's not hidden behind nav */    body {        padding-bottom: 70px;    }}/* Haptic feedback effect */.mobile-nav-item:active {    transform: scale(0.95);}</style><nav class="mobile-bottom-nav" role="navigation" aria-label="Mobile navigation">    <div class="mobile-nav-items">        <a href="/" class="mobile-nav-item" data-page="home">            <span class="mobile-nav-icon">🏠</span>            <span>Home</span>        </a>        <a href="/lessons.html" class="mobile-nav-item" data-page="lessons">            <span class="mobile-nav-icon">📚</span>            <span>Lessons</span>        </a>        <a href="/graphrag-search.html" class="mobile-nav-item" data-page="search">            <span class="mobile-nav-icon">🔍</span>            <span>Search</span>        </a>        <a href="/teaching-variants-library.html" class="mobile-nav-item" data-page="variants">            <span class="mobile-nav-icon">✨</span>            <span>Variants</span>        </a>        <a href="/my-kete.html" class="mobile-nav-item" data-page="saved">            <span class="mobile-nav-icon">💼</span>            <span>My Kete</span>        </a>    </div></nav><script>// Set active state based on current pagedocument.addEventListener('DOMContentLoaded', () => {    const currentPath = window.location.pathname;    const navItems = document.querySelectorAll('.mobile-nav-item');    navItems.forEach(item => {        const page = item.getAttribute('data-page');        if (currentPath === '/' && page === 'home') {            item.classList.add('active');        } else if (currentPath.includes(page)) {            item.classList.add('active');        }    });});</script>
+<!-- ENHANCED MOBILE BOTTOM NAVIGATION -->
+<!-- Touch-optimized navigation bar for mobile and tablet devices -->
+<style>
+.mobile-bottom-nav {
+    display: none; /* Show only on mobile/tablet */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid #e0e0e0;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+    z-index: 1000;
+    padding-bottom: env(safe-area-inset-bottom);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.mobile-nav-items {
+    display: flex;
+    justify-content: space-around;
+    align-items: stretch;
+    height: 72px; /* Increased for better touch targets */
+    padding: 0 8px;
+}
+
+.mobile-nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #546e7a;
+    font-size: 0.75rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    position: relative;
+    padding: 8px 4px;
+    border-radius: 12px;
+    margin: 4px 2px;
+    min-width: 48px; /* Minimum touch target */
+    min-height: 48px;
+}
+
+.mobile-nav-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 20%;
+    right: 20%;
+    height: 3px;
+    background: #1a4d2e;
+    border-radius: 2px;
+    transform: scaleX(0);
+    transition: transform 0.2s ease;
+}
+
+.mobile-nav-item.active,
+.mobile-nav-item:active {
+    color: #1a4d2e;
+    background: rgba(74, 110, 42, 0.1);
+}
+
+.mobile-nav-item.active::before {
+    transform: scaleX(1);
+}
+
+.mobile-nav-icon {
+    font-size: 1.5rem;
+    margin-bottom: 2px;
+    transition: transform 0.2s ease;
+}
+
+.mobile-nav-item:active .mobile-nav-icon {
+    transform: scale(1.1);
+}
+
+/* Responsive display rules */
+@media (max-width: 1023px) {
+    .mobile-bottom-nav {
+        display: block;
+    }
+    
+    /* Add padding to main content so it's not hidden behind nav */
+    body {
+        padding-bottom: 88px; /* 72px nav + 16px spacing */
+    }
+}
+
+/* Tablet-specific optimizations */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .mobile-nav-items {
+        height: 80px; /* Larger for tablets */
+        padding: 0 16px;
+    }
+    
+    .mobile-nav-item {
+        font-size: 0.875rem;
+        min-width: 56px; /* Larger touch targets for tablets */
+        min-height: 56px;
+        padding: 12px 8px;
+        margin: 4px;
+    }
+    
+    .mobile-nav-icon {
+        font-size: 1.75rem;
+        margin-bottom: 4px;
+    }
+    
+    body {
+        padding-bottom: 96px; /* 80px nav + 16px spacing */
+    }
+}
+
+/* Phone-specific optimizations */
+@media (max-width: 767px) {
+    .mobile-nav-items {
+        height: 64px;
+        padding: 0 4px;
+    }
+    
+    .mobile-nav-item {
+        font-size: 0.7rem;
+        min-width: 48px;
+        min-height: 48px;
+        padding: 6px 2px;
+        margin: 2px 1px;
+    }
+    
+    .mobile-nav-icon {
+        font-size: 1.25rem;
+        margin-bottom: 2px;
+    }
+    
+    body {
+        padding-bottom: 80px; /* 64px nav + 16px spacing */
+    }
+}
+
+/* Haptic feedback effect */
+.mobile-nav-item:active {
+    transform: scale(0.95);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .mobile-nav-item {
+        border: 1px solid #e0e0e0;
+    }
+    
+    .mobile-nav-item.active {
+        border-color: #1a4d2e;
+        background: white;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .mobile-nav-item,
+    .mobile-nav-item::before,
+    .mobile-nav-icon {
+        transition: none;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .mobile-bottom-nav {
+        background: #1a1a1a;
+        border-top-color: #333;
+    }
+    
+    .mobile-nav-item {
+        color: #ccc;
+    }
+    
+    .mobile-nav-item.active {
+        color: #4CAF50;
+        background: rgba(76, 175, 80, 0.1);
+    }
+}
+
+/* Performance optimization for scrolling */
+.mobile-bottom-nav {
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+/* Focus indicators for keyboard navigation */
+.mobile-nav-item:focus-visible {
+    outline: 3px solid #1a4d2e;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 3px rgba(26, 77, 46, 0.3);
+}
+</style><nav class="mobile-bottom-nav" role="navigation" aria-label="Mobile navigation">    <div class="mobile-nav-items">        <a href="/" class="mobile-nav-item" data-page="home">            <span class="mobile-nav-icon">🏠</span>            <span>Home</span>        </a>        <a href="/lessons.html" class="mobile-nav-item" data-page="lessons">            <span class="mobile-nav-icon">📚</span>            <span>Lessons</span>        </a>        <a href="/graphrag-search.html" class="mobile-nav-item" data-page="search">            <span class="mobile-nav-icon">🔍</span>            <span>Search</span>        </a>        <a href="/teaching-variants-library.html" class="mobile-nav-item" data-page="variants">            <span class="mobile-nav-icon">✨</span>            <span>Variants</span>        </a>        <a href="/my-kete.html" class="mobile-nav-item" data-page="saved">            <span class="mobile-nav-icon">💼</span>            <span>My Kete</span>        </a>    </div></nav><script>// Set active state based on current pagedocument.addEventListener('DOMContentLoaded', () => {    const currentPath = window.location.pathname;    const navItems = document.querySelectorAll('.mobile-nav-item');    navItems.forEach(item => {        const page = item.getAttribute('data-page');        if (currentPath === '/' && page === 'home') {            item.classList.add('active');        } else if (currentPath.includes(page)) {            item.classList.add('active');        }    });});</script>

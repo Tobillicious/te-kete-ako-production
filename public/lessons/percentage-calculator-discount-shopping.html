@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Percentage Calculator - Smart Shopping | Te Kete Ako</title>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        .calc-box { background: white; padding: 2rem; border-radius: 12px; margin: 2rem 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .calc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+        .input-row { display: flex; gap: 1rem; align-items: center; margin: 1rem 0; }
+        .input-row label { flex: 1; font-weight: 600; }
+        .input-row input { flex: 1; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 6px; }
+        .calc-btn { background: var(--color-primary); color: white; padding: 1rem 2rem; border: none; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 1rem; }
+        .savings-badge { background: #10b981; color: white; padding: 2rem; border-radius: 12px; text-align: center; font-size: 2rem; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="nav-container"><a href="/index.html" class="nav-brand">Te Kete Ako</a></div>
+    </header>
+    <main class="container">
+        <h1>💰 Percentage Calculator: Smart Shopping with Manaakitanga</h1>
+        
+        <section style="background: #fff7ed; padding: 2rem; border-radius: 12px; margin: 2rem 0; text-align: center;">
+            <p style="font-style: italic; font-size: 1.2rem;">"Kaitiakitanga o te moni"</p>
+            <p>"Being a good guardian of your money"</p>
+        </section>
+        
+        <h2>Discount Calculator</h2>
+        <div class="calc-box">
+            <h3>🏷️ How much do you save?</h3>
+            
+            <div class="input-row">
+                <label>Original price ($):</label>
+                <input type="number" id="originalPrice" value="100" min="0" step="0.01">
+            </div>
+            
+            <div class="input-row">
+                <label>Discount (%):</label>
+                <input type="number" id="discount" value="20" min="0" max="100">
+            </div>
+            
+            <button class="calc-btn" onclick="calculateDiscount()">Calculate Savings</button>
+            
+            <div id="discountResult" style="display: none; margin-top: 2rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div style="background: #fef2f2; padding: 1.5rem; border-radius: 8px;">
+                        <p style="color: #991b1b; font-weight: 600;">Original Price:</p>
+                        <p style="font-size: 2rem; font-weight: bold;" id="origDisplay">$100.00</p>
+                    </div>
+                    <div style="background: #f0fdf4; padding: 1.5rem; border-radius: 8px;">
+                        <p style="color: #065f46; font-weight: 600;">Final Price:</p>
+                        <p style="font-size: 2rem; font-weight: bold;" id="finalDisplay">$80.00</p>
+                    </div>
+                </div>
+                <div class="savings-badge" id="savingsDisplay" style="margin-top: 1.5rem;">
+                    You save: $20.00
+                </div>
+            </div>
+        </div>
+        
+        <h2>Tax Calculator (GST)</h2>
+        <div class="calc-box">
+            <h3>💵 NZ GST (15%) Calculator</h3>
+            
+            <div class="input-row">
+                <label>Price excluding GST ($):</label>
+                <input type="number" id="priceExGST" value="100" step="0.01">
+            </div>
+            
+            <button class="calc-btn" onclick="calculateGST()">Add 15% GST</button>
+            
+            <div id="gstResult" style="display: none; margin-top: 1.5rem;">
+                <p><strong>GST amount:</strong> $<span id="gstAmount"></span></p>
+                <p><strong>Total price (inc GST):</strong> <span style="font-size: 1.5rem; color: var(--color-primary); font-weight: bold;">$<span id="totalGST"></span></span></p>
+            </div>
+        </div>
+        
+        <h2>Tip Calculator</h2>
+        <div class="calc-box">
+            <h3>🍽️ Restaurant Tip Calculator</h3>
+            
+            <div class="input-row">
+                <label>Bill total ($):</label>
+                <input type="number" id="billAmount" value="50" step="0.01">
+            </div>
+            
+            <div class="input-row">
+                <label>Tip percentage (%):</label>
+                <input type="number" id="tipPercent" value="10" min="0" max="30">
+            </div>
+            
+            <button class="calc-btn" onclick="calculateTip()">Calculate Tip</button>
+            
+            <div id="tipResult" style="display: none; margin-top: 1.5rem;">
+                <p><strong>Tip amount:</strong> $<span id="tipAmount"></span></p>
+                <p><strong>Total to pay:</strong> <span style="font-size: 1.5rem; color: var(--color-primary); font-weight: bold;">$<span id="totalBill"></span></span></p>
+            </div>
+        </div>
+        
+        <h2>Percentage Applications in Life</h2>
+        <div class="activity-card">
+            <ul style="line-height: 2;">
+                <li><strong>Sales & discounts:</strong> Understanding true savings</li>
+                <li><strong>GST calculations:</strong> All NZ prices include 15% GST</li>
+                <li><strong>Interest rates:</strong> Bank accounts and loans</li>
+                <li><strong>Statistics:</strong> Survey results and data</li>
+                <li><strong>Grades:</strong> Test scores and percentages</li>
+            </ul>
+        </div>
+        
+        <h2>Assessment</h2>
+        <ul>
+            <li>Solve 10 percentage problems (discounts, GST, tips)</li>
+            <li>Compare prices from 3 stores and calculate best value</li>
+            <li>Create a shopping budget showing GST calculations</li>
+            <li>Explain percentage concepts to a younger student</li>
+        </ul>
+    </main>
+    <footer class="site-footer"><p>© 2025 Te Kete Ako</p></footer>
+    <script>
+        function updateFraction() {
+            const num = parseInt(document.getElementById('numerator').value);
+            const den = parseInt(document.getElementById('denominator').value);
+            
+            if (num > den) document.getElementById('numerator').value = den;
+            const actualNum = parseInt(document.getElementById('numerator').value);
+            
+            document.getElementById('numDisplay').textContent = actualNum;
+            document.getElementById('denDisplay').textContent = den;
+            document.getElementById('fractionDisplay').textContent = `${actualNum}/${den}`;
+            
+            const decimal = actualNum / den;
+            document.getElementById('decimal').textContent = decimal.toFixed(3);
+            document.getElementById('percentage').textContent = (decimal * 100).toFixed(1);
+            
+            const canvas = document.getElementById('fractionCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, 300, 300);
+            
+            const centerX = 150, centerY = 150, radius = 130;
+            const anglePerPart = (2 * Math.PI) / den;
+            
+            for (let i = 0; i < den; i++) {
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, i * anglePerPart - Math.PI/2, (i + 1) * anglePerPart - Math.PI/2);
+                ctx.closePath();
+                ctx.fillStyle = i < actualNum ? '#10b981' : '#e5e7eb';
+                ctx.fill();
+                ctx.strokeStyle = '#4a6e2a';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+            }
+        }
+        
+        function calculateDiscount() {
+            const orig = parseFloat(document.getElementById('originalPrice').value);
+            const disc = parseFloat(document.getElementById('discount').value);
+            
+            const savings = orig * (disc / 100);
+            const final = orig - savings;
+            
+            document.getElementById('origDisplay').textContent = '$' + orig.toFixed(2);
+            document.getElementById('finalDisplay').textContent = '$' + final.toFixed(2);
+            document.getElementById('savingsDisplay').textContent = 'You save: $' + savings.toFixed(2);
+            document.getElementById('discountResult').style.display = 'block';
+        }
+        
+        function calculateGST() {
+            const price = parseFloat(document.getElementById('priceExGST').value);
+            const gst = price * 0.15;
+            const total = price + gst;
+            
+            document.getElementById('gstAmount').textContent = gst.toFixed(2);
+            document.getElementById('totalGST').textContent = total.toFixed(2);
+            document.getElementById('gstResult').style.display = 'block';
+        }
+        
+        function calculateTip() {
+            const bill = parseFloat(document.getElementById('billAmount').value);
+            const tipPct = parseFloat(document.getElementById('tipPercent').value);
+            
+            const tip = bill * (tipPct / 100);
+            const total = bill + tip;
+            
+            document.getElementById('tipAmount').textContent = tip.toFixed(2);
+            document.getElementById('totalBill').textContent = total.toFixed(2);
+            document.getElementById('tipResult').style.display = 'block';
+        }
+        
+        function solveHangi() {
+            const people = 60;
+            const kumara = people * 0.25;
+            const fish = people * 0.125;
+            const chicken = people / 6;
+            
+            document.getElementById('hangiSolution').innerHTML = `
+                <h4>Solution:</h4>
+                <p>Kūmara: 60 × 1/4 = <strong>${kumara} kg</strong></p>
+                <p>Fish: 60 × 1/8 = <strong>${fish} kg</strong></p>
+                <p>Chicken: 60 × 1/6 = <strong>${chicken.toFixed(1)} kg</strong></p>
+            `;
+            document.getElementById('hangiSolution').classList.add('show');
+        }
+        
+        updateFraction();
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting Systems Interactive - NZ Democracy | Te Kete Ako</title>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        .voting-simulator { background: white; padding: 2rem; border-radius: 12px; margin: 2rem 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .party-btn { padding: 1rem; margin: 0.5rem; border: 2px solid #e5e7eb; border-radius: 8px; cursor: pointer; background: white; width: 100%; text-align: left; }
+        .party-btn:hover { border-color: var(--color-primary); background: #f9fafb; }
+        .vote-btn { background: var(--color-primary); color: white; padding: 1rem 2rem; border: none; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 1rem; }
+        .results-display { background: linear-gradient(135deg, #e3f2fd, #bbdefb); padding: 2rem; border-radius: 12px; margin: 2rem 0; display: none; }
+        .results-display.show { display: block; }
+    </style>
+    <script src="/js/css-safeguard.js" defer></script>
+</head>
+<body>
+    <header class="site-header">
+        <div class="nav-container"><a href="/index.html" class="nav-brand">Te Kete Ako</a></div>
+    </header>
+    <main class="container">
+        <h1>🗳️ NZ Voting Systems: MMP Democracy</h1>
+        
+        <section style="background: #fff7ed; padding: 2rem; border-radius: 12px; margin: 2rem 0; text-align: center;">
+            <p style="font-style: italic; font-size: 1.2rem;">"Kia kotahi te hoe"</p>
+            <p>"Paddle together as one" - Democracy requires participation</p>
+        </section>
+        
+        <h2>Learning Objectives</h2>
+        <ul>
+            <li>Understand New Zealand's MMP voting system</li>
+            <li>Calculate seat allocations based on votes</li>
+            <li>Compare different voting systems</li>
+            <li>Appreciate democratic participation</li>
+        </ul>
+        
+        <h2>What is MMP?</h2>
+        <div class="activity-card">
+            <h3>Mixed Member Proportional System</h3>
+            <p>NZ uses MMP (since 1996). Each voter gets <strong>two votes:</strong></p>
+            <ul style="line-height: 2;">
+                <li><strong>Electorate vote:</strong> Vote for local MP (72 electorates + 7 Māori electorates)</li>
+                <li><strong>Party vote:</strong> Vote for political party (determines overall seats)</li>
+            </ul>
+            <p><strong>Total:</strong> 120 seats in Parliament</p>
+        </div>
+        
+        <h2>Interactive Voting Simulator</h2>
+        <div class="voting-simulator">
+            <h3>🗳️ Simulate an Election</h3>
+            <p>Set the party vote percentages (must total 100%):</p>
+            
+            <div style="margin: 1.5rem 0;">
+                <label>Labour Party (%):</label>
+                <input type="number" id="labour" value="35" min="0" max="100" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 6px; margin-top: 0.5rem;">
+            </div>
+            <div style="margin: 1.5rem 0;">
+                <label>National Party (%):</label>
+                <input type="number" id="national" value="33" min="0" max="100" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 6px; margin-top: 0.5rem;">
+            </div>
+            <div style="margin: 1.5rem 0;">
+                <label>Green Party (%):</label>
+                <input type="number" id="green" value="10" min="0" max="100" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 6px; margin-top: 0.5rem;">
+            </div>
+            <div style="margin: 1.5rem 0;">
+                <label>ACT Party (%):</label>
+                <input type="number" id="act" value="9" min="0" max="100" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 6px; margin-top: 0.5rem;">
+            </div>
+            <div style="margin: 1.5rem 0;">
+                <label>Te Pāti Māori (%):</label>
+                <input type="number" id="maori" value="8" min="0" max="100" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 6px; margin-top: 0.5rem;">
+            </div>
+            <div style="margin: 1.5rem 0;">
+                <label>Other parties (%):</label>
+                <input type="number" id="other" value="5" min="0" max="100" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 6px; margin-top: 0.5rem;">
+            </div>
+            
+            <button class="vote-btn" onclick="calculateSeats()">Calculate Seat Allocation</button>
+            
+            <div id="seatResults" class="results-display">
+                <h3>Parliament Composition (120 seats):</h3>
+                <div id="seatBreakdown" style="margin: 1.5rem 0;"></div>
+                <div style="height: 400px; margin-top: 2rem;">
+                    <canvas id="parliamentChart"></canvas>
+                </div>
+                <div id="coalition" style="background: white; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;"></div>
+            </div>
+        </div>
+        
+        <h2>Māori Representation</h2>
+        <div class="activity-card">
+            <h3>Māori Electorates</h3>
+            <p>NZ has 7 dedicated Māori electorates:</p>
+            <ul>
+                <li>Te Tai Tonga (South Island)</li>
+                <li>Te Tai Hauāuru (West North Island)</li>
+                <li>Te Tai Tonga (East North Island)</li>
+                <li>Tāmaki Makaurau (Auckland)</li>
+                <li>Hauraki-Waikato</li>
+                <li>Waiariki (Bay of Plenty)</li>
+                <li>Te Tai Tokerau (Northland)</li>
+            </ul>
+            <p>Māori voters can choose to be on either the Māori or General electoral roll</p>
+        </div>
+        
+        <h2>The 5% Threshold</h2>
+        <div class="activity-card">
+            <p>To enter Parliament, a party must either:</p>
+            <ul>
+                <li>Get 5% or more of the party vote, OR</li>
+                <li>Win at least one electorate seat</li>
+            </ul>
+            <p><strong>Why?</strong> Prevents too many small parties fragmenting Parliament</p>
+        </div>
+        
+        <h2>Assessment</h2>
+        <ul>
+            <li>Explain how MMP works to someone who doesn't know</li>
+            <li>Calculate seat allocations for different voting scenarios</li>
+            <li>Research the history of voting rights in NZ (including women's suffrage 1893!)</li>
+            <li>Compare MMP to other voting systems (FPP, STV)</li>
+        </ul>
+    </main>
+    <footer class="site-footer"><p>© 2025 Te Kete Ako</p></footer>
+    <script>
+        let parliamentChart;
+        
+        function calculateSeats() {
+            const votes = {
+                Labour: parseFloat(document.getElementById('labour').value) || 0,
+                National: parseFloat(document.getElementById('national').value) || 0,
+                Green: parseFloat(document.getElementById('green').value) || 0,
+                ACT: parseFloat(document.getElementById('act').value) || 0,
+                'Te Pāti Māori': parseFloat(document.getElementById('maori').value) || 0,
+                Other: parseFloat(document.getElementById('other').value) || 0
+            };
+            
+            const total = Object.values(votes).reduce((a, b) => a + b, 0);
+            if (Math.abs(total - 100) > 0.1) {
+                alert('Vote percentages must total 100%! Current total: ' + total + '%');
+                return;
+            }
+            
+            // Calculate seats (120 total)
+            const seats = {};
+            let seatsAllocated = 0;
+            
+            for (const [party, percent] of Object.entries(votes)) {
+                if (percent >= 5 || party === 'Te Pāti Māori') { // Māori party often wins electorates
+                    seats[party] = Math.round(120 * (percent / 100));
+                    seatsAllocated += seats[party];
+                } else {
+                    seats[party] = 0;
+                }
+            }
+            
+            // Display results
+            let breakdown = '';
+            for (const [party, seatCount] of Object.entries(seats)) {
+                if (seatCount > 0) {
+                    breakdown += `<p style="font-size: 1.1rem; line-height: 2;"><strong>${party}:</strong> ${seatCount} seats (${votes[party]}%)</p>`;
+                }
+            }
+            document.getElementById('seatBreakdown').innerHTML = breakdown;
+            
+            // Chart
+            const chartData = Object.entries(seats).filter(([p, s]) => s > 0);
+            const ctx = document.getElementById('parliamentChart').getContext('2d');
+            if (parliamentChart) parliamentChart.destroy();
+            
+            parliamentChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: chartData.map(([p]) => p),
+                    datasets: [{
+                        data: chartData.map(([p, s]) => s),
+                        backgroundColor: ['#dc2626', '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#6b7280']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { title: { display: true, text: 'Parliament Seats' }, legend: { position: 'bottom' } }
+                }
+            });
+            
+            // Coalition
+            const majority = seatsAllocated / 2;
+            document.getElementById('coalition').innerHTML = `
+                <h4>Forming Government:</h4>
+                <p>Need 61+ seats for majority (currently ${seatsAllocated} seats allocated)</p>
+                <p><em>Parties may need to form coalition partnerships to govern!</em></p>
+            `;
+            
+            document.getElementById('seatResults').classList.add('show');
+        }
+    </script>
+</body>
+</html>
+

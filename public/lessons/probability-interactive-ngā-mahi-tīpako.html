@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Probability Interactive - Ngā Mahi Tīpako | Te Kete Ako</title>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        .dice-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .die {
+            width: 100px;
+            height: 100px;
+            background: white;
+            border: 3px solid var(--color-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+        .die.rolling {
+            animation: roll 0.5s ease-in-out;
+        }
+        @keyframes roll {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(90deg); }
+            50% { transform: rotate(180deg); }
+            75% { transform: rotate(270deg); }
+        }
+        .roll-btn {
+            background: var(--color-primary);
+            color: white;
+            padding: 1rem 3rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin: 1rem 0;
+        }
+        .roll-btn:hover {
+            background: var(--color-pounamu);
+        }
+        .stats-box {
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+        }
+        .spinner-section {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .spinner {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            position: relative;
+            margin: 2rem auto;
+            background: conic-gradient(
+                #10b981 0deg 90deg,
+                #3b82f6 90deg 180deg,
+                #ef4444 180deg 270deg,
+                #f59e0b 270deg 360deg
+            );
+            border: 5px solid var(--color-primary);
+            transition: transform 2s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+        .spinner-pointer {
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 40px solid var(--color-primary);
+            position: absolute;
+            top: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-brand">Te Kete Ako</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <h1 class="wiley-hero-title">Ngā Mahi Tīpako - Probability Interactive</h1>
+
+        <section class="cultural-integration" style="background: #fff7ed; padding: 2rem; border-radius: 12px; margin: 2rem 0;">
+            <h2>🌿 Cultural Context</h2>
+            <p style="text-align: center; font-style: italic; font-size: 1.2rem;">"He aha te mea nui o te ao? He tangata, he tangata, he tangata!"</p>
+            <p style="text-align: center;">"What is the most important thing in the world? It is people, it is people, it is people!"</p>
+            <p style="text-align: center; margin-top: 1rem;"><em>Traditional Māori games like mū tōrere involved strategic thinking and probability</em></p>
+        </section>
+
+        <h2>Learning Objectives</h2>
+        <ul>
+            <li>Understand basic probability concepts through interactive experiments</li>
+            <li>Calculate theoretical vs experimental probability</li>
+            <li>Analyze patterns in random events</li>
+            <li>Connect probability to traditional Māori games</li>
+        </ul>
+
+        <h2>Part 1: Dice Rolling Experiment</h2>
+        
+        <div class="activity-card">
+            <h3>🎲 Roll the Dice - Tūwhiuwhia te Katakata</h3>
+            <p>Roll two dice and observe the patterns! Track how often each sum appears.</p>
+            
+            <div class="dice-container">
+                <div class="die" id="die1">?</div>
+                <div class="die" id="die2">?</div>
+            </div>
+            
+            <div style="text-align: center;">
+                <button class="roll-btn" onclick="rollDice()">🎲 Roll Dice / Tūwhiuwhia</button>
+                <button class="roll-btn" style="background: #6b7280;" onclick="resetDice()">🔄 Reset</button>
+            </div>
+            
+            <div class="stats-box">
+                <h4>Results / Ngā Hua:</h4>
+                <p><strong>Total Rolls:</strong> <span id="totalRolls">0</span></p>
+                <p><strong>Current Sum:</strong> <span id="currentSum">-</span></p>
+                <p><strong>Most Common Sum:</strong> <span id="mostCommon">-</span></p>
+            </div>
+            
+            <div class="chart-container" style="height: 300px; margin-top: 2rem;">
+                <canvas id="diceChart"></canvas>
+            </div>
+            
+            <div style="background: #f9fafb; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
+                <h4>🤔 Think About It:</h4>
+                <ol>
+                    <li>Which sum appears most often? Why?</li>
+                    <li>What is the theoretical probability of rolling a 7?</li>
+                    <li>How does your experimental data compare to theoretical probability?</li>
+                    <li>If you rolled 1000 times, what would you expect?</li>
+                </ol>
+            </div>
+        </div>
+
+        <h2>Part 2: Probability Spinner</h2>
+        
+        <div class="spinner-section">
+            <h3>🎯 Kōwhiri Tīpako - Probability Spinner</h3>
+            <p>Spin to land on: <strong style="color: #10b981;">Green (25%)</strong>, <strong style="color: #3b82f6;">Blue (25%)</strong>, <strong style="color: #ef4444;">Red (25%)</strong>, <strong style="color: #f59e0b;">Yellow (25%)</strong></p>
+            
+            <div style="position: relative;">
+                <div class="spinner-pointer"></div>
+                <div class="spinner" id="spinner"></div>
+            </div>
+            
+            <button class="roll-btn" onclick="spinWheel()">🎯 Spin / Hurihuri</button>
+            
+            <div class="stats-box" style="margin-top: 2rem;">
+                <h4>Spin Results:</h4>
+                <p>🟢 Green: <span id="greenCount">0</span> (<span id="greenPercent">0</span>%)</p>
+                <p>🔵 Blue: <span id="blueCount">0</span> (<span id="bluePercent">0</span>%)</p>
+                <p>🔴 Red: <span id="redCount">0</span> (<span id="redPercent">0</span>%)</p>
+                <p>🟡 Yellow: <span id="yellowCount">0</span> (<span id="yellowPercent">0</span>%)</p>
+                <p><strong>Total Spins:</strong> <span id="totalSpins">0</span></p>
+            </div>
+        </div>
+
+        <h2>Part 3: Theoretical Probability Calculator</h2>
+        
+        <div class="activity-card">
+            <h3>🧮 Calculate Probability</h3>
+            <p><strong>Formula:</strong> Probability = Favorable Outcomes ÷ Total Possible Outcomes</p>
+            
+            <div class="input-group" style="margin: 1rem 0;">
+                <label>Number of favorable outcomes:</label>
+                <input type="number" id="favorable" value="1" min="0" style="padding: 0.5rem; width: 100px;">
+            </div>
+            
+            <div class="input-group">
+                <label>Total possible outcomes:</label>
+                <input type="number" id="total" value="6" min="1" style="padding: 0.5rem; width: 100px;">
+            </div>
+            
+            <button class="roll-btn" onclick="calculateProbability()">Calculate</button>
+            
+            <div id="probResult" class="stats-box" style="display: none;">
+                <h4>Result:</h4>
+                <p style="font-size: 1.5rem; font-weight: bold;">Probability = <span id="probFraction"></span> = <span id="probDecimal"></span> = <span id="probPercent"></span>%</p>
+            </div>
+        </div>
+
+        <h2>Connection to Traditional Games</h2>
+        
+        <div class="activity-card">
+            <h3>Mū Tōrere - Traditional Māori Game</h3>
+            <p>Mū tōrere is a traditional Māori strategy game involving probability and forward-thinking:</p>
+            <ul>
+                <li>Players must predict opponent moves</li>
+                <li>Calculate probability of different outcomes</li>
+                <li>Strategic planning based on likely scenarios</li>
+            </ul>
+            <p><strong>Extension:</strong> Research mū tōrere and analyze the probability strategies involved</p>
+        </div>
+
+        <h2>Assessment Activities</h2>
+        <ol>
+            <li>Conduct 50 dice rolls and compare your results to theoretical probability</li>
+            <li>Create a probability question based on a real-life scenario</li>
+            <li>Explain the difference between theoretical and experimental probability</li>
+            <li>Design your own probability experiment</li>
+        </ol>
+
+    </main>
+
+    <footer class="site-footer">
+        <p>© 2025 Te Kete Ako</p>
+    </footer>
+
+    <script>
+        // Dice Rolling
+        let rollCount = 0;
+        let sumCounts = {};
+        for (let i = 2; i <= 12; i++) sumCounts[i] = 0;
+
+        const diceCtx = document.getElementById('diceChart').getContext('2d');
+        const diceChart = new Chart(diceCtx, {
+            type: 'bar',
+            data: {
+                labels: ['2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                datasets: [{
+                    label: 'Times Rolled',
+                    data: Object.values(sumCounts),
+                    backgroundColor: '#4a6e2a',
+                    borderColor: '#3b5b23',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: { display: true, text: 'Dice Sum Distribution' }
+                },
+                scales: {
+                    y: { beginAtZero: true, title: { display: true, text: 'Frequency' } }
+                }
+            }
+        });
+
+        function rollDice() {
+            const die1 = Math.floor(Math.random() * 6) + 1;
+            const die2 = Math.floor(Math.random() * 6) + 1;
+            const sum = die1 + die2;
+
+            document.getElementById('die1').textContent = die1;
+            document.getElementById('die2').textContent = die2;
+            document.getElementById('die1').classList.add('rolling');
+            document.getElementById('die2').classList.add('rolling');
+            
+            setTimeout(() => {
+                document.getElementById('die1').classList.remove('rolling');
+                document.getElementById('die2').classList.remove('rolling');
+            }, 500);
+
+            rollCount++;
+            sumCounts[sum]++;
+            
+            document.getElementById('totalRolls').textContent = rollCount;
+            document.getElementById('currentSum').textContent = sum;
+            
+            const mostCommon = Object.keys(sumCounts).reduce((a, b) => sumCounts[a] > sumCounts[b] ? a : b);
+            document.getElementById('mostCommon').textContent = `${mostCommon} (${sumCounts[mostCommon]} times)`;
+
+            diceChart.data.datasets[0].data = Object.values(sumCounts);
+            diceChart.update();
+        }
+
+        function resetDice() {
+            rollCount = 0;
+            for (let i = 2; i <= 12; i++) sumCounts[i] = 0;
+            document.getElementById('die1').textContent = '?';
+            document.getElementById('die2').textContent = '?';
+            document.getElementById('totalRolls').textContent = '0';
+            document.getElementById('currentSum').textContent = '-';
+            document.getElementById('mostCommon').textContent = '-';
+            diceChart.data.datasets[0].data = Object.values(sumCounts);
+            diceChart.update();
+        }
+
+        // Spinner
+        let spinCounts = { green: 0, blue: 0, red: 0, yellow: 0 };
+        let totalSpinCount = 0;
+
+        function spinWheel() {
+            const spinner = document.getElementById('spinner');
+            const rotation = Math.floor(Math.random() * 360) + 1440; // At least 4 full rotations
+            spinner.style.transform = `rotate(${rotation}deg)`;
+            
+            setTimeout(() => {
+                const finalAngle = rotation % 360;
+                let color;
+                if (finalAngle < 90) color = 'green';
+                else if (finalAngle < 180) color = 'blue';
+                else if (finalAngle < 270) color = 'red';
+                else color = 'yellow';
+                
+                spinCounts[color]++;
+                totalSpinCount++;
+                
+                updateSpinStats();
+            }, 2000);
+        }
+
+        function updateSpinStats() {
+            document.getElementById('greenCount').textContent = spinCounts.green;
+            document.getElementById('blueCount').textContent = spinCounts.blue;
+            document.getElementById('redCount').textContent = spinCounts.red;
+            document.getElementById('yellowCount').textContent = spinCounts.yellow;
+            document.getElementById('totalSpins').textContent = totalSpinCount;
+            
+            if (totalSpinCount > 0) {
+                document.getElementById('greenPercent').textContent = ((spinCounts.green / totalSpinCount) * 100).toFixed(1);
+                document.getElementById('bluePercent').textContent = ((spinCounts.blue / totalSpinCount) * 100).toFixed(1);
+                document.getElementById('redPercent').textContent = ((spinCounts.red / totalSpinCount) * 100).toFixed(1);
+                document.getElementById('yellowPercent').textContent = ((spinCounts.yellow / totalSpinCount) * 100).toFixed(1);
+            }
+        }
+
+        // Probability Calculator
+        function calculateProbability() {
+            const favorable = parseFloat(document.getElementById('favorable').value);
+            const total = parseFloat(document.getElementById('total').value);
+            
+            if (total === 0) {
+                alert('Total outcomes cannot be 0!');
+                return;
+            }
+            
+            const probability = favorable / total;
+            const percent = (probability * 100).toFixed(2);
+            
+            // Simplify fraction
+            const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
+            const divisor = gcd(favorable, total);
+            const simplifiedNum = favorable / divisor;
+            const simplifiedDen = total / divisor;
+            
+            document.getElementById('probFraction').textContent = `${simplifiedNum}/${simplifiedDen}`;
+            document.getElementById('probDecimal').textContent = probability.toFixed(4);
+            document.getElementById('probPercent').textContent = percent;
+            document.getElementById('probResult').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
+

@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="/css/print.css" media="print">
     <link rel="stylesheet" href="/css/mobile-enhanced.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/js/graphrag-connection-counter.js"></script>
 </head>
 <body class="pattern-koru-subtle">
     
@@ -49,6 +51,19 @@
             </span>
         </div>
     </section>
+<section style="background: white; padding: 2rem; border-radius: 16px; margin: 2rem auto; max-width: 1100px; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+  <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem;">
+    <div style="flex:1 1 420px;">
+      <h2 style="margin:0 0 0.5rem 0; font-size:1.75rem; color:#0f172a; font-weight:800;">Start here</h2>
+      <p style="margin:0; color:#475569; font-size:1rem;">Two quick ways to begin teaching Health & PE with cultural excellence.</p>
+    </div>
+    <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+      <a href="/units/hauora-foundation/" style="background:#166534; color:white; padding:0.85rem 1.1rem; border-radius:10px; text-decoration:none; font-weight:700;">🏠 Teach Hauora Unit</a>
+      <a href="/generated-resources-alpha/index.html#ncea" style="background:#1d4ed8; color:white; padding:0.85rem 1.1rem; border-radius:10px; text-decoration:none; font-weight:700;">✨ Explore H&PE Resources</a>
+      <a href="/under-connected-excellence.html?subject=Health%20%26%20PE" style="background:#334155; color:white; padding:0.85rem 1.1rem; border-radius:10px; text-decoration:none; font-weight:700;">💎 Hidden Gems (Q90+)</a>
+    </div>
+  </div>
+</section>
     
     <!-- Te Whare Tapa Whā Framework -->
     <section style="max-width: 1200px; margin: 3rem auto; padding: 0 2rem;">
@@ -121,6 +136,15 @@
     
     <!-- Resources by Year Level -->
     <section style="max-width: 1200px; margin: 3rem auto; padding: 0 2rem;">
+        <!-- Quick Start: Teacher Picks -->
+        <div style="background: white; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; border-left: 6px solid #166534; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
+            <h3 style="margin:0 0 0.5rem 0; color:#166534; font-size:1.25rem;">⚡ Quick Start: Teacher Picks</h3>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap:0.75rem;">
+                <a href="/generated-resources-alpha/lessons/health-and-wellbeing-te-whare-tapa-whā-model.html" style="background:#ecfdf5; padding:0.75rem 1rem; border-radius:10px; text-decoration:none; color:#065f46; font-weight:700; display:block;">🏠 Te Whare Tapa Whā Lesson</a>
+                <a href="/dist-handouts/community-helpers-study.html" style="background:#ecfdf5; padding:0.75rem 1rem; border-radius:10px; text-decoration:none; color:#065f46; font-weight:700; display:block;">🤝 Community Helpers Study</a>
+                <a href="/generated-resources-alpha/index.html#ncea" style="background:#ecfdf5; padding:0.75rem 1rem; border-radius:10px; text-decoration:none; color:#065f46; font-weight:800; display:flex; align-items:center; gap:0.5rem;">💎 Excellence Alpha <span style="background:#d1fae5;color:#065f46;border-radius:999px;padding:0.05rem 0.5rem; font-size:0.75rem; font-weight:800;">47+</span></a>
+            </div>
+        </div>
         <h2 style="font-size: 2.5rem; color: #1a4d2e; text-align: center; margin-bottom: 2rem;">
             📚 Resources by Year Level
         </h2>
@@ -174,6 +198,31 @@
             
         </div>
     </section>
+    
+    <!-- Canonical Subject Chips (Live) -->
+    <section style="max-width: 1200px; margin: 2rem auto; padding: 0 2rem;">
+        <h2 style="font-size: 2rem; color: #166534; margin-bottom: 1rem; text-align: center;">📚 Browse by Subject</h2>
+        <div id="subject-chips" style="display:flex; gap:0.5rem; flex-wrap:wrap; justify-content:center;"></div>
+    </section>
+    <script>
+      document.addEventListener('DOMContentLoaded', async () => {
+        try {
+          const { data: records, error } = await supabase.from('graphrag_subject_counts').select('*');
+          if (error) { console.error('Subject chips load error (H&PE):', error); return; }
+          const order = ['Mathematics','Science','English','Social Studies','Digital Technologies','Te Ao Māori','Arts','Health & PE','Languages','Cross-Curricular','Platform Infrastructure'];
+          const sorted = (records||[]).slice().sort((a,b)=>order.indexOf(a.canonical_subject)-order.indexOf(b.canonical_subject));
+          const grid = document.getElementById('subject-chips');
+          if (grid) {
+            grid.innerHTML = sorted.map(r => (
+              '<a href="/subject-dashboard.html" style="display:flex;align-items:center;gap:0.5rem;background:white;border:1px solid #e5e7eb;border-radius:999px;padding:0.4rem 0.8rem;text-decoration:none;color:#1f2937;font-weight:700;">'
+              + '<span>'+ (r.canonical_subject||'Unmapped') +'</span>'
+              + '<span style="background:#ecfdf5;color:#065f46;border-radius:999px;padding:0.1rem 0.5rem;font-size:0.8rem;">'+ r.n +'</span>'
+              + '</a>'
+            )).join('');
+          }
+        } catch (e) { console.error(e); }
+      });
+    </script>
     
     <!-- Key Topics -->
     <section style="max-width: 1200px; margin: 3rem auto; padding: 0 2rem;">
@@ -306,6 +355,40 @@
         </div>
     </section>
     
+    <!-- Fresh Orphans (GraphRAG) -->
+    <section style="background: white; padding: 3rem 2rem; border-radius: 16px; margin: 3rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <div style="display: inline-block; background: linear-gradient(135deg, #4f46e5, #6366f1); padding: 0.5rem 1.5rem; border-radius: 24px; margin-bottom: 1rem; color: white; font-weight: 700; font-size: 0.9rem;">🔗 Fresh Orphans (Needs Linking)</div>
+            <h2 style="font-size: 2.25rem; color: #1a4d2e; margin-bottom: 0.5rem;">Top Health & PE Orphans</h2>
+            <p style="color: #666; font-size: 1rem;">Unlinked high-quality resources surfaced by GraphRAG</p>
+        </div>
+        <div id="hpe-orphans" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;"></div>
+        <div style="text-align: center; margin-top: 1rem;">
+            <a href="/orphans-dashboard.html" style="display: inline-block; background: #4f46e5; color: white; padding: 0.75rem 1.25rem; border-radius: 10px; text-decoration: none; font-weight: 700;">View All Orphans →</a>
+        </div>
+    </section>
+    <script>
+      document.addEventListener('DOMContentLoaded', async () => {
+        try {
+          const { data, error } = await supabase
+            .from('graphrag_orphans')
+            .select('file_path,title,quality_score,resource_type')
+            .eq('canonical_subject','Health & PE')
+            .order('quality_score',{ascending:false})
+            .limit(12);
+          if (error) { console.error('Orphans load error (Health & PE):', error); return; }
+          const grid = document.getElementById('hpe-orphans');
+          if (grid) {
+            grid.innerHTML = (data||[]).map(r => (
+              '<a href="'+r.file_path+'" style="background:white;padding:1rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 12px rgba(0,0,0,0.06);border-top:4px solid #4f46e5;display:block;">'
+              + '<h3 style="color:#1f2937;margin:0 0 0.5rem 0;font-size:1rem;font-weight:700;">'+(r.title||'Untitled')+'</h3>'
+              + '<div style="color:#6b7280;font-size:0.85rem;">'+(r.resource_type||'Resource')+(r.quality_score?(' • ⭐ '+r.quality_score):'')+'</div>'
+              + '</a>'
+            )).join('');
+          }
+        } catch (e) { console.error(e); }
+      });
+    </script>
     <!-- Footer -->
     <div id="footer-container"></div>
     <script>
@@ -372,3 +455,27 @@
     
 </body>
 </html>
+
+<script>
+(function(){
+  function track(name, props){ try { if (window.posthog && posthog.capture) posthog.capture(name, props||{}); } catch(e) {} }
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a');
+    if(!a) return;
+    var href = a.getAttribute('href')||'';
+    if (a.closest('#hpe-orphans')) track('cta_orphan_click', { hub:'Health & PE', href: href });
+    else if (a.closest('#subject-chips')) track('cta_subject_chip', { hub:'Health & PE', subject: a.textContent.trim(), href: href });
+    else if (href.indexOf('/generated-resources-alpha/')===0) track('cta_alpha_click', { hub:'Health & PE', href: href });
+  });
+})();
+</script>
+
+<script>(function(){try{
+  function afterCTA(){var h2s=[].slice.call(document.querySelectorAll('h2'));for(var i=0;i<h2s.length;i++){if((h2s[i].textContent||'').indexOf('Te Whare Tapa Whā')>-1){return h2s[i].closest('section');}}return document.querySelector('section');}
+  var anchor=afterCTA();
+  var s=document.createElement('section');
+  s.id='featured-picks-hpe';
+  s.setAttribute('style','background: linear-gradient(135deg, #f8fafc 0%, #dcfce7 100%); padding: 2rem; border-radius: 16px; margin: 2rem auto; max-width: 1100px; box-shadow: 0 4px 16px rgba(0,0,0,0.06);');
+  s.innerHTML='<h2 style="font-size:2rem;color:#0f172a;margin:0 0 0.5rem 0;text-align:center;font-weight:800;">⭐ Featured Picks</h2><p style="text-align:center;color:#475569;margin:0 0 1.25rem 0;">High-impact Health & PE resources with live GraphRAG links</p><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">  <a href="/generated-resources-alpha/lessons/health-and-wellbeing-te-whare-tapa-whā-model.html" style="background:white;padding:1.25rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;border-top:4px solid #166534;display:block;">    <div class="connection-badge" data-resource-path="/public/generated-resources-alpha/lessons/health-and-wellbeing-te-whare-tapa-whā-model.html" style="position:absolute;top:-12px;right:12px;background:#e0f2fe;color:#075985;padding:0.35rem 0.75rem;border-radius:18px;font-weight:800;font-size:0.75rem;">🔄 Loading...</div>    <div style="font-size:1.5rem;margin-bottom:0.5rem;">🏠</div>    <h3 style="color:#0f172a;margin:0 0 0.25rem 0;font-weight:700;">Te Whare Tapa Whā Lesson</h3>    <p style="color:#64748b;margin:0;">Years 7-10 • Lesson</p>  </a>  <a href="/dist-handouts/community-helpers-study.html" style="background:white;padding:1.25rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;border-top:4px solid #1e40af;display:block;">    <div class="connection-badge" data-resource-path="/public/dist-handouts/community-helpers-study.html" style="position:absolute;top:-12px;right:12px;background:#e0f2fe;color:#075985;padding:0.35rem 0.75rem;border-radius:18px;font-weight:800;font-size:0.75rem;">🔄 Loading...</div>    <div style="font-size:1.5rem;margin-bottom:0.5rem;">🤝</div>    <h3 style="color:#0f172a;margin:0 0 0.25rem 0;font-weight:700;">Community Helpers Study</h3>    <p style="color:#64748b;margin:0;">Years 7-9 • Handout</p>  </a>  <a href="/generated-resources-alpha/handouts/chromebook-optimized-mobile-learning-guide.html" style="background:white;padding:1.25rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;border-top:4px solid #059669;display:block;">    <div class="connection-badge" data-resource-path="/public/generated-resources-alpha/handouts/chromebook-optimized-mobile-learning-guide.html" style="position:absolute;top:-12px;right:12px;background:#e0f2fe;color:#075985;padding:0.35rem 0.75rem;border-radius:18px;font-weight:800;font-size:0.75rem;">🔄 Loading...</div>    <div style="font-size:1.5rem;margin-bottom:0.5rem;">💻</div>    <h3 style="color:#0f172a;margin:0 0 0.25rem 0;font-weight:700;">Chromebook Mobile Learning Guide</h3>    <p style="color:#64748b;margin:0;">Years 7-10 • Handout</p>  </a></div>';
+  if(anchor && anchor.parentNode){anchor.parentNode.insertBefore(s, anchor);} else {document.body.insertBefore(s, document.body.children[1]||null);} if(window.graphragCounter&&typeof window.graphragCounter.updateAllBadges==='function'){window.graphragCounter.updateAllBadges();}
+}catch(e){console.warn('Featured Picks insert failed (H&PE)',e);}})();</script>

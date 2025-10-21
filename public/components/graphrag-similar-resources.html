@@ -1,0 +1,171 @@
+<!-- GraphRAG Similar Resources Component -->
+<!-- Usage: <div id="similar-resources" data-resource-path="/public/lessons/your-lesson.html"></div><script src="/components/graphrag-similar-resources.html"></script> -->
+
+<style>
+.similar-resource-card {
+    background: white;
+    padding: 1.25rem;
+    border-radius: 12px;
+    text-decoration: none;
+    display: block;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    transition: all 0.2s;
+    border-top: 3px solid var(--card-color, #6b7280);
+}
+.similar-resource-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+.similar-resource-title {
+    color: #1f2937;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+.similar-resource-meta {
+    color: #6b7280;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}
+.similar-resource-connection {
+    color: var(--card-color, #6b7280);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+.quality-badge {
+    display: inline-block;
+    padding: 0.25rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-left: 0.5rem;
+}
+.badge-gold {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #78350f;
+}
+.badge-cultural {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+}
+</style>
+
+<script>
+(async function() {
+    try {
+        // Find all similar-resources containers
+        const containers = document.querySelectorAll('[id^="similar-resources"]');
+        if (containers.length === 0) return;
+
+        // Init Supabase
+        if (typeof window.supabase === 'undefined' || !window.supabase.from) {
+            const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+            window.supabase = (await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2')).createClient(SUPABASE_URL, SUPABASE_KEY);
+        }
+
+        const relationshipColors = {
+            'prerequisite_for': '#3b82f6',
+            'follows': '#10b981',
+            'relates_to': '#7c3aed',
+            'builds_on': '#f59e0b',
+            'enriches': '#ec4899',
+            'complements': '#14b8a6',
+            'featured_in_hub': '#dc2626'
+        };
+
+        for (const container of containers) {
+            const resourcePath = container.dataset.resourcePath;
+            if (!resourcePath) {
+                console.warn('Similar Resources: No data-resource-path specified');
+                continue;
+            }
+
+            // Query GraphRAG for relationships
+            const { data: relationships, error } = await window.supabase
+                .from('graphrag_relationships')
+                .select('target_path, relationship_type, confidence')
+                .eq('source_path', resourcePath)
+                .order('confidence', { ascending: false })
+                .limit(10);
+
+            if (error) {
+                console.error('GraphRAG similar resources error:', error);
+                container.innerHTML = '<p style="color: #6b7280; text-align: center;">Related resources loading...</p>';
+                continue;
+            }
+
+            if (!relationships || relationships.length === 0) {
+                // Fallback: Show subject-based recommendations
+                container.innerHTML = `
+                    <div style="background: #f9fafb; padding: 1.5rem; border-radius: 12px; text-align: center;">
+                        <p style="color: #6b7280; margin-bottom: 0.5rem;">No direct connections yet — check these alternatives:</p>
+                        <a href="/browse-units.html" style="display: inline-block; color: #3b82f6; font-weight: 600; margin-top: 0.5rem;">Browse All Units →</a>
+                    </div>
+                `;
+                continue;
+            }
+
+            // Get target resource details
+            const targetPaths = relationships.map(r => r.target_path);
+            const { data: resources, error: resourceError } = await window.supabase
+                .from('graphrag_resources')
+                .select('file_path, title, resource_type, quality_score, canonical_subject, cultural_context')
+                .in('file_path', targetPaths)
+                .order('quality_score', { ascending: false });
+
+            if (resourceError || !resources) {
+                console.error('GraphRAG resource fetch error:', resourceError);
+                continue;
+            }
+
+            // Merge relationship data with resource data
+            const enrichedResources = resources.slice(0, 6).map(resource => {
+                const rel = relationships.find(r => r.target_path === resource.file_path);
+                return { ...resource, relationship_type: rel?.relationship_type, confidence: rel?.confidence };
+            });
+
+            // Render similar resources
+            container.innerHTML = `
+                <section style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); padding: 3rem 2rem; border-radius: 16px; margin: 3rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <div style="display: inline-block; background: #3b82f6; color: white; padding: 0.5rem 1.5rem; border-radius: 20px; font-weight: 700; margin-bottom: 1rem;">
+                            🧠 GRAPHRAG INTELLIGENCE
+                        </div>
+                        <h2 style="font-size: 2rem; color: #1e40af; margin-bottom: 0.5rem;">Similar Resources</h2>
+                        <p style="color: #475569; font-size: 0.95rem;">Discovered automatically through knowledge graph analysis</p>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+                        ${enrichedResources.map(resource => {
+                            const color = relationshipColors[resource.relationship_type] || '#6b7280';
+                            return `
+                                <a href="${resource.file_path}" class="similar-resource-card" style="--card-color: ${color};">
+                                    <div class="similar-resource-title">
+                                        ${resource.title || 'Untitled Resource'}
+                                        ${resource.quality_score >= 90 ? '<span class="quality-badge badge-gold">🏆 Q' + resource.quality_score + '</span>' : ''}
+                                        ${resource.cultural_context ? '<span class="quality-badge badge-cultural">🌿</span>' : ''}
+                                    </div>
+                                    <div class="similar-resource-meta">
+                                        ${resource.resource_type || 'Resource'} • ${resource.canonical_subject || 'General'}
+                                    </div>
+                                    <div class="similar-resource-connection">
+                                        🔗 ${(resource.relationship_type || 'relates_to').replace(/_/g, ' ')}
+                                    </div>
+                                </a>
+                            `;
+                        }).join('')}
+                    </div>
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <a href="/cross-subject-discovery.html" style="display: inline-block; background: white; color: #3b82f6; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            Explore More Connections →
+                        </a>
+                    </div>
+                </section>
+            `;
+        }
+
+    } catch (e) {
+        console.error('GraphRAG Similar Resources component error:', e);
+    }
+})();
+</script>

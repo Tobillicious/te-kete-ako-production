@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="/css/print.css" media="print">
     <link rel="stylesheet" href="/css/mobile-enhanced.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/js/graphrag-connection-counter.js"></script>
 </head>
 <body class="pattern-koru-subtle">
     
@@ -49,6 +51,19 @@
             </span>
         </div>
     </section>
+<section style="background: white; padding: 2rem; border-radius: 16px; margin: 2rem auto; max-width: 1100px; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+  <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem;">
+    <div style="flex:1 1 420px;">
+      <h2 style="margin:0 0 0.5rem 0; font-size:1.75rem; color:#0f172a; font-weight:800;">Start here</h2>
+      <p style="margin:0; color:#475569; font-size:1rem;">Two quick ways to begin teaching Arts with cultural excellence.</p>
+    </div>
+    <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+      <a href="/lessons/?topic=kowhaiwhai" style="background:#6d28d9; color:white; padding:0.85rem 1.1rem; border-radius:10px; text-decoration:none; font-weight:700;">🖼️ Teach Kowhaiwhai</a>
+      <a href="/generated-resources-alpha/index.html#arts" style="background:#1d4ed8; color:white; padding:0.85rem 1.1rem; border-radius:10px; text-decoration:none; font-weight:700;">✨ Explore Arts Resources</a>
+      <a href="/under-connected-excellence.html?subject=Arts" style="background:#334155; color:white; padding:0.85rem 1.1rem; border-radius:10px; text-decoration:none; font-weight:700;">💎 Hidden Gems (Q90+)</a>
+    </div>
+  </div>
+</section>
     
     <!-- Art Forms -->
     <section style="max-width: 1200px; margin: 3rem auto; padding: 0 2rem;">
@@ -113,6 +128,30 @@
         </div>
     </section>
     
+    <!-- Quick Start: Teacher Picks -->
+    <section style="max-width: 1200px; margin: 3rem auto; padding: 0 2rem;">
+        <div style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border-radius: 16px; padding: 2rem; border-left: 6px solid #7c3aed;">
+            <h2 style="font-size: 2rem; color: #6d28d9; margin-bottom: 1rem; text-align: center;">⚡ Quick Start: Teacher Picks</h2>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 1rem;">
+                <a href="/dist-handouts/elements-of-art-handout.html" style="background:white; padding:1rem; border-radius:12px; text-decoration:none; box-shadow:0 2px 10px rgba(0,0,0,0.06); border-left:4px solid #7c3aed; display:block;">
+                    <strong style="color:#6d28d9; display:block; margin-bottom:0.35rem;">🎨 Elements of Art Handout</strong>
+                    <span style="color:#6b7280; font-size:0.9rem;">Visual vocabulary • Practice-ready</span>
+                </a>
+                <a href="/dist-handouts/figurative-language-handout.html" style="background:white; padding:1rem; border-radius:12px; text-decoration:none; box-shadow:0 2px 10px rgba(0,0,0,0.06); border-left:4px solid #7c3aed; display:block;">
+                    <strong style="color:#6d28d9; display:block; margin-bottom:0.35rem;">🗣️ Figurative Language Handout</strong>
+                    <span style="color:#6b7280; font-size:0.9rem;">Simile • Metaphor • Personification</span>
+                </a>
+                <a href="/generated-resources-alpha/index.html" style="background:white; padding:1rem; border-radius:12px; text-decoration:none; box-shadow:0 2px 10px rgba(0,0,0,0.06); border-left:4px solid #10b981; display:block;">
+                    <div style="display:flex; align-items:center; gap:0.5rem; color:#065f46; font-weight:800;">
+                        <span>💎 Excellence Alpha</span>
+                        <span style="background:#ecfdf5;color:#065f46;border-radius:999px;padding:0.05rem 0.5rem; font-size:0.75rem; font-weight:800;">47+</span>
+                    </div>
+                    <span style="color:#6b7280; font-size:0.9rem;">High-quality cultural resources</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Cultural Arts Traditions -->
     <section style="max-width: 1200px; margin: 3rem auto; padding: 0 2rem;">
         <div style="background: linear-gradient(135deg, #fff7ed, #ffedd5); border-radius: 16px; padding: 3rem 2rem; border-left: 6px solid #DAA520;">
@@ -209,6 +248,31 @@
         </div>
     </section>
     
+    <!-- Canonical Subject Chips (Live) -->
+    <section style="max-width: 1200px; margin: 2rem auto; padding: 0 2rem;">
+        <h2 style="font-size: 2rem; color: #7c3aed; margin-bottom: 1rem; text-align: center;">📚 Browse by Subject</h2>
+        <div id="subject-chips" style="display:flex; gap:0.5rem; flex-wrap:wrap; justify-content:center;"></div>
+    </section>
+    <script>
+      document.addEventListener('DOMContentLoaded', async () => {
+        try {
+          const { data: records, error } = await supabase.from('graphrag_subject_counts').select('*');
+          if (error) { console.error('Subject chips load error (Arts):', error); return; }
+          const order = ['Mathematics','Science','English','Social Studies','Digital Technologies','Te Ao Māori','Arts','Health & PE','Languages','Cross-Curricular','Platform Infrastructure'];
+          const sorted = (records||[]).slice().sort((a,b)=>order.indexOf(a.canonical_subject)-order.indexOf(b.canonical_subject));
+          const grid = document.getElementById('subject-chips');
+          if (grid) {
+            grid.innerHTML = sorted.map(r => (
+              '<a href="/subject-dashboard.html" style="display:flex;align-items:center;gap:0.5rem;background:white;border:1px solid #e5e7eb;border-radius:999px;padding:0.4rem 0.8rem;text-decoration:none;color:#1f2937;font-weight:700;">'
+              + '<span>'+ (r.canonical_subject||'Unmapped') +'</span>'
+              + '<span style="background:#ecfdf5;color:#065f46;border-radius:999px;padding:0.1rem 0.5rem;font-size:0.8rem;">'+ r.n +'</span>'
+              + '</a>'
+            )).join('');
+          }
+        } catch (e) { console.error(e); }
+      });
+    </script>
+    
     <!-- Resources Grid -->
     <section style="max-width: 1200px; margin: 3rem auto; padding: 0 2rem 4rem;">
         <h2 style="font-size: 2.5rem; color: #7c3aed; text-align: center; margin-bottom: 2rem;">
@@ -222,6 +286,40 @@
         </div>
     </section>
     
+    <!-- Fresh Orphans (GraphRAG) -->
+    <section style="background: white; padding: 3rem 2rem; border-radius: 16px; margin: 3rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <div style="display: inline-block; background: linear-gradient(135deg, #4f46e5, #6366f1); padding: 0.5rem 1.5rem; border-radius: 24px; margin-bottom: 1rem; color: white; font-weight: 700; font-size: 0.9rem;">🔗 Fresh Orphans (Needs Linking)</div>
+            <h2 style="font-size: 2.25rem; color: #1a4d2e; margin-bottom: 0.5rem;">Top Arts Orphans</h2>
+            <p style="color: #666; font-size: 1rem;">Unlinked high-quality resources surfaced by GraphRAG</p>
+        </div>
+        <div id="arts-orphans" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;"></div>
+        <div style="text-align: center; margin-top: 1rem;">
+            <a href="/orphans-dashboard.html" style="display: inline-block; background: #4f46e5; color: white; padding: 0.75rem 1.25rem; border-radius: 10px; text-decoration: none; font-weight: 700;">View All Orphans →</a>
+        </div>
+    </section>
+    <script>
+      document.addEventListener('DOMContentLoaded', async () => {
+        try {
+          const { data, error } = await supabase
+            .from('graphrag_orphans')
+            .select('file_path,title,quality_score,resource_type')
+            .eq('canonical_subject','Arts')
+            .order('quality_score',{ascending:false})
+            .limit(12);
+          if (error) { console.error('Orphans load error (Arts):', error); return; }
+          const grid = document.getElementById('arts-orphans');
+          if (grid) {
+            grid.innerHTML = (data||[]).map(r => (
+              '<a href="'+r.file_path+'" style="background:white;padding:1rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 12px rgba(0,0,0,0.06);border-top:4px solid #4f46e5;display:block;">'
+              + '<h3 style="color:#1f2937;margin:0 0 0.5rem 0;font-size:1rem;font-weight:700;">'+(r.title||'Untitled')+'</h3>'
+              + '<div style="color:#6b7280;font-size:0.85rem;">'+(r.resource_type||'Resource')+(r.quality_score?(' • ⭐ '+r.quality_score):'')+'</div>'
+              + '</a>'
+            )).join('');
+          }
+        } catch (e) { console.error(e); }
+      });
+    </script>
     <!-- Footer -->
     <div id="footer-container"></div>
     <script>
@@ -241,9 +339,9 @@
             try {
                 const { data, error, count } = await supabase
                     .from('graphrag_resources')
-                    .select('*', { count: 'exact' })
-                    .eq('subject', 'Arts')
-                    .gte('quality_score', 60)
+                    .select('file_path,title,resource_type,quality_score,cultural_context,year_level,content_preview', { count: 'exact' })
+                    .or('subject.eq.Arts,canonical_subject.eq.Arts')
+                    .gte('quality_score', 80)
                     .order('quality_score', { ascending: false })
                     .limit(20);
                     
@@ -280,9 +378,18 @@
                     `).join('');
                 } else {
                     document.getElementById('arts-resources').innerHTML = `
-                        <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #666;">
-                            <p>Arts resources are being developed. Check back soon!</p>
-                        </div>
+                        <a href="/generated-resources-alpha/handouts/visual-arts-analysis-with-cultural-context.html" style="background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-left: 4px solid #7c3aed; text-decoration: none; display: block;">
+                            <h3 style="color: #7c3aed; margin-bottom: 0.75rem; font-size: 1.2rem;">Visual Arts Analysis with Cultural Context</h3>
+                            <div style="margin-bottom: 1rem;">
+                                <span style="background: #f0f0f0; color: #666; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem; margin-right: 0.5rem;">Handout</span>
+                                <span style="background: #dcfce7; color: #166534; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem;">🌿 Cultural</span>
+                            </div>
+                            <p style="color: #666; font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.6;">Analyze artworks through Māori artistic traditions and contemporary practice.</p>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="color: #999; font-size: 0.85rem;">All Years</span>
+                                <span style="color: #7c3aed; font-weight: 600;">View Resource →</span>
+                            </div>
+                        </a>
                     `;
                 }
                 
@@ -299,3 +406,28 @@
     
 </body>
 </html>
+
+<script>
+(function(){
+  function track(name, props){ try { if (window.posthog && posthog.capture) posthog.capture(name, props||{}); } catch(e) {} }
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a');
+    if(!a) return;
+    var href = a.getAttribute('href')||'';
+    if (a.closest('#arts-orphans')) track('cta_orphan_click', { hub:'Arts', href: href });
+    else if (a.closest('#subject-chips')) track('cta_subject_chip', { hub:'Arts', subject: a.textContent.trim(), href: href });
+    else if (href.indexOf('/generated-resources-alpha/')===0) track('cta_alpha_click', { hub:'Arts', href: href });
+  });
+})();
+</script>
+
+<script>(function(){try{
+  function findSectionByHeading(text){var hs=document.querySelectorAll('h2');for(var i=0;i<hs.length;i++){if((hs[i].textContent||'').toLowerCase().indexOf(text.toLowerCase())>-1){return hs[i].closest('section');}}return null;}
+  var anchor = findSectionByHeading('Art Forms') || document.querySelector('section');
+  var s=document.createElement('section');
+  s.id='featured-picks-arts';
+  s.setAttribute('style','background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%); padding: 2rem; border-radius: 16px; margin: 2rem auto; max-width: 1100px; box-shadow: 0 4px 16px rgba(0,0,0,0.06);');
+  s.innerHTML='<h2 style="font-size:2rem;color:#0f172a;margin:0 0 0.5rem 0;text-align:center;font-weight:800;">⭐ Featured Picks</h2><p style="text-align:center;color:#475569;margin:0 0 1.25rem 0;">High-impact Arts resources with live GraphRAG links</p><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">  <a href="/generated-resources-alpha/handouts/visual-arts-analysis-with-cultural-context.html" style="background:white;padding:1.25rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;border-top:4px solid #6d28d9;display:block;">    <div class="connection-badge" data-resource-path="/public/generated-resources-alpha/handouts/visual-arts-analysis-with-cultural-context.html" style="position:absolute;top:-12px;right:12px;background:#e0f2fe;color:#075985;padding:0.35rem 0.75rem;border-radius:18px;font-weight:800;font-size:0.75rem;">🔄 Loading...</div>    <div style="font-size:1.5rem;margin-bottom:0.5rem;">🖼️</div>    <h3 style="color:#0f172a;margin:0 0 0.25rem 0;font-weight:700;">Visual Arts Analysis with Cultural Context</h3>    <p style="color:#64748b;margin:0;">All Years • Handout</p>  </a>  <a href="/generated-resources-alpha/lessons/creative-problem-solving-with-design-thinking.html" style="background:white;padding:1.25rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;border-top:4px solid #059669;display:block;">    <div class="connection-badge" data-resource-path="/public/generated-resources-alpha/lessons/creative-problem-solving-with-design-thinking.html" style="position:absolute;top:-12px;right:12px;background:#e0f2fe;color:#075985;padding:0.35rem 0.75rem;border-radius:18px;font-weight:800;font-size:0.75rem;">🔄 Loading...</div>    <div style="font-size:1.5rem;margin-bottom:0.5rem;">🎨</div>    <h3 style="color:#0f172a;margin:0 0 0.25rem 0;font-weight:700;">Creative Problem Solving & Design Thinking</h3>    <p style="color:#64748b;margin:0;">Years 9-11 • Lesson</p>  </a>  <a href="/generated-resources-alpha/lessons/game-development-with-cultural-themes.html" style="background:white;padding:1.25rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;border-top:4px solid #1e40af;display:block;">    <div class="connection-badge" data-resource-path="/public/generated-resources-alpha/lessons/game-development-with-cultural-themes.html" style="position:absolute;top:-12px;right:12px;background:#e0f2fe;color:#075985;padding:0.35rem 0.75rem;border-radius:18px;font-weight:800;font-size:0.75rem;">🔄 Loading...</div>    <div style="font-size:1.5rem;margin-bottom:0.5rem;">🎮</div>    <h3 style="color:#0f172a;margin:0 0 0.25rem 0;font-weight:700;">Game Development with Cultural Themes</h3>    <p style="color:#64748b;margin:0;">Years 9-11 • Lesson</p>  </a></div>';
+  if(anchor && anchor.parentNode){anchor.parentNode.insertBefore(s, anchor);} else {document.body.insertBefore(s, document.body.children[1]||null);} if(window.graphragCounter&&typeof window.graphragCounter.updateAllBadges==='function'){window.graphragCounter.updateAllBadges();}
+}catch(e){console.warn('Featured Picks insert failed (Arts)',e);}})();
+</script>

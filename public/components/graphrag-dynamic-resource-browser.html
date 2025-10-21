@@ -1,0 +1,245 @@
+<!-- GraphRAG Dynamic Resource Browser Component -->
+<!-- Usage: <div id="graphrag-browser" data-subject="Science" data-limit="20"></div> -->
+
+<script>
+(async function() {
+  const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+  
+  class GraphRAGResourceBrowser {
+    constructor(containerId, options = {}) {
+      this.container = document.getElementById(containerId);
+      if (!this.container) return;
+      
+      this.subject = options.subject || this.container.dataset.subject || 'Science';
+      this.limit = parseInt(options.limit || this.container.dataset.limit || 30);
+      this.showFilters = options.showFilters !== false;
+      
+      this.supabase = null;
+      this.resources = [];
+      this.filteredResources = [];
+      this.filters = {
+        yearLevel: 'all',
+        resourceType: 'all',
+        quality: 85
+      };
+      
+      this.init();
+    }
+    
+    async init() {
+      try {
+        // Initialize Supabase
+        if (typeof window.supabase === 'undefined' || !window.supabase.createClient) {
+          const module = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2');
+          this.supabase = module.createClient(SUPABASE_URL, SUPABASE_KEY);
+        } else {
+          this.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        }
+        
+        await this.loadResources();
+        this.render();
+      } catch (error) {
+        console.error('GraphRAG Browser initialization failed:', error);
+        this.container.innerHTML = '<p style="color:#666;text-align:center;padding:2rem;">Unable to load resources from GraphRAG</p>';
+      }
+    }
+    
+    async loadResources() {
+      const { data, error } = await this.supabase
+        .from('graphrag_resources')
+        .select('file_path, title, resource_type, quality_score, year_level, subject, has_te_reo, has_whakataukī')
+        .eq('subject', this.subject)
+        .gte('quality_score', 80)
+        .like('file_path', '/public/%')
+        .not('file_path', 'like', '%-hub.html')
+        .order('quality_score', { ascending: false })
+        .limit(200);
+      
+      if (error) {
+        console.error('GraphRAG query error:', error);
+        return;
+      }
+      
+      this.resources = data || [];
+      this.filteredResources = this.resources;
+      
+      console.log(`📚 GraphRAG loaded ${this.resources.length} ${this.subject} resources`);
+    }
+    
+    filterResources() {
+      this.filteredResources = this.resources.filter(r => {
+        if (this.filters.yearLevel !== 'all' && !r.year_level?.includes(this.filters.yearLevel)) return false;
+        if (this.filters.resourceType !== 'all' && r.resource_type !== this.filters.resourceType) return false;
+        if (r.quality_score < this.filters.quality) return false;
+        return true;
+      });
+    }
+    
+    render() {
+      this.filterResources();
+      
+      const html = `
+        <div style="background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%); padding: 2rem; border-radius: 16px; margin: 3rem 0;">
+          <div style="text-align: center; margin-bottom: 2rem;">
+            <div style="display: inline-block; background: linear-gradient(135deg, #3b82f6, #2563eb); padding: 0.5rem 1.5rem; border-radius: 24px; margin-bottom: 1rem; color: white; font-weight: 700;">
+              🧠 LIVE GRAPHRAG DATA
+            </div>
+            <h2 style="font-size: 2rem; color: #0f172a; margin-bottom: 0.5rem;">
+              📚 All ${this.subject} Resources
+            </h2>
+            <p style="color: #64748b; margin-bottom: 1.5rem;">
+              ${this.resources.length} total resources | Showing ${this.filteredResources.length}
+            </p>
+            ${this.showFilters ? this.renderFilters() : ''}
+          </div>
+          
+          <div id="${this.container.id}-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+            ${this.renderResourceGrid()}
+          </div>
+          
+          ${this.filteredResources.length > this.limit ? `
+            <div style="text-align: center; margin-top: 2rem;">
+              <button onclick="window.graphragBrowser_${this.container.id}.showMore()" style="background: #3b82f6; color: white; padding: 0.75rem 2rem; border: none; border-radius: 10px; font-weight: 700; cursor: pointer;">
+                Load More Resources (${this.filteredResources.length - this.limit} remaining)
+              </button>
+            </div>
+          ` : ''}
+        </div>
+      `;
+      
+      this.container.innerHTML = html;
+      
+      // Initialize connection counter for badges
+      if (window.graphragCounter && typeof window.graphragCounter.updateAllBadges === 'function') {
+        setTimeout(() => window.graphragCounter.updateAllBadges(), 100);
+      }
+    }
+    
+    renderFilters() {
+      const yearLevels = ['all', 'Year 7', 'Year 8', 'Year 9', 'Year 10', 'Year 11', 'Year 12', 'Year 13'];
+      const resourceTypes = ['all', 'Lesson', 'Handout', 'Activity', 'Assessment', 'Resource', 'Hub Page'];
+      
+      return `
+        <div style="background: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;">
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; align-items: center;">
+            <div>
+              <label style="font-weight: 600; color: #475569; margin-right: 0.5rem;">Year Level:</label>
+              <select id="filter-year-${this.container.id}" onchange="window.graphragBrowser_${this.container.id}.setFilter('yearLevel', this.value)" style="padding: 0.5rem; border-radius: 6px; border: 2px solid #e2e8f0;">
+                ${yearLevels.map(y => `<option value="${y}" ${this.filters.yearLevel === y ? 'selected' : ''}>${y === 'all' ? 'All Years' : y}</option>`).join('')}
+              </select>
+            </div>
+            <div>
+              <label style="font-weight: 600; color: #475569; margin-right: 0.5rem;">Type:</label>
+              <select id="filter-type-${this.container.id}" onchange="window.graphragBrowser_${this.container.id}.setFilter('resourceType', this.value)" style="padding: 0.5rem; border-radius: 6px; border: 2px solid #e2e8f0;">
+                ${resourceTypes.map(t => `<option value="${t}" ${this.filters.resourceType === t ? 'selected' : ''}>${t === 'all' ? 'All Types' : t}</option>`).join('')}
+              </select>
+            </div>
+            <div>
+              <label style="font-weight: 600; color: #475569; margin-right: 0.5rem;">Min Quality:</label>
+              <select id="filter-quality-${this.container.id}" onchange="window.graphragBrowser_${this.container.id}.setFilter('quality', parseInt(this.value))" style="padding: 0.5rem; border-radius: 6px; border: 2px solid #e2e8f0;">
+                <option value="80">80+</option>
+                <option value="85" selected>85+</option>
+                <option value="90">90+</option>
+                <option value="95">95+</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    
+    renderResourceGrid() {
+      const resourcesToShow = this.filteredResources.slice(0, this.limit);
+      
+      return resourcesToShow.map(r => {
+        const emoji = this.getEmoji(r.resource_type);
+        const color = this.getColor(r.quality_score);
+        const cleanPath = r.file_path.replace('/public', '');
+        
+        return `
+          <a href="${cleanPath}" style="background: white; padding: 1.5rem; border-radius: 12px; text-decoration: none; box-shadow: 0 2px 12px rgba(0,0,0,0.1); border-top: 4px solid ${color}; transition: transform 0.2s; position: relative; display: block;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform=''">
+            <div class="connection-badge" data-resource-path="${r.file_path}" style="position: absolute; top: -12px; right: 12px; background: #e0f2fe; color: #075985; padding: 0.35rem 0.75rem; border-radius: 18px; font-weight: 800; font-size: 0.75rem;">
+              🔄 Loading...
+            </div>
+            <div style="font-size: 2rem; margin-bottom: 0.75rem;">${emoji}</div>
+            <h3 style="color: #1a4d2e; font-weight: 700; margin-bottom: 0.5rem; font-size: 1.05rem;">${r.title || 'Untitled Resource'}</h3>
+            <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 0.5rem;">
+              ${r.year_level || 'All Years'} • ${r.resource_type || 'Resource'}
+            </p>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+              <span style="background: ${this.getQualityBadgeColor(r.quality_score)}; color: ${this.getQualityTextColor(r.quality_score)}; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700;">
+                ⭐ Q${r.quality_score || 85}
+              </span>
+              ${r.has_te_reo ? '<span style="background: #dcfce7; color: #166534; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">🗣️ Te Reo</span>' : ''}
+              ${r.has_whakataukī ? '<span style="background: #fef3c7; color: #78350f; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">🌿 Whakataukī</span>' : ''}
+            </div>
+          </a>
+        `;
+      }).join('');
+    }
+    
+    getEmoji(type) {
+      const emojiMap = {
+        'Lesson': '📚',
+        'lesson': '📚',
+        'Handout': '📄',
+        'handout': '📄',
+        'Activity': '🎯',
+        'Assessment': '✅',
+        'Game': '🎮',
+        'Interactive': '⚡',
+        'Resource': '✨',
+        'Hub Page': '🏠',
+        'Unit-Plan': '📋'
+      };
+      return emojiMap[type] || '📖';
+    }
+    
+    getColor(quality) {
+      if (quality >= 95) return '#10b981';
+      if (quality >= 90) return '#3b82f6';
+      if (quality >= 85) return '#0891b2';
+      return '#64748b';
+    }
+    
+    getQualityBadgeColor(quality) {
+      if (quality >= 95) return '#dcfce7';
+      if (quality >= 90) return '#dbeafe';
+      if (quality >= 85) return '#e0f2fe';
+      return '#f1f5f9';
+    }
+    
+    getQualityTextColor(quality) {
+      if (quality >= 95) return '#166534';
+      if (quality >= 90) return '#1e40af';
+      if (quality >= 85) return '#075985';
+      return '#475569';
+    }
+    
+    setFilter(filterName, value) {
+      this.filters[filterName] = value;
+      this.render();
+    }
+    
+    showMore() {
+      this.limit += 20;
+      this.render();
+    }
+  }
+  
+  // Auto-initialize all browsers on page
+  document.addEventListener('DOMContentLoaded', () => {
+    const browsers = document.querySelectorAll('[data-graphrag-browser]');
+    browsers.forEach((el, idx) => {
+      const browserId = el.id || `graphrag-browser-${idx}`;
+      el.id = browserId;
+      window[`graphragBrowser_${browserId}`] = new GraphRAGResourceBrowser(browserId);
+    });
+  });
+  
+  // Expose class globally
+  window.GraphRAGResourceBrowser = GraphRAGResourceBrowser;
+})();
+</script>
+

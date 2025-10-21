@@ -148,7 +148,7 @@ async function redirectByRole(user) {
         const { data: profile, error } = await supabase
             .from('profiles')
             .select('role, first_name')
-            .eq('id', user.id)
+            .eq('user_id', user.id)
             .single();
         
         if (error) {
@@ -274,9 +274,9 @@ async function handleLogin(email, password) {
             if (user) {
                 await redirectByRole(user);
             } else {
-                // Fallback if user not found
+                // Fallback if user not found - redirect to homepage instead
                 setTimeout(() => {
-                    window.location.href = '/my-kete.html';
+                    window.location.href = '/index.html';
                 }, 1000);
             }
         } else {

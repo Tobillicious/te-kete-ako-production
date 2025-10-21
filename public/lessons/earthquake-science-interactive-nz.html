@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earthquake Science - NZ Seismic Activity | Te Kete Ako</title>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        .magnitude-scale { background: white; padding: 2rem; border-radius: 12px; margin: 2rem 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .magnitude-bar { height: 50px; margin: 0.5rem 0; border-radius: 6px; display: flex; align-items: center; padding-left: 1rem; color: white; font-weight: bold; }
+        .interactive-map { background: #f0f9ff; padding: 2rem; border-radius: 12px; margin: 2rem 0; text-align: center; }
+        .safety-checklist { background: #fef2f2; border-left: 4px solid #dc2626; padding: 1.5rem; border-radius: 8px; margin: 2rem 0; }
+    </style>
+    <script src="/js/css-safeguard.js" defer></script>
+</head>
+<body>
+    <header class="site-header">
+        <div class="nav-container"><a href="/index.html" class="nav-brand">Te Kete Ako</a></div>
+    </header>
+    <main class="container">
+        <h1>🌍 Earthquake Science: Aotearoa on the Ring of Fire</h1>
+        
+        <section style="background: linear-gradient(135deg, #fff7ed, #ffedd5); padding: 2rem; border-radius: 12px; margin: 2rem 0; text-align: center;">
+            <p style="font-style: italic; font-size: 1.2rem;">"Rū whenua - Earth trembling"</p>
+            <p>Understanding the forces that shape our land</p>
+        </section>
+        
+        <h2>Why NZ Gets Earthquakes</h2>
+        <div class="activity-card">
+            <p>Aotearoa sits on the boundary of two tectonic plates:</p>
+            <ul style="line-height: 2;">
+                <li><strong>Pacific Plate:</strong> Pushing from the east</li>
+                <li><strong>Australian Plate:</strong> Pushing from the west</li>
+                <li>This creates the <strong>Alpine Fault</strong> through South Island</li>
+                <li>Also creates the <strong>Hikurangi Subduction Zone</strong> off North Island's east coast</li>
+            </ul>
+            <p><strong>Result:</strong> NZ gets ~15,000 earthquakes per year! (Most too small to feel)</p>
+        </div>
+        
+        <h2>Richter Scale Interactive</h2>
+        <div class="magnitude-scale">
+            <h3>Understanding Earthquake Magnitude</h3>
+            <div class="magnitude-bar" style="width: 20%; background: #10b981;">
+                <div>1-2: Not felt</div>
+            </div>
+            <div class="magnitude-bar" style="width: 30%; background: #3b82f6;">
+                <div>3-4: Weak (felt indoors)</div>
+            </div>
+            <div class="magnitude-bar" style="width: 50%; background: #f59e0b;">
+                <div>5-6: Moderate (damage to buildings)</div>
+            </div>
+            <div class="magnitude-bar" style="width: 70%; background: #ef4444;">
+                <div>7-7.9: Major (serious damage)</div>
+            </div>
+            <div class="magnitude-bar" style="width: 100%; background: #991b1b;">
+                <div>8+: Great (catastrophic)</div>
+            </div>
+            
+            <p style="margin-top: 1.5rem;"><strong>Note:</strong> Each number up is 10× more powerful! A 7.0 is 10 times stronger than a 6.0.</p>
+        </div>
+        
+        <h2>Major NZ Earthquakes (Historical Data)</h2>
+        <div class="activity-card">
+            <div style="height: 400px;">
+                <canvas id="earthquakeChart"></canvas>
+            </div>
+        </div>
+        
+        <h2>🚨 Earthquake Safety</h2>
+        <div class="safety-checklist">
+            <h3 style="color: #991b1b; margin-top: 0;">Drop, Cover, Hold!</h3>
+            <ol style="line-height: 2.5; font-size: 1.1rem;">
+                <li><strong>DROP:</strong> Get down on hands and knees</li>
+                <li><strong>COVER:</strong> Get under strong table/desk</li>
+                <li><strong>HOLD:</strong> Hold on until shaking stops</li>
+            </ol>
+            
+            <h4 style="margin-top: 1.5rem;">What NOT to do:</h4>
+            <ul style="line-height: 2;">
+                <li>❌ Don't run outside (falling debris danger)</li>
+                <li>❌ Don't stand in doorways (myth!)</li>
+                <li>❌ Don't use elevators</li>
+            </ul>
+        </div>
+        
+        <h2>Māori Earthquake Stories</h2>
+        <div class="activity-card">
+            <p>Traditional pūrākau explain earthquakes through Rūaumoko, the unborn child of Ranginui and Papatūānuku, who remains in her womb:</p>
+            <ul>
+                <li>When Rūaumoko moves, the earth shakes</li>
+                <li>Volcanic eruptions are his fires</li>
+                <li>This story reflects deep observation of geological activity</li>
+            </ul>
+            <p><em>Both scientific and cultural knowledge help us understand and respect earth's power</em></p>
+        </div>
+        
+        <h2>Assessment</h2>
+        <ul>
+            <li>Create an earthquake preparedness plan for your whānau</li>
+            <li>Explain plate tectonics and NZ's location</li>
+            <li>Research one major NZ earthquake and its impacts</li>
+            <li>Design an earthquake-safe building model</li>
+        </ul>
+    </main>
+    <footer class="site-footer"><p>© 2025 Te Kete Ako</p></footer>
+    <script>
+        const eqCtx = document.getElementById('earthquakeChart').getContext('2d');
+        new Chart(eqCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Napier 1931', 'Inangahua 1968', 'Edgecumbe 1987', 'Christchurch 2011', 'Kaikōura 2016'],
+                datasets: [{
+                    label: 'Magnitude',
+                    data: [7.8, 7.1, 6.5, 6.3, 7.8],
+                    backgroundColor: ['#ef4444', '#f59e0b', '#f59e0b', '#f59e0b', '#ef4444'],
+                    borderColor: '#991b1b',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: { display: true, text: 'Major New Zealand Earthquakes' },
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 9,
+                        title: { display: true, text: 'Richter Magnitude' }
+                    }
+                }
+            }
+        });
+        
+        function calculateDiscount() {
+            const orig = parseFloat(document.getElementById('originalPrice').value);
+            const disc = parseFloat(document.getElementById('discount').value);
+            const savings = orig * (disc / 100);
+            const final = orig - savings;
+            
+            document.getElementById('origDisplay').textContent = '$' + orig.toFixed(2);
+            document.getElementById('finalDisplay').textContent = '$' + final.toFixed(2);
+            document.getElementById('savingsDisplay').textContent = 'You save: $' + savings.toFixed(2);
+            document.getElementById('discountResult').style.display = 'block';
+        }
+        
+        function calculateGST() {
+            const price = parseFloat(document.getElementById('priceExGST').value);
+            const gst = price * 0.15;
+            const total = price + gst;
+            
+            document.getElementById('gstAmount').textContent = gst.toFixed(2);
+            document.getElementById('totalGST').textContent = total.toFixed(2);
+            document.getElementById('gstResult').style.display = 'block';
+        }
+        
+        function calculateTip() {
+            const bill = parseFloat(document.getElementById('billAmount').value);
+            const tipPct = parseFloat(document.getElementById('tipPercent').value);
+            const tip = bill * (tipPct / 100);
+            const total = bill + tip;
+            
+            document.getElementById('tipAmount').textContent = tip.toFixed(2);
+            document.getElementById('totalBill').textContent = total.toFixed(2);
+            document.getElementById('tipResult').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
+

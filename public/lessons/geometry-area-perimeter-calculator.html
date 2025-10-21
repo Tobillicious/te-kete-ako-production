@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geometry Calculator: Area & Perimeter | Te Kete Ako</title>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <style>
+        .shape-selector { display: flex; justify-content: center; gap: 1rem; margin: 2rem 0; flex-wrap: wrap; }
+        .shape-btn { padding: 1rem 2rem; border: 3px solid var(--color-primary); border-radius: 8px; background: white; cursor: pointer; transition: all 0.3s; }
+        .shape-btn.active { background: var(--color-primary); color: white; }
+        .shape-btn:hover { transform: scale(1.05); }
+        .calculator { background: white; padding: 2rem; border-radius: 12px; margin: 2rem 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .canvas-container { background: #f9fafb; padding: 2rem; border-radius: 8px; text-align: center; margin: 1.5rem 0; }
+        canvas { border: 2px solid var(--color-primary); border-radius: 8px; background: white; }
+        .result { background: linear-gradient(135deg, #e3f2fd, #bbdefb); padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="nav-container"><a href="/index.html" class="nav-brand">Te Kete Ako</a></div>
+    </header>
+    <main class="container">
+        <h1>Geometry Calculator: Area & Perimeter</h1>
+        
+        <section style="background: #fff7ed; padding: 2rem; border-radius: 12px; margin: 2rem 0; text-align: center;">
+            <p style="font-style: italic; font-size: 1.2rem;">"Pūtaiao me te pāngarau - Mathematics in nature"</p>
+            <p>Traditional Māori used geometry for building, navigation, and art</p>
+        </section>
+        
+        <h2>Select a Shape | Kōwhiria te Āhua</h2>
+        <div class="shape-selector">
+            <button class="shape-btn active" onclick="selectShape('rectangle')">📐 Rectangle</button>
+            <button class="shape-btn" onclick="selectShape('triangle')">🔺 Triangle</button>
+            <button class="shape-btn" onclick="selectShape('circle')">⭕ Circle</button>
+            <button class="shape-btn" onclick="selectShape('square')">⬛ Square</button>
+        </div>
+        
+        <div class="calculator">
+            <h3 id="shapeTitle">Rectangle Calculator</h3>
+            
+            <div id="rectangleInputs">
+                <div style="margin: 1rem 0;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Length (m):</label>
+                    <input type="number" id="rectLength" value="10" min="0" step="0.1" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 6px;">
+                </div>
+                <div style="margin: 1rem 0;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Width (m):</label>
+                    <input type="number" id="rectWidth" value="6" min="0" step="0.1" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 6px;">
+                </div>
+            </div>
+            
+            <div id="triangleInputs" style="display: none;">
+                <div style="margin: 1rem 0;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Base (m):</label>
+                    <input type="number" id="triBase" value="8" min="0" step="0.1" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 6px;">
+                </div>
+                <div style="margin: 1rem 0;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Height (m):</label>
+                    <input type="number" id="triHeight" value="5" min="0" step="0.1" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 6px;">
+                </div>
+            </div>
+            
+            <div id="circleInputs" style="display: none;">
+                <div style="margin: 1rem 0;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Radius (m):</label>
+                    <input type="number" id="radius" value="4" min="0" step="0.1" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 6px;">
+                </div>
+            </div>
+            
+            <div id="squareInputs" style="display: none;">
+                <div style="margin: 1rem 0;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Side length (m):</label>
+                    <input type="number" id="side" value="7" min="0" step="0.1" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 6px;">
+                </div>
+            </div>
+            
+            <button class="calc-btn" onclick="calculate()" style="width: 100%;">Calculate Area & Perimeter</button>
+            
+            <div class="canvas-container">
+                <canvas id="shapeCanvas" width="400" height="300"></canvas>
+            </div>
+            
+            <div id="results" class="result">
+                <h4>Results:</h4>
+                <p><strong>Area:</strong> <span id="areaResult" style="font-size: 1.5rem; color: var(--color-primary);"></span> m²</p>
+                <p><strong>Perimeter/Circumference:</strong> <span id="perimeterResult" style="font-size: 1.5rem; color: var(--color-primary);"></span> m</p>
+                <div id="formula" style="background: white; padding: 1rem; border-radius: 6px; margin-top: 1rem;"></div>
+            </div>
+        </div>
+        
+        <h2>Real-World Applications</h2>
+        <div class="activity-card">
+            <h3>Marae Design Example:</h3>
+            <p>If a marae ātea is 30m × 20m:</p>
+            <ul>
+                <li><strong>Area:</strong> 30 × 20 = 600 m² (space for gatherings)</li>
+                <li><strong>Perimeter:</strong> 2(30 + 20) = 100 m (fencing needed)</li>
+            </ul>
+            <p><strong>Practice:</strong> Calculate area/perimeter for your classroom, school field, or garden!</p>
+        </div>
+        
+        <h2>Assessment</h2>
+        <ul>
+            <li>Calculate area and perimeter for 5 different shapes</li>
+            <li>Design a garden plan with measurements</li>
+            <li>Solve word problems involving area/perimeter</li>
+            <li>Create a tukutuku pattern and calculate its dimensions</li>
+        </ul>
+    </main>
+    <footer class="site-footer"><p>© 2025 Te Kete Ako</p></footer>
+    <script>
+        let currentShape = 'rectangle';
+        
+        function selectShape(shape) {
+            currentShape = shape;
+            document.querySelectorAll('.shape-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.getElementById('rectangleInputs').style.display = shape === 'rectangle' ? 'block' : 'none';
+            document.getElementById('triangleInputs').style.display = shape === 'triangle' ? 'block' : 'none';
+            document.getElementById('circleInputs').style.display = shape === 'circle' ? 'block' : 'none';
+            document.getElementById('squareInputs').style.display = shape === 'square' ? 'block' : 'none';
+            
+            const titles = {
+                rectangle: 'Rectangle Calculator',
+                triangle: 'Triangle Calculator',
+                circle: 'Circle Calculator',
+                square: 'Square Calculator'
+            };
+            document.getElementById('shapeTitle').textContent = titles[shape];
+        }
+        
+        function calculate() {
+            const canvas = document.getElementById('shapeCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            let area, perimeter, formulaText;
+            
+            if (currentShape === 'rectangle') {
+                const length = parseFloat(document.getElementById('rectLength').value);
+                const width = parseFloat(document.getElementById('rectWidth').value);
+                area = length * width;
+                perimeter = 2 * (length + width);
+                formulaText = `Area = length × width = ${length} × ${width} = ${area}<br>Perimeter = 2(l + w) = 2(${length} + ${width}) = ${perimeter}`;
+                
+                ctx.strokeStyle = '#4a6e2a';
+                ctx.lineWidth = 3;
+                ctx.strokeRect(50, 50, length * 20, width * 20);
+                ctx.fillStyle = 'rgba(74, 110, 42, 0.2)';
+                ctx.fillRect(50, 50, length * 20, width * 20);
+            }
+            else if (currentShape === 'triangle') {
+                const base = parseFloat(document.getElementById('triBase').value);
+                const height = parseFloat(document.getElementById('triHeight').value);
+                area = 0.5 * base * height;
+                const side = Math.sqrt((base/2)**2 + height**2);
+                perimeter = base + 2 * side;
+                formulaText = `Area = ½ × base × height = ½ × ${base} × ${height} = ${area.toFixed(2)}<br>Perimeter ≈ ${perimeter.toFixed(2)}`;
+                
+                ctx.beginPath();
+                ctx.moveTo(200, 250);
+                ctx.lineTo(200 - base * 15, 250);
+                ctx.lineTo(200, 250 - height * 20);
+                ctx.closePath();
+                ctx.strokeStyle = '#4a6e2a';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                ctx.fillStyle = 'rgba(74, 110, 42, 0.2)';
+                ctx.fill();
+            }
+            else if (currentShape === 'circle') {
+                const radius = parseFloat(document.getElementById('radius').value);
+                area = Math.PI * radius * radius;
+                perimeter = 2 * Math.PI * radius;
+                formulaText = `Area = πr² = π × ${radius}² = ${area.toFixed(2)}<br>Circumference = 2πr = 2 × π × ${radius} = ${perimeter.toFixed(2)}`;
+                
+                ctx.beginPath();
+                ctx.arc(200, 150, radius * 20, 0, 2 * Math.PI);
+                ctx.strokeStyle = '#4a6e2a';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                ctx.fillStyle = 'rgba(74, 110, 42, 0.2)';
+                ctx.fill();
+            }
+            else if (currentShape === 'square') {
+                const side = parseFloat(document.getElementById('side').value);
+                area = side * side;
+                perimeter = 4 * side;
+                formulaText = `Area = side² = ${side}² = ${area}<br>Perimeter = 4 × side = 4 × ${side} = ${perimeter}`;
+                
+                ctx.strokeStyle = '#4a6e2a';
+                ctx.lineWidth = 3;
+                ctx.strokeRect(100, 50, side * 25, side * 25);
+                ctx.fillStyle = 'rgba(74, 110, 42, 0.2)';
+                ctx.fillRect(100, 50, side * 25, side * 25);
+            }
+            
+            document.getElementById('areaResult').textContent = area.toFixed(2);
+            document.getElementById('perimeterResult').textContent = perimeter.toFixed(2);
+            document.getElementById('formula').innerHTML = formulaText;
+            document.getElementById('results').style.display = 'block';
+        }
+        
+        calculate();
+    </script>
+</body>
+</html>
+

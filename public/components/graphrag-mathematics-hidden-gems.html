@@ -1,0 +1,77 @@
+<!-- GraphRAG Mathematics Hidden Gems Component -->
+<section id="math-hidden-gems" style="background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%); color: #0f172a; padding: 3rem 2rem; border-radius: 16px; margin: 3rem 0; box-shadow: 0 8px 24px rgba(2,132,199,0.12);">
+    <div style="text-align: center; margin-bottom: 1rem;">
+        <span style="display: inline-block; background: rgba(2,132,199,0.12); color: #075985; padding: 0.5rem 1.25rem; border-radius: 24px; font-size: 0.85rem; font-weight: 800;">💎 MATHEMATICS HIDDEN GEMS</span>
+    </div>
+    <h2 style="font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 0.25rem;">Under-connected high-quality resources</h2>
+    <p style="text-align: center; color: #334155; font-size: 0.95rem; margin-bottom: 1.5rem;">Q90+ with &lt; 5 GraphRAG connections</p>
+    <div id="math-gems-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem;"></div>
+</section>
+
+<script>
+(async function(){
+    try {
+        const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5ODgxMTksImV4cCI6MjA1MjU2NDExOX0.gN5RGe7kGmxj4-yI1xnDuCuKUPFDh4f-8CQqQdqrGq0';
+        
+        const supa = window.supabase && window.supabase.createClient 
+            ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+            : null;
+        
+        if (!supa) return;
+        
+        const grid = document.getElementById('math-gems-grid');
+        if (!grid) return;
+        
+        // 1) Fetch candidates (Q90+, math subjects)
+        const { data: candidates } = await supa
+            .from('graphrag_resources')
+            .select('file_path,title,resource_type,quality_score,year_level')
+            .or('subject.ilike.%math%,subject.ilike.%algebra%,subject.ilike.%geometry%,subject.ilike.%calculus%')
+            .gte('quality_score', 90)
+            .order('quality_score', { ascending: false })
+            .limit(24);
+        
+        if (!candidates || candidates.length === 0) {
+            grid.innerHTML = '<div style="text-align:center; opacity:0.8;">No mathematics gems found yet.</div>';
+            return;
+        }
+        
+        // 2) Count connections and filter < 5
+        const scored = [];
+        for (const r of candidates) {
+            try {
+                const { count } = await supa
+                    .from('graphrag_relationships')
+                    .select('id', { count: 'exact', head: true })
+                    .or(`source_path.eq.${r.file_path},target_path.eq.${r.file_path}`);
+                scored.push({ r, c: count || 0 });
+            } catch (e) {
+                scored.push({ r, c: 0 });
+            }
+        }
+        
+        const gems = scored.filter(x => x.c < 5).sort((a, b) => (b.r.quality_score || 0) - (a.r.quality_score || 0)).slice(0, 8);
+        
+        // 3) Render
+        grid.innerHTML = gems.map(g => {
+            const emoji = g.r.resource_type === 'lesson' ? '📚' : (g.r.resource_type === 'handout' ? '📄' : '✨');
+            const link = (g.r.file_path || '').replace('/public', '') || g.r.file_path;
+            return `<a href="${link}" style="background: white; padding: 1.25rem; border-radius: 12px; text-decoration: none; box-shadow: 0 2px 10px rgba(0,0,0,0.06); transition: transform 0.2s; position: relative; border-top: 4px solid #0284c7;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform=''">
+                <div class="connection-badge" data-resource-path="${g.r.file_path}" style="position: absolute; top: -12px; right: 12px; background: #e0f2fe; color: #075985; padding: 0.4rem 0.8rem; border-radius: 18px; font-weight: 800; font-size: 0.75rem;">${g.c} links</div>
+                <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">${emoji}</div>
+                <h3 style="color: #0f172a; font-weight: 700; margin-bottom: 0.25rem;">${g.r.title || 'Resource'}</h3>
+                <p style="color: #475569; font-size: 0.85rem;">${g.r.year_level || 'All Years'} • Quality ${g.r.quality_score || 90}</p>
+            </a>`;
+        }).join('');
+        
+        // 4) Update live badges
+        if (window.graphragCounter && typeof window.graphragCounter.updateAllBadges === 'function') {
+            window.graphragCounter.updateAllBadges();
+        }
+    } catch (e) {
+        console.error('Math Hidden Gems error', e);
+    }
+})();
+</script>
+

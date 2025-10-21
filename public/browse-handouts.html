@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse All Handouts | Te Kete Ako</title>
+    
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="pattern-koru-subtle">
+
+    <div id="nav-container"></div>
+    <script>
+        fetch('/components/navigation-standard.html')
+            .then(r => r.text())
+            .then(html => document.getElementById('nav-container').innerHTML = html);
+    </script>
+
+    <div style="max-width: 1400px; margin: 2rem auto; padding: 0 2rem;">
+        
+        <header style="background: white; padding: 3rem; border-radius: 16px; margin-bottom: 2rem;">
+            <h1 style="font-size: 3rem; color: #1a4d2e; margin-bottom: 1rem;">📄 Browse All Handouts</h1>
+            <p style="font-size: 1.2rem; color: #666;">
+                Student worksheets, activities, and reference materials
+            </p>
+        </header>
+
+        <!-- Filters (same structure as lessons) -->
+        <section style="background: white; padding: 2rem; border-radius: 12px; margin-bottom: 2rem;">
+            <h3 style="color: #1a4d2e; margin-bottom: 1.5rem;">🔍 Filter Handouts</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                
+                <div>
+                    <label style="display: block; color: #666; font-weight: 600; margin-bottom: 0.5rem;">Subject:</label>
+                    <select id="filter-subject" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px;">
+                        <option value="">All Subjects</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Science">Science</option>
+                        <option value="English">English</option>
+                        <option value="Social Studies">Social Studies</option>
+                        <option value="Digital Technologies">Digital Technologies</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label style="display: block; color: #666; font-weight: 600; margin-bottom: 0.5rem;">Year Level:</label>
+                    <select id="filter-year" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px;">
+                        <option value="">All Years</option>
+                        <option value="Year 7">Year 7</option>
+                        <option value="Year 8">Year 8</option>
+                        <option value="Year 9">Year 9</option>
+                        <option value="Year 10">Year 10</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label style="display: block; color: #666; font-weight: 600; margin-bottom: 0.5rem;">Search:</label>
+                    <input type="text" id="search-handouts" placeholder="Search handouts..." style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px;">
+                </div>
+
+            </div>
+
+            <div style="margin-top: 1.5rem; text-align: center;">
+                <button id="apply-filters" style="background: #10b981; color: white; padding: 0.75rem 2rem; border: none; border-radius: 8px; font-weight: 700; cursor: pointer;">
+                    Apply Filters
+                </button>
+                <button id="clear-filters" style="background: #6b7280; color: white; padding: 0.75rem 2rem; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; margin-left: 1rem;">
+                    Clear All
+                </button>
+            </div>
+        </section>
+
+        <section id="handouts-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem;">
+            <div style="grid-column: 1 / -1; text-align: center; padding: 4rem;">
+                <div style="border: 4px solid #10b981; border-top: 4px solid #059669; border-radius: 50%; width: 60px; height: 60px; animation: spin 1s linear infinite; margin: 0 auto 1.5rem;"></div>
+                <p style="color: #666;">Loading handouts...</p>
+            </div>
+        </section>
+
+    </div>
+
+    <div id="footer-container"></div>
+    <script>fetch('/components/footer.html').then(r=>r.text()).then(html=>{document.getElementById('footer-container').innerHTML=html;});</script>
+
+    <script>
+        const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5ODgxMTksImV4cCI6MjA1MjU2NDExOX0.gN5RGe7kGmxj4-yI1xnDuCuKUPFDh4f-8CQqQdqrGq0';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let allHandouts = [];
+
+        async function loadHandouts() {
+            try {
+                const { data: handouts, error } = await supabase
+                    .from('graphrag_resources')
+                    .select('file_path, title, subject, year_level, quality_score, cultural_context')
+                    .eq('resource_type', 'Handout')
+                    .gte('quality_score', 75)
+                    .order('subject', { ascending: true });
+
+                if (error) throw error;
+
+                allHandouts = handouts;
+                renderHandouts(handouts);
+            } catch (error) {
+                console.error('Error loading handouts:', error);
+            }
+        }
+
+        function renderHandouts(handouts) {
+            const container = document.getElementById('handouts-container');
+            
+            if (handouts.length === 0) {
+                container.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 3rem;"><p style="color: #666;">No handouts found.</p></div>';
+                return;
+            }
+
+            container.innerHTML = handouts.map(h => `
+                <a href="${h.file_path}" style="text-decoration: none;">
+                    <div style="background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: all 0.3s; border-top: 4px solid #3730a3;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                            <div style="font-size: 2rem;">📄</div>
+                            <span style="background: #fbbf24; color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem; font-weight: 700;">⭐ ${h.quality_score}</span>
+                        </div>
+                        <h3 style="color: #1a4d2e; font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">${h.title}</h3>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <span style="background: #e0e7ff; color: #3730a3; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem;">${h.subject || 'General'}</span>
+                            ${h.year_level ? `<span style="background: #fef3c7; color: #92400e; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem;">${h.year_level}</span>` : ''}
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        function applyFilters() {
+            const subject = document.getElementById('filter-subject').value;
+            const year = document.getElementById('filter-year').value;
+            const search = document.getElementById('search-handouts').value.toLowerCase();
+
+            let filtered = allHandouts;
+            if (subject) filtered = filtered.filter(h => h.subject === subject);
+            if (year) filtered = filtered.filter(h => h.year_level && h.year_level.includes(year));
+            if (search) filtered = filtered.filter(h => h.title.toLowerCase().includes(search));
+
+            renderHandouts(filtered);
+        }
+
+        document.getElementById('apply-filters').addEventListener('click', applyFilters);
+        document.getElementById('clear-filters').addEventListener('click', () => {
+            document.getElementById('filter-subject').value = '';
+            document.getElementById('filter-year').value = '';
+            document.getElementById('search-handouts').value = '';
+            renderHandouts(allHandouts);
+        });
+        document.getElementById('search-handouts').addEventListener('input', applyFilters);
+
+        document.addEventListener('DOMContentLoaded', loadHandouts);
+    </script>
+
+</body>
+</html>
+

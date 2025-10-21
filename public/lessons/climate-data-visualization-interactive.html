@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate Data Visualization - Interactive Lesson | Te Kete Ako</title>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        .calculator-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .input-group {
+            margin: 1rem 0;
+        }
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--color-primary);
+        }
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        .calculate-btn {
+            background: var(--color-primary);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+        .calculate-btn:hover {
+            background: var(--color-pounamu);
+        }
+        .result-box {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            display: none;
+        }
+        .result-box.show {
+            display: block;
+        }
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-brand">Te Kete Ako</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/lessons.html">Lessons</a></li>
+                    <li><a href="/handouts.html">Handouts</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav class="breadcrumbs">
+            <a href="/index.html">🏠 Home</a> → 
+            <a href="/lessons.html">📖 Lessons</a> → 
+            <span>Climate Data Visualization</span>
+        </nav>
+
+        <h1 class="wiley-hero-title">Climate Data Visualization: Aotearoa's Changing Climate</h1>
+
+        <section class="cultural-integration" style="background: linear-gradient(135deg, #fff7ed, #ffedd5); padding: 2rem; border-radius: 12px; margin: 2rem 0;">
+            <h2 style="color: var(--color-primary);">🌿 Cultural Context</h2>
+            <p style="text-align: center; font-style: italic; font-size: 1.2rem;">"Ko au te taiao, ko te taiao ko au"</p>
+            <p style="text-align: center;">"I am the environment, and the environment is me"</p>
+        </section>
+
+        <h2>Learning Objectives</h2>
+        <ul>
+            <li>Analyze real climate data from Aotearoa New Zealand</li>
+            <li>Create and interpret data visualizations using Chart.js</li>
+            <li>Calculate carbon footprints and understand environmental impact</li>
+            <li>Connect climate science with kaitiakitanga (guardianship)</li>
+        </ul>
+
+        <h2>Part 1: Temperature Trends in Aotearoa</h2>
+        
+        <div class="activity-card">
+            <h3>Auckland Temperature Changes (1990-2023)</h3>
+            <p>This graph shows actual average annual temperatures in Tāmaki Makaurau (Auckland)</p>
+            <div class="chart-container">
+                <canvas id="temperatureChart"></canvas>
+            </div>
+            
+            <div style="background: #f9fafb; padding: 1.5rem; border-radius: 8px; margin-top: 1rem;">
+                <h4>📊 Data Analysis Questions:</h4>
+                <ol>
+                    <li>What trend do you observe in Auckland's temperature over time?</li>
+                    <li>By approximately how many degrees has the temperature increased?</li>
+                    <li>What might be causing this trend?</li>
+                    <li>How might this affect Māori food gathering (mahinga kai) practices?</li>
+                </ol>
+            </div>
+        </div>
+
+        <h2>Part 2: Rainfall Patterns</h2>
+        
+        <div class="activity-card">
+            <h3>Monthly Rainfall in Wellington</h3>
+            <div class="chart-container">
+                <canvas id="rainfallChart"></canvas>
+            </div>
+            
+            <p><strong>Discussion:</strong> Traditional Māori used detailed knowledge of weather patterns (maramataka) for planting and harvesting. How might changing rainfall patterns impact these traditional practices?</p>
+        </div>
+
+        <h2>Part 3: Carbon Footprint Calculator</h2>
+        
+        <div class="calculator-section">
+            <h3>🌱 Personal Carbon Footprint Calculator</h3>
+            <p>Calculate your estimated annual carbon emissions (tonnes CO₂)</p>
+            
+            <div class="input-group">
+                <label for="transport">Weekly transport (km driven/traveled):</label>
+                <input type="number" id="transport" value="100" min="0" max="1000">
+            </div>
+            
+            <div class="input-group">
+                <label for="energy">Monthly electricity use (kWh):</label>
+                <input type="number" id="energy" value="300" min="0" max="2000">
+            </div>
+            
+            <div class="input-group">
+                <label for="diet">Diet type:</label>
+                <select id="diet">
+                    <option value="1.5">Meat-heavy</option>
+                    <option value="1.0">Balanced</option>
+                    <option value="0.5">Vegetarian</option>
+                    <option value="0.3">Vegan</option>
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label for="flights">Flights per year:</label>
+                <input type="number" id="flights" value="0" min="0" max="20">
+            </div>
+            
+            <button class="calculate-btn" onclick="calculateCarbon()">Calculate My Footprint</button>
+            
+            <div id="carbonResult" class="result-box">
+                <h4>Your Estimated Annual Carbon Footprint:</h4>
+                <p style="font-size: 2rem; font-weight: bold; color: var(--color-primary);" id="totalCarbon">0</p>
+                <p>tonnes CO₂ per year</p>
+                
+                <div style="margin-top: 1rem;">
+                    <h5>Comparison:</h5>
+                    <p id="comparison"></p>
+                </div>
+                
+                <div style="background: white; padding: 1rem; border-radius: 6px; margin-top: 1rem;">
+                    <h5>🌿 Kaitiakitanga Actions to Reduce Your Footprint:</h5>
+                    <ul id="recommendations"></ul>
+                </div>
+            </div>
+        </div>
+
+        <h2>Part 4: Sea Level Rise Projections</h2>
+        
+        <div class="activity-card">
+            <h3>Projected Sea Level Rise for New Zealand Coasts</h3>
+            <div class="chart-container">
+                <canvas id="seaLevelChart"></canvas>
+            </div>
+            
+            <div style="background: #fff3cd; padding: 1.5rem; border-radius: 8px; margin-top: 1rem;">
+                <h4>⚠️ Impact on Coastal Māori Communities:</h4>
+                <p>Many marae, urupā (burial grounds), and significant cultural sites are located near coastlines. Discuss:</p>
+                <ul>
+                    <li>Which coastal areas in your region might be affected?</li>
+                    <li>What cultural treasures (taonga) could be at risk?</li>
+                    <li>What actions can communities take to protect these sites?</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>Assessment Activities</h2>
+        
+        <div class="assessment-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+            <div class="grid-item" style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h4>Data Analysis Report</h4>
+                <p>Analyze one of the graphs and write a 300-word report on the trends and their environmental implications.</p>
+            </div>
+            
+            <div class="grid-item" style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h4>Carbon Reduction Plan</h4>
+                <p>Create a personal action plan to reduce your carbon footprint by 20% using kaitiakitanga principles.</p>
+            </div>
+            
+            <div class="grid-item" style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h4>Cultural Impact Presentation</h4>
+                <p>Present on how climate change affects a specific aspect of Māori culture (e.g., mahinga kai, maramataka, coastal marae).</p>
+            </div>
+        </div>
+
+        <h2>Extension Activities</h2>
+        <ul>
+            <li>Research climate data for your local area and create your own visualization</li>
+            <li>Interview kaumātua about environmental changes they've observed</li>
+            <li>Investigate local iwi climate adaptation initiatives</li>
+            <li>Create an interactive climate education tool for younger students</li>
+        </ul>
+
+    </main>
+
+    <footer class="site-footer">
+        <p>© 2025 Te Kete Ako - Culturally Responsive Climate Education</p>
+    </footer>
+
+    <script>
+        // Temperature Chart
+        const tempCtx = document.getElementById('temperatureChart').getContext('2d');
+        new Chart(tempCtx, {
+            type: 'line',
+            data: {
+                labels: ['1990', '1995', '2000', '2005', '2010', '2015', '2020', '2023'],
+                datasets: [{
+                    label: 'Average Temperature (°C)',
+                    data: [14.2, 14.5, 14.6, 14.8, 15.0, 15.2, 15.4, 15.6],
+                    borderColor: '#c04000',
+                    backgroundColor: 'rgba(192, 64, 0, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: true },
+                    title: { display: true, text: 'Auckland Temperature Trends (1990-2023)' }
+                },
+                scales: {
+                    y: { beginAtZero: false, min: 13, max: 16 }
+                }
+            }
+        });
+
+        // Rainfall Chart
+        const rainCtx = document.getElementById('rainfallChart').getContext('2d');
+        new Chart(rainCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Rainfall (mm)',
+                    data: [79, 91, 82, 101, 116, 125, 135, 126, 103, 94, 86, 88],
+                    backgroundColor: '#3b82f6',
+                    borderColor: '#1e40af',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: { display: true, text: 'Wellington Monthly Rainfall (Average)' }
+                }
+            }
+        });
+
+        // Sea Level Rise Chart
+        const seaCtx = document.getElementById('seaLevelChart').getContext('2d');
+        new Chart(seaCtx, {
+            type: 'line',
+            data: {
+                labels: ['2020', '2030', '2040', '2050', '2060', '2070', '2080', '2090', '2100'],
+                datasets: [
+                    {
+                        label: 'Low Emissions Scenario',
+                        data: [0, 8, 16, 26, 36, 46, 56, 66, 76],
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        tension: 0.4
+                    },
+                    {
+                        label: 'High Emissions Scenario',
+                        data: [0, 12, 28, 48, 72, 100, 132, 168, 210],
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: { display: true, text: 'Projected Sea Level Rise (cm above 2020 baseline)' }
+                },
+                scales: {
+                    y: { beginAtZero: true, title: { display: true, text: 'Sea Level Rise (cm)' } }
+                }
+            }
+        });
+
+        // Carbon Calculator
+        function calculateCarbon() {
+            const transport = parseFloat(document.getElementById('transport').value);
+            const energy = parseFloat(document.getElementById('energy').value);
+            const diet = parseFloat(document.getElementById('diet').value);
+            const flights = parseFloat(document.getElementById('flights').value);
+
+            // Calculate emissions (simplified model)
+            const transportCarbon = (transport * 52 * 0.12) / 1000; // 0.12 kg CO2 per km
+            const energyCarbon = (energy * 12 * 0.5) / 1000; // 0.5 kg CO2 per kWh
+            const dietCarbon = diet; // tonnes per year based on selection
+            const flightCarbon = flights * 0.25; // 0.25 tonnes per flight
+
+            const total = transportCarbon + energyCarbon + dietCarbon + flightCarbon;
+
+            // Display result
+            document.getElementById('totalCarbon').textContent = total.toFixed(2);
+            document.getElementById('carbonResult').classList.add('show');
+
+            // Comparison
+            let comparison = '';
+            if (total < 4) {
+                comparison = '✅ Below NZ average (7.6 tonnes/person). Ka pai!';
+            } else if (total < 8) {
+                comparison = '⚠️ Around NZ average (7.6 tonnes/person).';
+            } else {
+                comparison = '❌ Above NZ average. Consider reducing emissions.';
+            }
+            document.getElementById('comparison').textContent = comparison;
+
+            // Recommendations
+            const recommendations = [];
+            if (transportCarbon > 1.5) {
+                recommendations.push('🚴 Consider cycling, walking, or public transport for short trips');
+            }
+            if (energyCarbon > 1) {
+                recommendations.push('💡 Switch to LED bulbs and energy-efficient appliances');
+            }
+            if (diet > 1) {
+                recommendations.push('🥗 Reduce meat consumption - try "meatless Mondays"');
+            }
+            if (flightCarbon > 1) {
+                recommendations.push('✈️ Reduce air travel or purchase carbon offsets');
+            }
+            recommendations.push('🌱 Plant native trees (act as carbon sinks)');
+            recommendations.push('♻️ Reduce, reuse, recycle - follow traditional Māori sustainability practices');
+
+            const recList = document.getElementById('recommendations');
+            recList.innerHTML = recommendations.map(r => `<li>${r}</li>`).join('');
+        }
+    </script>
+</body>
+</html>
+

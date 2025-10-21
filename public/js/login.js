@@ -102,10 +102,8 @@ async function redirectByRole(userId) {
         // Redirect based on role
         if (profile.role === 'student') {
             window.location.href = '/student-dashboard.html';
-        } else if (profile.role === 'teacher') {
-            window.location.href = '/teachers/dashboard.html';
-        } else if (profile.role === 'admin') {
-            window.location.href = '/admin/dashboard.html';
+        } else if (profile.role === 'teacher' || profile.role === 'admin') {
+            window.location.href = '/teacher-dashboard-unified.html';
         } else {
             // Unknown role - go to homepage
             window.location.href = '/';

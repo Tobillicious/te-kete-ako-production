@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Distance Time Calculator | Te Kete Ako</title>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        .formula-triangle { width: 200px; height: 200px; margin: 2rem auto; position: relative; }
+        .triangle-svg { width: 100%; height: 100%; }
+        .calc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 2rem 0; }
+        .calculator-card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .calc-btn { background: var(--color-primary); color: white; padding: 1rem; border: none; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 1rem; }
+        .result-display { background: #10b981; color: white; padding: 1.5rem; border-radius: 8px; margin-top: 1rem; text-align: center; font-size: 1.5rem; font-weight: bold; display: none; }
+        .result-display.show { display: block; }
+    </style>
+    <script src="/js/css-safeguard.js" defer></script>
+</head>
+<body>
+    <header class="site-header">
+        <div class="nav-container"><a href="/index.html" class="nav-brand">Te Kete Ako</a></div>
+    </header>
+    <main class="container">
+        <h1>Speed, Distance, Time: Physics in Motion</h1>
+        
+        <section style="background: #fff7ed; padding: 2rem; border-radius: 12px; margin: 2rem 0; text-align: center;">
+            <p style="font-style: italic; font-size: 1.2rem;">"Te ara a te waka"</p>
+            <p>"The pathway of the canoe" - Māori navigators understood speed and distance intimately</p>
+        </section>
+        
+        <h2>The Formula Triangle</h2>
+        <div class="activity-card">
+            <div class="formula-triangle">
+                <svg class="triangle-svg" viewBox="0 0 200 200">
+                    <polygon points="100,20 20,180 180,180" fill="#ecfdf5" stroke="#10b981" stroke-width="4"/>
+                    <text x="100" y="80" text-anchor="middle" font-size="24" font-weight="bold" fill="#065f46">D</text>
+                    <text x="60" y="165" text-anchor="middle" font-size="24" font-weight="bold" fill="#065f46">S</text>
+                    <text x="140" y="165" text-anchor="middle" font-size="24" font-weight="bold" fill="#065f46">T</text>
+                    <line x1="100" y1="100" x2="100" y2="180" stroke="#065f46" stroke-width="2"/>
+                </svg>
+            </div>
+            
+            <div style="background: #f0fdf4; padding: 1.5rem; border-radius: 8px;">
+                <h3>Three Formulas:</h3>
+                <p style="font-size: 1.1rem; line-height: 2.5;">
+                    <strong>Speed = Distance ÷ Time</strong><br>
+                    <strong>Distance = Speed × Time</strong><br>
+                    <strong>Time = Distance ÷ Speed</strong>
+                </p>
+            </div>
+        </div>
+        
+        <h2>Interactive Calculators</h2>
+        <div class="calc-grid">
+            <div class="calculator-card">
+                <h3>Calculate Speed</h3>
+                <div>
+                    <label>Distance (km):</label>
+                    <input type="number" id="dist1" value="100">
+                </div>
+                <div style="margin-top: 1rem;">
+                    <label>Time (hours):</label>
+                    <input type="number" id="time1" value="2" step="0.1">
+                </div>
+                <button class="calc-btn" onclick="calcSpeed()">Calculate Speed</button>
+                <div id="speedResult" class="result-display"></div>
+            </div>
+            
+            <div class="calculator-card">
+                <h3>Calculate Distance</h3>
+                <div>
+                    <label>Speed (km/h):</label>
+                    <input type="number" id="speed2" value="60">
+                </div>
+                <div style="margin-top: 1rem;">
+                    <label>Time (hours):</label>
+                    <input type="number" id="time2" value="3" step="0.1">
+                </div>
+                <button class="calc-btn" onclick="calcDistance()">Calculate Distance</button>
+                <div id="distResult" class="result-display"></div>
+            </div>
+            
+            <div class="calculator-card">
+                <h3>Calculate Time</h3>
+                <div>
+                    <label>Distance (km):</label>
+                    <input type="number" id="dist3" value="150">
+                </div>
+                <div style="margin-top: 1rem;">
+                    <label>Speed (km/h):</label>
+                    <input type="number" id="speed3" value="100">
+                </div>
+                <button class="calc-btn" onclick="calcTime()">Calculate Time</button>
+                <div id="timeResult" class="result-display"></div>
+            </div>
+        </div>
+        
+        <h2>Speed Comparison Chart</h2>
+        <div class="activity-card">
+            <div style="height: 400px;">
+                <canvas id="speedChart"></canvas>
+            </div>
+        </div>
+        
+        <h2>Traditional Navigation</h2>
+        <div class="activity-card">
+            <p>Polynesian navigators (including Māori) calculated:</p>
+            <ul>
+                <li><strong>Waka speed:</strong> Using wave patterns and progress markers</li>
+                <li><strong>Distance traveled:</strong> Estimating by days at sea</li>
+                <li><strong>Time to destination:</strong> Based on known speeds and distances</li>
+            </ul>
+            <p><em>They made these calculations without modern instruments - using the same physics principles!</em></p>
+        </div>
+        
+        <h2>Practice Problems</h2>
+        <div class="activity-card">
+            <ol>
+                <li>A waka travels 8 hours at 12 km/h. How far does it go?</li>
+                <li>If Auckland to Wellington is 640 km by car at 100 km/h, how long is the drive?</li>
+                <li>An athlete runs 5 km in 25 minutes. What's their speed in km/h?</li>
+            </ol>
+        </div>
+    </main>
+    <footer class="site-footer"><p>© 2025 Te Kete Ako</p></footer>
+    <script>
+        // Speed Comparison Chart
+        const ctx = document.getElementById('speedChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Walking', 'Cycling', 'Waka (traditional)', 'Car (city)', 'Car (highway)', 'Plane'],
+                datasets: [{
+                    label: 'Speed (km/h)',
+                    data: [5, 20, 12, 50, 100, 800],
+                    backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { title: { display: true, text: 'Comparison of Travel Speeds' } },
+                scales: { y: { beginAtZero: true, title: { display: true, text: 'Speed (km/h)' } } }
+            }
+        });
+        
+        function calcSpeed() {
+            const dist = parseFloat(document.getElementById('dist1').value);
+            const time = parseFloat(document.getElementById('time1').value);
+            const speed = dist / time;
+            document.getElementById('speedResult').textContent = `Speed = ${speed.toFixed(2)} km/h`;
+            document.getElementById('speedResult').classList.add('show');
+        }
+        
+        function calcDistance() {
+            const speed = parseFloat(document.getElementById('speed2').value);
+            const time = parseFloat(document.getElementById('time2').value);
+            const dist = speed * time;
+            document.getElementById('distResult').textContent = `Distance = ${dist.toFixed(2)} km`;
+            document.getElementById('distResult').classList.add('show');
+        }
+        
+        function calcTime() {
+            const dist = parseFloat(document.getElementById('dist3').value);
+            const speed = parseFloat(document.getElementById('speed3').value);
+            const time = dist / speed;
+            document.getElementById('timeResult').textContent = `Time = ${time.toFixed(2)} hours (${(time * 60).toFixed(0)} minutes)`;
+            document.getElementById('timeResult').classList.add('show');
+        }
+    </script>
+</body>
+</html>
+

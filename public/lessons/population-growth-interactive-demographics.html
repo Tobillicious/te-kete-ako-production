@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Population Growth Interactive | Te Kete Ako</title>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        .chart-container { position: relative; height: 400px; margin: 2rem 0; }
+        .calculator-box { background: white; padding: 2rem; border-radius: 12px; margin: 2rem 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .input-group { margin: 1rem 0; }
+        .input-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; }
+        .input-group input { width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 6px; }
+        .calc-btn { background: var(--color-primary); color: white; padding: 1rem 2rem; border: none; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 1rem; }
+        .result { background: linear-gradient(135deg, #e3f2fd, #bbdefb); padding: 1.5rem; border-radius: 8px; margin-top: 1rem; display: none; }
+        .result.show { display: block; }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="nav-container"><a href="/index.html" class="nav-brand">Te Kete Ako</a></div>
+    </header>
+    <main class="container">
+        <h1>Population Growth & Demographics: Aotearoa Analysis</h1>
+        
+        <section style="background: #fff7ed; padding: 2rem; border-radius: 12px; margin: 2rem 0; text-align: center;">
+            <p style="font-style: italic; font-size: 1.2rem;">"He tangata, he tangata, he tangata"</p>
+            <p>"It is people, it is people, it is people"</p>
+        </section>
+        
+        <h2>Part 1: NZ Population Growth (1840-2024)</h2>
+        <div class="activity-card">
+            <div class="chart-container">
+                <canvas id="populationChart"></canvas>
+            </div>
+            
+            <div style="background: #f9fafb; padding: 1.5rem; border-radius: 8px; margin-top: 1rem;">
+                <h4>Analysis Questions:</h4>
+                <ol>
+                    <li>When did NZ experience fastest population growth?</li>
+                    <li>Estimate NZ population in 1900, 1950, 2000, 2024</li>
+                    <li>What factors drive population growth (immigration, birth rate)?</li>
+                    <li>How has Māori population changed over time?</li>
+                </ol>
+            </div>
+        </div>
+        
+        <h2>Part 2: Ethnicity Breakdown (2024)</h2>
+        <div class="activity-card">
+            <div class="chart-container">
+                <canvas id="ethnicityChart"></canvas>
+            </div>
+            <p><strong>Discussion:</strong> How has NZ's cultural diversity changed since 1840? What are implications for education, policy, and society?</p>
+        </div>
+        
+        <h2>Part 3: Population Projection Calculator</h2>
+        <div class="calculator-box">
+            <h3>📊 Project Future Population</h3>
+            <p>Using exponential growth formula: P(t) = P₀ × (1 + r)ᵗ</p>
+            
+            <div class="input-group">
+                <label>Starting population (P₀):</label>
+                <input type="number" id="startPop" value="5000000" step="1000">
+            </div>
+            
+            <div class="input-group">
+                <label>Growth rate (% per year):</label>
+                <input type="number" id="growthRate" value="1.1" step="0.1" min="-5" max="10">
+            </div>
+            
+            <div class="input-group">
+                <label>Number of years:</label>
+                <input type="number" id="years" value="25" min="1" max="100">
+            </div>
+            
+            <button class="calc-btn" onclick="calculatePopulation()">Calculate Future Population</button>
+            
+            <div id="popResult" class="result">
+                <h4>Projected Population:</h4>
+                <p style="font-size: 2.5rem; font-weight: bold; color: var(--color-primary);" id="futurePopulation">0</p>
+                <p><strong>Calculation:</strong></p>
+                <p id="calculation"></p>
+                <div style="background: white; padding: 1rem; border-radius: 6px; margin-top: 1rem;">
+                    <p id="implications"></p>
+                </div>
+            </div>
+        </div>
+        
+        <h2>Part 4: Age Distribution</h2>
+        <div class="activity-card">
+            <div class="chart-container">
+                <canvas id="ageChart"></canvas>
+            </div>
+            <p><strong>Key Insight:</strong> NZ has an aging population. What are the implications for healthcare, pensions, and workforce?</p>
+        </div>
+        
+        <h2>Māori Population Trends</h2>
+        <div class="activity-card">
+            <h3>Important Statistics:</h3>
+            <ul>
+                <li>Māori population: ~900,000 (17% of NZ)</li>
+                <li>Median age: Younger than general population (26 vs 38)</li>
+                <li>Growing percentage - projected 20%+ by 2050</li>
+                <li>Urban migration - 85% now live in cities</li>
+            </ul>
+            <p><em>Understanding these trends is crucial for education, health, and social policy</em></p>
+        </div>
+        
+        <h2>Assessment</h2>
+        <ul>
+            <li>Analyze one population graph and write 300-word interpretation</li>
+            <li>Calculate population projections for different growth scenarios</li>
+            <li>Research factors affecting NZ immigration trends</li>
+            <li>Present on implications of demographic changes for Aotearoa</li>
+        </ul>
+    </main>
+    <footer class="site-footer"><p>© 2025 Te Kete Ako</p></footer>
+    <script>
+        // Population Growth Chart
+        const popCtx = document.getElementById('populationChart').getContext('2d');
+        new Chart(popCtx, {
+            type: 'line',
+            data: {
+                labels: ['1840', '1880', '1920', '1960', '1980', '2000', '2024'],
+                datasets: [{
+                    label: 'Total Population',
+                    data: [2050, 490000, 1218000, 2377000, 3144000, 3858000, 5200000],
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { title: { display: true, text: 'NZ Population Growth (1840-2024)' } },
+                scales: { y: { beginAtZero: true, title: { display: true, text: 'Population' } } }
+            }
+        });
+
+        // Ethnicity Chart
+        const ethCtx = document.getElementById('ethnicityChart').getContext('2d');
+        new Chart(ethCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['NZ European', 'Māori', 'Pacific Peoples', 'Asian', 'Other'],
+                datasets: [{
+                    data: [70.2, 17.1, 8.1, 15.3, 2.7],
+                    backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { title: { display: true, text: 'NZ Ethnicity Breakdown 2024 (%)' }, legend: { position: 'bottom' } }
+            }
+        });
+
+        // Age Distribution Chart
+        const ageCtx = document.getElementById('ageChart').getContext('2d');
+        new Chart(ageCtx, {
+            type: 'bar',
+            data: {
+                labels: ['0-14', '15-24', '25-39', '40-54', '55-64', '65+'],
+                datasets: [{
+                    label: 'Population (%)',
+                    data: [19, 13, 22, 21, 12, 16],
+                    backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6', '#6b7280']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { title: { display: true, text: 'Age Distribution in NZ' } },
+                scales: { y: { beginAtZero: true, title: { display: true, text: 'Percentage' } } }
+            }
+        });
+
+        // Population Calculator
+        function calculatePopulation() {
+            const P0 = parseFloat(document.getElementById('startPop').value);
+            const r = parseFloat(document.getElementById('growthRate').value) / 100;
+            const t = parseFloat(document.getElementById('years').value);
+            
+            const Pt = P0 * Math.pow(1 + r, t);
+            
+            document.getElementById('futurePopulation').textContent = Pt.toLocaleString(undefined, {maximumFractionDigits: 0});
+            document.getElementById('calculation').innerHTML = `
+                P(${t}) = ${P0.toLocaleString()} × (1 + ${r})^${t}<br>
+                P(${t}) = ${P0.toLocaleString()} × ${Math.pow(1 + r, t).toFixed(4)}<br>
+                P(${t}) = <strong>${Pt.toLocaleString(undefined, {maximumFractionDigits: 0})}</strong>
+            `;
+            
+            const growth = Pt - P0;
+            const percentGrowth = ((Pt / P0 - 1) * 100).toFixed(1);
+            document.getElementById('implications').innerHTML = `
+                <strong>Population Change:</strong> +${growth.toLocaleString(undefined, {maximumFractionDigits: 0})} people (${percentGrowth}% increase)<br>
+                <strong>Implications:</strong> Need for ${(growth / 2.5).toFixed(0)} new homes, expanded infrastructure, more schools and hospitals
+            `;
+            
+            document.getElementById('popResult').classList.add('show');
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,135 @@
+<!-- Cross-Subject Pathways Component (GraphRAG-Powered) -->
+<!-- Usage: <div id="cross-pathways" data-subject="Science"></div><script src="/components/cross-subject-pathways.html"></script> -->
+
+<style>
+.cross-pathway-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-decoration: none;
+    display: block;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    transition: all 0.2s;
+    border-left: 4px solid var(--pathway-color, #6b7280);
+}
+.cross-pathway-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+.cross-pathway-count {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--pathway-color, #6b7280);
+    margin-bottom: 0.5rem;
+}
+.cross-pathway-label {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+.cross-pathway-desc {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin-bottom: 0.75rem;
+}
+.cross-pathway-cta {
+    color: var(--pathway-color, #6b7280);
+    font-weight: 600;
+    text-decoration: none;
+}
+</style>
+
+<script>
+(async function() {
+    try {
+        // Find all cross-pathway containers
+        const containers = document.querySelectorAll('[id^="cross-pathways"]');
+        if (containers.length === 0) return;
+
+        // Init Supabase
+        if (typeof window.supabase === 'undefined' || !window.supabase.from) {
+            const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+            window.supabase = (await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2')).createClient(SUPABASE_URL, SUPABASE_KEY);
+        }
+
+        const subjectColors = {
+            'Mathematics': '#3b82f6',
+            'Science': '#10b981',
+            'English': '#dc2626',
+            'Social Studies': '#ec4899',
+            'Digital Technologies': '#7c3aed',
+            'Te Ao Māori': '#14b8a6'
+        };
+
+        const subjectIcons = {
+            'Mathematics': '📐',
+            'Science': '🔬',
+            'English': '📝',
+            'Social Studies': '🏛️',
+            'Digital Technologies': '💻',
+            'Te Ao Māori': '🌿'
+        };
+
+        // Static cross-subject data (from GraphRAG analysis)
+        const crossSubjectData = {
+            'Science': [
+                { to: 'Mathematics', count: 1332, desc: 'Data analysis, modeling, statistics' },
+                { to: 'Digital Technologies', count: 388, desc: 'Data collection, sensors, coding' },
+                { to: 'English', count: 350, desc: 'Scientific writing, literacy' },
+                { to: 'Social Studies', count: 245, desc: 'Environmental policy, data' }
+            ],
+            'Mathematics': [
+                { to: 'Science', count: 632, desc: 'Modeling, data, measurement' },
+                { to: 'Digital Technologies', count: 293, desc: 'Algorithms, computation, logic' },
+                { to: 'English', count: 278, desc: 'Problem-solving writing, explanation' },
+                { to: 'Social Studies', count: 168, desc: 'Statistics, demographics, economics' }
+            ],
+            'English': [
+                { to: 'Mathematics', count: 407, desc: 'Problem-solving writing, explanation' },
+                { to: 'Digital Technologies', count: 404, desc: 'Digital storytelling, media literacy' },
+                { to: 'Science', count: 193, desc: 'Scientific writing, research skills' }
+            ],
+            'Digital Technologies': [
+                { to: 'Science', count: 433, desc: 'Data science, sensors, environmental monitoring' },
+                { to: 'English', count: 197, desc: 'Digital storytelling, online communication' },
+                { to: 'Mathematics', count: 308, desc: 'Computational thinking, algorithms' },
+                { to: 'Social Studies', count: 188, desc: 'Digital citizenship, data ethics' }
+            ],
+            'Social Studies': [
+                { to: 'Science', count: 245, desc: 'Environmental issues, data analysis' },
+                { to: 'Mathematics', count: 168, desc: 'Statistics, economic modeling' }
+            ]
+        };
+
+        containers.forEach(container => {
+            const subject = container.dataset.subject;
+            const pathways = crossSubjectData[subject] || [];
+            
+            if (pathways.length === 0) {
+                container.innerHTML = '<p style="color: #6b7280; text-align: center;">No cross-subject pathways data available.</p>';
+                return;
+            }
+
+            container.innerHTML = pathways.map(pathway => {
+                const color = subjectColors[pathway.to] || '#6b7280';
+                const icon = subjectIcons[pathway.to] || '📚';
+                return `
+                    <a href="/cross-subject-discovery.html?from=${encodeURIComponent(subject)}&to=${encodeURIComponent(pathway.to)}" 
+                       class="cross-pathway-card" 
+                       style="--pathway-color: ${color};">
+                        <div class="cross-pathway-count">${pathway.count.toLocaleString()}</div>
+                        <div class="cross-pathway-label">${subjectIcons[subject] || '📚'} → ${icon} ${pathway.to}</div>
+                        <div class="cross-pathway-desc">${pathway.desc}</div>
+                        <div class="cross-pathway-cta">Explore pathways →</div>
+                    </a>
+                `;
+            }).join('');
+        });
+
+    } catch (e) {
+        console.error('Cross-subject pathways component error:', e);
+    }
+})();
+</script>

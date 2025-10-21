@@ -1,0 +1,173 @@
+<!-- GraphRAG Most Connected Resources Component -->
+<!-- Usage: <div id="most-connected" data-subject="Science" data-limit="10"></div><script src="/components/graphrag-most-connected.html"></script> -->
+
+<style>
+.connected-resource-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-decoration: none;
+    display: block;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    transition: all 0.2s;
+    position: relative;
+    border-top: 4px solid var(--subject-color, #6b7280);
+}
+.connected-resource-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+.connection-count-badge {
+    position: absolute;
+    top: -12px;
+    right: 12px;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #78350f;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 0.75rem;
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
+}
+.connected-resource-title {
+    color: #1f2937;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    padding-right: 80px; /* Space for badge */
+}
+.connected-resource-meta {
+    color: #6b7280;
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+}
+.connected-resource-desc {
+    color: #374151;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+</style>
+
+<script>
+(async function() {
+    try {
+        const containers = document.querySelectorAll('[id^="most-connected"]');
+        if (containers.length === 0) return;
+
+        // Init Supabase
+        if (typeof window.supabase === 'undefined' || !window.supabase.from) {
+            const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+            window.supabase = (await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2')).createClient(SUPABASE_URL, SUPABASE_KEY);
+        }
+
+        const subjectColors = {
+            'Science': '#10b981',
+            'Mathematics': '#3b82f6',
+            'English': '#dc2626',
+            'Social Studies': '#ec4899',
+            'Digital Technologies': '#7c3aed',
+            'Te Ao Māori': '#14b8a6',
+            'Health & PE': '#f59e0b',
+            'Arts': '#a855f7'
+        };
+
+        for (const container of containers) {
+            const subject = container.dataset.subject;
+            const limit = parseInt(container.dataset.limit) || 10;
+
+            if (!subject) {
+                console.warn('Most Connected: No data-subject specified');
+                continue;
+            }
+
+            // Query for most connected resources in this subject
+            // This is a complex query - we'll count relationships per resource
+            const { data: relationshipCounts, error: relError } = await window.supabase.rpc('get_most_connected_resources', {
+                p_subject: subject,
+                p_limit: limit
+            });
+
+            // Fallback: If RPC doesn't exist, do manual aggregation
+            if (relError || !relationshipCounts) {
+                // Manual approach: Get all relationships for subject resources, count them
+                const { data: subjectResources, error: resError } = await window.supabase
+                    .from('graphrag_resources')
+                    .select('file_path, title, resource_type, quality_score, cultural_context')
+                    .eq('canonical_subject', subject)
+                    .gte('quality_score', 85)
+                    .order('quality_score', { ascending: false })
+                    .limit(limit);
+
+                if (resError || !subjectResources || subjectResources.length === 0) {
+                    container.innerHTML = '<p style="color: #6b7280; text-align: center;">Loading connected resources...</p>';
+                    continue;
+                }
+
+                // For each resource, count relationships (this is a fallback - ideally use RPC)
+                const enrichedResources = [];
+                for (const resource of subjectResources.slice(0, limit)) {
+                    const { count, error: countError } = await window.supabase
+                        .from('graphrag_relationships')
+                        .select('id', { count: 'exact', head: true })
+                        .eq('source_path', resource.file_path);
+                    
+                    enrichedResources.push({
+                        ...resource,
+                        connection_count: count || 0
+                    });
+                }
+
+                // Sort by connection count
+                enrichedResources.sort((a, b) => b.connection_count - a.connection_count);
+
+                // Render
+                const color = subjectColors[subject] || '#6b7280';
+                container.innerHTML = `
+                    <section style="background: white; padding: 3rem 2rem; border-radius: 16px; margin: 3rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+                        <div style="text-align: center; margin-bottom: 2rem;">
+                            <div style="display: inline-block; background: ${color}; color: white; padding: 0.5rem 1.5rem; border-radius: 20px; font-weight: 700; margin-bottom: 1rem;">
+                                🔗 MOST CONNECTED
+                            </div>
+                            <h2 style="font-size: 2rem; color: #1a4d2e; margin-bottom: 0.5rem;">Top ${subject} Resources</h2>
+                            <p style="color: #6b7280; font-size: 0.95rem;">Resources with the strongest cross-curricular connections in GraphRAG</p>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+                            ${enrichedResources.map((resource, index) => {
+                                const badgeLabel = resource.connection_count >= 50 ? '⚡ CHAMPION' :
+                                                 resource.connection_count >= 20 ? '🌟 HIGHLY CONNECTED' :
+                                                 resource.connection_count >= 10 ? '🔗 WELL CONNECTED' :
+                                                 resource.connection_count + ' connections';
+                                return `
+                                    <a href="${resource.file_path}" class="connected-resource-card" style="--subject-color: ${color};">
+                                        <div class="connection-count-badge">${badgeLabel}</div>
+                                        <div class="connected-resource-title">
+                                            ${index + 1}. ${resource.title || 'Untitled Resource'}
+                                        </div>
+                                        <div class="connected-resource-meta">
+                                            ${resource.resource_type || 'Resource'}
+                                            ${resource.quality_score ? ' • Q' + resource.quality_score : ''}
+                                            ${resource.cultural_context ? ' • 🌿 Cultural' : ''}
+                                        </div>
+                                        <div class="connected-resource-desc">
+                                            <strong>${resource.connection_count}</strong> GraphRAG connections to other resources across ${resource.connection_count >= 20 ? 'multiple subjects' : 'the platform'}
+                                        </div>
+                                    </a>
+                                `;
+                            }).join('')}
+                        </div>
+                        <div style="text-align: center; margin-top: 2rem;">
+                            <a href="/cross-subject-discovery.html?from=${encodeURIComponent(subject)}" style="display: inline-block; background: ${color}; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 700;">
+                                Explore All ${subject} Connections →
+                            </a>
+                        </div>
+                    </section>
+                `;
+            }
+        }
+
+    } catch (e) {
+        console.error('GraphRAG Most Connected component error:', e);
+    }
+})();
+</script>

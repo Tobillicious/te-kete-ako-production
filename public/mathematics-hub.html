@@ -75,6 +75,30 @@ Searchable & Ready</div>
             </div>
         </div>
     </section>
+    <script>
+      document.addEventListener('DOMContentLoaded', async () => {
+        try {
+          if (typeof window.supabase === 'undefined' || !window.supabase.from) {
+            const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+            window.supabase = (await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2')).createClient(SUPABASE_URL, SUPABASE_KEY);
+          }
+          const { count: totalCount, error: e1 } = await window.supabase.from('graphrag_resources').select('id', { count: 'exact', head: true }).eq('canonical_subject', 'Mathematics');
+          if (e1) throw e1;
+          const { count: culturalCount, error: e2 } = await window.supabase.from('graphrag_resources').select('id', { count: 'exact', head: true }).eq('canonical_subject', 'Mathematics').or('cultural_context.eq.true,has_te_reo.eq.true,has_whakataukī.eq.true');
+          if (e2) throw e2;
+          const hero = document.querySelector('.hub-hero.hub-mathematics .hub-stats-grid');
+          if (hero && typeof totalCount === 'number') {
+            const cards = hero.querySelectorAll('.hub-stat-card .hub-stat-number');
+            if (cards[1]) cards[1].textContent = totalCount;
+            if (cards[2] && typeof culturalCount === 'number' && totalCount > 0) {
+              const pct = Math.round((culturalCount / totalCount) * 100);
+              cards[2].textContent = pct + '%';
+            }
+          }
+        } catch (e) { console.error('Math hero stats update failed', e); }
+      });
+    </script>
 
     <!-- GraphRAG-Powered Recommendations -->
     <section class="hub-graphrag-recommendations" style="max-width: 1200px; margin: 4rem auto; padding: 0 2rem;">
@@ -267,22 +291,16 @@ Algebra Foundations</h4>
                             <p style="font-size: 0.875rem; color: #666;">
 Patterns, equations & Māori games</p>
                         </a>
-                        <div style="background: #f3f4f6; padding: 1rem; border-radius: 8px; border: 2px dashed #9ca3af;">
-                            <span style="background: #fbbf24; color: #78350f; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.5rem; display: inline-block;">
-🚧 COMING SOON</span>
-                            <h4 style="color: #6b7280; font-weight: 700;">
-Geometry & Measurement</h4>
-                            <p style="font-size: 0.875rem; color: #9ca3af;">
-Being developed</p>
-                        </div>
-                        <div style="background: #f3f4f6; padding: 1rem; border-radius: 8px; border: 2px dashed #9ca3af;">
-                            <span style="background: #fbbf24; color: #78350f; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.5rem; display: inline-block;">
-🚧 COMING SOON</span>
-                            <h4 style="color: #6b7280; font-weight: 700;">
-Number & Operations</h4>
-                            <p style="font-size: 0.875rem; color: #9ca3af;">
-Being developed</p>
-                        </div>
+                        <a href="/generated-resources-alpha/handouts/geometric-patterns-in-māori-art-and-architecture.html" class="resource-card" style="background: white; padding: 1rem; border-radius: 8px; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 4px solid #0284c7; display: block;">
+                            <span style="background: #e0f2fe; color: #0284c7; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.5rem; display: inline-block;">📐 HANDOUT • Quality 92</span>
+                            <h4 style="color: #1a4d2e; font-weight: 700;">Geometric Patterns in Māori Art</h4>
+                            <p style="font-size: 0.875rem; color: #666;">Tukutuku, whakairo and symmetry (Y7–9)</p>
+                        </a>
+                        <a href="/generated-resources-alpha/handouts/probability-and-chance-in-māori-games.html" class="resource-card" style="background: white; padding: 1rem; border-radius: 8px; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 4px solid #10b981; display: block;">
+                            <span style="background: #dcfce7; color: #166534; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.5rem; display: inline-block;">🎲 HANDOUT • Quality 92</span>
+                            <h4 style="color: #1a4d2e; font-weight: 700;">Probability & Chance in Māori Games</h4>
+                            <p style="font-size: 0.875rem; color: #666;">Number sense through traditional games (Y8–10)</p>
+                        </a>
                     </div>
                 </div>
                 <!-- Year 8 -->
@@ -717,11 +735,166 @@ Learn More →</a>
                 <!-- Loaded dynamically -->
             </div>
         </section>
+        <!-- Fresh Orphans (GraphRAG) -->
+        <section style="background: white; padding: 3rem 2rem; border-radius: 16px; margin: 3rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <div style="display: inline-block; background: linear-gradient(135deg, #4f46e5, #6366f1); padding: 0.5rem 1.5rem; border-radius: 24px; margin-bottom: 1rem; color: white; font-weight: 700; font-size: 0.9rem;">🔗 Fresh Orphans (Needs Linking)</div>
+                <h2 style="font-size: 2.25rem; color: #1a4d2e; margin-bottom: 0.5rem;">Top Mathematics Orphans</h2>
+                <p style="color: #666; font-size: 1rem;">Unlinked high-quality resources surfaced by GraphRAG</p>
+            </div>
+            <div id="math-orphans" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;"></div>
+            <div style="text-align: center; margin-top: 1rem;">
+                <a href="/orphans-dashboard.html" style="display: inline-block; background: #4f46e5; color: white; padding: 0.75rem 1.25rem; border-radius: 10px; text-decoration: none; font-weight: 700;">View All Orphans →</a>
+            </div>
+        </section>
+        <script>document.addEventListener('DOMContentLoaded', async () => {try {const SUPABASE_URL='https://nlgldaqtubrlcqddppbq.supabase.co';const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';if(typeof window.supabase==='undefined'||!window.supabase.from){window.supabase=(await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2')).createClient(SUPABASE_URL,SUPABASE_KEY);}const { data, error } = await window.supabase.from('graphrag_orphans').select('file_path,title,quality_score,resource_type').eq('canonical_subject','Mathematics').order('quality_score',{ascending:false}).limit(12);if(error){console.error('Orphans load error (Mathematics):',error);return;}const grid=document.getElementById('math-orphans');if(grid){grid.innerHTML=(data||[]).map(r=>('<a href="'+r.file_path+'" style="background:white;padding:1rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 12px rgba(0,0,0,0.06);border-top:4px solid #4f46e5;display:block;">'+'<h3 style="color:#1f2937;margin:0 0 0.5rem 0;font-size:1rem;font-weight:700;">'+(r.title||'Untitled')+'</h3>'+'<div style="color:#6b7280;font-size:0.85rem;">'+(r.resource_type||'Resource')+(r.quality_score?(' • ⭐ '+r.quality_score):'')+'</div>'+'</a>')).join('');}} catch(e){console.error(e);}});</script>
+        <!-- Cross-Subject Connections (GraphRAG Intelligence) -->
+        <section style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); padding: 3rem 2rem; border-radius: 16px; margin: 3rem 0; border: 2px solid #3b82f6;">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <div style="display: inline-block; background: #3b82f6; color: white; padding: 0.5rem 1.5rem; border-radius: 20px; font-weight: 700; margin-bottom: 1rem;">🔗 CROSS-SUBJECT INTELLIGENCE</div>
+                <h2 style="font-size: 2.25rem; color: #1e40af; margin-bottom: 0.5rem;">Mathematics × Other Subjects</h2>
+                <p style="color: #1e3a8a; font-size: 1rem;">GraphRAG discovered thousands of cross-curricular connections</p>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; border-left: 4px solid #10b981;">
+                    <h3 style="color: #10b981; font-size: 1.25rem; margin-bottom: 0.5rem;">📐 → 🔬 Science</h3>
+                    <p style="color: #666; font-size: 0.9rem; margin-bottom: 0.75rem;"><strong>632 connections</strong> • Modeling, data, measurement</p>
+                    <a href="/science-math-integration.html" style="color: #10b981; font-weight: 600; text-decoration: none;">Explore →</a>
+                </div>
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; border-left: 4px solid #7c3aed;">
+                    <h3 style="color: #7c3aed; font-size: 1.25rem; margin-bottom: 0.5rem;">📐 → 💻 Digital Tech</h3>
+                    <p style="color: #666; font-size: 0.9rem; margin-bottom: 0.75rem;"><strong>293 connections</strong> • Algorithms, computation, logic</p>
+                    <a href="/cross-subject-discovery.html?from=Math&to=Digital" style="color: #7c3aed; font-weight: 600; text-decoration: none;">Explore →</a>
+                </div>
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; border-left: 4px solid #dc2626;">
+                    <h3 style="color: #dc2626; font-size: 1.25rem; margin-bottom: 0.5rem;">📐 → 📝 English</h3>
+                    <p style="color: #666; font-size: 0.9rem; margin-bottom: 0.75rem;"><strong>278 connections</strong> • Problem-solving writing, explanation</p>
+                    <a href="/cross-subject-discovery.html?from=Math&to=English" style="color: #dc2626; font-weight: 600; text-decoration: none;">Explore →</a>
+                </div>
+                <div style="background: white; padding: 1.5rem; border-radius: 12px; border-left: 4px solid #ec4899;">
+                    <h3 style="color: #ec4899; font-size: 1.25rem; margin-bottom: 0.5rem;">📐 → 🏛️ Social Studies</h3>
+                    <p style="color: #666; font-size: 0.9rem; margin-bottom: 0.75rem;"><strong>168 connections</strong> • Statistics, demographics, economics</p>
+                    <a href="/cross-subject-discovery.html?from=Math&to=Social" style="color: #ec4899; font-weight: 600; text-decoration: none;">Explore →</a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- GraphRAG Most Connected Resources -->
+        <div id="most-connected" data-subject="Mathematics" data-limit="10"></div>
+        <script src="/components/graphrag-most-connected.html"></script>
+
         <!-- GraphRAG Recommendations -->
         <section style="margin: 4rem 0;">
             <div id="graphrag-recommendations" data-subject="Mathematics" data-limit="4">
 </div>
             <script src="/components/graphrag-live-recommendations.html"></script>
+        </section>
+        <!-- Fresh Orphans (GraphRAG) -->
+        <section style="background: white; padding: 3rem 2rem; border-radius: 16px; margin: 3rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <div style="display: inline-block; background: linear-gradient(135deg, #4f46e5, #6366f1); padding: 0.5rem 1.5rem; border-radius: 24px; margin-bottom: 1rem; color: white; font-weight: 700; font-size: 0.9rem;">🔗 Fresh Orphans (Needs Linking)</div>
+                <h2 style="font-size: 2.25rem; color: #1a4d2e; margin-bottom: 0.5rem;">Top Mathematics Orphans</h2>
+                <p style="color: #666; font-size: 1rem;">Unlinked high-quality resources surfaced by GraphRAG</p>
+            </div>
+            <div id="math-orphans" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;"></div>
+            <div style="text-align: center; margin-top: 1rem;">
+                <a href="/orphans-dashboard.html" style="display: inline-block; background: #4f46e5; color: white; padding: 0.75rem 1.25rem; border-radius: 10px; text-decoration: none; font-weight: 700;">View All Orphans →</a>
+            </div>
+        </section>
+        <script>
+          document.addEventListener('DOMContentLoaded', async () => {
+            try {
+              const { data, error } = await supabase
+                .from('graphrag_orphans')
+                .select('file_path,title,quality_score,resource_type')
+                .eq('canonical_subject','Mathematics')
+                .order('quality_score',{ascending:false})
+                .limit(12);
+              if (error) { console.error('Orphans load error (Mathematics):', error); return; }
+              const grid = document.getElementById('math-orphans');
+              if (grid) {
+                grid.innerHTML = (data||[]).map(r => (
+                  '<a href="'+r.file_path+'" style="background:white;padding:1rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 12px rgba(0,0,0,0.06);border-top:4px solid #4f46e5;display:block;">'
+                  + '<h3 style="color:#1f2937;margin:0 0 0.5rem 0;font-size:1rem;font-weight:700;">'+(r.title||'Untitled')+'</h3>'
+                  + '<div style="color:#6b7280;font-size:0.85rem;">'+(r.resource_type||'Resource')+(r.quality_score?(' • ⭐ '+r.quality_score):'')+'</div>'
+                  + '</a>'
+                )).join('');
+              }
+            } catch (e) { console.error(e); }
+          });
+        </script>
+        <!-- Canonical Subject Chips (Live) -->
+        <section style="max-width: 1200px; margin: 3rem auto; padding: 0 2rem;">
+            <h2 style="font-size: 2rem; color: #1a4d2e; margin-bottom: 1rem; text-align: center;">📚 Browse by Subject</h2>
+            <div id="subject-chips" style="display:flex; gap:0.5rem; flex-wrap:wrap; justify-content:center;"></div>
+        </section>
+        <script>
+          document.addEventListener('DOMContentLoaded', async () => {
+            try {
+              if (typeof supabase === 'undefined') {
+                const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+                const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+                window.supabase = (await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2')).createClient(SUPABASE_URL, SUPABASE_KEY);
+              }
+              const { data: records, error } = await supabase.from('graphrag_subject_counts').select('*');
+              if (error) { console.error('Subject chips load error:', error); return; }
+              const order = ['Mathematics','Science','English','Social Studies','Digital Technologies','Te Ao Māori','Arts','Health & PE','Languages','Cross-Curricular','Platform Infrastructure'];
+              const sorted = (records||[]).slice().sort((a,b)=>order.indexOf(a.canonical_subject)-order.indexOf(b.canonical_subject));
+              const grid = document.getElementById('subject-chips');
+              if (grid) {
+                grid.innerHTML = sorted.map(r => (
+                  '<a href="/subject-dashboard.html" style="display:flex;align-items:center;gap:0.5rem;background:white;border:1px solid #e5e7eb;border-radius:999px;padding:0.4rem 0.8rem;text-decoration:none;color:#1f2937;font-weight:700;">'
+                  + '<span>'+ (r.canonical_subject||'Unmapped') +'</span>'
+                  + '<span style="background:#ecfdf5;color:#065f46;border-radius:999px;padding:0.1rem 0.5rem;font-size:0.8rem;">'+ r.n +'</span>'
+                  + '</a>'
+                )).join('');
+              }
+            } catch (e) { console.error(e); }
+          });
+        </script>
+        <!-- Quick Start: Teacher Picks -->
+        <section style="max-width: 1200px; margin: 3rem auto; padding: 0 2rem;">
+          <div style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border-radius: 16px; padding: 2rem; border-left: 6px solid #0284c7;">
+            <h2 style="font-size: 2rem; color: #0284c7; margin-bottom: 1rem; text-align: center;">⚡ Quick Start: Teacher Picks</h2>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 1rem;">
+              <a href="/dist-handouts/probability-handout.html" style="background:white; padding:1rem; border-radius:12px; text-decoration:none; box-shadow:0 2px 10px rgba(0,0,0,0.06); border-left:4px solid #0284c7; display:block;">
+                <strong style="color:#0284c7; display:block; margin-bottom:0.35rem;">🎲 Probability Handout</strong>
+                <span style="color:#6b7280; font-size:0.9rem;">Scale • Events • Practice</span>
+              </a>
+              <a href="/dist-handouts/bar-graph-handout.html" style="background:white; padding:1rem; border-radius:12px; text-decoration:none; box-shadow:0 2px 10px rgba(0,0,0,0.06); border-left:4px solid #0284c7; display:block;">
+                <strong style="color:#0284c7; display:block; margin-bottom:0.35rem;">📊 Bar Graph Worksheet</strong>
+                <span style="color:#6b7280; font-size:0.9rem;">Display • Interpret • AO L4</span>
+              </a>
+              <a href="/generated-resources-alpha/index.html" style="background:white; padding:1rem; border-radius:12px; text-decoration:none; box-shadow:0 2px 10px rgba(0,0,0,0.06); border-left:4px solid #10b981; display:block;">
+                <div style="display:flex; align-items:center; gap:0.5rem; color:#065f46; font-weight:800;">
+                  <span>💎 Excellence Alpha</span>
+                  <span style="background:#ecfdf5;color:#065f46;border-radius:999px;padding:0.05rem 0.5rem; font-size:0.75rem; font-weight:800;">47+</span>
+                </div>
+                <span style="color:#6b7280; font-size:0.9rem;">High-quality cultural resources</span>
+              </a>
+            </div>
+          </div>
+        </section>
+        <!-- Generated this week -->
+        <section style="margin: 1rem 0 2rem 0;">
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 0.75rem;">
+                <a href="/generated-resources-alpha/lessons/traditional-navigation-and-modern-gps-integration.html" class="no-underline bg-white p-4 rounded-xl border-l-4 border-sky-600 text-gray-800 hover:shadow">
+                    <strong style="display:block; margin-bottom:0.25rem; color:#0369a1;">🧭 Navigation & GPS</strong>
+                    <span style="color:#6b7280; font-size:0.9rem;">Lesson • ⭐ 92</span>
+                </a>
+                <a href="/generated-resources-alpha/lessons/statistical-analysis-of-sports-performance.html" class="no-underline bg-white p-4 rounded-xl border-l-4 border-emerald-600 text-gray-800 hover:shadow">
+                    <strong style="display:block; margin-bottom:0.25rem; color:#065f46;">📊 Sports Statistics</strong>
+                    <span style="color:#6b7280; font-size:0.9rem;">Lesson • ⭐ 92</span>
+                </a>
+                <a href="/generated-resources-alpha/handouts/te-reo-maths-glossary-key-terms-in-māori-and-english.html" class="no-underline bg-white p-4 rounded-xl border-l-4 border-emerald-600 text-gray-800 hover:shadow">
+                    <strong style="display:block; margin-bottom:0.25rem; color:#065f46;">📚 Te Reo Maths Glossary</strong>
+                    <span style="color:#6b7280; font-size:0.9rem;">Handout • ⭐ 90</span>
+                </a>
+                <a href="/generated-resources-alpha/handouts/data-visualization-of-cultural-demographics.html" class="no-underline bg-white p-4 rounded-xl border-l-4 border-sky-600 text-gray-800 hover:shadow">
+                    <strong style="display:block; margin-bottom:0.25rem; color:#0369a1;">📈 Cultural Data Visualization</strong>
+                    <span style="color:#6b7280; font-size:0.9rem;">Handout • ⭐ 90</span>
+                </a>
+            </div>
         </section>
     </main>
     <!-- Footer -->
@@ -871,9 +1044,59 @@ Perfect for:</strong>
     </section>
     <!-- GraphRAG Recommendations Component -->
     <script src="/components/graphrag-recommendations.html"></script>
+    
+    <!-- Mathematics Hidden Gems Component -->
+    <div id="math-hidden-gems-container"></div>
+    <script>
+        fetch('/components/graphrag-mathematics-hidden-gems.html')
+            .then(r => r.text())
+            .then(html => {
+                document.getElementById('math-hidden-gems-container').innerHTML = html;
+                const scripts = document.getElementById('math-hidden-gems-container').querySelectorAll('script');
+                scripts.forEach(script => {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = script.textContent;
+                    document.body.appendChild(newScript);
+                });
+            });
+    </script>
+    <!-- 🧠 DYNAMIC GRAPHRAG RESOURCE BROWSER -->
+    <div id="mathematics-resource-browser" data-graphrag-browser data-subject="Mathematics" data-limit="30" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;"></div>
+    <script src="/components/graphrag-dynamic-resource-browser.html"></script>
+    
     <!-- Framer Motion Micro-Interactions (Week 1 Priority!) -->
     <script src="/js/framer-motion-interactions.js" defer></script>
 <!-- 📊 ULTIMATE BEAUTY: PostHog Analytics (Privacy-First) -->
 <script src="/js/posthog-analytics.js" defer></script>
+<script>
+(function(){
+  function track(name, props){ try { if (window.posthog && posthog.capture) posthog.capture(name, props||{}); } catch(e) {} }
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a');
+    if(!a) return;
+    var href = a.getAttribute('href')||'';
+    if (a.closest('#math-orphans')) track('cta_orphan_click', { hub:'Mathematics', href: href });
+    else if (a.closest('#subject-chips')) track('cta_subject_chip', { hub:'Mathematics', subject: a.textContent.trim(), href: href });
+    else if (a.closest('#graphrag-recommendations')) track('cta_recommendation_click', { hub:'Mathematics', href: href });
+    else if (href.indexOf('/generated-resources-alpha/')===0) track('cta_alpha_click', { hub:'Mathematics', href: href });
+  });
+  var chips = document.querySelectorAll('.filter-chip');
+  chips.forEach(function(btn){ btn.addEventListener('click', function(){ track('filter_chip_click', { hub:'Mathematics', label: btn.textContent.trim() }); }); });
+})();
+</script>
+    <section style="background: white; padding: 2rem; border-radius: 16px; margin: 2rem auto; max-width: 1100px; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+        <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem;">
+            <div style="flex:1 1 420px;">
+                <h2 style="margin:0 0 0.5rem 0; font-size:1.75rem; color:#0f172a; font-weight:800;">Start here</h2>
+                <p style="margin:0; color:#475569; font-size:1rem;">Two quick ways to begin teaching Mathematics with cultural excellence.</p>
+            </div>
+            <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+                <a href="/units/y7-maths-algebra/index.html" style="background:#0f766e; color:white; padding:0.85rem 1.1rem; border-radius:10px; text-decoration:none; font-weight:700;">📐 Teach Y7 Algebra Unit</a>
+                <a href="/generated-resources-alpha/index.html#mathematics" style="background:#1d4ed8; color:white; padding:0.85rem 1.1rem; border-radius:10px; text-decoration:none; font-weight:700;">✨ Explore Math Resources</a>
+                <a href="/under-connected-excellence.html?subject=Mathematics" style="background:#334155; color:white; padding:0.85rem 1.1rem; border-radius:10px; text-decoration:none; font-weight:700;">💎 Hidden Gems (Q90+)</a>
+            </div>
+        </div>
+    </section>
+    <script>(function(){try{var main=document.querySelector('main');if(!main)return;var s=document.createElement('section');s.id='featured-picks-math';s.setAttribute('style','background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%); padding: 2rem; border-radius: 16px; margin: 2rem 0;');s.innerHTML='<h2 style="font-size:2rem;color:#1a4d2e;margin:0 0 0.5rem 0;text-align:center;font-weight:800;">⭐ Featured Picks</h2><p style="text-align:center;color:#475569;margin:0 0 1.25rem 0;">High-impact maths resources with live GraphRAG links</p><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">  <a href="/generated-resources-alpha/handouts/algebraic-thinking-in-traditional-māori-games.html" style="background:white;padding:1.25rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;border-top:4px solid #059669;display:block;">    <div class="connection-badge" data-resource-path="/public/generated-resources-alpha/handouts/algebraic-thinking-in-traditional-māori-games.html" style="position:absolute;top:-12px;right:12px;background:#e0f2fe;color:#075985;padding:0.35rem 0.75rem;border-radius:18px;font-weight:800;font-size:0.75rem;">🔄 Loading...</div>    <div style="font-size:1.5rem;margin-bottom:0.5rem;">🎲</div>    <h3 style="color:#0f172a;margin:0 0 0.25rem 0;font-weight:700;">Algebraic Thinking in Māori Games</h3>    <p style="color:#64748b;margin:0;">Years 8-10 • Handout</p>  </a>  <a href="/generated-resources-alpha/handouts/data-visualization-of-cultural-demographics.html" style="background:white;padding:1.25rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;border-top:4px solid #0284c7;display:block;">    <div class="connection-badge" data-resource-path="/public/generated-resources-alpha/handouts/data-visualization-of-cultural-demographics.html" style="position:absolute;top:-12px;right:12px;background:#e0f2fe;color:#075985;padding:0.35rem 0.75rem;border-radius:18px;font-weight:800;font-size:0.75rem;">🔄 Loading...</div>    <div style="font-size:1.5rem;margin-bottom:0.5rem;">📊</div>    <h3 style="color:#0f172a;margin:0 0 0.25rem 0;font-weight:700;">Data Visualization of Cultural Demographics</h3>    <p style="color:#64748b;margin:0;">Years 10-13 • Handout</p>  </a>  <a href="/units/y9-maths-geometry-patterns/index.html" style="background:white;padding:1.25rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;border-top:4px solid #10b981;display:block;">    <div class="connection-badge" data-resource-path="/public/units/y9-maths-geometry-patterns/index.html" style="position:absolute;top:-12px;right:12px;background:#e0f2fe;color:#075985;padding:0.35rem 0.75rem;border-radius:18px;font-weight:800;font-size:0.75rem;">🔄 Loading...</div>    <div style="font-size:1.5rem;margin-bottom:0.5rem;">🔷</div>    <h3 style="color:#0f172a;margin:0 0 0.25rem 0;font-weight:700;">Y9 Geometry & Māori Patterns</h3>    <p style="color:#64748b;margin:0;">Year 9 • Unit</p>  </a></div>';main.insertBefore(s,main.firstChild);if(window.graphragCounter&&typeof window.graphragCounter.updateAllBadges==='function'){window.graphragCounter.updateAllBadges();}}catch(e){console.warn('Featured Picks insert failed (Math)',e);}})();
 </body>
 </html>

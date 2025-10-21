@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Platform Health | Te Kete Ako</title>
+  <!-- Professional Design System -->
+  <link rel="stylesheet" href="/css/te-kete-professional.css">
+  <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/mobile-revolution.css">
+  <link rel="stylesheet" href="/css/print.css" media="print">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/tailwind.config.ultimate.js"></script>
+</head>
+<body class="pattern-koru-subtle">
+  <div id="nav-container"></div>
+  <script>
+    fetch('/components/navigation-standard.html')
+      .then(r => r.text())
+      .then(html => { document.getElementById('nav-container').innerHTML = html; });
+  </script>
+
+  <main style="max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem;">
+    <section style="background: linear-gradient(135deg, #eef2ff, #e0e7ff); padding: 2rem; border-radius: 16px; border-left: 6px solid #4f46e5; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+      <h1 style="margin: 0 0 0.5rem 0; font-size: 2.25rem; color: #1e1b4b; font-weight: 800;">📈 Platform Health</h1>
+      <p style="margin: 0; color: #4338ca; font-weight: 600;">Live GraphRAG and site readiness indicators</p>
+      <p id="last-updated" style="margin: 0.5rem 0 0 0; color: #475569;">Loading…</p>
+    </section>
+
+    <section style="margin: 1.5rem 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
+      <div class="health-card" style="background: white; border-radius: 12px; padding: 1.25rem; border-left: 5px solid #1d4ed8; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
+        <h3 style="margin: 0; color: #1d4ed8; font-size: 0.95rem;">Total Resources</h3>
+        <div id="metric-total-resources" style="font-size: 2rem; font-weight: 800; color: #0f172a;">—</div>
+      </div>
+      <div class="health-card" style="background: white; border-radius: 12px; padding: 1.25rem; border-left: 5px solid #059669; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
+        <h3 style="margin: 0; color: #047857; font-size: 0.95rem;">With Cultural Context</h3>
+        <div id="metric-cultural" style="font-size: 2rem; font-weight: 800; color: #0f172a;">—</div>
+      </div>
+      <div class="health-card" style="background: white; border-radius: 12px; padding: 1.25rem; border-left: 5px solid #16a34a; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
+        <h3 style="margin: 0; color: #15803d; font-size: 0.95rem;">With Te Reo Māori</h3>
+        <div id="metric-te-reo" style="font-size: 2rem; font-weight: 800; color: #0f172a;">—</div>
+      </div>
+      <div class="health-card" style="background: white; border-radius: 12px; padding: 1.25rem; border-left: 5px solid #f59e0b; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
+        <h3 style="margin: 0; color: #b45309; font-size: 0.95rem;">Excellence Alpha (count)</h3>
+        <div id="metric-alpha-count" style="font-size: 2rem; font-weight: 800; color: #0f172a;">—</div>
+      </div>
+      <div class="health-card" style="background: white; border-radius: 12px; padding: 1.25rem; border-left: 5px solid #7c3aed; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
+        <h3 style="margin: 0; color: #6d28d9; font-size: 0.95rem;">Dist Handouts Enriched</h3>
+        <div style="display:flex; align-items:baseline; gap:0.5rem;">
+          <div id="metric-dist-enriched" style="font-size: 2rem; font-weight: 800; color: #0f172a;">—</div>
+          <div id="metric-dist-total" style="font-size: 0.95rem; color: #475569;">/ —</div>
+        </div>
+        <div id="metric-dist-rate" style="font-size: 0.95rem; color: #6b7280;">—</div>
+      </div>
+      <div class="health-card" style="background: white; border-radius: 12px; padding: 1.25rem; border-left: 5px solid #dc2626; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
+        <h3 style="margin: 0; color: #b91c1c; font-size: 0.95rem;">GraphRAG vs Site (Dist)</h3>
+        <div style="display:flex; flex-direction:column; gap:0.25rem;">
+          <div style="display:flex; justify-content:space-between; color:#334155;">
+            <span>GraphRAG Indexed</span>
+            <strong id="metric-dist-graphrag">—</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; color:#334155;">
+            <span>Site Detected</span>
+            <strong id="metric-dist-site">—</strong>
+          </div>
+          <div id="metric-dist-gap" style="color:#334155;">Gap: —</div>
+        </div>
+      </div>
+    </section>
+
+    <section style="background: white; border-radius: 12px; padding: 1.5rem; border: 1px solid #e2e8f0; box-shadow: 0 2px 12px rgba(0,0,0,0.04);">
+      <h2 style="margin: 0 0 0.75rem 0; font-size: 1.25rem; color: #0f172a;">Subject Distribution (Top)</h2>
+      <div id="subject-distribution" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem;"></div>
+    </section>
+  </main>
+
+  <!-- Supabase Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5ODgxMTksImV4cCI6MjA1MjU2NDExOX0.gN5RGe7kGmxj4-yI1xnDuCuKUPFDh4f-8CQqQdqrGq0';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function loadPlatformMetrics() {
+      const updatedAtEl = document.getElementById('last-updated');
+      const set = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
+      try {
+        updatedAtEl.textContent = 'Fetching live metrics…';
+
+        // Total resources
+        const totalQ = await supabase.from('graphrag_resources').select('*', { count: 'exact', head: true });
+        set('metric-total-resources', (totalQ.count ?? 0).toLocaleString());
+
+        // Cultural context count
+        const culturalQ = await supabase.from('graphrag_resources').select('*', { count: 'exact', head: true }).eq('cultural_context', true);
+        set('metric-cultural', (culturalQ.count ?? 0).toLocaleString());
+
+        // Te Reo count
+        const teReoQ = await supabase.from('graphrag_resources').select('*', { count: 'exact', head: true }).eq('has_te_reo', true);
+        set('metric-te-reo', (teReoQ.count ?? 0).toLocaleString());
+
+        // Excellence Alpha (via view)
+        const alphaQ = await supabase.from('graphrag_alpha_resources').select('*', { count: 'exact', head: true });
+        set('metric-alpha-count', (alphaQ.count ?? 0).toLocaleString());
+
+        // Subject distribution (top 8)
+        const subjQ = await supabase
+          .from('graphrag_resources')
+          .select('subject', { count: 'exact' })
+          .limit(10000);
+        if (!subjQ.error && Array.isArray(subjQ.data)) {
+          const counts = {};
+          for (const r of subjQ.data) {
+            const s = (r.subject || 'Other').trim();
+            counts[s] = (counts[s] || 0) + 1;
+          }
+          const sorted = Object.entries(counts).sort((a,b) => b[1]-a[1]).slice(0, 8);
+          const container = document.getElementById('subject-distribution');
+          container.innerHTML = '';
+          sorted.forEach(([name, value]) => {
+            const card = document.createElement('div');
+            card.style.background = '#f8fafc';
+            card.style.border = '1px solid #e2e8f0';
+            card.style.borderRadius = '10px';
+            card.style.padding = '0.75rem 1rem';
+            card.innerHTML = `<div style="color:#0f172a;font-weight:700;">${name}</div><div style="color:#334155;">${value.toLocaleString()} resources</div>`;
+            container.appendChild(card);
+          });
+        }
+
+        // Dist-handouts GraphRAG count (with/without leading slash)
+        const dist1 = await supabase.from('graphrag_resources').select('*', { count: 'exact', head: true }).ilike('file_path', '/public/dist-handouts/%');
+        const dist2 = await supabase.from('graphrag_resources').select('*', { count: 'exact', head: true }).ilike('file_path', 'dist-handouts/%');
+        const distGraphragCount = (dist1.count ?? 0) + (dist2.count ?? 0);
+        const graphragEl = document.getElementById('metric-dist-graphrag');
+        if (graphragEl) graphragEl.textContent = distGraphragCount.toString();
+
+        const ts = new Date();
+        updatedAtEl.textContent = `Last updated: ${ts.toLocaleString()}`;
+      } catch (e) {
+        updatedAtEl.textContent = 'Error fetching metrics';
+        console.error(e);
+      }
+    }
+    document.addEventListener('DOMContentLoaded', loadPlatformMetrics);
+
+    // Dist Handouts placeholder coverage (client-side scan)
+    async function scanDistHandoutsCoverage() {
+      const totalEl = document.getElementById('metric-dist-total');
+      const enrichedEl = document.getElementById('metric-dist-enriched');
+      const rateEl = document.getElementById('metric-dist-rate');
+      const siteCountEl = document.getElementById('metric-dist-site');
+      const gapEl = document.getElementById('metric-dist-gap');
+      try {
+        // Fetch the complete handouts listing and extract /dist-handouts/ links
+        const listingResp = await fetch('/handouts-complete.html');
+        if (!listingResp.ok) throw new Error('Failed to load handouts listing');
+        const listingHtml = await listingResp.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(listingHtml, 'text/html');
+        const links = Array.from(doc.querySelectorAll('a[href]'))
+          .map(a => a.getAttribute('href'))
+          .filter(href => typeof href === 'string' && href.startsWith('/dist-handouts/') && !href.endsWith('.bak'));
+
+        // De-duplicate and cap to avoid excessive requests
+        const unique = Array.from(new Set(links));
+        const cap = unique.slice(0, 200);
+        let placeholders = 0;
+        let fetched = 0;
+
+        // Fetch in small batches to be gentle on the browser
+        const batchSize = 10;
+        for (let i = 0; i < cap.length; i += batchSize) {
+          const batch = cap.slice(i, i + batchSize);
+          const results = await Promise.allSettled(batch.map(async (url) => {
+            const r = await fetch(url);
+            const t = await r.text();
+            return /placeholder|coming soon/i.test(t) ? 'placeholder' : 'ok';
+          }));
+          results.forEach(res => {
+            fetched += 1;
+            if (res.status === 'fulfilled' && res.value === 'placeholder') placeholders += 1;
+          });
+        }
+
+        const total = fetched;
+        const enriched = total - placeholders;
+        const rate = total > 0 ? Math.round((enriched / total) * 100) : 100;
+        if (enrichedEl) enrichedEl.textContent = enriched.toString();
+        if (totalEl) totalEl.textContent = `/ ${total}`;
+        if (rateEl) rateEl.textContent = `${rate}% enriched`;
+
+        // Compare to GraphRAG indexed count (previously set)
+        if (siteCountEl) siteCountEl.textContent = total.toString();
+        const graphragEl = document.getElementById('metric-dist-graphrag');
+        if (gapEl && graphragEl && graphragEl.textContent && !isNaN(Number(graphragEl.textContent))) {
+          const g = Number(graphragEl.textContent);
+          const gap = Math.max(0, total - g);
+          gapEl.textContent = `Gap: ${gap}`;
+          if (gap > 0) {
+            gapEl.style.color = '#b91c1c';
+          } else {
+            gapEl.style.color = '#16a34a';
+            gapEl.textContent = 'Gap: 0 (in sync)';
+          }
+        }
+      } catch (e) {
+        if (rateEl) rateEl.textContent = 'Coverage scan unavailable';
+        console.warn('Dist handouts coverage scan failed:', e);
+      }
+    }
+    document.addEventListener('DOMContentLoaded', scanDistHandoutsCoverage);
+  </script>
+
+  <!-- 📊 ULTIMATE BEAUTY: PostHog Analytics (Privacy-First) -->
+  <script src="/js/posthog-analytics.js" defer></script>
+
+  <!-- Badge loader (CSP-safe) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('/components/badge-system.html')
+        .then(r => r.text())
+        .then(html => {
+          const wrapper = document.createElement('div');
+          wrapper.innerHTML = html;
+          const styleEl = wrapper.querySelector('style');
+          const scriptEl = wrapper.querySelector('script');
+          if (styleEl) document.head.appendChild(styleEl);
+          if (scriptEl && scriptEl.textContent) {
+            const s = document.createElement('script');
+            s.textContent = scriptEl.textContent;
+            document.body.appendChild(s);
+          }
+        })
+        .catch(console.error);
+    });
+  </script>
+</body>
+<</html>
+
