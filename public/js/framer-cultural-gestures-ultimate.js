@@ -1,3 +1,8 @@
+// Prevent double loading
+if (window.TeKeteUltimateCulturalGestures) {
+  console.warn('Te Kete Cultural Gestures already loaded');
+} else {
+
 /**
  * 🎨 TE KETE AKO FRAMER MOTION CULTURAL GESTURE SYSTEM
  * Silicon Valley Performance × Te Ao Māori Cultural Authenticity
@@ -608,4 +613,6 @@ window.CULTURAL_VARIANTS = CULTURAL_VARIANTS;
 window.CulturalGestureHelpers = CulturalGestureHelpers;
 
 console.log('🎨 Te Kete Cultural Gestures loaded successfully!');
+
+} // End of double-loading prevention
 
