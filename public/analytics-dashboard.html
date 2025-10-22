@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard - Te Kete Ako</title>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <style>
+        body {
+            background: #f3f4f6;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .dashboard-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .dashboard-header h1 {
+            color: #1f2937;
+            font-size: 2rem;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .dashboard-header p {
+            color: #6b7280;
+            margin: 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .stat-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card-title {
+            color: #6b7280;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-card-icon {
+            font-size: 1.5rem;
+        }
+
+        .stat-card-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card-change {
+            font-size: 0.875rem;
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .stat-card-change.negative {
+            color: #ef4444;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .chart-container h2 {
+            color: #1f2937;
+            font-size: 1.5rem;
+            margin: 0 0 1.5rem 0;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #6b7280;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e5e7eb;
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .top-resources-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .top-resources-list li {
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .top-resources-list li:last-child {
+            border-bottom: none;
+        }
+
+        .resource-name {
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .resource-stat {
+            font-weight: 700;
+            color: #3b82f6;
+        }
+
+        .feedback-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .feedback-item {
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .feedback-rating {
+            color: #f59e0b;
+            margin-bottom: 0.5rem;
+        }
+
+        .feedback-comment {
+            color: #374151;
+            font-size: 0.9rem;
+        }
+
+        .feedback-meta {
+            color: #6b7280;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>📊 Analytics Dashboard</h1>
+            <p>Real-time insights into GraphRAG component usage and teacher engagement</p>
+        </div>
+
+        <div class="stats-grid" id="stats-grid">
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <p>Loading analytics...</p>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h2>🔗 Most Clicked Recommendations (Last 7 Days)</h2>
+            <div id="top-recommendations">
+                <div class="loading"><div class="loading-spinner"></div></div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h2>⭐ Recent Teacher Feedback</h2>
+            <div id="recent-feedback" class="feedback-list">
+                <div class="loading"><div class="loading-spinner"></div></div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h2>📈 Component Performance</h2>
+            <div id="component-performance">
+                <div class="loading"><div class="loading-spinner"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+
+        async function initDashboard() {
+            // Initialize Supabase
+            const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2');
+            const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+            // Load stats
+            await loadStats(supabase);
+            await loadTopRecommendations(supabase);
+            await loadRecentFeedback(supabase);
+            await loadComponentPerformance(supabase);
+        }
+
+        async function loadStats(supabase) {
+            const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+
+            // Total page views
+            const { count: pageViews } = await supabase
+                .from('component_analytics')
+                .select('*', { count: 'exact', head: true })
+                .eq('component_type', 'page_view')
+                .gte('timestamp', sevenDaysAgo);
+
+            // Similar Resources clicks
+            const { count: similarClicks } = await supabase
+                .from('component_analytics')
+                .select('*', { count: 'exact', head: true })
+                .eq('component_type', 'similar_resources')
+                .eq('user_action', 'click')
+                .gte('timestamp', sevenDaysAgo);
+
+            // Most Connected clicks
+            const { count: connectedClicks } = await supabase
+                .from('component_analytics')
+                .select('*', { count: 'exact', head: true })
+                .eq('component_type', 'most_connected')
+                .eq('user_action', 'click')
+                .gte('timestamp', sevenDaysAgo);
+
+            // Average feedback rating
+            const { data: feedbackData } = await supabase
+                .from('teacher_feedback')
+                .select('rating')
+                .gte('timestamp', sevenDaysAgo);
+
+            const avgRating = feedbackData && feedbackData.length > 0
+                ? (feedbackData.reduce((sum, f) => sum + f.rating, 0) / feedbackData.length).toFixed(1)
+                : 'N/A';
+
+            // Render stats
+            const statsHtml = `
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <span class="stat-card-title">Page Views</span>
+                        <span class="stat-card-icon">👁️</span>
+                    </div>
+                    <div class="stat-card-value">${pageViews || 0}</div>
+                    <div class="stat-card-change">Last 7 days</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <span class="stat-card-title">Similar Resources Clicks</span>
+                        <span class="stat-card-icon">🔗</span>
+                    </div>
+                    <div class="stat-card-value">${similarClicks || 0}</div>
+                    <div class="stat-card-change">Last 7 days</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <span class="stat-card-title">Most Connected Clicks</span>
+                        <span class="stat-card-icon">⚡</span>
+                    </div>
+                    <div class="stat-card-value">${connectedClicks || 0}</div>
+                    <div class="stat-card-change">Last 7 days</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <span class="stat-card-title">Avg Feedback Rating</span>
+                        <span class="stat-card-icon">⭐</span>
+                    </div>
+                    <div class="stat-card-value">${avgRating}</div>
+                    <div class="stat-card-change">${feedbackData?.length || 0} reviews</div>
+                </div>
+            `;
+
+            document.getElementById('stats-grid').innerHTML = statsHtml;
+        }
+
+        async function loadTopRecommendations(supabase) {
+            const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+
+            const { data, error } = await supabase
+                .from('component_analytics')
+                .select('clicked_resource_path')
+                .in('component_type', ['similar_resources', 'most_connected'])
+                .eq('user_action', 'click')
+                .gte('timestamp', sevenDaysAgo)
+                .not('clicked_resource_path', 'is', null);
+
+            if (error) {
+                console.error('Error loading recommendations:', error);
+                return;
+            }
+
+            // Count clicks per resource
+            const clickCounts = {};
+            data.forEach(item => {
+                clickCounts[item.clicked_resource_path] = (clickCounts[item.clicked_resource_path] || 0) + 1;
+            });
+
+            // Sort and take top 10
+            const topResources = Object.entries(clickCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 10);
+
+            const html = topResources.length > 0
+                ? `<ul class="top-resources-list">
+                    ${topResources.map(([path, count]) => `
+                        <li>
+                            <span class="resource-name">${path}</span>
+                            <span class="resource-stat">${count} clicks</span>
+                        </li>
+                    `).join('')}
+                </ul>`
+                : '<p style="text-align: center; color: #6b7280; padding: 2rem;">No data available yet. Start using the components to see insights!</p>';
+
+            document.getElementById('top-recommendations').innerHTML = html;
+        }
+
+        async function loadRecentFeedback(supabase) {
+            const { data, error } = await supabase
+                .from('teacher_feedback')
+                .select('*')
+                .order('timestamp', { ascending: false })
+                .limit(10);
+
+            if (error) {
+                console.error('Error loading feedback:', error);
+                return;
+            }
+
+            const html = data && data.length > 0
+                ? data.map(fb => `
+                    <div class="feedback-item">
+                        <div class="feedback-rating">${'⭐'.repeat(fb.rating)}</div>
+                        ${fb.comment ? `<div class="feedback-comment">"${fb.comment}"</div>` : ''}
+                        <div class="feedback-meta">
+                            ${fb.feedback_type} • ${fb.resource_path} • ${new Date(fb.timestamp).toLocaleDateString()}
+                        </div>
+                    </div>
+                `).join('')
+                : '<p style="text-align: center; color: #6b7280; padding: 2rem;">No feedback yet. Teachers will provide feedback as they use the platform!</p>';
+
+            document.getElementById('recent-feedback').innerHTML = html;
+        }
+
+        async function loadComponentPerformance(supabase) {
+            const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+
+            const { data, error } = await supabase
+                .from('component_analytics')
+                .select('component_type, user_action')
+                .gte('timestamp', sevenDaysAgo);
+
+            if (error) {
+                console.error('Error loading performance:', error);
+                return;
+            }
+
+            // Calculate metrics per component
+            const metrics = {};
+            data.forEach(item => {
+                if (!metrics[item.component_type]) {
+                    metrics[item.component_type] = { loaded: 0, clicks: 0, hovers: 0 };
+                }
+                if (item.user_action === 'component_loaded') metrics[item.component_type].loaded++;
+                if (item.user_action === 'click') metrics[item.component_type].clicks++;
+                if (item.user_action === 'hover_sustained') metrics[item.component_type].hovers++;
+            });
+
+            const html = Object.keys(metrics).length > 0
+                ? `<ul class="top-resources-list">
+                    ${Object.entries(metrics).map(([component, stats]) => `
+                        <li>
+                            <span class="resource-name">${component}</span>
+                            <span class="resource-stat">
+                                ${stats.loaded} loads • ${stats.clicks} clicks • ${stats.hovers} hovers
+                            </span>
+                        </li>
+                    `).join('')}
+                </ul>`
+                : '<p style="text-align: center; color: #6b7280; padding: 2rem;">No performance data yet!</p>';
+
+            document.getElementById('component-performance').innerHTML = html;
+        }
+
+        // Initialize dashboard
+        initDashboard();
+
+        // Auto-refresh every 30 seconds
+        setInterval(initDashboard, 30000);
+    </script>
+</body>
+</html>
+

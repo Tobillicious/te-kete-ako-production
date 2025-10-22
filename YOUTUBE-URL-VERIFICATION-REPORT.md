@@ -53,6 +53,7 @@
 
 ### 🚨 CONFIRMED FAKE YouTube IDs (Invalid format)
 
+**Found in Library/Index Pages Only (not critical user content):**
 - `123456789` - FAKE (too short, only 9 characters)
 - `tedtalk1` - FAKE (not alphanumeric YouTube format)
 - `tedtalk2` - FAKE (not alphanumeric YouTube format)
@@ -60,6 +61,12 @@
 - `doc123` - FAKE (not alphanumeric YouTube format)
 - `shortreview1` - FAKE (not 11 characters)
 - `statistics101` - FAKE (not 11 characters)
+- `8-g-b-c-g-c` - FAKE (invalid format with dashes) - Found in 2 handouts
+
+**Locations:**
+- `youtube.html` (public/handouts, public/integrated-handouts/Year 7/) - library pages
+- `arguments-of-tino-rangatiratanga-handout.html` - 1 fake link
+- `pre-colonial-innovation.html` - 1 fake link
 
 ### ⚠️ ISSUES FOUND
 

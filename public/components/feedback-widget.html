@@ -1,0 +1,347 @@
+<!-- Teacher Feedback Widget for GraphRAG Recommendations -->
+<!-- Floating feedback button + modal -->
+
+<style>
+.feedback-fab {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+    z-index: 999;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.feedback-fab:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+}
+
+.feedback-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.feedback-modal.active {
+    display: flex;
+}
+
+.feedback-content {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.feedback-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.feedback-header h3 {
+    color: #1f2937;
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.feedback-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #6b7280;
+}
+
+.feedback-form-group {
+    margin-bottom: 1.5rem;
+}
+
+.feedback-form-group label {
+    display: block;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.feedback-rating {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.feedback-star {
+    font-size: 2rem;
+    cursor: pointer;
+    color: #d1d5db;
+    transition: all 0.2s;
+}
+
+.feedback-star:hover,
+.feedback-star.active {
+    color: #f59e0b;
+    transform: scale(1.1);
+}
+
+.feedback-textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 0.75rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    resize: vertical;
+}
+
+.feedback-textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+
+.feedback-submit {
+    width: 100%;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.feedback-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.feedback-submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.feedback-success {
+    background: #10b981;
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 1rem;
+    font-weight: 600;
+}
+
+.feedback-error {
+    background: #ef4444;
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 1rem;
+}
+</style>
+
+<!-- Feedback FAB -->
+<button class="feedback-fab" id="feedback-fab" title="Give Feedback">
+    💬
+</button>
+
+<!-- Feedback Modal -->
+<div class="feedback-modal" id="feedback-modal">
+    <div class="feedback-content">
+        <div class="feedback-header">
+            <h3>📊 Help Us Improve!</h3>
+            <button class="feedback-close" id="feedback-close">&times;</button>
+        </div>
+        
+        <form id="feedback-form">
+            <div class="feedback-form-group">
+                <label>How helpful were the recommended resources?</label>
+                <div class="feedback-rating" id="rating-stars">
+                    <span class="feedback-star" data-rating="1">⭐</span>
+                    <span class="feedback-star" data-rating="2">⭐</span>
+                    <span class="feedback-star" data-rating="3">⭐</span>
+                    <span class="feedback-star" data-rating="4">⭐</span>
+                    <span class="feedback-star" data-rating="5">⭐</span>
+                </div>
+                <input type="hidden" id="rating-value" name="rating" required>
+            </div>
+
+            <div class="feedback-form-group">
+                <label for="feedback-type">What are you giving feedback on?</label>
+                <select id="feedback-type" name="feedbackType" required style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px;">
+                    <option value="">Select...</option>
+                    <option value="recommendation_quality">Quality of Recommendations</option>
+                    <option value="component_usability">Component Usability</option>
+                    <option value="general">General Feedback</option>
+                </select>
+            </div>
+
+            <div class="feedback-form-group">
+                <label for="feedback-comment">Tell us more (optional)</label>
+                <textarea 
+                    id="feedback-comment" 
+                    name="comment" 
+                    class="feedback-textarea"
+                    placeholder="What worked well? What could be better?">
+                </textarea>
+            </div>
+
+            <button type="submit" class="feedback-submit" id="feedback-submit">
+                Submit Feedback
+            </button>
+        </form>
+
+        <div id="feedback-message"></div>
+    </div>
+</div>
+
+<script>
+(function() {
+    const fab = document.getElementById('feedback-fab');
+    const modal = document.getElementById('feedback-modal');
+    const closeBtn = document.getElementById('feedback-close');
+    const form = document.getElementById('feedback-form');
+    const stars = document.querySelectorAll('.feedback-star');
+    const ratingValue = document.getElementById('rating-value');
+    const submitBtn = document.getElementById('feedback-submit');
+    const messageDiv = document.getElementById('feedback-message');
+
+    let selectedRating = 0;
+
+    // Open modal
+    fab.addEventListener('click', () => {
+        modal.classList.add('active');
+    });
+
+    // Close modal
+    closeBtn.addEventListener('click', () => {
+        modal.classList.remove('active');
+    });
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('active');
+        }
+    });
+
+    // Star rating
+    stars.forEach(star => {
+        star.addEventListener('click', () => {
+            selectedRating = parseInt(star.dataset.rating);
+            ratingValue.value = selectedRating;
+            
+            stars.forEach(s => {
+                const rating = parseInt(s.dataset.rating);
+                if (rating <= selectedRating) {
+                    s.classList.add('active');
+                } else {
+                    s.classList.remove('active');
+                }
+            });
+        });
+
+        star.addEventListener('mouseenter', () => {
+            const rating = parseInt(star.dataset.rating);
+            stars.forEach(s => {
+                if (parseInt(s.dataset.rating) <= rating) {
+                    s.style.color = '#f59e0b';
+                } else {
+                    s.style.color = '#d1d5db';
+                }
+            });
+        });
+    });
+
+    document.getElementById('rating-stars').addEventListener('mouseleave', () => {
+        stars.forEach(s => {
+            const rating = parseInt(s.dataset.rating);
+            if (rating <= selectedRating) {
+                s.style.color = '#f59e0b';
+            } else {
+                s.style.color = '#d1d5db';
+            }
+        });
+    });
+
+    // Submit feedback
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting...';
+        messageDiv.innerHTML = '';
+
+        try {
+            // Initialize Supabase if needed
+            if (!window.supabase || !window.supabase.from) {
+                const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+                const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+                const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2');
+                window.supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+            }
+
+            const formData = new FormData(form);
+            const feedbackData = {
+                feedback_type: formData.get('feedbackType'),
+                rating: parseInt(formData.get('rating')),
+                comment: formData.get('comment') || null,
+                resource_path: window.location.pathname,
+                metadata: {
+                    page_title: document.title,
+                    user_agent: navigator.userAgent,
+                    timestamp: new Date().toISOString()
+                }
+            };
+
+            const { error } = await window.supabase
+                .from('teacher_feedback')
+                .insert([feedbackData]);
+
+            if (error) throw error;
+
+            messageDiv.innerHTML = '<div class="feedback-success">✅ Thank you for your feedback! It helps us improve Te Kete Ako.</div>';
+            form.reset();
+            selectedRating = 0;
+            stars.forEach(s => s.classList.remove('active'));
+
+            setTimeout(() => {
+                modal.classList.remove('active');
+                messageDiv.innerHTML = '';
+            }, 2000);
+
+        } catch (error) {
+            console.error('Feedback error:', error);
+            messageDiv.innerHTML = '<div class="feedback-error">❌ Sorry, there was an error submitting your feedback. Please try again.</div>';
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit Feedback';
+        }
+    });
+})();
+</script>
+

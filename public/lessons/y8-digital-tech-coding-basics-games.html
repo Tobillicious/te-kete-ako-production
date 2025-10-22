@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coding Basics: Create a Te Reo Quiz Game | Year 8 Digital Technologies</title>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <link rel="stylesheet" href="/css/quality-badges.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/print.css" media="print">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="pattern-koru-subtle">
+    <!-- Whakataukī Banner -->
+    <div style="background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%); padding: 2rem; text-align: center; border-bottom: 4px solid #4f46e5; margin: 0;">
+        <p style="font-size: 1.3rem; color: #3730a3; font-style: italic; margin-bottom: 0.5rem; font-weight: 600;">
+            "Mā te mahi, ka mōhio"
+        </p>
+        <p style="font-size: 1rem; color: #4f46e5; font-weight: 500;">
+            Through action comes knowledge - Learning by doing!
+        </p>
+    </div>
+
+    <!-- Navigation -->
+    <div id="nav-container"></div>
+    <script>
+        fetch('/components/navigation-standard.html')
+            .then(r => r.text())
+            .then(html => document.getElementById('nav-container').innerHTML = html);
+    </script>
+
+    <main style="max-width: 1000px; margin: 2rem auto; padding: 0 2rem;">
+        <!-- Lesson Header -->
+        <div style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: white; padding: 3rem 2rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);">
+            <div style="display: inline-block; background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 20px; margin-bottom: 1rem; font-size: 0.9rem; font-weight: 700;">
+                YEAR 8 DIGITAL TECHNOLOGIES
+            </div>
+            <h1 style="font-size: 2.5rem; margin: 0 0 1rem 0; font-weight: 800;">
+                Coding Basics: Create a Te Reo Quiz Game
+            </h1>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0.95;">
+                <span>💻 Digital Technologies (Coding)</span>
+                <span>•</span>
+                <span>⏱️ 60 minutes</span>
+                <span>•</span>
+                <span>👥 Year 8</span>
+                <span>•</span>
+                <span>🌿 Cultural: Te reo revitalization through tech</span>
+            </div>
+        </div>
+
+        <!-- School Values Connection -->
+        <section style="background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); padding: 2rem; border-radius: 12px; margin-bottom: 2rem; border-left: 6px solid #8b5cf6;">
+            <h2 style="color: #5b21b6; font-size: 1.5rem; margin: 0 0 1rem 0;">🏫 School Values Connection</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <div style="background: white; padding: 1rem; border-radius: 8px;">
+                    <div style="font-weight: 700; color: #6b21a8; margin-bottom: 0.25rem;">🌿 Te Reo</div>
+                    <div style="font-size: 0.9rem; color: #64748b;">Tech for language revitalization</div>
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: 8px;">
+                    <div style="font-weight: 700; color: #6b21a8; margin-bottom: 0.25rem;">🎨 Creativity</div>
+                    <div style="font-size: 0.9rem; color: #64748b;">Building from scratch</div>
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: 8px;">
+                    <div style="font-weight: 700; color: #6b21a8; margin-bottom: 0.25rem;">💪 Perseverance</div>
+                    <div style="font-size: 0.9rem; color: #64748b;">Debugging & problem-solving</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WALT & Success Criteria -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+            <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); border-top: 5px solid #8b5cf6;">
+                <h2 style="color: #5b21b6; font-size: 1.5rem; margin: 0 0 1rem 0;">🎯 WALT (We Are Learning To)</h2>
+                <ul style="color: #374151; line-height: 1.8; margin: 0; padding-left: 1.5rem;">
+                    <li>Understand basic coding concepts (variables, if/else, loops)</li>
+                    <li>Use Scratch to create an interactive quiz</li>
+                    <li>Integrate te reo Māori content meaningfully</li>
+                    <li>Test and debug our programs</li>
+                </ul>
+            </div>
+            <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); border-top: 5px solid #f59e0b;">
+                <h2 style="color: #92400e; font-size: 1.5rem; margin: 0 0 1rem 0;">✅ Success Criteria</h2>
+                <ul style="color: #374151; line-height: 1.8; margin: 0; padding-left: 1.5rem;">
+                    <li>My quiz asks 3+ te reo questions</li>
+                    <li>It checks if answers are correct/incorrect</li>
+                    <li>It keeps score</li>
+                    <li>It works without bugs</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Lesson Flow -->
+        <section style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 2rem;">
+            <h2 style="color: #1e293b; font-size: 2rem; margin: 0 0 1.5rem 0; border-bottom: 3px solid #e2e8f0; padding-bottom: 0.5rem;">📚 Lesson Flow</h2>
+
+            <!-- Introduction (10 min) -->
+            <div style="margin-bottom: 2rem; padding: 1.5rem; background: #f5f3ff; border-radius: 10px; border-left: 5px solid #8b5cf6;">
+                <h3 style="color: #5b21b6; font-size: 1.3rem; margin: 0 0 1rem 0;">1️⃣ Introduction (10 minutes)</h3>
+                <p style="color: #374151; line-height: 1.8; margin-bottom: 1rem;">
+                    <strong>Hook:</strong> "How many of you have played quiz games or apps? Kahoot? Quizlet? Today YOU become the creator! We'll build a te reo quiz game using code."
+                </p>
+                <div style="background: white; padding: 1rem; border-radius: 8px; margin-top: 1rem; border-left: 4px solid #8b5cf6;">
+                    <strong style="color: #5b21b6;">Why Code?</strong>
+                    <p style="margin: 0.5rem 0 0 0; color: #374151;">
+                        Coding = giving instructions to a computer. Just like you follow steps in a recipe, computers follow code. Today we use Scratch (block-based coding - easier than typing text code). This is computational thinking in action!
+                    </p>
+                </div>
+            </div>
+
+            <!-- Activity 1 (15 min) -->
+            <div style="margin-bottom: 2rem; padding: 1.5rem; background: #dbeafe; border-radius: 10px; border-left: 5px solid #3b82f6;">
+                <h3 style="color: #1e40af; font-size: 1.3rem; margin: 0 0 1rem 0;">2️⃣ Activity 1: Scratch Basics (15 minutes)</h3>
+                <p style="color: #374151; line-height: 1.8; margin-bottom: 1rem;">
+                    <strong>Teacher demo + students follow along:</strong> Open Scratch, explore interface.
+                </p>
+                <div style="background: white; padding: 1.5rem; border-radius: 8px; margin-top: 1rem;">
+                    <strong style="color: #1e40af;">Key Concepts:</strong>
+                    <ul style="margin: 0.5rem 0 0 1.5rem; color: #374151; line-height: 2;">
+                        <li><strong>Variables:</strong> Store information (e.g., score, player name)</li>
+                        <li><strong>Ask & Answer:</strong> Blocks that ask questions and get user input</li>
+                        <li><strong>If/Else:</strong> Make decisions (if answer correct, add point; else, say wrong)</li>
+                        <li><strong>Broadcast:</strong> Send messages between sprites (like walkie-talkies!)</li>
+                    </ul>
+                </div>
+                <p style="margin-top: 1rem; color: #374151;"><strong>Practice:</strong> Make sprite ask "He aha tō ingoa?" (What's your name?) and respond "Kia ora, [name]!"</p>
+            </div>
+
+            <!-- Activity 2 (25 min) -->
+            <div style="margin-bottom: 2rem; padding: 1.5rem; background: #dcfce7; border-radius: 10px; border-left: 5px solid #10b981;">
+                <h3 style="color: #065f46; font-size: 1.3rem; margin: 0 0 1rem 0;">3️⃣ Activity 2: Build the Quiz! (25 minutes)</h3>
+                <p style="color: #374151; line-height: 1.8; margin-bottom: 1rem;">
+                    <strong>Guided coding:</strong> Build quiz step-by-step together.
+                </p>
+                <div style="background: white; padding: 1.5rem; border-radius: 8px; margin-top: 1rem;">
+                    <strong style="color: #065f46;">Quiz Structure (Pseudocode):</strong>
+                    <pre style="background: #f3f4f6; padding: 1rem; border-radius: 6px; overflow-x: auto; font-size: 0.9rem; line-height: 1.6; color: #374151;">
+1. Create variable "score" (set to 0)
+2. Say "Welcome to Te Reo Quiz!"
+3. Ask "What is 'hello' in te reo?"
+4. If answer = "kia ora" then:
+   - Say "Tika! (Correct!)"
+   - Change score by 1
+5. Else:
+   - Say "Hē! (Wrong!) It's kia ora"
+6. Ask "What is 'goodbye'?"
+7. If answer = "ka kite" or "haere ra" then:
+   - Say "Tika!"
+   - Change score by 1
+8. Else:
+   - Say "Hē! It's ka kite or haere ra"
+9. Ask "What is 'thank you'?"
+10. If answer = "ngā mihi" or "kia ora" then:
+    - Say "Tika!"
+    - Change score by 1
+11. Else:
+    - Say "Hē! It's ngā mihi"
+12. Say "Final score: [score] out of 3!"
+                    </pre>
+                </div>
+                <p style="margin-top: 1rem; color: #374151;"><strong>Extension:</strong> Add sound effects, background, more questions, timer!</p>
+            </div>
+
+            <!-- Activity 3 (5 min) -->
+            <div style="margin-bottom: 2rem; padding: 1.5rem; background: #fef3c7; border-radius: 10px; border-left: 5px solid #f59e0b;">
+                <h3 style="color: #92400e; font-size: 1.3rem; margin: 0 0 1rem 0;">4️⃣ Testing & Debugging (5 minutes)</h3>
+                <p style="color: #374151; line-height: 1.8; margin-bottom: 1rem;">
+                    <strong>Test your quiz:</strong> Play it! Does it work? Find bugs!
+                </p>
+                <div style="background: white; padding: 1.5rem; border-radius: 8px; margin-top: 1rem;">
+                    <strong style="color: #92400e;">Common Bugs:</strong>
+                    <ul style="margin: 0.5rem 0 0 1.5rem; color: #374151; line-height: 1.8;">
+                        <li>Spelling mistakes in answer checks (case sensitive!)</li>
+                        <li>Score not updating (check "change score by 1" block)</li>
+                        <li>Questions not appearing in order (check order of blocks)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Conclusion (5 min) -->
+            <div style="margin-bottom: 0; padding: 1.5rem; background: #f3f4f6; border-radius: 10px; border-left: 5px solid #6b7280;">
+                <h3 style="color: #374151; font-size: 1.3rem; margin: 0 0 1rem 0;">5️⃣ Showcase & Reflect (5 minutes)</h3>
+                <p style="color: #374151; line-height: 1.8; margin-bottom: 1rem;">
+                    <strong>Gallery walk:</strong> Play 2-3 classmates' quizzes. What's cool? What could improve?
+                </p>
+                <p style="margin-top: 1rem; color: #374151;"><strong>Reflection:</strong> "How could coding help revitalize te reo Māori?"</p>
+            </div>
+        </section>
+
+        <!-- Cultural Connection -->
+        <section style="background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); padding: 2rem; border-radius: 12px; margin-bottom: 2rem; border-left: 6px solid #10b981;">
+            <h2 style="color: #065f46; font-size: 1.5rem; margin: 0 0 1rem 0;">🌿 Cultural Depth: Technology for Language Revitalization</h2>
+            <div style="background: white; padding: 1.5rem; border-radius: 10px;">
+                <p style="color: #374151; line-height: 1.8; margin-bottom: 1rem;">
+                    Te reo Māori nearly died out (by 1980s, <2% of Māori children fluent). Technology now helps SAVE it:
+                </p>
+                <ul style="margin: 0; padding-left: 1.5rem; color: #374151; line-height: 2;">
+                    <li><strong>Apps:</strong> Kupu (dictionary), Drop (game), Te Aka (online dictionary)</li>
+                    <li><strong>Platforms:</strong> Te Reo Singalong (YouTube), Māori TV streaming</li>
+                    <li><strong>AI:</strong> Google Translate now supports te reo, Siri speaks Māori</li>
+                    <li><strong>Games:</strong> Like what YOU just built! Fun = engagement = learning</li>
+                    <li><strong>Your mahi:</strong> By coding in/for te reo, YOU support language revitalization! 🌟</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Navigation Buttons -->
+        <div style="display: flex; gap: 1rem; justify-content: center; margin: 2rem 0;">
+            <a href="/digital-technologies-hub.html" style="display: inline-block; background: #8b5cf6; color: white; padding: 1rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);">
+                ← Digital Tech Hub
+            </a>
+            <a href="/browse-lessons.html" style="display: inline-block; background: #10b981; color: white; padding: 1rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">
+                Browse More →
+            </a>
+        </div>
+
+        <!-- Similar Resources (GraphRAG-Powered) -->
+        <div id="similar-resources" data-resource-path="/public/lessons/y8-digital-tech-coding-basics-games.html"></div>
+        <script src="/components/graphrag-similar-resources.html"></script>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer-container"></div>
+    <script>
+        fetch('/components/footer.html').then(r=>r.text()).then(html=>{
+            document.getElementById('footer-container').innerHTML=html;
+        });
+    </script>
+</body>
+</html>
+
