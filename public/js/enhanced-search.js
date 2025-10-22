@@ -252,52 +252,53 @@
   }
 }
 
-// Global instance
-const enhancedSearch = new EnhancedSearch();
+  // Global instance
+  const enhancedSearch = new EnhancedSearch();
 
-// Search interface helper
-function initializeSearch(inputId, resultsId) {
-  const input = document.getElementById(inputId);
-  const results = document.getElementById(resultsId);
-  
-  if (!input || !results) return;
-  
-  input.addEventListener('input', (e) => {
-    const query = e.target.value;
+  // Search interface helper
+  function initializeSearch(inputId, resultsId) {
+    const input = document.getElementById(inputId);
+    const results = document.getElementById(resultsId);
     
-    if (query.length < 2) {
-      results.innerHTML = '';
-      results.style.display = 'none';
-      return;
-    }
+    if (!input || !results) return;
     
-    results.innerHTML = '<div style="padding: 1rem; text-align: center;">🔍 Searching...</div>';
-    results.style.display = 'block';
-    
-    enhancedSearch.searchDebounced(query, {}, (searchResults) => {
-      if (searchResults.length === 0) {
-        results.innerHTML = '<div style="padding: 1rem; color: #888;">No results found</div>';
+    input.addEventListener('input', (e) => {
+      const query = e.target.value;
+      
+      if (query.length < 2) {
+        results.innerHTML = '';
+        results.style.display = 'none';
         return;
       }
       
-      const html = searchResults.map(r => `
-        <a href="${r.file_path}" style="display: block; padding: 1rem; border-bottom: 1px solid #eee; text-decoration: none; color: inherit;">
-          <strong style="color: #1a4d2e;">${r.title}</strong>
-          <br>
-          <small style="color: #666;">${r.subject || 'General'} • ${r.resource_type || 'Resource'}</small>
-        </a>
-      `).join('');
+      results.innerHTML = '<div style="padding: 1rem; text-align: center;">🔍 Searching...</div>';
+      results.style.display = 'block';
       
-      results.innerHTML = html;
+      enhancedSearch.searchDebounced(query, {}, (searchResults) => {
+        if (searchResults.length === 0) {
+          results.innerHTML = '<div style="padding: 1rem; color: #888;">No results found</div>';
+          return;
+        }
+        
+        const html = searchResults.map(r => `
+          <a href="${r.file_path}" style="display: block; padding: 1rem; border-bottom: 1px solid #eee; text-decoration: none; color: inherit;">
+            <strong style="color: #1a4d2e;">${r.title}</strong>
+            <br>
+            <small style="color: #666;">${r.subject || 'General'} • ${r.resource_type || 'Resource'}</small>
+          </a>
+        `).join('');
+        
+        results.innerHTML = html;
+      });
     });
-  });
-  
-  // Close on click outside
-  document.addEventListener('click', (e) => {
-    if (!input.contains(e.target) && !results.contains(e.target)) {
-      results.style.display = 'none';
-    }
-  });
+    
+    // Close on click outside
+    document.addEventListener('click', (e) => {
+      if (!input.contains(e.target) && !results.contains(e.target)) {
+        results.style.display = 'none';
+      }
+    });
+  }
 
   // Export to global scope
   window.EnhancedSearch = EnhancedSearch;
