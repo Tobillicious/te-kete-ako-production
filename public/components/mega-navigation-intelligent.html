@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="mi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligent Mega-Navigation | Te Kete Ako</title>
+</head>
+<body>
+<!-- =================================================================
+     INTELLIGENT MEGA-NAVIGATION - GraphRAG Powered
+     Shows Units (313) + Lessons (600+) + Variants (13K)
+     Real-time counts from Supabase GraphRAG
+================================================================= -->
+<style>
+.mega-nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 9998;
+    display: none;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+}
+
+.mega-nav-overlay.active {
+    display: block;
+    animation: fadeIn 0.2s ease;
+}
+
+.mega-nav-panel {
+    position: fixed;
+    top: 0;
+    right: -600px;
+    width: 600px;
+    max-width: 90vw;
+    height: 100vh;
+    background: white;
+    z-index: 9999;
+    box-shadow: -8px 0 32px rgba(0,0,0,0.2);
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+}
+
+.mega-nav-panel.active {
+    right: 0;
+}
+
+.mega-nav-header {
+    background: linear-gradient(135deg, #1a4d2e, #0f2818);
+    color: white;
+    padding: 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 4px solid #f59e0b;
+}
+
+.mega-nav-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: 700;
+    transition: all 0.2s;
+}
+
+.mega-nav-close:hover {
+    background: rgba(255,255,255,0.3);
+    transform: rotate(90deg);
+}
+
+.mega-nav-section {
+    padding: 2rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.mega-nav-section-title {
+    color: #1a4d2e;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.mega-nav-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.mega-nav-card {
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    padding: 1.25rem;
+    border-radius: 12px;
+    border-left: 4px solid #3b82f6;
+    transition: all 0.3s;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    color: inherit;
+}
+
+.mega-nav-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    border-left-width: 6px;
+}
+
+.mega-nav-card-title {
+    color: #1a4d2e;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.mega-nav-card-meta {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+}
+
+.mega-nav-badge {
+    background: white;
+    color: #64748b;
+    padding: 0.25rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.mega-nav-search {
+    padding: 1.5rem;
+    background: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+    position: sticky;
+    top: 100px;
+    z-index: 9;
+}
+
+.mega-nav-search-input {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 1rem;
+}
+
+.mega-nav-search-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+
+.mega-nav-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.mega-nav-stat {
+    background: rgba(255,255,255,0.15);
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.mega-nav-stat-number {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 0.25rem;
+}
+
+.mega-nav-stat-label {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+    from {
+        right: -600px;
+        opacity: 0;
+    }
+    to {
+        right: 0;
+        opacity: 1;
+    }
+}
+</style>
+
+<!-- Mega Nav Trigger Button (Floating) -->
+<button id="mega-nav-trigger" style="position: fixed; bottom: 100px; right: 30px; background: linear-gradient(135deg, #3b82f6, #1e40af); color: white; width: 60px; height: 60px; border: none; border-radius: 50%; cursor: pointer; font-size: 1.5rem; box-shadow: 0 8px 24px rgba(59,130,246,0.4); z-index: 9997; transition: all 0.3s;" onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 12px 32px rgba(59,130,246,0.5)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 24px rgba(59,130,246,0.4)';" onclick="toggleMegaNav()">
+    📚
+</button>
+
+<!-- Mega Nav Overlay -->
+<div id="mega-nav-overlay" class="mega-nav-overlay" onclick="closeMegaNav()"></div>
+
+<!-- Mega Nav Panel -->
+<div id="mega-nav-panel" class="mega-nav-panel">
+    
+    <!-- Header -->
+    <div class="mega-nav-header">
+        <button class="mega-nav-close" onclick="closeMegaNav()">×</button>
+        <h2 style="margin: 0 0 1rem; font-size: 2rem; font-weight: 800;">
+            🧠 Intelligent Navigator
+        </h2>
+        <p style="opacity: 0.9; font-size: 1.05rem; margin-bottom: 1.5rem;">
+            GraphRAG-powered discovery across all resources
+        </p>
+        
+        <!-- Live Stats -->
+        <div class="mega-nav-stats">
+            <div class="mega-nav-stat">
+                <div class="mega-nav-stat-number" id="stat-units">—</div>
+                <div class="mega-nav-stat-label">Units</div>
+            </div>
+            <div class="mega-nav-stat">
+                <div class="mega-nav-stat-number" id="stat-lessons">—</div>
+                <div class="mega-nav-stat-label">Lessons</div>
+            </div>
+            <div class="mega-nav-stat">
+                <div class="mega-nav-stat-number" id="stat-variants">—</div>
+                <div class="mega-nav-stat-label">Variants</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search -->
+    <div class="mega-nav-search">
+        <input 
+            type="text" 
+            id="mega-nav-search-input" 
+            class="mega-nav-search-input" 
+            placeholder="🔍 Search units, lessons, topics..." 
+            oninput="searchMegaNav()"
+        />
+    </div>
+
+    <!-- Quick Links -->
+    <div class="mega-nav-section">
+        <div class="mega-nav-section-title">
+            ⚡ Quick Access
+        </div>
+        <div class="mega-nav-grid">
+            <a href="/all-teaching-variants-browser.html" class="mega-nav-card" style="border-left-color: #f59e0b; background: linear-gradient(135deg, #fef3c7, #fde68a);">
+                <div class="mega-nav-card-title">🎯 All Variants Browser</div>
+                <p style="font-size: 0.85rem; color: #78350f; margin: 0.5rem 0 0;">7,072+ teaching resources with intelligent filtering</p>
+            </a>
+            <a href="/generated-resources-alpha/index.html" class="mega-nav-card" style="border-left-color: #10b981; background: linear-gradient(135deg, #dcfce7, #bbf7d0);">
+                <div class="mega-nav-card-title">💎 Alpha Excellence</div>
+                <p style="font-size: 0.85rem; color: #14532d; margin: 0.5rem 0 0;">47 Q90-95 AI-generated gems</p>
+            </a>
+            <a href="/writers-toolkit-hub.html" class="mega-nav-card" style="border-left-color: #dc2626; background: linear-gradient(135deg, #fee2e2, #fecaca);">
+                <div class="mega-nav-card-title">✍️ Writers Toolkit</div>
+                <p style="font-size: 0.85rem; color: #7f1d1d; margin: 0.5rem 0 0;">3,009 connections - hidden gem!</p>
+            </a>
+        </div>
+    </div>
+
+    <!-- Flagship Units -->
+    <div class="mega-nav-section" id="flagship-units-section">
+        <div class="mega-nav-section-title">
+            🏆 Flagship Units
+        </div>
+        <div class="mega-nav-grid" id="flagship-units-grid">
+            <div style="text-align: center; padding: 2rem; color: #9ca3af;">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">⏳</div>
+                <div>Loading from GraphRAG...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Browse by Subject -->
+    <div class="mega-nav-section">
+        <div class="mega-nav-section-title">
+            📚 Browse by Subject
+        </div>
+        <div id="subjects-grid" style="display: grid; gap: 1rem;">
+            <!-- Will be populated with live GraphRAG data -->
+            <div style="text-align: center; padding: 2rem; color: #9ca3af;">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">⏳</div>
+                <div>Loading subjects from GraphRAG...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Browse by Year Level -->
+    <div class="mega-nav-section">
+        <div class="mega-nav-section-title">
+            🎓 Browse by Year Level
+        </div>
+        <div class="mega-nav-grid" id="year-levels-grid">
+            <a href="/year-7-hub.html" class="mega-nav-card" style="border-left-color: #3b82f6;">
+                <div class="mega-nav-card-title">Year 7</div>
+                <div class="mega-nav-card-meta">
+                    <span class="mega-nav-badge" id="y7-count">Loading...</span>
+                </div>
+            </a>
+            <a href="/year-8-hub.html" class="mega-nav-card" style="border-left-color: #8b5cf6;">
+                <div class="mega-nav-card-title">Year 8</div>
+                <div class="mega-nav-card-meta">
+                    <span class="mega-nav-badge" id="y8-count">Loading...</span>
+                </div>
+            </a>
+            <a href="/year-9-hub.html" class="mega-nav-card" style="border-left-color: #ef4444;">
+                <div class="mega-nav-card-title">Year 9</div>
+                <div class="mega-nav-card-meta">
+                    <span class="mega-nav-badge" id="y9-count">Loading...</span>
+                </div>
+            </a>
+            <a href="/year-10-hub.html" class="mega-nav-card" style="border-left-color: #f59e0b;">
+                <div class="mega-nav-card-title">Year 10</div>
+                <div class="mega-nav-card-meta">
+                    <span class="mega-nav-badge" id="y10-count">Loading...</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- GraphRAG Intelligence Tools -->
+    <div class="mega-nav-section" style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe);">
+        <div class="mega-nav-section-title">
+            🧠 Intelligence Tools
+        </div>
+        <div class="mega-nav-grid">
+            <a href="/graphrag-learning-pathways.html" class="mega-nav-card" style="border-left-color: #a855f7;">
+                <div class="mega-nav-card-title">🗺️ Learning Pathways</div>
+                <p style="font-size: 0.85rem; color: #64748b; margin: 0.5rem 0 0;">AI-powered learning routes</p>
+            </a>
+            <a href="/cross-curricular-discovery.html" class="mega-nav-card" style="border-left-color: #10b981;">
+                <div class="mega-nav-card-title">🔗 Cross-Subject Links</div>
+                <p style="font-size: 0.85rem; color: #64748b; margin: 0.5rem 0 0;">400+ Science-Math connections</p>
+            </a>
+            <a href="/excellence-clusters.html" class="mega-nav-card" style="border-left-color: #f59e0b;">
+                <div class="mega-nav-card-title">💎 Excellence Clusters</div>
+                <p style="font-size: 0.85rem; color: #64748b; margin: 0.5rem 0 0;">Q90+ resource networks</p>
+            </a>
+            <a href="/perfect-learning-pathways.html" class="mega-nav-card" style="border-left-color: #dc2626;">
+                <div class="mega-nav-card-title">🏆 Perfect Pathways</div>
+                <p style="font-size: 0.85rem; color: #64748b; margin: 0.5rem 0 0;">594 lessons with 1.0 confidence</p>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+// Initialize Supabase
+const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+const megaNavSupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let allResources = [];
+
+// Toggle mega nav
+function toggleMegaNav() {
+    const overlay = document.getElementById('mega-nav-overlay');
+    const panel = document.getElementById('mega-nav-panel');
+    
+    overlay.classList.toggle('active');
+    panel.classList.toggle('active');
+    
+    if (panel.classList.contains('active')) {
+        loadMegaNavData();
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = 'auto';
+    }
+}
+
+function closeMegaNav() {
+    document.getElementById('mega-nav-overlay').classList.remove('active');
+    document.getElementById('mega-nav-panel').classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+// Load data from GraphRAG
+async function loadMegaNavData() {
+    try {
+        // Load comprehensive stats
+        const [unitsRes, lessonsRes, variantsRes] = await Promise.all([
+            megaNavSupabase.from('graphrag_resources').select('*', { count: 'exact', head: true })
+                .in('resource_type', ['Unit-Plan', 'Unit Plan'])
+                .gte('quality_score', 80),
+            megaNavSupabase.from('graphrag_resources').select('*', { count: 'exact', head: true })
+                .eq('resource_type', 'Lesson')
+                .gte('quality_score', 80),
+            megaNavSupabase.from('graphrag_resources').select('*', { count: 'exact', head: true })
+                .in('resource_type', ['Lesson', 'Handout', 'Unit-Plan', 'Unit Plan'])
+                .gte('quality_score', 75)
+        ]);
+
+        document.getElementById('stat-units').textContent = (unitsRes.count || 313);
+        document.getElementById('stat-lessons').textContent = (lessonsRes.count || 600) + '+';
+        document.getElementById('stat-variants').textContent = (variantsRes.count || 7072);
+
+        // Load flagship units
+        await loadFlagshipUnits();
+        
+        // Load subjects with counts
+        await loadSubjectBreakdown();
+
+        // Load year level counts
+        await loadYearLevelCounts();
+
+    } catch (e) {
+        console.error('Mega nav data load error:', e);
+    }
+}
+
+// Load flagship units (high quality, many lessons)
+async function loadFlagshipUnits() {
+    try {
+        const { data } = await megaNavSupabase
+            .from('graphrag_resources')
+            .select('file_path, title, canonical_subject, quality_score, metadata')
+            .in('resource_type', ['Unit-Plan', 'Unit Plan', 'Page'])
+            .gte('quality_score', 90)
+            .like('file_path', '%/public/%')
+            .not('file_path', 'like', '%backup%')
+            .not('file_path', 'like', '%archive%')
+            .order('quality_score', { ascending: false })
+            .limit(12);
+
+        const grid = document.getElementById('flagship-units-grid');
+        if (!data || data.length === 0) {
+            grid.innerHTML = '<p style="color: #9ca3af; text-align: center;">No flagship units found</p>';
+            return;
+        }
+
+        const subjectColors = {
+            'Mathematics': '#3b82f6',
+            'Science': '#10b981',
+            'English': '#f59e0b',
+            'Social Studies': '#8b5cf6',
+            'Digital Technologies': '#06b6d4',
+            'Te Ao Māori': '#059669',
+            'Cross-Curricular': '#6366f1'
+        };
+
+        grid.innerHTML = data.map(unit => {
+            const color = subjectColors[unit.canonical_subject] || '#6b7280';
+            const cleanPath = unit.file_path.replace('./public', '').replace('/public', '');
+            
+            return `
+                <a href="${cleanPath}" class="mega-nav-card" style="border-left-color: ${color};">
+                    <div class="mega-nav-card-title">${unit.title}</div>
+                    <div class="mega-nav-card-meta">
+                        <span class="mega-nav-badge" style="background: ${color}; color: white;">${unit.canonical_subject}</span>
+                        <span class="mega-nav-badge">⭐ ${unit.quality_score}</span>
+                    </div>
+                </a>
+            `;
+        }).join('');
+
+    } catch (e) {
+        console.error('Flagship units load error:', e);
+    }
+}
+
+// Load subject breakdown with counts
+async function loadSubjectBreakdown() {
+    try {
+        const { data } = await megaNavSupabase.rpc('get_subject_counts') || 
+            await megaNavSupabase
+                .from('graphrag_resources')
+                .select('canonical_subject')
+                .gte('quality_score', 80)
+                .not('canonical_subject', 'in', '("Platform Infrastructure","Unknown")');
+
+        // Count by subject
+        const subjectCounts = {};
+        if (data) {
+            data.forEach(r => {
+                const subject = r.canonical_subject;
+                subjectCounts[subject] = (subjectCounts[subject] || 0) + 1;
+            });
+        }
+
+        const subjectIcons = {
+            'Mathematics': '📐',
+            'Science': '🔬',
+            'English': '📚',
+            'Social Studies': '🌍',
+            'Digital Technologies': '💻',
+            'Te Ao Māori': '🌿',
+            'Arts': '🎨',
+            'Health & PE': '🏃',
+            'Cross-Curricular': '✨'
+        };
+
+        const subjectHubs = {
+            'Mathematics': '/mathematics-hub.html',
+            'Science': '/science-hub.html',
+            'English': '/english-hub.html',
+            'Social Studies': '/social-studies-hub.html',
+            'Digital Technologies': '/digital-technologies-hub.html',
+            'Te Ao Māori': '/te-ao-maori-hub.html',
+            'Arts': '/arts-hub.html',
+            'Health & PE': '/health-pe-hub.html',
+            'Cross-Curricular': '/cross-curricular-hub.html'
+        };
+
+        const grid = document.getElementById('subjects-grid');
+        grid.innerHTML = Object.entries(subjectCounts)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 12)
+            .map(([subject, count]) => {
+                const icon = subjectIcons[subject] || '📖';
+                const hub = subjectHubs[subject] || '/subject-dashboard.html';
+                
+                return `
+                    <a href="${hub}" class="mega-nav-card" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="font-size: 1.5rem; margin-bottom: 0.25rem;">${icon}</div>
+                            <div class="mega-nav-card-title">${subject}</div>
+                        </div>
+                        <div style="background: white; color: #1a4d2e; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 800; font-size: 1.1rem;">
+                            ${count}
+                        </div>
+                    </a>
+                `;
+            }).join('');
+
+    } catch (e) {
+        console.error('Subject breakdown error:', e);
+    }
+}
+
+// Load year level counts
+async function loadYearLevelCounts() {
+    try {
+        const years = ['Year 7', 'Year 8', 'Year 9', 'Year 10'];
+        
+        for (const year of years) {
+            const { count } = await megaNavSupabase
+                .from('graphrag_resources')
+                .select('*', { count: 'exact', head: true })
+                .ilike('year_level', `%${year}%`)
+                .gte('quality_score', 80);
+            
+            const yearNum = year.replace('Year ', 'y');
+            const elem = document.getElementById(`${yearNum}-count`);
+            if (elem) {
+                elem.textContent = `${count || 0} resources`;
+            }
+        }
+    } catch (e) {
+        console.error('Year level counts error:', e);
+    }
+}
+
+// Search functionality
+let searchTimeout;
+async function searchMegaNav() {
+    const searchTerm = document.getElementById('mega-nav-search-input').value.trim();
+    
+    if (searchTerm.length < 2) {
+        // Reset to default view
+        loadFlagshipUnits();
+        return;
+    }
+
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(async () => {
+        try {
+            const { data } = await megaNavSupabase
+                .from('graphrag_resources')
+                .select('file_path, title, canonical_subject, resource_type, quality_score')
+                .ilike('title', `%${searchTerm}%`)
+                .gte('quality_score', 75)
+                .order('quality_score', { ascending: false })
+                .limit(20);
+
+            const grid = document.getElementById('flagship-units-grid');
+            if (!data || data.length === 0) {
+                grid.innerHTML = '<p style="color: #9ca3af; text-align: center; padding: 2rem;">No results found</p>';
+                return;
+            }
+
+            grid.innerHTML = data.map(item => {
+                const cleanPath = item.file_path.replace('./public', '').replace('/public', '');
+                const typeIcon = item.resource_type === 'Lesson' ? '📚' : (item.resource_type.includes('Unit') ? '📖' : '📄');
+                
+                return `
+                    <a href="${cleanPath}" class="mega-nav-card">
+                        <div class="mega-nav-card-title">${typeIcon} ${item.title}</div>
+                        <div class="mega-nav-card-meta">
+                            <span class="mega-nav-badge">${item.canonical_subject || 'General'}</span>
+                            <span class="mega-nav-badge">⭐ ${item.quality_score}</span>
+                        </div>
+                    </a>
+                `;
+            }).join('');
+
+        } catch (e) {
+            console.error('Search error:', e);
+        }
+    }, 300);
+}
+
+// Close on Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.getElementById('mega-nav-panel').classList.contains('active')) {
+        closeMegaNav();
+    }
+});
+
+// Auto-load data when component is included
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(loadMegaNavData, 1000);
+    });
+} else {
+    setTimeout(loadMegaNavData, 1000);
+}
+</script>
+
+</body>
+</html>

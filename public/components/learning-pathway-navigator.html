@@ -1,0 +1,212 @@
+<!-- 
+  LEARNING PATHWAY NAVIGATOR - GraphRAG-Powered
+  Visualizes cross-curricular learning sequences using relationship data
+  
+  Usage:
+  <div id="pathway-navigator" data-resource-path="/public/lessons/your-lesson.html" data-pathway-depth="3"></div>
+  <script src="/components/learning-pathway-navigator.html"></script>
+-->
+<script>
+(async function() {
+  try {
+    const containers = document.querySelectorAll('[id^="pathway-navigator"]');
+    if (!containers.length) return;
+    
+    containers.forEach(async (container) => {
+      const resourcePath = container.getAttribute('data-resource-path');
+      const depth = parseInt(container.getAttribute('data-pathway-depth') || '3');
+      
+      if (!resourcePath) {
+        console.warn('Learning Pathway Navigator: No resource-path specified');
+        return;
+      }
+      
+      // Initialize Supabase
+      const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+      const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+      
+      const supabase = window.supabase?.createClient 
+        ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+        : window.supabaseClient || null;
+        
+      if (!supabase) {
+        console.error('Supabase not initialized for Learning Pathway Navigator');
+        return;
+      }
+      
+      // Get current resource info
+      const {data: currentResource} = await supabase
+        .from('graphrag_resources')
+        .select('*')
+        .eq('file_path', resourcePath)
+        .single();
+        
+      if (!currentResource) {
+        console.warn('Resource not found in GraphRAG:', resourcePath);
+        return;
+      }
+      
+      // Find prerequisites (what should come before)
+      const {data: prerequisites} = await supabase
+        .from('graphrag_relationships')
+        .select(`
+          source_path,
+          relationship_type,
+          confidence,
+          source:graphrag_resources!graphrag_relationships_source_path_fkey(title, canonical_subject, year_level, quality_score, file_path)
+        `)
+        .eq('target_path', resourcePath)
+        .in('relationship_type', ['prerequisite_for', 'builds_on'])
+        .gte('confidence', 0.7)
+        .limit(depth);
+        
+      // Find next steps (what should come after)
+      const {data: nextSteps} = await supabase
+        .from('graphrag_relationships')
+        .select(`
+          target_path,
+          relationship_type,
+          confidence,
+          target:graphrag_resources!graphrag_relationships_target_path_fkey(title, canonical_subject, year_level, quality_score, file_path)
+        `)
+        .eq('source_path', resourcePath)
+        .in('relationship_type', ['prerequisite_for', 'builds_on', 'extends_to'])
+        .gte('confidence', 0.7)
+        .limit(depth);
+        
+      // Find cross-curricular connections
+      const {data: crossCurricular} = await supabase
+        .from('graphrag_relationships')
+        .select(`
+          target_path,
+          relationship_type,
+          confidence,
+          target:graphrag_resources!graphrag_relationships_target_path_fkey(title, canonical_subject, year_level, quality_score, file_path)
+        `)
+        .eq('source_path', resourcePath)
+        .neq('target.canonical_subject', currentResource.canonical_subject)
+        .in('relationship_type', ['related_to', 'applies_concept_from', 'cultural_connection'])
+        .gte('confidence', 0.6)
+        .limit(depth);
+      
+      // Render pathway navigator
+      renderPathwayNavigator(container, {
+        current: currentResource,
+        prerequisites: prerequisites || [],
+        nextSteps: nextSteps || [],
+        crossCurricular: crossCurricular || []
+      });
+    });
+    
+    function renderPathwayNavigator(container, pathways) {
+      const {current, prerequisites, nextSteps, crossCurricular} = pathways;
+      
+      const html = `
+        <section style="background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); padding: 2rem; border-radius: 16px; margin: 3rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+          <div style="text-align: center; margin-bottom: 2rem;">
+            <div style="display: inline-block; background: linear-gradient(135deg, #7c3aed, #6366f1); padding: 0.5rem 1.5rem; border-radius: 24px; margin-bottom: 1rem; color: white; font-weight: 700; font-size: 0.9rem;">
+              🧭 GraphRAG Learning Pathways
+            </div>
+            <h2 style="font-size: 2rem; color: #1a4d2e; margin-bottom: 0.5rem;">Your Learning Journey</h2>
+            <p style="color: #666; font-size: 1rem;">AI-discovered connections from 242,206 relationships</p>
+          </div>
+          
+          ${prerequisites.length > 0 ? `
+            <div style="background: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem; border-left: 4px solid #3b82f6;">
+              <h3 style="color: #3b82f6; font-size: 1.3rem; margin-bottom: 1rem;">📖 Build On These First</h3>
+              <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">Recommended prerequisites for stronger understanding:</p>
+              <div style="display: grid; gap: 1rem;">
+                ${prerequisites.map(p => `
+                  <a href="${(p.source?.file_path || '').replace('/public', '')}" style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: #eff6ff; border-radius: 8px; text-decoration: none; transition: all 0.3s;" onmouseover="this.style.background='#dbeafe'" onmouseout="this.style.background='#eff6ff'">
+                    <div style="font-size: 1.5rem;">📚</div>
+                    <div style="flex: 1;">
+                      <div style="font-weight: 700; color: #1e40af; margin-bottom: 0.25rem;">${p.source?.title || 'Resource'}</div>
+                      <div style="font-size: 0.85rem; color: #64748b;">${p.source?.canonical_subject || ''} • ${p.source?.year_level || ''} • Q${p.source?.quality_score || 0}</div>
+                    </div>
+                    <div style="background: #3b82f6; color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">
+                      ${Math.round((p.confidence || 0) * 100)}% match
+                    </div>
+                  </a>
+                `).join('')}
+              </div>
+            </div>
+          ` : ''}
+          
+          ${nextSteps.length > 0 ? `
+            <div style="background: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem; border-left: 4px solid #10b981;">
+              <h3 style="color: #10b981; font-size: 1.3rem; margin-bottom: 1rem;">🚀 Next Steps in Your Journey</h3>
+              <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">Continue learning with these connected resources:</p>
+              <div style="display: grid; gap: 1rem;">
+                ${nextSteps.map(n => `
+                  <a href="${(n.target?.file_path || '').replace('/public', '')}" style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: #f0fdf4; border-radius: 8px; text-decoration: none; transition: all 0.3s;" onmouseover="this.style.background='#dcfce7'" onmouseout="this.style.background='#f0fdf4'">
+                    <div style="font-size: 1.5rem;">✨</div>
+                    <div style="flex: 1;">
+                      <div style="font-weight: 700; color: #065f46; margin-bottom: 0.25rem;">${n.target?.title || 'Resource'}</div>
+                      <div style="font-size: 0.85rem; color: #64748b;">${n.target?.canonical_subject || ''} • ${n.target?.year_level || ''} • Q${n.target?.quality_score || 0}</div>
+                    </div>
+                    <div style="background: #10b981; color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">
+                      ${Math.round((n.confidence || 0) * 100)}% match
+                    </div>
+                  </a>
+                `).join('')}
+              </div>
+            </div>
+          ` : ''}
+          
+          ${crossCurricular.length > 0 ? `
+            <div style="background: white; padding: 1.5rem; border-radius: 12px; border-left: 4px solid #f59e0b;">
+              <h3 style="color: #f59e0b; font-size: 1.3rem; margin-bottom: 1rem;">🌈 Cross-Curricular Connections</h3>
+              <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">Explore related concepts from different subjects:</p>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+                ${crossCurricular.map(c => `
+                  <a href="${(c.target?.file_path || '').replace('/public', '')}" style="display: block; padding: 1rem; background: #fff7ed; border-radius: 8px; text-decoration: none; transition: all 0.3s; border-top: 3px solid #f59e0b;" onmouseover="this.style.background='#ffedd5'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#fff7ed'; this.style.transform='translateY(0)'">
+                    <div style="font-weight: 700; color: #92400e; margin-bottom: 0.5rem; font-size: 0.95rem;">${c.target?.title || 'Resource'}</div>
+                    <div style="font-size: 0.8rem; color: #78350f; margin-bottom: 0.5rem;">
+                      <span style="background: #fef3c7; padding: 0.25rem 0.5rem; border-radius: 6px; margin-right: 0.25rem;">${c.target?.canonical_subject || 'Cross-Curricular'}</span>
+                      ${c.target?.year_level || ''}
+                    </div>
+                    <div style="font-size: 0.75rem; color: #a16207; font-weight: 600;">
+                      ${c.relationship_type?.replace(/_/g, ' ') || 'related'} • ${Math.round((c.confidence || 0) * 100)}%
+                    </div>
+                  </a>
+                `).join('')}
+              </div>
+            </div>
+          ` : ''}
+          
+          ${!prerequisites.length && !nextSteps.length && !crossCurricular.length ? `
+            <div style="background: white; padding: 2rem; border-radius: 12px; text-align: center;">
+              <div style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;">🧭</div>
+              <p style="color: #666; font-style: italic;">No learning pathways discovered yet. Check back as GraphRAG builds more connections!</p>
+            </div>
+          ` : ''}
+        </section>
+      `;
+      
+      container.innerHTML = html;
+      
+      // Track analytics
+      if (window.posthog) {
+        posthog.capture('learning_pathway_viewed', {
+          resource_path: resourcePath,
+          prerequisites_count: prerequisites.length,
+          next_steps_count: nextSteps.length,
+          cross_curricular_count: crossCurricular.length
+        });
+      }
+    });
+    
+  } catch (error) {
+    console.error('Learning Pathway Navigator error:', error);
+  }
+})();
+</script>
+
+<style>
+/* Learning Pathway Navigator Styles */
+#pathway-navigator a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+</style>
+

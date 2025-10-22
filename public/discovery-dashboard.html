@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discovery Dashboard | Te Kete Ako</title>
+    <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/quality-badges.css">
+    <script src="/js/css-safeguard.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .discovery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .discovery-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .discovery-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+            border-color: #059669;
+        }
+        .discovery-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #f59e0b;
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #92400e;
+            margin-bottom: 0.5rem;
+        }
+        .search-enhanced {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            border: 2px solid #3b82f6;
+        }
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .filter-group {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+    </style>
+</head>
+<body class="pattern-koru-subtle">
+    <div id="nav-container"></div>
+    <script>fetch('/components/navigation-standard.html').then(r=>r.text()).then(html=>document.getElementById('nav-container').innerHTML=html);</script>
+
+    <div class="container mx-auto p-6" style="max-width: 1200px;">
+        <!-- Hero Section -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">
+                🔍 Discovery Dashboard
+                <span class="quality-badge excellence" style="font-size: 0.8rem; margin-left: 1rem;">GraphRAG Powered</span>
+            </h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Unlock the power of 17,000+ educational resources with intelligent discovery, 
+                quality insights, and cultural excellence pathways.
+            </p>
+        </div>
+
+        <!-- Platform Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">17,335</div>
+                <div class="text-sm font-semibold text-gray-700">Total Resources</div>
+            </div>
+            <div class="stat-card" style="background: linear-gradient(135deg, #d1fae5, #a7f3d0); border-color: #10b981;">
+                <div class="stat-number" style="color: #065f46;">9,922</div>
+                <div class="text-sm font-semibold text-gray-700">Quality 90+ Resources</div>
+            </div>
+            <div class="stat-card" style="background: linear-gradient(135deg, #fae8ff, #e9d5ff); border-color: #a855f7;">
+                <div class="stat-number" style="color: #581c87;">7,533</div>
+                <div class="text-sm font-semibold text-gray-700">Culturally Integrated</div>
+            </div>
+            <div class="stat-card" style="background: linear-gradient(135deg, #dbeafe, #bfdbfe); border-color: #3b82f6;">
+                <div class="stat-number" style="color: #1e40af;">241,256</div>
+                <div class="text-sm font-semibold text-gray-700">Knowledge Connections</div>
+            </div>
+        </div>
+
+        <!-- Enhanced Search Section -->
+        <div class="search-enhanced">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🧠 Intelligent Resource Discovery</h2>
+            <p class="text-gray-600 mb-4">Find exactly what you need with AI-powered semantic search and smart filters.</p>
+            
+            <div class="mb-4">
+                <input type="text" id="semantic-search" placeholder="Search for lessons, handouts, activities... (e.g., 'whakapapa genetics', 'colonial impact statistics')" 
+                       class="w-full p-3 border-2 border-blue-300 rounded-lg text-lg">
+                <button onclick="performSemanticSearch()" class="mt-2 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                    🔍 Semantic Search
+                </button>
+            </div>
+
+            <div class="filter-grid">
+                <div class="filter-group">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Quality Filter</label>
+                    <select id="quality-filter" class="w-full p-2 border border-gray-300 rounded">
+                        <option value="">All Resources</option>
+                        <option value="q100">Perfect (Q100) - 10 resources</option>
+                        <option value="q95">Near Perfect (Q95-99) - 611 resources</option>
+                        <option value="q90">Excellent (Q90-94) - 9,301 resources</option>
+                        <option value="q80">Good (Q80-89) - 7,413 resources</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Cultural Integration</label>
+                    <select id="cultural-filter" class="w-full p-2 border border-gray-300 rounded">
+                        <option value="">All Levels</option>
+                        <option value="high">High Integration (90%+)</option>
+                        <option value="medium">Medium Integration (70-89%)</option>
+                        <option value="whakatauaki">Has Whakataukī</option>
+                        <option value="te-reo">Rich in Te Reo</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Resource Type</label>
+                    <select id="type-filter" class="w-full p-2 border border-gray-300 rounded">
+                        <option value="">All Types</option>
+                        <option value="lesson">Lessons</option>
+                        <option value="handout">Handouts</option>
+                        <option value="unit-plan">Unit Plans</option>
+                        <option value="assessment">Assessments</option>
+                        <option value="interactive">Interactive Tools</option>
+                        <option value="game">Educational Games</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Year Level</label>
+                    <select id="year-filter" class="w-full p-2 border border-gray-300 rounded">
+                        <option value="">All Years</option>
+                        <option value="y7">Year 7</option>
+                        <option value="y8">Year 8</option>
+                        <option value="y9">Year 9</option>
+                        <option value="y10">Year 10</option>
+                        <option value="y11">Year 11</option>
+                        <option value="y12">Year 12</option>
+                        <option value="y13">Year 13</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Discovery Tools Grid -->
+        <div class="discovery-grid">
+            <!-- Excellence Explorer -->
+            <div class="discovery-card" style="border-color: #f59e0b;">
+                <div class="discovery-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                    ⭐
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Excellence Collection</h3>
+                <p class="text-gray-600 mb-4">Explore our highest-quality resources with detailed quality analysis.</p>
+                <div class="space-y-2">
+                    <a href="/excellence-collection.html" class="block bg-yellow-100 text-yellow-800 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-yellow-200 transition-colors">
+                        🏆 View Q100 Perfect Resources (10)
+                    </a>
+                    <a href="/excellence-collection.html#q95" class="block bg-yellow-50 text-yellow-700 px-3 py-2 rounded-lg text-sm hover:bg-yellow-100 transition-colors">
+                        💎 Near Perfect Q95-99 (611)
+                    </a>
+                </div>
+            </div>
+
+            <!-- Cultural Excellence -->
+            <div class="discovery-card" style="border-color: #10b981;">
+                <div class="discovery-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                    🌿
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Cultural Excellence Network</h3>
+                <p class="text-gray-600 mb-4">Discover 7,533 culturally integrated resources with Māori perspectives.</p>
+                <div class="space-y-2">
+                    <a href="/cultural-excellence-network.html" class="block bg-green-100 text-green-800 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-green-200 transition-colors">
+                        🌿 Cultural Network Map
+                    </a>
+                    <a href="/whakatauaki-library.html" class="block bg-green-50 text-green-700 px-3 py-2 rounded-lg text-sm hover:bg-green-100 transition-colors">
+                        📜 Whakataukī Wisdom Library
+                    </a>
+                </div>
+            </div>
+
+            <!-- Knowledge Graph -->
+            <div class="discovery-card" style="border-color: #7c3aed;">
+                <div class="discovery-icon" style="background: linear-gradient(135deg, #7c3aed, #5b21b6);">
+                    🧠
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Knowledge Graph Explorer</h3>
+                <p class="text-gray-600 mb-4">Visualize 241,256 connections between resources and concepts.</p>
+                <div class="space-y-2">
+                    <a href="/knowledge-graph.html" class="block bg-purple-100 text-purple-800 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-purple-200 transition-colors">
+                        🔗 Interactive Graph
+                    </a>
+                    <a href="/learning-pathways.html" class="block bg-purple-50 text-purple-700 px-3 py-2 rounded-lg text-sm hover:bg-purple-100 transition-colors">
+                        🎯 Learning Pathways
+                    </a>
+                </div>
+            </div>
+
+            <!-- Cross-Curricular Discovery -->
+            <div class="discovery-card" style="border-color: #3b82f6;">
+                <div class="discovery-icon" style="background: linear-gradient(135deg, #3b82f6, #1e40af);">
+                    ✨
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Cross-Curricular Connections</h3>
+                <p class="text-gray-600 mb-4">Find surprising connections between different subject areas.</p>
+                <div class="space-y-2">
+                    <a href="/cross-curricular-discovery.html" class="block bg-blue-100 text-blue-800 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-blue-200 transition-colors">
+                        🔗 Subject Connections
+                    </a>
+                    <a href="/interdisciplinary-pathways.html" class="block bg-blue-50 text-blue-700 px-3 py-2 rounded-lg text-sm hover:bg-blue-100 transition-colors">
+                        🌐 Interdisciplinary Paths
+                    </a>
+                </div>
+            </div>
+
+            <!-- Smart Recommendations -->
+            <div class="discovery-card" style="border-color: #ef4444;">
+                <div class="discovery-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+                    🎯
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Smart Recommendations</h3>
+                <p class="text-gray-600 mb-4">AI-powered suggestions based on what you're teaching.</p>
+                <div class="space-y-2">
+                    <a href="/smart-recommender.html" class="block bg-red-100 text-red-800 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-red-200 transition-colors">
+                        🤖 Get Recommendations
+                    </a>
+                    <a href="/prerequisite-explorer.html" class="block bg-red-50 text-red-700 px-3 py-2 rounded-lg text-sm hover:bg-red-100 transition-colors">
+                        📚 Prerequisites Finder
+                    </a>
+                </div>
+            </div>
+
+            <!-- Teacher Tools -->
+            <div class="discovery-card" style="border-color: #059669;">
+                <div class="discovery-icon" style="background: linear-gradient(135deg, #059669, #047857);">
+                    👩‍🏫
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Teacher Power Tools</h3>
+                <p class="text-gray-600 mb-4">Professional tools for curriculum planning and resource management.</p>
+                <div class="space-y-2">
+                    <a href="/teacher-dashboard.html" class="block bg-emerald-100 text-emerald-800 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-emerald-200 transition-colors">
+                        📊 Teacher Dashboard
+                    </a>
+                    <a href="/unit-builder.html" class="block bg-emerald-50 text-emerald-700 px-3 py-2 rounded-lg text-sm hover:bg-emerald-100 transition-colors">
+                        🏗️ Unit Builder
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Results Area -->
+        <div id="search-results" class="hidden mt-8">
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">Search Results</h3>
+            <div id="results-container" class="space-y-4">
+                <!-- Results will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <div id="footer-container"></div>
+    <script>fetch('/components/footer.html').then(r=>r.text()).then(html=>document.getElementById('footer-container').innerHTML=html);</script>
+
+    <!-- Search Functionality -->
+    <script>
+        async function performSemanticSearch() {
+            const query = document.getElementById('semantic-search').value;
+            const qualityFilter = document.getElementById('quality-filter').value;
+            const culturalFilter = document.getElementById('cultural-filter').value;
+            const typeFilter = document.getElementById('type-filter').value;
+            const yearFilter = document.getElementById('year-filter').value;
+
+            if (!query.trim()) {
+                alert('Please enter a search query');
+                return;
+            }
+
+            // Show loading state
+            const resultsContainer = document.getElementById('results-container');
+            const searchResults = document.getElementById('search-results');
+            
+            searchResults.classList.remove('hidden');
+            resultsContainer.innerHTML = '<div class="text-center py-8"><div class="text-lg">🔍 Searching 17,335 resources...</div></div>';
+
+            try {
+                // This would connect to your GraphRAG search endpoint
+                const response = await fetch('/api/graphrag-search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        query: query,
+                        filters: {
+                            quality: qualityFilter,
+                            cultural: culturalFilter,
+                            type: typeFilter,
+                            year: yearFilter
+                        }
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Search failed');
+                }
+
+                const results = await response.json();
+                displaySearchResults(results);
+            } catch (error) {
+                console.error('Search error:', error);
+                resultsContainer.innerHTML = `
+                    <div class="text-center py-8">
+                        <div class="text-red-600 text-lg mb-4">Search temporarily unavailable</div>
+                        <div class="text-gray-600">Try browsing by <a href="/excellence-collection.html" class="text-blue-600 underline">Quality</a> or <a href="/cultural-excellence-network.html" class="text-green-600 underline">Cultural Excellence</a> instead.</div>
+                    </div>
+                `;
+            }
+        }
+
+        function displaySearchResults(results) {
+            const resultsContainer = document.getElementById('results-container');
+            
+            if (!results || results.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="text-center py-8">
+                        <div class="text-gray-600 text-lg">No results found</div>
+                        <div class="text-sm text-gray-500 mt-2">Try different keywords or browse our collections instead</div>
+                    </div>
+                `;
+                return;
+            }
+
+            const resultsHTML = results.map(result => `
+                <div class="bg-white p-6 rounded-lg border border-gray-200 hover:border-green-500 transition-colors">
+                    <div class="flex items-start justify-between mb-3">
+                        <h4 class="text-lg font-semibold text-gray-900">
+                            <a href="${result.path}" class="hover:text-green-600 transition-colors">${result.title}</a>
+                        </h4>
+                        <div class="flex space-x-2">
+                            ${result.quality_score >= 90 ? '<span class="quality-badge excellence">Q' + result.quality_score + '</span>' : ''}
+                            ${result.cultural_integration >= 90 ? '<span class="quality-badge cultural">Cultural</span>' : ''}
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-3">${result.description || ''}</p>
+                    <div class="flex items-center justify-between text-sm text-gray-500">
+                        <span class="capitalize">${result.type || 'Resource'}</span>
+                        <span>Similarity: ${Math.round((result.similarity || 0) * 100)}%</span>
+                    </div>
+                </div>
+            `).join('');
+
+            resultsContainer.innerHTML = resultsHTML;
+        }
+
+        // Enter key support for search
+        document.getElementById('semantic-search').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSemanticSearch();
+            }
+        });
+    </script>
+
+    <script src="/js/graphrag-performance-monitor.js" defer></script>
+    <script src="/js/analytics-tracker.js" defer></script>
+</body>
+</html>

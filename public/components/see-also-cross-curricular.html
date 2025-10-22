@@ -1,0 +1,262 @@
+<!-- See Also: Cross-Curricular Connections Component -->
+<!-- Usage: <div id="see-also" data-resource-path="/public/lessons/current.html" data-limit="4"></div><script src="/components/see-also-cross-curricular.html"></script> -->
+
+<style>
+.see-also-container {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    padding: 2.5rem 2rem;
+    border-radius: 16px;
+    margin: 3rem 0;
+    border-left: 6px solid #f59e0b;
+    box-shadow: 0 4px 20px rgba(245, 158, 11, 0.15);
+}
+
+.see-also-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.see-also-header h3 {
+    font-size: 1.75rem;
+    color: #92400e;
+    margin: 0 0 0.5rem 0;
+    font-weight: 800;
+}
+
+.see-also-subtitle {
+    color: #78350f;
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+.see-also-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+}
+
+.see-also-card {
+    background: white;
+    padding: 1.25rem;
+    border-radius: 12px;
+    text-decoration: none;
+    display: block;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    border-top: 4px solid var(--card-color, #f59e0b);
+    transition: all 0.3s;
+    position: relative;
+}
+
+.see-also-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(245, 158, 11, 0.2);
+}
+
+.cross-subject-badge {
+    position: absolute;
+    top: -12px;
+    right: 12px;
+    background: linear-gradient(135deg, #a855f7, #9333ea);
+    color: white;
+    padding: 0.35rem 0.75rem;
+    border-radius: 18px;
+    font-weight: 800;
+    font-size: 0.7rem;
+    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
+}
+
+.see-also-title {
+    color: #1f2937;
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem 0;
+    line-height: 1.4;
+    padding-right: 60px;
+}
+
+.see-also-meta {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+}
+
+.meta-tag {
+    font-size: 0.75rem;
+    color: #64748b;
+    background: #f1f5f9;
+    padding: 0.25rem 0.65rem;
+    border-radius: 6px;
+}
+
+.connection-type {
+    font-size: 0.85rem;
+    color: #78350f;
+    font-style: italic;
+    margin-top: 0.5rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #fde68a;
+}
+
+.see-also-loading {
+    text-align: center;
+    padding: 2rem;
+    color: #92400e;
+}
+
+.see-also-empty {
+    text-align: center;
+    padding: 2rem;
+    color: #92400e;
+    opacity: 0.7;
+}
+</style>
+
+<script>
+(async function() {
+    try {
+        // Get all see-also containers
+        const containers = document.querySelectorAll('[id^="see-also"]');
+        if (containers.length === 0) return;
+
+        // Init Supabase
+        const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+        
+        if (typeof window.supabase === 'undefined' || !window.supabase.from) {
+            window.supabase = (await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2')).createClient(SUPABASE_URL, SUPABASE_KEY);
+        }
+
+        const subjectColors = {
+            'Science': '#10b981',
+            'Mathematics': '#3b82f6',
+            'English': '#dc2626',
+            'Social Studies': '#ec4899',
+            'Digital Technologies': '#7c3aed',
+            'Te Ao Māori': '#14b8a6',
+            'Te Reo Māori': '#059669',
+            'Health & PE': '#f59e0b',
+            'Arts': '#a855f7'
+        };
+
+        for (const container of containers) {
+            const resourcePath = container.dataset.resourcePath;
+            const limit = parseInt(container.dataset.limit) || 4;
+
+            if (!resourcePath) {
+                console.warn('See Also: No data-resource-path specified');
+                continue;
+            }
+
+            // Show loading
+            container.innerHTML = '<div class="see-also-loading">🔄 Finding cross-curricular connections...</div>';
+
+            // First, get current resource's subject
+            const { data: currentResource, error: currentError } = await window.supabase
+                .from('graphrag_resources')
+                .select('subject, canonical_subject')
+                .eq('file_path', resourcePath)
+                .single();
+
+            if (currentError || !currentResource) {
+                container.innerHTML = '';
+                continue;
+            }
+
+            // Get relationships with resources from DIFFERENT subjects (cross-curricular!)
+            const { data: relationships, error: relError } = await window.supabase
+                .from('graphrag_relationships')
+                .select('target_path, relationship_type, confidence')
+                .eq('source_path', resourcePath)
+                .order('confidence', { ascending: false })
+                .limit(20); // Get more to filter
+
+            if (relError || !relationships || relationships.length === 0) {
+                container.innerHTML = '';
+                continue;
+            }
+
+            // Get target resources
+            const targetPaths = [...new Set(relationships.map(r => r.target_path))];
+            const { data: resources, error: resError } = await window.supabase
+                .from('graphrag_resources')
+                .select('file_path, title, resource_type, subject, canonical_subject, year_level, quality_score')
+                .in('file_path', targetPaths)
+                .gte('quality_score', 85); // High quality only
+
+            if (resError || !resources || resources.length === 0) {
+                container.innerHTML = '';
+                continue;
+            }
+
+            // Filter for DIFFERENT subjects (cross-curricular emphasis)
+            const crossSubjectResources = resources.filter(r => 
+                r.canonical_subject !== currentResource.canonical_subject &&
+                r.canonical_subject !== null
+            );
+
+            if (crossSubjectResources.length === 0) {
+                container.innerHTML = '';
+                continue;
+            }
+
+            // Take top N by quality
+            const topResources = crossSubjectResources
+                .sort((a, b) => b.quality_score - a.quality_score)
+                .slice(0, limit);
+
+            // Build HTML
+            let html = '<div class="see-also-container">';
+            html += '<div class="see-also-header">';
+            html += '<h3>🌈 See Also: Cross-Curricular Connections</h3>';
+            html += '<p class="see-also-subtitle">Explore related concepts from different subjects</p>';
+            html += '</div>';
+            html += '<div class="see-also-grid">';
+
+            topResources.forEach(resource => {
+                const relationship = relationships.find(r => r.target_path === resource.file_path);
+                const relationshipLabel = formatRelationshipType(relationship?.relationship_type || 'relates_to');
+                const color = subjectColors[resource.canonical_subject] || subjectColors[resource.subject] || '#6b7280';
+
+                html += `<a href="${resource.file_path}" class="see-also-card" style="--card-color: ${color};">`;
+                html += `<div class="cross-subject-badge">CROSS-SUBJECT</div>`;
+                html += `<h4 class="see-also-title">${resource.title || 'Untitled Resource'}</h4>`;
+                html += '<div class="see-also-meta">';
+                html += `<span class="meta-tag" style="background: ${color}20; color: ${color}; font-weight: 600;">${resource.canonical_subject || resource.subject}</span>`;
+                if (resource.year_level) html += `<span class="meta-tag">${resource.year_level}</span>`;
+                if (resource.resource_type) html += `<span class="meta-tag">${resource.resource_type}</span>`;
+                html += '</div>';
+                html += `<div class="connection-type">💡 ${relationshipLabel}</div>`;
+                html += '</a>';
+            });
+
+            html += '</div>'; // grid
+            html += '</div>'; // container
+
+            container.innerHTML = html;
+        }
+
+    } catch (error) {
+        console.error('See Also component error:', error);
+    }
+
+    function formatRelationshipType(type) {
+        const labels = {
+            'prerequisite_for': 'Foundation for this concept',
+            'follows': 'Natural progression',
+            'relates_to': 'Related learning',
+            'supports': 'Supports understanding',
+            'enriches': 'Enriches perspective',
+            'extends': 'Extends concepts',
+            'applies': 'Practical application',
+            'compares_with': 'Compare approaches',
+            'builds_on': 'Builds on concepts',
+            'cross_subject': 'Cross-curricular link',
+            'cultural_context': 'Cultural connection',
+            'alternative_approach': 'Different angle'
+        };
+        return labels[type] || 'Related concept';
+    }
+})();
+</script>
+

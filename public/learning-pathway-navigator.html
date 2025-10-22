@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Pathway Navigator | Te Kete Ako</title>
+    <meta name="description" content="Build visual learning journeys using GraphRAG-discovered connections">
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/mobile-revolution.css">
+    <link rel="stylesheet" href="/css/print.css" media="print">
+    <style>
+        .pathway-builder {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        
+        .canvas-area {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            min-height: 600px;
+            position: relative;
+            margin: 2rem 0;
+            box-shadow: inset 0 2px 20px rgba(0,0,0,0.05);
+        }
+        
+        .pathway-step {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            position: relative;
+            border-left: 5px solid var(--step-color, #3b82f6);
+            transition: all 0.3s;
+        }
+        
+        .pathway-step:hover {
+            transform: translateX(8px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.15);
+        }
+        
+        .step-connector {
+            height: 60px;
+            width: 3px;
+            background: linear-gradient(180deg, var(--step-color, #3b82f6) 0%, rgba(59, 130, 246, 0.3) 100%);
+            margin: 0 2rem;
+            position: relative;
+        }
+        
+        .step-connector::after {
+            content: '→';
+            position: absolute;
+            bottom: -10px;
+            left: -10px;
+            font-size: 1.5rem;
+            color: var(--step-color, #3b82f6);
+        }
+        
+        .suggested-next {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .suggestion-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .suggestion-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+        }
+        
+        .subject-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-right: 0.5rem;
+        }
+        
+        .science { background: #dcfce7; color: #166534; }
+        .mathematics { background: #dbeafe; color: #1e40af; }
+        .english { background: #fee2e2; color: #991b1b; }
+        .social-studies { background: #fce7f3; color: #831843; }
+        .digital-tech { background: #ede9fe; color: #5b21b6; }
+        .te-reo { background: #d1fae5; color: #065f46; }
+    </style>
+</head>
+<body class="pattern-koru-subtle">
+
+<!-- Navigation -->
+<div id="nav-container"></div>
+<script>
+    fetch('/components/navigation-standard.html')
+        .then(r => r.text())
+        .then(html => document.getElementById('nav-container').innerHTML = html);
+</script>
+
+<div class="pathway-builder">
+    <!-- Hero -->
+    <div style="background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; padding: 3rem 2rem; border-radius: 16px; text-align: center; margin-bottom: 2rem;">
+        <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">🗺️ Learning Pathway Navigator</h1>
+        <p style="font-size: 1.2rem; opacity: 0.95;">Build visual learning journeys using GraphRAG-discovered connections</p>
+    </div>
+
+    <!-- Controls -->
+    <div style="background: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08);">
+        <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 300px;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #475569;">Start Your Journey:</label>
+                <input type="text" id="pathway-search" placeholder="Search for a starting resource..." 
+                    style="width: 100%; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem;">
+            </div>
+            <div>
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #475569;">Focus:</label>
+                <select id="pathway-focus" style="padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+                    <option value="all">All Subjects</option>
+                    <option value="science">Science</option>
+                    <option value="mathematics">Mathematics</option>
+                    <option value="english">English</option>
+                    <option value="social-studies">Social Studies</option>
+                    <option value="cultural">Cultural Integration</option>
+                </select>
+            </div>
+            <button id="clear-pathway" style="background: #ef4444; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 1.75rem;">
+                Clear Pathway
+            </button>
+        </div>
+    </div>
+
+    <!-- Quick Start Templates -->
+    <div style="background: #fef3c7; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; border-left: 4px solid #f59e0b;">
+        <h3 style="color: #92400e; margin-top: 0;">⚡ Quick Start Templates:</h3>
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <button class="template-btn" data-template="y7-science">Y7 Science: Ecosystems</button>
+            <button class="template-btn" data-template="y8-math">Y8 Math: Algebra</button>
+            <button class="template-btn" data-template="y9-treaty">Y9 Social: Treaty Studies</button>
+            <button class="template-btn" data-template="cultural-stem">Cultural STEM Integration</button>
+        </div>
+    </div>
+
+    <!-- Canvas Area -->
+    <div id="pathway-canvas" class="canvas-area">
+        <div style="text-align: center; color: #64748b; padding: 4rem 2rem;">
+            <div style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.3;">🗺️</div>
+            <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Start Building Your Learning Pathway</h3>
+            <p>Search for a resource above or choose a quick start template</p>
+        </div>
+    </div>
+
+    <!-- Suggested Next Steps Panel -->
+    <div id="suggestions-panel" style="display: none; background: white; padding: 2rem; border-radius: 12px; margin-top: 2rem; box-shadow: 0 4px 16px rgba(0,0,0,0.1);">
+        <h3 style="color: #1a4d2e; margin-top: 0;">🔮 GraphRAG Suggestions: Next Steps</h3>
+        <p style="color: #64748b; margin-bottom: 1.5rem;">Based on your current pathway, these resources connect well:</p>
+        <div id="suggestions-grid" class="suggested-next"></div>
+    </div>
+
+    <!-- Export Options -->
+    <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 2rem; border-radius: 12px; margin-top: 2rem; text-align: center;">
+        <h3 style="margin-top: 0;">💾 Save Your Pathway</h3>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <button id="export-pdf" style="background: white; color: #10b981; padding: 0.75rem 1.5rem; border: none; border-radius: 8px; font-weight: 700; cursor: pointer;">
+                📄 Export as PDF
+            </button>
+            <button id="share-link" style="background: rgba(255,255,255,0.2); color: white; padding: 0.75rem 1.5rem; border: 2px solid white; border-radius: 8px; font-weight: 700; cursor: pointer;">
+                🔗 Copy Share Link
+            </button>
+            <button id="save-unit" style="background: rgba(255,255,255,0.2); color: white; padding: 0.75rem 1.5rem; border: 2px solid white; border-radius: 8px; font-weight: 700; cursor: pointer;">
+                💾 Save as Unit Plan
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<div id="footer-container"></div>
+<script>
+    fetch('/components/footer.html').then(r=>r.text()).then(html=>{
+        document.getElementById('footer-container').innerHTML=html;
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(async function() {
+    // Initialize Supabase
+    const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+    const supabase = (await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2')).createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let currentPathway = [];
+    let searchTimeout;
+
+    const colors = {
+        'Science': '#10b981',
+        'Mathematics': '#3b82f6',
+        'English': '#dc2626',
+        'Social Studies': '#ec4899',
+        'Digital Technologies': '#7c3aed',
+        'Te Ao Māori': '#059669'
+    };
+
+    // Search for resources
+    document.getElementById('pathway-search').addEventListener('input', async (e) => {
+        clearTimeout(searchTimeout);
+        const query = e.target.value.trim();
+        
+        if (query.length < 2) return;
+        
+        searchTimeout = setTimeout(async () => {
+            await showSearchResults(query);
+        }, 300);
+    });
+
+    async function showSearchResults(query) {
+        try {
+            const { data, error } = await supabase
+                .from('graphrag_resources')
+                .select('file_path, title, resource_type, subject, year_level, quality_score')
+                .ilike('title', `%${query}%`)
+                .gte('quality_score', 85)
+                .limit(10);
+            
+            if (error) throw error;
+            
+            // Show results as dropdown
+            // (Implementation would add a dropdown UI here)
+            console.log('Search results:', data);
+            
+        } catch (error) {
+            console.error('Search error:', error);
+        }
+    }
+
+    // Add resource to pathway
+    async function addToPathway(resource) {
+        currentPathway.push(resource);
+        renderPathway();
+        await loadSuggestions(resource);
+    }
+
+    // Render the pathway
+    function renderPathway() {
+        const canvas = document.getElementById('pathway-canvas');
+        
+        if (currentPathway.length === 0) {
+            canvas.innerHTML = `
+                <div style="text-align: center; color: #64748b; padding: 4rem 2rem;">
+                    <div style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.3;">🗺️</div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Start Building Your Learning Pathway</h3>
+                    <p>Search for a resource above or choose a quick start template</p>
+                </div>
+            `;
+            document.getElementById('suggestions-panel').style.display = 'none';
+            return;
+        }
+
+        let html = '';
+        currentPathway.forEach((resource, index) => {
+            const color = colors[resource.subject] || '#64748b';
+            html += `
+                <div class="pathway-step" style="--step-color: ${color};">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div style="flex: 1;">
+                            <div style="color: ${color}; font-weight: 700; font-size: 0.85rem; margin-bottom: 0.5rem;">
+                                STEP ${index + 1}
+                            </div>
+                            <h4 style="color: #1f2937; font-size: 1.25rem; margin: 0 0 0.75rem 0;">
+                                ${resource.title}
+                            </h4>
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                <span class="subject-badge ${resource.subject ? resource.subject.toLowerCase().replace(/\s+/g, '-') : ''}">
+                                    ${resource.subject || 'General'}
+                                </span>
+                                <span style="background: #f1f5f9; color: #475569; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">
+                                    ${resource.year_level || 'All Levels'}
+                                </span>
+                                <span style="background: #fef3c7; color: #92400e; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700;">
+                                    ⭐ ${resource.quality_score}
+                                </span>
+                            </div>
+                        </div>
+                        <button onclick="removeFromPathway(${index})" style="background: #fee2e2; color: #991b1b; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                            Remove
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            if (index < currentPathway.length - 1) {
+                html += `<div class="step-connector" style="--step-color: ${color};"></div>`;
+            }
+        });
+
+        canvas.innerHTML = html;
+    }
+
+    // Load GraphRAG suggestions for next steps
+    async function loadSuggestions(currentResource) {
+        try {
+            const { data, error } = await supabase
+                .from('graphrag_relationships')
+                .select('target_path, relationship_type, confidence')
+                .eq('source_path', currentResource.file_path)
+                .order('confidence', { ascending: false })
+                .limit(6);
+
+            if (error) throw error;
+
+            if (data && data.length > 0) {
+                const targetPaths = data.map(r => r.target_path);
+                const { data: resources, error: resError } = await supabase
+                    .from('graphrag_resources')
+                    .select('file_path, title, resource_type, subject, year_level, quality_score')
+                    .in('file_path', targetPaths);
+
+                if (!resError && resources) {
+                    displaySuggestions(resources);
+                }
+            }
+        } catch (error) {
+            console.error('Error loading suggestions:', error);
+        }
+    }
+
+    // Display suggestions
+    function displaySuggestions(resources) {
+        const panel = document.getElementById('suggestions-panel');
+        const grid = document.getElementById('suggestions-grid');
+        
+        grid.innerHTML = resources.map(resource => `
+            <div class="suggestion-card" onclick='addToPathwayFromSuggestion(${JSON.stringify(resource)})'>
+                <h5 style="color: #1f2937; font-weight: 700; margin: 0 0 0.5rem 0;">
+                    ${resource.title}
+                </h5>
+                <div style="font-size: 0.85rem; color: #64748b;">
+                    ${resource.subject} • ${resource.year_level} • Q${resource.quality_score}
+                </div>
+            </div>
+        `).join('');
+        
+        panel.style.display = 'block';
+    }
+
+    // Global functions for onclick
+    window.removeFromPathway = function(index) {
+        currentPathway.splice(index, 1);
+        renderPathway();
+    };
+
+    window.addToPathwayFromSuggestion = function(resource) {
+        addToPathway(resource);
+    };
+
+    // Clear pathway
+    document.getElementById('clear-pathway').addEventListener('click', () => {
+        if (confirm('Clear current pathway?')) {
+            currentPathway = [];
+            renderPathway();
+        }
+    });
+
+    // Template buttons
+    document.querySelectorAll('.template-btn').forEach(btn => {
+        btn.style.cssText = 'background: #f59e0b; color: white; padding: 0.5rem 1rem; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;';
+        btn.addEventListener('click', () => {
+            loadTemplate(btn.dataset.template);
+        });
+    });
+
+    async function loadTemplate(templateId) {
+        // Load predefined pathways
+        const templates = {
+            'y7-science': [
+                '/public/lessons/y7-science-ecosystem-kaitiakitanga.html',
+                '/public/units/y7-science-ecosystems/lessons/lesson-1-what-makes-an-ecosystem.html'
+            ],
+            'y8-math': [
+                '/public/lessons/y8-math-geometry-kowhaiwhai.html',
+                '/public/lessons/y7-math-patterns-algebra-intro.html'
+            ]
+        };
+
+        const paths = templates[templateId];
+        if (!paths) return;
+
+        try {
+            const { data, error } = await supabase
+                .from('graphrag_resources')
+                .select('file_path, title, resource_type, subject, year_level, quality_score')
+                .in('file_path', paths);
+
+            if (!error && data) {
+                currentPathway = data;
+                renderPathway();
+                if (data.length > 0) {
+                    await loadSuggestions(data[data.length - 1]);
+                }
+            }
+        } catch (error) {
+            console.error('Template load error:', error);
+        }
+    }
+
+    // Export functions
+    document.getElementById('export-pdf').addEventListener('click', () => {
+        alert('PDF export coming soon! For now, use Print (Ctrl/Cmd+P) to save as PDF.');
+    });
+
+    document.getElementById('share-link').addEventListener('click', () => {
+        const pathIds = currentPathway.map(r => encodeURIComponent(r.file_path)).join(',');
+        const shareUrl = `${window.location.origin}${window.location.pathname}?pathway=${pathIds}`;
+        navigator.clipboard.writeText(shareUrl);
+        alert('Share link copied to clipboard!');
+    });
+
+    document.getElementById('save-unit').addEventListener('click', () => {
+        alert('Unit plan save feature coming soon! For now, bookmark this page or take a screenshot.');
+    });
+
+    console.log('✅ Learning Pathway Navigator initialized');
+})();
+</script>
+
+<script src="/js/te-kete-professional.js" defer></script>
+<script src="/js/posthog-analytics.js" defer></script>
+
+</body>
+</html>
+

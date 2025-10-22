@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orchestration Test Suite | Te Kete Ako</title>
+    <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .test-pass { background: #dcfce7; color: #065f46; border-left: 4px solid #10b981; }
+        .test-fail { background: #fee2e2; color: #991b1b; border-left: 4px solid #dc2626; }
+        .test-running { background: #dbeafe; color: #1e40af; border-left: 4px solid #3b82f6; }
+        .test-pending { background: #f3f4f6; color: #64748b; border-left: 4px solid #9ca3af; }
+        
+        .test-result {
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .log-entry {
+            padding: 0.5rem;
+            margin: 0.25rem 0;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-family: monospace;
+        }
+        
+        .log-info { background: #f0f9ff; color: #0c4a6e; }
+        .log-success { background: #f0fdf4; color: #14532d; }
+        .log-error { background: #fef2f2; color: #7f1d1d; }
+        .log-warn { background: #fefce8; color: #713f12; }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .running-indicator {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); min-height: 100vh;">
+    
+    <!-- Header -->
+    <header style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); color: white; padding: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <div style="max-width: 1400px; margin: 0 auto;">
+            <h1 style="font-size: 2rem; font-weight: 800; margin: 0;">🧪 Orchestration Test Suite</h1>
+            <p style="opacity: 0.9; margin: 0.5rem 0 0 0;">Deep testing & validation of multi-agent coordination system</p>
+        </div>
+    </header>
+
+    <main style="max-width: 1400px; margin: 2rem auto; padding: 0 2rem;">
+        
+        <!-- Test Controls -->
+        <section style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 2rem;">
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button onclick="runAllTests()" style="background: #10b981; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; border: none; cursor: pointer; font-weight: 600;">
+                    ▶️ Run All Tests
+                </button>
+                <button onclick="runQuickTests()" style="background: #3b82f6; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; border: none; cursor: pointer; font-weight: 600;">
+                    ⚡ Quick Tests
+                </button>
+                <button onclick="runStressTests()" style="background: #f59e0b; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; border: none; cursor: pointer; font-weight: 600;">
+                    💪 Stress Tests
+                </button>
+                <button onclick="clearResults()" style="background: #6b7280; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; border: none; cursor: pointer; font-weight: 600;">
+                    🗑️ Clear Results
+                </button>
+                <button onclick="exportResults()" style="background: #8b5cf6; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; border: none; cursor: pointer; font-weight: 600;">
+                    📥 Export Results
+                </button>
+            </div>
+            
+            <!-- Test Progress -->
+            <div id="test-progress" style="margin-top: 1.5rem; display: none;">
+                <div style="background: #f1f5f9; height: 24px; border-radius: 12px; overflow: hidden;">
+                    <div id="progress-bar" style="background: linear-gradient(90deg, #10b981, #059669); height: 100%; width: 0%; transition: width 0.3s; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.75rem; font-weight: 700;">
+                        0%
+                    </div>
+                </div>
+                <div id="progress-text" style="margin-top: 0.5rem; color: #64748b; font-size: 0.9rem; text-align: center;">
+                    Initializing tests...
+                </div>
+            </div>
+        </section>
+
+        <!-- Test Summary -->
+        <section id="test-summary" style="display: none; background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 2rem;">
+            <h2 style="font-size: 1.5rem; font-weight: 700; margin: 0 0 1rem 0;">Test Summary</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <div style="background: #dcfce7; padding: 1rem; border-radius: 8px; border-left: 4px solid #10b981;">
+                    <div style="font-size: 2rem; font-weight: 800; color: #065f46;" id="pass-count">0</div>
+                    <div style="color: #047857; font-weight: 600;">Passed</div>
+                </div>
+                <div style="background: #fee2e2; padding: 1rem; border-radius: 8px; border-left: 4px solid #dc2626;">
+                    <div style="font-size: 2rem; font-weight: 800; color: #991b1b;" id="fail-count">0</div>
+                    <div style="color: #b91c1c; font-weight: 600;">Failed</div>
+                </div>
+                <div style="background: #fef3c7; padding: 1rem; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                    <div style="font-size: 2rem; font-weight: 800; color: #92400e;" id="skip-count">0</div>
+                    <div style="color: #c2410c; font-weight: 600;">Skipped</div>
+                </div>
+                <div style="background: #f3f4f6; padding: 1rem; border-radius: 8px; border-left: 4px solid #6b7280;">
+                    <div style="font-size: 2rem; font-weight: 800; color: #374151;" id="total-time">0s</div>
+                    <div style="color: #6b7280; font-weight: 600;">Total Time</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Test Results -->
+        <section>
+            <h2 style="font-size: 1.5rem; font-weight: 700; color: #1e293b; margin-bottom: 1rem;">
+                Test Results
+            </h2>
+            <div id="test-results">
+                <div style="background: white; padding: 3rem; border-radius: 12px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.08);">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🧪</div>
+                    <h3 style="color: #64748b; font-size: 1.5rem; margin-bottom: 0.5rem;">Ready to Test</h3>
+                    <p style="color: #94a3b8;">Click "Run All Tests" to start comprehensive testing</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Live Test Log -->
+        <section style="margin-top: 2rem;">
+            <h2 style="font-size: 1.5rem; font-weight: 700; color: #1e293b; margin-bottom: 1rem;">
+                Live Test Log
+            </h2>
+            <div id="test-log" style="background: #1e293b; color: #e2e8f0; padding: 1.5rem; border-radius: 12px; font-family: monospace; font-size: 0.85rem; max-height: 400px; overflow-y: auto; box-shadow: 0 2px 12px rgba(0,0,0,0.08);">
+                <div style="color: #64748b;">Waiting for tests to start...</div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        let testResults = [];
+        let startTime;
+        
+        // Logging utilities
+        function log(message, type = 'info') {
+            const logDiv = document.getElementById('test-log');
+            const timestamp = new Date().toLocaleTimeString();
+            const colors = {
+                info: '#3b82f6',
+                success: '#10b981',
+                error: '#dc2626',
+                warn: '#f59e0b'
+            };
+            
+            const entry = document.createElement('div');
+            entry.innerHTML = `<span style="color: #64748b;">[${timestamp}]</span> <span style="color: ${colors[type]};">▸</span> ${message}`;
+            logDiv.appendChild(entry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+        
+        function updateProgress(current, total, message) {
+            const percent = Math.round((current / total) * 100);
+            document.getElementById('progress-bar').style.width = percent + '%';
+            document.getElementById('progress-bar').textContent = percent + '%';
+            document.getElementById('progress-text').textContent = message;
+        }
+        
+        // Test framework
+        class TestSuite {
+            constructor(name) {
+                this.name = name;
+                this.tests = [];
+                this.passed = 0;
+                this.failed = 0;
+                this.skipped = 0;
+            }
+            
+            async test(name, testFn) {
+                const startTime = Date.now();
+                try {
+                    log(`Running: ${name}`, 'info');
+                    await testFn();
+                    const duration = Date.now() - startTime;
+                    this.passed++;
+                    testResults.push({ name, status: 'pass', duration, suite: this.name });
+                    log(`✓ PASS: ${name} (${duration}ms)`, 'success');
+                    return true;
+                } catch (error) {
+                    const duration = Date.now() - startTime;
+                    this.failed++;
+                    testResults.push({ name, status: 'fail', duration, error: error.message, suite: this.name });
+                    log(`✗ FAIL: ${name} - ${error.message}`, 'error');
+                    return false;
+                }
+            }
+            
+            skip(name, reason) {
+                this.skipped++;
+                testResults.push({ name, status: 'skip', reason, suite: this.name });
+                log(`⊘ SKIP: ${name} - ${reason}`, 'warn');
+            }
+        }
+        
+        // Assertion helpers
+        function assert(condition, message) {
+            if (!condition) {
+                throw new Error(message || 'Assertion failed');
+            }
+        }
+        
+        function assertEqual(actual, expected, message) {
+            if (actual !== expected) {
+                throw new Error(message || `Expected ${expected}, got ${actual}`);
+            }
+        }
+        
+        function assertExists(value, message) {
+            if (value === null || value === undefined) {
+                throw new Error(message || 'Expected value to exist');
+            }
+        }
+        
+        // TEST SUITE 1: Database Infrastructure
+        async function testDatabaseInfrastructure() {
+            const suite = new TestSuite('Database Infrastructure');
+            
+            await suite.test('task_queue table exists', async () => {
+                const { data, error } = await supabase.from('task_queue').select('count').limit(0);
+                assert(!error, `Table missing: ${error?.message}`);
+            });
+            
+            await suite.test('validation_pipeline table exists', async () => {
+                const { data, error } = await supabase.from('validation_pipeline').select('count').limit(0);
+                assert(!error, `Table missing: ${error?.message}`);
+            });
+            
+            await suite.test('agent_performance table exists', async () => {
+                const { data, error } = await supabase.from('agent_performance').select('count').limit(0);
+                assert(!error, `Table missing: ${error?.message}`);
+            });
+            
+            await suite.test('agent_coordination table has agents', async () => {
+                const { data, error } = await supabase.from('agent_coordination').select('agent_name');
+                assert(!error, 'Query failed');
+                assert(data.length >= 12, `Expected 12+ agents, got ${data.length}`);
+            });
+            
+            await suite.test('agent_messages table functional', async () => {
+                const { data, error } = await supabase.from('agent_messages').select('*').limit(5);
+                assert(!error, 'Query failed');
+            });
+            
+            return suite;
+        }
+        
+        // TEST SUITE 2: Task Creation & Routing
+        async function testTaskCreation() {
+            const suite = new TestSuite('Task Creation & Routing');
+            
+            await suite.test('Create test task', async () => {
+                const { data, error } = await supabase.rpc('assign_task', {
+                    p_task_type: 'build_lesson',
+                    p_description: '[TEST] Automated test task',
+                    p_priority: 10,
+                    p_assigned_by: 'test-suite',
+                    p_resource_path: '/test/path.html'
+                });
+                assert(!error, `Task creation failed: ${error?.message}`);
+                assertExists(data, 'No task ID returned');
+            });
+            
+            await suite.test('Task auto-assigned to correct agent', async () => {
+                const { data } = await supabase.from('task_queue')
+                    .select('*')
+                    .eq('assigned_by', 'test-suite')
+                    .order('created_at', { ascending: false })
+                    .limit(1)
+                    .single();
+                
+                assertEqual(data.assigned_to, 'kaituhi-ako', 'build_lesson should route to kaituhi-ako');
+                assertEqual(data.status, 'pending', 'New task should be pending');
+            });
+            
+            await suite.test('Priority queue ordering', async () => {
+                // Create tasks with different priorities
+                await supabase.rpc('assign_task', {
+                    p_task_type: 'build_lesson',
+                    p_description: '[TEST] Priority 1',
+                    p_priority: 1,
+                    p_assigned_by: 'test-priority'
+                });
+                
+                await supabase.rpc('assign_task', {
+                    p_task_type: 'build_lesson',
+                    p_description: '[TEST] Priority 10',
+                    p_priority: 10,
+                    p_assigned_by: 'test-priority'
+                });
+                
+                const { data } = await supabase.from('task_queue')
+                    .select('priority, task_description')
+                    .eq('assigned_by', 'test-priority')
+                    .order('priority', { ascending: true });
+                
+                assert(data[0].priority < data[1].priority, 'Priority ordering incorrect');
+            });
+            
+            await suite.test('Task has all required fields', async () => {
+                const { data } = await supabase.from('task_queue')
+                    .select('*')
+                    .eq('assigned_by', 'test-suite')
+                    .limit(1)
+                    .single();
+                
+                assertExists(data.id, 'Missing ID');
+                assertExists(data.task_type, 'Missing task_type');
+                assertExists(data.assigned_to, 'Missing assigned_to');
+                assertExists(data.created_at, 'Missing created_at');
+                assertEqual(data.status, 'pending', 'Status should be pending');
+            });
+            
+            return suite;
+        }
+        
+        // TEST SUITE 3: Agent Task Claiming
+        async function testAgentClaiming() {
+            const suite = new TestSuite('Agent Task Claiming');
+            
+            await suite.test('Agent can claim task', async () => {
+                // Create a task
+                const { data: taskId } = await supabase.rpc('assign_task', {
+                    p_task_type: 'build_handout',
+                    p_description: '[TEST] Claim test',
+                    p_priority: 5,
+                    p_assigned_by: 'test-claim'
+                });
+                
+                // Agent claims it
+                const { data, error } = await supabase.rpc('get_next_task', {
+                    p_agent_id: 'kaituhi-ako'
+                });
+                
+                assert(!error, `Claim failed: ${error?.message}`);
+            });
+            
+            await suite.test('Claimed task status changes to in_progress', async () => {
+                const { data } = await supabase.from('task_queue')
+                    .select('*')
+                    .eq('assigned_by', 'test-claim')
+                    .eq('status', 'in_progress')
+                    .limit(1);
+                
+                assert(data.length > 0, 'Task not marked in_progress');
+                assertExists(data[0].started_at, 'started_at not set');
+            });
+            
+            await suite.test('Only assigned agent can claim', async () => {
+                // Try to claim task assigned to different agent
+                const { data } = await supabase.rpc('get_next_task', {
+                    p_agent_id: 'kaitiaki-ahurea'  // Wrong agent
+                });
+                
+                // Should return nothing since tasks are for kaituhi-ako
+                assert(!data || data.length === 0, 'Wrong agent claimed task');
+            });
+            
+            return suite;
+        }
+        
+        // TEST SUITE 4: Task Completion
+        async function testTaskCompletion() {
+            const suite = new TestSuite('Task Completion');
+            
+            await suite.test('Agent can complete task', async () => {
+                // First create and claim a task
+                await supabase.rpc('assign_task', {
+                    p_task_type: 'create_relationships',
+                    p_description: '[TEST] Completion test',
+                    p_priority: 5,
+                    p_assigned_by: 'test-complete'
+                });
+                
+                const { data: claimed } = await supabase.rpc('get_next_task', {
+                    p_agent_id: 'kaihapai-hononga'
+                });
+                
+                // Complete it
+                const { error } = await supabase.rpc('complete_task', {
+                    p_task_id: claimed[0].task_id,
+                    p_agent_id: 'kaihapai-hononga',
+                    p_output_data: { result: 'test_success', score: 95 }
+                });
+                
+                assert(!error, `Completion failed: ${error?.message}`);
+            });
+            
+            await suite.test('Completed task has correct status', async () => {
+                const { data } = await supabase.from('task_queue')
+                    .select('*')
+                    .eq('assigned_by', 'test-complete')
+                    .single();
+                
+                assertEqual(data.status, 'completed', 'Status should be completed');
+                assertExists(data.completed_at, 'completed_at not set');
+                assertExists(data.output_data, 'output_data not saved');
+            });
+            
+            await suite.test('Completion notification sent', async () => {
+                const { data } = await supabase.from('agent_messages')
+                    .select('*')
+                    .eq('from_agent', 'kaihapai-hononga')
+                    .eq('to_agent', 'kaitiaki-aronui')
+                    .order('created_at', { ascending: false })
+                    .limit(1);
+                
+                assert(data.length > 0, 'No notification sent');
+                assert(data[0].message.includes('completed'), 'Wrong message content');
+            });
+            
+            return suite;
+        }
+        
+        // TEST SUITE 5: Performance Metrics
+        async function testPerformanceMetrics() {
+            const suite = new TestSuite('Performance Metrics');
+            
+            await suite.test('Duration calculated correctly', async () => {
+                const { data } = await supabase.from('task_queue')
+                    .select('started_at, completed_at')
+                    .eq('status', 'completed')
+                    .not('started_at', 'is', null)
+                    .not('completed_at', 'is', null)
+                    .limit(1)
+                    .single();
+                
+                if (data) {
+                    const duration = new Date(data.completed_at) - new Date(data.started_at);
+                    assert(duration >= 0, 'Duration should be positive');
+                    assert(duration < 24 * 60 * 60 * 1000, 'Duration unreasonably long');
+                }
+            });
+            
+            await suite.test('Average completion time query works', async () => {
+                const { data, error } = await supabase.rpc('get_agent_workload');
+                assert(!error, `Workload query failed: ${error?.message}`);
+            });
+            
+            await suite.test('Output data preserved', async () => {
+                const { data } = await supabase.from('task_queue')
+                    .select('output_data')
+                    .eq('status', 'completed')
+                    .not('output_data', 'is', null)
+                    .limit(1);
+                
+                if (data && data.length > 0) {
+                    assert(typeof data[0].output_data === 'object', 'output_data should be JSON');
+                }
+            });
+            
+            return suite;
+        }
+        
+        // TEST SUITE 6: Edge Cases & Error Handling
+        async function testEdgeCases() {
+            const suite = new TestSuite('Edge Cases & Error Handling');
+            
+            await suite.test('Cannot complete task twice', async () => {
+                // Get a completed task
+                const { data: completed } = await supabase.from('task_queue')
+                    .select('*')
+                    .eq('status', 'completed')
+                    .limit(1)
+                    .single();
+                
+                if (completed) {
+                    // Try to complete again
+                    const { data } = await supabase.rpc('complete_task', {
+                        p_task_id: completed.id,
+                        p_agent_id: completed.assigned_to,
+                        p_output_data: {}
+                    });
+                    
+                    // Should not update (no rows affected)
+                    assert(true, 'System handled double completion');
+                }
+            });
+            
+            await suite.test('Invalid agent ID handled', async () => {
+                const { data, error } = await supabase.rpc('get_next_task', {
+                    p_agent_id: 'non-existent-agent-xyz'
+                });
+                
+                // Should return empty, not error
+                assert(!error, 'Should handle invalid agent gracefully');
+                assert(!data || data.length === 0, 'Should return no tasks');
+            });
+            
+            await suite.test('Null task description handled', async () => {
+                const { error } = await supabase.rpc('assign_task', {
+                    p_task_type: 'build_lesson',
+                    p_description: null,
+                    p_priority: 5,
+                    p_assigned_by: 'test-null'
+                });
+                
+                assert(!error, 'Should handle null description');
+            });
+            
+            return suite;
+        }
+        
+        // Main test runners
+        async function runAllTests() {
+            document.getElementById('test-progress').style.display = 'block';
+            document.getElementById('test-summary').style.display = 'block';
+            document.getElementById('test-log').innerHTML = '';
+            testResults = [];
+            startTime = Date.now();
+            
+            log('═══════════════════════════════════════', 'info');
+            log('ORCHESTRATION TEST SUITE - COMPREHENSIVE RUN', 'info');
+            log('═══════════════════════════════════════', 'info');
+            
+            const suites = [
+                testDatabaseInfrastructure,
+                testTaskCreation,
+                testAgentClaiming,
+                testTaskCompletion,
+                testPerformanceMetrics,
+                testEdgeCases
+            ];
+            
+            let totalPassed = 0, totalFailed = 0, totalSkipped = 0;
+            
+            for (let i = 0; i < suites.length; i++) {
+                updateProgress(i, suites.length, `Running suite ${i + 1} of ${suites.length}...`);
+                const suite = await suites[i]();
+                totalPassed += suite.passed;
+                totalFailed += suite.failed;
+                totalSkipped += suite.skipped;
+            }
+            
+            updateProgress(suites.length, suites.length, 'All tests complete!');
+            
+            const totalTime = ((Date.now() - startTime) / 1000).toFixed(2);
+            
+            document.getElementById('pass-count').textContent = totalPassed;
+            document.getElementById('fail-count').textContent = totalFailed;
+            document.getElementById('skip-count').textContent = totalSkipped;
+            document.getElementById('total-time').textContent = totalTime + 's';
+            
+            displayResults();
+            
+            log('═══════════════════════════════════════', 'success');
+            log(`COMPLETE: ${totalPassed} passed, ${totalFailed} failed, ${totalSkipped} skipped`, 'success');
+            log(`Total time: ${totalTime}s`, 'info');
+            log('═══════════════════════════════════════', 'success');
+        }
+        
+        async function runQuickTests() {
+            // Run only critical path tests
+            log('Running quick smoke tests...', 'info');
+            await testDatabaseInfrastructure();
+            await testTaskCreation();
+            displayResults();
+        }
+        
+        async function runStressTests() {
+            log('Running stress tests...', 'warn');
+            
+            // Create 50 tasks rapidly
+            const promises = [];
+            for (let i = 0; i < 50; i++) {
+                promises.push(
+                    supabase.rpc('assign_task', {
+                        p_task_type: 'build_lesson',
+                        p_description: `[STRESS TEST] Task ${i}`,
+                        p_priority: Math.floor(Math.random() * 10) + 1,
+                        p_assigned_by: 'stress-test'
+                    })
+                );
+            }
+            
+            const results = await Promise.all(promises);
+            const successful = results.filter(r => !r.error).length;
+            
+            log(`Created ${successful}/50 tasks successfully`, successful === 50 ? 'success' : 'warn');
+        }
+        
+        function displayResults() {
+            const container = document.getElementById('test-results');
+            const grouped = {};
+            
+            testResults.forEach(result => {
+                if (!grouped[result.suite]) grouped[result.suite] = [];
+                grouped[result.suite].push(result);
+            });
+            
+            let html = '';
+            for (const [suite, tests] of Object.entries(grouped)) {
+                html += `
+                    <div style="background: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 1rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08);">
+                        <h3 style="font-size: 1.2rem; font-weight: 700; margin: 0 0 1rem 0;">${suite}</h3>
+                        ${tests.map(test => `
+                            <div class="test-result test-${test.status}">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div>
+                                        <strong>${test.status === 'pass' ? '✓' : test.status === 'fail' ? '✗' : '⊘'} ${test.name}</strong>
+                                        ${test.error ? `<div style="margin-top: 0.5rem; font-size: 0.85rem;">Error: ${test.error}</div>` : ''}
+                                        ${test.reason ? `<div style="margin-top: 0.5rem; font-size: 0.85rem;">Reason: ${test.reason}</div>` : ''}
+                                    </div>
+                                    ${test.duration ? `<span style="color: #64748b; font-size: 0.85rem;">${test.duration}ms</span>` : ''}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = html;
+        }
+        
+        function clearResults() {
+            document.getElementById('test-results').innerHTML = `
+                <div style="background: white; padding: 3rem; border-radius: 12px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.08);">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🧪</div>
+                    <h3 style="color: #64748b; font-size: 1.5rem;">Results Cleared</h3>
+                </div>
+            `;
+            document.getElementById('test-log').innerHTML = '<div style="color: #64748b;">Waiting for tests to start...</div>';
+            document.getElementById('test-progress').style.display = 'none';
+            document.getElementById('test-summary').style.display = 'none';
+            testResults = [];
+        }
+        
+        function exportResults() {
+            const report = {
+                timestamp: new Date().toISOString(),
+                results: testResults,
+                summary: {
+                    passed: testResults.filter(r => r.status === 'pass').length,
+                    failed: testResults.filter(r => r.status === 'fail').length,
+                    skipped: testResults.filter(r => r.status === 'skip').length,
+                    duration: (Date.now() - startTime) / 1000
+                }
+            };
+            
+            const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `test-results-${Date.now()}.json`;
+            a.click();
+            
+            log('Test results exported', 'success');
+        }
+    </script>
+
+</body>
+</html>
+

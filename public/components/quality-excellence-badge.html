@@ -1,0 +1,171 @@
+<!-- 🏆 QUALITY EXCELLENCE BADGE COMPONENT -->
+<!-- Auto-displays badges for resources with quality scores 90+ -->
+<!-- Usage: Add this script tag to any lesson/handout page -->
+
+<script>
+(function() {
+    'use strict';
+    
+    // Get current page path
+    const currentPath = window.location.pathname;
+    
+    // Badge configurations
+    const badges = {
+        95: {
+            label: 'EXCELLENCE 95',
+            icon: '🏆',
+            gradient: 'linear-gradient(135deg, #fbbf24, #f59e0b)',
+            textColor: '#78350f',
+            shadow: '0 4px 12px rgba(251, 191, 36, 0.4)'
+        },
+        94: {
+            label: 'EXCELLENCE 94',
+            icon: '⭐',
+            gradient: 'linear-gradient(135deg, #10b981, #059669)',
+            textColor: 'white',
+            shadow: '0 4px 12px rgba(16, 185, 129, 0.4)'
+        },
+        92: {
+            label: 'HIGH QUALITY 92',
+            icon: '⭐',
+            gradient: 'linear-gradient(135deg, #3b82f6, #2563eb)',
+            textColor: 'white',
+            shadow: '0 4px 12px rgba(59, 130, 246, 0.4)'
+        },
+        90: {
+            label: 'HIGH QUALITY 90+',
+            icon: '✨',
+            gradient: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
+            textColor: 'white',
+            shadow: '0 4px 12px rgba(139, 92, 246, 0.4)'
+        }
+    };
+    
+    async function addQualityBadge() {
+        try {
+            // Initialize Supabase if not already done
+            if (typeof window.supabase === 'undefined' || !window.supabase.from) {
+                const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+                const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+                const supabaseModule = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2');
+                window.supabase = supabaseModule.createClient(SUPABASE_URL, SUPABASE_KEY);
+            }
+            
+            // Query quality score for current page
+            const { data, error } = await window.supabase
+                .from('graphrag_resources')
+                .select('quality_score, title')
+                .eq('file_path', currentPath)
+                .single();
+            
+            if (error || !data || !data.quality_score || data.quality_score < 90) {
+                // Not Q90+, no badge needed
+                return;
+            }
+            
+            const score = data.quality_score;
+            
+            // Determine badge type
+            let badgeConfig;
+            if (score >= 95) badgeConfig = badges[95];
+            else if (score >= 94) badgeConfig = badges[94];
+            else if (score >= 92) badgeConfig = badges[92];
+            else badgeConfig = badges[90];
+            
+            // Create badge element
+            const badge = document.createElement('div');
+            badge.className = 'quality-excellence-badge';
+            badge.style.cssText = `
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                z-index: 999;
+                background: ${badgeConfig.gradient};
+                color: ${badgeConfig.textColor};
+                padding: 0.75rem 1.25rem;
+                border-radius: 30px;
+                font-weight: 800;
+                font-size: 0.85rem;
+                box-shadow: ${badgeConfig.shadow};
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                animation: badge-float 3s ease-in-out infinite;
+                cursor: pointer;
+                transition: transform 0.2s;
+            `;
+            
+            badge.innerHTML = `
+                <span style="font-size: 1.2rem;">${badgeConfig.icon}</span>
+                <span>${badgeConfig.label}</span>
+            `;
+            
+            // Hover effect
+            badge.addEventListener('mouseenter', () => {
+                badge.style.transform = 'scale(1.05)';
+            });
+            
+            badge.addEventListener('mouseleave', () => {
+                badge.style.transform = 'scale(1)';
+            });
+            
+            // Click to show quality info
+            badge.addEventListener('click', () => {
+                alert(`This resource has achieved an excellence rating of ${score}/100 through our quality validation system.
+
+What this means:
+✅ Culturally integrated content
+✅ Professional teaching quality
+✅ NZ Curriculum aligned
+✅ Ready for classroom use
+
+Quality validated by Te Kete Ako's GraphRAG intelligence system.`);
+            });
+            
+            // Add badge to page
+            document.body.appendChild(badge);
+            
+            // Add floating animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes badge-float {
+                    0%, 100% { transform: translateY(0px); }
+                    50% { transform: translateY(-10px); }
+                }
+                
+                @media (max-width: 768px) {
+                    .quality-excellence-badge {
+                        top: 60px !important;
+                        right: 10px !important;
+                        padding: 0.5rem 1rem !important;
+                        font-size: 0.75rem !important;
+                    }
+                    .quality-excellence-badge span:first-child {
+                        font-size: 1rem !important;
+                    }
+                }
+                
+                @media print {
+                    .quality-excellence-badge {
+                        display: none !important;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            console.log(`🏆 Quality Excellence Badge added: ${score}/100`);
+            
+        } catch (e) {
+            console.error('Quality badge error:', e);
+        }
+    }
+    
+    // Run on page load
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', addQualityBadge);
+    } else {
+        addQualityBadge();
+    }
+})();
+</script>
+

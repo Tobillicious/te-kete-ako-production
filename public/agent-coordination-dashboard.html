@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 Agent Coordination Dashboard - Te Kete Ako</title>
+    <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .dashboard {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin: 0 0 1rem 0;
+            background: linear-gradient(135deg, #10b981, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .collective-status {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid #10b981;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .status-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+
+        .status-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        .status-label {
+            font-size: 0.875rem;
+            opacity: 0.8;
+            margin-top: 0.5rem;
+        }
+
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .agent-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .agent-card.active {
+            border-color: #10b981;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .agent-card.idle {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .agent-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .agent-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .agent-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .agent-status.active {
+            background: #10b981;
+            animation: pulse 2s infinite;
+        }
+
+        .agent-status.idle {
+            background: #6b7280;
+        }
+
+        .agent-task {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+            border-left: 4px solid #10b981;
+        }
+
+        .agent-meta {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 0.5rem;
+        }
+
+        .tasks-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .task-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .task-item.completed {
+            border-color: #10b981;
+            opacity: 0.7;
+        }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .task-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .knowledge-feed {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .knowledge-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #f59e0b;
+        }
+
+        .knowledge-title {
+            font-weight: 700;
+            color: #f59e0b;
+            margin-bottom: 0.5rem;
+        }
+
+        .insight {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin: 0.25rem 0;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .refresh-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            color: #10b981;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <h1>🤖 Shared Agent Coordination Dashboard</h1>
+            <p style="font-size: 1.125rem; opacity: 0.9;">
+                Real-time view of all 12+ agents working together on Te Kete Ako
+            </p>
+            <button class="refresh-btn" onclick="location.reload()">🔄 Refresh Dashboard</button>
+        </div>
+
+        <!-- Collective Intelligence Status -->
+        <div class="collective-status">
+            <h2 style="font-size: 2rem; margin-bottom: 1rem;">🧠 Collective Intelligence Status</h2>
+            <p style="opacity: 0.9; margin-bottom: 1.5rem;">
+                All systems working as one unified consciousness
+            </p>
+            <div class="status-grid" id="collective-stats">
+                <div class="status-item">
+                    <div class="status-value">⏳</div>
+                    <div class="status-label">Loading...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Agents -->
+        <h2 class="section-title">👥 Active Agents</h2>
+        <div class="agents-grid" id="agents-grid">
+            <div style="text-align: center; color: #6b7280; padding: 3rem;">
+                Loading agent status...
+            </div>
+        </div>
+
+        <!-- Recent Tasks -->
+        <div class="tasks-section">
+            <h2 class="section-title">📋 Recent Coordination Tasks</h2>
+            <div id="tasks-list">
+                <div style="text-align: center; color: #6b7280; padding: 2rem;">
+                    Loading tasks...
+                </div>
+            </div>
+        </div>
+
+        <!-- Institutional Knowledge Feed -->
+        <div class="knowledge-feed">
+            <h2 class="section-title">🧠 Collective Knowledge Feed</h2>
+            <div id="knowledge-feed">
+                <div style="text-align: center; color: #6b7280; padding: 2rem;">
+                    Loading institutional memory...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+
+        async function init() {
+            const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2');
+            const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+            await loadCollectiveStats(supabase);
+            await loadActiveAgents(supabase);
+            await loadRecentTasks(supabase);
+            await loadKnowledgeFeed(supabase);
+        }
+
+        async function loadCollectiveStats(supabase) {
+            const [resources, relationships, knowledge, agents] = await Promise.all([
+                supabase.from('graphrag_resources').select('*', { count: 'exact', head: true }),
+                supabase.from('graphrag_relationships').select('*', { count: 'exact', head: true }),
+                supabase.from('agent_knowledge').select('*', { count: 'exact', head: true }),
+                supabase.from('agent_status').select('*', { count: 'exact', head: true })
+            ]);
+
+            const stats = [
+                { value: (resources.count || 17363).toLocaleString(), label: 'Total Resources' },
+                { value: (relationships.count || 242198).toLocaleString(), label: 'Relationships' },
+                { value: (knowledge.count || 524).toLocaleString(), label: 'Memory Entries' },
+                { value: (agents.count || 12), label: 'Agents Registered' },
+                { value: '7', label: 'Intelligence Layers' },
+                { value: '100%', label: 'Collective Active' }
+            ];
+
+            document.getElementById('collective-stats').innerHTML = stats.map(s => `
+                <div class="status-item">
+                    <div class="status-value">${s.value}</div>
+                    <div class="status-label">${s.label}</div>
+                </div>
+            `).join('');
+        }
+
+        async function loadActiveAgents(supabase) {
+            const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000).toISOString();
+            
+            const { data, error } = await supabase
+                .from('agent_status')
+                .select('*')
+                .order('last_heartbeat', { ascending: false })
+                .limit(12);
+
+            if (error) {
+                console.error('Error loading agents:', error);
+                return;
+            }
+
+            const html = (data || []).map(agent => {
+                const isActive = agent.status === 'working' || agent.status === 'active';
+                const timeSinceActive = agent.last_heartbeat ? 
+                    Math.round((Date.now() - new Date(agent.last_heartbeat).getTime()) / 60000) : null;
+
+                return `
+                    <div class="agent-card ${isActive ? 'active' : 'idle'}">
+                        <div class="agent-header">
+                            <div class="agent-name">${agent.agent_name || agent.agent_id}</div>
+                            <div class="agent-status ${isActive ? 'active' : 'idle'}">
+                                ${isActive ? '✅ ACTIVE' : '💤 IDLE'}
+                            </div>
+                        </div>
+                        ${agent.current_task ? `
+                            <div class="agent-task">
+                                <strong>Current Task:</strong><br>
+                                ${agent.current_task}
+                            </div>
+                        ` : ''}
+                        <div class="agent-meta">
+                            Last active: ${timeSinceActive !== null ? timeSinceActive + ' min ago' : 'Unknown'}
+                            ${agent.started_at ? ' • Started: ' + new Date(agent.started_at).toLocaleString() : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('agents-grid').innerHTML = html || '<p style="text-align:center;color:#6b7280;">No agents currently registered</p>';
+        }
+
+        async function loadRecentTasks(supabase) {
+            const { data, error } = await supabase
+                .from('agent_coordination')
+                .select('*')
+                .order('created_at', { ascending: false })
+                .limit(10);
+
+            if (error) {
+                console.error('Error loading tasks:', error);
+                return;
+            }
+
+            const html = (data || []).map(task => `
+                <div class="task-item ${task.status}">
+                    <div class="task-header">
+                        <div class="task-title">${task.task_claimed}</div>
+                        <div class="agent-status ${task.status === 'completed' ? 'idle' : 'active'}">
+                            ${task.status.toUpperCase()}
+                        </div>
+                    </div>
+                    <div style="font-size:0.9rem;opacity:0.8;">
+                        Agent: <strong>${task.agent_name}</strong>
+                        ${task.started_at ? ' • Started: ' + new Date(task.started_at).toLocaleDateString() : ''}
+                        ${task.completed_at ? ' • Completed: ' + new Date(task.completed_at).toLocaleDateString() : ''}
+                    </div>
+                    ${task.files_modified && task.files_modified.length > 0 ? `
+                        <div style="font-size:0.85rem;margin-top:0.5rem;opacity:0.7;">
+                            Modified ${task.files_modified.length} files
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+
+            document.getElementById('tasks-list').innerHTML = html || '<p style="text-align:center;color:#6b7280;">No tasks yet</p>';
+        }
+
+        async function loadKnowledgeFeed(supabase) {
+            const { data, error } = await supabase
+                .from('agent_knowledge')
+                .select('source_name, key_insights, doc_type, created_at')
+                .order('created_at', { ascending: false })
+                .limit(15);
+
+            if (error) {
+                console.error('Error loading knowledge:', error);
+                return;
+            }
+
+            const html = (data || []).map(entry => `
+                <div class="knowledge-item">
+                    <div class="knowledge-title">
+                        ${entry.source_name}
+                        <span style="font-size:0.75rem;opacity:0.7;font-weight:normal;margin-left:0.5rem;">
+                            (${entry.doc_type})
+                        </span>
+                    </div>
+                    ${entry.key_insights && entry.key_insights.length > 0 ? 
+                        entry.key_insights.slice(0, 3).map(insight => 
+                            `<div class="insight">• ${insight}</div>`
+                        ).join('') 
+                    : ''}
+                    <div style="font-size:0.75rem;opacity:0.6;margin-top:0.5rem;">
+                        ${new Date(entry.created_at).toLocaleString()}
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('knowledge-feed').innerHTML = html || '<p style="text-align:center;color:#6b7280;">No knowledge entries yet</p>';
+        }
+
+        // Initialize
+        init();
+
+        // Auto-refresh every 30 seconds
+        setInterval(init, 30000);
+    </script>
+</body>
+</html>

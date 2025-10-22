@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Variant System Test Page | Te Kete Ako</title>
+    
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="pattern-koru-subtle" style="padding: 2rem;">
+
+    <div style="max-width: 1200px; margin: 0 auto;">
+        
+        <!-- Test Header -->
+        <header style="background: linear-gradient(135deg, #dc2626, #991b1b); color: white; padding: 3rem; border-radius: 16px; margin-bottom: 3rem; text-align: center;">
+            <h1 style="font-size: 3rem; margin-bottom: 1rem; font-weight: 900;">
+                🧪 Variant System Test Suite
+            </h1>
+            <p style="font-size: 1.3rem; opacity: 0.95;">
+                Testing all components built in this session
+            </p>
+        </header>
+
+        <!-- Test Results Container -->
+        <div id="test-results" style="display: grid; gap: 2rem;">
+            
+            <!-- Test 1: Mega-Navigation Component -->
+            <div class="test-card" style="background: white; padding: 2rem; border-radius: 12px; border-left: 6px solid #3b82f6; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                <h2 style="color: #1a4d2e; margin-bottom: 1rem;">
+                    Test 1: Mega-Navigation Component
+                </h2>
+                <p style="color: #666; margin-bottom: 1rem;">
+                    <strong>Expected:</strong> Floating 📚 button in bottom-right, opens slide-out panel with GraphRAG data
+                </p>
+                <div id="test1-result" style="padding: 1rem; background: #f3f4f6; border-radius: 8px; margin-bottom: 1rem;">
+                    <strong>Status:</strong> <span id="test1-status">Testing...</span>
+                </div>
+                <button onclick="testMegaNav()" style="background: #3b82f6; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                    🧪 Run Test
+                </button>
+            </div>
+
+            <!-- Test 2: Teaching Variants Browser -->
+            <div class="test-card" style="background: white; padding: 2rem; border-radius: 12px; border-left: 6px solid #10b981; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                <h2 style="color: #1a4d2e; margin-bottom: 1rem;">
+                    Test 2: Teaching Variants Browser Page
+                </h2>
+                <p style="color: #666; margin-bottom: 1rem;">
+                    <strong>Expected:</strong> Full page with filters, loads real GraphRAG data, shows 7,072+ variants
+                </p>
+                <div id="test2-result" style="padding: 1rem; background: #f3f4f6; border-radius: 8px; margin-bottom: 1rem;">
+                    <strong>Status:</strong> <span id="test2-status">Testing...</span>
+                </div>
+                <a href="/all-teaching-variants-browser.html" target="_blank" style="display: inline-block; background: #10b981; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600;">
+                    🧪 Open Variants Browser
+                </a>
+            </div>
+
+            <!-- Test 3: Y7 Algebra Variant Cards -->
+            <div class="test-card" style="background: white; padding: 2rem; border-radius: 12px; border-left: 6px solid #f59e0b; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                <h2 style="color: #1a4d2e; margin-bottom: 1rem;">
+                    Test 3: Y7 Algebra Unit with Variant Selector Cards
+                </h2>
+                <p style="color: #666; margin-bottom: 1rem;">
+                    <strong>Expected:</strong> Unit overview + 5 lessons each with 2-3 variant cards showing distinct blurbs
+                </p>
+                <div id="test3-result" style="padding: 1rem; background: #f3f4f6; border-radius: 8px; margin-bottom: 1rem;">
+                    <strong>Status:</strong> <span id="test3-status">Testing...</span>
+                </div>
+                <a href="/units/y7-maths-algebra/index-with-variants.html" target="_blank" style="display: inline-block; background: #f59e0b; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600;">
+                    🧪 Open Y7 Algebra Unit
+                </a>
+            </div>
+
+            <!-- Test 4: Auto-Generator JS -->
+            <div class="test-card" style="background: white; padding: 2rem; border-radius: 12px; border-left: 6px solid #a855f7; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                <h2 style="color: #1a4d2e; margin-bottom: 1rem;">
+                    Test 4: Auto-Generator JS Component
+                </h2>
+                <p style="color: #666; margin-bottom: 1rem;">
+                    <strong>Expected:</strong> Queries GraphRAG for unit lessons, generates variant cards automatically
+                </p>
+                <div id="test4-result" style="padding: 1rem; background: #f3f4f6; border-radius: 8px; margin-bottom: 1rem;">
+                    <strong>Status:</strong> <span id="test4-status">Testing...</span>
+                </div>
+                
+                <!-- Test container for auto-generator -->
+                <div id="variants-auto-container" data-unit-path="/units/y7-maths-algebra/" style="margin-top: 1rem; padding: 2rem; background: #f9fafb; border-radius: 8px; min-height: 200px;">
+                    <div style="text-align: center; color: #9ca3af;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">⏳</div>
+                        <div>Auto-generator should populate this area...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Test 5: GraphRAG Query Test -->
+            <div class="test-card" style="background: white; padding: 2rem; border-radius: 12px; border-left: 6px solid #ec4899; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                <h2 style="color: #1a4d2e; margin-bottom: 1rem;">
+                    Test 5: Live GraphRAG Queries
+                </h2>
+                <p style="color: #666; margin-bottom: 1rem;">
+                    <strong>Expected:</strong> Direct Supabase queries return real counts
+                </p>
+                <div id="test5-result" style="padding: 1rem; background: #f3f4f6; border-radius: 8px; margin-bottom: 1rem;">
+                    <strong>Status:</strong> <span id="test5-status">Testing...</span>
+                </div>
+                <button onclick="testGraphRAGQueries()" style="background: #ec4899; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                    🧪 Test GraphRAG Queries
+                </button>
+                <div id="graphrag-test-output" style="margin-top: 1rem; padding: 1rem; background: #1f2937; color: #10b981; font-family: monospace; font-size: 0.85rem; border-radius: 8px; max-height: 300px; overflow-y: auto;">
+                    # GraphRAG test output will appear here...
+                </div>
+            </div>
+
+            <!-- Test 6: Mathematics Hub Enhancement -->
+            <div class="test-card" style="background: white; padding: 2rem; border-radius: 12px; border-left: 6px solid #0891b2; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                <h2 style="color: #1a4d2e; margin-bottom: 1rem;">
+                    Test 6: Mathematics Hub Browse Variants Section
+                </h2>
+                <p style="color: #666; margin-bottom: 1rem;">
+                    <strong>Expected:</strong> "Browse Mathematics Teaching Variants" section with 4 filter cards
+                </p>
+                <div id="test6-result" style="padding: 1rem; background: #f3f4f6; border-radius: 8px; margin-bottom: 1rem;">
+                    <strong>Status:</strong> <span id="test6-status">Not tested yet</span>
+                </div>
+                <a href="/mathematics-hub.html" target="_blank" style="display: inline-block; background: #0891b2; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600;">
+                    🧪 Open Mathematics Hub
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Overall Summary -->
+        <div style="margin-top: 3rem; padding: 3rem; background: linear-gradient(135deg, #1a4d2e, #0f2818); color: white; border-radius: 16px; text-align: center;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">
+                📊 Test Summary
+            </h2>
+            <div id="test-summary" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                <div>
+                    <div style="font-size: 3rem; margin-bottom: 0.5rem;">✅</div>
+                    <div style="font-size: 2rem; font-weight: 800;" id="tests-passed">0</div>
+                    <div style="opacity: 0.9;">Passed</div>
+                </div>
+                <div>
+                    <div style="font-size: 3rem; margin-bottom: 0.5rem;">❌</div>
+                    <div style="font-size: 2rem; font-weight: 800;" id="tests-failed">0</div>
+                    <div style="opacity: 0.9;">Failed</div>
+                </div>
+                <div>
+                    <div style="font-size: 3rem; margin-bottom: 0.5rem;">⏳</div>
+                    <div style="font-size: 2rem; font-weight: 800;" id="tests-pending">6</div>
+                    <div style="opacity: 0.9;">Pending</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Load the auto-generator script -->
+    <script src="/js/teaching-variants-auto-generator.js"></script>
+
+    <!-- Load mega-nav component -->
+    <script>
+        fetch('/components/mega-navigation-intelligent.html')
+            .then(r => r.text())
+            .then(html => {
+                const div = document.createElement('div');
+                div.innerHTML = html;
+                document.body.appendChild(div);
+            });
+    </script>
+
+    <script>
+        // Initialize Supabase
+        const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+        const testSupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let testsPassed = 0;
+        let testsFailed = 0;
+
+        // Test 1: Mega-Nav Component
+        function testMegaNav() {
+            const trigger = document.getElementById('mega-nav-trigger');
+            const panel = document.getElementById('mega-nav-panel');
+            const overlay = document.getElementById('mega-nav-overlay');
+
+            if (trigger && panel && overlay) {
+                updateTestStatus('test1', 'PASS', '✅ All mega-nav elements found! Button exists, panel exists, overlay exists.');
+                testsPassed++;
+            } else {
+                const missing = [];
+                if (!trigger) missing.push('trigger button');
+                if (!panel) missing.push('panel');
+                if (!overlay) missing.push('overlay');
+                updateTestStatus('test1', 'FAIL', `❌ Missing: ${missing.join(', ')}`);
+                testsFailed++;
+            }
+            updateSummary();
+        }
+
+        // Test 5: GraphRAG Queries
+        async function testGraphRAGQueries() {
+            const output = document.getElementById('graphrag-test-output');
+            output.innerHTML = '# Running GraphRAG tests...\n';
+
+            try {
+                // Test 1: Total resources count
+                output.innerHTML += '\n## Test 1: Total Resources Count\n';
+                const { count: totalCount, error: error1 } = await testSupabase
+                    .from('graphrag_resources')
+                    .select('*', { count: 'exact', head: true });
+                
+                if (error1) throw error1;
+                output.innerHTML += `✅ SUCCESS: ${totalCount.toLocaleString()} resources found\n`;
+
+                // Test 2: Teaching variants count
+                output.innerHTML += '\n## Test 2: Teaching Variants Count\n';
+                const { count: variantsCount, error: error2 } = await testSupabase
+                    .from('graphrag_resources')
+                    .select('*', { count: 'exact', head: true })
+                    .in('resource_type', ['Lesson', 'Handout', 'Unit-Plan', 'Unit Plan'])
+                    .gte('quality_score', 75);
+                
+                if (error2) throw error2;
+                output.innerHTML += `✅ SUCCESS: ${variantsCount.toLocaleString()} teaching variants found\n`;
+
+                // Test 3: Dual cultural count
+                output.innerHTML += '\n## Test 3: Dual Cultural Resources\n';
+                const { count: dualCount, error: error3 } = await testSupabase
+                    .from('graphrag_resources')
+                    .select('*', { count: 'exact', head: true })
+                    .eq('has_te_reo', true)
+                    .eq('has_whakataukī', true);
+                
+                if (error3) throw error3;
+                output.innerHTML += `✅ SUCCESS: ${dualCount.toLocaleString()} dual cultural resources\n`;
+
+                // Test 4: Relationships count
+                output.innerHTML += '\n## Test 4: Relationships Count\n';
+                const { count: relCount, error: error4 } = await testSupabase
+                    .from('graphrag_relationships')
+                    .select('*', { count: 'exact', head: true });
+                
+                if (error4) throw error4;
+                output.innerHTML += `✅ SUCCESS: ${relCount.toLocaleString()} relationships mapped\n`;
+
+                // Test 5: Y7 Algebra lesson variants
+                output.innerHTML += '\n## Test 5: Y7 Algebra Lesson Variants\n';
+                const { data: algebraData, error: error5 } = await testSupabase
+                    .from('graphrag_resources')
+                    .select('title, quality_score, file_path')
+                    .like('file_path', '%y7-maths-algebra%')
+                    .eq('resource_type', 'Lesson')
+                    .gte('quality_score', 75)
+                    .limit(5);
+                
+                if (error5) throw error5;
+                output.innerHTML += `✅ SUCCESS: Found ${algebraData.length} Y7 Algebra lesson variants\n`;
+                algebraData.forEach(lesson => {
+                    output.innerHTML += `   - ${lesson.title} (Q${lesson.quality_score})\n`;
+                });
+
+                output.innerHTML += '\n\n🎉 ALL GRAPHRAG QUERIES SUCCESSFUL!\n';
+                updateTestStatus('test5', 'PASS', '✅ All GraphRAG queries working! Real data flowing!');
+                testsPassed++;
+
+            } catch (e) {
+                output.innerHTML += `\n\n❌ ERROR: ${e.message}\n`;
+                updateTestStatus('test5', 'FAIL', `❌ GraphRAG query failed: ${e.message}`);
+                testsFailed++;
+            }
+            updateSummary();
+        }
+
+        // Test 4: Auto-generator (runs automatically)
+        setTimeout(() => {
+            const autoContainer = document.getElementById('variants-auto-container');
+            if (autoContainer && autoContainer.children.length > 1) {
+                updateTestStatus('test4', 'PASS', '✅ Auto-generator populated the container with variant cards!');
+                testsPassed++;
+            } else if (autoContainer && autoContainer.innerHTML.includes('No lesson variants')) {
+                updateTestStatus('test4', 'PARTIAL', '⚠️ Auto-generator loaded but found no variants (check unit path)');
+            } else {
+                updateTestStatus('test4', 'FAIL', '❌ Auto-generator did not populate container');
+                testsFailed++;
+            }
+            updateSummary();
+        }, 5000); // Wait 5 seconds for auto-generator to load
+
+        // Helper functions
+        function updateTestStatus(testId, status, message) {
+            const statusEl = document.getElementById(`${testId}-status`);
+            const resultEl = document.getElementById(`${testId}-result`);
+            
+            if (statusEl) {
+                statusEl.textContent = status;
+                statusEl.style.color = status === 'PASS' ? '#10b981' : (status === 'FAIL' ? '#dc2626' : '#f59e0b');
+            }
+            
+            if (resultEl && message) {
+                resultEl.innerHTML += `<div style="margin-top: 0.5rem; padding: 0.75rem; background: ${status === 'PASS' ? '#d1fae5' : (status === 'FAIL' ? '#fee2e2' : '#fef3c7')}; border-radius: 6px; color: ${status === 'PASS' ? '#166534' : (status === 'FAIL' ? '#991b1b' : '#92400e')};">${message}</div>`;
+            }
+        }
+
+        function updateSummary() {
+            document.getElementById('tests-passed').textContent = testsPassed;
+            document.getElementById('tests-failed').textContent = testsFailed;
+            document.getElementById('tests-pending').textContent = 6 - testsPassed - testsFailed;
+        }
+
+        // Auto-run Test 5 on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                testGraphRAGQueries();
+                testMegaNav();
+            }, 2000);
+        });
+
+        console.log('🧪 Variant System Test Page loaded');
+        console.log('   Test 1: Mega-Nav Component');
+        console.log('   Test 2: Variants Browser Page (manual)');
+        console.log('   Test 3: Y7 Algebra Unit (manual)');
+        console.log('   Test 4: Auto-Generator JS (automatic)');
+        console.log('   Test 5: GraphRAG Queries (automatic)');
+        console.log('   Test 6: Mathematics Hub (manual)');
+    </script>
+
+</body>
+</html>
+

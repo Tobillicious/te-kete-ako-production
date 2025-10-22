@@ -99,6 +99,23 @@
         </div>
       </div>
     </section>
+
+    <section style="background: white; border-radius: 12px; padding: 1.5rem; border: 1px solid #e2e8f0; box-shadow: 0 2px 12px rgba(0,0,0,0.04); margin-top: 1rem;">
+      <h2 style="margin: 0 0 0.75rem 0; font-size: 1.25rem; color: #0f172a;">Missing Includes Audit (Sample)</h2>
+      <p style="margin: 0 0 0.75rem 0; color: #475569;">Scans a sample of Unit and Lesson pages for critical CSS/JS includes.</p>
+      <div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; margin-bottom:0.5rem; color:#334155;">
+        <span>Missing:</span>
+        <span>pro.css: <strong id="miss-pro" style="color:#b91c1c">—</strong></span>
+        <span>beauty.css: <strong id="miss-beauty" style="color:#b91c1c">—</strong></span>
+        <span>main.css: <strong id="miss-main" style="color:#b91c1c">—</strong></span>
+        <span>mobile.css: <strong id="miss-mobile" style="color:#b91c1c">—</strong></span>
+        <span>print.css: <strong id="miss-print" style="color:#b91c1c">—</strong></span>
+        <span>te-kete.js: <strong id="miss-tekete" style="color:#b91c1c">—</strong></span>
+        <span>posthog.js: <strong id="miss-posthog" style="color:#b91c1c">—</strong></span>
+        <button id="copy-missing-includes-csv" style="margin-left:auto; background:#1d4ed8; color:white; border:none; padding:0.35rem 0.6rem; border-radius:6px; cursor:pointer;">Copy CSV</button>
+      </div>
+      <ol id="list-missing-includes" style="margin:0; padding-left:1.25rem; max-height:260px; overflow:auto;"></ol>
+    </section>
   </main>
 
   <!-- Supabase Client -->
@@ -336,6 +353,76 @@
       }
     }
     document.addEventListener('DOMContentLoaded', scanDistHandoutsCoverage);
+  </script>
+
+  <script>
+    // Missing Includes Audit - lightweight sample
+    async function missingIncludesAudit() {
+      const samplePaths = [
+        '/units/y8-geography-navigation/index.html',
+        '/units/y8-statistics-maramataka/index.html'
+      ];
+      const required = {
+        pro: /\/css\/te-kete-professional\.css/i,
+        beauty: /\/css\/te-kete-ultimate-beauty-system\.css/i,
+        main: /\/css\/main\.css/i,
+        mobile: /\/css\/mobile-revolution\.css/i,
+        print: /\/css\/print\.css/i,
+        tekete: /\/js\/te-kete-professional\.js/i,
+        posthog: /\/js\/posthog-analytics\.js/i
+      };
+      const counters = { pro:0, beauty:0, main:0, mobile:0, print:0, tekete:0, posthog:0 };
+      const rows = [];
+
+      for (const path of samplePaths) {
+        try {
+          const r = await fetch(path);
+          const html = await r.text();
+          const miss = Object.entries(required)
+            .filter(([key, rx]) => !rx.test(html))
+            .map(([key]) => key);
+          if (miss.length > 0) {
+            rows.push({ url: path, missing: miss.join('|') });
+            miss.forEach(k => { counters[k] = (counters[k]||0)+1; });
+          }
+        } catch (e) {
+          rows.push({ url: path, missing: 'fetch_error' });
+        }
+      }
+
+      const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = String(v); };
+      set('miss-pro', counters.pro);
+      set('miss-beauty', counters.beauty);
+      set('miss-main', counters.main);
+      set('miss-mobile', counters.mobile);
+      set('miss-print', counters.print);
+      set('miss-tekete', counters.tekete);
+      set('miss-posthog', counters.posthog);
+
+      const list = document.getElementById('list-missing-includes');
+      if (list) {
+        list.innerHTML = '';
+        rows.forEach(r => {
+          const li = document.createElement('li');
+          li.innerHTML = `<a href="${r.url}" style="color:#1d4ed8; text-decoration:none;">${r.url}</a> — missing: <span style="color:#b91c1c">${r.missing}</span>`;
+          list.appendChild(li);
+        });
+      }
+
+      const btn = document.getElementById('copy-missing-includes-csv');
+      if (btn) {
+        btn.addEventListener('click', async () => {
+          const csv = ['url,missing', ...rows.map(r => `${r.url},${r.missing}`)].join('\n');
+          try {
+            await navigator.clipboard.writeText(csv);
+          } catch (_) {
+            const ta = document.createElement('textarea');
+            ta.value = csv; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+          }
+        });
+      }
+    }
+    document.addEventListener('DOMContentLoaded', missingIncludesAudit);
   </script>
 
   <!-- 📊 ULTIMATE BEAUTY: PostHog Analytics (Privacy-First) -->

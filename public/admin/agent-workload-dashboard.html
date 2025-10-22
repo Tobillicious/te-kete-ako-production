@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Workload Dashboard | Te Kete Ako</title>
+    <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); min-height: 100vh;">
+    
+    <header style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); color: white; padding: 2rem;">
+        <div style="max-width: 1400px; margin: 0 auto;">
+            <h1 style="font-size: 2rem; font-weight: 800; margin: 0;">👥 Agent Workload Dashboard</h1>
+            <p style="opacity: 0.9; margin: 0.5rem 0 0 0;">Real-time team performance & load balancing</p>
+        </div>
+    </header>
+
+    <main style="max-width: 1400px; margin: 2rem auto; padding: 0 2rem;">
+        
+        <!-- Team Overview -->
+        <section style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 2rem;">
+            <h2 style="font-size: 1.5rem; font-weight: 700; margin: 0 0 1rem 0;">Team Overview</h2>
+            <div id="team-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- Workload Distribution Chart -->
+        <section style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 2rem;">
+            <h2 style="font-size: 1.5rem; font-weight: 700; margin: 0 0 1rem 0;">Workload Distribution</h2>
+            <canvas id="workload-chart" height="80"></canvas>
+        </section>
+
+        <!-- Agent Cards -->
+        <section>
+            <h2 style="font-size: 1.5rem; font-weight: 700; margin: 0 0 1rem 0;">Individual Agent Status</h2>
+            <div id="agent-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        const AGENT_COLORS = {
+            'kaitiaki-aronui': '#8b5cf6',
+            'kaituhi-ako': '#10b981',
+            'kaiarahi-kounga': '#3b82f6',
+            'kaitiaki-ahurea': '#f59e0b',
+            'kaihapai-hononga': '#ec4899',
+            'kaimahi-punaha': '#6366f1',
+            'kaiako-css': '#14b8a6',
+            'kaitiaki-whakamana': '#f97316',
+            'kaihanga-rauemi': '#a855f7',
+            'kaiarahi-tuhono': '#06b6d4',
+            'kaitatari-raraunga': '#84cc16',
+            'kaituhi-tuhinga': '#64748b'
+        };
+        
+        async function loadDashboard() {
+            try {
+                // Load agents
+                const { data: agents } = await supabase
+                    .from('agent_coordination')
+                    .select('*')
+                    .order('agent_name');
+                
+                // Load tasks
+                const { data: tasks } = await supabase
+                    .from('task_queue')
+                    .select('*');
+                
+                // Calculate workload per agent
+                const workload = {};
+                
+                agents.forEach(agent => {
+                    const agentId = agent.agent_name.toLowerCase().replace(/\s+/g, '-').replace(/ā/g, 'a').replace(/ē/g, 'e').replace(/ī/g, 'i').replace(/ō/g, 'o').replace(/ū/g, 'u');
+                    workload[agentId] = {
+                        name: agent.agent_name,
+                        role: agent.task_claimed,
+                        status: agent.status,
+                        tier: agent.key_decisions?.tier || 4,
+                        pending: 0,
+                        in_progress: 0,
+                        completed: 0,
+                        total: 0
+                    };
+                });
+                
+                tasks.forEach(task => {
+                    if (task.assigned_to && workload[task.assigned_to]) {
+                        workload[task.assigned_to].total++;
+                        if (task.status === 'pending') workload[task.assigned_to].pending++;
+                        if (task.status === 'in_progress') workload[task.assigned_to].in_progress++;
+                        if (task.status === 'completed') workload[task.assigned_to].completed++;
+                    }
+                });
+                
+                displayTeamStats(agents, tasks);
+                displayWorkloadChart(workload);
+                displayAgentCards(workload, tasks);
+                
+            } catch (error) {
+                console.error('Dashboard error:', error);
+            }
+        }
+        
+        function displayTeamStats(agents, tasks) {
+            const activeAgents = agents.filter(a => a.status !== 'idle').length;
+            const busyAgents = Object.values(tasks).filter(t => t.status === 'in_progress').map(t => t.assigned_to);
+            const uniqueBusy = [...new Set(busyAgents)].length;
+            
+            document.getElementById('team-stats').innerHTML = `
+                <div style="background: linear-gradient(135deg, #dbeafe, #bfdbfe); padding: 1.5rem; border-radius: 10px;">
+                    <div style="font-size: 2.5rem; font-weight: 800; color: #1e40af;">${agents.length}</div>
+                    <div style="color: #1e40af; font-weight: 600;">Total Agents</div>
+                </div>
+                <div style="background: linear-gradient(135deg, #dcfce7, #bbf7d0); padding: 1.5rem; border-radius: 10px;">
+                    <div style="font-size: 2.5rem; font-weight: 800; color: #065f46;">${uniqueBusy}</div>
+                    <div style="color: #065f46; font-weight: 600;">Currently Working</div>
+                </div>
+                <div style="background: linear-gradient(135deg, #fef3c7, #fde68a); padding: 1.5rem; border-radius: 10px;">
+                    <div style="font-size: 2.5rem; font-weight: 800; color: #92400e;">${tasks.filter(t => t.status === 'pending').length}</div>
+                    <div style="color: #92400e; font-weight: 600;">Tasks Pending</div>
+                </div>
+                <div style="background: linear-gradient(135deg, #fee2e2, #fecaca); padding: 1.5rem; border-radius: 10px;">
+                    <div style="font-size: 2.5rem; font-weight: 800; color: #991b1b;">${tasks.filter(t => t.status === 'completed').length}</div>
+                    <div style="color: #991b1b; font-weight: 600;">Completed Today</div>
+                </div>
+            `;
+        }
+        
+        function displayWorkloadChart(workload) {
+            const ctx = document.getElementById('workload-chart').getContext('2d');
+            const agents = Object.values(workload).sort((a, b) => b.total - a.total);
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: agents.map(a => a.name),
+                    datasets: [
+                        {
+                            label: 'Completed',
+                            data: agents.map(a => a.completed),
+                            backgroundColor: '#10b981'
+                        },
+                        {
+                            label: 'In Progress',
+                            data: agents.map(a => a.in_progress),
+                            backgroundColor: '#3b82f6'
+                        },
+                        {
+                            label: 'Pending',
+                            data: agents.map(a => a.pending),
+                            backgroundColor: '#f59e0b'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        x: { stacked: true },
+                        y: { stacked: true, beginAtZero: true }
+                    },
+                    plugins: {
+                        legend: { position: 'top' },
+                        title: { display: true, text: 'Tasks by Agent (Stacked)' }
+                    }
+                }
+            });
+        }
+        
+        function displayAgentCards(workload, tasks) {
+            const container = document.getElementById('agent-cards');
+            const agents = Object.entries(workload).sort((a, b) => b[1].total - a[1].total);
+            
+            container.innerHTML = agents.map(([agentId, data]) => {
+                const color = AGENT_COLORS[agentId] || '#64748b';
+                const utilization = data.total > 0 ? Math.round(((data.in_progress + data.completed) / data.total) * 100) : 0;
+                const agentTasks = tasks.filter(t => t.assigned_to === agentId);
+                const avgTime = agentTasks.filter(t => t.completed_at && t.started_at).length > 0 
+                    ? agentTasks.filter(t => t.completed_at && t.started_at)
+                        .reduce((acc, t) => acc + (new Date(t.completed_at) - new Date(t.started_at)), 0) 
+                        / agentTasks.filter(t => t.completed_at).length / 1000 / 60
+                    : 0;
+                
+                return `
+                    <div style="background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); overflow: hidden; border-top: 4px solid ${color};">
+                        <div style="padding: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                                <div>
+                                    <h3 style="font-size: 1.2rem; font-weight: 700; margin: 0; color: #1e293b;">${data.name}</h3>
+                                    <p style="color: #64748b; font-size: 0.9rem; margin: 0.25rem 0 0 0;">${data.role}</p>
+                                </div>
+                                <span style="background: ${color}; color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700;">
+                                    TIER ${data.tier}
+                                </span>
+                            </div>
+                            
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem;">
+                                <div style="background: #fef3c7; padding: 0.75rem; border-radius: 6px; text-align: center;">
+                                    <div style="font-size: 1.5rem; font-weight: 800; color: #92400e;">${data.pending}</div>
+                                    <div style="font-size: 0.75rem; color: #78350f;">Pending</div>
+                                </div>
+                                <div style="background: #dbeafe; padding: 0.75rem; border-radius: 6px; text-align: center;">
+                                    <div style="font-size: 1.5rem; font-weight: 800; color: #1e40af;">${data.in_progress}</div>
+                                    <div style="font-size: 0.75rem; color: #1e3a8a;">In Progress</div>
+                                </div>
+                                <div style="background: #dcfce7; padding: 0.75rem; border-radius: 6px; text-align: center;">
+                                    <div style="font-size: 1.5rem; font-weight: 800; color: #065f46;">${data.completed}</div>
+                                    <div style="font-size: 0.75rem; color: #064e3b;">Completed</div>
+                                </div>
+                            </div>
+                            
+                            ${avgTime > 0 ? `
+                                <div style="background: #f8fafc; padding: 0.75rem; border-radius: 6px; margin-bottom: 1rem;">
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                                        <span style="color: #64748b;">Avg Completion Time:</span>
+                                        <strong style="color: #1e293b;">${Math.round(avgTime)} minutes</strong>
+                                    </div>
+                                </div>
+                            ` : ''}
+                            
+                            <!-- Utilization Bar -->
+                            <div style="margin-top: 1rem;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span style="font-size: 0.85rem; color: #64748b;">Utilization</span>
+                                    <span style="font-size: 0.85rem; font-weight: 700; color: ${color};">${utilization}%</span>
+                                </div>
+                                <div style="background: #f1f5f9; height: 8px; border-radius: 4px; overflow: hidden;">
+                                    <div style="background: ${color}; height: 100%; width: ${utilization}%; transition: width 0.3s;"></div>
+                                </div>
+                            </div>
+                            
+                            ${data.total > 0 ? `
+                                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+                                    <div style="font-size: 0.85rem; color: #64748b;">
+                                        <strong>Recent Tasks:</strong>
+                                    </div>
+                                    <div id="agent-${agentId}-tasks" style="margin-top: 0.5rem; font-size: 0.8rem; color: #94a3b8;">
+                                        ${agentTasks.slice(-3).map(t => `
+                                            <div style="padding: 0.25rem 0;">• ${t.task_type} ${t.status === 'completed' ? '✅' : t.status === 'in_progress' ? '🔄' : '⏸️'}</div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            ` : `
+                                <div style="margin-top: 1rem; text-align: center; color: #94a3b8; font-size: 0.85rem;">
+                                    No tasks assigned yet
+                                </div>
+                            `}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // Auto-refresh every 15 seconds
+        setInterval(loadDashboard, 15000);
+        loadDashboard();
+    </script>
+
+</body>
+</html>
+

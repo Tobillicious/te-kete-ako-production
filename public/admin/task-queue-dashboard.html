@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Queue Dashboard | Te Kete Ako Admin</title>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/print.css" media="print">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/js/te-kete-professional.js" defer></script>
+    <script src="/js/posthog-analytics.js" defer></script>
+    <style>
+        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-in_progress { background: #dbeafe; color: #1e40af; }
+        .status-completed { background: #dcfce7; color: #065f46; }
+        .status-blocked { background: #fee2e2; color: #991b1b; }
+        .status-cancelled { background: #f3f4f6; color: #6b7280; }
+        
+        .priority-1, .priority-2 { background: #fecaca; border-left: 4px solid #dc2626; }
+        .priority-3, .priority-4, .priority-5 { background: #fed7aa; border-left: 4px solid #f59e0b; }
+        .priority-6, .priority-7, .priority-8 { background: #fef3c7; border-left: 4px solid #eab308; }
+        .priority-9, .priority-10 { background: #f3f4f6; border-left: 4px solid #9ca3af; }
+        
+        .task-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .task-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        
+        .agent-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .refresh-indicator {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); min-height: 100vh;">
+    
+    <!-- Header -->
+    <header style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); color: white; padding: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <div style="max-width: 1400px; margin: 0 auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <div>
+                    <h1 style="font-size: 2rem; font-weight: 800; margin: 0;">🤖 Agent Task Queue Dashboard</h1>
+                    <p style="opacity: 0.9; margin: 0.5rem 0 0 0;">Real-time orchestration system monitoring</p>
+                </div>
+                <button id="refresh-btn" onclick="loadDashboard()" style="background: #10b981; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; border: none; cursor: pointer; font-weight: 600;">
+                    <span id="refresh-icon">🔄</span> Refresh
+                </button>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div id="quick-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </header>
+
+    <main style="max-width: 1400px; margin: 2rem auto; padding: 0 2rem;">
+        
+        <!-- Filters & Controls -->
+        <section style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 2rem;">
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                <div>
+                    <label style="font-weight: 600; margin-right: 0.5rem;">Status:</label>
+                    <select id="filter-status" onchange="filterTasks()" style="padding: 0.5rem; border: 2px solid #e2e8f0; border-radius: 6px;">
+                        <option value="all">All</option>
+                        <option value="pending">Pending</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                        <option value="blocked">Blocked</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label style="font-weight: 600; margin-right: 0.5rem;">Priority:</label>
+                    <select id="filter-priority" onchange="filterTasks()" style="padding: 0.5rem; border: 2px solid #e2e8f0; border-radius: 6px;">
+                        <option value="all">All</option>
+                        <option value="urgent">Urgent (1-2)</option>
+                        <option value="high">High (3-5)</option>
+                        <option value="medium">Medium (6-8)</option>
+                        <option value="low">Low (9-10)</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label style="font-weight: 600; margin-right: 0.5rem;">Agent:</label>
+                    <select id="filter-agent" onchange="filterTasks()" style="padding: 0.5rem; border: 2px solid #e2e8f0; border-radius: 6px;">
+                        <option value="all">All Agents</option>
+                        <!-- Populated by JS -->
+                    </select>
+                </div>
+                
+                <div style="margin-left: auto;">
+                    <input type="text" id="search-box" placeholder="Search tasks..." onkeyup="filterTasks()" style="padding: 0.5rem 1rem; border: 2px solid #e2e8f0; border-radius: 6px; width: 250px;">
+                </div>
+            </div>
+        </section>
+
+        <!-- Task Queue -->
+        <section>
+            <h2 style="font-size: 1.5rem; font-weight: 700; color: #1e293b; margin-bottom: 1rem;">
+                Active Tasks
+            </h2>
+            <div id="task-list" style="display: grid; gap: 1rem;">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- Task Detail Modal -->
+        <div id="task-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1000; padding: 2rem; overflow-y: auto;">
+            <div style="background: white; max-width: 800px; margin: 0 auto; border-radius: 16px; padding: 2rem; position: relative;">
+                <button onclick="closeModal()" style="position: absolute; top: 1rem; right: 1rem; background: #f3f4f6; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1.2rem;">×</button>
+                <div id="modal-content">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        let allTasks = [];
+        let agents = [];
+        
+        async function loadDashboard() {
+            const refreshIcon = document.getElementById('refresh-icon');
+            refreshIcon.classList.add('refresh-indicator');
+            
+            try {
+                // Load tasks
+                const { data: tasks, error: taskError } = await supabase
+                    .from('task_queue')
+                    .select('*')
+                    .order('priority', { ascending: true })
+                    .order('created_at', { ascending: true });
+                
+                if (taskError) throw taskError;
+                allTasks = tasks || [];
+                
+                // Load agents
+                const { data: agentData, error: agentError } = await supabase
+                    .from('agent_coordination')
+                    .select('agent_name, task_claimed, status')
+                    .order('agent_name');
+                
+                if (!agentError) agents = agentData || [];
+                
+                // Update UI
+                updateQuickStats();
+                populateAgentFilter();
+                displayTasks(allTasks);
+                
+            } catch (error) {
+                console.error('Dashboard load error:', error);
+                document.getElementById('task-list').innerHTML = `
+                    <div style="background: #fee2e2; padding: 2rem; border-radius: 12px; text-align: center; color: #991b1b;">
+                        <strong>Error loading dashboard:</strong><br>
+                        ${error.message}
+                    </div>
+                `;
+            } finally {
+                refreshIcon.classList.remove('refresh-indicator');
+            }
+        }
+        
+        function updateQuickStats() {
+            const stats = {
+                pending: allTasks.filter(t => t.status === 'pending').length,
+                in_progress: allTasks.filter(t => t.status === 'in_progress').length,
+                completed: allTasks.filter(t => t.status === 'completed').length,
+                blocked: allTasks.filter(t => t.status === 'blocked').length,
+                total: allTasks.length
+            };
+            
+            const completedToday = allTasks.filter(t => 
+                t.status === 'completed' && 
+                t.completed_at && 
+                new Date(t.completed_at).toDateString() === new Date().toDateString()
+            ).length;
+            
+            document.getElementById('quick-stats').innerHTML = `
+                <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 8px;">
+                    <div style="font-size: 2rem; font-weight: 800;">${stats.total}</div>
+                    <div style="opacity: 0.9; font-size: 0.9rem;">Total Tasks</div>
+                </div>
+                <div style="background: rgba(251, 191, 36, 0.3); padding: 1rem; border-radius: 8px;">
+                    <div style="font-size: 2rem; font-weight: 800;">${stats.pending}</div>
+                    <div style="opacity: 0.9; font-size: 0.9rem;">Pending</div>
+                </div>
+                <div style="background: rgba(59, 130, 246, 0.3); padding: 1rem; border-radius: 8px;">
+                    <div style="font-size: 2rem; font-weight: 800;">${stats.in_progress}</div>
+                    <div style="opacity: 0.9; font-size: 0.9rem;">In Progress</div>
+                </div>
+                <div style="background: rgba(16, 185, 129, 0.3); padding: 1rem; border-radius: 8px;">
+                    <div style="font-size: 2rem; font-weight: 800;">${completedToday}</div>
+                    <div style="opacity: 0.9; font-size: 0.9rem;">Completed Today</div>
+                </div>
+                <div style="background: rgba(239, 68, 68, 0.3); padding: 1rem; border-radius: 8px;">
+                    <div style="font-size: 2rem; font-weight: 800;">${stats.blocked}</div>
+                    <div style="opacity: 0.9; font-size: 0.9rem;">Blocked</div>
+                </div>
+            `;
+        }
+        
+        function populateAgentFilter() {
+            const uniqueAgents = [...new Set(allTasks.map(t => t.assigned_to).filter(Boolean))];
+            const select = document.getElementById('filter-agent');
+            
+            uniqueAgents.forEach(agent => {
+                const option = document.createElement('option');
+                option.value = agent;
+                option.textContent = agent.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                select.appendChild(option);
+            });
+        }
+        
+        function displayTasks(tasks) {
+            const container = document.getElementById('task-list');
+            
+            if (tasks.length === 0) {
+                container.innerHTML = `
+                    <div style="background: white; padding: 3rem; border-radius: 12px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.08);">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
+                        <h3 style="color: #64748b; font-size: 1.5rem;">No tasks match your filters</h3>
+                        <p style="color: #94a3b8; margin-top: 0.5rem;">Try adjusting your filters or create a new task</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = tasks.map(task => {
+                const createdTime = new Date(task.created_at).toLocaleString();
+                const duration = task.completed_at ? 
+                    Math.round((new Date(task.completed_at) - new Date(task.started_at)) / 1000 / 60) : 
+                    (task.started_at ? Math.round((new Date() - new Date(task.started_at)) / 1000 / 60) : 0);
+                
+                return `
+                    <div class="task-card priority-${task.priority}" onclick="showTaskDetail(${task.id})" style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08);">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem;">
+                            <div style="flex: 1;">
+                                <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem;">
+                                    <span class="status-${task.status}" style="padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700;">
+                                        ${task.status.replace('_', ' ').toUpperCase()}
+                                    </span>
+                                    <span style="background: #f3f4f6; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700; color: #64748b;">
+                                        Priority ${task.priority}
+                                    </span>
+                                    ${task.dependencies && task.dependencies.length > 0 ? `
+                                        <span style="background: #fef3c7; color: #92400e; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700;">
+                                            🔗 ${task.dependencies.length} dependencies
+                                        </span>
+                                    ` : ''}
+                                </div>
+                                <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e293b; margin: 0 0 0.5rem 0;">
+                                    ${task.task_type.replace(/_/g, ' ').toUpperCase()}
+                                </h3>
+                                <p style="color: #64748b; margin: 0; font-size: 0.95rem;">
+                                    ${task.task_description || 'No description'}
+                                </p>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 1.5rem; margin-bottom: 0.25rem;">
+                                    ${getTaskIcon(task.task_type)}
+                                </div>
+                                <div style="font-size: 0.75rem; color: #94a3b8;">
+                                    #${task.id}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+                            ${task.assigned_to ? `
+                                <span class="agent-badge" style="background: #dbeafe; color: #1e40af;">
+                                    👤 ${task.assigned_to.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+                                </span>
+                            ` : '<span style="color: #94a3b8; font-size: 0.85rem;">Unassigned</span>'}
+                            
+                            <span style="color: #64748b; font-size: 0.85rem;">
+                                📅 ${createdTime}
+                            </span>
+                            
+                            ${duration > 0 ? `
+                                <span style="color: #64748b; font-size: 0.85rem;">
+                                    ⏱️ ${duration} min
+                                </span>
+                            ` : ''}
+                            
+                            ${task.resource_path ? `
+                                <span style="color: #64748b; font-size: 0.85rem; flex: 1; text-align: right;">
+                                    📄 ${task.resource_path.split('/').pop()}
+                                </span>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function getTaskIcon(taskType) {
+            const icons = {
+                build_lesson: '📚',
+                build_handout: '📄',
+                build_unit: '📋',
+                validate_quality: '✅',
+                validate_cultural: '🌿',
+                create_relationships: '🔗',
+                analyze_metrics: '📊',
+                update_styling: '🎨',
+                fix_links: '🔧'
+            };
+            return icons[taskType] || '📌';
+        }
+        
+        function showTaskDetail(taskId) {
+            const task = allTasks.find(t => t.id === taskId);
+            if (!task) return;
+            
+            const modal = document.getElementById('task-modal');
+            const content = document.getElementById('modal-content');
+            
+            content.innerHTML = `
+                <h2 style="font-size: 1.8rem; font-weight: 800; color: #1e293b; margin-bottom: 1rem;">
+                    ${getTaskIcon(task.task_type)} Task #${task.id}
+                </h2>
+                
+                <div style="background: #f8fafc; padding: 1.5rem; border-radius: 10px; margin-bottom: 1.5rem;">
+                    <h3 style="font-size: 1.2rem; font-weight: 700; margin: 0 0 0.5rem 0; color: #334155;">
+                        ${task.task_type.replace(/_/g, ' ').toUpperCase()}
+                    </h3>
+                    <p style="color: #64748b; margin: 0;">
+                        ${task.task_description || 'No description provided'}
+                    </p>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                    <div>
+                        <strong style="color: #64748b; font-size: 0.9rem;">Status:</strong>
+                        <div class="status-${task.status}" style="display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; font-weight: 700; margin-top: 0.25rem;">
+                            ${task.status.replace('_', ' ').toUpperCase()}
+                        </div>
+                    </div>
+                    <div>
+                        <strong style="color: #64748b; font-size: 0.9rem;">Priority:</strong>
+                        <div style="font-size: 1.5rem; font-weight: 800; color: #1e293b; margin-top: 0.25rem;">
+                            ${task.priority} ${task.priority <= 2 ? '🔥' : task.priority <= 5 ? '⚡' : ''}
+                        </div>
+                    </div>
+                </div>
+                
+                ${task.assigned_to ? `
+                    <div style="margin-bottom: 1.5rem;">
+                        <strong style="color: #64748b; font-size: 0.9rem;">Assigned To:</strong>
+                        <div class="agent-badge" style="background: #dbeafe; color: #1e40af; display: inline-block; margin-top: 0.25rem;">
+                            👤 ${task.assigned_to.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+                        </div>
+                    </div>
+                ` : ''}
+                
+                ${task.resource_path ? `
+                    <div style="margin-bottom: 1.5rem;">
+                        <strong style="color: #64748b; font-size: 0.9rem;">Resource Path:</strong>
+                        <div style="background: #f1f5f9; padding: 0.75rem; border-radius: 6px; font-family: monospace; font-size: 0.85rem; margin-top: 0.25rem;">
+                            ${task.resource_path}
+                        </div>
+                    </div>
+                ` : ''}
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                    <div>
+                        <strong style="color: #64748b; font-size: 0.9rem;">Created:</strong>
+                        <div style="font-size: 0.85rem; color: #1e293b; margin-top: 0.25rem;">
+                            ${new Date(task.created_at).toLocaleString()}
+                        </div>
+                    </div>
+                    ${task.started_at ? `
+                        <div>
+                            <strong style="color: #64748b; font-size: 0.9rem;">Started:</strong>
+                            <div style="font-size: 0.85rem; color: #1e293b; margin-top: 0.25rem;">
+                                ${new Date(task.started_at).toLocaleString()}
+                            </div>
+                        </div>
+                    ` : ''}
+                    ${task.completed_at ? `
+                        <div>
+                            <strong style="color: #64748b; font-size: 0.9rem;">Completed:</strong>
+                            <div style="font-size: 0.85rem; color: #1e293b; margin-top: 0.25rem;">
+                                ${new Date(task.completed_at).toLocaleString()}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+                
+                ${task.input_data && Object.keys(task.input_data).length > 0 ? `
+                    <div style="margin-bottom: 1.5rem;">
+                        <strong style="color: #64748b; font-size: 0.9rem;">Input Data:</strong>
+                        <pre style="background: #f1f5f9; padding: 1rem; border-radius: 6px; overflow-x: auto; font-size: 0.8rem; margin-top: 0.5rem;">${JSON.stringify(task.input_data, null, 2)}</pre>
+                    </div>
+                ` : ''}
+                
+                ${task.output_data && Object.keys(task.output_data).length > 0 ? `
+                    <div style="margin-bottom: 1.5rem;">
+                        <strong style="color: #64748b; font-size: 0.9rem;">Output Data:</strong>
+                        <pre style="background: #dcfce7; padding: 1rem; border-radius: 6px; overflow-x: auto; font-size: 0.8rem; margin-top: 0.5rem;">${JSON.stringify(task.output_data, null, 2)}</pre>
+                    </div>
+                ` : ''}
+                
+                ${task.dependencies && task.dependencies.length > 0 ? `
+                    <div style="background: #fef3c7; padding: 1rem; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                        <strong style="color: #92400e;">🔗 Dependencies:</strong>
+                        <div style="margin-top: 0.5rem; color: #78350f;">
+                            This task depends on tasks: ${task.dependencies.join(', ')}
+                        </div>
+                    </div>
+                ` : ''}
+            `;
+            
+            modal.style.display = 'block';
+        }
+        
+        function closeModal() {
+            document.getElementById('task-modal').style.display = 'none';
+        }
+        
+        function filterTasks() {
+            const statusFilter = document.getElementById('filter-status').value;
+            const priorityFilter = document.getElementById('filter-priority').value;
+            const agentFilter = document.getElementById('filter-agent').value;
+            const searchTerm = document.getElementById('search-box').value.toLowerCase();
+            
+            let filtered = allTasks;
+            
+            if (statusFilter !== 'all') {
+                filtered = filtered.filter(t => t.status === statusFilter);
+            }
+            
+            if (priorityFilter !== 'all') {
+                const ranges = {
+                    urgent: [1, 2],
+                    high: [3, 5],
+                    medium: [6, 8],
+                    low: [9, 10]
+                };
+                const [min, max] = ranges[priorityFilter];
+                filtered = filtered.filter(t => t.priority >= min && t.priority <= max);
+            }
+            
+            if (agentFilter !== 'all') {
+                filtered = filtered.filter(t => t.assigned_to === agentFilter);
+            }
+            
+            if (searchTerm) {
+                filtered = filtered.filter(t => 
+                    (t.task_description && t.task_description.toLowerCase().includes(searchTerm)) ||
+                    t.task_type.toLowerCase().includes(searchTerm) ||
+                    (t.resource_path && t.resource_path.toLowerCase().includes(searchTerm))
+                );
+            }
+            
+            displayTasks(filtered);
+        }
+        
+        // Close modal on outside click
+        document.getElementById('task-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+        
+        // Auto-refresh every 30 seconds
+        setInterval(loadDashboard, 30000);
+        
+        // Initial load
+        loadDashboard();
+    </script>
+
+</body>
+</html>
+
