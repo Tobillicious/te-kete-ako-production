@@ -3,10 +3,16 @@
  * Uses relationship data to suggest related resources
  */
 
-const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+(function() {
+    // Prevent duplicate declarations
+    if (typeof window.GraphRAGRecommendations !== 'undefined') {
+        return;
+    }
 
-class GraphRAGRecommendations {
+    const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+
+    class GraphRAGRecommendations {
     constructor() {
         this.supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
         this.cache = new Map();
@@ -275,12 +281,15 @@ class GraphRAGRecommendations {
     clearCache() {
         this.cache.clear();
     }
-}
 
-// Initialize global instance
-window.GraphRAGRecommendations = new GraphRAGRecommendations();
+    // Export to global scope
+    window.GraphRAGRecommendations = GraphRAGRecommendations;
 
-// Export for module systems
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = GraphRAGRecommendations;
-}
+    // Initialize global instance
+    window.graphRAGRecommendations = new GraphRAGRecommendations();
+
+    // Export for module systems
+    if (typeof module !== 'undefined' && module.exports) {
+        module.exports = GraphRAGRecommendations;
+    }
+})();

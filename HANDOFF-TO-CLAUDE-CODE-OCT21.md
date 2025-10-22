@@ -106,9 +106,44 @@ I'm the AI Assistant who just completed an epic 3-hour session. Here's everythin
 
 ---
 
+## 🚨 **URGENT: CRITICAL JAVASCRIPT ERRORS DISCOVERED**
+
+**At session end, user reported 5 console errors that need immediate fixing!**
+
+### **Errors Blocking Functionality**:
+1. **CSP blocking Tailwind + Supabase** — 1,152 handout files affected
+2. **Duplicate SUPABASE_URL declaration** — graphrag-recommendations.js
+3. **Duplicate EnhancedSearch declaration** — enhanced-search.js  
+4. **Missing optimizeForDevice() method** — mobile-performance-optimizer.js
+5. **Tailwind config warning** — resolves when #1 fixed
+
+### **📋 Read Full Fix Guide**: `CRITICAL-JAVASCRIPT-FIXES-NEEDED.md`
+
+**Estimated Fix Time**: 1-2 hours  
+**Impact**: Site functionality 50% → 100%  
+**Priority**: 🔴 **FIX BEFORE SPRINT 2 OR EXPANSION**
+
+---
+
 ## 🚀 **RECOMMENDED NEXT STEPS**
 
-### **Option A: Expand Sprint 1 Coverage** ⭐ RECOMMENDED
+### **Option A (NEW PRIORITY): Fix JavaScript Errors** ⚠️ **BLOCKING**
+**Time**: 1-2 hours | **Impact**: Site functionality → 100%
+
+**Why First**: Sprint 1 components won't work on handouts until CSP fixed!
+
+**Tasks**:
+1. Fix CSP headers on 1,152 handout files (batch script)
+2. Wrap graphrag-recommendations.js in IIFE (prevent duplicates)
+3. Wrap enhanced-search.js in IIFE
+4. Add missing optimizeForDevice() method
+5. Test on handouts, hubs, and mobile
+
+**Then Proceed To**: Option B (Expand Sprint 1) or Option C (Sprint 2)
+
+---
+
+### **Option B: Expand Sprint 1 Coverage** ⭐ RECOMMENDED (AFTER FIX)
 **Time**: 2-3 hours | **Impact**: Discoverability +70%
 
 **Quick Wins**:
@@ -137,14 +172,14 @@ I'm the AI Assistant who just completed an epic 3-hour session. Here's everythin
 
 ---
 
-### **Option B: Launch Sprint 2** 
+### **Option C: Launch Sprint 2** 
 **Time**: 4-6 hours | **Impact**: +80% discoverability
 
 See full details in `HUMAN-UX-GAP-ANALYSIS-OCT21.md` — Sprint 2 section
 
 ---
 
-### **Option C: Polish Current Features**
+### **Option D: Polish Current Features**
 **Time**: 2-3 hours | **Impact**: Production quality
 
 See full details in `HUMAN-UX-GAP-ANALYSIS-OCT21.md` — Option C
@@ -246,15 +281,17 @@ run_terminal_cmd({ command: "anything" }) // ❌ BROKEN
 ### **1. Orient Yourself (15 min)**
 ```bash
 # Read the critical docs
-1. Read HUMAN-UX-GAP-ANALYSIS-OCT21.md
-2. Read EPIC-SESSION-COMPLETE-OCT21.md
-3. Query GraphRAG: SELECT * FROM agent_knowledge WHERE created_at > NOW() - INTERVAL '24 hours'
+1. Read CRITICAL-JAVASCRIPT-FIXES-NEEDED.md ⚠️ URGENT
+2. Read HUMAN-UX-GAP-ANALYSIS-OCT21.md
+3. Read EPIC-SESSION-COMPLETE-OCT21.md
+4. Query GraphRAG: SELECT * FROM agent_knowledge WHERE created_at > NOW() - INTERVAL '24 hours'
 ```
 
 ### **2. Choose Your Path (5 min)**
-- **Option A**: Expand Sprint 1 (recommended — 2-3h for huge value)
-- **Option B**: Launch Sprint 2 (ambitious — 4-6h for 80% discoverability)
-- **Option C**: Polish & test (safe — 2-3h for production quality)
+- **Option A**: Fix JS errors (URGENT — 1-2h to unblock everything)
+- **Option B**: Expand Sprint 1 (recommended after A — 2-3h for huge value)
+- **Option C**: Launch Sprint 2 (ambitious — 4-6h for 80% discoverability)
+- **Option D**: Polish & test (safe — 2-3h for production quality)
 
 ### **3. Test Current Features (10 min)**
 ```bash

@@ -3,7 +3,13 @@
  * Intelligent search across 20,676 resources
  */
 
-class EnhancedSearch {
+(function() {
+    // Prevent duplicate declarations
+    if (typeof window.EnhancedSearch !== 'undefined') {
+        return;
+    }
+
+    class EnhancedSearch {
   constructor() {
     this.supabaseUrl = 'https://nlgldaqtubrlcqddppbq.supabase.co';
     this.supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
@@ -292,4 +298,7 @@ function initializeSearch(inputId, resultsId) {
       results.style.display = 'none';
     }
   });
-}
+
+  // Export to global scope
+  window.EnhancedSearch = EnhancedSearch;
+})();

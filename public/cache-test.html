@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cache Test - Te Kete Ako</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-purple-100 p-8">
+    <h1 class="text-4xl font-bold text-purple-800 mb-4">🧠 Cache Test</h1>
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-semibold mb-4">Testing Deployment:</h2>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const results = document.getElementById('results');
+        
+        // Test 1: Service Worker Version
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(registrations => {
+                results.innerHTML += `<p>✅ Service Worker: ${registrations.length} registered</p>`;
+            });
+        }
+        
+        // Test 2: Tailwind CDN
+        if (typeof tailwind !== 'undefined') {
+            results.innerHTML += `<p>✅ Tailwind CDN: Loaded successfully</p>`;
+        } else {
+            results.innerHTML += `<p>❌ Tailwind CDN: Still blocked by CSP</p>`;
+        }
+        
+        // Test 3: Console Errors
+        window.addEventListener('error', (e) => {
+            results.innerHTML += `<p>❌ Error: ${e.message}</p>`;
+        });
+        
+        results.innerHTML += `<p>🕐 Test time: ${new Date().toLocaleTimeString()}</p>`;
+        results.innerHTML += `<p>📝 Instructions: Hard refresh (Ctrl+Shift+R) to clear cache</p>`;
+    </script>
+</body>
+</html>

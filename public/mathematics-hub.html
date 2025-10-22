@@ -100,6 +100,142 @@ Searchable & Ready</div>
       });
     </script>
 
+    <!-- Quick Start + Excellence Alpha -->
+    <section style="max-width: 1200px; margin: 2rem auto; padding: 0 2rem;">
+        <div style="text-align: center; margin-bottom: 1rem;">
+            <span style="background: linear-gradient(135deg, #22c55e, #16a34a); color: white; padding: 0.5rem 1.5rem; border-radius: 20px; font-weight: 700; display: inline-block; margin-bottom: 0.75rem;">🚀 QUICK START</span>
+            <h2 style="font-size: 2rem; color: #1a4d2e; margin: 0;">Teacher Picks + Excellence Alpha</h2>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+            <a href="/units/y7-maths-algebra/" style="background: white; border: 2px solid #22c55e; border-radius: 12px; padding: 1rem 1.25rem; text-decoration: none; display: block;">
+                <div style="font-weight: 800; color: #14532d; margin-bottom: 0.25rem;">Y7 Algebra Foundations</div>
+                <div style="color:#64748b;">5-lesson sequence • Patterns and sequences</div>
+            </a>
+            <a href="/units/y9-maths-geometry-patterns/index.html" style="background: white; border: 2px solid #3b82f6; border-radius: 12px; padding: 1rem 1.25rem; text-decoration: none; display: block;">
+                <div style="font-weight: 800; color: #0f172a; margin-bottom: 0.25rem;">Geometry & Māori Patterns</div>
+                <div style="color:#64748b;">Advanced geometry • Cultural integration</div>
+            </a>
+            <a href="/units/y8-statistics/index.html" style="background: white; border: 2px solid #f59e0b; border-radius: 12px; padding: 1rem 1.25rem; text-decoration: none; display: block;">
+                <div style="font-weight: 800; color: #78350f; margin-bottom: 0.25rem;">Statistics & Data</div>
+                <div style="color:#64748b;">Real-world data • NZ context</div>
+            </a>
+            <a href="/generated-resources-alpha/index.html" style="background: white; border: 2px solid #8b5cf6; border-radius: 12px; padding: 1rem 1.25rem; text-decoration: none; display: block;">
+                <div style="font-weight: 800; color: #4c1d95; margin-bottom: 0.25rem;">✨ Excellence Alpha</div>
+                <div style="color:#64748b;">Curated, high-quality cultural math resources</div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Most Connected Resources (GraphRAG-Powered) -->
+    <section style="max-width: 1200px; margin: 4rem auto; padding: 0 2rem;">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <span style="background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; padding: 0.5rem 1.5rem; border-radius: 20px; font-weight: 700; display: inline-block; margin-bottom: 1rem;">
+                🔗 MOST CONNECTED RESOURCES
+            </span>
+            <h2 style="font-size: 2.5rem; color: #1a4d2e; margin-bottom: 0.5rem;">
+                Hub Resources
+            </h2>
+            <p style="color: #666; font-size: 1.1rem;">
+                These Mathematics resources have the most connections to other subjects and topics
+            </p>
+        </div>
+        <div id="most-connected-math" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+            <div style="text-align: center; padding: 3rem; color: #64748b;">
+                🔍 Loading most connected resources...
+            </div>
+        </div>
+    </section>
+    <script>
+    (async function() {
+        try {
+            const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+            
+            if (typeof window.supabase === 'undefined' || !window.supabase.from) {
+                window.supabase = (await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2')).createClient(SUPABASE_URL, SUPABASE_KEY);
+            }
+
+            // Query for Mathematics resources with most connections
+            const { data, error } = await window.supabase.rpc('get_most_connected_resources', {
+                subject_filter: 'Mathematics',
+                limit_count: 8
+            });
+
+            if (error) {
+                console.error('Error fetching most connected:', error);
+                // Fallback to direct query
+                const { data: relationships, error: relError } = await window.supabase
+                    .from('graphrag_relationships')
+                    .select('source_path')
+                    .limit(1000);
+
+                if (!relError && relationships) {
+                    // Count connections per resource
+                    const counts = {};
+                    relationships.forEach(rel => {
+                        counts[rel.source_path] = (counts[rel.source_path] || 0) + 1;
+                    });
+
+                    // Get top paths
+                    const topPaths = Object.entries(counts)
+                        .sort((a, b) => b[1] - a[1])
+                        .slice(0, 8)
+                        .map(([path]) => path);
+
+                    // Fetch resource details
+                    const { data: resources } = await window.supabase
+                        .from('graphrag_resources')
+                        .select('*')
+                        .in('file_path', topPaths)
+                        .eq('subject', 'Mathematics');
+
+                    if (resources) {
+                        displayMostConnected(resources, counts);
+                    }
+                }
+            } else if (data) {
+                displayMostConnected(data);
+            }
+
+        } catch (e) {
+            console.error('Most Connected error:', e);
+            document.getElementById('most-connected-math').innerHTML = '<div style="text-align:center;color:#64748b;">Unable to load connections at this time.</div>';
+        }
+
+        function displayMostConnected(resources, connectionCounts = {}) {
+            const container = document.getElementById('most-connected-math');
+            if (!resources || resources.length === 0) {
+                container.innerHTML = '<div style="text-align:center;color:#64748b;">No connected resources found yet.</div>';
+                return;
+            }
+
+            let html = '';
+            resources.slice(0, 8).forEach((resource, index) => {
+                const connections = connectionCounts[resource.file_path] || resource.connection_count || 0;
+                const colors = ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#14b8a6', '#f97316', '#06b6d4'];
+                const color = colors[index % colors.length];
+                
+                html += `<a href="${resource.file_path}" style="background: white; padding: 1.5rem; border-radius: 12px; border-top: 4px solid ${color}; box-shadow: 0 2px 12px rgba(0,0,0,0.06); text-decoration: none; display: block; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.12)';" onmouseout="this.style.transform=''; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.06)';">`;
+                html += `<div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem;">`;
+                html += `<span style="background: ${color}; color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700;">${connections} connections</span>`;
+                if (resource.quality_score >= 90) {
+                    html += `<span style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700;">⭐ Q${resource.quality_score}</span>`;
+                }
+                html += `</div>`;
+                html += `<h3 style="color: #0f172a; font-size: 1.1rem; font-weight: 700; margin: 0 0 0.5rem 0;">${resource.title || 'Untitled'}</h3>`;
+                html += `<div style="color: #64748b; font-size: 0.85rem; margin-bottom: 0.75rem;">`;
+                if (resource.resource_type) html += `${resource.resource_type}`;
+                if (resource.year_level) html += ` • ${resource.year_level}`;
+                html += `</div>`;
+                html += `<div style="color: ${color}; font-weight: 700; font-size: 0.9rem;">View Resource →</div>`;
+                html += `</a>`;
+            });
+
+            container.innerHTML = html;
+        }
+    })();
+    </script>
+
     <!-- GraphRAG-Powered Recommendations -->
     <section class="hub-graphrag-recommendations" style="max-width: 1200px; margin: 4rem auto; padding: 0 2rem;">
         <div style="text-align: center; margin-bottom: 3rem;">

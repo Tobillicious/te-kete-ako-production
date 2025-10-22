@@ -1,171 +1,281 @@
 <!-- GraphRAG Similar Resources Component -->
-<!-- Usage: <div id="similar-resources" data-resource-path="/public/lessons/your-lesson.html"></div><script src="/components/graphrag-similar-resources.html"></script> -->
+<!-- Drop this component at the bottom of any lesson/handout/unit page -->
+<!-- Usage: <div id="similar-resources" data-resource-path="/public/lessons/your-lesson.html"></div> -->
+<!-- Then: <script src="/components/graphrag-similar-resources.html"></script> -->
 
 <style>
+.similar-resources-container {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    padding: 3rem 2rem;
+    border-radius: 16px;
+    margin: 3rem 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.similar-resources-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.similar-resources-header h2 {
+    font-size: 2rem;
+    color: #0c4a6e;
+    margin: 0 0 0.5rem 0;
+    font-weight: 800;
+}
+
+.similar-resources-subtitle {
+    color: #64748b;
+    font-size: 1rem;
+}
+
+.similar-resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
 .similar-resource-card {
     background: white;
-    padding: 1.25rem;
+    padding: 1.5rem;
     border-radius: 12px;
     text-decoration: none;
     display: block;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    transition: all 0.2s;
-    border-top: 3px solid var(--card-color, #6b7280);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border-top: 4px solid #3b82f6;
+    transition: all 0.3s;
+    position: relative;
 }
+
 .similar-resource-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.2);
 }
-.similar-resource-title {
-    color: #1f2937;
-    font-weight: 700;
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-}
-.similar-resource-meta {
-    color: #6b7280;
-    font-size: 0.85rem;
-    margin-bottom: 0.5rem;
-}
-.similar-resource-connection {
-    color: var(--card-color, #6b7280);
-    font-size: 0.8rem;
-    font-weight: 600;
-}
-.quality-badge {
-    display: inline-block;
-    padding: 0.25rem 0.6rem;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    margin-left: 0.5rem;
-}
-.badge-gold {
-    background: linear-gradient(135deg, #fbbf24, #f59e0b);
-    color: #78350f;
-}
-.badge-cultural {
-    background: linear-gradient(135deg, #10b981, #059669);
+
+.resource-badge {
+    position: absolute;
+    top: -12px;
+    right: 12px;
+    background: #3b82f6;
     color: white;
+    padding: 0.35rem 0.75rem;
+    border-radius: 18px;
+    font-weight: 800;
+    font-size: 0.75rem;
+}
+
+.resource-badge.gold {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.resource-badge.cultural {
+    background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.resource-title {
+    color: #0f172a;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem 0;
+    line-height: 1.4;
+}
+
+.resource-meta {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.resource-meta-item {
+    font-size: 0.85rem;
+    color: #64748b;
+    background: #f1f5f9;
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+}
+
+.resource-connection {
+    font-size: 0.9rem;
+    color: #475569;
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+.resource-view-btn {
+    display: inline-block;
+    background: #3b82f6;
+    color: white;
+    padding: 0.5rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+
+.resource-view-btn:hover {
+    background: #2563eb;
+}
+
+.similar-resources-loading {
+    text-align: center;
+    padding: 3rem;
+    color: #64748b;
+    font-size: 1.1rem;
+}
+
+.similar-resources-error {
+    background: #fef2f2;
+    border: 2px solid #fca5a5;
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    color: #991b1b;
+}
+
+.no-similar-resources {
+    text-align: center;
+    padding: 2rem;
+    color: #64748b;
 }
 </style>
 
 <script>
 (async function() {
     try {
-        // Find all similar-resources containers
-        const containers = document.querySelectorAll('[id^="similar-resources"]');
-        if (containers.length === 0) return;
+        // Get the container element
+        const container = document.getElementById('similar-resources');
+        if (!container) return;
 
-        // Init Supabase
+        // Get current resource path
+        const currentPath = container.dataset.resourcePath;
+        if (!currentPath) {
+            console.error('No resource path specified');
+            return;
+        }
+
+        // Show loading state
+        container.innerHTML = '<div class="similar-resources-loading">🔍 Finding similar resources...</div>';
+
+        // Initialize Supabase if not already done
+        const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+        
         if (typeof window.supabase === 'undefined' || !window.supabase.from) {
-            const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
-            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
             window.supabase = (await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2')).createClient(SUPABASE_URL, SUPABASE_KEY);
         }
 
-        const relationshipColors = {
-            'prerequisite_for': '#3b82f6',
-            'follows': '#10b981',
-            'relates_to': '#7c3aed',
-            'builds_on': '#f59e0b',
-            'enriches': '#ec4899',
-            'complements': '#14b8a6',
-            'featured_in_hub': '#dc2626'
-        };
+        // Query GraphRAG for related resources
+        const { data: relationships, error: relError } = await window.supabase
+            .from('graphrag_relationships')
+            .select('target_path, relationship_type, confidence')
+            .eq('source_path', currentPath)
+            .order('confidence', { ascending: false })
+            .limit(20); // Get more to filter out broken links
 
-        for (const container of containers) {
-            const resourcePath = container.dataset.resourcePath;
-            if (!resourcePath) {
-                console.warn('Similar Resources: No data-resource-path specified');
-                continue;
-            }
-
-            // Query GraphRAG for relationships
-            const { data: relationships, error } = await window.supabase
-                .from('graphrag_relationships')
-                .select('target_path, relationship_type, confidence')
-                .eq('source_path', resourcePath)
-                .order('confidence', { ascending: false })
-                .limit(10);
-
-            if (error) {
-                console.error('GraphRAG similar resources error:', error);
-                container.innerHTML = '<p style="color: #6b7280; text-align: center;">Related resources loading...</p>';
-                continue;
-            }
-
-            if (!relationships || relationships.length === 0) {
-                // Fallback: Show subject-based recommendations
-                container.innerHTML = `
-                    <div style="background: #f9fafb; padding: 1.5rem; border-radius: 12px; text-align: center;">
-                        <p style="color: #6b7280; margin-bottom: 0.5rem;">No direct connections yet — check these alternatives:</p>
-                        <a href="/browse-units.html" style="display: inline-block; color: #3b82f6; font-weight: 600; margin-top: 0.5rem;">Browse All Units →</a>
-                    </div>
-                `;
-                continue;
-            }
-
-            // Get target resource details
-            const targetPaths = relationships.map(r => r.target_path);
-            const { data: resources, error: resourceError } = await window.supabase
-                .from('graphrag_resources')
-                .select('file_path, title, resource_type, quality_score, canonical_subject, cultural_context')
-                .in('file_path', targetPaths)
-                .order('quality_score', { ascending: false });
-
-            if (resourceError || !resources) {
-                console.error('GraphRAG resource fetch error:', resourceError);
-                continue;
-            }
-
-            // Merge relationship data with resource data
-            const enrichedResources = resources.slice(0, 6).map(resource => {
-                const rel = relationships.find(r => r.target_path === resource.file_path);
-                return { ...resource, relationship_type: rel?.relationship_type, confidence: rel?.confidence };
-            });
-
-            // Render similar resources
-            container.innerHTML = `
-                <section style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); padding: 3rem 2rem; border-radius: 16px; margin: 3rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
-                    <div style="text-align: center; margin-bottom: 2rem;">
-                        <div style="display: inline-block; background: #3b82f6; color: white; padding: 0.5rem 1.5rem; border-radius: 20px; font-weight: 700; margin-bottom: 1rem;">
-                            🧠 GRAPHRAG INTELLIGENCE
-                        </div>
-                        <h2 style="font-size: 2rem; color: #1e40af; margin-bottom: 0.5rem;">Similar Resources</h2>
-                        <p style="color: #475569; font-size: 0.95rem;">Discovered automatically through knowledge graph analysis</p>
-                    </div>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
-                        ${enrichedResources.map(resource => {
-                            const color = relationshipColors[resource.relationship_type] || '#6b7280';
-                            return `
-                                <a href="${resource.file_path}" class="similar-resource-card" style="--card-color: ${color};">
-                                    <div class="similar-resource-title">
-                                        ${resource.title || 'Untitled Resource'}
-                                        ${resource.quality_score >= 90 ? '<span class="quality-badge badge-gold">🏆 Q' + resource.quality_score + '</span>' : ''}
-                                        ${resource.cultural_context ? '<span class="quality-badge badge-cultural">🌿</span>' : ''}
-                                    </div>
-                                    <div class="similar-resource-meta">
-                                        ${resource.resource_type || 'Resource'} • ${resource.canonical_subject || 'General'}
-                                    </div>
-                                    <div class="similar-resource-connection">
-                                        🔗 ${(resource.relationship_type || 'relates_to').replace(/_/g, ' ')}
-                                    </div>
-                                </a>
-                            `;
-                        }).join('')}
-                    </div>
-                    <div style="text-align: center; margin-top: 2rem;">
-                        <a href="/cross-subject-discovery.html" style="display: inline-block; background: white; color: #3b82f6; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                            Explore More Connections →
-                        </a>
-                    </div>
-                </section>
-            `;
+        if (relError) {
+            console.error('Error fetching relationships:', relError);
+            container.innerHTML = '<div class="similar-resources-error">Unable to load similar resources. Please refresh the page.</div>';
+            return;
         }
 
-    } catch (e) {
-        console.error('GraphRAG Similar Resources component error:', e);
+        if (!relationships || relationships.length === 0) {
+            container.innerHTML = '<div class="no-similar-resources">No similar resources found yet. Check back soon as our knowledge graph grows! 🌱</div>';
+            return;
+        }
+
+        // Get unique target paths
+        const targetPaths = [...new Set(relationships.map(r => r.target_path))];
+
+        // Fetch resource details
+        const { data: resources, error: resError } = await window.supabase
+            .from('graphrag_resources')
+            .select('file_path, title, resource_type, quality_score, year_level, subject, cultural_context')
+            .in('file_path', targetPaths)
+            .order('quality_score', { ascending: false });
+
+        if (resError) {
+            console.error('Error fetching resources:', resError);
+            container.innerHTML = '<div class="similar-resources-error">Unable to load resource details.</div>';
+            return;
+        }
+
+        if (!resources || resources.length === 0) {
+            container.innerHTML = '<div class="no-similar-resources">No similar resources available.</div>';
+            return;
+        }
+
+        // Take top 6 resources
+        const topResources = resources.slice(0, 6);
+
+        // Build the HTML
+        let html = '<div class="similar-resources-container">';
+        html += '<div class="similar-resources-header">';
+        html += '<h2>🔗 Similar Resources</h2>';
+        html += '<p class="similar-resources-subtitle">Discovered through GraphRAG knowledge connections</p>';
+        html += '</div>';
+        html += '<div class="similar-resources-grid">';
+
+        topResources.forEach(resource => {
+            const relationship = relationships.find(r => r.target_path === resource.file_path);
+            const relationshipLabel = formatRelationshipType(relationship?.relationship_type || 'relates_to');
+            
+            // Determine badge
+            let badgeClass = '';
+            let badgeText = '';
+            if (resource.quality_score >= 90) {
+                badgeClass = 'gold';
+                badgeText = '⭐ Q' + resource.quality_score;
+            } else if (resource.cultural_context) {
+                badgeClass = 'cultural';
+                badgeText = '🌿 Cultural';
+            } else {
+                badgeText = 'Q' + (resource.quality_score || '85');
+            }
+
+            html += `<a href="${resource.file_path}" class="similar-resource-card">`;
+            html += `<div class="resource-badge ${badgeClass}">${badgeText}</div>`;
+            html += `<h3 class="resource-title">${resource.title || 'Untitled Resource'}</h3>`;
+            html += '<div class="resource-meta">';
+            if (resource.resource_type) html += `<span class="resource-meta-item">${resource.resource_type}</span>`;
+            if (resource.year_level) html += `<span class="resource-meta-item">${resource.year_level}</span>`;
+            if (resource.subject) html += `<span class="resource-meta-item">${resource.subject}</span>`;
+            html += '</div>';
+            html += `<div class="resource-connection">📍 ${relationshipLabel}</div>`;
+            html += '<span class="resource-view-btn">View Resource →</span>';
+            html += '</a>';
+        });
+
+        html += '</div>'; // grid
+        html += '</div>'; // container
+
+        container.innerHTML = html;
+
+    } catch (error) {
+        console.error('Similar Resources component error:', error);
+        const container = document.getElementById('similar-resources');
+        if (container) {
+            container.innerHTML = '<div class="similar-resources-error">An error occurred loading similar resources.</div>';
+        }
+    }
+
+    function formatRelationshipType(type) {
+        const labels = {
+            'prerequisite_for': 'Build on this next →',
+            'follows': 'Follows naturally from this',
+            'relates_to': 'Related topic',
+            'supports': 'Supports this learning',
+            'enriches': 'Enriches understanding',
+            'extends': 'Extends this concept',
+            'applies': 'Real-world application',
+            'compares_with': 'Compare & contrast',
+            'builds_on': 'Builds on this foundation',
+            'cross_subject': 'Cross-curricular connection',
+            'cultural_context': 'Cultural perspective',
+            'alternative_approach': 'Alternative approach'
+        };
+        return labels[type] || 'Related resource';
     }
 })();
 </script>

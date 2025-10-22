@@ -439,6 +439,33 @@
     };
 
     // =================================================================
+    // BADGE SYSTEM LOADER (CSP-safe)
+    // =================================================================
+    function loadBadgeSystemCspSafe() {
+        if (document.documentElement.getAttribute('data-badge-system-loaded') === '1') return;
+        fetch('/components/badge-system.html')
+            .then(r => r.text())
+            .then(html => {
+                const wrapper = document.createElement('div');
+                wrapper.innerHTML = html;
+                const styleEl = wrapper.querySelector('style');
+                const scriptEl = wrapper.querySelector('script');
+                if (styleEl && !document.head.querySelector('style[data-badge-system="1"]')) {
+                    styleEl.setAttribute('data-badge-system', '1');
+                    document.head.appendChild(styleEl);
+                }
+                if (scriptEl && scriptEl.textContent && !document.body.querySelector('script[data-badge-system="1"]')) {
+                    const s = document.createElement('script');
+                    s.textContent = scriptEl.textContent;
+                    s.setAttribute('data-badge-system', '1');
+                    document.body.appendChild(s);
+                }
+                document.documentElement.setAttribute('data-badge-system-loaded', '1');
+            })
+            .catch(() => {});
+    }
+
+    // =================================================================
     // INITIALIZATION
     // =================================================================
     function init() {
@@ -449,6 +476,7 @@
         Performance.init();
         CulturalIntegration.init();
         ErrorHandling.init();
+        loadBadgeSystemCspSafe();
 
         // Mark as initialized
         document.body.classList.add('js-initialized');

@@ -92,6 +92,43 @@ class MobilePerformanceOptimizer {
     }
     
     /**
+     * Optimize interface based on device capabilities
+     */
+    optimizeForDevice() {
+        // Add touch-friendly classes for mobile
+        if (this.touchDevice) {
+            document.body.classList.add('touch-device');
+            
+            // Increase tap target sizes
+            const interactiveElements = document.querySelectorAll('button, a, input, select, textarea');
+            interactiveElements.forEach(el => {
+                el.style.minHeight = '44px';
+                el.style.minWidth = '44px';
+            });
+        }
+        
+        // Optimize for slow connections
+        if (this.isSlowConnection) {
+            document.body.classList.add('slow-connection');
+            
+            // Disable autoplay videos
+            const videos = document.querySelectorAll('video[autoplay]');
+            videos.forEach(video => {
+                video.removeAttribute('autoplay');
+                video.load();
+            });
+            
+            // Reduce animations
+            document.body.style.setProperty('--animation-duration', '0.1s');
+        }
+        
+        console.log('🎯 Device optimizations applied:', {
+            touchDevice: this.touchDevice,
+            slowConnection: this.isSlowConnection
+        });
+    }
+    
+    /**
      * Enable optimizations for slow connections
      */
     enableSlowConnectionMode() {

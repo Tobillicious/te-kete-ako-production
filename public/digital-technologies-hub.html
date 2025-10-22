@@ -283,6 +283,10 @@
     <script src="/js/posthog-analytics.js" defer></script>
     <script src="/js/graphrag-connection-counter.js"></script>
 
+    <!-- Most Connected Resources Widget -->
+    <div id="most-connected" data-subject="Digital Technologies" data-limit="10"></div>
+    <script src="/components/graphrag-most-connected.html"></script>
+
     <script>document.addEventListener('DOMContentLoaded', async () => {try {const SUPABASE_URL='https://nlgldaqtubrlcqddppbq.supabase.co';const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';if(typeof window.supabase==='undefined'||!window.supabase.from){window.supabase=(await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2')).createClient(SUPABASE_URL,SUPABASE_KEY);}const { data, error } = await window.supabase.from('graphrag_orphans').select('file_path,title,quality_score,resource_type').eq('canonical_subject','Digital Technologies').order('quality_score',{ascending:false}).limit(12);if(error){console.error('Orphans load error (Digital Technologies):',error);return;}const grid=document.getElementById('digitech-orphans');if(grid){grid.innerHTML=(data||[]).map(r=>('<a href="'+r.file_path+'" style="background:white;padding:1rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 12px rgba(0,0,0,0.06);border-top:4px solid #4f46e5;display:block;">'+'<h3 style="color:#1f2937;margin:0 0 0.5rem 0;font-size:1rem;font-weight:700;">'+(r.title||'Untitled')+'</h3>'+'<div style="color:#6b7280;font-size:0.85rem;">'+(r.resource_type||'Resource')+(r.quality_score?(' • ⭐ '+r.quality_score):'')+'</div>'+'</a>')).join('');}} catch(e){console.error(e);}});</script>
 </body>
 </html>

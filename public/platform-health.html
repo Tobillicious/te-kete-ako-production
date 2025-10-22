@@ -73,6 +73,32 @@
       <h2 style="margin: 0 0 0.75rem 0; font-size: 1.25rem; color: #0f172a;">Subject Distribution (Top)</h2>
       <div id="subject-distribution" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem;"></div>
     </section>
+
+    <section style="background: white; border-radius: 12px; padding: 1.5rem; border: 1px solid #e2e8f0; box-shadow: 0 2px 12px rgba(0,0,0,0.04); margin-top: 1rem;">
+      <h2 style="margin: 0 0 0.75rem 0; font-size: 1.25rem; color: #0f172a;">GraphRAG vs Site: Details</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem;">
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.75rem 1rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+            <div style="color:#0f172a; font-weight:700;">Missing in GraphRAG</div>
+            <div style="display:flex; align-items:center; gap:0.5rem;">
+              <span id="count-missing" style="color:#334155;">—</span>
+              <button id="copy-missing-csv" style="background:#1d4ed8; color:white; border:none; padding:0.35rem 0.6rem; border-radius:6px; cursor:pointer;">Copy CSV</button>
+            </div>
+          </div>
+          <ol id="list-missing" style="margin:0; padding-left:1.25rem; max-height: 260px; overflow:auto;"></ol>
+        </div>
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.75rem 1rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+            <div style="color:#0f172a; font-weight:700;">Placeholders Detected</div>
+            <div style="display:flex; align-items:center; gap:0.5rem;">
+              <span id="count-placeholders" style="color:#334155;">—</span>
+              <button id="copy-placeholders-csv" style="background:#b91c1c; color:white; border:none; padding:0.35rem 0.6rem; border-radius:6px; cursor:pointer;">Copy CSV</button>
+            </div>
+          </div>
+          <ol id="list-placeholders" style="margin:0; padding-left:1.25rem; max-height: 260px; overflow:auto;"></ol>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- Supabase Client -->
@@ -146,12 +172,44 @@
     document.addEventListener('DOMContentLoaded', loadPlatformMetrics);
 
     // Dist Handouts placeholder coverage (client-side scan)
+    function extractDistTail(path) {
+      if (!path) return null;
+      const p = String(path);
+      const idx = p.toLowerCase().indexOf('dist-handouts/');
+      if (idx === -1) return null;
+      return p.slice(idx).replace(/^\/+/, '');
+    }
+
+    async function fetchGraphragDistTails() {
+      const acc = new Set();
+      try {
+        const q = await supabase
+          .from('graphrag_resources')
+          .select('file_path')
+          .ilike('file_path', '%/dist-handouts/%')
+          .limit(10000);
+        if (!q.error && Array.isArray(q.data)) {
+          for (const r of q.data) {
+            const tail = extractDistTail(r.file_path);
+            if (tail) acc.add(tail);
+          }
+        }
+      } catch (e) {
+        console.warn('Failed to fetch GraphRAG dist-handout tails', e);
+      }
+      return Array.from(acc);
+    }
+
     async function scanDistHandoutsCoverage() {
       const totalEl = document.getElementById('metric-dist-total');
       const enrichedEl = document.getElementById('metric-dist-enriched');
       const rateEl = document.getElementById('metric-dist-rate');
       const siteCountEl = document.getElementById('metric-dist-site');
       const gapEl = document.getElementById('metric-dist-gap');
+      const listMissingEl = document.getElementById('list-missing');
+      const listPlaceholdersEl = document.getElementById('list-placeholders');
+      const countMissingEl = document.getElementById('count-missing');
+      const countPlaceholdersEl = document.getElementById('count-placeholders');
       try {
         // Fetch the complete handouts listing and extract /dist-handouts/ links
         const listingResp = await fetch('/handouts-complete.html');
@@ -165,9 +223,11 @@
 
         // De-duplicate and cap to avoid excessive requests
         const unique = Array.from(new Set(links));
+        const siteTails = unique.map(u => u.replace(/^\/+/, ''));
         const cap = unique.slice(0, 200);
         let placeholders = 0;
         let fetched = 0;
+        const placeholderLinks = [];
 
         // Fetch in small batches to be gentle on the browser
         const batchSize = 10;
@@ -176,11 +236,14 @@
           const results = await Promise.allSettled(batch.map(async (url) => {
             const r = await fetch(url);
             const t = await r.text();
-            return /placeholder|coming soon/i.test(t) ? 'placeholder' : 'ok';
+            return /placeholder|coming soon/i.test(t) ? { kind: 'placeholder', url } : { kind: 'ok', url };
           }));
           results.forEach(res => {
             fetched += 1;
-            if (res.status === 'fulfilled' && res.value === 'placeholder') placeholders += 1;
+            if (res.status === 'fulfilled' && res.value.kind === 'placeholder') {
+              placeholders += 1;
+              placeholderLinks.push(res.value.url);
+            }
           });
         }
 
@@ -204,6 +267,68 @@
             gapEl.style.color = '#16a34a';
             gapEl.textContent = 'Gap: 0 (in sync)';
           }
+        }
+
+        // Build detailed lists
+        const graphragTails = await fetchGraphragDistTails();
+        const graphragSet = new Set(graphragTails);
+        const missingTails = siteTails.filter(t => !graphragSet.has(t));
+
+        if (countMissingEl) countMissingEl.textContent = `${missingTails.length}`;
+        if (countPlaceholdersEl) countPlaceholdersEl.textContent = `${placeholderLinks.length}`;
+
+        const renderList = (el, items, toHref) => {
+          if (!el) return;
+          el.innerHTML = '';
+          const show = items.slice(0, 100);
+          for (const item of show) {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = toHref(item);
+            a.textContent = toHref(item);
+            a.style.color = '#1d4ed8';
+            a.style.textDecoration = 'none';
+            li.appendChild(a);
+            el.appendChild(li);
+          }
+        };
+
+        renderList(listMissingEl, missingTails, (t) => `/${t}`);
+        renderList(listPlaceholdersEl, placeholderLinks, (u) => u);
+
+        // Copy CSV handlers
+        const copyText = async (text) => {
+          try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              await navigator.clipboard.writeText(text);
+            } else {
+              const ta = document.createElement('textarea');
+              ta.value = text;
+              document.body.appendChild(ta);
+              ta.select();
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+            }
+          } catch (e) {
+            console.warn('Copy failed', e);
+          }
+        };
+
+        const missingBtn = document.getElementById('copy-missing-csv');
+        if (missingBtn) {
+          missingBtn.addEventListener('click', () => {
+            const rows = missingTails.map(t => `/${t}`);
+            const csv = ['url', ...rows].join('\n');
+            copyText(csv);
+          });
+        }
+        const placeholdersBtn = document.getElementById('copy-placeholders-csv');
+        if (placeholdersBtn) {
+          placeholdersBtn.addEventListener('click', () => {
+            const rows = placeholderLinks;
+            const csv = ['url', ...rows].join('\n');
+            copyText(csv);
+          });
         }
       } catch (e) {
         if (rateEl) rateEl.textContent = 'Coverage scan unavailable';
@@ -237,5 +362,5 @@
     });
   </script>
 </body>
-<</html>
+</html>
 
