@@ -945,7 +945,6 @@ class EnhancedFooter {
             element.addEventListener('click', (e) => {
                 const action = e.target.textContent?.trim() || 'footer_interaction';
                 // Could integrate with analytics here
-                console.log('Footer interaction:', action);
             });
         });
     }

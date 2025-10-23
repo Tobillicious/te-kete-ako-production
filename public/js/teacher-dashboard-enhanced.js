@@ -11,7 +11,6 @@ let teacherProfile = null;
 // Wait for Supabase to be ready
 window.addEventListener('supabaseReady', async (event) => {
     supabaseClient = event.detail.client;
-    console.log('✅ Supabase ready for teacher dashboard');
     await initializeDashboard();
 });
 

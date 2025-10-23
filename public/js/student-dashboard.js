@@ -357,7 +357,6 @@ function loadCulturalContent(iwiAffiliation) {
     // Could load iwi-specific whakataukī
     // Could highlight iwi-related resources
     // For now, acknowledge cultural identity
-    console.log('Loading cultural content for:', iwiAffiliation);
 }
 
 /**
@@ -366,7 +365,6 @@ function loadCulturalContent(iwiAffiliation) {
 function enableTeReoInterface() {
     // Would translate UI labels to Te Reo Māori
     // For now, add bilingual labels
-    console.log('Te Reo interface enabled');
 }
 
 /**

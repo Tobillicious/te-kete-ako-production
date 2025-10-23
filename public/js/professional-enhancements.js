@@ -179,9 +179,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Console message for developers
-    console.log('%c🧺 Te Kete Ako', 'font-size: 2rem; font-weight: bold; color: #2C5F41;');
-    console.log('%cProfessional UX enhancements loaded ✨', 'font-size: 1rem; color: #666;');
-    console.log('%cMātauranga Māori meets modern web development', 'font-size: 0.9rem; color: #999; font-style: italic;');
 });
 
 // Add page load animation
@@ -202,7 +199,6 @@ if ('performance' in window) {
         const perfData = performance.getEntriesByType('navigation')[0];
         if (perfData) {
             const loadTime = perfData.loadEventEnd - perfData.loadEventStart;
-            console.log(`⚡ Page loaded in ${loadTime.toFixed(0)}ms`);
         }
     });
 }

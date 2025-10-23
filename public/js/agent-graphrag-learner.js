@@ -24,7 +24,6 @@ class AgentGraphRAGLearner {
         }
         
         this.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        console.log(`🤖 Agent ${this.agentId} initialized with GraphRAG learning`);
         return true;
     }
     
@@ -74,7 +73,6 @@ class AgentGraphRAGLearner {
                 return null;
             }
             
-            console.log(`✅ GraphRAG learned: ${resource.title}`);
             return data;
             
         } catch (error) {
@@ -114,14 +112,12 @@ class AgentGraphRAGLearner {
             if (error) {
                 // Relationship might already exist
                 if (error.code === '23505') { // Unique constraint violation
-                    console.log(`ℹ️ Relationship already exists: ${relationship.relationship_type}`);
                     return null;
                 }
                 console.error('❌ Failed to teach relationship:', error);
                 return null;
             }
             
-            console.log(`✅ GraphRAG learned relationship: ${relationship.relationship_type}`);
             return data;
             
         } catch (error) {
@@ -149,7 +145,32 @@ class AgentGraphRAGLearner {
                 discovery_type: discoveryData.type,
                 impact: discoveryData.impact,
                 recommendations: discoveryData.recommendations,
-                data: discoveryData.data
+                data: discoveryData.data,
+                sprint_context: discoveryData.sprintContext,
+                user_benefit: discoveryData.userBenefit
+            }
+        });
+    }
+
+    /**
+     * Record sprint progress and achievements
+     */
+    async recordSprintProgress(sprintData) {
+        if (!this.supabase) return null;
+        
+        return await this.teachDiscovery({
+            title: `Sprint Progress: ${sprintData.title}`,
+            type: 'sprint_progress',
+            description: sprintData.description,
+            impact: sprintData.impact || 'high',
+            recommendations: sprintData.nextSteps || [],
+            sprintContext: sprintData.context,
+            userBenefit: sprintData.userBenefit,
+            data: {
+                completed_tasks: sprintData.completedTasks || [],
+                pending_tasks: sprintData.pendingTasks || [],
+                performance_metrics: sprintData.metrics || {},
+                timestamp: new Date().toISOString()
             }
         });
     }
@@ -173,7 +194,6 @@ class AgentGraphRAGLearner {
                 return [];
             }
             
-            console.log(`🔍 GraphRAG found ${data.length} results for: ${query}`);
             return data;
             
         } catch (error) {
@@ -218,7 +238,6 @@ class AgentGraphRAGLearner {
                 return null;
             }
             
-            console.log(`✅ GraphRAG learned ${data.length} resources in batch`);
             return data;
             
         } catch (error) {
@@ -265,7 +284,6 @@ if (typeof window.supabase !== 'undefined') {
     window.agentLearner = new AgentGraphRAGLearner();
     window.agentLearner.initialize().then(success => {
         if (success) {
-            console.log('🧠 Agent GraphRAG Learning System Active');
         }
     });
 } else {

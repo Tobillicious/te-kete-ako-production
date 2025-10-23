@@ -122,7 +122,6 @@ class MobilePerformanceOptimizer {
             document.body.style.setProperty('--animation-duration', '0.1s');
         }
         
-        console.log('🎯 Device optimizations applied:', {
             touchDevice: this.touchDevice,
             slowConnection: this.isSlowConnection
         });
@@ -146,7 +145,6 @@ class MobilePerformanceOptimizer {
         // Show connection indicator
         this.showConnectionIndicator('slow');
         
-        console.log('🐌 Slow connection detected - performance mode enabled');
     }
     
     /**
@@ -162,7 +160,6 @@ class MobilePerformanceOptimizer {
         // Optimize scrolling
         this.optimizeScrolling();
         
-        console.log('👆 Touch device detected - touch optimizations enabled');
     }
     
     /**
@@ -569,7 +566,6 @@ class MobilePerformanceOptimizer {
             slowStyles.remove();
         }
         
-        console.log('🚀 Fast connection restored - full features enabled');
     }
     
     /**
@@ -637,7 +633,6 @@ class MobilePerformanceOptimizer {
         this.observePerformanceEntry('paint', (entries) => {
             entries.forEach(entry => {
                 if (entry.name === 'first-contentful-paint') {
-                    console.log(`🎨 First Contentful Paint: ${entry.startTime}ms`);
                     
                     if (entry.startTime > 3000) {
                         this.showPerformanceWarning('Slow initial loading detected');
@@ -649,7 +644,6 @@ class MobilePerformanceOptimizer {
         // Largest Contentful Paint
         this.observePerformanceEntry('largest-contentful-paint', (entries) => {
             const lastEntry = entries[entries.length - 1];
-            console.log(`🖼️ Largest Contentful Paint: ${lastEntry.startTime}ms`);
             
             if (lastEntry.startTime > 4000) {
                 this.showPerformanceWarning('Content loading slowly');
@@ -697,7 +691,6 @@ class MobilePerformanceOptimizer {
     monitorLoadingPerformance() {
         window.addEventListener('load', () => {
             const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
-            console.log(`⏱️ Page load time: ${loadTime}ms`);
             
             if (loadTime > 5000) {
                 this.showPerformanceWarning('Page loaded slowly');

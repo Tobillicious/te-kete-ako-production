@@ -150,17 +150,14 @@
         logMetrics() {
             const metrics = this.getMetrics();
             if (!metrics) {
-                console.log('📊 No GraphRAG queries executed yet');
                 return;
             }
 
-            console.log('📊 GraphRAG Performance Metrics:');
             console.table(metrics);
         },
 
         clearCache() {
             this.cache.clear();
-            console.log('🗑️ GraphRAG cache cleared');
         },
 
         // Wrapper for Supabase queries
@@ -183,7 +180,6 @@
     // Expose to console for debugging
     window.gp = window.GraphRAGPerformance;
 
-    console.log('📊 GraphRAG Performance Monitor initialized. Use window.gp.logMetrics() to see stats.');
 
 })();
 

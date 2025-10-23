@@ -15,7 +15,6 @@ class CulturalComponentSystem {
     }
 
     init() {
-        console.log('🌿 Kaitiaki Aronui - Cultural Components Awakening');
         this.setupGlobalStyles();
         this.initializeComponents();
         this.setupIntersectionObserver();
@@ -565,7 +564,6 @@ class CulturalComponentSystem {
     // Public API for adding custom components
     addComponent(name, component) {
         this.components.set(name, component);
-        console.log(`🌿 Cultural component registered: ${name}`);
     }
 
     // Initialize specific component
@@ -593,7 +591,6 @@ class CulturalComponentSystem {
             const paintTiming = performance.getEntriesByType('paint');
             const navigationTiming = performance.getEntriesByType('navigation')[0];
             
-            console.log('🌿 Cultural Components Performance:', {
                 firstPaint: paintTiming[0]?.startTime,
                 firstContentfulPaint: paintTiming[1]?.startTime,
                 domContentLoaded: navigationTiming.domContentLoadedEventEnd,
@@ -619,4 +616,3 @@ if (typeof module !== 'undefined' && module.exports) {
     module.exports = CulturalComponentSystem;
 }
 
-console.log('🌿 Kaitiaki Aronui Cultural Components - Ready for Digital Transformation');

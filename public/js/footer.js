@@ -39,7 +39,6 @@ function trackFooterInteractions() {
             const href = this.getAttribute('href');
             
             // Log for analytics (could integrate with actual analytics service)
-            console.log('Footer link clicked:', { text: linkText, href: href });
         });
     });
 }

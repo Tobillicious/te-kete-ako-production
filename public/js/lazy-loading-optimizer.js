@@ -47,7 +47,6 @@ class LazyLoadingOptimizer {
         this.observeImages();
         
         if (this.config.debugMode) {
-            console.log('🚀 Lazy loading optimizer initialized');
         }
     }
 
@@ -92,7 +91,6 @@ class LazyLoadingOptimizer {
         });
 
         if (this.config.debugMode) {
-            console.log(`📸 Observing ${images.length} images and ${backgrounds.length} background elements`);
         }
     }
 
@@ -165,7 +163,6 @@ class LazyLoadingOptimizer {
             this.loadedImages.add(element);
             
             if (this.config.debugMode) {
-                console.log(`✅ Image loaded in ${loadTime.toFixed(2)}ms:`, optimizedSrc);
             }
         } catch (error) {
             console.warn('Failed to load image:', error);
@@ -295,7 +292,6 @@ class LazyLoadingOptimizer {
                 }
                 
                 if (this.config.debugMode) {
-                    console.log(`🌐 Network speed detected: ${this.networkSpeed} (${connection.effectiveType})`);
                 }
             };
             
@@ -326,7 +322,6 @@ class LazyLoadingOptimizer {
             }
             
             if (this.config.debugMode) {
-                console.log(`🌐 Network speed measured: ${this.networkSpeed} (${loadTime.toFixed(2)}ms)`);
             }
         };
         
@@ -476,7 +471,6 @@ class LazyLoadingOptimizer {
         this.observeImages();
         
         if (this.config.debugMode) {
-            console.log('🔄 Lazy loading observer refreshed');
         }
     }
 }

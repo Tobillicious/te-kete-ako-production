@@ -37,7 +37,6 @@ class MyKeteDatabase {
             const localFavorites = JSON.parse(localStorage.getItem('te-kete-favorites') || '[]');
             
             if (localFavorites.length > 0) {
-                console.log(`🔄 Migrating ${localFavorites.length} localStorage favorites to database...`);
                 
                 for (const fav of localFavorites) {
                     await this.saveFavorite(fav.path, fav.title, fav.description);
@@ -45,7 +44,6 @@ class MyKeteDatabase {
                 
                 // Clear localStorage after successful migration
                 localStorage.removeItem('te-kete-favorites');
-                console.log('✅ Migration complete - localStorage cleared');
             }
         } catch (e) {
             console.error('Migration error:', e);
@@ -115,7 +113,6 @@ class MyKeteDatabase {
                 
                 if (error) throw error;
                 
-                console.log('✅ Favorite saved to database');
                 this.showToast('Saved to My Kete! 🧺 (Synced across all your devices)');
                 return true;
                 
@@ -176,7 +173,6 @@ class MyKeteDatabase {
                 
                 if (error) throw error;
                 
-                console.log('✅ Favorite removed from database');
                 return true;
                 
             } catch (e) {

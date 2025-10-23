@@ -10,7 +10,6 @@ let supabaseClient = null;
 // Wait for Supabase to be ready
 window.addEventListener('supabaseReady', (event) => {
     supabaseClient = event.detail.client;
-    console.log('✅ Supabase ready for login');
     checkExistingSession();
 });
 
@@ -26,7 +25,6 @@ async function checkExistingSession() {
             await redirectByRole(user.id);
         }
     } catch (error) {
-        console.log('No existing session');
     }
 }
 
@@ -164,5 +162,4 @@ async function resetPassword() {
     }
 }
 
-console.log('🔐 Login JavaScript loaded with role-based redirect');
 

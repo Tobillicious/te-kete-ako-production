@@ -20,7 +20,6 @@ class LegacyPatternAnalyzer {
         
         await this.evolution.loadSystemIntelligence();
         await this.loadLegacyPatterns();
-        console.log('🏛️ Legacy Pattern Analyzer Ready');
     }
 
     /**
@@ -36,7 +35,6 @@ class LegacyPatternAnalyzer {
                 .order('quality_score', { ascending: false });
 
             this.legacyPatterns = patterns || [];
-            console.log(`🏛️ Loaded ${this.legacyPatterns.length} legacy patterns`);
         } catch (error) {
             console.error('Error loading legacy patterns:', error);
         }
@@ -336,7 +334,6 @@ class LegacyPatternAnalyzer {
                 .select();
 
             if (!error) {
-                console.log('🏛️ New legacy pattern preserved:', patternData.name);
                 // Refresh local cache
                 await this.loadLegacyPatterns();
                 return { success: true, data };

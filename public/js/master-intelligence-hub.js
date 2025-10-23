@@ -19,7 +19,6 @@ class MasterIntelligenceHub {
     }
 
     async init() {
-        console.log('🧠 Master Intelligence Hub Initializing...');
         
         // Wait for all components to be available
         await this.waitForComponents();
@@ -33,7 +32,6 @@ class MasterIntelligenceHub {
         this.systemHealth.initialized = true;
         this.systemHealth.lastUpdate = new Date().toISOString();
         
-        console.log('🧠 Master Intelligence Hub Ready - All Systems Online');
     }
 
     /**
@@ -82,7 +80,6 @@ class MasterIntelligenceHub {
             this.legacyAnalyzer = window.LegacyAnalyzer;
             this.systemHealth.components.legacyAnalyzer = this.legacyAnalyzer ? 'ready' : 'failed';
 
-            console.log('🧠 All intelligence systems initialized');
         } catch (error) {
             console.error('Error initializing intelligence systems:', error);
         }
@@ -280,7 +277,6 @@ class MasterIntelligenceHub {
             this.legacyAnalyzer.clearCache();
         }
 
-        console.log('🧠 All intelligence caches cleared');
     }
 
     /**
@@ -312,7 +308,6 @@ class MasterIntelligenceHub {
                 if (result.success) {
                     // Refresh all systems with new knowledge
                     await this.refreshAllSystems();
-                    console.log('🧠 System evolved with new pattern:', newPattern.name);
                 }
                 
                 return result;
@@ -339,7 +334,6 @@ class MasterIntelligenceHub {
             }
             
             this.systemHealth.lastUpdate = new Date().toISOString();
-            console.log('🧠 All systems refreshed with new intelligence');
         } catch (error) {
             console.error('Error refreshing systems:', error);
         }

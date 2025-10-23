@@ -89,17 +89,14 @@
    * Dropdown Menu Interactions
    */
   function initDropdowns() {
-    console.log('🔍 Initializing dropdowns...');
     
     // Look for nav items with dropdowns (both .has-dropdown and regular .nav-item)
     const allNavItems = document.querySelectorAll('.nav-item');
-    console.log(`Found ${allNavItems.length} nav items`);
     
     allNavItems.forEach((item, index) => {
       const link = item.querySelector('.nav-link');
       const dropdown = item.querySelector('.dropdown');
       
-      console.log(`Nav item ${index}: link=${!!link}, dropdown=${!!dropdown}`);
       
       if (link && dropdown) {
         // Add has-dropdown class for consistency
@@ -108,14 +105,12 @@
         // Add hover events for desktop
         item.addEventListener('mouseenter', () => {
           if (window.innerWidth > 1024) {
-            console.log(`Opening dropdown ${index}`);
             item.classList.add('active');
           }
         });
         
         item.addEventListener('mouseleave', () => {
           if (window.innerWidth > 1024) {
-            console.log(`Closing dropdown ${index}`);
             item.classList.remove('active');
           }
         });
@@ -124,16 +119,13 @@
         link.addEventListener('click', (e) => {
           if (window.innerWidth <= 1024) {
             e.preventDefault();
-            console.log(`Mobile toggle dropdown ${index}`);
             item.classList.toggle('active');
           }
         });
         
-        console.log(`✅ Dropdown ${index} initialized`);
       }
     });
     
-    console.log('✅ Dropdown initialization complete');
   }
 
       // Click to toggle on mobile
@@ -282,7 +274,6 @@
   });
 
   // Log initialization
-  console.log('🧺 Te Kete Ako Enhanced Navigation: Initialized');
 })();
 
 

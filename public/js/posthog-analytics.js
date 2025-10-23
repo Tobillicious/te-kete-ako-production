@@ -33,19 +33,16 @@ class TeKeteAnalytics {
         this.posthog = null;
         this.consentGiven = this.checkConsent();
         
-        console.log('🎨 Te Kete Analytics: Initializing with kaitiakitanga...');
         
         if (this.shouldInitialize()) {
             this.init();
         } else {
-            console.log('✨ Analytics disabled - respecting user privacy or API key not configured');
         }
     }
     
     checkConsent() {
         // Check for Do Not Track
         if (navigator.doNotTrack === '1' || navigator.doNotTrack === 'yes') {
-            console.log('🛡️ Do Not Track enabled - analytics disabled');
             return false;
         }
         
@@ -83,7 +80,6 @@ class TeKeteAnalytics {
             
             // Performance
             loaded: (posthog) => {
-                console.log('✅ PostHog loaded successfully');
                 this.posthog = posthog;
                 this.initialized = true;
                 this.trackInitialPageView();

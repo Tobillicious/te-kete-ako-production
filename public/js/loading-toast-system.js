@@ -132,8 +132,6 @@
         test: testLoadingSystem
     };
 
-    console.log('✅ Loading & Toast System initialized');
-    console.log('   Test with: LoadingSystem.test()');
 
 })();
 

@@ -27,7 +27,6 @@ class GraphRAGAutoHealer {
 
     async init() {
         await this.waitForDependencies();
-        console.log('🏥 GraphRAG Auto-Healer Ready (Currently Disabled)');
     }
 
     async waitForDependencies() {
@@ -56,7 +55,6 @@ class GraphRAGAutoHealer {
      */
     startAutoHealing(config = {}) {
         if (this.healingInterval) {
-            console.log('⚠️ Auto-healing already running');
             return;
         }
 
@@ -64,7 +62,6 @@ class GraphRAGAutoHealer {
         Object.assign(this.config, config);
         this.config.enabled = true;
 
-        console.log('🏥 Starting Auto-Healing with config:', this.config);
 
         // Run immediately
         this.runHealingCycle();
@@ -86,7 +83,6 @@ class GraphRAGAutoHealer {
             clearInterval(this.healingInterval);
             this.healingInterval = null;
             this.config.enabled = false;
-            console.log('🏥 Auto-healing stopped');
             this.logEvent('Auto-healing stopped');
         }
     }
@@ -96,7 +92,6 @@ class GraphRAGAutoHealer {
      * Detect and heal graph problems
      */
     async runHealingCycle() {
-        console.log('🏥 Running healing cycle...');
         
         const cycle = {
             timestamp: new Date().toISOString(),
@@ -130,7 +125,6 @@ class GraphRAGAutoHealer {
             // Store in GraphRAG
             await this.storeCycleInGraphRAG(cycle);
 
-            console.log('🏥 Healing cycle complete:', cycle);
             return cycle;
 
         } catch (error) {

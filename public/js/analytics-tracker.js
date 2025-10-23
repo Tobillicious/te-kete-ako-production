@@ -42,7 +42,6 @@
                 // Set up component tracking
                 this.setupComponentTracking();
                 
-                console.log('📊 Te Kete Analytics initialized');
             } catch (error) {
                 console.error('Analytics initialization error:', error);
             }

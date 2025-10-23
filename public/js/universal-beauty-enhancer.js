@@ -12,7 +12,6 @@ class UniversalBeautyEnhancer {
     }
 
     init() {
-        console.log('🎨 Universal Beauty Enhancer - Activating gorgeousness across platform');
         
         // Apply universal enhancements immediately
         this.applyUniversalStyling();
@@ -31,7 +30,6 @@ class UniversalBeautyEnhancer {
         this.isEnhanced = true;
         document.body.classList.add('beauty-enhanced');
         
-        console.log(`✨ Page enhanced for ${this.pageType} - Visual excellence achieved`);
     }
 
     detectPageType() {
@@ -531,12 +529,10 @@ class UniversalBeautyEnhancer {
     }
 
     enhanceDashboard() {
-        console.log('🎯 Enhancing dashboard with professional metrics styling');
         // Dashboard-specific enhancements would go here
     }
 
     enhanceContentPage() {
-        console.log('📚 Enhancing content page with educational focus');
         
         // Add reading progression indicator
         const progressCSS = `
@@ -574,7 +570,6 @@ class UniversalBeautyEnhancer {
     }
 
     enhanceUnitsPage() {
-        console.log('📋 Enhancing units page with curriculum organization');
         
         // Add filter animations and search enhancement
         const searchInputs = document.querySelectorAll('input[type="search"], .search-input');
@@ -592,7 +587,6 @@ class UniversalBeautyEnhancer {
     }
 
     enhanceHomePage() {
-        console.log('🏠 Enhancing home page with hero focus');
         // Home page already has hero enhancements
         
         // Add scroll-triggered animations
@@ -620,7 +614,6 @@ class UniversalBeautyEnhancer {
     }
 
     enhanceGenericPage() {
-        console.log('✨ Applying generic beautification enhancements');
         // Generic page enhancements are handled by universal styling
     }
 
@@ -659,4 +652,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 100);
 });
 
-console.log('🎨 Universal Beauty Enhancer - Gorgeousness activated across entire platform');

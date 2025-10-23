@@ -56,7 +56,6 @@ class TeKeteAkoFilteringSystem {
         this.handleURLParameters();
         this.addFilteringStyles();
         
-        console.log(`🎯 Filtering System initialized with ${this.allResources.length} resources`);
     }
 
     findResourcesContainer() {

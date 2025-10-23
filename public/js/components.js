@@ -5,7 +5,6 @@
  * ================================================================
  */
 
-console.log('🧺 Components JavaScript loaded');
 
 // Component registry
 const Components = {
@@ -15,7 +14,6 @@ const Components = {
 
 // Wait for DOM to be ready
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('✅ Components: DOM ready');
     
     // Initialize all components
     initializeComponents();
@@ -33,7 +31,6 @@ function initializeComponents() {
     initializeCards();
     initializeBadges();
     
-    console.log('✅ Components initialized');
 }
 
 /**
@@ -341,4 +338,3 @@ window.Components = {
     registry: Components.registry
 };
 
-console.log('🧺 Components system ready!');

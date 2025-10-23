@@ -21,7 +21,6 @@ class IntelligenceIntegration {
         // Connect intelligence to existing elements
         this.connectIntelligenceToElements();
         
-        console.log('🔗 Intelligence Integration Ready');
     }
 
     /**
@@ -75,7 +74,6 @@ class IntelligenceIntegration {
             this.integrationPoints.set(element, 'cultural_intelligence');
         });
 
-        console.log(`🔗 Found ${this.integrationPoints.size} integration points`);
     }
 
     /**

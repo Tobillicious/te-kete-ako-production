@@ -32,7 +32,6 @@ class TouchTargetAuditor {
      * Main audit function - checks all interactive elements
      */
     auditTouchTargets() {
-        console.log('🔍 Starting touch target audit...');
         
         // Define interactive element selectors
         const interactiveSelectors = [
@@ -170,30 +169,19 @@ class TouchTargetAuditor {
      * Generate audit report
      */
     generateReport() {
-        console.log(`\n📊 Touch Target Audit Report`);
-        console.log(`=====================================`);
-        console.log(`Total elements checked: ${document.querySelectorAll('button, a, input, .btn').length}`);
-        console.log(`Issues found: ${this.issues.length}`);
         
         if (this.issues.length === 0) {
-            console.log(`✅ All touch targets meet accessibility guidelines!`);
             return;
         }
         
-        console.log(`\n❌ Issues found:`);
         this.issues.forEach((issue, index) => {
-            console.log(`\n${index + 1}. ${issue.selector}`);
-            console.log(`   Current size: ${issue.currentSize.width}x${issue.currentSize.height}px`);
             issue.issues.forEach(issueText => {
-                console.log(`   - ${issueText}`);
             });
         });
         
         // Show fixes applied
         if (this.fixedElements.length > 0) {
-            console.log(`\n🔧 Auto-fixes applied:`);
             this.fixedElements.forEach(fix => {
-                console.log(`   ✓ ${fix}`);
             });
         }
         
@@ -217,7 +205,6 @@ class TouchTargetAuditor {
      * Automatically fix touch target issues
      */
     autoFixIssues() {
-        console.log(`\n🔧 Applying auto-fixes...`);
         
         this.issues.forEach(issue => {
             this.fixElement(issue);
@@ -282,7 +269,6 @@ class TouchTargetAuditor {
      * Add visual indicators for debugging
      */
     addVisualIndicators() {
-        console.log(`\n👁️ Adding visual debug indicators...`);
         
         // Create style for debug indicators
         if (!document.getElementById('touch-target-debug-styles')) {
@@ -406,7 +392,6 @@ class TouchTargetAuditor {
         a.click();
         URL.revokeObjectURL(url);
         
-        console.log('📄 Audit report exported');
     }
     
     /**
@@ -435,7 +420,6 @@ class TouchTargetAuditor {
                     // Debounce re-auditing
                     clearTimeout(this.reauditTimeout);
                     this.reauditTimeout = setTimeout(() => {
-                        console.log('🔄 Re-auditing due to dynamic content changes...');
                         this.issues = [];
                         this.fixedElements = [];
                         this.auditTouchTargets();

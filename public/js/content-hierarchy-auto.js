@@ -62,8 +62,6 @@ class ContentHierarchyAuto {
                 }
             });
 
-            console.log('✅ Content hierarchy built from GraphRAG');
-            console.log(`📊 ${Object.keys(this.hierarchy).length} units organized`);
             
         } catch (error) {
             console.error('Error building hierarchy:', error);

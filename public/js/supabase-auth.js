@@ -600,7 +600,6 @@ async function redirectBasedOnRole() {
         const { data: { user } } = await supabase.auth.getUser();
 
         if (!user) {
-            console.log('No authenticated user found');
             return;
         }
 

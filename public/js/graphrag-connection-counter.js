@@ -22,7 +22,6 @@ class GraphRAGConnectionCounter {
         // Initialize Supabase client
         if (window.supabase && window.supabase.createClient) {
             this.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-            console.log('✅ GraphRAG Connection Counter initialized');
             
             // Auto-update all connection badges on page
             this.updateAllBadges();
@@ -193,7 +192,6 @@ class GraphRAGConnectionCounter {
      */
     async updateAllBadges() {
         const badges = document.querySelectorAll('[data-resource-path]');
-        console.log(`📊 Found ${badges.length} connection badges to update`);
 
         // Update in batches to avoid overwhelming the API
         const batchSize = 5;
@@ -207,7 +205,6 @@ class GraphRAGConnectionCounter {
             }
         }
 
-        console.log('✅ All connection badges updated with REAL data');
     }
 
     /**
@@ -251,7 +248,6 @@ const _origInit = GraphRAGConnectionCounter.prototype.init;
 GraphRAGConnectionCounter.prototype.init = async function(){
     if (window.supabase && window.supabase.createClient) {
         this.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        console.log('✅ GraphRAG Connection Counter initialized');
         // New: inject missing badges
         this.injectBadgesIfMissing();
         // Then update

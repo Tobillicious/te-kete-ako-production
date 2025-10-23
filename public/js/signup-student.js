@@ -10,7 +10,6 @@ let supabaseClient = null;
 
 window.addEventListener('supabaseReady', (event) => {
     supabaseClient = event.detail.client;
-    console.log('✅ Supabase ready for student signup');
 });
 
 // Multi-step form state
@@ -292,6 +291,5 @@ function hideMessage() {
  * Log form data for debugging (remove in production)
  */
 window.debugFormData = () => {
-    console.log('Current form data:', formData);
 };
 

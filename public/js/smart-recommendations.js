@@ -220,7 +220,6 @@ class SmartRecommendations {
      */
     async trackInteraction(resourcePath, interactionType = 'view') {
         // Could log to Supabase for ML-powered recommendations later
-        console.log(`📊 Tracked: ${interactionType} on ${resourcePath}`);
     }
 }
 

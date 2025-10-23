@@ -213,7 +213,6 @@
     if (window.performance && window.performance.timing) {
         window.addEventListener('load', function() {
             const loadTime = window.performance.timing.loadEventEnd - window.performance.timing.navigationStart;
-            console.log(`⚡ Page loaded in ${loadTime}ms`);
         });
     }
 
@@ -265,15 +264,12 @@
     // 10. CONSOLE BRANDING
     // =================================================================
     
-    console.log(
         '%c🧺 Te Kete Ako - UX Professional Edition',
         'font-size: 24px; font-weight: bold; color: #2C5F41;'
     );
-    console.log(
         '%c590+ Resources Enriched | 29 Commits | World-Class Experience',
         'font-size: 14px; color: #F5A623;'
     );
-    console.log(
         '%cWhaowhia te kete mātauranga! 🌿',
         'font-size: 12px; color: #666; font-style: italic;'
     );

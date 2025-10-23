@@ -6,7 +6,6 @@
     const container = document.getElementById('cross-subject-connections');
     
     try {
-        console.log('🧠 Loading REAL cross-subject connections from GraphRAG database...');
         
         // Fetch high-quality cross-curricular relationships
         const response = await fetch(
@@ -25,7 +24,6 @@
         }
         
         const relationships = await response.json();
-        console.log(`✅ Fetched ${relationships.length} relationships from database`);
         
         // Now fetch the resource details for source and target
         const uniquePaths = [...new Set([
@@ -48,7 +46,6 @@
         );
         
         const resources = await resourcesResponse.json();
-        console.log(`✅ Fetched ${resources.length} resource details`);
         
         // Create lookup map
         const resourceMap = {};
@@ -91,7 +88,6 @@
             .filter(c => c !== null)
             .slice(0, 12);
         
-        console.log(`✅ Displaying ${crossSubjectConnections.length} cross-subject connections`);
         
         // If we got real data, use it; otherwise fallback to curated examples
         const connections = crossSubjectConnections.length > 0 
@@ -103,7 +99,6 @@
         
     } catch (error) {
         console.error('❌ Error loading GraphRAG data:', error);
-        console.log('📋 Using curated examples instead');
         renderConnections(getCuratedConnections(), container);
     }
 })();

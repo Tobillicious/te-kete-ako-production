@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css">
     <link rel="stylesheet" href="/css/print.css" media="print">
 <link rel="stylesheet" href="/css/print-professional.css" media="print">
-<script src="https://cdn.tailwindcss.com"></script>
+<!-- Tailwind CSS loaded via te-kete-professional.css -->
 <script src="/tailwind.config.ultimate.js"></script>
 <!-- END ULTIMATE BEAUTY SYSTEM -->
 
@@ -273,8 +273,10 @@
                 }
             });
 
-            if (resultsCount) {
-                resultsCount.textContent = `${visibleCount} lesson${visibleCount !== 1 ? 's' : ''}`;
+            // Null safety check to prevent errors
+            const resultsCountEl = document.getElementById('results-count') || document.querySelector('.results-count');
+            if (resultsCountEl) {
+                resultsCountEl.textContent = `${visibleCount} lesson${visibleCount !== 1 ? 's' : ''}`;
             }
         }
 

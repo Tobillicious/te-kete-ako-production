@@ -41,7 +41,6 @@ window.setCurrentResource = function(metadata) {
  */
 async function loadRelatedResources() {
     if (!supabaseClient) {
-        console.log('Supabase not ready, skipping related resources');
         return;
     }
     
@@ -235,5 +234,4 @@ async function findBySimilarTags(tags, type, limit = 3) {
     }
 }
 
-console.log('✅ Related resources component loaded');
 

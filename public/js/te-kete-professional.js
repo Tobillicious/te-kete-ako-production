@@ -377,7 +377,6 @@
             // Basic performance monitoring
             window.addEventListener('load', () => {
                 const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
-                console.log(`🚀 Page loaded in ${loadTime}ms`);
                 
                 // Log any performance issues
                 if (loadTime > 3000) {
@@ -450,19 +449,33 @@
                 wrapper.innerHTML = html;
                 const styleEl = wrapper.querySelector('style');
                 const scriptEl = wrapper.querySelector('script');
+                
+                // Add style if exists and not already loaded
                 if (styleEl && !document.head.querySelector('style[data-badge-system="1"]')) {
                     styleEl.setAttribute('data-badge-system', '1');
                     document.head.appendChild(styleEl);
                 }
+                
+                // Add script with proper error handling
                 if (scriptEl && scriptEl.textContent && !document.body.querySelector('script[data-badge-system="1"]')) {
-                    const s = document.createElement('script');
-                    s.textContent = scriptEl.textContent;
-                    s.setAttribute('data-badge-system', '1');
-                    document.body.appendChild(s);
+                    try {
+                        const scriptContent = scriptEl.textContent.trim();
+                        // Validate script has content before creating element
+                        if (scriptContent && scriptContent.length > 10) {
+                            const s = document.createElement('script');
+                            s.textContent = scriptContent;
+                            s.setAttribute('data-badge-system', '1');
+                            document.body.appendChild(s);
+                        }
+                    } catch (e) {
+                        console.warn('Badge system script load failed:', e);
+                    }
                 }
                 document.documentElement.setAttribute('data-badge-system-loaded', '1');
             })
-            .catch(() => {});
+            .catch(e => {
+                console.warn('Badge system fetch failed:', e);
+            });
     }
 
     // =================================================================
@@ -489,7 +502,6 @@
             }
         }));
 
-        console.log('🧺 Te Kete Ako Professional JavaScript initialized');
     }
 
     // Initialize when DOM is ready

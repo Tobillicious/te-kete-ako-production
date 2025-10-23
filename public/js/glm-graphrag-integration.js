@@ -16,7 +16,6 @@ class GLMGraphRAGIntegration {
 
     async init() {
         await this.waitForIntelligence();
-        console.log('🤖 GLM-GraphRAG Integration Ready - AI Reasoning Online');
     }
 
     async waitForIntelligence() {
@@ -474,7 +473,6 @@ Respond in JSON format with all sections clearly structured.
      */
     clearCache() {
         this.requestCache.clear();
-        console.log('🤖 GLM cache cleared');
     }
 
     /**

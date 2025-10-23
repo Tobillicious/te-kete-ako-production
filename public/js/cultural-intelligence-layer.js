@@ -23,7 +23,6 @@ class CulturalIntelligenceLayer {
         // Enhance all intelligence systems with cultural context
         this.enhanceIntelligenceSystems();
         
-        console.log('🌺 Cultural Intelligence Layer Ready - Te Ao Māori Enhanced');
     }
 
     async waitForMasterIntelligence() {
@@ -71,7 +70,6 @@ class CulturalIntelligenceLayer {
             // Build cultural pattern map
             this.buildCulturalPatternMap();
 
-            console.log('🌺 Cultural Wisdom Loaded:', {
                 whakatauki: this.whakataukiDatabase.length,
                 principles: this.culturalPrinciples.length,
                 patterns: this.culturalPatterns.size
@@ -177,7 +175,6 @@ class CulturalIntelligenceLayer {
             };
         }
 
-        console.log('🌺 Intelligence systems enhanced with Te Ao Māori wisdom');
     }
 
     /**
@@ -404,7 +401,6 @@ class CulturalIntelligenceLayer {
                 .select();
 
             if (!error) {
-                console.log('🌺 Cultural intelligence evolved:', newCulturalPattern.name);
                 await this.loadCulturalWisdom(); // Refresh
                 return { success: true, data };
             }

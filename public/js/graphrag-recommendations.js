@@ -281,6 +281,7 @@
     clearCache() {
         this.cache.clear();
     }
+}
 
     // Export to global scope
     window.GraphRAGRecommendations = GraphRAGRecommendations;

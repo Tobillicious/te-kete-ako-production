@@ -28,7 +28,6 @@ function initializeAI() {
 
     // Test AI connection
     aiAgent.healthCheck().then(status => {
-        console.log('AI Agent status:', status);
     });
 }
 

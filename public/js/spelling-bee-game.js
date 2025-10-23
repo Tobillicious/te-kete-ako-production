@@ -185,7 +185,6 @@ async function submitWord() {
                 }
             }
         } catch (error) {
-            console.log('API validation failed, using fallback lists only');
         }
     }
     
@@ -441,7 +440,6 @@ function speakMaoriWord(word, pronunciation) {
         
         speechSynthesis.speak(utterance);
     } else {
-        console.log('Speech synthesis not supported');
     }
 }
 

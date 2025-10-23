@@ -19,7 +19,6 @@ class AgentCoordinator {
         }
         
         await this.evolution.loadSystemIntelligence();
-        console.log('🤖 Agent Coordinator Ready');
     }
 
     /**

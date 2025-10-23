@@ -7,7 +7,6 @@ if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
             .then((registration) => {
-                console.log('✅ Service Worker registered successfully:', registration.scope);
                 
                 // Handle updates
                 registration.addEventListener('updatefound', () => {
@@ -21,7 +20,6 @@ if ('serviceWorker' in navigator) {
                 });
             })
             .catch((error) => {
-                console.log('❌ Service Worker registration failed:', error);
             });
 
         // Handle controller change (when new SW takes control)
@@ -60,12 +58,10 @@ function showUpdateNotification() {
 
 // Handle offline status
 window.addEventListener('online', () => {
-    console.log('🌐 Back online - syncing data...');
     // You can add sync logic here
 });
 
 window.addEventListener('offline', () => {
-    console.log('📱 Working offline - cached content available');
     // Show offline indicator
     showOfflineIndicator();
 });

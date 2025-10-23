@@ -19,7 +19,6 @@ class SmartRecommendationEngine {
         }
         
         await this.evolution.loadSystemIntelligence();
-        console.log('🎯 Smart Recommendation Engine Ready');
     }
 
     /**

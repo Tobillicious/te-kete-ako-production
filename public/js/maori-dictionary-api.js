@@ -1715,7 +1715,6 @@ class MaoriDictionaryAPI {
 
         // CULTURAL SAFETY: No fallback to pattern validation
         // Only authentic dictionary words are accepted
-        console.log(`Cultural Safety: "${normalizedWord}" not found in authentic Māori dictionary. Rejected.`);
         return false;
     }
 

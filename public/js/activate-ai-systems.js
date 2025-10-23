@@ -25,7 +25,6 @@ class AISystemsCoordinator {
      * Activate all AI systems
      */
     async activateAll() {
-        console.log('🧠 Activating AI Systems...');
         
         // 1. Māori Dictionary - Auto-translate on hover
         if (this.dictionary) {
@@ -42,7 +41,6 @@ class AISystemsCoordinator {
             this.activateRecommendations();
         }
         
-        console.log('✅ AI Systems Active!');
     }
     
     activateDictionary() {

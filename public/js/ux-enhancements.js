@@ -5,11 +5,9 @@
  * ================================================================
  */
 
-console.log('🧺 UX Enhancements JavaScript loaded');
 
 // Wait for DOM to be ready
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('✅ UX Enhancements: DOM ready');
     
     // Initialize UX enhancements
     initializeUXEnhancements();
@@ -34,7 +32,6 @@ function initializeUXEnhancements() {
     // Keyboard navigation
     initializeKeyboardNavigation();
     
-    console.log('✅ UX Enhancements initialized');
 }
 
 /**
@@ -224,4 +221,3 @@ window.UXEnhancements = {
     throttle
 };
 
-console.log('🧺 UX Enhancements ready!');

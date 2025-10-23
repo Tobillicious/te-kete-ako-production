@@ -11,7 +11,6 @@ let currentTeacher = null;
 // Wait for Supabase to be ready
 window.addEventListener('supabaseReady', (event) => {
     supabaseClient = event.detail.client;
-    console.log('✅ Supabase ready for teacher dashboard');
     initializeDashboard();
 });
 
@@ -308,5 +307,4 @@ async function logout() {
 }
 
 // Console log
-console.log('🧑‍🏫 Teacher dashboard JavaScript loaded');
 

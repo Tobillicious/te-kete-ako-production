@@ -38,7 +38,6 @@ class AgentCoordinator {
         }
         this.supabase = window.supabase;
 
-        console.log(`🤖 Agent ${this.agentName} (${this.agentId}) initialized`);
         
         // Register agent status
         await this.registerAgent();
@@ -85,7 +84,6 @@ class AgentCoordinator {
             if (error) throw error;
 
             this.currentTask = data[0];
-            console.log(`✅ Task claimed: ${taskDescription}`);
             
             return this.currentTask;
         } catch (error) {
@@ -114,7 +112,6 @@ class AgentCoordinator {
 
             if (error) throw error;
 
-            console.log(`✅ Task completed: ${this.currentTask.task_claimed}`);
             
             // Log to agent knowledge
             await this.logKnowledge({
@@ -148,7 +145,6 @@ class AgentCoordinator {
                 }]);
 
             if (error) console.error('Knowledge logging error:', error);
-            else console.log(`📚 Knowledge logged: ${knowledgeEntry.source_name}`);
         } catch (error) {
             console.error('Error logging knowledge:', error);
         }
@@ -165,7 +161,6 @@ class AgentCoordinator {
 
             if (error) throw error;
 
-            console.log(`🧠 Found ${data?.length || 0} knowledge entries about: ${topic}`);
             return data || [];
         } catch (error) {
             console.error('Error querying knowledge:', error);
@@ -185,7 +180,6 @@ class AgentCoordinator {
 
             if (error) throw error;
 
-            console.log(`👥 ${data?.length || 0} active agents found`);
             return data || [];
         } catch (error) {
             console.error('Error getting active agents:', error);
@@ -236,7 +230,6 @@ class AgentCoordinator {
                 }]);
 
             if (error) throw error;
-            console.log(`📢 Message broadcast: ${message.substring(0, 50)}...`);
         } catch (error) {
             console.error('Error broadcasting message:', error);
         }
@@ -259,7 +252,6 @@ class AgentCoordinator {
 
             if (error) throw error;
 
-            console.log(`📬 ${data?.length || 0} messages for ${this.agentName}`);
             return data || [];
         } catch (error) {
             console.error('Error getting messages:', error);
@@ -298,7 +290,6 @@ class AgentCoordinator {
                 .update({ status: 'inactive' })
                 .eq('agent_name', this.agentName);
 
-            console.log(`👋 Agent ${this.agentName} shutting down gracefully`);
         } catch (error) {
             console.error('Shutdown error:', error);
         }
@@ -336,7 +327,6 @@ if (typeof window !== 'undefined') {
     if (window.AGENT_NAME) {
         window.agentCoordinator = new AgentCoordinator(window.AGENT_NAME);
         window.agentCoordinator.init().then(() => {
-            console.log('🎯 Shared Agent Coordination System Active!');
         });
     }
 }

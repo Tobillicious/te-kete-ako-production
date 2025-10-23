@@ -8,7 +8,7 @@
  * ================================================================
  */
 
-const CACHE_VERSION = 'te-kete-ako-v2.0-oct21-kaitiaki-aronui';
+const CACHE_VERSION = 'te-kete-ako-v2.1-oct22-bugfix-clean';
 const CACHE_STATIC = `${CACHE_VERSION}-static`;
 const CACHE_DYNAMIC = `${CACHE_VERSION}-dynamic`;
 
@@ -19,7 +19,6 @@ const STATIC_ASSETS = [
     '/offline.html',
     
     // Core CSS (canonical system)
-    '/css/te-kete-unified-design-system.css',
     '/css/component-library.css',
     '/css/beautiful-navigation.css',
     '/css/animations-professional.css',
@@ -43,13 +42,19 @@ const STATIC_ASSETS = [
  * Install Service Worker
  */
 self.addEventListener('install', (event) => {
-    console.log('[Service Worker] Installing...', CACHE_VERSION);
     
     event.waitUntil(
         caches.open(CACHE_STATIC)
             .then((cache) => {
-                console.log('[Service Worker] Caching static assets');
-                return cache.addAll(STATIC_ASSETS);
+                // Cache files individually to handle missing files gracefully
+                return Promise.allSettled(
+                    STATIC_ASSETS.map(asset => 
+                        cache.add(asset).catch(err => {
+                            console.warn(`[Service Worker] Failed to cache ${asset}:`, err);
+                            return null; // Continue with other assets
+                        })
+                    )
+                );
             })
             .then(() => self.skipWaiting())
             .catch((error) => {
@@ -62,7 +67,6 @@ self.addEventListener('install', (event) => {
  * Activate Service Worker
  */
 self.addEventListener('activate', (event) => {
-    console.log('[Service Worker] Activating...', CACHE_VERSION);
     
     event.waitUntil(
         caches.keys()
@@ -70,7 +74,6 @@ self.addEventListener('activate', (event) => {
                 return Promise.all(
                     cacheNames.map((cacheName) => {
                         if (cacheName !== CACHE_STATIC && cacheName !== CACHE_DYNAMIC) {
-                            console.log('[Service Worker] Deleting old cache:', cacheName);
                             return caches.delete(cacheName);
                         }
                     })
@@ -118,7 +121,6 @@ self.addEventListener('fetch', (event) => {
                 return caches.match(request)
                     .then((cachedResponse) => {
                         if (cachedResponse) {
-                            console.log('[Service Worker] Serving from cache:', request.url);
                             return cachedResponse;
                         }
                         
@@ -141,7 +143,6 @@ self.addEventListener('fetch', (event) => {
  * Background Sync (for offline actions)
  */
 self.addEventListener('sync', (event) => {
-    console.log('[Service Worker] Background sync:', event.tag);
     
     if (event.tag === 'sync-progress') {
         event.waitUntil(syncProgressData());
@@ -153,7 +154,6 @@ self.addEventListener('sync', (event) => {
  */
 async function syncProgressData() {
     // Would sync any offline progress to Supabase
-    console.log('[Service Worker] Syncing offline progress...');
     // Implementation would go here
 }
 
@@ -193,5 +193,4 @@ self.addEventListener('notificationclick', (event) => {
     }
 });
 
-console.log('[Service Worker] Loaded:', CACHE_VERSION);
 

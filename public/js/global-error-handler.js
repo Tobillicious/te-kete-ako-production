@@ -9,7 +9,6 @@ class TeKeteErrorBoundary {
         this.errorCount = 0;
         this.maxErrors = 50; // Prevent error spam
         this.setupGlobalHandlers();
-        console.log('🛡️  Te Kete Error Boundary: Active');
     }
 
     setupGlobalHandlers() {
@@ -101,7 +100,6 @@ class TeKeteErrorBoundary {
             if (window.initializeAuth && typeof window.initializeAuth === 'function') {
                 try {
                     window.initializeAuth();
-                    console.log('🔄 Auth system recovery attempted');
                 } catch (e) {
                     console.warn('Auth recovery failed:', e.message);
                 }
@@ -113,7 +111,6 @@ class TeKeteErrorBoundary {
         // Wait for DOM to be ready before operations
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => {
-                console.log('🔄 DOM operations recovery: Ready');
             });
         }
     }
@@ -138,7 +135,6 @@ window.teKeteErrorBoundary = new TeKeteErrorBoundary();
 
 // Cleanup on page unload
 window.addEventListener('beforeunload', () => {
-    console.log('🧹 Te Kete cleanup: Removing event listeners');
     // Cleanup intervals, timeouts, listeners
     if (window.globalCleanup) {
         window.globalCleanup();

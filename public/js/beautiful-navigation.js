@@ -191,7 +191,6 @@ class BeautifulNavigation {
 
   performSearch(query) {
     // Simulate search - replace with actual search implementation
-    console.log('Searching for:', query);
     
     // Add loading state
     this.searchInput.classList.add('loading');
@@ -267,7 +266,6 @@ class BeautifulNavigation {
 
   showSearchSuggestions() {
     // Show popular searches or recent searches
-    console.log('Showing search suggestions');
   }
 
   /* =================================================================

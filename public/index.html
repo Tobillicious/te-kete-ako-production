@@ -27,6 +27,7 @@ Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori</titl
 <script src="/js/graphrag-connection-counter.js"></script>
 <!-- My Kete Database Integration -->
 <script src="/js/my-kete-database.js" defer></script>
+<meta name="mobile-web-app-capable" content="yes"/>
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
 <meta content="Te Kete Ako" name="apple-mobile-web-app-title"/>
@@ -53,7 +54,7 @@ Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori</titl
 </head>
 <body data-auto-init="true" data-current-page="home" class="pattern-koru-subtle">
 <!-- Professional Navigation - User's Preferred Dropdown Header -->
-<script>        // Load standardized navigation immediately        fetch('/components/navigation-standard.html')            .then(response => response.text())            .then(html => {                const container = document.createElement('div');                container.innerHTML = html;                const navElement = container.firstElementChild;                if (navElement) {                    document.body.insertBefore(navElement, document.body.firstChild);                } else {                }            }) .catch(err => );    </script>
+<script>        // Load standardized navigation immediately        fetch('/components/navigation-standard.html')            .then(response => response.text())            .then(html => {                const container = document.createElement('div');                container.innerHTML = html;                const navElement = container.firstElementChild;                if (navElement) {                    document.body.insertBefore(navElement, document.body.firstChild);                } else {                }            }).catch(err => console.error('Component load error:', err));    </script>
 
 <!-- 🧠 Intelligent Mega-Navigation Component -->
 <script>
@@ -522,15 +523,24 @@ Quality 95</span>
 <!-- ENHANCED HERO SECTION - Stunning Visual Entry -->
     <div id="hero-enhanced-container">
 </div>
-    <script>        fetch('/components/hero-enhanced.html')            .then(response => response.text())            .then(html => {                document.getElementById('hero-enhanced-container').innerHTML = html;            })            .catch(err => console.error('Hero load error:', err));    </script>
+    <script>        fetch('/components/hero-enhanced.html')            .then(response => response.text())            .then(html => {
+                const container = document.getElementById('hero-enhanced-container');
+                if (container) container.innerHTML = html;
+            })            .catch(err => console.error('Hero load error:', err));    </script>
     <!-- STATS DASHBOARD - Interactive Resource Overview -->
     <div id="stats-dashboard-container">
 </div>
-    <script>        fetch('/components/stats-dashboard.html')            .then(response => response.text())            .then(html => {                document.getElementById('stats-dashboard-container').innerHTML = html;            })            .catch(err => console.error('Stats load error:', err));    </script>
+    <script>        fetch('/components/stats-dashboard.html')            .then(response => response.text())            .then(html => {
+                const container = document.getElementById('stats-dashboard-container');
+                if (container) container.innerHTML = html;
+            })            .catch(err => console.error('Stats load error:', err));    </script>
     <!-- FEATURED CAROUSEL - Curated Collections -->
     <div id="featured-carousel-container">
 </div>
-    <script>        fetch('/components/featured-carousel.html')            .then(response => response.text())            .then(html => {                document.getElementById('featured-carousel-container').innerHTML = html;            })            .catch(err => console.error('Carousel load error:', err));    </script>
+    <script>        fetch('/components/featured-carousel.html')            .then(response => response.text())            .then(html => {
+                const container = document.getElementById('featured-carousel-container');
+                if (container) container.innerHTML = html;
+            })            .catch(err => console.error('Carousel load error:', err));    </script>
  <!-- Counter Animation Script -->
  <script src="/js/counter-animation.js"></script>
  <script src="/js/graphrag-recommendations.js"></script>
@@ -905,7 +915,12 @@ Math → Sci</div>
     fetch('/components/graphrag-orphaned-excellence.html')
         .then(response => response.text())
         .then(html => {
-            document.getElementById('orphaned-excellence-container').innerHTML = html;
+            const container = document.getElementById('orphaned-excellence-container');
+            if (container) {
+                container.innerHTML = html;
+            } else {
+                console.warn('Orphaned Excellence container not found');
+            }
         })
         .catch(err => console.error('Orphaned Excellence load error:', err));
 </script>
@@ -1374,7 +1389,10 @@ World-class educational resources created by educators for educators, with prove
 <!-- 🎮 GAMES SHOWCASE - PROMINENT PLACEMENT (User requested!) -->
 <div id="games-showcase-container" style="margin: 2rem auto; max-width: 1400px; padding: 0 2rem;">
 </div>
-<script>    // Load games showcase component - HIGH PRIORITY    fetch('/components/games-showcase.html')        .then(response => response.text())        .then(html => {            document.getElementById('games-showcase-container').innerHTML = html;        }) .catch(err => );</script>
+<script>    // Load games showcase component - HIGH PRIORITY    fetch('/components/games-showcase.html')        .then(response => response.text())        .then(html => {
+            const container = document.getElementById('games-showcase-container');
+            if (container) container.innerHTML = html;
+        }).catch(err => console.error('Games load error:', err));</script>
 <!-- 🧠 GRAPHRAG PLATFORM CHAMPIONS - Most Connected Resources -->
 <section style="background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); padding: 4rem 2rem; margin: 3rem auto; border-radius: 16px; box-shadow: 0 12px 32px rgba(124,58,237,0.3); max-width: 1400px;">
     <div style="max-width: 1200px; margin: 0 auto;">
@@ -2329,7 +2347,7 @@ Discover More →</div>
 <div id="footer-component">
 </div>
 <!-- Navigation handled by mega-menu component -->
-<script>        // Load footer component only (navigation already loaded above)        fetch('/components/footer.html')            .then(r=>r.text())            .then(html=>{                const footer = document.getElementById('footer-component');                if (footer) footer.innerHTML = html;            }) .catch(err => );        // Add hover effects to cards        document.addEventListener('DOMContentLoaded', function() {            document.querySelectorAll('.value-card, .featured-card').forEach(card => {                card.addEventListener('mouseenter', function() {                    this.style.transform = 'translateY(-10px)';                });                card.addEventListener('mouseleave', function() {                    this.style.transform = 'translateY(0)';                });            });        });    </script>
+<script>        // Load footer component only (navigation already loaded above)        fetch('/components/footer.html')            .then(r=>r.text())            .then(html=>{                const footer = document.getElementById('footer-component');                if (footer) footer.innerHTML = html;            }).catch(err => console.error('Component load error:', err));        // Add hover effects to cards        document.addEventListener('DOMContentLoaded', function() {            document.querySelectorAll('.value-card, .featured-card').forEach(card => {                card.addEventListener('mouseenter', function() {                    this.style.transform = 'translateY(-10px)';                });                card.addEventListener('mouseleave', function() {                    this.style.transform = 'translateY(0)';                });            });        });    </script>
  </main>
  <!-- End Main Content -->
 <!-- Professional JS - Main only -->
@@ -2340,19 +2358,23 @@ Discover More →</div>
 <!-- Mobile Bottom Navigation -->
 <div id="mobile-nav-bottom">
 </div>
-<script>    fetch('/components/mobile-bottom-nav.html').then(r=>r.text()).then(html=>{        document.getElementById('mobile-nav-bottom').innerHTML=html;    }).catch(err => console.error('Mobile nav error:', err));</script>
+<script>    fetch('/components/mobile-bottom-nav.html').then(r=>r.text()).then(html=>{        const container = document.getElementById('mobile-nav-bottom');
+        if (container) container.innerHTML = html;    }).catch(err => console.error('Mobile nav error:', err));</script>
 <!-- 🏷️ BETA BADGE - Sets Expectations -->
 <div id="beta-badge-component">
 </div>
-<script>  fetch('/components/beta-badge.html').then(r=>r.text()).then(html=>{    document.getElementById('beta-badge-component').innerHTML=html;  });</script>
+<script>  fetch('/components/beta-badge.html').then(r=>r.text()).then(html=>{    const container = document.getElementById('beta-badge-component');
+    if (container) container.innerHTML = html;  });</script>
 <!-- 👋 ONBOARDING TOUR - First-Time User Guide -->
 <div id="onboarding-tour-component">
 </div>
-<script>  fetch('/components/onboarding-tour.html').then(r=>r.text()).then(html=>{    document.getElementById('onboarding-tour-component').innerHTML=html;  });</script>
+<script>  fetch('/components/onboarding-tour.html').then(r=>r.text()).then(html=>{    const container = document.getElementById('onboarding-tour-component');
+    if (container) container.innerHTML = html;  });</script>
 <!-- Floating Action Button (includes Print/Download buttons!) -->
 <div id="fab-quick-actions">
 </div>
-<script>    fetch('/components/quick-actions-fab.html').then(r=>r.text()).then(html=>{        document.getElementById('fab-quick-actions').innerHTML=html;    }).catch(err => console.error('FAB error:', err));</script>
+<script>    fetch('/components/quick-actions-fab.html').then(r=>r.text()).then(html=>{        const container = document.getElementById('fab-quick-actions');
+        if (container) container.innerHTML = html;    }).catch(err => console.error('FAB error:', err));</script>
 <!-- 📊 ULTIMATE BEAUTY: PostHog Analytics (Privacy-First) -->
 <script src="/js/posthog-analytics.js" defer></script>
 </body>

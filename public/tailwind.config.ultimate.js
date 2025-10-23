@@ -45,5 +45,4 @@ if (typeof tailwind !== 'undefined') {
   }
 } else {
   // Fallback if Tailwind isn't loaded yet
-  console.log('🎨 Tailwind CSS not yet loaded, config will apply when ready');
 }

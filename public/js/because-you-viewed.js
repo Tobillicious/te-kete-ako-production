@@ -44,7 +44,6 @@
                     await this.showRecommendations();
                 }
 
-                console.log('✅ Because You Viewed initialized');
             } catch (error) {
                 console.error('Because You Viewed init error:', error);
             }
@@ -264,7 +263,6 @@
          */
         clearHistory() {
             localStorage.removeItem(this.storageKey);
-            console.log('✅ Viewing history cleared');
         }
     }
 

@@ -16,7 +16,6 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
             return;
         }
 
-        console.log('✅ Global search initialized');
 
         // Create results dropdown
         const resultsDropdown = document.createElement('div');
@@ -85,7 +84,6 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
     async function performSearch(query, resultsDropdown) {
         try {
-            console.log(`🔍 Searching GraphRAG for: "${query}"`);
 
             // Search resources
             const response = await fetch(
@@ -103,7 +101,6 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
             }
 
             const results = await response.json();
-            console.log(`✅ Found ${results.length} results`);
 
             if (results.length === 0) {
                 resultsDropdown.innerHTML = `

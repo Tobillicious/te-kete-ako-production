@@ -886,7 +886,6 @@ class TukutukuPatternGenerator {
             
             speechSynthesis.speak(utterance);
         } else {
-            console.log('Speech synthesis not supported');
         }
     }
 }

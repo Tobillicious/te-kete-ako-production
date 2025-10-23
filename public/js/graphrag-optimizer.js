@@ -18,7 +18,6 @@ class GraphRAGOptimizer {
                 window.ENV.SUPABASE_ANON_KEY
             );
         }
-        console.log('🔧 GraphRAG Optimizer Ready');
     }
 
     /**
@@ -26,7 +25,6 @@ class GraphRAGOptimizer {
      * Run all optimization strategies
      */
     async optimizeGraph() {
-        console.log('🚀 Starting GraphRAG Optimization...');
         
         const results = {
             timestamp: new Date().toISOString(),
@@ -50,7 +48,6 @@ class GraphRAGOptimizer {
 
         this.optimizationLog.push(results);
         
-        console.log('✅ GraphRAG Optimization Complete!', results);
         return results;
     }
 
@@ -59,7 +56,6 @@ class GraphRAGOptimizer {
      * Remove low-confidence connections from over-connected resources
      */
     async pruneNoiseConnections() {
-        console.log('🔪 Pruning noise connections...');
         
         try {
             // Find over-connected resources
@@ -104,7 +100,6 @@ class GraphRAGOptimizer {
      * Connect isolated subjects to the main graph
      */
     async buildSubjectBridges() {
-        console.log('🌉 Building subject bridges...');
         
         const isolatedSubjects = ['technology', 'arts', 'health_pe', 'social_studies'];
         const bridges = [];
@@ -169,7 +164,6 @@ class GraphRAGOptimizer {
      * Add reverse relationships where they make sense
      */
     async createReciprocalRelationships() {
-        console.log('🔄 Creating reciprocal relationships...');
         
         try {
             // Find high-confidence one-way relationships
@@ -226,7 +220,6 @@ class GraphRAGOptimizer {
      * Link high-quality resources with few connections
      */
     async connectOrphanedExcellence() {
-        console.log('🌟 Connecting orphaned excellence...');
         
         try {
             // Find orphaned high-quality resources
@@ -285,7 +278,6 @@ class GraphRAGOptimizer {
      * Prevent any subject from being over-connected
      */
     async balanceSubjectConnections() {
-        console.log('⚖️ Balancing subject connections...');
         
         try {
             const subjects = ['mathematics', 'science', 'english', 'te_ao_maori'];

@@ -66,7 +66,6 @@ class GraphRAGSelfEvolutionEngine {
             
             this.sessionLearnings = learnings || [];
 
-            console.log('🧠 GraphRAG Intelligence Loaded:', {
                 principles: this.systemPrinciples.length,
                 patterns: this.devPatterns.length,
                 rules: this.agentRules.length,
@@ -344,7 +343,6 @@ class GraphRAGSelfEvolutionEngine {
                     .select();
 
                 if (!error) {
-                    console.log('🧠 GraphRAG evolved! New pattern learned:', newPattern.name);
                     return { success: true, data };
                 }
             }

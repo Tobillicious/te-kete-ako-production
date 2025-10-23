@@ -18,7 +18,6 @@ class RealityAuditSystem {
     }
 
     init() {
-        console.log('🔍 Reality Audit System - Kaitiaki Aronui Truth Monitor Active');
         this.setupPerformanceMonitoring();
         this.setupErrorTracking();
         this.setupContentVerification();
@@ -31,7 +30,6 @@ class RealityAuditSystem {
         this.isAuditing = true;
         this.lastAuditTime = new Date();
         
-        console.log('🧠 Kaitiaki Aronui - Starting Reality Check...');
         
         const auditReport = {
             timestamp: this.lastAuditTime,
@@ -48,7 +46,6 @@ class RealityAuditSystem {
         this.storeAuditResults(auditReport);
         
         this.isAuditing = false;
-        console.log('✅ Reality Audit Complete - Truth Status Updated');
         
         return auditReport;
     }
@@ -315,7 +312,6 @@ class RealityAuditSystem {
     }
 
     async sendAuditToDeepSeek(auditReport) {
-        console.log('📊 Sending Audit Report to Kaitiaki Reality Check:', auditReport);
         
         try {
             // Send to our DeepSeek-powered reality check endpoint
@@ -327,7 +323,6 @@ class RealityAuditSystem {
             
             if (response.ok) {
                 const analysis = await response.json();
-                console.log('🎯 DeepSeek Reality Analysis:', analysis);
                 
                 // Store the analysis
                 const analysisHistory = JSON.parse(localStorage.getItem('kaitiaki-analysis-history') || '[]');
@@ -477,7 +472,6 @@ window.KaitiakiRealityAudit = realityAudit;
 // Add event listener for audit reports
 window.addEventListener('kaitiaki-audit-complete', (event) => {
     const report = event.detail;
-    console.log(`🎯 Platform Health Score: ${realityAudit.getHealthScore()}/100`);
     
     // Log critical issues
     if (report.pageHealth.brokenLinks.length > 0) {
@@ -493,4 +487,3 @@ window.addEventListener('kaitiaki-audit-complete', (event) => {
     }
 });
 
-console.log('🔍 Kaitiaki Aronui Reality Audit System - Monitoring Truth and Preventing Hallucination');

@@ -14,7 +14,6 @@ class AdaptivePathwayGenerator {
 
     async init() {
         await this.waitForDependencies();
-        console.log('🛤️ Adaptive Pathway Generator Ready');
     }
 
     async waitForDependencies() {

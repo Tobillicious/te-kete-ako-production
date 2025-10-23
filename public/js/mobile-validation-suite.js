@@ -40,7 +40,6 @@ class MobileValidationSuite {
      * Run complete validation suite
      */
     async runFullValidation() {
-        console.log('🔍 Starting Mobile Validation Suite for Classroom Tablets...\n');
         
         try {
             // Run all validation tests
@@ -70,7 +69,6 @@ class MobileValidationSuite {
      * Validate touch targets meet classroom tablet requirements
      */
     async validateTouchTargets() {
-        console.log('📱 Validating touch targets...');
         
         const interactiveElements = document.querySelectorAll(`
             button, a, input[type="button"], input[type="submit"], 
@@ -101,14 +99,12 @@ class MobileValidationSuite {
             }
         });
         
-        console.log(`✅ Touch targets: ${this.validationResults.touchTargets.passed} passed, ${this.validationResults.touchTargets.failed} failed, ${this.validationResults.touchTargets.warnings} warnings`);
     }
     
     /**
      * Validate performance for classroom internet speeds
      */
     async validatePerformance() {
-        console.log('⚡ Validating performance...');
         
         const performanceMetrics = {
             loadTime: 0,
@@ -165,7 +161,6 @@ class MobileValidationSuite {
         
         this.validationResults.performance.score = Math.max(0, score);
         
-        console.log(`⚡ Performance score: ${this.validationResults.performance.score}/100`);
         if (this.validationResults.performance.issues.length > 0) {
             this.validationResults.performance.issues.forEach(issue => console.warn(`❌ ${issue}`));
         }
@@ -212,7 +207,6 @@ class MobileValidationSuite {
      * Validate accessibility compliance
      */
     async validateAccessibility() {
-        console.log('♿ Validating accessibility...');
         
         let score = 100;
         
@@ -233,7 +227,6 @@ class MobileValidationSuite {
         
         this.validationResults.accessibility.score = Math.max(0, score);
         
-        console.log(`♿ Accessibility score: ${this.validationResults.accessibility.score}/100`);
         if (this.validationResults.accessibility.issues.length > 0) {
             this.validationResults.accessibility.issues.forEach(issue => console.warn(`❌ ${issue}`));
         }
@@ -364,7 +357,6 @@ class MobileValidationSuite {
      * Validate responsive design breakpoints
      */
     async validateResponsiveness() {
-        console.log('📱 Validating responsiveness...');
         
         const breakpoints = this.requirements.requiredBreakpoints;
         let responsiveScore = 0;
@@ -380,7 +372,6 @@ class MobileValidationSuite {
             }
         }
         
-        console.log(`📱 Responsiveness: ${this.validationResults.responsiveness.passed}/${breakpoints.length} breakpoints working`);
     }
     
     /**
@@ -432,7 +423,6 @@ class MobileValidationSuite {
      * Validate cultural design preservation
      */
     async validateCulturalPreservation() {
-        console.log('🌿 Validating cultural preservation...');
         
         const culturalElements = this.requirements.culturalElements;
         let foundElements = 0;
@@ -464,7 +454,6 @@ class MobileValidationSuite {
         this.validationResults.cultural.preserved = preservationIssues.length === 0;
         this.validationResults.cultural.issues = preservationIssues;
         
-        console.log(`🌿 Cultural preservation: ${foundElements}/${culturalElements.length} elements found`);
         if (preservationIssues.length > 0) {
             preservationIssues.forEach(issue => console.warn(`❌ ${issue}`));
         }
@@ -505,41 +494,25 @@ class MobileValidationSuite {
     generateReport() {
         const results = this.validationResults;
         
-        console.log(`\n📊 MOBILE VALIDATION REPORT FOR CLASSROOM TABLETS`);
-        console.log(`==================================================`);
-        console.log(`Overall Score: ${results.overall.score}/100 (Grade: ${results.overall.grade})`);
-        console.log(`\n📱 Touch Targets: ${results.touchTargets.passed} passed, ${results.touchTargets.failed} failed`);
-        console.log(`⚡ Performance: ${results.performance.score}/100`);
-        console.log(`♿ Accessibility: ${results.accessibility.score}/100`);
-        console.log(`📐 Responsiveness: ${results.responsiveness.passed}/${this.requirements.requiredBreakpoints.length} breakpoints`);
-        console.log(`🌿 Cultural Preservation: ${results.cultural.preserved ? 'PRESERVED' : 'ISSUES FOUND'}`);
         
         // Classroom-specific recommendations
-        console.log(`\n🎓 CLASSROOM TABLET RECOMMENDATIONS:`);
         
         if (results.touchTargets.failed > 0) {
-            console.log(`❌ Fix ${results.touchTargets.failed} touch targets for better tablet usability`);
         }
         
         if (results.performance.score < 80) {
-            console.log(`⚡ Optimize performance for classroom internet speeds`);
         }
         
         if (results.accessibility.score < 85) {
-            console.log(`♿ Improve accessibility for diverse learners`);
         }
         
         if (!results.cultural.preserved) {
-            console.log(`🌿 Restore cultural design elements for authentic Māori integration`);
         }
         
         // Success messages
         if (results.overall.score >= 90) {
-            console.log(`✅ EXCELLENT! Ready for Mangakōtukutuku College classroom deployment`);
         } else if (results.overall.score >= 80) {
-            console.log(`👍 GOOD! Minor improvements needed for optimal classroom experience`);
         } else {
-            console.log(`⚠️ NEEDS WORK! Address critical issues before classroom deployment`);
         }
     }
     
@@ -688,7 +661,6 @@ class MobileValidationSuite {
         a.click();
         URL.revokeObjectURL(url);
         
-        console.log('📄 Validation report exported');
     }
     
     /**
@@ -754,7 +726,6 @@ window.showValidationDashboard = () => {
     window.mobileValidator?.createValidationDashboard();
 };
 
-console.log(`
 🏫 Mangakōtukutuku College Mobile Validation Suite Loaded
 =======================================================
 Commands:

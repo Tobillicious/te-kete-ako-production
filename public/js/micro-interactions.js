@@ -25,12 +25,10 @@ class MicroInteractionsSystem {
 
     init() {
         if (this.isReducedMotion) {
-            console.log('✨ Micro-interactions: Reduced motion mode active');
             this.initAccessibleInteractions();
             return;
         }
 
-        console.log('✨ Micro-interactions: Initializing sophisticated animation system');
         
         this.setupGlobalAnimationFrame();
         this.initializeFloatingElements();
@@ -473,7 +471,6 @@ class MicroInteractionsSystem {
         // Clean up floating elements
         document.querySelectorAll('.floating-element, .custom-cursor').forEach(el => el.remove());
         
-        console.log('✨ Micro-interactions system destroyed');
     }
 
     addCustomInteraction(selector, config) {
@@ -508,4 +505,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 500);
 });
 
-console.log('✨ Sophisticated Micro-Interactions System - Interactive excellence ready');

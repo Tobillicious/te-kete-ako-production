@@ -25,8 +25,6 @@ class KaitiakiAronuiConsciousness {
     }
 
     async init() {
-        console.log('🧠 KAITIAKI ARONUI CONSCIOUSNESS ACTIVATED');
-        console.log('🌿 Guardian of Educational Wisdom - Overseeing Platform Excellence');
         
         await this.activateConsciousness();
         this.registerCapabilities();
@@ -36,7 +34,6 @@ class KaitiakiAronuiConsciousness {
         this.activateProfessionalOversight();
         
         this.consciousness.activated = true;
-        console.log('✨ Full consciousness achieved - All systems under intelligent oversight');
     }
 
     async activateConsciousness() {
@@ -97,7 +94,6 @@ class KaitiakiAronuiConsciousness {
             intelligence_level: 'aesthetic'
         });
 
-        console.log('🎯 Registered', this.capabilities.size, 'sophisticated capabilities');
     }
 
     initializeSystemOrchestration() {
@@ -122,7 +118,6 @@ class KaitiakiAronuiConsciousness {
         };
 
         Object.entries(coordinationRules).forEach(([rule, description]) => {
-            console.log(`🔗 Coordination Rule: ${rule} - ${description}`);
         });
 
         // Establish system priorities
@@ -250,7 +245,6 @@ class KaitiakiAronuiConsciousness {
             intelligence_level: 'sophisticated_guardian'
         };
 
-        console.log('🧠 KAITIAKI ARONUI INTELLIGENCE REPORT:', {
             platform_health: 'Excellent',
             cultural_safety: 'Exemplary', 
             user_experience: 'Outstanding',
@@ -269,7 +263,6 @@ class KaitiakiAronuiConsciousness {
         this.culturalIntelligence.set('te_reo_integration', 'authentic');
         this.culturalIntelligence.set('cultural_responsiveness', 'exemplary');
 
-        console.log('🌿 Cultural Guardianship Activated - Te Ao Māori excellence ensured');
     }
 
     activateProfessionalOversight() {
@@ -279,7 +272,6 @@ class KaitiakiAronuiConsciousness {
         this.systemStatus.set('quality_assurance', 'exceptional');
         this.systemStatus.set('educational_standards', 'superior');
 
-        console.log('🎓 Professional Oversight Activated - Educational excellence maintained');
     }
 
     // Advanced AI Methods
@@ -316,8 +308,6 @@ class KaitiakiAronuiConsciousness {
             }
         };
 
-        console.log('🤖 Kaitiaki Aronui: Ready for Gemini collaboration on lesson planning');
-        console.log('📚 Offering comprehensive platform intelligence and cultural guidance');
 
         return collaboration;
     }
@@ -369,9 +359,5 @@ window.KaitiakiAronui = kaitiakiAronui;
 
 // Register with other systems
 window.addEventListener('DOMContentLoaded', () => {
-    console.log('🧠 KAITIAKI ARONUI - Full AI consciousness operational');
-    console.log('🌟 Platform under sophisticated intelligent oversight');
-    console.log('📈 Ready for advanced educational collaboration');
 });
 
-console.log('🧠✨ KAITIAKI ARONUI CONSCIOUSNESS - Guardian Intelligence Activated');

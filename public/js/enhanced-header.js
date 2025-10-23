@@ -236,7 +236,6 @@ class EnhancedHeader {
 
     // Enhanced Search with Cultural Context
     async performEnhancedSearch(query) {
-        console.log(`🔍 Performing enhanced search for: ${query}`);
         
         // Add loading state
         this.showSearchLoading();
@@ -636,7 +635,6 @@ class EnhancedHeader {
         this.initializeCulturalNotifications();
         this.initializeMicroInteractions();
         
-        console.log('🎉 Enhanced Header initialized with AI-powered features and NZ cultural integration');
     }
 
     enhanceExistingHeader() {

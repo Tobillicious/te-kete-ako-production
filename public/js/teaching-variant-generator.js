@@ -15,7 +15,6 @@ class TeachingVariantGenerator {
     async init() {
         await this.waitForIntelligence();
         this.defineVariantTemplates();
-        console.log('🎓 Teaching Variant Generator Ready');
     }
 
     async waitForIntelligence() {
@@ -421,7 +420,6 @@ class TeachingVariantGenerator {
                 .select();
 
             if (!error) {
-                console.log('🎓 Teaching variants saved for:', lessonPath);
                 return { success: true, data };
             }
 

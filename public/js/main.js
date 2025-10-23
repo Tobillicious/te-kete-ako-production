@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize accessibility features
     initializeA11y();
     
-    console.log('🧺 Te Kete Ako initialized successfully');
 });
 
 function initializeApp() {

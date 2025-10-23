@@ -10,7 +10,6 @@ let supabaseClient = null;
 
 window.addEventListener('supabaseReady', (event) => {
     supabaseClient = event.detail.client;
-    console.log('✅ Supabase ready for teacher signup');
 });
 
 // Multi-step form state
@@ -364,4 +363,3 @@ function validateTeacherStep(step) {
 }
 
 // Console log for debugging
-console.log('🧑‍🏫 Teacher signup JavaScript loaded');

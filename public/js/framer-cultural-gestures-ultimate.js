@@ -1,6 +1,8 @@
-// Prevent double loading
-if (window.TeKeteUltimateCulturalGestures) {
-  console.warn('Te Kete Cultural Gestures already loaded');
+// Prevent double loading (STRICT - fixes hasFramerMotion identifier conflict)
+if (window.TeKeteUltimateCulturalGestures || window.hasFramerMotion !== undefined) {
+  console.warn('⚠️ Te Kete Cultural Gestures already loaded - skipping duplicate');
+  // Exit early to prevent identifier conflicts
+  if (typeof module !== 'undefined' && module.exports) { module.exports = window.TeKeteUltimateCulturalGestures; }
 } else {
 
 /**
@@ -37,13 +39,11 @@ class TeKeteUltimateCulturalGestures {
     this.animations = new Map();
     this.observers = [];
     
-    console.log('🎨 Te Kete Cultural Gestures: Initializing...');
     this.init();
   }
   
   init() {
     if (this.reducedMotion) {
-      console.log('✨ Reduced motion mode - using simplified animations');
       this.initAccessibleAnimations();
       return;
     }
@@ -612,7 +612,6 @@ window.CULTURAL_SPRING_PRESETS = CULTURAL_SPRING_PRESETS;
 window.CULTURAL_VARIANTS = CULTURAL_VARIANTS;
 window.CulturalGestureHelpers = CulturalGestureHelpers;
 
-console.log('🎨 Te Kete Cultural Gestures loaded successfully!');
 
 } // End of double-loading prevention
 

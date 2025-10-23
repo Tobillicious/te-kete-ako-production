@@ -33,7 +33,6 @@ class RelationshipQualityAnalyzer {
                 window.ENV.SUPABASE_ANON_KEY
             );
         }
-        console.log('📊 Relationship Quality Analyzer Ready');
     }
 
     /**

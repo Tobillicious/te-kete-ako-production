@@ -14,7 +14,6 @@ class CrossSubjectDiscoveryEngine {
 
     async init() {
         await this.waitForDependencies();
-        console.log('🌉 Cross-Subject Discovery Engine Ready');
     }
 
     async waitForDependencies() {
@@ -337,7 +336,6 @@ class CrossSubjectDiscoveryEngine {
      */
     clearCache() {
         this.discoveryCache.clear();
-        console.log('🌉 Discovery cache cleared');
     }
 }
 

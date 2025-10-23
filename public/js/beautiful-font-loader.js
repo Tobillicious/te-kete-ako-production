@@ -16,7 +16,6 @@ class BeautifulFontLoader {
     }
 
     async init() {
-        console.log('🔤 Beautiful Font Loader - Initializing typography excellence');
         
         // Start font loading process
         this.loadFontsProgressively();
@@ -48,7 +47,6 @@ class BeautifulFontLoader {
                 document.fonts.load('400 16px Inter').then(() => {
                     this.fontsLoaded.inter = true;
                     this.applyFontClass('font-loaded');
-                    console.log('✅ Inter font loaded successfully');
                 })
             );
 
@@ -57,7 +55,6 @@ class BeautifulFontLoader {
                 document.fonts.load('400 24px "Playfair Display"').then(() => {
                     this.fontsLoaded.playfair = true;
                     this.applyFontClass('font-display-loaded');
-                    console.log('✅ Playfair Display font loaded successfully');
                 })
             );
 
@@ -66,7 +63,6 @@ class BeautifulFontLoader {
                 document.fonts.load('400 16px "Crimson Text"').then(() => {
                     this.fontsLoaded.crimson = true;
                     this.applyFontClass('font-secondary-loaded');
-                    console.log('✅ Crimson Text font loaded successfully');
                 })
             );
 
@@ -103,7 +99,6 @@ class BeautifulFontLoader {
                 const computedStyle = getComputedStyle(testEl);
                 if (computedStyle.fontFamily.includes(family)) {
                     this.applyFontClass(className);
-                    console.log(`✅ ${family} detected and applied`);
                 }
                 document.body.removeChild(testEl);
             }, 1000);
@@ -119,7 +114,6 @@ class BeautifulFontLoader {
     }
 
     activateFallbackFonts() {
-        console.log('🔤 Activating elegant font fallbacks');
         
         // Apply beautiful fallback typography
         const fallbackCSS = `
@@ -216,7 +210,6 @@ class BeautifulFontLoader {
         if (Math.abs(interWidth - fallbackWidth) > 1 && !this.fontsLoaded.inter) {
             this.fontsLoaded.inter = true;
             this.applyFontClass('font-loaded');
-            console.log('✅ Inter font detected via metrics');
         }
 
         // Clean up
@@ -236,7 +229,6 @@ class BeautifulFontLoader {
             if (document.fonts && document.fonts.load) {
                 await document.fonts.load(`400 16px "${fontFamily}"`);
                 this.applyFontClass(className);
-                console.log(`✅ ${fontFamily} loaded manually`);
                 return true;
             }
         } catch (error) {
@@ -289,4 +281,3 @@ const fontStyleElement = document.createElement('style');
 fontStyleElement.textContent = transitionCSS;
 document.head.appendChild(fontStyleElement);
 
-console.log('🔤 Beautiful Font Loader - Typography excellence system ready');
