@@ -2,8 +2,12 @@
 module.exports = {
   content: [
     "./public/**/*.{html,js}",
-    "./public/components/**/*.html",
-    "./public/js/**/*.js"
+  ],
+  safelist: [
+    'bg-kete-green',
+    'bg-kete-gold',
+    'text-kete-green',
+    'text-kete-gold',
   ],
   theme: {
     extend: {
