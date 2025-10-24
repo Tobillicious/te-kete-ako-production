@@ -19,6 +19,10 @@ class GraphRAGConnectionCounter {
     }
 
     async init() {
+        // Temporarily disabled to stop console spam during debugging
+        console.log('🔇 GraphRAG Connection Counter temporarily disabled for debugging');
+        return;
+        
         // Initialize Supabase client
         if (window.supabase && window.supabase.createClient) {
             this.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
