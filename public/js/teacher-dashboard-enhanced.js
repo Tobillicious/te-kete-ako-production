@@ -263,10 +263,7 @@ function showMessage(message, type = 'info') {
 }
 
 // Initialize when Supabase client is ready
-if (typeof window.supabase !== 'undefined') {
-    supabaseClient = window.supabase.createClient(
-        'https://nlgldaqtubrlcqddppbq.supabase.co',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
-    );
+if (window.supabaseSingleton) {
+    supabaseClient = await window.supabaseSingleton.getClient();
     initializeDashboard();
 }
