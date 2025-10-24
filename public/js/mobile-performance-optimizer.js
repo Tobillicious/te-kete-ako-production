@@ -122,9 +122,11 @@ class MobilePerformanceOptimizer {
             document.body.style.setProperty('--animation-duration', '0.1s');
         }
         
+        // Store optimization state
+        this.optimizationState = {
             touchDevice: this.touchDevice,
             slowConnection: this.isSlowConnection
-        });
+        };
     }
     
     /**
