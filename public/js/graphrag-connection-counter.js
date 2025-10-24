@@ -246,8 +246,8 @@ GraphRAGConnectionCounter.prototype.injectBadgesIfMissing = function(){
 // Hook into init to inject before updating
 const _origInit = GraphRAGConnectionCounter.prototype.init;
 GraphRAGConnectionCounter.prototype.init = async function(){
-    if (window.supabase && window.supabase.createClient) {
-        this.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    if (window.supabaseSingleton) {
+        this.supabase = await window.supabaseSingleton.getClient();
         // New: inject missing badges
         this.injectBadgesIfMissing();
         // Then update

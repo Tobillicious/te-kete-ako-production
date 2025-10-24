@@ -27,9 +27,9 @@ let currentUser = null;
 /**
  * Initialize Supabase client once CDN is loaded
  */
-function initializeSupabase() {
-    if (typeof window.supabase !== 'undefined') {
-        supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+async function initializeSupabase() {
+    if (typeof window.supabaseSingleton !== 'undefined') {
+        supabase = await window.supabaseSingleton.getClient();
         // Set up auth state listener
         setupAuthStateListener();
         
@@ -549,12 +549,14 @@ function initializeEventListeners() {
 /**
  * Initialize the authentication system
  */
-function initialize() {
+async function initialize() {
     // Try to initialize Supabase immediately
-    if (!initializeSupabase()) {
-        // If not available, wait for Supabase CDN to load
-        const checkSupabase = setInterval(() => {
-            if (initializeSupabase()) {
+    const initialized = await initializeSupabase();
+    if (!initialized) {
+        // If not available, wait for Supabase singleton to load
+        const checkSupabase = setInterval(async () => {
+            const initialized = await initializeSupabase();
+            if (initialized) {
                 clearInterval(checkSupabase);
             }
         }, 100);

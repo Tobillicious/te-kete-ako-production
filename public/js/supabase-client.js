@@ -42,25 +42,25 @@
             return mock;
         }
         
-        // Wait for Supabase CDN to load
+        // Wait for Supabase singleton to load
         attempts = 0;
-        while (!window.supabase && attempts < 50) {
+        while (!window.supabaseSingleton && attempts < 50) {
             await new Promise(resolve => setTimeout(resolve, 100));
             attempts++;
         }
         
-        if (!window.supabase) {
-            console.error('❌ Supabase CDN not loaded after 5 seconds - falling back to basic functionality');
+        if (!window.supabaseSingleton) {
+            console.error('❌ Supabase singleton not loaded after 5 seconds - falling back to basic functionality');
             // Fallback: create mock client for testing
-            window.supabase = {
-                createClient: () => ({
-                    auth: {
-                        getUser: () => Promise.resolve({ data: { user: null } }),
-                        signInWithPassword: () => Promise.resolve({ error: { message: 'CDN loading issue' } }),
-                        signOut: () => Promise.resolve({})
-                    }
-                })
+            const mock = {
+                auth: {
+                    getUser: () => Promise.resolve({ data: { user: null } }),
+                    signInWithPassword: () => Promise.resolve({ error: { message: 'Singleton loading issue' } }),
+                    signOut: () => Promise.resolve({})
+                }
             };
+            window.supabaseClient = mock;
+            return mock;
         }
         
         const supabaseUrl = window.ENV.SUPABASE_URL;
@@ -79,15 +79,8 @@
             return mock;
         }
         
-        // Create Supabase client
-        supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey, {
-            auth: {
-                autoRefreshToken: true,
-                persistSession: true,
-                detectSessionInUrl: true,
-                flowType: 'pkce'
-            }
-        });
+        // Use Supabase singleton client
+        supabaseClient = await window.supabaseSingleton.getClient();
         
         // Export globally to prevent re-initialization
         window.supabaseClient = supabaseClient;

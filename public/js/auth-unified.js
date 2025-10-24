@@ -21,22 +21,16 @@ window.teKeteAuth = {
     getCurrentUserToken: null
 };
 
-function initSupabase() {
+async function initSupabase() {
     if (supabaseClient) return supabaseClient;
 
-    if (typeof window.supabase === 'undefined') {
-        console.error('❌ Supabase library not loaded');
+    if (typeof window.supabaseSingleton === 'undefined') {
+        console.error('❌ Supabase singleton not loaded');
         window.teKeteAuth.authState = 'error';
         return null;
     }
 
-    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-        auth: {
-            autoRefreshToken: true,
-            persistSession: true,
-            detectSessionInUrl: true
-        }
-    });
+    supabaseClient = await window.supabaseSingleton.getClient();
 
     // Setup auth state listener
     setupAuthStateListener();
