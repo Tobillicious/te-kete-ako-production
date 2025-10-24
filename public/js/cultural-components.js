@@ -591,11 +591,12 @@ class CulturalComponentSystem {
             const paintTiming = performance.getEntriesByType('paint');
             const navigationTiming = performance.getEntriesByType('navigation')[0];
             
+            const metrics = {
                 firstPaint: paintTiming[0]?.startTime,
                 firstContentfulPaint: paintTiming[1]?.startTime,
                 domContentLoaded: navigationTiming.domContentLoadedEventEnd,
                 loadComplete: navigationTiming.loadEventEnd
-            });
+            };
         }
     }
 }

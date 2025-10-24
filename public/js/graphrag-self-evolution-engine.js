@@ -66,6 +66,7 @@ class GraphRAGSelfEvolutionEngine {
             
             this.sessionLearnings = learnings || [];
 
+            console.log('📊 GraphRAG Engine Loaded:', {
                 principles: this.systemPrinciples.length,
                 patterns: this.devPatterns.length,
                 rules: this.agentRules.length,
