@@ -250,15 +250,27 @@ GraphRAGConnectionCounter.prototype.injectBadgesIfMissing = function(){
 // Hook into init to inject before updating
 const _origInit = GraphRAGConnectionCounter.prototype.init;
 GraphRAGConnectionCounter.prototype.init = async function(){
+    // Safety: Track retry attempts to prevent infinite loops
+    if (!this.initAttempts) this.initAttempts = 0;
+    this.initAttempts++;
+    
+    // Max 20 attempts (10 seconds)
+    if (this.initAttempts > 20) {
+        console.error('❌ GraphRAG Counter: Failed to initialize Supabase after 20 attempts');
+        return;
+    }
+    
     if (window.supabaseSingleton) {
         this.supabase = await window.supabaseSingleton.getClient();
+        console.log('✅ GraphRAG Counter: Supabase initialized successfully');
         // New: inject missing badges
         this.injectBadgesIfMissing();
         // Then update
         this.updateAllBadges();
     } else {
-        console.warn('⚠️ Supabase not loaded yet, retrying...');
-        setTimeout(() => this.init(), 500);
+        if (this.initAttempts < 20) {
+            setTimeout(() => this.init(), 500);
+        }
     }
 };
 

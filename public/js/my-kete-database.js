@@ -10,10 +10,25 @@ class MyKeteDatabase {
     constructor() {
         this.supabase = null;
         this.user = null;
-        this.init();
+        this.initAttempts = 0;
+        this.maxAttempts = 20; // Max 10 seconds (20 * 500ms)
+        
+        // Wait for DOM to be ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.init());
+        } else {
+            this.init();
+        }
     }
     
     async init() {
+        // Safety: Prevent infinite loops
+        this.initAttempts++;
+        if (this.initAttempts > this.maxAttempts) {
+            console.error('❌ MyKete: Failed to initialize Supabase after', this.maxAttempts, 'attempts');
+            return;
+        }
+        
         // Initialize Supabase client
         if (window.supabaseSingleton) {
             this.supabase = await window.supabaseSingleton.getClient();
@@ -21,10 +36,13 @@ class MyKeteDatabase {
         
         // ✅ Check if supabase is ready before using
         if (!this.supabase) {
-            console.warn('⚠️ Supabase not initialized, retrying...');
-            setTimeout(() => this.init(), 500);
+            if (this.initAttempts < this.maxAttempts) {
+                setTimeout(() => this.init(), 500);
+            }
             return;
         }
+        
+        console.log('✅ MyKete: Supabase initialized successfully');
             
         // Get current user
         const { data: { user } } = await this.supabase.auth.getUser();
