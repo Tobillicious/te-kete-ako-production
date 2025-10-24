@@ -23,10 +23,9 @@ class CrossSubjectDiscoveryEngine {
 
         while (waited < maxWait) {
             if (window.supabase && window.ENV && window.CulturalIntelligence) {
-                this.supabase = window.supabase.createClient(
-                    window.ENV.SUPABASE_URL,
-                    window.ENV.SUPABASE_ANON_KEY
-                );
+                if (window.supabaseSingleton) {
+                    this.supabase = await window.supabaseSingleton.getClient();
+                }
                 this.culturalIntelligence = window.CulturalIntelligence;
                 break;
             }

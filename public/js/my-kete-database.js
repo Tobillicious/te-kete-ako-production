@@ -16,10 +16,9 @@ class MyKeteDatabase {
     async init() {
         // Initialize Supabase client
         if (window.supabase) {
-            this.supabase = window.supabase.createClient(
-                window.ENV?.SUPABASE_URL || 'https://nlgldaqtubrlcqddppbq.supabase.co',
-                window.ENV?.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
-            );
+            if (window.supabaseSingleton) {
+                this.supabase = await window.supabaseSingleton.getClient();
+            }
             
             // Get current user
             const { data: { user } } = await this.supabase.auth.getUser();

@@ -16,7 +16,9 @@ class SmartRecommendations {
         const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
 
-        this.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        if (window.supabaseSingleton) {
+            this.supabase = await window.supabaseSingleton.getClient();
+        }
         this.currentPage = window.location.pathname;
         this.initialized = true;
     }

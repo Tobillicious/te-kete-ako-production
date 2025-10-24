@@ -32,8 +32,9 @@
                 // Load Supabase if not already loaded
                 if (typeof window.supabase === 'undefined' || !window.supabase.from) {
                     const supabaseModule = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2');
-                    this.supabase = supabaseModule.createClient(this.supabaseUrl, this.supabaseKey);
-                    window.supabase = this.supabase;
+                    if (window.supabaseSingleton) {
+                        this.supabase = await window.supabaseSingleton.getClient();
+                    }
                 } else {
                     this.supabase = window.supabase;
                 }

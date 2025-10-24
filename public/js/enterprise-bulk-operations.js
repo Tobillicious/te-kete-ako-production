@@ -20,10 +20,9 @@ class TeKeteBulkOperations {
 
     async initializeSupabase() {
         if (window.supabase && window.ENV) {
-            this.supabase = window.supabase.createClient(
-                window.ENV.SUPABASE_URL,
-                window.ENV.SUPABASE_ANON_KEY
-            );
+            if (window.supabaseSingleton) {
+                this.supabase = await window.supabaseSingleton.getClient();
+            }
         }
     }
 
