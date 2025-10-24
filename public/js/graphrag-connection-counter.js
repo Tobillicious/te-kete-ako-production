@@ -19,14 +19,14 @@ class GraphRAGConnectionCounter {
     }
 
     async init() {
-        // Initialize Supabase client
-        if (window.supabase && window.supabase.createClient) {
-            this.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        // Initialize Supabase client using singleton
+        if (window.supabaseSingleton) {
+            this.supabase = await window.supabaseSingleton.getClient();
             
             // Auto-update all connection badges on page
             this.updateAllBadges();
         } else {
-            console.warn('⚠️ Supabase not loaded yet, retrying...');
+            console.warn('⚠️ Supabase singleton not loaded yet, retrying...');
             setTimeout(() => this.init(), 500);
         }
     }
