@@ -159,7 +159,19 @@ class TouchTargetAuditor {
         }
         
         if (element.className) {
-            return `${element.tagName.toLowerCase()}.${element.className.split(' ').join('.')}`;
+            try {
+                // Handle both string and SVGAnimatedString (for SVG elements)
+                const className = typeof element.className === 'string' 
+                    ? element.className 
+                    : (element.className.baseVal || element.className.toString() || '');
+                
+                if (className && typeof className === 'string' && className.trim()) {
+                    return `${element.tagName.toLowerCase()}.${className.split(' ').join('.')}`;
+                }
+            } catch (e) {
+                // Fallback for problematic className
+                console.warn('TouchTargetAuditor: className error for element:', element.tagName);
+            }
         }
         
         return element.tagName.toLowerCase();
