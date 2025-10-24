@@ -14,15 +14,8 @@
 
     class GraphRAGRecommendations {
     constructor() {
-        this.supabase = null;
+        this.supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
         this.cache = new Map();
-        this.initSupabase();
-    }
-
-    async initSupabase() {
-        if (window.supabaseSingleton) {
-            this.supabase = await window.supabaseSingleton.getClient();
-        }
     }
 
     /**

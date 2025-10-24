@@ -30,10 +30,9 @@ class MyKeteDatabase {
         const { data: { user } } = await this.supabase.auth.getUser();
         this.user = user;
             
-            // Migrate localStorage to database if user is logged in
-            if (this.user) {
-                await this.migrateLocalStorageToDatabase();
-            }
+        // Migrate localStorage to database if user is logged in
+        if (this.user) {
+            await this.migrateLocalStorageToDatabase();
         }
     }
     

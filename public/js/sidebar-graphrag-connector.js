@@ -17,8 +17,11 @@ class SidebarGraphRAGConnector {
     }
 
     async initializeSupabase() {
-        if (window.supabaseSingleton) {
-            this.supabase = await window.supabaseSingleton.getClient();
+        if (window.supabase && window.ENV) {
+            this.supabase = window.supabase.createClient(
+                window.ENV.SUPABASE_URL,
+                window.ENV.SUPABASE_ANON_KEY
+            );
         }
     }
 
