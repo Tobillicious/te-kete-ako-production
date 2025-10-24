@@ -35,12 +35,9 @@ class GraphRAGAutoHealer {
         let waited = 0;
 
         while (waited < maxWait) {
-            if (window.GraphRAGOptimizer && window.supabase && window.ENV) {
+            if (window.GraphRAGOptimizer && window.supabaseSingleton) {
                 this.optimizer = window.GraphRAGOptimizer;
-                this.supabase = window.supabase.createClient(
-                    window.ENV.SUPABASE_URL,
-                    window.ENV.SUPABASE_ANON_KEY
-                );
+                this.supabase = await window.supabaseSingleton.getClient();
                 break;
             }
             

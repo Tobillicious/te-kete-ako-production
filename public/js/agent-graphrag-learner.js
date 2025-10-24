@@ -18,12 +18,12 @@ class AgentGraphRAGLearner {
     }
     
     async initialize() {
-        if (typeof window.supabase === 'undefined') {
-            console.warn('⚠️ Supabase not loaded. Agent learning disabled.');
+        if (!window.supabaseSingleton) {
+            console.warn('⚠️ Supabase singleton not loaded. Agent learning disabled.');
             return false;
         }
         
-        this.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        this.supabase = await window.supabaseSingleton.getClient();
         return true;
     }
     

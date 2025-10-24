@@ -22,11 +22,8 @@ class AdaptivePathwayGenerator {
         let waited = 0;
 
         while (waited < maxWait) {
-            if (window.supabase && window.ENV && window.CulturalIntelligence) {
-                this.supabase = window.supabase.createClient(
-                    window.ENV.SUPABASE_URL,
-                    window.ENV.SUPABASE_ANON_KEY
-                );
+            if (window.supabaseSingleton && window.CulturalIntelligence) {
+                this.supabase = await window.supabaseSingleton.getClient();
                 this.culturalIntelligence = window.CulturalIntelligence;
                 break;
             }
