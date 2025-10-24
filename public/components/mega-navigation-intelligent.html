@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html lang="mi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intelligent Mega-Navigation | Te Kete Ako</title>
-</head>
-<body>
 <!-- =================================================================
      INTELLIGENT MEGA-NAVIGATION - GraphRAG Powered
      Shows Units (313) + Lessons (600+) + Variants (13K)
@@ -363,10 +355,15 @@
 </div>
 
 <script>
-// Initialize Supabase
-const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
-const megaNavSupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+// Initialize Supabase using singleton pattern
+async function getMegaNavSupabase() {
+    if (window.supabaseSingleton) {
+        return await window.supabaseSingleton.getClient();
+    }
+    console.warn('Supabase singleton not loaded yet');
+    return null;
+}
+const megaNavSupabase = await getMegaNavSupabase();
 
 let allResources = [];
 
@@ -633,6 +630,3 @@ if (document.readyState === 'loading') {
     setTimeout(loadMegaNavData, 1000);
 }
 </script>
-
-</body>
-</html>

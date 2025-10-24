@@ -61,9 +61,12 @@
       document.addEventListener('DOMContentLoaded', async () => {
         try {
           if (typeof window.supabase === 'undefined' || !window.supabase.from) {
-            const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
-            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
-            window.supabase = (await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2')).createClient(SUPABASE_URL, SUPABASE_KEY);
+            // Use singleton pattern
+            window.supabase = window.supabaseSingleton ? await window.supabaseSingleton.getClient() : null;
+            if (!window.supabase) {
+              console.warn('Supabase singleton not loaded');
+              return;
+            }
           }
           const { count: totalCount, error: e1 } = await window.supabase
             .from('graphrag_resources')
@@ -94,9 +97,12 @@
       document.addEventListener('DOMContentLoaded', async () => {
         try {
           if (typeof supabase === 'undefined') {
-            const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
-            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
-            window.supabase = (await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2')).createClient(SUPABASE_URL, SUPABASE_KEY);
+            // Use singleton pattern
+            window.supabase = window.supabaseSingleton ? await window.supabaseSingleton.getClient() : null;
+            if (!window.supabase) {
+              console.warn('Supabase singleton not loaded');
+              return;
+            }
           }
           const { data: records, error } = await supabase.from('graphrag_subject_counts').select('*');
           if (error) { console.error('Subject chips load error (Social):', error); return; }

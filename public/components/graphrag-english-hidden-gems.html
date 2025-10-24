@@ -14,8 +14,9 @@
         const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
         
-        const supa = window.supabase && window.supabase.createClient 
-            ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+        // Use singleton pattern
+        const supa = window.supabaseSingleton 
+            ? await window.supabaseSingleton.getClient()
             : null;
         
         if (!supa) return;

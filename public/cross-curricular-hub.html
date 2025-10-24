@@ -14,7 +14,7 @@
 '<h3 style="color: #0f172a; font-weight: 700; margin-bottom: 0.25rem;">'+(r.title||'Resource')+'</h3>'+ 
 '<p style="color: #475569; font-size: 0.85rem;">'+(r.year_level||'All Years')+' • Quality '+(r.quality_score||90)+'</p>'+ 
 '</a>';}
-async function loadCrossGems(){try{var grid=document.getElementById('cross-gems-grid');if(!grid) return;var supa=window.supabase && window.supabase.createClient? (window.supabase.createClient? supabase : null) : null; // supabase client already created earlier
+async function loadCrossGems(){try{var grid=document.getElementById('cross-gems-grid');if(!grid) return;var supa=window.supabaseSingleton ? await window.supabaseSingleton.getClient() : null; if(!supa){console.warn('Supabase singleton not loaded');return;}
 // 1) fetch candidates (Q90+, cross-curricular subjects)
 var { data: candidates } = await supabase
   .from('graphrag_resources')

@@ -123,8 +123,11 @@
         const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
         
-        if (typeof window.supabase === 'undefined' || !window.supabase.from) {
-            window.supabase = (await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2')).createClient(SUPABASE_URL, SUPABASE_KEY);
+        // Use singleton pattern - supabase-singleton.js loaded in main HTML
+        const supabase = window.supabaseSingleton ? await window.supabaseSingleton.getClient() : null;
+        if (!supabase) {
+            console.warn('Supabase singleton not available');
+            return;
         }
 
         const subjectColors = {
