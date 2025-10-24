@@ -15,14 +15,20 @@ class MyKeteDatabase {
     
     async init() {
         // Initialize Supabase client
-        if (window.supabase) {
-            if (window.supabaseSingleton) {
-                this.supabase = await window.supabaseSingleton.getClient();
-            }
+        if (window.supabaseSingleton) {
+            this.supabase = await window.supabaseSingleton.getClient();
+        }
+        
+        // ✅ Check if supabase is ready before using
+        if (!this.supabase) {
+            console.warn('⚠️ Supabase not initialized, retrying...');
+            setTimeout(() => this.init(), 500);
+            return;
+        }
             
-            // Get current user
-            const { data: { user } } = await this.supabase.auth.getUser();
-            this.user = user;
+        // Get current user
+        const { data: { user } } = await this.supabase.auth.getUser();
+        this.user = user;
             
             // Migrate localStorage to database if user is logged in
             if (this.user) {

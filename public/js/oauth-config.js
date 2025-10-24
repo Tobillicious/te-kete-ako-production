@@ -6,6 +6,11 @@
 
 class TeKeteOAuth {
     constructor() {
+        this.supabase = null;
+        this.initAsync();
+    }
+    
+    async initAsync() {
         if (window.supabaseSingleton) {
             this.supabase = await window.supabaseSingleton.getClient();
         }

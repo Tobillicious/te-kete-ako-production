@@ -249,7 +249,11 @@ function showMessage(message, type = 'info') {
 }
 
 // Initialize when Supabase client is ready
-if (window.supabaseSingleton) {
-    supabaseClient = await window.supabaseSingleton.getClient();
-    initializeDashboard();
-}
+(async function() {
+    if (window.supabaseSingleton) {
+        supabaseClient = await window.supabaseSingleton.getClient();
+        if (supabaseClient) {
+            initializeDashboard();
+        }
+    }
+})();

@@ -26,6 +26,12 @@ async function initStudentDashboard() {
         supabase = await window.supabaseSingleton.getClient();
     }
     
+    // ✅ Check if supabase initialized
+    if (!supabase) {
+        showError('Unable to connect to database. Please refresh the page.');
+        return;
+    }
+    
     // Check authentication
     const { data: { session } } = await supabase.auth.getSession();
     
