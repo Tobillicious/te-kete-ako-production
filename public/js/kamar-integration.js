@@ -313,10 +313,7 @@ class TeKeteKAMAR {
 
     async syncAssessmentsToSupabase(assessments, schoolId) {
         try {
-            const supabase = window.supabase.createClient(
-                window.ENV.SUPABASE_URL,
-                window.ENV.SUPABASE_ANON_KEY
-            );
+            const supabase = await window.supabaseSingleton.getClient();
 
             for (const assessment of assessments) {
                 const assessmentData = {

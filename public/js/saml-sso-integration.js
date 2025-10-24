@@ -201,10 +201,7 @@ class TeKeteSSO {
     async createOrUpdateUser(attributes) {
         try {
             // Initialize Supabase
-            const supabase = window.supabase.createClient(
-                window.ENV.SUPABASE_URL,
-                window.ENV.SUPABASE_ANON_KEY
-            );
+            const supabase = await window.supabaseSingleton.getClient();
 
             // Check if user exists
             const { data: existingUser } = await supabase
@@ -279,10 +276,7 @@ class TeKeteSSO {
             };
 
             // Save school configuration
-            const supabase = window.supabase.createClient(
-                window.ENV.SUPABASE_URL,
-                window.ENV.SUPABASE_ANON_KEY
-            );
+            const supabase = await window.supabaseSingleton.getClient();
 
             const { error } = await supabase
                 .from('school_configurations')
@@ -313,10 +307,7 @@ class TeKeteSSO {
             const users = this.parseCSV(csvContent);
             
             // Import users to Supabase
-            const supabase = window.supabase.createClient(
-                window.ENV.SUPABASE_URL,
-                window.ENV.SUPABASE_ANON_KEY
-            );
+            const supabase = await window.supabaseSingleton.getClient();
 
             const { error } = await supabase
                 .from('profiles')
@@ -345,10 +336,7 @@ class TeKeteSSO {
 
     async updateUserRole(userId, newRole) {
         try {
-            const supabase = window.supabase.createClient(
-                window.ENV.SUPABASE_URL,
-                window.ENV.SUPABASE_ANON_KEY
-            );
+            const supabase = await window.supabaseSingleton.getClient();
 
             const { error } = await supabase
                 .from('profiles')
