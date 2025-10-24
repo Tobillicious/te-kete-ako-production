@@ -120,10 +120,7 @@ class TeKeteKAMAR {
 
     async syncStudentsToSupabase(students, schoolId) {
         try {
-            const supabase = window.supabase.createClient(
-                window.ENV.SUPABASE_URL,
-                window.ENV.SUPABASE_ANON_KEY
-            );
+            const supabase = await window.supabaseSingleton.getClient();
 
             for (const student of students) {
                 // Check if student exists
@@ -220,10 +217,7 @@ class TeKeteKAMAR {
 
     async syncClassesToSupabase(classes, schoolId) {
         try {
-            const supabase = window.supabase.createClient(
-                window.ENV.SUPABASE_URL,
-                window.ENV.SUPABASE_ANON_KEY
-            );
+            const supabase = await window.supabaseSingleton.getClient();
 
             for (const classData of classes) {
                 const classInfo = {
