@@ -481,8 +481,8 @@ class ComprehensivePlanningAnalyzer:
         with open(summary_file, 'w', encoding='utf-8') as f:
             f.write(summary)
 
-        print("
-📊 COMPREHENSIVE ANALYSIS SAVED:"        print(f"   • JSON data: {analysis_file}")
+        print("\n📊 COMPREHENSIVE ANALYSIS SAVED:")
+        print(f"   • JSON data: {analysis_file}")
         print(f"   • Summary report: {summary_file}")
 
     def create_analysis_summary(self):
