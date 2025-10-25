@@ -34,7 +34,6 @@ async function initSupabase() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         window.teKeteAuth.authState = 'error';
         return null;
     }
@@ -118,7 +117,6 @@ async function checkCurrentSession() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         authState = 'error';
         window.teKeteAuth.authState = 'error';
     }
@@ -157,7 +155,6 @@ async function signIn(email, password) {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         throw error;
     }
 }
@@ -183,7 +180,6 @@ async function signOut() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         throw error;
     }
 }
@@ -207,7 +203,6 @@ async function getCurrentUserToken() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         return null;
     }
 }
@@ -258,8 +253,7 @@ async function redirectByRole(user) {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            // Default redirect if profile not found
+        // Default redirect if profile not found
             window.location.href = '/getting-started.html';
             return;
         }
@@ -284,7 +278,6 @@ async function redirectByRole(user) {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         // Fallback to getting started
         window.location.href = '/getting-started.html';
     }

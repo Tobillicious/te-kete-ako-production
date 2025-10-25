@@ -69,7 +69,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');}ms`, {
+        }ms`, {
                         cacheKey,
                         resultCount: Array.isArray(result) ? result.length : 'N/A'
                     });

@@ -36,8 +36,7 @@ class GraphRAGConnectionCounter {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            setTimeout(() => this.init(), 500);
+        setTimeout(() => this.init(), 500);
         }
     }
 
@@ -67,8 +66,7 @@ class GraphRAGConnectionCounter {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                return null;
+        return null;
             }
 
             // Count by relationship type
@@ -101,8 +99,7 @@ class GraphRAGConnectionCounter {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return null;
+        return null;
         }
     }
 
@@ -121,8 +118,7 @@ class GraphRAGConnectionCounter {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return;
+        return;
         }
 
         // Show loading state
@@ -286,7 +282,7 @@ GraphRAGConnectionCounter.prototype.injectBadgesIfMissing = function(){
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2'); }
+        }
 };
 
 // Hook into init to inject before updating
@@ -307,7 +303,6 @@ GraphRAGConnectionCounter.prototype.init = async function(){
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         return;
     }
     

@@ -389,8 +389,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                }
+        }
             });
         }
     };
@@ -445,8 +444,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            // In production, you might want to send this to an error tracking service
+        // In production, you might want to send this to an error tracking service
         },
 
         handlePromiseRejection(event) {
@@ -459,8 +457,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            event.preventDefault();
+        event.preventDefault();
         }
     };
 
@@ -504,8 +501,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                    }
+        }
                 }
                 document.documentElement.setAttribute('data-badge-system-loaded', '1');
             })
@@ -519,8 +515,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            });
+        });
     }
 
     // =================================================================

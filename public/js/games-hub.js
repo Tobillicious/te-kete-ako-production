@@ -21,8 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                resourceGrid.textContent = '<p class="error-message">Could not load games. Please try again later.</p>';
+        resourceGrid.textContent = '<p class="error-message">Could not load games. Please try again later.</p>';
                 return;
             }
 
@@ -64,8 +63,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            resourceGrid.textContent = '<p class="error-message">An unexpected error occurred while loading games.</p>';
+        resourceGrid.textContent = '<p class="error-message">An unexpected error occurred while loading games.</p>';
         }
     }
 

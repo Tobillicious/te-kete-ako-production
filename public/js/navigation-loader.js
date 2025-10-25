@@ -61,7 +61,6 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
       })
       .catch(err => {
@@ -74,8 +73,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-      });
+        });
   }
   
   // Expose global function for pages to call

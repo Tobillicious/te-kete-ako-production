@@ -70,8 +70,7 @@ class GLMGraphRAGIntegration {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return { error: error.message };
+        return { error: error.message };
         }
     }
 
@@ -129,8 +128,7 @@ class GLMGraphRAGIntegration {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return { error: error.message };
+        return { error: error.message };
         }
     }
 
@@ -174,8 +172,7 @@ Respond in JSON format with keys: principles, whakatauki, integration_suggestion
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return { error: error.message };
+        return { error: error.message };
         }
     }
 
@@ -232,8 +229,7 @@ Respond in JSON format with actionable recommendations.
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return { error: error.message };
+        return { error: error.message };
         }
     }
 
@@ -298,8 +294,7 @@ Respond in JSON format with actionable recommendations.
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            throw error;
+        throw error;
         }
     }
 
@@ -487,8 +482,7 @@ Respond in JSON format with all sections clearly structured.
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return { success: false, error };
+        return { success: false, error };
         }
     }
 
@@ -526,8 +520,7 @@ Respond in JSON format with all sections clearly structured.
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return { success: false, error };
+        return { success: false, error };
         }
     }
 

@@ -90,8 +90,7 @@ self.addEventListener('install', event => {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                });
+        });
             }),
             
             // Skip waiting to activate immediately
@@ -158,8 +157,7 @@ self.addEventListener('fetch', event => {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                return handleOfflineRequest(request);
+        return handleOfflineRequest(request);
             })
     );
 });
@@ -386,8 +384,7 @@ async function doBackgroundSync() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-    }
+        }
 }
 
 /**

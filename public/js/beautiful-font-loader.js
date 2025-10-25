@@ -41,8 +41,7 @@ class BeautifulFontLoader {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.activateFallbackFonts();
+        this.activateFallbackFonts();
         }
     }
 
@@ -250,8 +249,7 @@ class BeautifulFontLoader {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return false;
+        return false;
         }
     }
 

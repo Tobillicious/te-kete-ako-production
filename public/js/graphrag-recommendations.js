@@ -123,8 +123,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return [];
+        return [];
         }
     }
 
@@ -177,8 +176,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                return [];
+        return [];
             }
 
             // Find resources with similar attributes
@@ -222,8 +220,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return [];
+        return [];
         }
     }
 
@@ -311,8 +308,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return [];
+        return [];
         }
     }
 

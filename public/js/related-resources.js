@@ -60,8 +60,7 @@ async function loadRelatedResources() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-    }
+        }
 }
 
 /**
@@ -121,7 +120,6 @@ async function loadRelatedLessons() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         container.innerHTML = '<div style="color: var(--color-neutral-500); font-size: 0.9rem;">Unable to load related lessons</div>';
     }
 }
@@ -176,7 +174,6 @@ async function loadRelatedHandouts() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         container.innerHTML = '<div style="color: var(--color-neutral-500); font-size: 0.9rem;">Unable to load related handouts</div>';
     }
 }
@@ -231,7 +228,6 @@ async function loadRelatedUnits() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         container.innerHTML = '<div style="color: var(--color-neutral-500); font-size: 0.9rem;">Unable to load related units</div>';
     }
 }
@@ -274,7 +270,6 @@ async function findBySimilarTags(tags, type, limit = 3) {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         return [];
     }
 }

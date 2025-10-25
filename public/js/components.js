@@ -278,8 +278,7 @@ function createComponent(type, options = {}) {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return component;
+        return component;
     }
 }
 

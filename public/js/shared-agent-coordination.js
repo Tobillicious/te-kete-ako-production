@@ -77,7 +77,6 @@ class AgentCoordinator {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         } catch (error) {
             // Log to monitoring instead of console
         if (window.posthog) {
@@ -88,7 +87,6 @@ class AgentCoordinator {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 
@@ -120,8 +118,7 @@ class AgentCoordinator {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return null;
+        return null;
         }
     }
 
@@ -136,8 +133,7 @@ class AgentCoordinator {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return;
+        return;
         }
 
         try {
@@ -179,7 +175,6 @@ class AgentCoordinator {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 
@@ -204,7 +199,6 @@ class AgentCoordinator {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         } catch (error) {
             // Log to monitoring instead of console
         if (window.posthog) {
@@ -215,7 +209,6 @@ class AgentCoordinator {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 
@@ -241,8 +234,7 @@ class AgentCoordinator {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return [];
+        return [];
         }
     }
 
@@ -269,8 +261,7 @@ class AgentCoordinator {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return [];
+        return [];
         }
     }
 
@@ -295,8 +286,7 @@ class AgentCoordinator {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                return {
+        return {
                     hasConflict: true,
                     conflictingAgent: data[0].agent_name,
                     conflictingTask: data[0].task_claimed
@@ -314,8 +304,7 @@ class AgentCoordinator {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return { hasConflict: false };
+        return { hasConflict: false };
         }
     }
 
@@ -345,7 +334,6 @@ class AgentCoordinator {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 
@@ -377,8 +365,7 @@ class AgentCoordinator {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return [];
+        return [];
         }
     }
 
@@ -404,8 +391,7 @@ class AgentCoordinator {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            }
+        }
         }, 30000);
     }
 
@@ -432,7 +418,6 @@ class AgentCoordinator {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 
@@ -463,8 +448,7 @@ class AgentCoordinator {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return null;
+        return null;
         }
     }
 }

@@ -151,8 +151,7 @@ class TeKeteBulkOperations {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.hideProgress();
+        this.hideProgress();
             this.showError('Failed to import users. Please check the CSV format.');
         }
     }
@@ -187,8 +186,7 @@ class TeKeteBulkOperations {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            throw error;
+        throw error;
         }
     }
 
@@ -235,8 +233,7 @@ class TeKeteBulkOperations {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.hideProgress();
+        this.hideProgress();
             this.showError('Failed to assign resources. Please try again.');
         }
     }
@@ -263,8 +260,7 @@ class TeKeteBulkOperations {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            throw error;
+        throw error;
         }
     }
 
@@ -305,8 +301,7 @@ class TeKeteBulkOperations {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.hideProgress();
+        this.hideProgress();
             this.showError('Failed to update roles. Please try again.');
         }
     }
@@ -330,8 +325,7 @@ class TeKeteBulkOperations {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            throw error;
+        throw error;
         }
     }
 
@@ -380,8 +374,7 @@ class TeKeteBulkOperations {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.hideProgress();
+        this.hideProgress();
             this.showError('Failed to execute operation. Please try again.');
         }
     }
@@ -442,8 +435,7 @@ class TeKeteBulkOperations {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            throw error;
+        throw error;
         }
     }
 
@@ -466,8 +458,7 @@ class TeKeteBulkOperations {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            throw error;
+        throw error;
         }
     }
 

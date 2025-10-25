@@ -100,8 +100,7 @@ class TeKeteKAMAR {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.showError('Failed to sync students. Please try again.');
+        this.showError('Failed to sync students. Please try again.');
         }
     }
 
@@ -131,8 +130,7 @@ class TeKeteKAMAR {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            throw error;
+        throw error;
         }
     }
 
@@ -184,8 +182,7 @@ class TeKeteKAMAR {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            throw error;
+        throw error;
         }
     }
 
@@ -224,8 +221,7 @@ class TeKeteKAMAR {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.showError('Failed to sync classes. Please try again.');
+        this.showError('Failed to sync classes. Please try again.');
         }
     }
 
@@ -255,8 +251,7 @@ class TeKeteKAMAR {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            throw error;
+        throw error;
         }
     }
 
@@ -307,8 +302,7 @@ class TeKeteKAMAR {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            throw error;
+        throw error;
         }
     }
 
@@ -347,8 +341,7 @@ class TeKeteKAMAR {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.showError('Failed to sync assessments. Please try again.');
+        this.showError('Failed to sync assessments. Please try again.');
         }
     }
 
@@ -378,8 +371,7 @@ class TeKeteKAMAR {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            throw error;
+        throw error;
         }
     }
 
@@ -430,8 +422,7 @@ class TeKeteKAMAR {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            throw error;
+        throw error;
         }
     }
 
@@ -480,7 +471,6 @@ class TeKeteKAMAR {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 
@@ -510,8 +500,7 @@ class TeKeteKAMAR {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return null;
+        return null;
         }
     }
 
@@ -558,8 +547,7 @@ class TeKeteKAMAR {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.showError('Failed to export KAMAR data. Please try again.');
+        this.showError('Failed to export KAMAR data. Please try again.');
         }
     }
 

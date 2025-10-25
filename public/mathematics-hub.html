@@ -145,8 +145,7 @@ Searchable & Ready</div>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return;
+        return;
           }
           const { count: totalCount, error: e1 } = await window.supabase.from('graphrag_resources').select('id', { count: 'exact', head: true }).eq('canonical_subject', 'Mathematics');
           if (e1) throw e1;
@@ -170,7 +169,7 @@ Searchable & Ready</div>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2'); }
+        }
       });
     </script>
 
@@ -245,8 +244,7 @@ Searchable & Ready</div>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                // Fallback to direct query
+        // Fallback to direct query
                 const { data: relationships, error: relError } = await window.supabase
                     .from('graphrag_relationships')
                     .select('source_path')
@@ -290,8 +288,7 @@ Searchable & Ready</div>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            document.getElementById('most-connected-math').innerHTML = '<div class="text-center text-slate-500">Unable to load connections at this time.</div>';
+        document.getElementById('most-connected-math').innerHTML = '<div class="text-center text-slate-500">Unable to load connections at this time.</div>';
         }
 
         function displayMostConnected(resources, connectionCounts = {}) {
@@ -1046,7 +1043,7 @@ Learn More →</a>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');return;}const grid=document.getElementById('math-orphans');if(grid){grid.innerHTML=(data||[]).map(r=>('<a href="'+r.file_path+'" style="background:white;padding:1rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 12px rgba(0,0,0,0.06);border-top:4px solid #4f46e5;display:block;">'+'<h3 style="color:#1f2937;margin:0 0 0.5rem 0;font-size:1rem;font-weight:700;">'+(r.title||'Untitled')+'</h3>'+'<div style="color:#6b7280;font-size:0.85rem;">'+(r.resource_type||'Resource')+(r.quality_score?(' • ⭐ '+r.quality_score):'')+'</div>'+'</a>')).join('');}} catch(e){// Log to monitoring instead of console
+        return;}const grid=document.getElementById('math-orphans');if(grid){grid.innerHTML=(data||[]).map(r=>('<a href="'+r.file_path+'" style="background:white;padding:1rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 12px rgba(0,0,0,0.06);border-top:4px solid #4f46e5;display:block;">'+'<h3 style="color:#1f2937;margin:0 0 0.5rem 0;font-size:1rem;font-weight:700;">'+(r.title||'Untitled')+'</h3>'+'<div style="color:#6b7280;font-size:0.85rem;">'+(r.resource_type||'Resource')+(r.quality_score?(' • ⭐ '+r.quality_score):'')+'</div>'+'</a>')).join('');}} catch(e){// Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
                 message: '$2',
@@ -1055,7 +1052,7 @@ Learn More →</a>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');}});</script>
+        }});</script>
         <!-- Cross-Subject Connections (GraphRAG Intelligence) -->
         <section style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); padding: 3rem 2rem; border-radius: 16px; margin: 3rem 0; border: 2px solid #3b82f6;">
             <div style="text-align: center; margin-bottom: 2rem;">
@@ -1171,7 +1168,7 @@ Learn More →</a>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2'); return; }
+        return; }
               const grid = document.getElementById('math-orphans');
               if (grid) {
                 grid.innerHTML = (data||[]).map(r => (
@@ -1190,7 +1187,7 @@ Learn More →</a>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2'); }
+        }
           });
         </script>
         <!-- Canonical Subject Chips (Live) -->
@@ -1216,7 +1213,7 @@ Learn More →</a>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2'); return; }
+        return; }
               const order = ['Mathematics','Science','English','Social Studies','Digital Technologies','Te Ao Māori','Arts','Health & PE','Languages','Cross-Curricular','Platform Infrastructure'];
               const sorted = (records||[]).slice().sort((a,b)=>order.indexOf(a.canonical_subject)-order.indexOf(b.canonical_subject));
               const grid = document.getElementById('subject-chips');
@@ -1237,7 +1234,7 @@ Learn More →</a>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2'); }
+        }
           });
         </script>
         <!-- Quick Start: Teacher Picks -->
@@ -1368,8 +1365,7 @@ Contact Us</a>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return;
+        return;
         }        async function loadGraphRAGMathematics() {            try {                console.log('🧮 Loading Mathematics from GraphRAG Knowledge Graph...');                // Query GraphRAG for mathematics resources                const { data: mathData, error, count } = await supabase                    .from('graphrag_resources')                    .select('*', { count: 'exact' })                    .or('subject.ilike.%math%,subject.ilike.%algebra%,subject.ilike.%geometry%,subject.ilike.%calculus%')                    .order('quality_score', { ascending: false })                    .limit(100);                if (error) {                    // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
@@ -1379,7 +1375,7 @@ Contact Us</a>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');                    return;                }                const totalCount = count || mathData.length;                const culturalCount = mathData.filter(r => r.cultural_context).length;                const teReoCount = mathData.filter(r => r.has_te_reo).length;                const avgQuality = mathData.reduce((sum, r) => sum + (r.quality_score || 0), 0) / mathData.length;                // Update UI                const countEl = document.getElementById('math-resource-count');                const culturalEl = document.getElementById('math-cultural-count');                const teReoEl = document.getElementById('math-te-reo-count');                const qualityEl = document.getElementById('math-quality-avg');                if (countEl) countEl.textContent = totalCount.toLocaleString();                if (culturalEl) culturalEl.textContent = culturalCount.toLocaleString();                if (teReoEl) teReoEl.textContent = teReoCount.toLocaleString();                if (qualityEl) qualityEl.textContent = avgQuality.toFixed(1);                // Console success                // User feedback provided via UI                console.log(`   📊 Total Math Resources: ${totalCount.toLocaleString()}`);                console.log(`   🌿 Cultural Integration: ${culturalCount} (${Math.round(culturalCount/totalCount*100)}%)`);                console.log(`   🗣️ With Te Reo: ${teReoCount} (${Math.round(teReoCount/totalCount*100)}%)`);                console.log(`   ⭐ Average Quality: ${avgQuality.toFixed(1)}/100`);                console.log(`   🧠 Knowledge Graph: 19,771 resources × 238,253 relationships`);            } catch (error) {                // Log to monitoring instead of console
+        return;                }                const totalCount = count || mathData.length;                const culturalCount = mathData.filter(r => r.cultural_context).length;                const teReoCount = mathData.filter(r => r.has_te_reo).length;                const avgQuality = mathData.reduce((sum, r) => sum + (r.quality_score || 0), 0) / mathData.length;                // Update UI                const countEl = document.getElementById('math-resource-count');                const culturalEl = document.getElementById('math-cultural-count');                const teReoEl = document.getElementById('math-te-reo-count');                const qualityEl = document.getElementById('math-quality-avg');                if (countEl) countEl.textContent = totalCount.toLocaleString();                if (culturalEl) culturalEl.textContent = culturalCount.toLocaleString();                if (teReoEl) teReoEl.textContent = teReoCount.toLocaleString();                if (qualityEl) qualityEl.textContent = avgQuality.toFixed(1);                // Console success                // User feedback provided via UI                console.log(`   📊 Total Math Resources: ${totalCount.toLocaleString()}`);                console.log(`   🌿 Cultural Integration: ${culturalCount} (${Math.round(culturalCount/totalCount*100)}%)`);                console.log(`   🗣️ With Te Reo: ${teReoCount} (${Math.round(teReoCount/totalCount*100)}%)`);                console.log(`   ⭐ Average Quality: ${avgQuality.toFixed(1)}/100`);                console.log(`   🧠 Knowledge Graph: 19,771 resources × 238,253 relationships`);            } catch (error) {                // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
                 message: '$2',
@@ -1388,7 +1384,7 @@ Contact Us</a>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');            }        }        document.addEventListener('DOMContentLoaded', loadGraphRAGMathematics);    </script>
+        }        }        document.addEventListener('DOMContentLoaded', loadGraphRAGMathematics);    </script>
     <script src="/js/enhanced-search.js"></script>
     <script>        async function loadMathResources() {            const search = new EnhancedSearch();            const resources = await search.search('', { subject: 'Mathematics' });            renderResources(resources);        }        function renderResources(resources) {            const grid = document.getElementById('resources-grid');            const html = resources.map(r => `                <a href="${r.path}" class="resource-card">
                     <h3>
@@ -1416,7 +1412,7 @@ Loading resources...</p>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');            }        }        document.addEventListener('DOMContentLoaded', loadMathResources);    </script>
+        }        }        document.addEventListener('DOMContentLoaded', loadMathResources);    </script>
     <!-- Cultural Excellence Network (GraphRAG Intelligence: Orphaned Treasures) -->
     <section style="max-width: 1200px; margin: 4rem auto; padding: 0 2rem;">
         <div style="background: linear-gradient(135deg, #059669, #047857); padding: 3rem; border-radius: 20px; margin-bottom: 3rem; position: relative; overflow: hidden;">
@@ -1529,7 +1525,7 @@ Perfect for:</strong>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');}})();
+        }})();
 <!-- PARALLEL COMPONENT LOADING - No more 2-3s delay! -->
 <script>
     // Load all components in parallel for instant page display
@@ -1549,8 +1545,7 @@ Perfect for:</strong>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            })
+        })
             .catch(err => // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
@@ -1560,7 +1555,7 @@ Perfect for:</strong>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');),
+        ,
 
         fetch('/components/see-also-cross-curricular.html')
             .then(r => r.text())
@@ -1576,8 +1571,7 @@ Perfect for:</strong>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            })
+        })
             .catch(err => // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
@@ -1587,7 +1581,7 @@ Perfect for:</strong>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');),
+        ,
 
         fetch('/components/graphrag-live-recommendations.html')
             .then(r => r.text())
@@ -1603,8 +1597,7 @@ Perfect for:</strong>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            })
+        })
             .catch(err => // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
@@ -1614,7 +1607,7 @@ Perfect for:</strong>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');),
+        ,
 
         fetch('/components/graphrag-recommendations.html')
             .then(r => r.text())
@@ -1630,8 +1623,7 @@ Perfect for:</strong>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            })
+        })
             .catch(err => // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
@@ -1641,7 +1633,7 @@ Perfect for:</strong>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');),
+        ,
 
         fetch('/components/graphrag-dynamic-resource-browser.html')
             .then(r => r.text())
@@ -1657,8 +1649,7 @@ Perfect for:</strong>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            })
+        })
             .catch(err => // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
@@ -1668,7 +1659,7 @@ Perfect for:</strong>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');),
+        ,
 
         fetch('/components/see-also-cross-curricular.html')
             .then(r => r.text())
@@ -1684,8 +1675,7 @@ Perfect for:</strong>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            })
+        })
             .catch(err => // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
@@ -1695,7 +1685,7 @@ Perfect for:</strong>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');)
+        
     ]).then(() => {
         // All components loaded successfully!
         // User feedback provided via UI
@@ -1709,8 +1699,7 @@ Perfect for:</strong>
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-    });
+        });
 </script>
 </body>
 </html>

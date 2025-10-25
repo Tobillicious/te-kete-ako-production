@@ -60,8 +60,7 @@ class YouTubeEducationalLibrary {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.apiKey = null;
+        this.apiKey = null;
         }
     }
 
@@ -1194,8 +1193,7 @@ class YouTubeEducationalLibrary {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return null;
+        return null;
         }
     }
 
@@ -1218,8 +1216,7 @@ class YouTubeEducationalLibrary {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return [];
+        return [];
         }
     }
 }

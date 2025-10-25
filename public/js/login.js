@@ -80,8 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                showMessage(error.message || 'Login failed. Please check your credentials.', 'error');
+        showMessage(error.message || 'Login failed. Please check your credentials.', 'error');
                 
                 if (loginBtn) {
                     loginBtn.disabled = false;
@@ -126,7 +125,6 @@ async function redirectByRole(userId) {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         // Fallback to homepage
         window.location.href = '/';
     }
@@ -184,7 +182,6 @@ async function resetPassword() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         alert('Error sending password reset email. Please try again.');
     }
 }

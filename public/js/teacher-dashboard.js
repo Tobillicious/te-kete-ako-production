@@ -67,7 +67,6 @@ async function initializeDashboard() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         showError('Error loading dashboard. Please refresh the page.');
     }
 }
@@ -132,8 +131,7 @@ async function loadClasses(teacherId) {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-    }
+        }
 }
 
 /**
@@ -231,8 +229,7 @@ async function loadResourceLibrary(profile) {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-    }
+        }
 }
 
 /**
@@ -337,7 +334,6 @@ async function logout() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         alert('Error logging out. Please try again.');
     }
 }

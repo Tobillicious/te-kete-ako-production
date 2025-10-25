@@ -345,8 +345,7 @@ class RealityAuditSystem {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                throw new Error(`HTTP ${response.status}`);
+        throw new Error(`HTTP ${response.status}`);
             }
         } catch (error) {
             // Log to monitoring instead of console
@@ -358,9 +357,7 @@ class RealityAuditSystem {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            
-            // Fallback to local storage
+        // Fallback to local storage
             const auditHistory = JSON.parse(localStorage.getItem('kaitiaki-audit-history') || '[]');
             auditHistory.push(auditReport);
             if (auditHistory.length > 10) auditHistory.shift();
@@ -502,8 +499,7 @@ window.addEventListener('kaitiaki-audit-complete', (event) => {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-    }
+        }
     
     if (report.pageHealth.jsErrors.length > 0) {
         // Log to monitoring instead of console
@@ -515,8 +511,7 @@ window.addEventListener('kaitiaki-audit-complete', (event) => {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-    }
+        }
     
     if (!report.designSystem.culturalComponentsActive) {
         // Log to monitoring instead of console
@@ -528,7 +523,6 @@ window.addEventListener('kaitiaki-audit-complete', (event) => {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-    }
+        }
 });
 

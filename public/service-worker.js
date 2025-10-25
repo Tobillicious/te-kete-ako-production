@@ -59,8 +59,7 @@ self.addEventListener('install', (event) => {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                            return null; // Continue with other assets
+        return null; // Continue with other assets
                         })
                     )
                 );
@@ -76,8 +75,7 @@ self.addEventListener('install', (event) => {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            })
+        })
     );
 });
 

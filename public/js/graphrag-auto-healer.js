@@ -134,8 +134,7 @@ class GraphRAGAutoHealer {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.logEvent('Healing cycle error', { error: error.message });
+        this.logEvent('Healing cycle error', { error: error.message });
             return { error: error.message };
         }
     }
@@ -210,8 +209,7 @@ class GraphRAGAutoHealer {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return [];
+        return [];
         }
     }
 
@@ -287,8 +285,7 @@ class GraphRAGAutoHealer {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return { error: error.message };
+        return { error: error.message };
         }
     }
 
@@ -322,7 +319,6 @@ class GraphRAGAutoHealer {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 

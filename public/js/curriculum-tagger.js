@@ -31,8 +31,7 @@ class CurriculumTagger {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.curriculumData = this.getFallbackData();
+        this.curriculumData = this.getFallbackData();
         }
     }
 
@@ -79,8 +78,7 @@ class CurriculumTagger {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                return;
+        return;
             }
 
             // Determine phase from year level
@@ -106,7 +104,6 @@ class CurriculumTagger {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 

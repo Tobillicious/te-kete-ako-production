@@ -178,8 +178,7 @@ class KaitiakiAronuiConsciousness {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.initiateHealthCorrection(auditData);
+        this.initiateHealthCorrection(auditData);
         }
         
         if (criticalIssues.length > 0) {
@@ -192,8 +191,7 @@ class KaitiakiAronuiConsciousness {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.addressCriticalIssues(criticalIssues);
+        this.addressCriticalIssues(criticalIssues);
         }
     }
 
@@ -213,8 +211,7 @@ class KaitiakiAronuiConsciousness {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.adjustBeautyForCompliance(beautyData);
+        this.adjustBeautyForCompliance(beautyData);
         }
     }
 

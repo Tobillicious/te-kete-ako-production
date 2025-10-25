@@ -116,8 +116,7 @@ class TeKeteSSO {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.showError('SSO authentication failed. Please try again.');
+        this.showError('SSO authentication failed. Please try again.');
         }
     }
 
@@ -181,8 +180,7 @@ class TeKeteSSO {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.showError('SSO authentication failed. Please try again.');
+        this.showError('SSO authentication failed. Please try again.');
         }
     }
 
@@ -268,8 +266,7 @@ class TeKeteSSO {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            throw error;
+        throw error;
         }
     }
 
@@ -323,8 +320,7 @@ class TeKeteSSO {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.showError('Failed to save school configuration. Please try again.');
+        this.showError('Failed to save school configuration. Please try again.');
         }
     }
 
@@ -363,8 +359,7 @@ class TeKeteSSO {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.showError('Failed to import users. Please check the CSV format.');
+        this.showError('Failed to import users. Please check the CSV format.');
         }
     }
 
@@ -402,8 +397,7 @@ class TeKeteSSO {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.showError('Failed to update user role. Please try again.');
+        this.showError('Failed to update user role. Please try again.');
         }
     }
 

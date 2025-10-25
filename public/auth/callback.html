@@ -71,7 +71,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');            document.getElementById('loading-state').style.display = 'none';            const errorState = document.getElementById('error-state');            errorState.classList.add('show');            document.getElementById('error-message').textContent = message;        }        // Helper function: Get dashboard URL based on user role        async function getUserDashboardUrl(user) {            if (!user) return '/getting-started.html';            try {                console.log('🔍 Fetching user profile for:', user.email);                // Query profiles table for user role                const { data: profile, error } = await supabaseClient                    .from('profiles')                    .select('role')                    .eq('user_id', user.id)                    .single();                if (error) {                    // Log to monitoring instead of console
+        document.getElementById('loading-state').style.display = 'none';            const errorState = document.getElementById('error-state');            errorState.classList.add('show');            document.getElementById('error-message').textContent = message;        }        // Helper function: Get dashboard URL based on user role        async function getUserDashboardUrl(user) {            if (!user) return '/getting-started.html';            try {                console.log('🔍 Fetching user profile for:', user.email);                // Query profiles table for user role                const { data: profile, error } = await supabaseClient                    .from('profiles')                    .select('role')                    .eq('user_id', user.id)                    .single();                if (error) {                    // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
                 message: '$2',
@@ -80,7 +80,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');                    return '/getting-started.html'; // Default for new users                }                if (!profile) {                    // Log to monitoring instead of console
+        return '/getting-started.html'; // Default for new users                }                if (!profile) {                    // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
                 message: '$2',
@@ -89,7 +89,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');                    return '/getting-started.html';                }                console.log('✅ User role:', profile.role);                // Route by role                if (profile.role === 'teacher') return '/teacher-dashboard-unified.html';                if (profile.role === 'student') return '/student-dashboard.html';                if (profile.role === 'admin') return '/admin-dashboard.html';                return '/getting-started.html'; // Fallback            } catch (err) {                // Log to monitoring instead of console
+        return '/getting-started.html';                }                console.log('✅ User role:', profile.role);                // Route by role                if (profile.role === 'teacher') return '/teacher-dashboard-unified.html';                if (profile.role === 'student') return '/student-dashboard.html';                if (profile.role === 'admin') return '/admin-dashboard.html';                return '/getting-started.html'; // Fallback            } catch (err) {                // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
                 message: '$2',
@@ -98,7 +98,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');                return '/getting-started.html';            }        }        // Handle OAuth callback        async function handleOAuthCallback() {            try {                console.log('🔐 Processing OAuth callback...');                // Supabase automatically handles the OAuth callback via URL parameters                // Just need to get the session                const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();                if (sessionError) {                    // Log to monitoring instead of console
+        return '/getting-started.html';            }        }        // Handle OAuth callback        async function handleOAuthCallback() {            try {                console.log('🔐 Processing OAuth callback...');                // Supabase automatically handles the OAuth callback via URL parameters                // Just need to get the session                const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();                if (sessionError) {                    // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
                 message: '$2',
@@ -107,7 +107,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');                    showError(`Authentication failed: ${sessionError.message}`);                    return;                }                if (!session || !session.user) {                    // Log to monitoring instead of console
+        showError(`Authentication failed: ${sessionError.message}`);                    return;                }                if (!session || !session.user) {                    // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
                 message: '$2',
@@ -116,7 +116,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');                    showError('No authentication session found. Please try signing in again.');                    setTimeout(() => {                        window.location.href = '/login.html';                    }, 3000);                    return;                }                // User feedback provided via UI                console.log('👤 User:', session.user.email);                console.log('🔑 Provider:', session.user.app_metadata?.provider || 'unknown');                // Get appropriate dashboard for user                const dashboardUrl = await getUserDashboardUrl(session.user);                console.log(`🚀 Redirecting to: ${dashboardUrl}`);                // Small delay for user to see "Signing you in..." message                setTimeout(() => {                    window.location.href = dashboardUrl;                }, 800);            } catch (error) {                // Log to monitoring instead of console
+        showError('No authentication session found. Please try signing in again.');                    setTimeout(() => {                        window.location.href = '/login.html';                    }, 3000);                    return;                }                // User feedback provided via UI                console.log('👤 User:', session.user.email);                console.log('🔑 Provider:', session.user.app_metadata?.provider || 'unknown');                // Get appropriate dashboard for user                const dashboardUrl = await getUserDashboardUrl(session.user);                console.log(`🚀 Redirecting to: ${dashboardUrl}`);                // Small delay for user to see "Signing you in..." message                setTimeout(() => {                    window.location.href = dashboardUrl;                }, 800);            } catch (error) {                // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
                 message: '$2',
@@ -125,4 +125,4 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');                showError(`An unexpected error occurred: ${error.message}`);                setTimeout(() => {                    window.location.href = '/login.html';                }, 5000);            }        }        // Execute on page load        console.log('🚀 Starting OAuth callback handler...');        handleOAuthCallback();    </script>    <!-- 📊 ULTIMATE BEAUTY: PostHog Analytics (Privacy-First) -->    <script src="/js/posthog-analytics.js" defer></script></body></html>
+        showError(`An unexpected error occurred: ${error.message}`);                setTimeout(() => {                    window.location.href = '/login.html';                }, 5000);            }        }        // Execute on page load        console.log('🚀 Starting OAuth callback handler...');        handleOAuthCallback();    </script>    <!-- 📊 ULTIMATE BEAUTY: PostHog Analytics (Privacy-First) -->    <script src="/js/posthog-analytics.js" defer></script></body></html>

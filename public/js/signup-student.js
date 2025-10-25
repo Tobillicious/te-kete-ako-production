@@ -272,7 +272,6 @@ async function handleSubmit(e) {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         showMessage(`Error: ${error.message}`, 'error');
         
         submitBtn.disabled = false;

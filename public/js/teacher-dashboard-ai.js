@@ -94,7 +94,6 @@ async function generateLessonPlan() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         displayResult('Error', 'Unable to generate lesson plan. Please try again later.', null);
     } finally {
         loading.classList.remove('show');
@@ -148,7 +147,6 @@ Focus on respectful, authentic integration of mātauranga Māori.`;
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         displayResult('Error', 'Unable to analyze cultural integration. Please try again later.', null);
     } finally {
         loading.classList.remove('show');
@@ -192,7 +190,6 @@ async function generateAssessment() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         displayResult('Error', 'Unable to generate assessment. Please try again later.', null);
     } finally {
         loading.classList.remove('show');
@@ -243,7 +240,6 @@ async function searchResources() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         resultsContainer.innerHTML = '<div style="text-align: center; color: var(--error-red); padding: 2rem;">Search error. Please try again.</div>';
     } finally {
         loading.classList.remove('show');

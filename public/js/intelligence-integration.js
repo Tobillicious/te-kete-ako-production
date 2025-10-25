@@ -51,7 +51,6 @@ class IntelligenceIntegration {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 
@@ -135,7 +134,6 @@ class IntelligenceIntegration {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 
@@ -165,7 +163,6 @@ class IntelligenceIntegration {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 
@@ -197,7 +194,6 @@ class IntelligenceIntegration {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 
@@ -229,7 +225,6 @@ class IntelligenceIntegration {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 
@@ -255,8 +250,7 @@ class IntelligenceIntegration {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            }
+        }
         }
 
         // Extract from URL

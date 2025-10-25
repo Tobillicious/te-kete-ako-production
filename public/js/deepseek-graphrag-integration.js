@@ -249,7 +249,7 @@ Make it engaging, achievable, and culturally responsive.`;
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');:`, error.message);
+        :`, error.message);
                 await this.delay(1000 * Math.pow(2, retryCount)); // Exponential backoff
                 return this.makeRequest(url, body, retryCount + 1);
             }
@@ -296,8 +296,7 @@ Make it engaging, achievable, and culturally responsive.`;
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                }
+        }
             });
         }
     }

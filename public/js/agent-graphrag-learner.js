@@ -28,8 +28,7 @@ class AgentGraphRAGLearner {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return false;
+        return false;
         }
         
         this.supabase = await window.supabaseSingleton.getClient();
@@ -54,8 +53,7 @@ class AgentGraphRAGLearner {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return null;
+        return null;
         }
         
         try {
@@ -96,8 +94,7 @@ class AgentGraphRAGLearner {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                return null;
+        return null;
             }
             
             return data;
@@ -112,8 +109,7 @@ class AgentGraphRAGLearner {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return null;
+        return null;
         }
     }
     
@@ -131,8 +127,7 @@ class AgentGraphRAGLearner {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return null;
+        return null;
         }
         
         try {
@@ -168,8 +163,7 @@ class AgentGraphRAGLearner {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                return null;
+        return null;
             }
             
             return data;
@@ -184,8 +178,7 @@ class AgentGraphRAGLearner {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return null;
+        return null;
         }
     }
     
@@ -262,8 +255,7 @@ class AgentGraphRAGLearner {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                return [];
+        return [];
             }
             
             return data;
@@ -278,8 +270,7 @@ class AgentGraphRAGLearner {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return [];
+        return [];
         }
     }
     
@@ -324,8 +315,7 @@ class AgentGraphRAGLearner {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                return null;
+        return null;
             }
             
             return data;
@@ -340,8 +330,7 @@ class AgentGraphRAGLearner {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return null;
+        return null;
         }
     }
     
@@ -378,8 +367,7 @@ class AgentGraphRAGLearner {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return { resources: 0, relationships: 0 };
+        return { resources: 0, relationships: 0 };
         }
     }
 }

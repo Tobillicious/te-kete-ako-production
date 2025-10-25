@@ -86,8 +86,7 @@ class AdaptivePathwayGenerator {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return { error: error.message };
+        return { error: error.message };
         }
     }
 
@@ -143,8 +142,7 @@ class AdaptivePathwayGenerator {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return [];
+        return [];
         }
     }
 
@@ -386,8 +384,7 @@ class AdaptivePathwayGenerator {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return { success: false, error };
+        return { success: false, error };
         }
     }
 }

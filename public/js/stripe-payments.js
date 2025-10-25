@@ -169,8 +169,7 @@ class TeKeteStripe {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.showError('Unable to process payment. Please try again.');
+        this.showError('Unable to process payment. Please try again.');
         }
     }
 
@@ -216,8 +215,7 @@ class TeKeteStripe {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.showError('Unable to process school subscription. Please try again.');
+        this.showError('Unable to process school subscription. Please try again.');
         }
     }
 
@@ -262,8 +260,7 @@ class TeKeteStripe {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.showError('Unable to process premium features. Please try again.');
+        this.showError('Unable to process premium features. Please try again.');
         }
     }
 

@@ -64,7 +64,6 @@ class MasterIntelligenceHub {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 
@@ -99,7 +98,6 @@ class MasterIntelligenceHub {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 
@@ -182,8 +180,7 @@ class MasterIntelligenceHub {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            guidance.approved = false;
+        guidance.approved = false;
             guidance.reasoning.push('Error in guidance system');
             return guidance;
         }
@@ -244,8 +241,7 @@ class MasterIntelligenceHub {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return recommendations;
+        return recommendations;
         }
     }
 
@@ -360,8 +356,7 @@ class MasterIntelligenceHub {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return { success: false, error };
+        return { success: false, error };
         }
     }
 
@@ -389,7 +384,6 @@ class MasterIntelligenceHub {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 

@@ -68,7 +68,6 @@ class PerformanceCacheManager {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 
@@ -144,8 +143,7 @@ class PerformanceCacheManager {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return { compressed: false, data: JSON.stringify(data) };
+        return { compressed: false, data: JSON.stringify(data) };
         }
     }
 
@@ -189,8 +187,7 @@ class PerformanceCacheManager {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            throw error;
+        throw error;
         }
     }
 
@@ -236,7 +233,6 @@ class PerformanceCacheManager {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 
@@ -289,8 +285,7 @@ class PerformanceCacheManager {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.cache.delete(cacheKey);
+        this.cache.delete(cacheKey);
             this.accessTimes.delete(cacheKey);
             return null;
         }
@@ -343,7 +338,6 @@ class PerformanceCacheManager {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 

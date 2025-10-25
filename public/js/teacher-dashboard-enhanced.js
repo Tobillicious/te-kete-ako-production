@@ -44,7 +44,6 @@ async function initializeDashboard() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         showMessage('Access denied. Teachers only.', 'error');
         setTimeout(() => {
             window.location.href = '/login.html';
@@ -141,7 +140,6 @@ async function loadTeacherStats() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         statsEl.innerHTML = '<p style="color: var(--color-error);">Unable to load statistics</p>';
     }
 }
@@ -201,7 +199,6 @@ async function loadRecommendedResources() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         resourcesEl.innerHTML = '<p style="color: var(--color-error);">Unable to load resources</p>';
     }
 }

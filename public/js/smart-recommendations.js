@@ -105,8 +105,7 @@ class SmartRecommendations {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return this.getPopularResources(limit);
+        return this.getPopularResources(limit);
         }
     }
 

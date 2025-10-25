@@ -1718,8 +1718,7 @@ class MaoriDictionaryAPI {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            }
+        }
         }
 
         // CULTURAL SAFETY: No fallback to pattern validation
@@ -1780,8 +1779,7 @@ class MaoriDictionaryAPI {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            }
+        }
         }
 
         return null;
@@ -1839,7 +1837,6 @@ class MaoriDictionaryAPI {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         return false; // Always return false - only authentic dictionary words allowed
     }
 

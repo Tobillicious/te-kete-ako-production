@@ -246,8 +246,7 @@ class TeachingVariantsSynthesizer {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return { variants: [], error: error.message };
+        return { variants: [], error: error.message };
         }
     }
 
@@ -279,7 +278,6 @@ class TeachingVariantsSynthesizer {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 }

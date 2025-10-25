@@ -88,7 +88,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');return;}const { data, error } = await window.supabase.from('graphrag_orphans').select('file_path,title,quality_score,resource_type').eq('canonical_subject','Digital Technologies').order('quality_score',{ascending:false}).limit(12);if(error){// Log to monitoring instead of console
+        return;}const { data, error } = await window.supabase.from('graphrag_orphans').select('file_path,title,quality_score,resource_type').eq('canonical_subject','Digital Technologies').order('quality_score',{ascending:false}).limit(12);if(error){// Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
                 message: '$2',
@@ -97,7 +97,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');return;}const grid=document.getElementById('digitech-orphans');if(grid){grid.innerHTML=(data||[]).map(r=>('<a href="'+r.file_path+'" style="background:white;padding:1rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 12px rgba(0,0,0,0.06);border-top:4px solid #4f46e5;display:block;">'+'<h3 style="color:#1f2937;margin:0 0 0.5rem 0;font-size:1rem;font-weight:700;">'+(r.title||'Untitled')+'</h3>'+'<div style="color:#6b7280;font-size:0.85rem;">'+(r.resource_type||'Resource')+(r.quality_score?(' • ⭐ '+r.quality_score):'')+'</div>'+'</a>')).join('');}} catch(e){// Log to monitoring instead of console
+        return;}const grid=document.getElementById('digitech-orphans');if(grid){grid.innerHTML=(data||[]).map(r=>('<a href="'+r.file_path+'" style="background:white;padding:1rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 12px rgba(0,0,0,0.06);border-top:4px solid #4f46e5;display:block;">'+'<h3 style="color:#1f2937;margin:0 0 0.5rem 0;font-size:1rem;font-weight:700;">'+(r.title||'Untitled')+'</h3>'+'<div style="color:#6b7280;font-size:0.85rem;">'+(r.resource_type||'Resource')+(r.quality_score?(' • ⭐ '+r.quality_score):'')+'</div>'+'</a>')).join('');}} catch(e){// Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
                 message: '$2',
@@ -106,7 +106,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');}});</script>
+        }});</script>
 <!-- PARALLEL COMPONENT LOADING - No more 2-3s delay! -->
 <script>
     // Load all components in parallel for instant page display
@@ -126,8 +126,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            })
+        })
             .catch(err => // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
@@ -137,7 +136,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');)
+        
     ]).then(() => {
         // All components loaded successfully!
         // User feedback provided via UI
@@ -151,8 +150,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-    });
+        });
 </script>
 </body>
 </html>
@@ -165,4 +163,4 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');}})();</script>
+        }})();</script>

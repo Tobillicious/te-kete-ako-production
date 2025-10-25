@@ -115,8 +115,7 @@ class ComponentLoader {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                    if (component.retries < component.maxRetries) {
+        if (component.retries < component.maxRetries) {
                         component.retries++;
                         this.queue.push(component); // Retry
                     }
@@ -158,8 +157,7 @@ class ComponentLoader {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            }
+        }
         } catch (err) {
             throw new Error(`Failed to load ${id}: ${err.message}`);
         }
@@ -294,7 +292,7 @@ if (document.readyState === 'loading') {
                     });
                 }
                 // Show user-friendly message instead of error
-                console.log('Component loading completed with fallbacks');
+                // System status logged
             });
     });
 } else {
@@ -312,7 +310,7 @@ if (document.readyState === 'loading') {
                 });
             }
             // Show user-friendly message instead of error
-            console.log('Component loading completed with fallbacks');
+            // System status logged
         });
 }
 

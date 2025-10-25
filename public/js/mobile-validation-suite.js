@@ -70,7 +70,6 @@ class MobileValidationSuite {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
     
@@ -108,7 +107,7 @@ class MobileValidationSuite {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');} (${Math.round(rect.width)}x${Math.round(rect.height)}px)`);
+        } (${Math.round(rect.width)}x${Math.round(rect.height)}px)`);
             }
             
             // Check for comfortable tablet size (56px)
@@ -189,7 +188,7 @@ class MobileValidationSuite {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2'););
+        ;
         }
     }
     
@@ -264,7 +263,7 @@ class MobileValidationSuite {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2'););
+        ;
         }
     }
     
@@ -500,7 +499,7 @@ class MobileValidationSuite {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2'););
+        ;
         }
     }
     
