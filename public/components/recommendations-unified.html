@@ -320,10 +320,10 @@
             // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         return;
@@ -375,10 +375,10 @@
             // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         showError();
@@ -424,10 +424,10 @@
             // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         return [];
@@ -512,9 +512,9 @@
 
         if (recommendations.length === 0) {
             grid.innerHTML = `
-                <div style="text-align: center; padding: 3rem; background: rgba(255,255,255,0.1); border-radius: 12px; color: white;">
-                    <p style="font-size: 1.1rem; margin: 0 0 0.5rem 0;">🔍 No recommendations found</p>
-                    <p style="font-size: 0.9rem; margin: 0; opacity: 0.8;">Try changing filters or browse by subject</p>
+                <div class="text-center rounded-xl" >
+                    <p class="text-sm" >🔍 No recommendations found</p>
+                    <p class="text-xs m-0" >Try changing filters or browse by subject</p>
                 </div>
             `;
             return;
@@ -534,15 +534,15 @@
 
         return `
             <a href="${path}" class="${rec.card_class}">
-                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem;">
-                    <h4 style="color: ${rec.cultural_context ? '#15803d' : '#1a4d2e'}; font-weight: 700; margin: 0; font-size: 1.1rem; line-height: 1.3;">
+                <div class="flex" >
+                    <h4 class="font-bold m-0 text-sm" >
                         ${rec.title}
                     </h4>
-                    <span style="background: #e0e7ff; color: #4338ca; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700; white-space: nowrap; margin-left: 1rem;">
+                    <span class="rounded-xl font-bold" >
                         ★ ${rec.quality_score}
                     </span>
                 </div>
-                <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 0.5rem;">
+                <p class="mb-2" >
                     ${rec.year_level || 'All Levels'} • ${rec.subject || 'General'} • ${rec.resource_type || 'Resource'}
                 </p>
                 ${rec.content_preview ? `
@@ -566,8 +566,8 @@
             grid.innerHTML = `
                 <div class="recommendations-loading">
                     <div class="spinner"></div>
-                    <p style="font-size: 1.1rem; font-weight: 600; margin: 0 0 0.5rem 0;">Loading recommendations...</p>
-                    <p style="font-size: 0.9rem; margin: 0; opacity: 0.8;">Analyzing GraphRAG relationships...</p>
+                    <p class="text-sm font-semibold" >Loading recommendations...</p>
+                    <p class="text-xs m-0" >Analyzing GraphRAG relationships...</p>
                 </div>
             `;
         }
@@ -578,9 +578,9 @@
         const grid = document.getElementById('recommendations-grid');
         if (grid) {
             grid.innerHTML = `
-                <div style="text-align: center; padding: 3rem; background: rgba(220, 38, 38, 0.1); border-radius: 12px; color: white;">
-                    <p style="font-size: 1.1rem; margin: 0 0 0.5rem 0;">❌ Error loading recommendations</p>
-                    <p style="font-size: 0.9rem; margin: 0; opacity: 0.8;">Please try again</p>
+                <div class="text-center rounded-xl" >
+                    <p class="text-sm" >❌ Error loading recommendations</p>
+                    <p class="text-xs m-0" >Please try again</p>
                 </div>
             `;
         }

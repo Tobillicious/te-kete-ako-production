@@ -2,33 +2,13 @@
 <html lang="en">
 <head>
     <title>🧠 Agent Intelligence Dashboard | Real-Time Coordination | Te Kete Ako</title>
-<!-- SEO TAGS - Open Graph, Twitter Cards, Canonical URL -->
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website"/>
-<meta property="og:url" content="https://tekete.netlify.app/agent-intelligence-dashboard.html"/>
-<meta property="og:title" content="🧠 Agent Intelligence Dashboard | Real-Time Coordination | Te Kete Ako"/>
-<meta property="og:description" content="Real-time agent coordination dashboard - situational awareness for AI agents working on Te Kete Ako"/>
-<meta property="og:image" content="https://tekete.netlify.app/images/og-image.jpg"/>
-<meta property="og:image:width" content="1200"/>
-<meta property="og:image:height" content="630"/>
-<meta property="og:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta property="og:site_name" content="Te Kete Ako"/>
-<meta property="og:locale" content="en_NZ"/>
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:url" content="https://tekete.netlify.app/agent-intelligence-dashboard.html"/>
-<meta name="twitter:title" content="🧠 Agent Intelligence Dashboard | Real-Time Coordination | Te Kete Ako"/>
-<meta name="twitter:description" content="Real-time agent coordination dashboard - situational awareness for AI agents working on Te Kete Ako"/>
-<meta name="twitter:image" content="https://tekete.netlify.app/images/twitter-card.jpg"/>
-<meta name="twitter:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta name="twitter:site" content="@TeKeteAko"/>
-<meta name="twitter:creator" content="@TeKeteAko"/>
+<meta name="robots" content="index, follow"/>
+<meta name="googlebot" content="index, follow"/>
+<meta name="theme-color" content="#1a4d2e"/>
 
-<!-- Canonical URL -->
-<link rel="canonical" href="https://tekete.netlify.app/agent-intelligence-dashboard.html"/>
 
-<!-- Additional SEO -->
+
 <meta name="robots" content="index, follow"/>
 <meta name="googlebot" content="index, follow"/>
 <meta name="theme-color" content="#1a4d2e"/>
@@ -77,16 +57,15 @@
 
     <!-- Hero -->
     <section class="dashboard-hero">
-        <div style="max-width: 1200px; margin: 0 auto;">
-            <h1 style="font-size: 3rem; margin-bottom: 1rem; font-weight: 800;">
+        <div class="m-0 mx-auto" <h1 >
                 🧠 Agent Intelligence Dashboard
             </h1>
-            <p style="font-size: 1.25rem; opacity: 0.95; margin-bottom: 2rem;">
+            <p style="font-size: 1.25rem; opacity: 0.95; ">
                 Real-Time Situational Awareness for AI Agents
             </p>
-            <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+            <div style="align-items: center; justify-content: center; gap: 0.5rem;">
                 <span class="live-indicator"></span>
-                <span style="font-size: 0.9rem; opacity: 0.9;">LIVE DATA</span>
+                <span style="opacity: 0.9;">LIVE DATA</span>
             </div>
         </div>
     </section>
@@ -94,7 +73,7 @@
     <!-- Main Dashboard -->
     <main class="dashboard-container">
         <!-- Platform Metrics -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+        <div style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
             <div class="metric-card">
                 <div class="metric-value" id="total-resources">...</div>
                 <div class="metric-label">Total Resources</div>
@@ -210,14 +189,14 @@
         </div>
 
         <!-- Quick Actions -->
-        <div class="panel" style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); grid-column: 1/-1;">
+        <div class="panel" style="grid-column: 1/-1;">
             <div class="panel-header">
                 <h2 class="panel-title">
                     <span>⚡</span>
                     <span>Quick Actions</span>
                 </h2>
             </div>
-            <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+            <div style="gap: 1rem; flex-wrap: wrap; justify-content: center;">
                 <button onclick="generateBrief()" class="action-button">
                     🧠 Generate Intelligence Brief
                 </button>
@@ -300,10 +279,10 @@
                 // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         }
@@ -322,7 +301,7 @@
                 if (error) throw error;
                 
                 if (!data || data.length === 0) {
-                    panel.innerHTML = '<p style="text-align: center; color: #64748b;">💤 No agents currently active</p>';
+                    panel.innerHTML = '<p style="color: #64748b;">💤 No agents currently active</p>';
                     return;
                 }
                 
@@ -332,7 +311,7 @@
                     html += `
                         <div class="agent-card">
                             <div class="agent-name">
-                                <span class="live-indicator" style="width: 8px; height: 8px; margin-right: 0.25rem;"></span>
+                                <span class="live-indicator" style="width: 8px; margin-right: 0.25rem;"></span>
                                 ${agent.agent_name}
                             </div>
                             <div class="agent-task">${agent.current_task || 'No task specified'}</div>
@@ -347,10 +326,10 @@
                 // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         document.getElementById('active-agents-panel').innerHTML = 
@@ -372,7 +351,7 @@
                 if (error) throw error;
                 
                 if (!data || data.length === 0) {
-                    panel.innerHTML = '<p style="text-align: center; color: #10b981;">✅ No active tasks - all available for claiming!</p>';
+                    panel.innerHTML = '<p style="color: #10b981;">✅ No active tasks - all available for claiming!</p>';
                     return;
                 }
                 
@@ -398,10 +377,10 @@
                 // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         document.getElementById('claimed-tasks-panel').innerHTML = 
@@ -425,7 +404,7 @@
                 if (error) throw error;
                 
                 if (!data || data.length === 0) {
-                    panel.innerHTML = '<p style="text-align: center; color: #64748b;">No recent discoveries</p>';
+                    panel.innerHTML = '<p style="color: #64748b;">No recent discoveries</p>';
                     return;
                 }
                 
@@ -448,10 +427,10 @@
                 // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         document.getElementById('discoveries-panel').innerHTML = 
@@ -473,7 +452,7 @@
                 if (error) throw error;
                 
                 if (!data || data.length === 0) {
-                    panel.innerHTML = '<p style="text-align: center; color: #64748b;">No strategic TODOs found</p>';
+                    panel.innerHTML = '<p style="color: #64748b;">No strategic TODOs found</p>';
                     return;
                 }
                 
@@ -498,10 +477,10 @@
                 // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         document.getElementById('todos-panel').innerHTML = 
@@ -521,22 +500,22 @@
                 const panel = document.getElementById('orphans-panel');
                 
                 if (!resources || resources.length === 0) {
-                    panel.innerHTML = '<p style="text-align: center; color: #10b981;">✅ No orphans found</p>';
+                    panel.innerHTML = '<p style="color: #10b981;">✅ No orphans found</p>';
                     return;
                 }
                 
                 // Check connections for each (simplified - just showing all as potential orphans)
-                let html = `<p style="font-size: 0.9rem; color: #64748b; margin-bottom: 1rem;">
+                let html = `<p style="color: #64748b; ">
                     High-quality resources to check for connections:
                 </p>`;
                 
                 resources.slice(0, 5).forEach(resource => {
                     html += `
-                        <div style="background: #fef3c7; padding: 0.75rem; border-radius: 8px; margin-bottom: 0.5rem; border-left: 3px solid #f59e0b;">
-                            <div style="font-weight: 600; color: #78350f; font-size: 0.9rem;">
+                        <div style="background: #fef3c7; ">
+                            <div style="color: #78350f; ">
                                 ${resource.title}
                             </div>
-                            <div style="font-size: 0.8rem; color: #92400e; margin-top: 0.25rem;">
+                            <div style="color: #92400e; margin-top: 0.25rem;">
                                 Quality: ${resource.quality_score}/100 | 
                                 <a href="${resource.file_path}" target="_blank" style="color: #7c3aed;">View Resource →</a>
                             </div>
@@ -550,10 +529,10 @@
                 // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         document.getElementById('orphans-panel').innerHTML = 
@@ -574,7 +553,7 @@
                 const panel = document.getElementById('growth-panel');
                 
                 if (!recentRels || recentRels.length === 0) {
-                    panel.innerHTML = '<p style="text-align: center; color: #64748b;">No recent relationship growth data</p>';
+                    panel.innerHTML = '<p style="color: #64748b;">No recent relationship growth data</p>';
                     return;
                 }
                 
@@ -585,17 +564,17 @@
                     byDay[date] = (byDay[date] || 0) + 1;
                 });
                 
-                let html = '<div style="font-size: 0.9rem;">';
+                let html = '<div >';
                 Object.entries(byDay).sort().reverse().slice(0, 7).forEach(([date, count]) => {
                     const barWidth = Math.min(count / 10 * 100, 100);
                     html += `
                         <div style="margin-bottom: 0.75rem;">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                            <div style="justify-content: space-between; margin-bottom: 0.25rem;">
                                 <span style="color: #64748b;">${date}</span>
                                 <strong style="color: #7c3aed;">${count} new</strong>
                             </div>
-                            <div style="background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden;">
-                                <div style="background: linear-gradient(90deg, #7c3aed, #5b21b6); width: ${barWidth}%; height: 100%;"></div>
+                            <div style="background: #e2e8f0; overflow: hidden;">
+                                <div style="width: ${barWidth}%; "></div>
                             </div>
                         </div>
                     `;
@@ -608,10 +587,10 @@
                 // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         document.getElementById('growth-panel').innerHTML = 

@@ -2,33 +2,13 @@
 <html lang="en">
 <head>
     <title>Agent Workload Dashboard | Te Kete Ako</title>
-<!-- SEO TAGS - Open Graph, Twitter Cards, Canonical URL -->
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website"/>
-<meta property="og:url" content="https://tekete.netlify.app/admin/agent-workload-dashboard.html"/>
-<meta property="og:title" content="Agent Workload Dashboard | Te Kete Ako"/>
-<meta property="og:description" content="World-class educational resources integrating mātauranga Māori with modern pedagogy"/>
-<meta property="og:image" content="https://tekete.netlify.app/images/og-image.jpg"/>
-<meta property="og:image:width" content="1200"/>
-<meta property="og:image:height" content="630"/>
-<meta property="og:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta property="og:site_name" content="Te Kete Ako"/>
-<meta property="og:locale" content="en_NZ"/>
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:url" content="https://tekete.netlify.app/admin/agent-workload-dashboard.html"/>
-<meta name="twitter:title" content="Agent Workload Dashboard | Te Kete Ako"/>
-<meta name="twitter:description" content="World-class educational resources integrating mātauranga Māori with modern pedagogy"/>
-<meta name="twitter:image" content="https://tekete.netlify.app/images/twitter-card.jpg"/>
-<meta name="twitter:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta name="twitter:site" content="@TeKeteAko"/>
-<meta name="twitter:creator" content="@TeKeteAko"/>
+<meta name="robots" content="index, follow"/>
+<meta name="googlebot" content="index, follow"/>
+<meta name="theme-color" content="#1a4d2e"/>
 
-<!-- Canonical URL -->
-<link rel="canonical" href="https://tekete.netlify.app/admin/agent-workload-dashboard.html"/>
 
-<!-- Additional SEO -->
+
 <meta name="robots" content="index, follow"/>
 <meta name="googlebot" content="index, follow"/>
 <meta name="theme-color" content="#1a4d2e"/>
@@ -65,35 +45,34 @@
 
 <!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
 <link rel="stylesheet" href="/css/cascade-fix.css">
-<body style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); min-height: 100vh;">
+<body style="min-">
     
-    <header style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); color: white; padding: 2rem;">
-        <div style="max-width: 1400px; margin: 0 auto;">
-            <h1 style="font-size: 2rem; font-weight: 800; margin: 0;">👥 Agent Workload Dashboard</h1>
-            <p style="opacity: 0.9; margin: 0.5rem 0 0 0;">Real-time team performance & load balancing</p>
+    <header style="color: white; ">
+        <div class="m-0 mx-auto" <h1 >👥 Agent Workload Dashboard</h1>
+            <p class="m-0" style="opacity: 0.9; margin: 0.5rem 0 0 0;"Real-time team performance & load balancing</p>
         </div>
     </header>
 
-    <main style="max-width: 1400px; margin: 2rem auto; padding: 0 2rem;">
+    <main style="margin: 2rem auto; padding: 0 2rem;">
         
         <!-- Team Overview -->
-        <section style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 2rem;">
-            <h2 style="font-size: 1.5rem; font-weight: 700; margin: 0 0 1rem 0;">Team Overview</h2>
-            <div id="team-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
+        <section style="box-shadow: 0 2px 12px rgba(0,0,0,0.08); ">
+            <h2 class="m-0" style="font-size: 1.5rem; margin: 0 0 1rem 0;"Team Overview</h2>
+            <div id="team-stats" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
                 <!-- Populated by JS -->
             </div>
         </section>
 
         <!-- Workload Distribution Chart -->
-        <section style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 2rem;">
-            <h2 style="font-size: 1.5rem; font-weight: 700; margin: 0 0 1rem 0;">Workload Distribution</h2>
+        <section style="box-shadow: 0 2px 12px rgba(0,0,0,0.08); ">
+            <h2 class="m-0" style="font-size: 1.5rem; margin: 0 0 1rem 0;"Workload Distribution</h2>
             <canvas id="workload-chart" height="80"></canvas>
         </section>
 
         <!-- Agent Cards -->
         <section>
-            <h2 style="font-size: 1.5rem; font-weight: 700; margin: 0 0 1rem 0;">Individual Agent Status</h2>
-            <div id="agent-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+            <h2 class="m-0" style="font-size: 1.5rem; margin: 0 0 1rem 0;"Individual Agent Status</h2>
+            <div id="agent-cards" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
                 <!-- Populated by JS -->
             </div>
         </section>
@@ -168,10 +147,10 @@
                 // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         }
@@ -183,21 +162,21 @@
             const uniqueBusy = [...new Set(busyAgents)].length;
             
             document.getElementById('team-stats').innerHTML = `
-                <div style="background: linear-gradient(135deg, #dbeafe, #bfdbfe); padding: 1.5rem; border-radius: 10px;">
-                    <div style="font-size: 2.5rem; font-weight: 800; color: #1e40af;">${agents.length}</div>
-                    <div style="color: #1e40af; font-weight: 600;">Total Agents</div>
+                <div style="border-radius: 10px;">
+                    <div style="font-size: 2.5rem; color: #1e40af;">${agents.length}</div>
+                    <div style="color: #1e40af; ">Total Agents</div>
                 </div>
-                <div style="background: linear-gradient(135deg, #dcfce7, #bbf7d0); padding: 1.5rem; border-radius: 10px;">
-                    <div style="font-size: 2.5rem; font-weight: 800; color: #065f46;">${uniqueBusy}</div>
-                    <div style="color: #065f46; font-weight: 600;">Currently Working</div>
+                <div style="border-radius: 10px;">
+                    <div style="font-size: 2.5rem; color: #065f46;">${uniqueBusy}</div>
+                    <div style="color: #065f46; ">Currently Working</div>
                 </div>
-                <div style="background: linear-gradient(135deg, #fef3c7, #fde68a); padding: 1.5rem; border-radius: 10px;">
-                    <div style="font-size: 2.5rem; font-weight: 800; color: #92400e;">${tasks.filter(t => t.status === 'pending').length}</div>
-                    <div style="color: #92400e; font-weight: 600;">Tasks Pending</div>
+                <div style="border-radius: 10px;">
+                    <div style="font-size: 2.5rem; color: #92400e;">${tasks.filter(t => t.status === 'pending').length}</div>
+                    <div style="color: #92400e; ">Tasks Pending</div>
                 </div>
-                <div style="background: linear-gradient(135deg, #fee2e2, #fecaca); padding: 1.5rem; border-radius: 10px;">
-                    <div style="font-size: 2.5rem; font-weight: 800; color: #991b1b;">${tasks.filter(t => t.status === 'completed').length}</div>
-                    <div style="color: #991b1b; font-weight: 600;">Completed Today</div>
+                <div style="border-radius: 10px;">
+                    <div style="font-size: 2.5rem; color: #991b1b;">${tasks.filter(t => t.status === 'completed').length}</div>
+                    <div style="color: #991b1b; ">Completed Today</div>
                 </div>
             `;
         }
@@ -258,36 +237,36 @@
                     : 0;
                 
                 return `
-                    <div style="background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); overflow: hidden; border-top: 4px solid ${color};">
-                        <div style="padding: 1.5rem;">
-                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                    <div style="box-shadow: 0 2px 12px rgba(0,0,0,0.08); overflow: hidden; border-top: 4px solid ${color};">
+                        <div >
+                            <div style="justify-content: space-between; align-items: start; ">
                                 <div>
-                                    <h3 style="font-size: 1.2rem; font-weight: 700; margin: 0; color: #1e293b;">${data.name}</h3>
-                                    <p style="color: #64748b; font-size: 0.9rem; margin: 0.25rem 0 0 0;">${data.role}</p>
+                                    <h3 style="color: #1e293b;">${data.name}</h3>
+                                    <p class="m-0" style="color: #64748b; margin: 0.25rem 0 0 0;"${data.role}</p>
                                 </div>
-                                <span style="background: ${color}; color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700;">
+                                <span style="background: ${color}; color: white; padding: 0.25rem 0.75rem; font-size: 0.75rem; ">
                                     TIER ${data.tier}
                                 </span>
                             </div>
                             
-                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem;">
-                                <div style="background: #fef3c7; padding: 0.75rem; border-radius: 6px; text-align: center;">
-                                    <div style="font-size: 1.5rem; font-weight: 800; color: #92400e;">${data.pending}</div>
+                            <div style="grid-template-columns: repeat(3, 1fr); gap: 0.75rem; ">
+                                <div style="background: #fef3c7; ">
+                                    <div style="font-size: 1.5rem; color: #92400e;">${data.pending}</div>
                                     <div style="font-size: 0.75rem; color: #78350f;">Pending</div>
                                 </div>
-                                <div style="background: #dbeafe; padding: 0.75rem; border-radius: 6px; text-align: center;">
-                                    <div style="font-size: 1.5rem; font-weight: 800; color: #1e40af;">${data.in_progress}</div>
+                                <div style="background: #dbeafe; ">
+                                    <div style="font-size: 1.5rem; color: #1e40af;">${data.in_progress}</div>
                                     <div style="font-size: 0.75rem; color: #1e3a8a;">In Progress</div>
                                 </div>
-                                <div style="background: #dcfce7; padding: 0.75rem; border-radius: 6px; text-align: center;">
-                                    <div style="font-size: 1.5rem; font-weight: 800; color: #065f46;">${data.completed}</div>
+                                <div style="background: #dcfce7; ">
+                                    <div style="font-size: 1.5rem; color: #065f46;">${data.completed}</div>
                                     <div style="font-size: 0.75rem; color: #064e3b;">Completed</div>
                                 </div>
                             </div>
                             
                             ${avgTime > 0 ? `
-                                <div style="background: #f8fafc; padding: 0.75rem; border-radius: 6px; margin-bottom: 1rem;">
-                                    <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                                <div style="background: #f8fafc; ">
+                                    <div style="justify-content: space-between; font-size: 0.85rem;">
                                         <span style="color: #64748b;">Avg Completion Time:</span>
                                         <strong style="color: #1e293b;">${Math.round(avgTime)} minutes</strong>
                                     </div>
@@ -296,12 +275,12 @@
                             
                             <!-- Utilization Bar -->
                             <div style="margin-top: 1rem;">
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <div style="justify-content: space-between; ">
                                     <span style="font-size: 0.85rem; color: #64748b;">Utilization</span>
-                                    <span style="font-size: 0.85rem; font-weight: 700; color: ${color};">${utilization}%</span>
+                                    <span style="font-size: 0.85rem; color: ${color};">${utilization}%</span>
                                 </div>
-                                <div style="background: #f1f5f9; height: 8px; border-radius: 4px; overflow: hidden;">
-                                    <div style="background: ${color}; height: 100%; width: ${utilization}%; transition: width 0.3s;"></div>
+                                <div style="background: #f1f5f9; overflow: hidden;">
+                                    <div style="background: ${color}; width: ${utilization}%; transition: width 0.3s;"></div>
                                 </div>
                             </div>
                             
@@ -310,14 +289,14 @@
                                     <div style="font-size: 0.85rem; color: #64748b;">
                                         <strong>Recent Tasks:</strong>
                                     </div>
-                                    <div id="agent-${agentId}-tasks" style="margin-top: 0.5rem; font-size: 0.8rem; color: #94a3b8;">
+                                    <div id="agent-${agentId}-tasks" style="margin-top: 0.5rem; color: #94a3b8;">
                                         ${agentTasks.slice(-3).map(t => `
                                             <div style="padding: 0.25rem 0;">• ${t.task_type} ${t.status === 'completed' ? '✅' : t.status === 'in_progress' ? '🔄' : '⏸️'}</div>
                                         `).join('')}
                                     </div>
                                 </div>
                             ` : `
-                                <div style="margin-top: 1rem; text-align: center; color: #94a3b8; font-size: 0.85rem;">
+                                <div style="margin-top: 1rem; color: #94a3b8; font-size: 0.85rem;">
                                     No tasks assigned yet
                                 </div>
                             `}

@@ -9,13 +9,10 @@
 .recommendations-section {
     margin: var(--space-16) 0;
     padding: var(--space-12) var(--space-6);
-    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
     border-radius: var(--radius-xl);
-    border-left: 4px solid var(--color-info);
-}
+    }
 
 .recommendations-header {
-    text-align: center;
     margin-bottom: var(--space-12);
 }
 
@@ -32,21 +29,18 @@
 }
 
 .recommendations-grid {
-    display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: var(--space-6);
     margin-top: var(--space-8);
 }
 
 .recommendation-card {
-    background: white;
     padding: var(--space-6);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
     transition: all var(--transition-fast);
     text-decoration: none;
     color: inherit;
-    display: block;
     border-top: 3px solid var(--color-pounamu);
 }
 
@@ -56,26 +50,21 @@
 }
 
 .recommendation-badge {
-    display: inline-block;
     padding: 0.25rem 0.75rem;
     background: rgba(7, 160, 122, 0.1);
     color: var(--color-pounamu);
     border-radius: var(--radius-full);
     font-size: var(--text-xs);
-    font-weight: 700;
     margin-bottom: var(--space-3);
 }
 
 .recommendation-title {
     font-size: var(--text-xl);
-    font-weight: 700;
     color: var(--color-primary);
     margin-bottom: var(--space-2);
-    line-height: var(--line-height-snug);
-}
+    line-}
 
 .recommendation-meta {
-    display: flex;
     gap: var(--space-4);
     font-size: var(--text-sm);
     color: var(--color-text-secondary);
@@ -86,35 +75,29 @@
 .recommendation-description {
     font-size: var(--text-sm);
     color: var(--color-text-secondary);
-    line-height: var(--line-height-relaxed);
-    margin-bottom: var(--space-4);
+    line-margin-bottom: var(--space-4);
 }
 
 .recommendation-confidence {
-    display: flex;
     align-items: center;
     gap: 0.5rem;
     font-size: var(--text-xs);
     color: var(--color-success);
-    font-weight: 600;
-}
+    }
 
 .confidence-bar {
     width: 60px;
-    height: 4px;
     background: rgba(16, 185, 129, 0.2);
     border-radius: var(--radius-full);
     overflow: hidden;
 }
 
 .confidence-fill {
-    height: 100%;
     background: var(--color-success);
     transition: width 0.3s ease;
 }
 
 .loading-state {
-    text-align: center;
     padding: var(--space-16);
     color: var(--color-text-secondary);
 }
@@ -124,7 +107,6 @@
     border-top: 3px solid var(--color-pounamu);
     border-radius: 50%;
     width: 40px;
-    height: 40px;
     animation: spin 1s linear infinite;
     margin: 0 auto var(--space-4);
 }
@@ -164,10 +146,10 @@
         // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         return;
@@ -201,14 +183,14 @@
             // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         document.getElementById('recommendations-container').innerHTML = 
-                '<p style="text-align: center; color: var(--color-text-secondary);">Unable to load recommendations. Please refresh.</p>';
+                '<p style="color: var(--color-text-secondary);">Unable to load recommendations. Please refresh.</p>';
         }
     }
 
@@ -216,7 +198,7 @@
         const container = document.getElementById('recommendations-container');
         
         if (!resources || resources.length === 0) {
-            container.innerHTML = '<p style="text-align: center;">No recommendations available at this time.</p>';
+            container.innerHTML = '<p >No recommendations available at this time.</p>';
             return;
         }
 

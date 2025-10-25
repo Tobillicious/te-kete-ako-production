@@ -2,33 +2,13 @@
 <html lang="en">
 <head>
     <title>Browse All Handouts | Te Kete Ako</title>
-<!-- SEO TAGS - Open Graph, Twitter Cards, Canonical URL -->
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website"/>
-<meta property="og:url" content="https://tekete.netlify.app/browse-handouts.html"/>
-<meta property="og:title" content="Browse All Handouts | Te Kete Ako"/>
-<meta property="og:description" content="World-class educational resources integrating mātauranga Māori with modern pedagogy"/>
-<meta property="og:image" content="https://tekete.netlify.app/images/og-image.jpg"/>
-<meta property="og:image:width" content="1200"/>
-<meta property="og:image:height" content="630"/>
-<meta property="og:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta property="og:site_name" content="Te Kete Ako"/>
-<meta property="og:locale" content="en_NZ"/>
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:url" content="https://tekete.netlify.app/browse-handouts.html"/>
-<meta name="twitter:title" content="Browse All Handouts | Te Kete Ako"/>
-<meta name="twitter:description" content="World-class educational resources integrating mātauranga Māori with modern pedagogy"/>
-<meta name="twitter:image" content="https://tekete.netlify.app/images/twitter-card.jpg"/>
-<meta name="twitter:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta name="twitter:site" content="@TeKeteAko"/>
-<meta name="twitter:creator" content="@TeKeteAko"/>
+<meta name="robots" content="index, follow"/>
+<meta name="googlebot" content="index, follow"/>
+<meta name="theme-color" content="#1a4d2e"/>
 
-<!-- Canonical URL -->
-<link rel="canonical" href="https://tekete.netlify.app/browse-handouts.html"/>
 
-<!-- Additional SEO -->
+
 <meta name="robots" content="index, follow"/>
 <meta name="googlebot" content="index, follow"/>
 <meta name="theme-color" content="#1a4d2e"/>
@@ -74,23 +54,23 @@
             .then(html => document.getElementById('nav-container').innerHTML = html);
     </script>
 
-    <div style="max-width: 1400px; margin: 2rem auto; padding: 0 2rem;">
+    <div style="margin: 2rem auto; padding: 0 2rem;">
         
-        <header style="background: white; padding: 3rem; border-radius: 16px; margin-bottom: 2rem;">
-            <h1 style="font-size: 3rem; color: #1a4d2e; margin-bottom: 1rem;">📄 Browse All Handouts</h1>
-            <p style="font-size: 1.2rem; color: #666;">
+        <header style="padding: 3rem; ">
+            <h1 style="font-size: 3rem; ">📄 Browse All Handouts</h1>
+            <p style="color: #666;">
                 Student worksheets, activities, and reference materials
             </p>
         </header>
 
         <!-- Filters (same structure as lessons) -->
-        <section style="background: white; padding: 2rem; border-radius: 12px; margin-bottom: 2rem;">
-            <h3 style="color: #1a4d2e; margin-bottom: 1.5rem;">🔍 Filter Handouts</h3>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+        <section >
+            <h3 style="margin-bottom: 1.5rem;">🔍 Filter Handouts</h3>
+            <div style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
                 
                 <div>
-                    <label style="display: block; color: #666; font-weight: 600; margin-bottom: 0.5rem;">Subject:</label>
-                    <select id="filter-subject" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px;">
+                    <label style="color: #666; ">Subject:</label>
+                    <select id="filter-subject" >
                         <option value="">All Subjects</option>
                         <option value="Mathematics">Mathematics</option>
                         <option value="Science">Science</option>
@@ -101,8 +81,8 @@
                 </div>
 
                 <div>
-                    <label style="display: block; color: #666; font-weight: 600; margin-bottom: 0.5rem;">Year Level:</label>
-                    <select id="filter-year" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px;">
+                    <label style="color: #666; ">Year Level:</label>
+                    <select id="filter-year" >
                         <option value="">All Years</option>
                         <option value="Year 7">Year 7</option>
                         <option value="Year 8">Year 8</option>
@@ -112,25 +92,25 @@
                 </div>
 
                 <div>
-                    <label style="display: block; color: #666; font-weight: 600; margin-bottom: 0.5rem;">Search:</label>
-                    <input type="text" id="search-handouts" placeholder="Search handouts..." style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px;">
+                    <label style="color: #666; ">Search:</label>
+                    <input type="text" id="search-handouts" placeholder="Search handouts..." >
                 </div>
 
             </div>
 
-            <div style="margin-top: 1.5rem; text-align: center;">
-                <button id="apply-filters" style="background: #10b981; color: white; padding: 0.75rem 2rem; border: none; border-radius: 8px; font-weight: 700; cursor: pointer;">
+            <div style="margin-top: 1.5rem; ">
+                <button id="apply-filters" class="p-3" style="background: #10b981; color: white; padding: 0.75rem 2rem; border: none; cursor: pointer;"
                     Apply Filters
                 </button>
-                <button id="clear-filters" style="background: #6b7280; color: white; padding: 0.75rem 2rem; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; margin-left: 1rem;">
+                <button id="clear-filters" class="p-3" style="background: #6b7280; color: white; padding: 0.75rem 2rem; border: none; cursor: pointer; margin-left: 1rem;"
                     Clear All
                 </button>
             </div>
         </section>
 
-        <section id="handouts-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem;">
-            <div style="grid-column: 1 / -1; text-align: center; padding: 4rem;">
-                <div style="border: 4px solid #10b981; border-top: 4px solid #059669; border-radius: 50%; width: 60px; height: 60px; animation: spin 1s linear infinite; margin: 0 auto 1.5rem;"></div>
+        <section id="handouts-container" style="grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem;">
+            <div style="grid-column: 1 / -1; padding: 4rem;">
+                <div class="m-0" style="border: 4px solid #10b981; border-top: 4px solid #059669; border-radius: 50%; width: 60px; animation: spin 1s linear infinite; margin: 0 auto 1.5rem;"</div>
                 <p style="color: #666;">Loading handouts...</p>
             </div>
         </section>
@@ -164,10 +144,10 @@
                 // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         }
@@ -177,21 +157,21 @@
             const container = document.getElementById('handouts-container');
             
             if (handouts.length === 0) {
-                container.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 3rem;"><p style="color: #666;">No handouts found.</p></div>';
+                container.innerHTML = '<div style="grid-column: 1 / -1; padding: 3rem;"><p style="color: #666;">No handouts found.</p></div>';
                 return;
             }
 
             container.innerHTML = handouts.map(h => `
                 <a href="${h.file_path}" style="text-decoration: none;">
-                    <div style="background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: all 0.3s; border-top: 4px solid #3730a3;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                    <div style="transition: all 0.3s; border-top: 4px solid #3730a3;">
+                        <div style="justify-content: space-between; ">
                             <div style="font-size: 2rem;">📄</div>
-                            <span style="background: #fbbf24; color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem; font-weight: 700;">⭐ ${h.quality_score}</span>
+                            <span style="background: #fbbf24; color: white; padding: 0.25rem 0.75rem; font-size: 0.85rem; ">⭐ ${h.quality_score}</span>
                         </div>
-                        <h3 style="color: #1a4d2e; font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">${h.title}</h3>
-                        <div style="display: flex; gap: 0.5rem;">
-                            <span style="background: #e0e7ff; color: #3730a3; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem;">${h.subject || 'General'}</span>
-                            ${h.year_level ? `<span style="background: #fef3c7; color: #92400e; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem;">${h.year_level}</span>` : ''}
+                        <h3 style="font-size: 1.25rem; ">${h.title}</h3>
+                        <div style="gap: 0.5rem;">
+                            <span style="background: #e0e7ff; color: #3730a3; padding: 0.25rem 0.75rem; font-size: 0.85rem;">${h.subject || 'General'}</span>
+                            ${h.year_level ? `<span style="background: #fef3c7; color: #92400e; padding: 0.25rem 0.75rem; font-size: 0.85rem;">${h.year_level}</span>` : ''}
                         </div>
                     </div>
                 </a>
