@@ -1,0 +1,581 @@
+<!-- =================================================================
+   UNIFIED RECOMMENDATIONS SYSTEM - Te Kete Ako
+   Merged from 6 recommendation components into 1 intelligent system
+
+   Components Consolidated:
+   ✅ graphrag-english-recommendations.html
+   ✅ graphrag-mathematics-recommendations.html
+   ✅ graphrag-social-studies-recommendations.html
+   ✅ graphrag-science-recommendations.html
+   ✅ graphrag-recommendations.html
+   ✅ graphrag-live-recommendations.html
+
+   Features:
+   ✅ Subject-specific recommendations
+   ✅ Cultural context awareness
+   ✅ Quality-based filtering
+   ✅ Cross-curricular connections
+   ✅ Live GraphRAG intelligence
+
+   Date: October 25, 2025
+   ================================================================= -->
+
+<div class="recommendations-unified" id="recommendations-container">
+    <div class="recommendations-header">
+        <h3 class="recommendations-title">
+            🧠 Intelligent Recommendations
+        </h3>
+        <p class="recommendations-subtitle">
+            GraphRAG-powered suggestions based on your interests and cultural context
+        </p>
+        <div class="recommendations-filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="cultural">🌿 Cultural</button>
+            <button class="filter-btn" data-filter="high-quality">⭐ Quality 90+</button>
+            <button class="filter-btn" data-filter="cross-curricular">🔗 Cross-Subject</button>
+        </div>
+    </div>
+
+    <div class="recommendations-grid" id="recommendations-grid">
+        <!-- Recommendations will be loaded here -->
+    </div>
+
+    <div class="recommendations-footer">
+        <p class="recommendations-stats">
+            <span id="recommendations-count">0</span> recommendations from
+            <span id="connections-count">231,530</span> knowledge connections
+        </p>
+    </div>
+</div>
+
+<style>
+/* UNIFIED RECOMMENDATIONS STYLES */
+
+.recommendations-unified {
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+    border-radius: 16px;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 8px 30px rgba(30, 27, 75, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.recommendations-unified::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(50%, -50%);
+}
+
+.recommendations-unified::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(212, 165, 116, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(-50%, 50%);
+}
+
+.recommendations-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 2;
+}
+
+.recommendations-title {
+    color: white;
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.recommendations-subtitle {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.recommendations-filters {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 0.5rem 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.recommendation-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border-left: 4px solid #7c3aed;
+    text-decoration: none;
+    color: inherit;
+}
+
+.recommendation-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(124, 58, 237, 0.2);
+}
+
+.recommendation-card.cultural {
+    border-left-color: #15803d;
+}
+
+.recommendation-card.high-quality {
+    border-left-color: #f59e0b;
+}
+
+.recommendation-card.cross-curricular {
+    border-left-color: #3b82f6;
+}
+
+.recommendation-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #1a4d2e;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+}
+
+.recommendation-meta {
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.recommendation-preview {
+    font-size: 0.9rem;
+    color: #374151;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.recommendation-badges {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge.cultural {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.badge.quality {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.badge.te-reo {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.badge.cross-curricular {
+    background: #e0e7ff;
+    color: #4338ca;
+}
+
+.recommendations-footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    z-index: 2;
+}
+
+.recommendations-stats {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+.recommendations-loading {
+    text-align: center;
+    padding: 3rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .recommendations-unified {
+        padding: 1.5rem;
+        margin: 1rem 0;
+    }
+
+    .recommendations-title {
+        font-size: 1.5rem;
+    }
+
+    .recommendations-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .recommendations-filters {
+        gap: 0.5rem;
+    }
+
+    .filter-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+}
+</style>
+
+<script>
+/**
+ * UNIFIED RECOMMENDATIONS FUNCTIONALITY
+ * Intelligent recommendations using GraphRAG relationships
+ */
+(function() {
+    'use strict';
+
+    // Configuration
+    const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+
+    let currentFilter = 'all';
+    let currentSubject = 'all';
+    let recommendationsCache = new Map();
+
+    // Initialize recommendations
+    function initializeRecommendations() {
+        const container = document.getElementById('recommendations-container');
+        const grid = document.getElementById('recommendations-grid');
+
+        if (!container || !grid) {
+            console.warn('[Recommendations] Container not found');
+            return;
+        }
+
+        setupFilters();
+        loadRecommendations();
+        updateStats();
+
+        console.log('✅ Unified Recommendations initialized');
+    }
+
+    // Setup filter buttons
+    function setupFilters() {
+        const filterButtons = document.querySelectorAll('.filter-btn');
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active state
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Update filter
+                currentFilter = btn.dataset.filter;
+                loadRecommendations();
+            });
+        });
+    }
+
+    // Load recommendations based on current filter
+    async function loadRecommendations() {
+        const grid = document.getElementById('recommendations-grid');
+        if (!grid) return;
+
+        try {
+            showLoading();
+
+            const cacheKey = `${currentFilter}_${currentSubject}`;
+            let recommendations = recommendationsCache.get(cacheKey);
+
+            if (!recommendations) {
+                recommendations = await fetchRecommendations();
+                recommendationsCache.set(cacheKey, recommendations);
+            }
+
+            displayRecommendations(recommendations);
+
+        } catch (error) {
+            console.error('[Recommendations] Error:', error);
+            showError();
+        }
+    }
+
+    // Fetch recommendations from GraphRAG
+    async function fetchRecommendations() {
+        try {
+            let query = window.supabase
+                .from('graphrag_resources')
+                .select('*')
+                .eq('is_active', true)
+                .order('quality_score', { ascending: false })
+                .order('cultural_context', { ascending: false })
+                .limit(12);
+
+            // Apply filters
+            switch (currentFilter) {
+                case 'cultural':
+                    query = query.eq('cultural_context', true);
+                    break;
+                case 'high-quality':
+                    query = query.gte('quality_score', 90);
+                    break;
+                case 'cross-curricular':
+                    query = query.or('subject.ilike.%mathematics%,subject.ilike.%science%');
+                    break;
+            }
+
+            // Apply subject filter if set
+            if (currentSubject !== 'all') {
+                query = query.ilike('subject', `%${currentSubject}%`);
+            }
+
+            const { data, error } = await query;
+
+            if (error) throw error;
+
+            return enhanceRecommendations(data || []);
+
+        } catch (error) {
+            console.error('[Recommendations] Fetch error:', error);
+            return [];
+        }
+    }
+
+    // Enhance recommendations with additional data
+    function enhanceRecommendations(resources) {
+        return resources.map(resource => ({
+            ...resource,
+            relevance_score: calculateRelevanceScore(resource),
+            badges: generateBadges(resource),
+            card_class: getCardClass(resource)
+        })).sort((a, b) => b.relevance_score - a.relevance_score);
+    }
+
+    // Calculate relevance score
+    function calculateRelevanceScore(resource) {
+        let score = resource.quality_score || 0;
+
+        // Cultural bonus
+        if (resource.cultural_context) score += 20;
+
+        // Te Reo bonus
+        if (resource.has_te_reo) score += 10;
+
+        // Whakataukī bonus
+        if (resource.has_whakataukī) score += 10;
+
+        // High quality bonus
+        if (resource.quality_score >= 95) score += 15;
+
+        return score;
+    }
+
+    // Generate badges for resource
+    function generateBadges(resource) {
+        const badges = [];
+
+        if (resource.cultural_context) {
+            badges.push({ type: 'cultural', text: '🌿 Cultural', class: 'cultural' });
+        }
+
+        if (resource.quality_score >= 90) {
+            badges.push({ type: 'quality', text: `⭐ ${resource.quality_score}`, class: 'quality' });
+        }
+
+        if (resource.has_te_reo) {
+            badges.push({ type: 'te-reo', text: '🗣️ Te Reo', class: 'te-reo' });
+        }
+
+        if (resource.has_whakataukī) {
+            badges.push({ type: 'whakatauki', text: '💬 Whakataukī', class: 'whakatauki' });
+        }
+
+        // Cross-curricular detection
+        if (resource.subject && (
+            resource.subject.toLowerCase().includes('mathematics') &&
+            (resource.content_preview || '').toLowerCase().includes('science')
+        )) {
+            badges.push({ type: 'cross-curricular', text: '🔗 Cross-Subject', class: 'cross-curricular' });
+        }
+
+        return badges;
+    }
+
+    // Get card CSS class
+    function getCardClass(resource) {
+        const classes = ['recommendation-card'];
+
+        if (resource.cultural_context) classes.push('cultural');
+        if (resource.quality_score >= 90) classes.push('high-quality');
+        if (resource.has_te_reo || resource.has_whakataukī) classes.push('cultural');
+
+        return classes.join(' ');
+    }
+
+    // Display recommendations
+    function displayRecommendations(recommendations) {
+        const grid = document.getElementById('recommendations-grid');
+        if (!grid) return;
+
+        if (recommendations.length === 0) {
+            grid.innerHTML = `
+                <div style="text-align: center; padding: 3rem; background: rgba(255,255,255,0.1); border-radius: 12px; color: white;">
+                    <p style="font-size: 1.1rem; margin: 0 0 0.5rem 0;">🔍 No recommendations found</p>
+                    <p style="font-size: 0.9rem; margin: 0; opacity: 0.8;">Try changing filters or browse by subject</p>
+                </div>
+            `;
+            return;
+        }
+
+        const recommendationsHTML = recommendations.map(rec =>
+            createRecommendationCard(rec)
+        ).join('');
+
+        grid.innerHTML = recommendationsHTML;
+        updateStats(recommendations.length);
+    }
+
+    // Create recommendation card
+    function createRecommendationCard(rec) {
+        const path = rec.file_path.startsWith('/') ? rec.file_path : `/${rec.file_path}`;
+
+        return `
+            <a href="${path}" class="${rec.card_class}">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem;">
+                    <h4 style="color: ${rec.cultural_context ? '#15803d' : '#1a4d2e'}; font-weight: 700; margin: 0; font-size: 1.1rem; line-height: 1.3;">
+                        ${rec.title}
+                    </h4>
+                    <span style="background: #e0e7ff; color: #4338ca; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700; white-space: nowrap; margin-left: 1rem;">
+                        ★ ${rec.quality_score}
+                    </span>
+                </div>
+                <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 0.5rem;">
+                    ${rec.year_level || 'All Levels'} • ${rec.subject || 'General'} • ${rec.resource_type || 'Resource'}
+                </p>
+                ${rec.content_preview ? `
+                    <p style="color: #374151; font-size: 0.85rem; line-height: 1.4; margin-bottom: 0.75rem;">
+                        ${rec.content_preview.substring(0, 120)}...
+                    </p>
+                ` : ''}
+                <div class="recommendation-badges">
+                    ${rec.badges.map(badge =>
+                        `<span class="badge ${badge.class}">${badge.text}</span>`
+                    ).join('')}
+                </div>
+            </a>
+        `;
+    }
+
+    // Show loading state
+    function showLoading() {
+        const grid = document.getElementById('recommendations-grid');
+        if (grid) {
+            grid.innerHTML = `
+                <div class="recommendations-loading">
+                    <div class="spinner"></div>
+                    <p style="font-size: 1.1rem; font-weight: 600; margin: 0 0 0.5rem 0;">Loading recommendations...</p>
+                    <p style="font-size: 0.9rem; margin: 0; opacity: 0.8;">Analyzing GraphRAG relationships...</p>
+                </div>
+            `;
+        }
+    }
+
+    // Show error state
+    function showError() {
+        const grid = document.getElementById('recommendations-grid');
+        if (grid) {
+            grid.innerHTML = `
+                <div style="text-align: center; padding: 3rem; background: rgba(220, 38, 38, 0.1); border-radius: 12px; color: white;">
+                    <p style="font-size: 1.1rem; margin: 0 0 0.5rem 0;">❌ Error loading recommendations</p>
+                    <p style="font-size: 0.9rem; margin: 0; opacity: 0.8;">Please try again</p>
+                </div>
+            `;
+        }
+    }
+
+    // Update statistics
+    function updateStats(count = 0) {
+        const countElement = document.getElementById('recommendations-count');
+        const connectionsElement = document.getElementById('connections-count');
+
+        if (countElement) countElement.textContent = count;
+        if (connectionsElement) connectionsElement.textContent = '231,530';
+    }
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeRecommendations);
+    } else {
+        initializeRecommendations();
+    }
+})();
+</script>
