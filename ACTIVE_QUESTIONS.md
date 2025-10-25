@@ -1,111 +1,230 @@
-# 🚀 ACTIVE QUESTIONS & GRAND PHASE ROADMAP
+# 🚀 ACTIVE QUESTIONS & SPRINT COORDINATION
 
-**Date:** October 25, 2025 - 01:50 UTC  
-**Status:** FRONTPAGE VISUALLY FIXED! 🎉
+**Date:** October 25, 2025 - TEAM ONBOARDING SESSION  
+**Status:** 🟢 READY TO DEPLOY - AGENTS ASSEMBLING  
 
 ---
 
-## ✅ **PHASE COMPLETE: SINGULAR ROUTE FORWARD**
+## 🎯 **TODAY'S SPRINT BRIEFING**
 
-### **THE BREAKTHROUGH**
+### **Phase 1: Infrastructure (0-90 min)** ⚡
+**Start:** NOW  
+**Agents:** 3, 4, 5 (working in parallel)
+
+| Agent | Task | Deliverable | Timeline | Status |
+|-------|------|-------------|----------|--------|
+| 3 | Consolidate CSS (8→2) | critical-path.css + non-critical.css | 30 min | ⏳ PENDING |
+| 4 | Fix Supabase singletons | One instance everywhere | 30 min | ⏳ PENDING |
+| 5 | Verify pages render | 7 pages green ✅ | 30 min | ⏳ PENDING |
+
+**Blocker?** Reach out in this channel immediately!
+
+---
+
+### **Phase 2: Component Building (90-180 min)** 🎨
+**Start:** When Phase 1 ✅ DONE  
+**Agents:** 6, 7, 8, 9, 10, 11 (working in parallel)
+
+| Agent | Task | Deliverable | Timeline | Status |
+|-------|------|-------------|----------|--------|
+| 6 | Card components | Elevated/flat/outlined + hover | 90 min | ⏳ PENDING |
+| 7 | Hero sections | Title/subtitle/CTA, gradients, whakataukī | 90 min | ⏳ PENDING |
+| 8 | Breadcrumbs | Styled nav trails + accessible | 60 min | ⏳ PENDING |
+| 9 | Footer | Multi-column, links, social | 60 min | ⏳ PENDING |
+| 10 | Responsive design | 375px/768px/1024px+ | 60 min | ⏳ PENDING |
+| 11 | Animations | Fade-ins, scroll reveals, hover | 60 min | ⏳ PENDING |
+
+**Blocker?** Reach out immediately!
+
+---
+
+### **Phase 3: Testing & Deployment (180-210 min)** ✅
+**Start:** When Phase 2 ✅ DONE  
+**Agents:** 12, 2 (QA), 1 (Deploy)
+
+| Agent | Task | Deliverable | Timeline | Status |
+|-------|------|-------------|----------|--------|
+| 12 | Cross-device testing | Mobile/tablet/desktop ✅ | 30 min | ⏳ PENDING |
+| 2 | QA sign-off | All components pass WCAG AA | 30 min | ⏳ PENDING |
+| 1 | Merge & deploy | Live on Netlify | 20 min | ⏳ PENDING |
+
+---
+
+## 📊 **STANDUP UPDATES** (Every 30 min)
+
+### **Format:**
 ```
-CSS-in-Component Pattern WORKS!
-✅ Added <link> directly to navigation-standard.html
-✅ Component fetches with CSS, bypasses HTML caching
-✅ /units/ page: 80px header (was 8,442px)
-✅ No JavaScript errors
-✅ Teacher/Student pages rendering perfectly
+Agent X: "[TASK] | Status: [BLOCKED/IN_PROGRESS/DONE] | Blocker: [none/description] | Next: [action]"
 ```
 
-### **What We Learned**
-1. **Visual testing is ESSENTIAL** - Playwright catches obvious problems
-2. **Netlify HTML caching is tricky** - Put CSS links IN components, not just main files
-3. **Inline styles don't survive `innerHTML` injection** - Use external CSS
-4. **One coordinated fix beats 10 divergent attempts** - The singular route won
+### **STANDUP 1** (Time: _____)
+- Agent 3: 
+- Agent 4: 
+- Agent 5: 
+- Agent 2 (QA): 
+
+### **STANDUP 2** (Time: _____)
+- (Agents 6, 7, 8, 9, 10, 11 updates)
+
+### **STANDUP 3** (Time: _____)
+- (Agents 12, 2, 1 updates)
 
 ---
 
-## 🎯 **NEXT PHASE: OPERATIONALIZATION (4-PART SEQUENCE)**
+## 🔧 **QUICK WINS THIS HOUR**
 
-### **PHASE 1: VERIFY ALL MAJOR PAGES (30 min) - DO NOW**
-- [ ] Test homepage ✅ (verified - no errors)
-- [ ] Test /units/ ✅ (verified - header normal)  
-- [ ] Test /teachers/ ✅ (verified - loading clean)
-- [ ] Test /lessons ✅ (verified - rendering)
-- [ ] Test /handouts
-- [ ] Test /games
-- [ ] Test /curriculum-index
+### **CSS Consolidation (Agent 3)**
+**Current:** 8 conflicting CSS files  
+**Target:** 2 strategic files (critical + non-critical)
 
-### **PHASE 2: CLEAN UP INVESTIGATION DOCS (15 min)**
-Delete these redundant files (save ONE summary):
-- ROOT-CAUSE-8442PX-HEADER.md
-- BREAKTHROUGH-8442PX-THEORY.md
-- 8442PX-HEADER-FIX-COMPLETE.md
-- UNITS-PAGE-MINIFICATION-PROBLEM.md
-- COMMIT-MESSAGE-8442PX-FIX.txt
-- INVESTIGATION-COMPLETE-8442PX-MYSTERY-SOLVED.md
-- AGENT-COORDINATION-NOTE.md
-- UNIFIED-PATH-FORWARD-OCT25.md
-- SINGULAR-ROUTE-FORWARD.md
+```
+DO THIS:
+1. Copy te-kete-professional.css → KEEP AS IS
+2. Copy professionalization-system.css → KEEP (utilities)
+3. MERGE: navigation-standard.css → professionalization-system.css
+4. MERGE: mobile-*.css → professionalization-system.css
+5. CREATE: non-critical.css (async load everything else)
+6. UPDATE: index.html CSS load order
+```
 
-Create: `DEPLOYMENT-SUCCESS-OCT25.md` (one-page summary)
+### **Supabase Fix (Agent 4)**
+**Current:** 4 separate Supabase client instances  
+**Target:** 1 singleton everywhere
 
-### **PHASE 3: BACKEND MIGRATION SPRINT (8-10 hours)**
-Continue autonomous work:
-- [ ] Migrate 1,200+ backup files from `backup_before_css_migration/`
-- [ ] Build relationships for learning pathways
-- [ ] Target: 20,000+ total resources indexed
+```
+DO THIS:
+1. Check /public/js/supabase-singleton.js (source of truth)
+2. Find all createClient() calls
+3. Replace with: import { getSupabaseClient } from '/public/js/supabase-singleton.js'
+4. Test: console should show ONE Supabase connection (not 4)
+```
 
-### **PHASE 4: CONTENT QUALITY PUSH (2-4 hours)**
-- [ ] Boost remaining Q88-89 pages to Q90+
-- [ ] Ensure integrated lessons properly linked
-- [ ] Verify mobile responsiveness
-- [ ] Final QA sweep
+### **Page Verification (Agent 5)**
+**Current:** Some pages rendering with layout issues  
+**Target:** All 7 pages rendering perfectly
 
----
+```
+TEST THESE (in browser):
+- / (homepage)
+- /units/
+- /teachers/
+- /lessons/
+- /handouts/
+- /games/
+- /curriculum-index.html
 
-## 📊 **CURRENT METRICS**
-
-**Backend:**
-- Resources: 19,298 (95% of target 20,000)
-- Relationships: 243,418 ✅
-- Gold Standard (Q90+): 621 ✅
-- Cultural Integration: 100% (Digital Tech, Social Studies, History)
-
-**Frontend:**
-- CSP Fix: ✅ Deployed
-- Header Bug: ✅ Fixed
-- Hero Sections: ✅ Fixed
-- Navigation CSS: ✅ In Component
-- JavaScript Errors: ✅ Fixed
+LOOK FOR:
+✅ Header 80px (not 8,442px!)
+✅ No layout shift
+✅ Navigation visible
+✅ No console errors
+```
 
 ---
 
-## 🎯 **THE SINGULAR ROUTE LESSONS LEARNED**
+## 🚨 **KNOWN BLOCKERS & SOLUTIONS**
 
-### **What Worked**
-✅ CSS link directly in `navigation-standard.html` component  
-✅ Playwright visual testing for immediate feedback  
-✅ One coordinated fix instead of 10 parallel attempts  
-✅ User's visual descriptions led to root cause  
+### **Blocker: "CSS looks wrong"**
+**Cause:** Multiple CSS files conflicting  
+**Solution:** Wait for Agent 3 to consolidate CSS → Phase 1 checkpoint
 
-### **What Didn't Work**
-❌ Only modifying main CSS files (Netlify HTML caching)  
-❌ Multiple agents trying different fixes (conflicting)  
-❌ Relying on console logs (missed layout issues)  
-❌ 8 hours of debugging without visual tools  
+### **Blocker: "Component loads twice"**
+**Cause:** Navigation loading from multiple sources  
+**Solution:** Agent 5 verifies single load → Phase 1 checkpoint
 
-### **Future Protocol**
-- ALWAYS use Playwright before claiming "ready"
-- Visual testing is MANDATORY before deployment
-- CSS in injected components, not just main files
-- ONE coordinated plan > 10 divergent attempts
+### **Blocker: "Database connection errors"**
+**Cause:** Multiple Supabase instances  
+**Solution:** Agent 4 fixes singletons → Phase 1 checkpoint
 
 ---
 
-## 🚀 **READY FOR TAKEOFF?**
+## 📋 **CRITICAL RESOURCES**
 
-**User Says:** "Ok lets flygrand"  
-**Status:** ✅ FRONTPAGE VISUALLY FIXED!
+**Read First (5 min each):**
+- [ ] `/TEAM-ONBOARDING-OCT25.md` ← YOU ARE HERE
+- [ ] `/PROFESSIONALIZATION-SPRINT-STATUS.md` ← Current work status
+- [ ] `/CRITICAL-SITE-AUDIT-OCT25.md` ← What we fixed
 
-**Next Step:** Continue Phase 1 (page verification) and Phase 3 (backend migration) in parallel!
+**Design System Reference:**
+```css
+--color-primary: #1a4d2e (Forest Green)
+--font-heading: 'Playfair Display', serif
+--font-body: 'Inter', -apple-system, sans-serif
+--space-4: 1rem (default spacing)
+```
+
+---
+
+## 🎓 **PROFESSIONALIZATION SYSTEM - CSS CLASSES**
+
+**Available now for all agents to use:**
+
+```html
+<!-- Typography -->
+<h1 class="text-5xl font-heading font-bold text-primary">Heading</h1>
+<p class="text-base font-body text-secondary">Body text</p>
+
+<!-- Spacing -->
+<div class="mt-8 mb-6 p-4">Spaced content</div>
+
+<!-- Colors -->
+<button class="bg-primary text-white hover:bg-primary-hover">Button</button>
+
+<!-- Components (being built now) -->
+<div class="card">Card coming soon</div>
+<div class="hero">Hero coming soon</div>
+```
+
+---
+
+## ✅ **DEPLOYMENT CHECKLIST**
+
+### **Phase 1 Sign-off:**
+- [ ] Agent 3: CSS consolidated
+- [ ] Agent 4: Supabase fixed
+- [ ] Agent 5: Pages verified
+- [ ] Agent 2: QA approval
+
+### **Phase 2 Sign-off:**
+- [ ] Agent 6: Cards working
+- [ ] Agent 7: Heroes ready
+- [ ] Agent 8: Breadcrumbs live
+- [ ] Agent 9: Footer complete
+- [ ] Agent 10: Responsive ✅
+- [ ] Agent 11: Animations smooth
+- [ ] Agent 2: QA approval
+
+### **Phase 3 Sign-off:**
+- [ ] Agent 12: Testing passed
+- [ ] Agent 2: Final QA approval
+- [ ] Agent 1: Deployed live 🚀
+
+---
+
+## 📝 **QUESTIONS & NOTES**
+
+### **For Phase 1 Agents:**
+- Question: CSS consolidation - which file should win conflicts? → Answer: professionalization-system.css (priority)
+- Question: Should we keep te-kete-ultimate-beauty-system.css? → Answer: Review with Agent 2, may consolidate
+
+### **For Phase 2 Agents:**
+- Question: Card hover animation - how fast? → Answer: 150ms ease-in-out
+- Question: Hero on mobile - full width? → Answer: Yes, stack vertically
+
+### **For Phase 3 Agents:**
+- Question: Which browsers to test? → Answer: Chrome, Firefox, Safari, Edge (latest 2 versions)
+- Question: Performance target? → Answer: LCP < 2.5s, CLS < 0.1, all at 60fps
+
+---
+
+## 🚀 **READY TO LAUNCH**
+
+```
+✅ Team assembled
+✅ Roles assigned
+✅ Blockers identified
+✅ Success criteria defined
+✅ Resources available
+
+STATUS: 🟢 READY FOR PHASE 1 START
+```
