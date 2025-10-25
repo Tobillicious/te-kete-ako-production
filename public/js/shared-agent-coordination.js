@@ -31,12 +31,18 @@ class AgentCoordinator {
     }
 
     async init() {
-        // Initialize Supabase
-        if (!window.supabase) {
-            const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2');
-            window.supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+        // Use Supabase singleton - do NOT create new instances!
+        // Multiple instances cause "GoTrueClient" warnings and memory leaks
+        if (window.supabaseSingleton) {
+            this.supabase = await window.supabaseSingleton.getClient();
+        } else {
+            // Fallback if singleton not available (should not happen)
+            if (!window.supabase) {
+                const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2');
+                window.supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+            }
+            this.supabase = window.supabase;
         }
-        this.supabase = window.supabase;
 
         
         // Register agent status
