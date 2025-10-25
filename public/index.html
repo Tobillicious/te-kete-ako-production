@@ -50,7 +50,7 @@ Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori</titl
     // Wait for Supabase CDN to load before initializing singleton
     window.addEventListener('DOMContentLoaded', () => {
         if (!window.supabase) {
-            // Supabase CDN failed to load - handled gracefully
+            console.error('❌ Supabase CDN failed to load!');
         }
     });
 </script>
@@ -80,10 +80,10 @@ Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori</titl
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/service-worker.js')
                     .then(registration => {
-                        // PWA: Service Worker registered successfully
+                        console.log('✅ PWA: Service Worker registered!', registration);
                     })
                     .catch(error => {
-                        // PWA: Service Worker registration failed - handled gracefully
+                        console.warn('PWA: Service Worker registration failed:', error);
                     });
             });
         }
@@ -175,7 +175,7 @@ Just Browsing</h2>
 </section>
 
 <!-- 🎯 HOMEPAGE RECOMMENDATIONS ENGINE -->
-<div class="container max-w-7xl mx-auto px-8">
+<div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
     <!-- Perfect Pathways Widget -->
     <div id="perfect-pathways-widget"></div>
     <script>
@@ -184,7 +184,7 @@ Just Browsing</h2>
             .then(html => {
                 document.getElementById('perfect-pathways-widget').innerHTML = html;
             })
-            .catch(err => { /* Pathways Widget load error - handled gracefully */ });
+            .catch(err => console.error('[Pathways Widget] Load error:', err));
     </script>
 
     <!-- Top Cultural Resources Widget -->
@@ -195,7 +195,7 @@ Just Browsing</h2>
             .then(html => {
                 document.getElementById('top-cultural-widget').innerHTML = html;
             })
-            .catch(err => { /* Cultural Widget load error - handled gracefully */ });
+            .catch(err => console.error('[Cultural Widget] Load error:', err));
     </script>
 </div>
 
@@ -602,7 +602,7 @@ Quality 95</span>
         fetch('/components/stats-dashboard.html')            .then(response => response.text())            .then(html => {
                 const container = document.getElementById('stats-dashboard-container');
                 if (container) container.innerHTML = html;
-            })            .catch(err => { /* Stats load error - handled gracefully */ });
+            })            .catch(err => console.error('Stats load error:', err));
     */
     </script>
     <!-- FEATURED CAROUSEL - Curated Collections -->
@@ -615,18 +615,18 @@ Quality 95</span>
  <!-- Main Content -->
  <main id="main-content" role="main">
     <!-- Quick Actions Bar -->
- <div class="bg-primary p-6 shadow-lg">
-        <div class="container flex justify-between items-center flex-wrap gap-4 max-w-7xl mx-auto">
-            <div class="text-white">
+ <div style="background: var(--color-primary); padding: 1rem 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; max-width: 1200px; margin: 0 auto;">
+            <div style="color: white;">
                 <strong>
 🎓 Ready to start learning?</strong>
             </div>
-            <div class="flex gap-4 flex-wrap">
- <a href="/login.html" class="rounded-lg no-underline font-semibold inline-flex items-center gap-2">
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+ <a href="/login.html" style="border-radius: var(--radius-lg); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem;">
                     🔐 Login                </a>
- <a href="/signup-student.html" class="rounded-lg no-underline font-semibold inline-flex items-center gap-2">
+ <a href="/signup-student.html" style="border-radius: var(--radius-lg); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem;">
                     👨‍🎓 Student Signup                </a>
- <a href="/signup-teacher.html" class="rounded-lg no-underline font-semibold inline-flex items-center gap-2">
+ <a href="/signup-teacher.html" style="border-radius: var(--radius-lg); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem;">
                     👩‍🏫 Teacher Signup                </a>
             </div>
         </div>
@@ -640,7 +640,7 @@ Quality 95</span>
             const container = document.getElementById('perfect-pathways-widget');
             if (container) container.innerHTML = html;
         })
-        .catch(err => { /* Perfect Pathways load error - handled gracefully */ });
+        .catch(err => console.error('Perfect Pathways load error:', err));
 </script>
 
 <!-- 🌿 CULTURAL EXCELLENCE COLLECTION - Premium Tier -->
@@ -652,7 +652,7 @@ Quality 95</span>
             const container = document.getElementById('cultural-excellence-widget');
             if (container) container.innerHTML = html;
         })
-        .catch(err => { /* Cultural Excellence load error - handled gracefully */ });
+        .catch(err => console.error('Cultural Excellence load error:', err));
 </script>
 
 <!-- 🏆 FEATURED GOLD STANDARD UNITS -->
@@ -829,21 +829,21 @@ Explore Inquiry →</div>
     </div>
 </section>
 <!-- 🔍 DISCOVERY TOOLS SECTION - GraphRAG Intelligence (HIDDEN FOR END USERS) -->
-<section class="hidden bg-gradient-to-br from-slate-900 to-slate-800 p-20 my-12 rounded-3xl shadow-2xl relative overflow-hidden">
-    <div class="max-w-7xl mx-auto relative z-10">
-        <div class="text-center mb-16">
-            <div class="inline-block bg-gradient-to-br from-violet-600 to-purple-500 px-6 py-2 rounded-full mb-4 border-2 border-white/20">
-                <span class="text-white font-bold text-base">
+<section style="display: none; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 5rem 2rem; margin: 3rem 0; border-radius: 20px; box-shadow: 0 12px 32px rgba(0,0,0,0.3); position: relative; overflow: hidden;">
+    <div style="max-width: 1400px; margin: 0 auto; position: relative; z-index: 1;">
+        <div style="text-align: center; margin-bottom: 4rem;">
+            <div style="display: inline-block; background: linear-gradient(135deg, #7c3aed, #a855f7); padding: 0.5rem 1.5rem; border-radius: 24px; margin-bottom: 1rem; border: 2px solid rgba(255,255,255,0.2);">
+                <span style="color: white; font-weight: 700; font-size: 0.95rem;">
 🧠 AI-POWERED INTELLIGENCE</span>
             </div>
-            <h2 class="text-6xl text-white mb-4 font-extrabold drop-shadow-md">
+            <h2 style="font-size: 3.5rem; color: white; margin-bottom: 1rem; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">
                 Discovery Tools            </h2>
-            <p class="text-2xl text-white/90 max-w-4xl mx-auto mb-8 leading-relaxed">
+            <p style="font-size: 1.4rem; color: rgba(255,255,255,0.9); max-width: 900px; margin: 0 auto 2rem; line-height: 1.6;">
                 Explore 19,685 resources using GraphRAG intelligence with 231,237 relationship connections            </p>
-            <a href="/discovery-tools.html" class="inline-block bg-gradient-to-br from-violet-600 to-violet-700 text-white px-10 py-5 rounded-full font-bold text-lg no-underline shadow-2xl transition-all hover:-translate-y-1">
+            <a href="/discovery-tools.html" style="display: inline-block; background: linear-gradient(135deg, #7c3aed, #6d28d9); color: white; padding: 1.2rem 2.5rem; border-radius: 50px; font-weight: 700; font-size: 1.1rem; text-decoration: none; box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4); transition: all 0.3s;">
                 View All Discovery Tools →            </a>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
             <!-- Advanced Search Tool -->
             <a href="/advanced-search-graphrag.html" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); padding: 2rem; border-radius: 16px; text-decoration: none; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s; border-top: 4px solid #6366f1;">
                 <div style="font-size: 3rem; margin-bottom: 1rem; text-align: center;">
@@ -1012,10 +1012,10 @@ Math → Sci</div>
             if (container) {
                 container.innerHTML = html;
             } else {
-                // Orphaned Excellence container not found - handled gracefully
+                console.warn('Orphaned Excellence container not found');
             }
         })
-        .catch(err => { /* Orphaned Excellence load error - handled gracefully */ });
+        .catch(err => console.error('Orphaned Excellence load error:', err));
 </script>
 -->
 
@@ -1469,7 +1469,7 @@ World-class educational resources created by educators for educators, with prove
             const container = document.getElementById('games-showcase-container');
             if (container) container.innerHTML = html;
         })
-        .catch(err => { /* Games load error - handled gracefully */ });
+        .catch(err => console.error('Games load error:', err));
 </script>
 <!-- 🧠 GRAPHRAG PLATFORM CHAMPIONS - Most Connected Resources (HIDDEN FOR END USERS) -->
 <section style="display: none; background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); padding: 4rem 2rem; margin: 3rem auto; border-radius: 16px; box-shadow: 0 12px 32px rgba(124,58,237,0.3); max-width: 1400px;">
@@ -2427,7 +2427,7 @@ Discover More →</div>
 <div id="footer-component">
 </div>
 <!-- Navigation handled by mega-menu component -->
-<script>        // Load footer component only (navigation already loaded above)        fetch('/components/footer.html')            .then(r=>r.text())            .then(html=>{                const footer = document.getElementById('footer-component');                if (footer) footer.innerHTML = html;            }).catch(err => { /* Component load error - handled gracefully */ });        // Add hover effects to cards        document.addEventListener('DOMContentLoaded', function() {            document.querySelectorAll('.value-card, .featured-card').forEach(card => {                card.addEventListener('mouseenter', function() {                    this.style.transform = 'translateY(-10px)';                });                card.addEventListener('mouseleave', function() {                    this.style.transform = 'translateY(0)';                });            });        });    </script>
+<script>        // Load footer component only (navigation already loaded above)        fetch('/components/footer.html')            .then(r=>r.text())            .then(html=>{                const footer = document.getElementById('footer-component');                if (footer) footer.innerHTML = html;            }).catch(err => console.error('Component load error:', err));        // Add hover effects to cards        document.addEventListener('DOMContentLoaded', function() {            document.querySelectorAll('.value-card, .featured-card').forEach(card => {                card.addEventListener('mouseenter', function() {                    this.style.transform = 'translateY(-10px)';                });                card.addEventListener('mouseleave', function() {                    this.style.transform = 'translateY(0)';                });            });        });    </script>
  </main>
  <!-- End Main Content -->
 <!-- Professional JS - Main only -->
@@ -2439,7 +2439,7 @@ Discover More →</div>
 <div id="mobile-nav-bottom">
 </div>
 <script>    fetch('/components/mobile-bottom-nav.html').then(r=>r.text()).then(html=>{        const container = document.getElementById('mobile-nav-bottom');
-        if (container) container.innerHTML = html;    }).catch(err => { /* Mobile nav error - handled gracefully */ });</script>
+        if (container) container.innerHTML = html;    }).catch(err => console.error('Mobile nav error:', err));</script>
 <!-- 🏷️ BETA BADGE - Sets Expectations -->
 <div id="beta-badge-component">
 </div>
@@ -2454,7 +2454,7 @@ Discover More →</div>
 <div id="fab-quick-actions">
 </div>
 <script>    fetch('/components/quick-actions-fab.html').then(r=>r.text()).then(html=>{        const container = document.getElementById('fab-quick-actions');
-        if (container) container.innerHTML = html;    }).catch(err => { /* FAB error - handled gracefully */ });</script>
+        if (container) container.innerHTML = html;    }).catch(err => console.error('FAB error:', err));</script>
 <!-- 📊 ULTIMATE BEAUTY: PostHog Analytics (Privacy-First) -->
 <script src="/js/posthog-analytics.js" defer></script>
 <!-- 🚨 Automatic Error Monitoring - PostHog + Supabase -->
