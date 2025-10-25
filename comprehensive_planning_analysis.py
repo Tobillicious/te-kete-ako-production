@@ -289,7 +289,7 @@ class ComprehensivePlanningAnalyzer:
             score += 10
 
         # Cultural relevance bonus
-        if doc['technical']['cultural_content']:
+        if doc['technical'].get('cultural_content', False):
             score += 5
 
         return min(100, score)
