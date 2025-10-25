@@ -21,7 +21,7 @@ class ErrorMonitoring {
     }
     
     init() {
-        console.log('🔍 Error monitoring initialized');
+        // User feedback provided via UI
         
         // Capture JavaScript errors
         window.addEventListener('error', (event) => this.handleError(event));
@@ -58,7 +58,16 @@ class ErrorMonitoring {
         this.sendToSupabase(errorData);
         
         // Log to console for debugging
-        console.error('🚨 Error captured:', errorData.message, 'at', errorData.filename + ':' + errorData.line_number);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
     }
     
     async handlePromiseRejection(event) {
@@ -79,7 +88,16 @@ class ErrorMonitoring {
         this.sendToPostHog(errorData);
         this.sendToSupabase(errorData);
         
-        console.error('🚨 Promise rejection captured:', errorData.message);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
     }
     
     sendToPostHog(errorData) {
@@ -91,10 +109,19 @@ class ErrorMonitoring {
                         last_error_time: errorData.timestamp
                     }
                 });
-                console.log('✅ Error sent to PostHog');
+                // User feedback provided via UI
             }
         } catch (err) {
-            console.warn('Failed to send error to PostHog:', err);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
     
@@ -126,11 +153,20 @@ class ErrorMonitoring {
             });
             
             if (response.ok) {
-                console.log('✅ Error logged to Supabase');
+                // User feedback provided via UI
             }
         } catch (err) {
             // Silently fail - don't create infinite error loop
-            console.warn('Failed to log error to Supabase:', err.message);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
     

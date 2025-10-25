@@ -46,7 +46,16 @@
                 }
 
             } catch (error) {
-                console.error('Because You Viewed init error:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             }
         }
 
@@ -93,7 +102,16 @@
                 const stored = localStorage.getItem(this.storageKey);
                 return stored ? JSON.parse(stored) : [];
             } catch (error) {
-                console.error('Error reading history:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 return [];
             }
         }
@@ -160,7 +178,16 @@
                 this.displayRecommendationBanner(resources);
 
             } catch (error) {
-                console.error('Error showing recommendations:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             }
         }
 

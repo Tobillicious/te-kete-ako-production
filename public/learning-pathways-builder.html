@@ -226,7 +226,16 @@
                 displayResources(allResources);
                 
             } catch (error) {
-                console.error('Error loading resources:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 document.getElementById('resource-list').innerHTML = 
                     '<div style="padding: 1rem; color: #dc2626;">Error loading resources. Please refresh.</div>';
             }
@@ -366,7 +375,16 @@
                 `;
                 
             } catch (error) {
-                console.error('Error generating pathway:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 alert('Error generating pathway. Please try again.');
             }
         }

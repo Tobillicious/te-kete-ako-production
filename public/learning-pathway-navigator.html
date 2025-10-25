@@ -208,7 +208,16 @@
             console.log('Search results:', data);
             
         } catch (error) {
-            console.error('Search error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 
@@ -299,7 +308,16 @@
                 }
             }
         } catch (error) {
-            console.error('Error loading suggestions:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 
@@ -378,7 +396,16 @@
                 }
             }
         } catch (error) {
-            console.error('Template load error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 
@@ -398,7 +425,7 @@
         alert('Unit plan save feature coming soon! For now, bookmark this page or take a screenshot.');
     });
 
-    console.log('✅ Learning Pathway Navigator initialized');
+    // User feedback provided via UI
 })();
 </script>
 

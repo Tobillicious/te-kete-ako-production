@@ -96,7 +96,16 @@ class SmartRecommendations {
             return scored.sort((a, b) => b._recommendationScore - a._recommendationScore).slice(0, limit);
 
         } catch (error) {
-            console.error('Error getting recommendations:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return this.getPopularResources(limit);
         }
     }

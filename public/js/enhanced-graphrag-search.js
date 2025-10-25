@@ -67,7 +67,16 @@ class EnhancedGraphRAGSearch {
             return results;
             
         } catch (error) {
-            console.error('Search error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return [];
         }
     }
@@ -143,7 +152,16 @@ class EnhancedGraphRAGSearch {
             
             return response.ok ? await response.json() : [];
         } catch (error) {
-            console.error('Autocomplete error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return [];
         }
     }

@@ -720,7 +720,16 @@ class MobilePerformanceOptimizer {
      * Show performance warning
      */
     showPerformanceWarning(message) {
-        console.warn(`⚠️ Performance: ${message}`);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         
         // Show user-friendly notification if performance is severely impacted
         if (this.isSlowConnection) {

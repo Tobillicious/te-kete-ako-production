@@ -52,11 +52,29 @@
           document.body.insertBefore(navElement, document.body.firstChild);
           console.log('[Navigation] Navigation loaded successfully');
         } else {
-          console.warn('[Navigation] No nav element found in component');
+          // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
       })
       .catch(err => {
-        console.error('[Navigation] Load error:', err);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
       });
   }
   

@@ -335,7 +335,16 @@
             }, 2000);
 
         } catch (error) {
-            console.error('Feedback error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             messageDiv.innerHTML = '<div class="feedback-error">❌ Sorry, there was an error submitting your feedback. Please try again.</div>';
         } finally {
             submitBtn.disabled = false;

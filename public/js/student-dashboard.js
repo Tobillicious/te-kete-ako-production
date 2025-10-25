@@ -17,7 +17,16 @@ let currentStudent = null;
 async function initStudentDashboard() {
     // Initialize Supabase
     if (typeof window.supabase === 'undefined') {
-        console.error('Supabase not loaded');
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         showError('Unable to connect. Please refresh the page.');
         return;
     }
@@ -91,7 +100,16 @@ async function loadStudentProfile(userId) {
         }
         
     } catch (error) {
-        console.error('Profile load error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         showError('Unable to load your profile. Please try again.');
     }
 }
@@ -138,7 +156,16 @@ async function loadProgressData() {
         }
         
     } catch (error) {
-        console.error('Progress load error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         // Continue with default values
     }
 }
@@ -239,7 +266,16 @@ async function loadRecommendedResources() {
         `).join('');
         
     } catch (error) {
-        console.error('Recommendations error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
     }
 }
 
@@ -280,7 +316,16 @@ async function loadMyClasses() {
         `).join('');
         
     } catch (error) {
-        console.error('Classes load error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
     }
 }
 
@@ -315,7 +360,16 @@ async function loadSavedResources() {
         `).join('');
         
     } catch (error) {
-        console.error('Saved resources error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
     }
 }
 

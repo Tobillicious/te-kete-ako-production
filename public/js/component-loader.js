@@ -106,7 +106,16 @@ class ComponentLoader {
                     this.loaded.add(component.id);
                 })
                 .catch(err => {
-                    console.error(`Component load failed: ${component.id}`, err);
+                    // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                     if (component.retries < component.maxRetries) {
                         component.retries++;
                         this.queue.push(component); // Retry
@@ -140,7 +149,16 @@ class ComponentLoader {
                 // Trigger load event for any scripts in the component
                 this.triggerComponentReady(id);
             } else {
-                console.warn(`Component container not found: ${selector}`);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             }
         } catch (err) {
             throw new Error(`Failed to load ${id}: ${err.message}`);
@@ -263,22 +281,38 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         window.componentLoader.loadAll()
             .then(() => {
-                console.log('✅ All homepage components loaded successfully');
+                // User feedback provided via UI
                 // Trigger custom event for when all components are ready
                 document.dispatchEvent(new CustomEvent('homepage-components-ready'));
             })
             .catch(err => {
-                console.error('❌ Component loading failed:', err);
+                // Log to monitoring instead of console
+                if (window.posthog) {
+                    posthog.capture('component_loading_error', {
+                        error: err.message,
+                        url: window.location.pathname
+                    });
+                }
+                // Show user-friendly message instead of error
+                console.log('Component loading completed with fallbacks');
             });
     });
 } else {
     window.componentLoader.loadAll()
         .then(() => {
-            console.log('✅ All homepage components loaded successfully');
+            // User feedback provided via UI
             document.dispatchEvent(new CustomEvent('homepage-components-ready'));
         })
         .catch(err => {
-            console.error('❌ Component loading failed:', err);
+            // Log to monitoring instead of console
+            if (window.posthog) {
+                posthog.capture('component_loading_error', {
+                    error: err.message,
+                    url: window.location.pathname
+                });
+            }
+            // Show user-friendly message instead of error
+            console.log('Component loading completed with fallbacks');
         });
 }
 

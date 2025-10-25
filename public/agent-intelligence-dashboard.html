@@ -246,7 +246,7 @@
         // ================================================================
 
         async function loadDashboard() {
-            console.log('🧠 Loading Agent Intelligence Dashboard...');
+            // User feedback provided via UI
             
             await Promise.all([
                 loadPlatformMetrics(),
@@ -258,7 +258,7 @@
                 loadRelationshipGrowth()
             ]);
             
-            console.log('✅ Dashboard loaded successfully!');
+            // User feedback provided via UI
         }
 
         async function loadPlatformMetrics() {
@@ -297,7 +297,16 @@
                     (knowledgeCount || 200).toLocaleString();
                 
             } catch (error) {
-                console.error('Error loading platform metrics:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             }
         }
 
@@ -336,7 +345,16 @@
                 panel.innerHTML = html;
                 
             } catch (error) {
-                console.error('Error loading active agents:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 document.getElementById('active-agents-panel').innerHTML = 
                     `<p style="color: #dc2626;">Error loading agents: ${error.message}</p>`;
             }
@@ -379,7 +397,16 @@
                 panel.innerHTML = html;
                 
             } catch (error) {
-                console.error('Error loading claimed tasks:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 document.getElementById('claimed-tasks-panel').innerHTML = 
                     `<p style="color: #dc2626;">Error loading tasks: ${error.message}</p>`;
             }
@@ -421,7 +448,16 @@
                 panel.innerHTML = html;
                 
             } catch (error) {
-                console.error('Error loading discoveries:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 document.getElementById('discoveries-panel').innerHTML = 
                     `<p style="color: #dc2626;">Error loading discoveries: ${error.message}</p>`;
             }
@@ -463,7 +499,16 @@
                 panel.innerHTML = html;
                 
             } catch (error) {
-                console.error('Error loading TODOs:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 document.getElementById('todos-panel').innerHTML = 
                     `<p style="color: #dc2626;">Error loading TODOs: ${error.message}</p>`;
             }
@@ -507,7 +552,16 @@
                 panel.innerHTML = html;
                 
             } catch (error) {
-                console.error('Error loading orphaned gems:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 document.getElementById('orphans-panel').innerHTML = 
                     `<p style="color: #dc2626;">Error loading orphans: ${error.message}</p>`;
             }
@@ -557,7 +611,16 @@
                 panel.innerHTML = html;
                 
             } catch (error) {
-                console.error('Error loading relationship growth:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 document.getElementById('growth-panel').innerHTML = 
                     `<p style="color: #dc2626;">Error loading growth data: ${error.message}</p>`;
             }

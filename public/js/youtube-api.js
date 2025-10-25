@@ -51,7 +51,16 @@ class YouTubeEducationalLibrary {
             const config = await response.json();
             this.apiKey = config.apiKey;
         } catch (error) {
-            console.warn('YouTube API key not configured. Using static database.');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.apiKey = null;
         }
     }
@@ -1176,7 +1185,16 @@ class YouTubeEducationalLibrary {
             const data = await response.json();
             return data.items[0];
         } catch (error) {
-            console.error('Error fetching YouTube data:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return null;
         }
     }
@@ -1191,7 +1209,16 @@ class YouTubeEducationalLibrary {
             const data = await response.json();
             return data.items;
         } catch (error) {
-            console.error('Error searching YouTube:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return [];
         }
     }

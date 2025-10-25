@@ -91,7 +91,16 @@ class TeKeteKAMAR {
             this.showSuccess(`${totalSynced} students synced successfully!`);
             
         } catch (error) {
-            console.error('Student sync error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.showError('Failed to sync students. Please try again.');
         }
     }
@@ -113,7 +122,16 @@ class TeKeteKAMAR {
             return data.students || [];
             
         } catch (error) {
-            console.error('KAMAR API error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             throw error;
         }
     }
@@ -157,7 +175,16 @@ class TeKeteKAMAR {
             }
             
         } catch (error) {
-            console.error('Supabase sync error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             throw error;
         }
     }
@@ -188,7 +215,16 @@ class TeKeteKAMAR {
             this.showSuccess(`${totalSynced} classes synced successfully!`);
             
         } catch (error) {
-            console.error('Class sync error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.showError('Failed to sync classes. Please try again.');
         }
     }
@@ -210,7 +246,16 @@ class TeKeteKAMAR {
             return data.classes || [];
             
         } catch (error) {
-            console.error('KAMAR API error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             throw error;
         }
     }
@@ -253,7 +298,16 @@ class TeKeteKAMAR {
             }
             
         } catch (error) {
-            console.error('Supabase sync error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             throw error;
         }
     }
@@ -284,7 +338,16 @@ class TeKeteKAMAR {
             this.showSuccess(`${totalSynced} assessments synced successfully!`);
             
         } catch (error) {
-            console.error('Assessment sync error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.showError('Failed to sync assessments. Please try again.');
         }
     }
@@ -306,7 +369,16 @@ class TeKeteKAMAR {
             return data.assessments || [];
             
         } catch (error) {
-            console.error('KAMAR API error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             throw error;
         }
     }
@@ -349,7 +421,16 @@ class TeKeteKAMAR {
             }
             
         } catch (error) {
-            console.error('Supabase sync error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             throw error;
         }
     }
@@ -390,7 +471,16 @@ class TeKeteKAMAR {
             }
             
         } catch (error) {
-            console.error('Specific student sync error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 
@@ -411,7 +501,16 @@ class TeKeteKAMAR {
             return data.student;
             
         } catch (error) {
-            console.error('KAMAR API error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return null;
         }
     }
@@ -450,7 +549,16 @@ class TeKeteKAMAR {
             this.showSuccess('KAMAR data exported successfully!');
             
         } catch (error) {
-            console.error('Export error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.showError('Failed to export KAMAR data. Please try again.');
         }
     }

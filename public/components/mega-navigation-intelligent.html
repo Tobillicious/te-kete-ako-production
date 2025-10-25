@@ -360,7 +360,16 @@ async function getMegaNavSupabase() {
     if (window.supabaseSingleton) {
         return await window.supabaseSingleton.getClient();
     }
-    console.warn('Supabase singleton not loaded yet');
+    // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
     return null;
 }
 const megaNavSupabase = await getMegaNavSupabase();
@@ -419,7 +428,16 @@ async function loadMegaNavData() {
         await loadYearLevelCounts();
 
     } catch (e) {
-        console.error('Mega nav data load error:', e);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
     }
 }
 
@@ -469,7 +487,16 @@ async function loadFlagshipUnits() {
         }).join('');
 
     } catch (e) {
-        console.error('Flagship units load error:', e);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
     }
 }
 
@@ -538,7 +565,16 @@ async function loadSubjectBreakdown() {
             }).join('');
 
     } catch (e) {
-        console.error('Subject breakdown error:', e);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
     }
 }
 
@@ -561,7 +597,16 @@ async function loadYearLevelCounts() {
             }
         }
     } catch (e) {
-        console.error('Year level counts error:', e);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
     }
 }
 
@@ -609,7 +654,16 @@ async function searchMegaNav() {
             }).join('');
 
         } catch (e) {
-            console.error('Search error:', e);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }, 300);
 }

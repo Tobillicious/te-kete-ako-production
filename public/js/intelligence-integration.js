@@ -42,7 +42,16 @@ class IntelligenceIntegration {
         }
 
         if (waited >= maxWait) {
-            console.warn('⚠️ Master Intelligence not available - using fallback');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 
@@ -117,7 +126,16 @@ class IntelligenceIntegration {
             // Update sidebar with recommendations
             this.updateSidebarWithRecommendations(sidebar, recommendations);
         } catch (error) {
-            console.error('Error connecting intelligent sidebar:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 
@@ -138,7 +156,16 @@ class IntelligenceIntegration {
 
             this.renderRecommendations(element, recommendations);
         } catch (error) {
-            console.error('Error connecting recommendations:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 
@@ -161,7 +188,16 @@ class IntelligenceIntegration {
                 this.renderTeachingVariants(element, recommendations.teaching);
             }
         } catch (error) {
-            console.error('Error connecting teaching variants:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 
@@ -184,7 +220,16 @@ class IntelligenceIntegration {
                 this.renderCulturalIntelligence(element, recommendations.cultural);
             }
         } catch (error) {
-            console.error('Error connecting cultural intelligence:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 
@@ -201,7 +246,16 @@ class IntelligenceIntegration {
                 const contextData = JSON.parse(contextElement.dataset.userContext);
                 Object.assign(context, contextData);
             } catch (e) {
-                console.warn('Invalid user context data');
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             }
         }
 

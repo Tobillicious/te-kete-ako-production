@@ -85,7 +85,16 @@ async function generateLessonPlan() {
         });
 
     } catch (error) {
-        console.error('Lesson planning error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         displayResult('Error', 'Unable to generate lesson plan. Please try again later.', null);
     } finally {
         loading.classList.remove('show');
@@ -130,7 +139,16 @@ Focus on respectful, authentic integration of mātauranga Māori.`;
         displayResult('Cultural Integration Analysis', result.response, result.metadata);
 
     } catch (error) {
-        console.error('Cultural analysis error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         displayResult('Error', 'Unable to analyze cultural integration. Please try again later.', null);
     } finally {
         loading.classList.remove('show');
@@ -165,7 +183,16 @@ async function generateAssessment() {
         displayResult(`${selectedAssessmentType.charAt(0).toUpperCase() + selectedAssessmentType.slice(1)} Assessment`, result.response, result.metadata);
 
     } catch (error) {
-        console.error('Assessment generation error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         displayResult('Error', 'Unable to generate assessment. Please try again later.', null);
     } finally {
         loading.classList.remove('show');
@@ -207,7 +234,16 @@ async function searchResources() {
         }
 
     } catch (error) {
-        console.error('Resource search error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         resultsContainer.innerHTML = '<div style="text-align: center; color: var(--error-red); padding: 2rem;">Search error. Please try again.</div>';
     } finally {
         loading.classList.remove('show');

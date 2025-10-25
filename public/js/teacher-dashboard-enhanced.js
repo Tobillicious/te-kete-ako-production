@@ -35,7 +35,16 @@ async function initializeDashboard() {
         .single();
     
     if (error || !profile || profile.role !== 'teacher') {
-        console.error('Profile error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         showMessage('Access denied. Teachers only.', 'error');
         setTimeout(() => {
             window.location.href = '/login.html';
@@ -123,7 +132,16 @@ async function loadTeacherStats() {
             </div>
         `;
     } catch (error) {
-        console.error('Stats error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         statsEl.innerHTML = '<p style="color: var(--color-error);">Unable to load statistics</p>';
     }
 }
@@ -174,7 +192,16 @@ async function loadRecommendedResources() {
             </div>
         `;
     } catch (error) {
-        console.error('Resources error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         resourcesEl.innerHTML = '<p style="color: var(--color-error);">Unable to load resources</p>';
     }
 }

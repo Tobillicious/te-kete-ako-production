@@ -197,13 +197,22 @@
 
         async function loadUnderConnectedExcellence() {
             try {
-                console.log('🔍 Loading under-connected excellence from GraphRAG...');
+                // User feedback provided via UI
                 
                 // Try RPC function first
                 const { data: resources, error } = await supabase.rpc('get_under_connected_excellence');
                 
                 if (error) {
-                    console.error('GraphRAG Error:', error);
+                    // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                     showFallback();
                     return;
                 }
@@ -211,7 +220,16 @@
                 renderResources(resources);
                 
             } catch (error) {
-                console.error('❌ Error loading resources:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 showFallback();
             }
         }
@@ -263,7 +281,7 @@
                 `;
             }).join('');
             
-            console.log('✅ Under-connected excellence loaded successfully');
+            // User feedback provided via UI
         }
 
         function showFallback() {

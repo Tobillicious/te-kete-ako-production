@@ -324,7 +324,16 @@
                 
                 document.getElementById('total-count').textContent = (count || 7072).toLocaleString() + '+';
             } catch (e) {
-                console.error('Load totals error:', e);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             }
         }
 
@@ -405,7 +414,16 @@
                 document.getElementById('loading-indicator').style.display = 'none';
 
                 if (error) {
-                    console.error('Query error:', error);
+                    // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                     showError('Failed to load resources. Check console for details.');
                     return;
                 }
@@ -415,7 +433,16 @@
 
             } catch (e) {
                 document.getElementById('loading-indicator').style.display = 'none';
-                console.error('Search error:', e);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 showError('Search failed. Please try again.');
             }
         }
@@ -563,7 +590,16 @@
 
         } catch (e) {
             document.getElementById('loading-indicator').style.display = 'none';
-            console.error('Display error:', e);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             showError('Failed to display results');
         }
     }
@@ -587,7 +623,16 @@
                 window.scrollTo({ top: document.getElementById('results-section').offsetTop - 100, behavior: 'smooth' });
             }
         } catch (e) {
-            console.error('Similar variants error:', e);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 

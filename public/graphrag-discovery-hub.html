@@ -69,7 +69,16 @@
         // Use singleton pattern
         const supabase = window.supabaseSingleton ? await window.supabaseSingleton.getClient() : null;
         if (!supabase) {
-            console.warn('Supabase singleton not loaded');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return;
         }
 
@@ -93,14 +102,23 @@
                 document.getElementById('stat-teaching-variants').textContent = (variantsRes.count || 7072).toLocaleString();
                 document.getElementById('stat-cultural').textContent = (dualCulturalRes.count || 2091).toLocaleString();
 
-                console.log('🧠 GraphRAG Discovery Hub loaded (LIVE DATA)');
+                // User feedback provided via UI
                 console.log('   🕸️ Knowledge Graph:', resourcesRes.count, 'resources');
                 console.log('   🔗 Relationships:', relationshipsRes.count, 'connections');
                 console.log('   🎯 Teaching Variants:', variantsRes.count);
                 console.log('   🌿 Dual Cultural:', dualCulturalRes.count, 'resources');
                 console.log('   💎 Ready to discover hidden excellence!');
             } catch (e) {
-                console.error('GraphRAG stats load error:', e);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             }
         }
 

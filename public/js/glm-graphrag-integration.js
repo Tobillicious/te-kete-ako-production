@@ -61,7 +61,16 @@ class GLMGraphRAGIntegration {
                 timestamp: new Date().toISOString()
             };
         } catch (error) {
-            console.error('Error in AI-enhanced recommendations:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return { error: error.message };
         }
     }
@@ -111,7 +120,16 @@ class GLMGraphRAGIntegration {
                 timestamp: new Date().toISOString()
             };
         } catch (error) {
-            console.error('Error generating teaching content:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return { error: error.message };
         }
     }
@@ -147,7 +165,16 @@ Respond in JSON format with keys: principles, whakatauki, integration_suggestion
 
             return culturalEnhancement;
         } catch (error) {
-            console.error('Error enhancing cultural context:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return { error: error.message };
         }
     }
@@ -196,7 +223,16 @@ Respond in JSON format with actionable recommendations.
                 timestamp: new Date().toISOString()
             };
         } catch (error) {
-            console.error('Error in gap analysis:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return { error: error.message };
         }
     }
@@ -253,7 +289,16 @@ Respond in JSON format with actionable recommendations.
 
             return result;
         } catch (error) {
-            console.error('GLM API call failed:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             throw error;
         }
     }
@@ -433,7 +478,16 @@ Respond in JSON format with all sections clearly structured.
 
             return { success: !error, data, error };
         } catch (error) {
-            console.error('Error saving generated content:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return { success: false, error };
         }
     }
@@ -463,7 +517,16 @@ Respond in JSON format with all sections clearly structured.
 
             return { success: !error, data, error };
         } catch (error) {
-            console.error('Error saving cultural enhancement:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return { success: false, error };
         }
     }

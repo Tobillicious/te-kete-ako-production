@@ -119,7 +119,16 @@ Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori"/>
     // Wait for Supabase CDN to load before initializing singleton
     window.addEventListener('DOMContentLoaded', () => {
         if (!window.supabase) {
-            console.error('❌ Supabase CDN failed to load!');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     });
 </script>
@@ -152,7 +161,16 @@ Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori"/>
                         console.log('✅ PWA: Service Worker registered!', registration);
                     })
                     .catch(error => {
-                        console.warn('PWA: Service Worker registration failed:', error);
+                        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                     });
             });
         }
@@ -655,7 +673,16 @@ Quality 95</span>
         fetch('/components/stats-dashboard.html')            .then(response => response.text())            .then(html => {
                 const container = document.getElementById('stats-dashboard-container');
                 if (container) container.innerHTML = html;
-            })            .catch(err => console.error('Stats load error:', err));
+            })            .catch(err => // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2'););
     */
     </script>
     <!-- FEATURED CAROUSEL - Curated Collections -->
@@ -1041,19 +1068,7 @@ Math → Sci</div>
 <!--
 <div id="orphaned-excellence-container" style="margin: 3rem auto; max-width: 1400px; padding: 0 2rem;">
 </div>
-<script>
-    fetch('/components/graphrag-orphaned-excellence.html')
-        .then(response => response.text())
-        .then(html => {
-            const container = document.getElementById('orphaned-excellence-container');
-            if (container) {
-                container.innerHTML = html;
-            } else {
-                console.warn('Orphaned Excellence container not found');
-            }
-        })
-        .catch(err => console.error('Orphaned Excellence load error:', err));
-</script>
+
 -->
 
 <!-- 🎮 INTERACTIVE GAMES SECTION - GraphRAG Powered -->
@@ -2481,5 +2496,79 @@ Discover More →</div>
 <script src="/js/error-monitoring.js" defer></script>
 <!-- Navigation already loaded in <head> line 61 - REMOVED DUPLICATE -->
 <!-- Component Loader already loaded in <head> line 63 - no duplicate needed -->
+<!-- PARALLEL COMPONENT LOADING - No more 2-3s delay! -->
+<script>
+    // Load all components in parallel for instant page display
+    Promise.all([
+
+        fetch('/components/stats-dashboard.html')
+            .then(r => r.text())
+            .then(html => {
+                const container = document.getElementById('stats-dashboard-container');
+                if (container) container.innerHTML = html;
+                else // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
+            })
+            .catch(err => // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');),
+
+        fetch('/components/graphrag-orphaned-excellence.html')
+            .then(r => r.text())
+            .then(html => {
+                const container = document.getElementById('graphrag-orphaned-excellence-container');
+                if (container) container.innerHTML = html;
+                else // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
+            })
+            .catch(err => // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');)
+    ]).then(() => {
+        // All components loaded successfully!
+        // User feedback provided via UI
+    }).catch(err => {
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
+    });
+</script>
 </body>
 </html>

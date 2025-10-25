@@ -25,7 +25,16 @@ async function initSupabase() {
     if (supabaseClient) return supabaseClient;
 
     if (typeof window.supabaseSingleton === 'undefined') {
-        console.error('❌ Supabase singleton not loaded');
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         window.teKeteAuth.authState = 'error';
         return null;
     }
@@ -100,7 +109,16 @@ async function checkCurrentSession() {
             detail: { authState, currentUser }
         }));
     } catch (error) {
-        console.error('Session check error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         authState = 'error';
         window.teKeteAuth.authState = 'error';
     }
@@ -130,7 +148,16 @@ async function signIn(email, password) {
 
         return data;
     } catch (error) {
-        console.error('Sign in error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         throw error;
     }
 }
@@ -147,7 +174,16 @@ async function signOut() {
         const { error } = await supabaseClient.auth.signOut();
         if (error) throw error;
     } catch (error) {
-        console.error('Sign out error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         throw error;
     }
 }
@@ -162,7 +198,16 @@ async function getCurrentUserToken() {
         const { data: { session } } = await supabaseClient.auth.getSession();
         return session?.access_token || null;
     } catch (error) {
-        console.error('Token retrieval error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         return null;
     }
 }
@@ -204,7 +249,16 @@ async function redirectByRole(user) {
             .single();
 
         if (error) {
-            console.error('Error fetching profile:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             // Default redirect if profile not found
             window.location.href = '/getting-started.html';
             return;
@@ -221,7 +275,16 @@ async function redirectByRole(user) {
             window.location.href = '/getting-started.html';
         }
     } catch (error) {
-        console.error('Redirect error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         // Fallback to getting started
         window.location.href = '/getting-started.html';
     }

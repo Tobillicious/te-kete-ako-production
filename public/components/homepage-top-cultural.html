@@ -73,7 +73,16 @@ class TopCulturalWidget {
             this.render();
             this.setupFilters();
         } else {
-            console.warn('⏳ Waiting for Supabase singleton...');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             setTimeout(() => this.init(), 500);
         }
     }
@@ -92,14 +101,32 @@ class TopCulturalWidget {
                 .limit(20);
 
             if (error) {
-                console.error('❌ Cultural resources query error:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 return;
             }
 
             this.resources = data.filter(r => !r.file_path.startsWith('concept://') && !r.file_path.startsWith('competency://'));
             console.log(`✅ Loaded ${this.resources.length} premium cultural resources`);
         } catch (error) {
-            console.error('❌ Cultural widget error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 

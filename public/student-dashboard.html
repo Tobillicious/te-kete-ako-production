@@ -201,7 +201,16 @@
                 const html = await response.text();
                 document.getElementById('nav-container').innerHTML = html;
             } catch (error) {
-                console.error('Navigation load failed:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             }
         }
         
@@ -231,7 +240,16 @@
                     }
                 }
             } catch (error) {
-                console.error('Profile load error:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             }
         }
         
@@ -265,7 +283,16 @@
                 document.getElementById('learning-streak').textContent = streak;
                 
             } catch (error) {
-                console.error('Stats load error:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             }
         }
         
@@ -324,7 +351,16 @@
                     `;
                 }
             } catch (error) {
-                console.error('GraphRAG recommendations error:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 document.getElementById('graphrag-recommendations').innerHTML = `
                     <p style="color: #6b7280; text-align: center; padding: 2rem;">
                         Browse our <a href="/lessons.html" style="color: var(--color-accent-500);">lessons</a> to get started!
@@ -364,7 +400,16 @@
                     document.getElementById('recent-activity').innerHTML = html;
                 }
             } catch (error) {
-                console.error('Recent activity error:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             }
         }
         
@@ -390,7 +435,16 @@
                     document.getElementById('announcements-container').innerHTML = html;
                 }
             } catch (error) {
-                console.error('Announcements error:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             }
         }
         

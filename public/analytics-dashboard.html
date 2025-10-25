@@ -207,7 +207,16 @@
                 .not('clicked_resource_path', 'is', null);
 
             if (error) {
-                console.error('Error loading recommendations:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 return;
             }
 
@@ -244,7 +253,16 @@
                 .limit(10);
 
             if (error) {
-                console.error('Error loading feedback:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 return;
             }
 
@@ -272,7 +290,16 @@
                 .gte('timestamp', sevenDaysAgo);
 
             if (error) {
-                console.error('Error loading performance:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 return;
             }
 

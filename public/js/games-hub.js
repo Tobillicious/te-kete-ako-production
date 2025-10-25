@@ -12,7 +12,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             const { data, error } = await supabaseClient.rpc('get_resources_by_type', { resource_type: 'game' });
 
             if (error) {
-                console.error('Error fetching games:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 resourceGrid.textContent = '<p class="error-message">Could not load games. Please try again later.</p>';
                 return;
             }
@@ -46,7 +55,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
 
         } catch (err) {
-            console.error('An unexpected error occurred:', err);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             resourceGrid.textContent = '<p class="error-message">An unexpected error occurred while loading games.</p>';
         }
     }

@@ -77,7 +77,16 @@ class AdaptivePathwayGenerator {
             return pathway;
 
         } catch (error) {
-            console.error('Error generating pathway:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return { error: error.message };
         }
     }
@@ -125,7 +134,16 @@ class AdaptivePathwayGenerator {
             return await this.createScaffoldedPath(start, end, preferences);
 
         } catch (error) {
-            console.error('Error finding path:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return [];
         }
     }
@@ -359,7 +377,16 @@ class AdaptivePathwayGenerator {
 
             return { success: !error, data, error };
         } catch (error) {
-            console.error('Error saving pathway:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return { success: false, error };
         }
     }

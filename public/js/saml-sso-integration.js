@@ -107,7 +107,16 @@ class TeKeteSSO {
             window.location.href = ssoUrl;
             
         } catch (error) {
-            console.error('SSO login error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.showError('SSO authentication failed. Please try again.');
         }
     }
@@ -163,7 +172,16 @@ class TeKeteSSO {
             }, 2000);
             
         } catch (error) {
-            console.error('SAML response processing error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.showError('SSO authentication failed. Please try again.');
         }
     }
@@ -241,7 +259,16 @@ class TeKeteSSO {
             }
             
         } catch (error) {
-            console.error('User creation/update error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             throw error;
         }
     }
@@ -287,7 +314,16 @@ class TeKeteSSO {
             this.showSuccess('School configuration saved successfully!');
             
         } catch (error) {
-            console.error('School configuration error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.showError('Failed to save school configuration. Please try again.');
         }
     }
@@ -318,7 +354,16 @@ class TeKeteSSO {
             this.showSuccess(`${users.length} users imported successfully!`);
             
         } catch (error) {
-            console.error('Bulk import error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.showError('Failed to import users. Please check the CSV format.');
         }
     }
@@ -348,7 +393,16 @@ class TeKeteSSO {
             this.showSuccess('User role updated successfully!');
             
         } catch (error) {
-            console.error('Role update error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.showError('Failed to update user role. Please try again.');
         }
     }

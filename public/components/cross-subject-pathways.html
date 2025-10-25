@@ -52,7 +52,16 @@
             // Use singleton pattern - supabase-singleton.js loaded in main HTML
             window.supabase = window.supabaseSingleton ? await window.supabaseSingleton.getClient() : null;
             if (!window.supabase) {
-                console.warn('Supabase singleton not available');
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 return;
             }
         }
@@ -132,7 +141,16 @@
         });
 
     } catch (e) {
-        console.error('Cross-subject pathways component error:', e);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
     }
 })();
 </script>

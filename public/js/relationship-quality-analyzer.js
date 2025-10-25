@@ -61,7 +61,16 @@ class RelationshipQualityAnalyzer {
             return analysis;
 
         } catch (error) {
-            console.error('Error analyzing distribution:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return { error: error.message };
         }
     }
@@ -252,7 +261,16 @@ class RelationshipQualityAnalyzer {
             };
 
         } catch (error) {
-            console.error('Error recalibrating:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return { error: error.message };
         }
     }

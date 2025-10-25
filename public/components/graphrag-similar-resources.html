@@ -151,7 +151,16 @@
         // Get current resource path
         const currentPath = container.dataset.resourcePath;
         if (!currentPath) {
-            console.error('No resource path specified');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return;
         }
 
@@ -165,7 +174,16 @@
         // Use singleton pattern
         window.supabase = window.supabaseSingleton ? await window.supabaseSingleton.getClient() : null;
         if (!window.supabase) {
-            console.warn('Supabase singleton not available');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return;
         }
 
@@ -178,7 +196,16 @@
             .limit(20); // Get more to filter out broken links
 
         if (relError) {
-            console.error('Error fetching relationships:', relError);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             container.innerHTML = '<div class="similar-resources-error">Unable to load similar resources. Please refresh the page.</div>';
             return;
         }
@@ -199,7 +226,16 @@
             .order('quality_score', { ascending: false });
 
         if (resError) {
-            console.error('Error fetching resources:', resError);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             container.innerHTML = '<div class="similar-resources-error">Unable to load resource details.</div>';
             return;
         }
@@ -256,7 +292,16 @@
         container.innerHTML = html;
 
     } catch (error) {
-        console.error('Similar Resources component error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         const container = document.getElementById('similar-resources');
         if (container) {
             container.innerHTML = '<div class="similar-resources-error">An error occurred loading similar resources.</div>';

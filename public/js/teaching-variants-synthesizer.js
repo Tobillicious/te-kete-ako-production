@@ -237,7 +237,16 @@ class TeachingVariantsSynthesizer {
             const similarLessons = await response.json();
             return this.synthesizeVariants(similarLessons);
         } catch (error) {
-            console.error('Failed to load variants from GraphRAG:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return { variants: [], error: error.message };
         }
     }
@@ -261,7 +270,16 @@ class TeachingVariantsSynthesizer {
                 })
             });
         } catch (error) {
-            console.error('Failed to track teacher preference:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 }

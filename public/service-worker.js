@@ -50,7 +50,16 @@ self.addEventListener('install', (event) => {
                 return Promise.allSettled(
                     STATIC_ASSETS.map(asset => 
                         cache.add(asset).catch(err => {
-                            console.warn(`[Service Worker] Failed to cache ${asset}:`, err);
+                            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                             return null; // Continue with other assets
                         })
                     )
@@ -58,7 +67,16 @@ self.addEventListener('install', (event) => {
             })
             .then(() => self.skipWaiting())
             .catch((error) => {
-                console.error('[Service Worker] Install failed:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             })
     );
 });

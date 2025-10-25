@@ -380,7 +380,16 @@
                 
                 // Log any performance issues
                 if (loadTime > 3000) {
-                    console.warn('⚠️ Page load time is slow. Consider optimization.');
+                    // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 }
             });
         }
@@ -427,12 +436,30 @@
         },
 
         handleError(event) {
-            console.error('JavaScript Error:', event.error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             // In production, you might want to send this to an error tracking service
         },
 
         handlePromiseRejection(event) {
-            console.error('Unhandled Promise Rejection:', event.reason);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             event.preventDefault();
         }
     };
@@ -468,13 +495,31 @@
                             document.body.appendChild(s);
                         }
                     } catch (e) {
-                        console.warn('Badge system script load failed:', e);
+                        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                     }
                 }
                 document.documentElement.setAttribute('data-badge-system-loaded', '1');
             })
             .catch(e => {
-                console.warn('Badge system fetch failed:', e);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             });
     }
 

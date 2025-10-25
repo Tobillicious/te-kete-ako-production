@@ -55,7 +55,16 @@ class TeKeteOAuth {
             this.showLoadingState('google');
             
         } catch (error) {
-            console.error('Google OAuth error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.showError('Google sign-in failed. Please try again.');
         }
     }
@@ -76,7 +85,16 @@ class TeKeteOAuth {
             this.showLoadingState('microsoft');
             
         } catch (error) {
-            console.error('Microsoft OAuth error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.showError('Microsoft sign-in failed. Please try again.');
         }
     }
@@ -113,7 +131,16 @@ class TeKeteOAuth {
             }
             
         } catch (error) {
-            console.error('OAuth callback error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.showError('Authentication failed. Please try again.');
         }
     }

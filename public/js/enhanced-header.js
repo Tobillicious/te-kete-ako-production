@@ -90,7 +90,16 @@ class EnhancedHeader {
         }
         
         if (!window.supabase) {
-            console.warn('⚠️ Supabase not available, using mock authentication');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.isAuthenticated = false;
             this.currentUser = null;
             return;
@@ -101,7 +110,16 @@ class EnhancedHeader {
             this.isAuthenticated = !!user;
             this.currentUser = user;
         } catch (error) {
-            console.error('Error checking auth status:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.isAuthenticated = false;
             this.currentUser = null;
         }
@@ -1793,7 +1811,16 @@ class EnhancedHeader {
             if (error) throw error;
             window.location.reload();
         } catch (error) {
-            console.error('Error signing out:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 

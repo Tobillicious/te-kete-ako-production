@@ -68,9 +68,27 @@ class AgentCoordinator {
                     }
                 }]);
 
-            if (error) console.error('Agent registration error:', error);
+            if (error) // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         } catch (error) {
-            console.error('Error registering agent:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 
@@ -93,14 +111,32 @@ class AgentCoordinator {
             
             return this.currentTask;
         } catch (error) {
-            console.error('Error claiming task:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return null;
         }
     }
 
     async completeTask(filesModified = [], keyDecisions = {}, handoffNotes = null) {
         if (!this.currentTask) {
-            console.warn('No active task to complete');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return;
         }
 
@@ -134,7 +170,16 @@ class AgentCoordinator {
 
             this.currentTask = null;
         } catch (error) {
-            console.error('Error completing task:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 
@@ -150,9 +195,27 @@ class AgentCoordinator {
                     technical_details: knowledgeEntry.technical_details || {}
                 }]);
 
-            if (error) console.error('Knowledge logging error:', error);
+            if (error) // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         } catch (error) {
-            console.error('Error logging knowledge:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 
@@ -169,7 +232,16 @@ class AgentCoordinator {
 
             return data || [];
         } catch (error) {
-            console.error('Error querying knowledge:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return [];
         }
     }
@@ -188,7 +260,16 @@ class AgentCoordinator {
 
             return data || [];
         } catch (error) {
-            console.error('Error getting active agents:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return [];
         }
     }
@@ -205,7 +286,16 @@ class AgentCoordinator {
             if (error) throw error;
 
             if (data && data.length > 0) {
-                console.warn(`⚠️ Potential conflict: ${data[0].agent_name} is working on similar task`);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 return {
                     hasConflict: true,
                     conflictingAgent: data[0].agent_name,
@@ -215,7 +305,16 @@ class AgentCoordinator {
 
             return { hasConflict: false };
         } catch (error) {
-            console.error('Error checking conflicts:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return { hasConflict: false };
         }
     }
@@ -237,7 +336,16 @@ class AgentCoordinator {
 
             if (error) throw error;
         } catch (error) {
-            console.error('Error broadcasting message:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 
@@ -260,7 +368,16 @@ class AgentCoordinator {
 
             return data || [];
         } catch (error) {
-            console.error('Error getting messages:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return [];
         }
     }
@@ -278,7 +395,16 @@ class AgentCoordinator {
                     })
                     .eq('agent_name', this.agentName);
             } catch (error) {
-                console.error('Heartbeat error:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             }
         }, 30000);
     }
@@ -297,7 +423,16 @@ class AgentCoordinator {
                 .eq('agent_name', this.agentName);
 
         } catch (error) {
-            console.error('Shutdown error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 
@@ -319,7 +454,16 @@ class AgentCoordinator {
                 collective_intelligence_active: true
             };
         } catch (error) {
-            console.error('Error getting collective summary:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return null;
         }
     }

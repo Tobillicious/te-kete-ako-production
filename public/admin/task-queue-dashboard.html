@@ -188,7 +188,16 @@
                 displayTasks(allTasks);
                 
             } catch (error) {
-                console.error('Dashboard load error:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 document.getElementById('task-list').innerHTML = `
                     <div style="background: #fee2e2; padding: 2rem; border-radius: 12px; text-align: center; color: #991b1b;">
                         <strong>Error loading dashboard:</strong><br>

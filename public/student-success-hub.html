@@ -70,5 +70,14 @@
   s.setAttribute('style','background: white; padding: 2rem; border-radius: 16px; margin: 2rem auto; max-width: 1100px; box-shadow: 0 4px 16px rgba(0,0,0,0.06);');
   s.innerHTML='<div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem;"><div style="flex:1 1 420px;"><h2 style="margin:0 0 0.5rem 0; font-size:1.75rem; color:#0f172a; font-weight:800;">Start here</h2><p style="margin:0; color:#475569; font-size:1rem;">Quick wins for student success.</p></div><div style="display:flex; gap:0.75rem; flex-wrap:wrap;"><a href="/generated-resources-alpha/handouts/year-9-starter-pack-essential-skills-for-high-school-success.html" style="background:#1d4ed8; color:white; padding:0.85rem 1.1rem; border-radius:10px; text-decoration:none; font-weight:700;">🚀 Y9 Starter Pack</a><a href="/generated-resources-alpha/handouts/ncea-level-1-literacy-and-numeracy-must-knows.html" style="background:#b91c1c; color:white; padding:0.85rem 1.1rem; border-radius:10px; text-decoration:none; font-weight:700;">🎓 NCEA L1 Must-Knows</a></div></div>';
   hero.insertAdjacentElement('afterend', s);
-}catch(e){console.warn('CTA insert failed (student-success)',e);}})();</script>
+}catch(e){// Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');}})();</script>
 </body></html>

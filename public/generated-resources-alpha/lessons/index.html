@@ -145,7 +145,7 @@
 
         async function loadLessons() {
             try {
-                console.log('🔍 Loading lessons from GraphRAG...');
+                // User feedback provided via UI
                 
                 const { data: lessons, error } = await supabase
                     .from('graphrag_resources')
@@ -154,7 +154,16 @@
                     .order('quality_score', { ascending: false });
 
                 if (error) {
-                    console.error('GraphRAG Error:', error);
+                    // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                     return;
                 }
 
@@ -167,7 +176,16 @@
                 displayLessons(lessons);
 
             } catch (error) {
-                console.error('❌ Error loading lessons:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 document.getElementById('lessons-container').innerHTML = `
                     <div style="text-align: center; padding: 3rem;">
                         <p style="color: #dc2626; font-weight: 600;">Error loading lessons</p>

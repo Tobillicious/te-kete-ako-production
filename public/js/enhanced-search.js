@@ -100,7 +100,16 @@
       
       return results;
     } catch (error) {
-      console.error('Search error:', error);
+      // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
       this.hideLoading();
       return [];
     }
@@ -145,7 +154,16 @@
       
       return grouped;
     } catch (error) {
-      console.error('Variant search error:', error);
+      // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
       return { current: [], variants: [] };
     }
   }
@@ -187,7 +205,16 @@
       
       return await resourceResponse.json();
     } catch (error) {
-      console.error('Related resources error:', error);
+      // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
       return [];
     }
   }
@@ -210,7 +237,16 @@
       
       return await response.json();
     } catch (error) {
-      console.error('Featured resources error:', error);
+      // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
       return [];
     }
   }
@@ -246,7 +282,16 @@
       
       return stats;
     } catch (error) {
-      console.error('Stats error:', error);
+      // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
       return { total: 0, byType: {}, bySubject: {} };
     }
   }

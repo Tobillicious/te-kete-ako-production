@@ -32,7 +32,16 @@ class BeautifulFontLoader {
             // Try to load Google Fonts with progressive enhancement
             await this.loadGoogleFonts();
         } catch (error) {
-            console.warn('🔤 Google Fonts failed to load, using system font fallbacks');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.activateFallbackFonts();
         }
     }
@@ -232,7 +241,16 @@ class BeautifulFontLoader {
                 return true;
             }
         } catch (error) {
-            console.warn(`Failed to load ${fontFamily} manually:`, error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return false;
         }
     }
