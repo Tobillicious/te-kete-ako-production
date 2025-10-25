@@ -19,7 +19,7 @@ class ComponentLoader {
         this.loading = new Set();
         this.loaded = new Set();
         this.queue = [];
-        this.maxConcurrent = 2; // Max 2 components loading at once
+        this.maxConcurrent = 4; // Max 4 components loading concurrently (faster than sequential)
         this.currentLoading = 0;
     }
 
@@ -185,23 +185,35 @@ class ComponentLoader {
         // Priority 1: Navigation (already loaded in index.html, but keeping for consistency)
         // Skip - navigation loads synchronously before this
 
-        // Priority 2: Hero sections (above fold)
-        // DISABLED - Hero already loads via inline script in index.html (#hero-enhanced-container)
-        // loader.register({
-        //     id: 'hero-enhanced',
-        //     url: '/components/hero-enhanced.html',
-        //     selector: '#hero-component',
-        //     priority: 'high'
-        // });
+        // Priority 2: Hero sections (above fold, critical)
+        loader.register({
+            id: 'hero-unified',
+            url: '/components/hero-unified.html',
+            selector: '#hero-component',
+            priority: 'high'
+        });
 
-        // Priority 3: Featured content (still above fold)
-        // DISABLED - Featured carousel already loads via inline script in index.html (#featured-carousel-container)
-        // loader.register({
-        //     id: 'featured-carousel',
-        //     url: '/components/featured-carousel.html',
-        //     selector: '#featured-component',
-        //     priority: 'normal'
-        // });
+        loader.register({
+            id: 'featured-carousel',
+            url: '/components/featured-carousel.html',
+            selector: '#featured-component',
+            priority: 'high'
+        });
+
+        // Priority 3: Main content widgets (above fold, important)
+        loader.register({
+            id: 'top-cultural-widget',
+            url: '/components/top-cultural-widget.html',
+            selector: '#top-cultural-widget',
+            priority: 'normal'
+        });
+
+        loader.register({
+            id: 'games-showcase',
+            url: '/components/games-showcase.html',
+            selector: '#games-showcase-container',
+            priority: 'normal'
+        });
 
         // Priority 4: Footer and polish (below fold)
         loader.register({
@@ -232,6 +244,13 @@ class ComponentLoader {
             priority: 'low'
         });
 
+        loader.register({
+            id: 'quick-actions-fab',
+            url: '/components/quick-actions-fab.html',
+            selector: '#fab-quick-actions',
+            priority: 'low'
+        });
+
         return loader;
     }
 }
@@ -239,15 +258,29 @@ class ComponentLoader {
 // Global instance for homepage
 window.componentLoader = ComponentLoader.createForHomepage();
 
-// Auto-start DISABLED - Components already in HTML, no need to load dynamically
-// Re-enable this when using dynamic component loading
-// if (document.readyState === 'loading') {
-//     document.addEventListener('DOMContentLoaded', () => {
-//         window.componentLoader.loadAll();
-//     });
-// } else {
-//     window.componentLoader.loadAll();
-// }
+// Auto-start ENABLED - Load components using coordinated system
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        window.componentLoader.loadAll()
+            .then(() => {
+                console.log('✅ All homepage components loaded successfully');
+                // Trigger custom event for when all components are ready
+                document.dispatchEvent(new CustomEvent('homepage-components-ready'));
+            })
+            .catch(err => {
+                console.error('❌ Component loading failed:', err);
+            });
+    });
+} else {
+    window.componentLoader.loadAll()
+        .then(() => {
+            console.log('✅ All homepage components loaded successfully');
+            document.dispatchEvent(new CustomEvent('homepage-components-ready'));
+        })
+        .catch(err => {
+            console.error('❌ Component loading failed:', err);
+        });
+}
 
 // Export for module systems
 if (typeof module !== 'undefined' && module.exports) {
