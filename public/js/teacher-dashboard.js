@@ -201,8 +201,9 @@ async function loadResourceLibrary(profile) {
             .limit(10);
         
         // Filter by teacher's subjects if available
-        if (profile.subjects_taught) {
-            // TODO: Filter by subjects
+        if (profile.subjects_taught && profile.subjects_taught.length > 0) {
+            // Filter resources matching teacher's subjects
+            query = query.in('subject', profile.subjects_taught);
         }
         
         const { data: resources, error } = await query;

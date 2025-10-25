@@ -1436,21 +1436,52 @@ Contact Us</a>
         // Show user-friendly message instead of error
         }        }        document.addEventListener('DOMContentLoaded', loadGraphRAGMathematics);    </script>
     <script src="/js/enhanced-search.js"></script>
-    <script>        async function loadMathResources() {            const search = new EnhancedSearch();            const resources = await search.search('', { subject: 'Mathematics' });            renderResources(resources);        }        function renderResources(resources) {            const grid = document.getElementById('resources-grid');            const html = resources.map(r => `                <a href="${r.path}" class="resource-card">
-                    <h3>
-${r.title}</h3>
-                    <p>
-${r.description}</p>
+    <script>        
+        // Store all resources globally for filtering
+        let allMathResources = [];
+        
+        async function loadMathResources() {            
+            const search = new EnhancedSearch();            
+            allMathResources = await search.search('', { subject: 'Mathematics' });            
+            renderResources(allMathResources);        
+        }        
+        
+        function renderResources(resources) {            
+            const grid = document.getElementById('resources-grid');            
+            const html = resources.map(r => `                
+                <a href="${r.path}" class="resource-card">
+                    <h3>${r.title}</h3>
+                    <p>${r.description}</p>
                     <div class="card-footer">
-                        <span class="badge subject">
-${r.type}</span>
-                        <span class="badge level">
-${r.level || 'All Levels'}</span>
+                        <span class="badge subject">${r.type}</span>
+                        <span class="badge level">${r.level || 'All Levels'}</span>
                     </div>
                 </a>
-            `).join('');            grid.innerHTML = html || '<p>
-Loading resources...</p>
-';        }        function filterBy(type) {            // Update active button            document.querySelectorAll('.filter-chip').forEach(btn => btn.classList.remove('active'));            event.target.classList.add('active');            // Filter and render            // TODO: Implement filtering        }        document.addEventListener('DOMContentLoaded', loadMathResources);    </script>
+            `).join('');            
+            grid.innerHTML = html || '<p>No resources found.</p>';        
+        }        
+        
+        function filterBy(type) {            
+            // Update active button            
+            document.querySelectorAll('.filter-chip').forEach(btn => btn.classList.remove('active'));            
+            event.target.classList.add('active');            
+            
+            // Filter resources based on type
+            let filtered;
+            if (type === 'all') {
+                filtered = allMathResources;
+            } else {
+                filtered = allMathResources.filter(r => 
+                    r.type && r.type.toLowerCase() === type.toLowerCase()
+                );
+            }
+            
+            // Render filtered resources
+            renderResources(filtered);        
+        }        
+        
+        document.addEventListener('DOMContentLoaded', loadMathResources);    
+    </script>
     <style>
         .filter-chip {            padding: 0.75rem 1.5rem;            color: #0284c7;            border-radius: 50px;            cursor: pointer;            transition: all 0.3s;        }        .filter-chip:hover, .filter-chip.active {            background: #0284c7;            color: white;        }    </style>
     <script>        // Load REAL mathematics resources from GraphRAG (FIXED: now uses graphrag_resources for COMPLETE data!)        async function loadMathResources() {            try {                const url = 'https://nlgldaqtubrlcqddppbq.supabase.co/rest/v1/graphrag_resources';                const headers = {                    'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM',                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'                };                // Query graphrag_resources table (303 math resources instead of 137!)                const response = await fetch(`${url}?or=(subject.ilike.%mathematics%,subject.ilike.%math%)&file_path=like./public/*&order=quality_score.desc&limit=100`, { headers });                const resources = await response.json();                console.log(`✅ Loaded ${resources.length} mathematics resources from GraphRAG (showing ALL content, not just ${Math.floor(resources.length/2.2)}!)`);                // Update count on page                const countElement = document.querySelector('.count-badge');                if (countElement && resources.length > 0) {                    countElement.textContent = `${resources.length}+ Resources`;                }            } catch (error) {                // Log to monitoring instead of console
