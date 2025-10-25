@@ -1,0 +1,206 @@
+<!-- 🌿 TOP CULTURAL RESOURCES - Premium Tier Excellence -->
+<section class="max-w-6xl mx-auto mt-12 px-8">
+    <div class="text-center mb-10">
+        <div class="inline-block bg-gradient-to-br from-emerald-600 to-emerald-800 px-8 py-3 rounded-full mb-4">
+            <span class="text-white font-extrabold text-base">🌿 CULTURAL EXCELLENCE</span>
+        </div>
+        <h2 class="text-5xl text-primary mb-3 font-extrabold">
+            Premium Māori-Integrated Resources
+        </h2>
+        <p class="text-gray-600 text-xl max-w-3xl mx-auto mb-6">
+            Our highest-rated resources combining whakataukī, te reo Māori, and cultural frameworks
+        </p>
+        
+        <!-- Subject Filter -->
+        <div class="flex justify-center gap-3 flex-wrap">
+            <button class="cultural-filter-btn active" data-subject="all">All Subjects</button>
+            <button class="cultural-filter-btn" data-subject="Te Ao Māori">Te Ao Māori</button>
+            <button class="cultural-filter-btn" data-subject="Science">Science</button>
+            <button class="cultural-filter-btn" data-subject="Mathematics">Mathematics</button>
+            <button class="cultural-filter-btn" data-subject="Digital Technologies">Digital Tech</button>
+        </div>
+    </div>
+
+    <!-- Cultural Resources Grid -->
+    <div id="cultural-resources-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Dynamically loaded from GraphRAG -->
+    </div>
+</section>
+
+<style>
+.cultural-filter-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 999px;
+    border: 2px solid #e5e7eb;
+    background: white;
+    color: #6b7280;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cultural-filter-btn:hover {
+    border-color: #10b981;
+    color: #059669;
+}
+
+.cultural-filter-btn.active {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    border-color: #059669;
+}
+</style>
+
+<script>
+/**
+ * Top Cultural Resources Widget - GraphRAG-Powered
+ * Shows Q100 premium resources with whakataukī + te reo + cultural context
+ */
+class TopCulturalWidget {
+    constructor() {
+        this.supabase = null;
+        this.resources = [];
+        this.currentFilter = 'all';
+        this.init();
+    }
+
+    async init() {
+        // Wait for Supabase singleton
+        if (window.supabaseSingleton) {
+            this.supabase = await window.supabaseSingleton.getClient();
+            await this.loadResources();
+            this.render();
+            this.setupFilters();
+        } else {
+            console.warn('⏳ Waiting for Supabase singleton...');
+            setTimeout(() => this.init(), 500);
+        }
+    }
+
+    async loadResources() {
+        try {
+            // Get premium cultural resources
+            const { data, error } = await this.supabase
+                .from('graphrag_resources')
+                .select('file_path, title, quality_score, subject, year_level, has_whakataukī, has_te_reo, cultural_context')
+                .eq('cultural_context', true)
+                .eq('has_whakataukī', true)
+                .eq('has_te_reo', true)
+                .gte('quality_score', 95)
+                .order('quality_score', { ascending: false })
+                .limit(20);
+
+            if (error) {
+                console.error('❌ Cultural resources query error:', error);
+                return;
+            }
+
+            this.resources = data.filter(r => !r.file_path.startsWith('concept://') && !r.file_path.startsWith('competency://'));
+            console.log(`✅ Loaded ${this.resources.length} premium cultural resources`);
+        } catch (error) {
+            console.error('❌ Cultural widget error:', error);
+        }
+    }
+
+    setupFilters() {
+        const buttons = document.querySelectorAll('.cultural-filter-btn');
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active state
+                buttons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Update filter and re-render
+                this.currentFilter = btn.dataset.subject;
+                this.render();
+            });
+        });
+    }
+
+    render() {
+        const container = document.getElementById('cultural-resources-grid');
+        if (!container) return;
+
+        // Filter resources
+        const filtered = this.currentFilter === 'all' 
+            ? this.resources 
+            : this.resources.filter(r => r.subject === this.currentFilter);
+
+        if (filtered.length === 0) {
+            container.innerHTML = `
+                <div class="col-span-2 text-center py-12">
+                    <p class="text-gray-500 text-lg">No ${this.currentFilter} resources found. Try another subject!</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = filtered.slice(0, 10).map(resource => {
+            const { icon, color, bgColor } = this.getSubjectStyle(resource.subject);
+            const cleanPath = resource.file_path.replace('./public', '').replace('/public', '');
+
+            return `
+                <a href="${cleanPath}" class="bg-white rounded-xl p-6 no-underline shadow-lg border-l-4 ${color} transition-all hover:-translate-y-1 hover:shadow-2xl group">
+                    <div class="flex items-start gap-4">
+                        <span class="text-5xl flex-shrink-0">${icon}</span>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="${bgColor} ${color.replace('border-', 'text-')} px-3 py-1 rounded-lg text-xs font-bold">
+                                    Q${resource.quality_score}
+                                </span>
+                                <span class="text-gray-500 text-sm">${resource.year_level || 'All Years'}</span>
+                            </div>
+                            <h3 class="text-xl text-primary font-bold mb-2 group-hover:text-emerald-600 transition-colors">
+                                ${resource.title}
+                            </h3>
+                            <div class="flex gap-2 flex-wrap">
+                                <span class="bg-emerald-50 text-emerald-700 px-2 py-1 rounded-md text-xs font-semibold">
+                                    🌿 Whakataukī
+                                </span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded-md text-xs font-semibold">
+                                    🗣️ Te Reo
+                                </span>
+                                <span class="bg-purple-50 text-purple-700 px-2 py-1 rounded-md text-xs font-semibold">
+                                    🎯 Cultural Context
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            `;
+        }).join('');
+    }
+
+    getSubjectStyle(subject) {
+        const styles = {
+            'Te Ao Māori': { icon: '🌿', color: 'border-emerald-500', bgColor: 'bg-emerald-100' },
+            'Digital Technologies': { icon: '💻', color: 'border-blue-500', bgColor: 'bg-blue-100' },
+            'Science': { icon: '🔬', color: 'border-teal-500', bgColor: 'bg-teal-100' },
+            'Mathematics': { icon: '🔢', color: 'border-amber-500', bgColor: 'bg-amber-100' },
+            'Social Studies': { icon: '🏛️', color: 'border-purple-500', bgColor: 'bg-purple-100' },
+            'English': { icon: '📖', color: 'border-pink-500', bgColor: 'bg-pink-100' },
+            'Cross-Curricular': { icon: '🎨', color: 'border-indigo-500', bgColor: 'bg-indigo-100' },
+            'Physical Education & Health': { icon: '⚽', color: 'border-orange-500', bgColor: 'bg-orange-100' }
+        };
+        
+        return styles[subject] || { icon: '✨', color: 'border-gray-400', bgColor: 'bg-gray-100' };
+    }
+
+    extractUnitName(path) {
+        const match = path.match(/\/([^\/]+)\/index\.html$/);
+        if (match) {
+            return match[1].split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        }
+        return path;
+    }
+}
+
+// Auto-initialize
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new TopCulturalWidget());
+} else {
+    new TopCulturalWidget();
+}
+</script>
+
