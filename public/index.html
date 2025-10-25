@@ -14,16 +14,24 @@ Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori</titl
 <link href="/manifest.json" rel="manifest"/>
 <meta content="#1a4d2e" name="theme-color"/>
 
-<!-- CSS - ULTIMATE BEAUTY SYSTEM (Tailwind + Cultural Patterns) -->
-<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css"/>
-<link rel="stylesheet" href="/css/te-kete-professional.css"/>
-<link rel="stylesheet" href="/css/main.css">
-<link rel="stylesheet" href="/css/navigation-standard.css">
-<link rel="stylesheet" href="/css/mobile-revolution.css">
-<link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css">
+<!-- CSS - UNIFIED DESIGN SYSTEM (CONSOLIDATED) -->
+<!-- CRITICAL PATH CSS: Load professionalization system FIRST (wins cascade) -->
 <link rel="stylesheet" href="/css/professionalization-system.css">
+
+<!-- SUPPORTING SYSTEMS: Load in priority order -->
+<link rel="stylesheet" href="/css/te-kete-professional.css">
+<link rel="stylesheet" href="/css/navigation-standard.css">
+
+<!-- MOBILE & RESPONSIVE (consolidated) -->
+<link rel="stylesheet" href="/css/mobile-revolution.css">
+
+<!-- PRINT STYLES (unified - see note below) -->
 <link rel="stylesheet" href="/css/print.css" media="print">
-<link rel="stylesheet" href="/css/print-professional.css" media="print"/>
+
+<!-- CASCADE FIX: Load LAST to win cascade and resolve all conflicts -->
+<link rel="stylesheet" href="/css/cascade-fix.css">
+
+<link rel="stylesheet" href="/css/main.css">
 <link rel="stylesheet" href="/css/tailwind.css">
 
 <!-- UTILITY LAYER: Tailwind loads last but only provides utilities -->
@@ -88,7 +96,21 @@ Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori</titl
 .whakatauki-banner {    background: linear-gradient(135deg, #f5e6d3 0%, #d4a574 100%);    padding: 3rem 2rem;    text-align: center;    border-bottom: 4px solid #1a4d2e;    margin: 0;}.whakatauki-text {    font-size: 1.8rem;    color: #0f2818;    font-style: italic;    margin-bottom: 0.5rem;    font-weight: 700;}.whakatauki-meaning {    font-size: 1.2rem;    color: #4a6e2a;    font-weight: 500;}</style>
 </head>
 <body data-auto-init="true" data-current-page="home" class="pattern-koru-subtle">
-<!-- Navigation will be injected by navigation-loader.js singleton -->
+<!-- Professional Navigation - Single Component (Fixed duplicate loading bug) -->
+<script>
+        // Load standardized navigation immediately
+        fetch('/components/navigation-standard.html')
+            .then(response => response.text())
+            .then(html => {
+                const container = document.createElement('div');
+                container.innerHTML = html;
+                const navElement = container.firstElementChild;
+                if (navElement) {
+                    document.body.insertBefore(navElement, document.body.firstChild);
+                }
+            })
+            .catch(err => console.error('Navigation load error:', err));
+</script>
 <!-- Whakataukī Banner -->
 <div class="whakatauki-banner">
     <p class="whakatauki-text">
