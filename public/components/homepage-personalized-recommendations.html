@@ -1,0 +1,234 @@
+<!-- 🎯 PERSONALIZED RECOMMENDATIONS - Smart Discovery -->
+<section class="max-w-6xl mx-auto mt-12 px-8">
+    <div class="text-center mb-10">
+        <div class="inline-block bg-gradient-to-br from-indigo-600 to-indigo-800 px-8 py-3 rounded-full mb-4">
+            <span class="text-white font-extrabold text-base">🎯 JUST FOR YOU</span>
+        </div>
+        <h2 class="text-5xl text-primary mb-3 font-extrabold">
+            Personalized Learning Recommendations
+        </h2>
+        <p class="text-gray-600 text-xl max-w-3xl mx-auto mb-8">
+            Select your year level and subject to discover perfectly-matched resources
+        </p>
+        
+        <!-- Personalization Filters -->
+        <div class="max-w-2xl mx-auto mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Year Level Selector -->
+                <div>
+                    <label for="year-level-select" class="block text-sm font-semibold text-gray-700 mb-2">Year Level</label>
+                    <select id="year-level-select" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl text-base font-semibold text-gray-700 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-200 transition-all">
+                        <option value="all">All Year Levels</option>
+                        <option value="Y7">Year 7</option>
+                        <option value="Y8">Year 8</option>
+                        <option value="Y9">Year 9</option>
+                        <option value="Y10">Year 10</option>
+                        <option value="Y11-13">Year 11-13</option>
+                    </select>
+                </div>
+                
+                <!-- Subject Selector -->
+                <div>
+                    <label for="subject-select" class="block text-sm font-semibold text-gray-700 mb-2">Subject Area</label>
+                    <select id="subject-select" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl text-base font-semibold text-gray-700 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-200 transition-all">
+                        <option value="all">All Subjects</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Science">Science</option>
+                        <option value="English">English</option>
+                        <option value="Social Studies">Social Studies</option>
+                        <option value="Digital Technologies">Digital Technologies</option>
+                        <option value="Te Ao Māori">Te Ao Māori</option>
+                        <option value="Cross-Curricular">Cross-Curricular</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommendations Grid -->
+    <div id="personalized-recs-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <!-- Dynamically loaded -->
+    </div>
+    
+    <div id="personalized-empty" class="text-center py-12 hidden">
+        <p class="text-gray-500 text-lg mb-4">Select a year level and subject to see recommendations</p>
+        <span class="text-6xl">🎯</span>
+    </div>
+</section>
+
+<script>
+/**
+ * Personalized Recommendations Widget
+ * Filters GraphRAG by year level + subject for smart discovery
+ */
+class PersonalizedRecommendationsWidget {
+    constructor() {
+        this.supabase = null;
+        this.yearLevel = 'all';
+        this.subject = 'all';
+        this.recommendations = [];
+        this.init();
+    }
+
+    async init() {
+        if (window.supabaseSingleton) {
+            this.supabase = await window.supabaseSingleton.getClient();
+            this.setupFilters();
+            await this.loadRecommendations();
+            this.render();
+        } else {
+            setTimeout(() => this.init(), 500);
+        }
+    }
+
+    setupFilters() {
+        const yearSelect = document.getElementById('year-level-select');
+        const subjectSelect = document.getElementById('subject-select');
+
+        yearSelect?.addEventListener('change', async (e) => {
+            this.yearLevel = e.target.value;
+            await this.loadRecommendations();
+            this.render();
+        });
+
+        subjectSelect?.addEventListener('change', async (e) => {
+            this.subject = e.target.value;
+            await this.loadRecommendations();
+            this.render();
+        });
+    }
+
+    async loadRecommendations() {
+        try {
+            let query = this.supabase
+                .from('graphrag_resources')
+                .select('file_path, title, quality_score, subject, year_level, resource_type, has_whakataukī, has_te_reo')
+                .gte('quality_score', 85)
+                .in('resource_type', ['lesson', 'handout', 'unit-plan']);
+
+            // Apply year level filter
+            if (this.yearLevel !== 'all') {
+                query = query.or(`year_level.eq.${this.yearLevel},year_level.eq.All Years`);
+            }
+
+            // Apply subject filter
+            if (this.subject !== 'all') {
+                query = query.eq('subject', this.subject);
+            }
+
+            const { data, error } = await query
+                .order('quality_score', { ascending: false })
+                .limit(12);
+
+            if (error) {
+                console.error('❌ Recommendations query error:', error);
+                return;
+            }
+
+            this.recommendations = data.filter(r => 
+                !r.file_path.startsWith('concept://') && 
+                !r.file_path.startsWith('taxonomy://')
+            ).slice(0, 9);
+
+            console.log(`✅ Loaded ${this.recommendations.length} personalized recommendations`);
+        } catch (error) {
+            console.error('❌ Personalized widget error:', error);
+        }
+    }
+
+    render() {
+        const grid = document.getElementById('personalized-recs-grid');
+        const empty = document.getElementById('personalized-empty');
+        
+        if (!grid) return;
+
+        if (this.recommendations.length === 0) {
+            grid.classList.add('hidden');
+            empty.classList.remove('hidden');
+            return;
+        }
+
+        grid.classList.remove('hidden');
+        empty.classList.add('hidden');
+
+        grid.innerHTML = this.recommendations.map(resource => {
+            const { icon, color, bgColor } = this.getTypeStyle(resource.resource_type, resource.subject);
+            const cleanPath = resource.file_path.replace('./public', '').replace('/public', '');
+            const qualityBadge = this.getQualityBadge(resource.quality_score);
+
+            return `
+                <a href="${cleanPath}" class="bg-white rounded-xl p-6 no-underline shadow-lg border-l-4 ${color} transition-all hover:-translate-y-1 hover:shadow-2xl group">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="text-5xl">${icon}</span>
+                        <div class="flex-1">
+                            <span class="${bgColor} ${color.replace('border-', 'text-')} px-3 py-1 rounded-lg text-xs font-bold">
+                                ${qualityBadge}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-lg text-primary font-bold mb-2 group-hover:text-indigo-600 transition-colors leading-snug">
+                        ${this.truncate(resource.title, 60)}
+                    </h3>
+                    
+                    <div class="flex gap-2 flex-wrap mb-3">
+                        ${resource.year_level ? `<span class="bg-slate-100 text-slate-700 px-2 py-1 rounded-md text-xs font-semibold">${resource.year_level}</span>` : ''}
+                        <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded-md text-xs font-semibold">${resource.subject}</span>
+                        ${resource.has_whakataukī ? '<span class="bg-emerald-50 text-emerald-700 px-2 py-1 rounded-md text-xs">🌿</span>' : ''}
+                        ${resource.has_te_reo ? '<span class="bg-blue-50 text-blue-700 px-2 py-1 rounded-md text-xs">🗣️</span>' : ''}
+                    </div>
+                    
+                    <div class="text-sm text-gray-500 font-semibold">
+                        ${resource.resource_type.charAt(0).toUpperCase() + resource.resource_type.slice(1).replace('-', ' ')}
+                    </div>
+                </a>
+            `;
+        }).join('');
+    }
+
+    getTypeStyle(type, subject) {
+        // Override by subject for stronger branding
+        const subjectStyles = {
+            'Mathematics': { icon: '🔢', color: 'border-amber-500', bgColor: 'bg-amber-100' },
+            'Science': { icon: '🔬', color: 'border-teal-500', bgColor: 'bg-teal-100' },
+            'English': { icon: '📖', color: 'border-pink-500', bgColor: 'bg-pink-100' },
+            'Social Studies': { icon: '🏛️', color: 'border-purple-500', bgColor: 'bg-purple-100' },
+            'Digital Technologies': { icon: '💻', color: 'border-blue-500', bgColor: 'bg-blue-100' },
+            'Te Ao Māori': { icon: '🌿', color: 'border-emerald-500', bgColor: 'bg-emerald-100' }
+        };
+
+        if (subjectStyles[subject]) {
+            return subjectStyles[subject];
+        }
+
+        // Fallback to type
+        const typeStyles = {
+            'lesson': { icon: '📚', color: 'border-indigo-500', bgColor: 'bg-indigo-100' },
+            'handout': { icon: '📄', color: 'border-cyan-500', bgColor: 'bg-cyan-100' },
+            'unit-plan': { icon: '🗂️', color: 'border-violet-500', bgColor: 'bg-violet-100' }
+        };
+
+        return typeStyles[type] || { icon: '✨', color: 'border-gray-400', bgColor: 'bg-gray-100' };
+    }
+
+    getQualityBadge(score) {
+        if (score >= 95) return '💎 Q' + score;
+        if (score >= 90) return '🏆 Q' + score;
+        if (score >= 85) return '⭐ Q' + score;
+        return 'Q' + score;
+    }
+
+    truncate(text, length) {
+        if (text.length <= length) return text;
+        return text.substring(0, length) + '...';
+    }
+}
+
+// Auto-initialize
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new PersonalizedRecommendationsWidget());
+} else {
+    new PersonalizedRecommendationsWidget();
+}
+</script>
+
