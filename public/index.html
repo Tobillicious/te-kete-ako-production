@@ -15,8 +15,7 @@ Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori</titl
 <meta content="#1a4d2e" name="theme-color"/>
 
 <!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
-<!-- ⭐ BASE SYSTEM FIRST - Variables & cascade fix (MUST BE FIRST) -->
-<link rel="stylesheet" href="/css/cascade-fix.css">
+<!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
 <link rel="stylesheet" href="/css/professionalization-system.css">
 
 <!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
@@ -33,14 +32,18 @@ Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori</titl
     <link rel="stylesheet" href="/css/print.css" media="print">
 <link rel="stylesheet" href="/css/print-professional.css" media="print"/>
 
-<!-- ⭐ TAILWIND (Loads last - utilities only, NO DUPLICATES) -->
+<!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
 <link rel="stylesheet" href="/css/tailwind.css">
 
+<!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
+<link rel="stylesheet" href="/css/cascade-fix.css">
+
 <!-- NOTE on CSS order:
-  ✅ cascade-fix.css FIRST - Sets all CSS variables, highest priority
-  ✅ professionalization-system.css SECOND - Professionalization system utilities
-  ✅ Everything else after - Theme, components, etc.
-  ✅ Tailwind LAST - Only provides utility classes, doesn't override
+  ✅ professionalization-system.css FIRST - Core design tokens and typography
+  ✅ Theme files next - Professional styling and enhancements
+  ✅ Component styles - Navigation, mobile, responsive features
+  ✅ Tailwind second-to-last - Utility classes only
+  ✅ cascade-fix.css LAST - Resolves all variable conflicts and wins cascade
   ✅ Removed duplicate tailwind.css (was loading twice!)
   ✅ This order ensures: cascade-fix wins cascade conflicts!
 -->
@@ -111,9 +114,25 @@ Fill the basket of knowledge - the founding whakataukī of Te Kete Ako</p>
 
 <!-- 🎨 ULTIMATE BEAUTY: Hero Component Container -->
 <div id="hero-component"></div>
+<script>
+    fetch('/components/hero-enhanced.html')
+        .then(r => r.text())
+        .then(html => {
+            document.getElementById('hero-component').innerHTML = html;
+        })
+        .catch(err => console.error('[Hero Component] Load error:', err));
+</script>
 
 <!-- 🎨 ULTIMATE BEAUTY: Featured Component Container -->
 <div id="featured-component"></div>
+<script>
+    fetch('/components/featured-carousel.html')
+        .then(r => r.text())
+        .then(html => {
+            document.getElementById('featured-component').innerHTML = html;
+        })
+        .catch(err => console.error('[Featured Component] Load error:', err));
+</script>
 
 <!-- 🎯 USER PATH SELECTOR - First thing humans see! -->
 <section class="hero-primary-gradient py-16 text-center">
