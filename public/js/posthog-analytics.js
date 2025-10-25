@@ -17,11 +17,12 @@
  */
 
 // PostHog Configuration
-// TODO: Replace with actual PostHog project API key when available
+// Note: Analytics disabled until production deployment with valid API key
+// To enable: Set apiKey to your PostHog project key from posthog.com
 const POSTHOG_CONFIG = {
-    apiKey: 'phc_YOUR_PROJECT_API_KEY_HERE', // Replace with real key from posthog.com
+    apiKey: null, // Set to PostHog project API key when ready for production analytics
     apiHost: 'https://app.posthog.com',
-    enabled: true, // Set to false to disable tracking
+    enabled: false, // Disabled until valid API key is configured
     respectDoNotTrack: true, // Honor user privacy preferences
     capturePageview: true,
     capturePageLeave: true,

@@ -311,8 +311,20 @@ function loadDraft() {
     if (draft) {
         const confirmed = confirm('We found a saved draft of your registration. Would you like to continue where you left off?');
         if (confirmed) {
-            Object.assign(formData, JSON.parse(draft));
-            // TODO: Populate form fields with saved data
+            const draftData = JSON.parse(draft);
+            Object.assign(formData, draftData);
+            
+            // Populate form fields with saved data
+            Object.keys(draftData).forEach(key => {
+                const field = document.getElementById(key) || document.querySelector(`[name="${key}"]`);
+                if (field) {
+                    if (field.type === 'checkbox') {
+                        field.checked = draftData[key];
+                    } else {
+                        field.value = draftData[key];
+                    }
+                }
+            });
         }
     }
 }

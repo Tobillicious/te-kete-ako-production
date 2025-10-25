@@ -85,19 +85,19 @@ def main():
     success = execute_batch_insertions()
 
     if success:
-        print("
-🎊 BATCH INSERTION COMPLETE!"        print("   - GraphRAG knowledge base significantly expanded")
+        print("\n🎊 BATCH INSERTION COMPLETE!")
+        print("   - GraphRAG knowledge base significantly expanded")
         print("   - Agent coordination now has critical recent knowledge")
         print("   - Ready for next phase of systematic indexing")
 
-        print("
-🎯 RECOMMENDED NEXT STEPS:"        print("   1. Process next 50 priority files")
+        print("\n🎯 RECOMMENDED NEXT STEPS:")
+        print("   1. Process next 50 priority files")
         print("   2. Continue with directory-based batches")
         print("   3. Focus on critical document types")
         print("   4. Complete remaining 1,212 files systematically")
     else:
-        print("
-⚠️  Some insertions failed - needs investigation"        print("   - Check SQL syntax and database connection")
+        print("\n⚠️  Some insertions failed - needs investigation")
+        print("   - Check SQL syntax and database connection")
         print("   - Verify agent_knowledge table structure")
         print("   - Consider smaller batch sizes")
 
