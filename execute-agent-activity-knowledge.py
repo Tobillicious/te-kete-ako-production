@@ -53,14 +53,14 @@ def execute_agent_activity_insertions():
     print(f"📈 Total processed: {successful_inserts + failed_inserts}")
 
     if failed_inserts == 0:
-        print("
-🎉 ALL AGENT ACTIVITY INSERTIONS SUCCESSFUL!"        print(f"   - Added {successful_inserts} critical coordination documents to GraphRAG")
+        print("\n🎉 ALL AGENT ACTIVITY INSERTIONS SUCCESSFUL!")
+        print(f"   - Added {successful_inserts} critical coordination documents to GraphRAG")
         print("   - Agents now have complete awareness of all accomplishments")
         print("   - Coordination patterns documented and searchable")
         print("   - Platform development history preserved")
 
-        print("
-📊 UPDATED GRAPHRAG STATUS:"        print(f"   - Total entries: {775 + successful_inserts}")
+        print("\n📊 UPDATED GRAPHRAG STATUS:")
+        print(f"   - Total entries: {775 + successful_inserts}")
         print("   - Agent coordination knowledge: COMPLETE")
         print("   - Historical work preservation: 100%")
         print("   - Future agent onboarding: ENABLED")
@@ -80,26 +80,26 @@ def main():
     success = execute_agent_activity_insertions()
 
     if success:
-        print("
-🎊 AGENT COORDINATION KNOWLEDGE COMPLETE!"        print("   - All agent accomplishments documented in GraphRAG")
+        print("\n🎊 AGENT COORDINATION KNOWLEDGE COMPLETE!")
+        print("   - All agent accomplishments documented in GraphRAG")
         print("   - Complete project history preserved")
         print("   - Coordination patterns established")
         print("   - Future agents fully informed")
 
-        print("
-🎯 COORDINATION IMPACT:"        print("   - Agents can now query complete project knowledge")
+        print("\n🎯 COORDINATION IMPACT:")
+        print("   - Agents can now query complete project knowledge")
         print("   - Historical decisions and approaches documented")
         print("   - Best practices captured and searchable")
         print("   - Coordination efficiency maximized")
 
-        print("
-🚀 READY FOR NEXT PHASE:"        print("   - All agents have complete project awareness")
+        print("\n🚀 READY FOR NEXT PHASE:")
+        print("   - All agents have complete project awareness")
         print("   - Coordination patterns established")
         print("   - Historical work preserved")
         print("   - Systematic development enabled")
     else:
-        print("
-⚠️  Some insertions failed - needs investigation"        print("   - Check SQL syntax and database connection")
+        print("\n⚠️  Some insertions failed - needs investigation")
+        print("   - Check SQL syntax and database connection")
         print("   - Verify agent_knowledge table structure")
         print("   - Consider smaller batch sizes")
 
