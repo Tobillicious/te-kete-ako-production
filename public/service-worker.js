@@ -8,7 +8,7 @@
  * ================================================================
  */
 
-const CACHE_VERSION = 'te-kete-ako-v1.0.8-phase5a-nav-consolidation';
+const CACHE_VERSION = 'te-kete-ako-v1.0.15-critical-fixes-oct25';
 const CACHE_STATIC = `${CACHE_VERSION}-static`;
 const CACHE_DYNAMIC = `${CACHE_VERSION}-dynamic`;
 
