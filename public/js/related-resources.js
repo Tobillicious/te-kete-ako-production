@@ -53,11 +53,10 @@ async function loadRelatedResources() {
     } catch (error) {
         // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         }
@@ -113,11 +112,10 @@ async function loadRelatedLessons() {
     } catch (error) {
         // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         container.innerHTML = '<div style="color: var(--color-neutral-500); font-size: 0.9rem;">Unable to load related lessons</div>';
@@ -167,11 +165,10 @@ async function loadRelatedHandouts() {
     } catch (error) {
         // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         container.innerHTML = '<div style="color: var(--color-neutral-500); font-size: 0.9rem;">Unable to load related handouts</div>';
@@ -221,11 +218,10 @@ async function loadRelatedUnits() {
     } catch (error) {
         // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         container.innerHTML = '<div style="color: var(--color-neutral-500); font-size: 0.9rem;">Unable to load related units</div>';
@@ -263,11 +259,10 @@ async function findBySimilarTags(tags, type, limit = 3) {
     } catch (error) {
         // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         return [];

@@ -14,11 +14,10 @@
 if (!window.ENV) {
     // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         window.ENV = {};
@@ -82,11 +81,10 @@ async function checkCurrentSession() {
     } catch (error) {
         // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         }
@@ -104,11 +102,10 @@ function showError(message, elementId = 'error-message') {
     } else {
         // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         // Fallback
@@ -178,11 +175,10 @@ async function redirectByRole(user) {
         if (error) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         // Default redirect if profile not found - use getting started as fallback
@@ -203,11 +199,10 @@ async function redirectByRole(user) {
     } catch (error) {
         // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         // Fallback to role-based routing
@@ -272,11 +267,10 @@ async function handleSignup(email, password, confirmPassword, displayName, schoo
     } catch (error) {
         // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         showError('Failed to create account. Please try again.');
@@ -334,11 +328,10 @@ async function handleLogin(email, password) {
     } catch (error) {
         // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         showError('Failed to sign in. Please try again.');
@@ -354,11 +347,10 @@ async function handleLogout() {
     if (!supabase) {
         // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         return;
@@ -373,11 +365,10 @@ async function handleLogout() {
     } catch (error) {
         // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         showError('Failed to sign out. Please try again.');
@@ -418,11 +409,10 @@ async function handlePasswordReset(email) {
     } catch (error) {
         // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         showError('Failed to send password reset email. Please try again.');
@@ -443,11 +433,10 @@ async function getCurrentUserToken() {
     } catch (error) {
         // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         return null;
@@ -655,11 +644,10 @@ async function initialize() {
             if (!supabase) {
                 // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         showError('Authentication system failed to load. Please refresh the page.');
@@ -710,11 +698,10 @@ async function redirectBasedOnRole() {
         if (error) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         // Default redirect if profile not found
@@ -735,11 +722,10 @@ async function redirectBasedOnRole() {
     } catch (error) {
         // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         // Fallback to getting started

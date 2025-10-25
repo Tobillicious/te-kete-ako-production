@@ -354,11 +354,10 @@
         if (!searchInput || !searchSuggestions || !graphragResults) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-        message: '$2',
-        details: $3,
-        url: window.location.pathname
-    });
+            posthog.capture('javascript_error', {
+                error: err.message,
+                url: window.location.pathname
+            }));
         }
         // Show user-friendly message instead of error
         return;
@@ -523,11 +522,10 @@
         } catch (error) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-        message: '$2',
-        details: $3,
-        url: window.location.pathname
-    });
+            posthog.capture('javascript_error', {
+                error: err.message,
+                url: window.location.pathname
+            }));
         }
         // Show user-friendly message instead of error
         showErrorState();
@@ -563,11 +561,10 @@
         } catch (error) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-        message: '$2',
-        details: $3,
-        url: window.location.pathname
-    });
+            posthog.capture('javascript_error', {
+                error: err.message,
+                url: window.location.pathname
+            }));
         }
         // Show user-friendly message instead of error
         return [];

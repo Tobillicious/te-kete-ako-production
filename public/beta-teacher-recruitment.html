@@ -1,6 +1,92 @@
 <!DOCTYPE html><html lang="en"><head>
     <title>Beta Teacher Recruitment | Te Kete Ako</title>
 
+<!-- UNIFIED DESIGN SYSTEM -->
+<!-- PWA Manifest -->
+<link href="/manifest.json" rel="manifest"/>
+<meta content="#1a4d2e" name="theme-color"/>
+
+<!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
+<!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
+<link rel="stylesheet" href="/css/professionalization-system.css">
+
+<!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
+<link rel="stylesheet" href="/css/te-kete-professional.css"/>
+<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css"/>
+
+<!-- ⭐ COMPONENT STYLES -->
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/navigation-standard.css">
+<link rel="stylesheet" href="/css/mobile-revolution.css">
+<link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css"/>
+
+<!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
+<link rel="stylesheet" href="/css/print.css" media="print"/>
+<link rel="stylesheet" href="/css/print-professional.css" media="print"/>
+
+<!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
+<link rel="stylesheet" href="/css/tailwind.css">
+
+<!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
+<link rel="stylesheet" href="/css/cascade-fix.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    // Wait for Supabase CDN to load before initializing singleton
+    window.addEventListener('DOMContentLoaded', () => {
+        if (!window.supabase) {
+            // Log to monitoring instead of console
+            if (window.posthog) {
+                posthog.capture('supabase_cdn_error', {
+                    message: 'Supabase CDN failed to load',
+                    url: window.location.pathname
+                });
+            }
+        }
+    });
+</script>
+<script src="/js/supabase-singleton.js"></script>
+<!-- My Kete Database Integration - loads after singleton -->
+<script src="/js/my-kete-database.js"></script>
+<!-- Navigation Loader Singleton - loads after supabase setup -->
+<script src="/js/navigation-loader.js"></script>
+<!-- Component Loader - centralized async component management -->
+<script src="/js/component-loader.js"></script>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="Te Kete Ako" name="apple-mobile-web-app-title"/>
+<link href="/icons/icon-192x192.png" rel="apple-touch-icon"/>
+<!-- ENHANCED SEARCH -->
+<script src="/js/enhanced-search.js" defer></script>
+<!-- MOBILE PERFORMANCE OPTIMIZER -->
+<script src="/js/mobile-performance-optimizer.js" defer></script>
+<!-- TOUCH TARGET AUDITOR -->
+<script src="/js/touch-target-auditor.js" defer></script>
+<!-- 🎨 ULTIMATE CULTURAL GESTURES - Framer Motion System -->
+<script src="/js/framer-cultural-gestures-ultimate.js" defer></script>
+<!-- Service Worker Registration -->
+<script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('✅ PWA: Service Worker registered!', registration);
+                    })
+                    .catch(error => {
+                        // Log to monitoring instead of console
+                        if (window.posthog) {
+                            posthog.capture('pwa_service_worker_error', {
+                                message: 'Service Worker registration failed',
+                                error: error.message,
+                                url: window.location.pathname
+                            });
+                        }
+                    });
+            });
+        }
+</script>
+
 <meta name="robots" content="index, follow"/>
 <meta name="googlebot" content="index, follow"/>
 <meta name="theme-color" content="#1a4d2e"/>
@@ -44,11 +130,10 @@
 <!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
 <link rel="stylesheet" href="/css/cascade-fix.css"><body class="pattern-koru-subtle">    <div id="nav-container"></div>        <main class="container" style="margin: 3rem auto; padding: 0 2rem;">        <section style="margin-bottom: 3rem;">            <div style="font-size: 5rem; ">🌟</div>            <h1 class="wiley-hero-title" style="font-size: 3rem; ">                Beta Teacher Recruitment            </h1>            <p class="m-0 mx-auto" Help shape the future of bicultural education in Aotearoa            </p>        </section>        <!-- Email Template Card -->        <section class="glass-card" >            <h2 style="margin-bottom: 1.5rem;">📧 Email Template for Beta Recruitment</h2>            <div style="background: #f9fafb; margin-bottom: 1.5rem;">                <p style="color: #6b7280; "><strong>Subject:</strong> 🌿 Beta Test Te Kete Ako - Revolutionary Bicultural Ed Platform</p>                <hr style="border: none; border-top: 1px solid #e5e7eb;">                <p ><strong>Kia ora [Teacher Name],</strong></p>                <p >You've been selected as one of only <strong>5 teachers</strong> to beta test <strong>Te Kete Ako</strong> - Aotearoa's first AI-powered educational platform integrating mātauranga Māori with modern pedagogy.</p>                <h3 style="margin-top: 1.5rem; margin-bottom: 0.75rem;">🌟 Why You?</h3>                <ul style="padding-left: 1.5rem; line-">                    <li>You teach <strong>[Subject/Year Level]</strong> - perfect for testing our resources</li>                    <li>Your commitment to bicultural education aligns with our kaupapa</li>                    <li>Your feedback will directly shape 1,000+ resources for NZ teachers</li>                </ul>                <h3 style="margin-top: 1.5rem; margin-bottom: 0.75rem;">🎯 What We Need From You:</h3>                <ul style="padding-left: 1.5rem; line-">                    <li>Use it for <strong>2 weeks</strong> in your actual teaching</li>                    <li>Tell us what works (and what doesn't!)</li>                    <li>Share honest feedback via our simple form</li>                    <li>Help shape the future of bicultural education</li>                </ul>                <p style="margin-top: 1.5rem; "><strong>TIME COMMITMENT:</strong> ~2 weeks of normal use + 10 minutes feedback</p>                <p ><strong>LINK:</strong> <a href="https://tekete.netlify.app" style="color: #059669;">https://tekete.netlify.app</a></p>                <p ><strong>GETTING STARTED:</strong> <a href="https://tekete.netlify.app/getting-started.html" style="color: #059669;">Getting Started Guide</a></p>                <p style="margin-bottom: 1.5rem;"><strong>FEEDBACK FORM:</strong> <a href="https://tekete.netlify.app/beta-feedback.html" style="color: #059669;">Beta Feedback Form</a></p>                <h3 style="margin-top: 1.5rem; margin-bottom: 0.75rem;">🎁 What You Get:</h3>                <ul style="padding-left: 1.5rem; line-">                    <li><strong>Lifetime free access</strong> to all premium features</li>                    <li>Your name in our <strong>"Founding Teachers"</strong> hall of honor</li>                    <li>Direct line to our development team</li>                    <li>Priority access to new features</li>                    <li>Professional development hours (via your school)</li>                </ul>                <p style="margin-top: 1.5rem; "><strong>Interested?</strong> Reply to this email and I'll send login details!</p>                <p >Ngā mihi nui,<br>                <strong>[Your Name]</strong><br>                Te Kete Ako Team</p>                <p style="color: #6b7280; ">P.S. Beta testers get lifetime free access + their name in our "Founding Teachers" hall of honor 🌟</p>            </div>            <div >                <button onclick="copyEmailTemplate()" class="cta-button" class="p-4" style="background: #059669; color: white; padding: 1rem 2rem; border: none; cursor: pointer;"                    📋 Copy Email Template                </button>            </div>        </section>        <!-- Follow-Up Strategies -->        <section class="glass-card" >            <h2 style="margin-bottom: 1.5rem;">📞 Follow-Up Strategies</h2>            <div style="gap: 1.5rem;">                <div style="padding-left: 1rem;">                    <h3 >Day 3: Gentle Reminder</h3>                    <p style="color: #6b7280;">"Kia ora! Just checking if you had a chance to look at the beta testing opportunity. Happy to answer any questions!"</p>                </div>                <div style="padding-left: 1rem;">                    <h3 >Day 7: Week 1 Check-In</h3>                    <p style="color: #6b7280;">"How's your first week going? Any resources you're loving? Any features not working as expected?"</p>                </div>                <div style="padding-left: 1rem;">                    <h3 >Day 14: Feedback Request</h3>                    <p style="color: #6b7280;">"We'd love your feedback! Here's the 5-minute form: [link]. Your insights are invaluable."</p>                </div>            </div>        </section>        <!-- Ideal Beta Teacher Profile -->        <section class="glass-card">            <h2 style="margin-bottom: 1.5rem;">🎯 Ideal Beta Teacher Profile</h2>            <ul style="padding-left: 1.5rem; line-">                <li><strong>Year Levels:</strong> Years 7-10 (our current resource sweet spot)</li>                <li><strong>Subjects:</strong> Mathematics, Science, English, Social Studies, Digital Tech</li>                <li><strong>Cultural Commitment:</strong> Actively integrating Te Ao Māori perspectives</li>                <li><strong>Tech Comfort:</strong> Willing to try new digital tools</li>                <li><strong>Feedback Culture:</strong> Honest, constructive, timely</li>                <li><strong>Network:</strong> Connected to other teachers (potential word-of-mouth)</li>            </ul>        </section>        <div style="margin-top: 3rem;">            <a href="/beta-testing-checklist.html" class="cta-button" class="p-4" style="background: #1a4d2e; color: white; padding: 1rem 2rem; text-decoration: none;"                ✅ View Beta Testing Checklist            </a>        </div>    </main>    <div id="footer-container"></div>        <div id="mobile-nav-bottom"></div>        <script src="/js/framer-cultural-gestures-ultimate.js" defer></script>    <script src="/js/posthog-analytics.js" defer></script>    <script>        function copyEmailTemplate() {            const emailText = `Subject: 🌿 Beta Test Te Kete Ako - Revolutionary Bicultural Ed PlatformKia ora [Teacher Name],You've been selected as one of only 5 teachers to beta test Te Kete Ako - Aotearoa's first AI-powered educational platform integrating mātauranga Māori with modern pedagogy.🌟 Why You?• You teach [Subject/Year Level] - perfect for testing our resources• Your commitment to bicultural education aligns with our kaupapa• Your feedback will directly shape 1,000+ resources for NZ teachers🎯 What We Need From You:• Use it for 2 weeks in your actual teaching• Tell us what works (and what doesn't!)• Share honest feedback via our simple form• Help shape the future of bicultural educationTIME COMMITMENT: ~2 weeks of normal use + 10 minutes feedbackLINK: https://tekete.netlify.appGETTING STARTED: https://tekete.netlify.app/getting-started.htmlFEEDBACK FORM: https://tekete.netlify.app/beta-feedback.html🎁 What You Get:• Lifetime free access to all premium features• Your name in our "Founding Teachers" hall of honor• Direct line to our development team• Priority access to new features• Professional development hours (via your school)Interested? Reply to this email and I'll send login details!Ngā mihi nui,[Your Name]Te Kete Ako TeamP.S. Beta testers get lifetime free access + their name in our "Founding Teachers" hall of honor 🌟`;            navigator.clipboard.writeText(emailText).then(() => {                alert('✅ Email template copied to clipboard!');            }).catch(err => {                // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-        message: '$2',
-        details: $3,
-        url: window.location.pathname
-    });
+            posthog.capture('javascript_error', {
+                error: err.message,
+                url: window.location.pathname
+            }));
         }
         // Show user-friendly message instead of error
         alert('❌ Failed to copy. Please manually select and copy the text.');            });        }    </script><!-- PARALLEL COMPONENT LOADING - No more 2-3s delay! -->

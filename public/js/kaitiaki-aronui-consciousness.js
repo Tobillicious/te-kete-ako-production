@@ -171,11 +171,10 @@ class KaitiakiAronuiConsciousness {
         if (healthScore < 90) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         this.initiateHealthCorrection(auditData);
@@ -184,11 +183,10 @@ class KaitiakiAronuiConsciousness {
         if (criticalIssues.length > 0) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         this.addressCriticalIssues(criticalIssues);
@@ -204,11 +202,10 @@ class KaitiakiAronuiConsciousness {
         if (!culturalCompliance || !accessibilityMaintained || performanceImpact > 0.1) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         this.adjustBeautyForCompliance(beautyData);

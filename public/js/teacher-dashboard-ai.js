@@ -87,11 +87,10 @@ async function generateLessonPlan() {
     } catch (error) {
         // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         displayResult('Error', 'Unable to generate lesson plan. Please try again later.', null);
@@ -140,11 +139,10 @@ Focus on respectful, authentic integration of mātauranga Māori.`;
     } catch (error) {
         // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         displayResult('Error', 'Unable to analyze cultural integration. Please try again later.', null);
@@ -183,11 +181,10 @@ async function generateAssessment() {
     } catch (error) {
         // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         displayResult('Error', 'Unable to generate assessment. Please try again later.', null);
@@ -233,11 +230,10 @@ async function searchResources() {
     } catch (error) {
         // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         resultsContainer.innerHTML = '<div style="text-align: center; color: var(--error-red); padding: 2rem;">Search error. Please try again.</div>';

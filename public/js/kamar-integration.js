@@ -93,11 +93,10 @@ class TeKeteKAMAR {
         } catch (error) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         this.showError('Failed to sync students. Please try again.');
@@ -123,11 +122,10 @@ class TeKeteKAMAR {
         } catch (error) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         throw error;
@@ -175,11 +173,10 @@ class TeKeteKAMAR {
         } catch (error) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         throw error;
@@ -214,11 +211,10 @@ class TeKeteKAMAR {
         } catch (error) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         this.showError('Failed to sync classes. Please try again.');
@@ -244,11 +240,10 @@ class TeKeteKAMAR {
         } catch (error) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         throw error;
@@ -295,11 +290,10 @@ class TeKeteKAMAR {
         } catch (error) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         throw error;
@@ -334,11 +328,10 @@ class TeKeteKAMAR {
         } catch (error) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         this.showError('Failed to sync assessments. Please try again.');
@@ -364,11 +357,10 @@ class TeKeteKAMAR {
         } catch (error) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         throw error;
@@ -415,11 +407,10 @@ class TeKeteKAMAR {
         } catch (error) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         throw error;
@@ -464,11 +455,10 @@ class TeKeteKAMAR {
         } catch (error) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         }
@@ -493,11 +483,10 @@ class TeKeteKAMAR {
         } catch (error) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         return null;
@@ -540,11 +529,10 @@ class TeKeteKAMAR {
         } catch (error) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         this.showError('Failed to export KAMAR data. Please try again.');

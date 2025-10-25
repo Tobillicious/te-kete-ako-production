@@ -153,11 +153,10 @@
         if (!currentPath) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-        message: '$2',
-        details: $3,
-        url: window.location.pathname
-    });
+            posthog.capture('javascript_error', {
+                error: err.message,
+                url: window.location.pathname
+            }));
         }
         // Show user-friendly message instead of error
         return;
@@ -175,11 +174,10 @@
         if (!window.supabase) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-        message: '$2',
-        details: $3,
-        url: window.location.pathname
-    });
+            posthog.capture('javascript_error', {
+                error: err.message,
+                url: window.location.pathname
+            }));
         }
         // Show user-friendly message instead of error
         return;
@@ -196,11 +194,10 @@
         if (relError) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-        message: '$2',
-        details: $3,
-        url: window.location.pathname
-    });
+            posthog.capture('javascript_error', {
+                error: err.message,
+                url: window.location.pathname
+            }));
         }
         // Show user-friendly message instead of error
         container.innerHTML = '<div class="similar-resources-error">Unable to load similar resources. Please refresh the page.</div>';
@@ -225,11 +222,10 @@
         if (resError) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-        message: '$2',
-        details: $3,
-        url: window.location.pathname
-    });
+            posthog.capture('javascript_error', {
+                error: err.message,
+                url: window.location.pathname
+            }));
         }
         // Show user-friendly message instead of error
         container.innerHTML = '<div class="similar-resources-error">Unable to load resource details.</div>';
@@ -290,11 +286,10 @@
     } catch (error) {
         // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-        message: '$2',
-        details: $3,
-        url: window.location.pathname
-    });
+            posthog.capture('javascript_error', {
+                error: err.message,
+                url: window.location.pathname
+            }));
         }
         // Show user-friendly message instead of error
         const container = document.getElementById('similar-resources');

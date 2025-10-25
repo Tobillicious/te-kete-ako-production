@@ -1,6 +1,92 @@
 <!DOCTYPE html><html lang="en"><head>
     <title>High Quality Collection | Te Kete Ako</title>
 
+<!-- UNIFIED DESIGN SYSTEM -->
+<!-- PWA Manifest -->
+<link href="/manifest.json" rel="manifest"/>
+<meta content="#1a4d2e" name="theme-color"/>
+
+<!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
+<!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
+<link rel="stylesheet" href="/css/professionalization-system.css">
+
+<!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
+<link rel="stylesheet" href="/css/te-kete-professional.css"/>
+<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css"/>
+
+<!-- ⭐ COMPONENT STYLES -->
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/navigation-standard.css">
+<link rel="stylesheet" href="/css/mobile-revolution.css">
+<link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css"/>
+
+<!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
+<link rel="stylesheet" href="/css/print.css" media="print"/>
+<link rel="stylesheet" href="/css/print-professional.css" media="print"/>
+
+<!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
+<link rel="stylesheet" href="/css/tailwind.css">
+
+<!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
+<link rel="stylesheet" href="/css/cascade-fix.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    // Wait for Supabase CDN to load before initializing singleton
+    window.addEventListener('DOMContentLoaded', () => {
+        if (!window.supabase) {
+            // Log to monitoring instead of console
+            if (window.posthog) {
+                posthog.capture('supabase_cdn_error', {
+                    message: 'Supabase CDN failed to load',
+                    url: window.location.pathname
+                });
+            }
+        }
+    });
+</script>
+<script src="/js/supabase-singleton.js"></script>
+<!-- My Kete Database Integration - loads after singleton -->
+<script src="/js/my-kete-database.js"></script>
+<!-- Navigation Loader Singleton - loads after supabase setup -->
+<script src="/js/navigation-loader.js"></script>
+<!-- Component Loader - centralized async component management -->
+<script src="/js/component-loader.js"></script>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="Te Kete Ako" name="apple-mobile-web-app-title"/>
+<link href="/icons/icon-192x192.png" rel="apple-touch-icon"/>
+<!-- ENHANCED SEARCH -->
+<script src="/js/enhanced-search.js" defer></script>
+<!-- MOBILE PERFORMANCE OPTIMIZER -->
+<script src="/js/mobile-performance-optimizer.js" defer></script>
+<!-- TOUCH TARGET AUDITOR -->
+<script src="/js/touch-target-auditor.js" defer></script>
+<!-- 🎨 ULTIMATE CULTURAL GESTURES - Framer Motion System -->
+<script src="/js/framer-cultural-gestures-ultimate.js" defer></script>
+<!-- Service Worker Registration -->
+<script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('✅ PWA: Service Worker registered!', registration);
+                    })
+                    .catch(error => {
+                        // Log to monitoring instead of console
+                        if (window.posthog) {
+                            posthog.capture('pwa_service_worker_error', {
+                                message: 'Service Worker registration failed',
+                                error: error.message,
+                                url: window.location.pathname
+                            });
+                        }
+                    });
+            });
+        }
+</script>
+
 <meta name="robots" content="index, follow"/>
 <meta name="googlebot" content="index, follow"/>
 <meta name="theme-color" content="#1a4d2e"/>
@@ -45,11 +131,10 @@
 <!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
 <link rel="stylesheet" href="/css/cascade-fix.css"><body class="pattern-koru-subtle">    <!-- Navigation -->    <div id="nav-container"></div>    <script>        fetch('/components/navigation-standard.html')            .then(r => r.text())            .then(html => document.getElementById('nav-container').innerHTML = html);    </script>    <!-- Hero -->    <section class="quality-hero">        <div class="relative" >            <h1 class="mb-4 font-extrabold" >🏆 High Quality Collection</h1>            <p class="mb-8" >                Our finest educational treasures - scored 85+ for excellence            </p>            <div class="quality-badge">991 Resources</div>            <p style="font-size: 1.125rem; opacity: 0.9; margin-top: 1rem;">                Professionally verified for quality, cultural authenticity, and educational impact            </p>        </div>    </section>    <main class="max-w-6xl" >        <!-- Quality Explanation -->        <div class="bg-white rounded-2xl shadow-lg" >            <h2 style="color: #1a4d2e; font-size: 2rem; margin-bottom: 1.5rem;">⭐ What Makes These Resources High Quality?</h2>            <div class="grid" >                <div>                    <h3 style="color: #f59e0b; margin-bottom: 0.75rem;">📚 Content Excellence</h3>                    <ul style="color: #546e7a; line-height: 1.8;">                        <li>Comprehensive coverage</li>                        <li>Clear learning objectives</li>                        <li>Engaging activities</li>                        <li>Authentic assessments</li>                    </ul>                </div>                <div>                    <h3 style="color: #f59e0b; margin-bottom: 0.75rem;">🌿 Cultural Integration</h3>                    <ul style="color: #546e7a; line-height: 1.8;">                        <li>Authentic mātauranga Māori</li>                        <li>Respectful representation</li>                        <li>Dual knowledge systems</li>                        <li>Cultural safety</li>                    </ul>                </div>                <div>                    <h3 style="color: #f59e0b; margin-bottom: 0.75rem;">🎯 Pedagogical Design</h3>                    <ul style="color: #546e7a; line-height: 1.8;">                        <li>Research-based methods</li>                        <li>Differentiated learning</li>                        <li>Student-centered</li>                        <li>Curriculum-aligned</li>                    </ul>                </div>                <div>                    <h3 style="color: #f59e0b; margin-bottom: 0.75rem;">✨ Professional Polish</h3>                    <ul style="color: #546e7a; line-height: 1.8;">                        <li>Clean presentation</li>                        <li>No placeholder content</li>                        <li>Thoroughly tested</li>                        <li>Teacher-ready</li>                    </ul>                </div>            </div>        </div>        <!-- Load high quality resources -->        <div id="high-quality-grid" class="resource-grid">            <div class="text-center" >                <div class="mb-4" >⭐</div>                <p>Loading 991 high quality resources...</p>            </div>        </div>    </main>    <script>        async function loadHighQualityResources() {            try {                const url = 'https://nlgldaqtubrlcqddppbq.supabase.co/rest/v1/graphrag_resources';                const headers = {                    'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM',                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'                };                const response = await fetch(`${url}?quality_score=gte.85&select=*&order=quality_score.desc&limit=50`, { headers });                const resources = await response.json();                displayResources(resources);            } catch (error) {                // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-        message: '$2',
-        details: $3,
-        url: window.location.pathname
-    });
+            posthog.capture('javascript_error', {
+                error: err.message,
+                url: window.location.pathname
+            }));
         }
         // Show user-friendly message instead of error
         }        }        function displayResources(resources) {            const grid = document.getElementById('high-quality-grid');            const html = resources.map(r => `                <a href="${r.file_path}" class="resource-card">                    <div class="flex mb-4" >                        <h3 style="flex: 1;">${r.title}</h3>                        <span class="font-bold" >                            ⭐ ${r.quality_score}                        </span>                    </div>                    <p>${r.content_preview ? r.content_preview.substring(0, 150) + '...' : 'High quality resource'}</p>                    <div class="card-footer">                        <div>                            <span class="badge subject">${r.subject || r.resource_type}</span>                            ${r.has_te_reo ? '<span class="badge cultural">Te Reo Māori</span>' : ''}                        </div>                        <span>${r.year_level || 'All Levels'}</span>                    </div>                </a>            `).join('');            grid.innerHTML = html;        }        document.addEventListener('DOMContentLoaded', loadHighQualityResources);    </script>    <!-- Footer -->    <div id="footer-container"></div>    <script>        fetch('/components/footer.html').then(r=>r.text()).then(html=>{            document.getElementById('footer-container').innerHTML=html;        });    </script>    <!-- Mobile Nav -->    <div id="mobile-nav-bottom"></div>    <script>        fetch('/components/mobile-bottom-nav.html').then(r=>r.text()).then(html=>{            document.getElementById('mobile-nav-bottom').innerHTML=html;        });    </script><!-- 📊 ULTIMATE BEAUTY: PostHog Analytics (Privacy-First) --><script src="/js/posthog-analytics.js" defer></script></body></html>

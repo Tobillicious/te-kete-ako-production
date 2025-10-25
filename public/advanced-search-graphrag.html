@@ -1,6 +1,92 @@
 <!DOCTYPE html><html lang="en"><head>
     <title>Advanced Search | Te Kete Ako</title>
 
+<!-- UNIFIED DESIGN SYSTEM -->
+<!-- PWA Manifest -->
+<link href="/manifest.json" rel="manifest"/>
+<meta content="#1a4d2e" name="theme-color"/>
+
+<!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
+<!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
+<link rel="stylesheet" href="/css/professionalization-system.css">
+
+<!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
+<link rel="stylesheet" href="/css/te-kete-professional.css"/>
+<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css"/>
+
+<!-- ⭐ COMPONENT STYLES -->
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/navigation-standard.css">
+<link rel="stylesheet" href="/css/mobile-revolution.css">
+<link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css"/>
+
+<!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
+<link rel="stylesheet" href="/css/print.css" media="print"/>
+<link rel="stylesheet" href="/css/print-professional.css" media="print"/>
+
+<!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
+<link rel="stylesheet" href="/css/tailwind.css">
+
+<!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
+<link rel="stylesheet" href="/css/cascade-fix.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    // Wait for Supabase CDN to load before initializing singleton
+    window.addEventListener('DOMContentLoaded', () => {
+        if (!window.supabase) {
+            // Log to monitoring instead of console
+            if (window.posthog) {
+                posthog.capture('supabase_cdn_error', {
+                    message: 'Supabase CDN failed to load',
+                    url: window.location.pathname
+                });
+            }
+        }
+    });
+</script>
+<script src="/js/supabase-singleton.js"></script>
+<!-- My Kete Database Integration - loads after singleton -->
+<script src="/js/my-kete-database.js"></script>
+<!-- Navigation Loader Singleton - loads after supabase setup -->
+<script src="/js/navigation-loader.js"></script>
+<!-- Component Loader - centralized async component management -->
+<script src="/js/component-loader.js"></script>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="Te Kete Ako" name="apple-mobile-web-app-title"/>
+<link href="/icons/icon-192x192.png" rel="apple-touch-icon"/>
+<!-- ENHANCED SEARCH -->
+<script src="/js/enhanced-search.js" defer></script>
+<!-- MOBILE PERFORMANCE OPTIMIZER -->
+<script src="/js/mobile-performance-optimizer.js" defer></script>
+<!-- TOUCH TARGET AUDITOR -->
+<script src="/js/touch-target-auditor.js" defer></script>
+<!-- 🎨 ULTIMATE CULTURAL GESTURES - Framer Motion System -->
+<script src="/js/framer-cultural-gestures-ultimate.js" defer></script>
+<!-- Service Worker Registration -->
+<script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('✅ PWA: Service Worker registered!', registration);
+                    })
+                    .catch(error => {
+                        // Log to monitoring instead of console
+                        if (window.posthog) {
+                            posthog.capture('pwa_service_worker_error', {
+                                message: 'Service Worker registration failed',
+                                error: error.message,
+                                url: window.location.pathname
+                            });
+                        }
+                    });
+            });
+        }
+</script>
+
 <meta name="robots" content="index, follow"/>
 <meta name="googlebot" content="index, follow"/>
 <meta name="theme-color" content="#1a4d2e"/>
@@ -45,11 +131,10 @@
 <!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
 <link rel="stylesheet" href="/css/cascade-fix.css"><body class="pattern-koru-subtle">    <!-- Whakataukī Banner -->    <div class="whakatauki-banner">        <p class="whakatauki-text">"E kore e taea e te whenu kotahi ki te raranga i te whāriki"</p>        <p class="whakatauki-meaning">One thread cannot weave a mat - knowledge is woven together from many sources</p>    </div>    <!-- Navigation -->    <div id="nav-container"></div>    <script>        fetch('/components/navigation-standard.html')            .then(r => r.text())            .then(html => document.getElementById('nav-container').innerHTML = html);    </script>    <!-- Hero -->    <section class="search-hero">        <h1 style="font-size: 3.5rem; ">🔍 Advanced Search</h1>        <p style="font-size: 1.25rem; opacity: 0.95; ">            Search across 20,690 resources with intelligent GraphRAG filtering        </p>        <div class="m-0 mx-auto" <input                type="search"                class="m-0 mx-auto"                id="main-search"                placeholder="Search lessons, units, handouts... (e.g., 'algebra Māori patterns')"                autofocus            >        </div>    </section>    <!-- Search Interface -->    <div class="search-interface">        <!-- Filters Sidebar -->        <aside class="filter-panel">            <h2 style="font-size: 1.5rem; ">Filters</h2>            <div class="filter-group">                <h3>Subject</h3>                <label class="filter-checkbox">                    <input type="checkbox" name="subject" value="Mathematics">                    <span>Mathematics</span>                </label>                <label class="filter-checkbox">                    <input type="checkbox" name="subject" value="Science">                    <span>Science</span>                </label>                <label class="filter-checkbox">                    <input type="checkbox" name="subject" value="English">                    <span>English</span>                </label>                <label class="filter-checkbox">                    <input type="checkbox" name="subject" value="Social Studies">                    <span>Social Studies</span>                </label>                <label class="filter-checkbox">                    <input type="checkbox" name="subject" value="Te Reo Māori">                    <span>Te Reo Māori</span>                </label>            </div>            <div class="filter-group">                <h3>Resource Type</h3>                <label class="filter-checkbox">                    <input type="checkbox" name="type" value="lesson">                    <span>Lessons</span>                </label>                <label class="filter-checkbox">                    <input type="checkbox" name="type" value="handout">                    <span>Handouts</span>                </label>                <label class="filter-checkbox">                    <input type="checkbox" name="type" value="unit-plan">                    <span>Unit Plans</span>                </label>                <label class="filter-checkbox">                    <input type="checkbox" name="type" value="interactive">                    <span>Interactive</span>                </label>                <label class="filter-checkbox">                    <input type="checkbox" name="type" value="assessment">                    <span>Assessments</span>                </label>            </div>            <div class="filter-group">                <h3>Year Level</h3>                <label class="filter-checkbox">                    <input type="checkbox" name="level" value="Year 7">                    <span>Year 7</span>                </label>                <label class="filter-checkbox">                    <input type="checkbox" name="level" value="Year 8">                    <span>Year 8</span>                </label>                <label class="filter-checkbox">                    <input type="checkbox" name="level" value="Year 9">                    <span>Year 9</span>                </label>                <label class="filter-checkbox">                    <input type="checkbox" name="level" value="All Levels">                    <span>All Levels</span>                </label>            </div>            <div class="filter-group">                <h3>Cultural Integration</h3>                <label class="filter-checkbox">                    <input type="checkbox" name="cultural" value="high">                    <span>🌿 High Integration</span>                </label>                <label class="filter-checkbox">                    <input type="checkbox" name="cultural" value="medium">                    <span>Medium Integration</span>                </label>            </div>            <button onclick="applyFilters()" style="background: #6366f1; color: white; border: none; cursor: pointer; margin-top: 1rem;">                Apply Filters            </button>            <button onclick="clearFilters()" style="color: #6366f1; cursor: pointer; margin-top: 0.5rem;">                Clear All            </button>        </aside>        <!-- Results -->        <div class="results-panel">            <div class="results-header">                <div>                    <span class="result-count" id="result-count">0 results</span>                    <span style="color: #888; font-size: 0.938rem;"> found</span>                </div>                <select class="sort-dropdown" onchange="sortResults(this.value)">                    <option value="relevance">Most Relevant</option>                    <option value="newest">Newest First</option>                    <option value="alpha">Alphabetical</option>                    <option value="cultural">Cultural Integration</option>                </select>            </div>            <div id="search-results-container" class="resource-grid">                <div style="padding: 4rem; color: #888;">                    <div style="font-size: 3rem; ">🔍</div>                    <p>Enter a search term to find resources</p>                </div>            </div>        </div>    </div>    <!-- Footer -->    <div id="footer-container"></div>    <script>        fetch('/components/footer.html').then(r=>r.text()).then(html=>{            document.getElementById('footer-container').innerHTML=html;        });    </script>    <!-- Mobile Nav & FAB -->    <div id="mobile-nav-bottom"></div>    <script>        fetch('/components/mobile-bottom-nav.html').then(r=>r.text()).then(html=>{            document.getElementById('mobile-nav-bottom').innerHTML=html;        });    </script>    <div id="fab-quick-actions"></div>    <script>        fetch('/components/quick-actions-fab.html').then(r=>r.text()).then(html=>{            document.getElementById('fab-quick-actions').innerHTML=html;        });    </script>    <script src="/js/enhanced-search.js"></script>    <script>        let currentResults = [];        // Search on input        document.getElementById('main-search')?.addEventListener('input', (e) => {            const query = e.target.value.trim();            if (query.length < 2) {                showPlaceholder();                return;            }            performSearch(query);        });        async function performSearch(query) {            const container = document.getElementById('search-results-container');            container.innerHTML = '<div >🔍 Searching GraphRAG...</div>';            try {                // Initialize Supabase client                const { createClient } = supabase;                const supabaseClient = createClient(                    'https://nlgldaqtubrlcqddppbq.supabase.co',                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'                );                // Get selected filters                const filters = getSelectedFilters();                // Build query for graphrag_resources table                let searchQuery = supabaseClient                    .from('graphrag_resources')                    .select('file_path, title, resource_type, quality_score, subject, year_level, cultural_context, has_te_reo, has_whakataukī')                    .or(`title.ilike.%${query}%,resource_type.ilike.%${query}%,subject.ilike.%${query}%`)                    .like('file_path', '/public/%')                    .order('quality_score', { ascending: false })                    .limit(100);                // Apply filters                if (filters.subject.length > 0) {                    searchQuery = searchQuery.in('subject', filters.subject);                }                if (filters.type.length > 0) {                    searchQuery = searchQuery.in('resource_type', filters.type);                }                if (filters.cultural.includes('high')) {                    searchQuery = searchQuery.eq('cultural_context', true);                }                const { data: results, error } = await searchQuery;                if (error) throw error;                currentResults = results || [];                displayResults(currentResults);            } catch (error) {                // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-        message: '$2',
-        details: $3,
-        url: window.location.pathname
-    });
+            posthog.capture('javascript_error', {
+                error: err.message,
+                url: window.location.pathname
+            }));
         }
         // Show user-friendly message instead of error
         container.innerHTML = '<div style="color: #dc2626;">Error searching GraphRAG. Please try again.</div>';            }        }        function getSelectedFilters() {            const filters = { subject: [], type: [], level: [], cultural: [] };            document.querySelectorAll('input[name="subject"]:checked').forEach(el => {                filters.subject.push(el.value);            });            document.querySelectorAll('input[name="type"]:checked').forEach(el => {                filters.type.push(el.value);            });            document.querySelectorAll('input[name="level"]:checked').forEach(el => {                filters.level.push(el.value);            });            return filters;        }        function displayResults(results) {            const container = document.getElementById('search-results-container');            const count = document.getElementById('result-count');            count.textContent = `${results.length} result${results.length !== 1 ? 's' : ''}`;            if (results.length === 0) {                container.innerHTML = `                    <div style="padding: 4rem; color: #888;">                        <div style="font-size: 3rem; ">🔍</div>                        <p>No results found. Try adjusting your filters or search term.</p>                    </div>                `;                return;            }            const html = results.map(r => `                <a href="${r.file_path}" class="resource-card" style="text-decoration: none; transition: all 0.3s;">                    <div style="justify-content: space-between; align-items: start; ">                        <h3 style="font-size: 1.25rem; ">${r.title}</h3>                        ${r.quality_score ? `<span style="background: #dcfce7; color: #047857; padding: 0.25rem 0.75rem; font-size: 0.75rem; ">Q: ${r.quality_score}</span>` : ''}                    </div>                    <div style="color: #64748b; ">${r.resource_type || 'Resource'}</div>                    <div style="gap: 0.5rem; flex-wrap: wrap; align-items: center;">                        ${r.subject ? `<span style="background: #eff6ff; color: #1e40af; padding: 0.4rem 0.9rem; border-radius: 20px; ">${r.subject}</span>` : ''}                        ${r.year_level ? `<span style="color: #888; font-size: 0.85rem;">📚 ${r.year_level}</span>` : ''}                        ${r.cultural_context ? '<span style="color: #059669; font-size: 0.85rem;">🌿 Cultural</span>' : ''}                        ${r.has_te_reo ? '<span style="color: #059669; font-size: 0.85rem;">🗣️ Te Reo</span>' : ''}                    </div>                </a>            `).join('');            container.innerHTML = html;        }        function showPlaceholder() {            document.getElementById('search-results-container').innerHTML = `                <div style="padding: 4rem; color: #888;">                    <div style="font-size: 3rem; ">🔍</div>                    <p>Enter a search term to find resources</p>                </div>            `;            document.getElementById('result-count').textContent = '0 results';        }        function applyFilters() {            const query = document.getElementById('main-search').value.trim();            if (query.length >= 2) {                performSearch(query);            }        }        function clearFilters() {            document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);            applyFilters();        }        function sortResults(sortBy) {            if (!currentResults || currentResults.length === 0) return;            let sorted = [...currentResults];            if (sortBy === 'alpha') {                sorted.sort((a, b) => a.title.localeCompare(b.title));            } else if (sortBy === 'newest') {                sorted.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));            }            displayResults(sorted);        }    </script><!-- 📊 ULTIMATE BEAUTY: PostHog Analytics (Privacy-First) --><script src="/js/posthog-analytics.js" defer></script></body></html>
