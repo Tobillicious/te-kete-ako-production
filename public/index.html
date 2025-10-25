@@ -560,13 +560,18 @@ Quality 95</span>
                 const container = document.getElementById('hero-enhanced-container');
                 if (container) container.innerHTML = html;
             })            .catch(err => console.error('Hero load error:', err));    </script>
-    <!-- STATS DASHBOARD - Interactive Resource Overview -->
-    <div id="stats-dashboard-container">
+    <!-- STATS DASHBOARD - HIDDEN FOR PUBLIC USERS -->
+    <div id="stats-dashboard-container" style="display: none !important;">
 </div>
-    <script>        fetch('/components/stats-dashboard.html')            .then(response => response.text())            .then(html => {
+    <script>
+    // DISABLED FOR PUBLIC - Only load for admin/teacher users
+    /*
+        fetch('/components/stats-dashboard.html')            .then(response => response.text())            .then(html => {
                 const container = document.getElementById('stats-dashboard-container');
                 if (container) container.innerHTML = html;
-            })            .catch(err => console.error('Stats load error:', err));    </script>
+            })            .catch(err => console.error('Stats load error:', err));
+    */
+    </script>
     <!-- FEATURED CAROUSEL - Curated Collections -->
     <div id="featured-carousel-container">
 </div>
@@ -576,7 +581,9 @@ Quality 95</span>
             })            .catch(err => console.error('Carousel load error:', err));    </script>
  <!-- Counter Animation Script -->
  <script src="/js/counter-animation.js"></script>
- <script src="/js/graphrag-recommendations.js"></script>
+ <!-- GraphRAG recommendations disabled for public - causes UI clutter -->
+ <!-- <!-- GraphRAG script disabled for public - shows backend UI -->
+ <!-- <script src="/js/graphrag-recommendations.js"></script> --> -->
  <!-- Main Content -->
  <main id="main-content" role="main">
     <!-- Quick Actions Bar -->
@@ -1961,7 +1968,8 @@ Explore →</span>
  </div>
  </a>
  </div>
- <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: rgba(26, 77, 46, 0.05); border-radius: 12px;">
+ <!-- HIDDEN FOR PUBLIC USERS - Admin tool -->
+ <div style="display: none !important; text-align: center; margin-top: 3rem; padding: 2rem; background: rgba(26, 77, 46, 0.05); border-radius: 12px;">
  <p style="font-size: 1.1rem; color: #1a4d2e; font-weight: 600; margin-bottom: 0.75rem;">
  ✨ Explore all subjects with live counts from GraphRAG.</p>
  <a href="/subject-dashboard.html" style="display: inline-block; background: #1a4d2e; color: white; padding: 0.75rem 1.25rem; border-radius: 10px; text-decoration: none; font-weight: 700;">
@@ -2137,7 +2145,8 @@ Discover our most popular teaching materials and learning resources</p>
  </div>
  </div>
                 <!-- TEACHER RESOURCES HUB - Data-Driven Discovery! -->
-                <div style="background: linear-gradient(135deg, #fef3c7, #fde68a); padding: 2.5rem; border-radius: 12px; margin-bottom: 2rem; border-left: 4px solid #92400e;">
+                <!-- HIDDEN FOR PUBLIC USERS - Teacher/Admin tools only -->
+                <div style="display: none !important; background: linear-gradient(135deg, #fef3c7, #fde68a); padding: 2.5rem; border-radius: 12px; margin-bottom: 2rem; border-left: 4px solid #92400e;">
                     <h3 style="font-size: 1.8rem; color: #92400e; margin-bottom: 1.5rem; text-align: center;">
                         👩‍🏫 Teacher Professional Hub                    </h3>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
