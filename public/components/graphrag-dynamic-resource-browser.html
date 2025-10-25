@@ -41,7 +41,7 @@
         this.render();
       } catch (error) {
         console.error('GraphRAG Browser initialization failed:', error);
-        this.container.innerHTML = '<p style="color:#666;text-align:center;padding:2rem;">Unable to load resources from GraphRAG</p>';
+        this.container.innerHTML = '<p style="color:#666;text-center p-8 ">Unable to load resources from GraphRAG</p>';
       }
     }
     
@@ -80,27 +80,27 @@
       this.filterResources();
       
       const html = `
-        <div style="background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%); padding: 2rem; border-radius: 16px; margin: 3rem 0;">
-          <div style="text-align: center; margin-bottom: 2rem;">
-            <div style="display: inline-block; background: linear-gradient(135deg, #3b82f6, #2563eb); padding: 0.5rem 1.5rem; border-radius: 24px; margin-bottom: 1rem; color: white; font-weight: 700;">
+        <div style="background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%); p-8  rounded-2xl  margin: 3rem 0;">
+          <div style="text-center  mb-8 ">
+            <div style="display: inline-block; background: linear-gradient(135deg, #3b82f6, #2563eb); padding: 0.5rem 1.5rem; border-radius: 24px; mb-4  text-white  font-bold ">
               🧠 LIVE GRAPHRAG DATA
             </div>
-            <h2 style="font-size: 2rem; color: #0f172a; margin-bottom: 0.5rem;">
+            <h2 style="font-size: 2rem; color: #0f172a; mb-2 ">
               📚 All ${this.subject} Resources
             </h2>
-            <p style="color: #64748b; margin-bottom: 1.5rem;">
+            <p style="color: #64748b; mb-6 ">
               ${this.resources.length} total resources | Showing ${this.filteredResources.length}
             </p>
             ${this.showFilters ? this.renderFilters() : ''}
           </div>
           
-          <div id="${this.container.id}-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+          <div id="${this.container.id}-grid" style="grid  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
             ${this.renderResourceGrid()}
           </div>
           
           ${this.filteredResources.length > this.limit ? `
-            <div style="text-align: center; margin-top: 2rem;">
-              <button onclick="window.graphragBrowser_${this.container.id}.showMore()" style="background: #3b82f6; color: white; padding: 0.75rem 2rem; border: none; border-radius: 10px; font-weight: 700; cursor: pointer;">
+            <div style="text-center  margin-top: 2rem;">
+              <button onclick="window.graphragBrowser_${this.container.id}.showMore()" style="background: #3b82f6; text-white  padding: 0.75rem 2rem; border: none; border-radius: 10px; font-bold  cursor: pointer;">
                 Load More Resources (${this.filteredResources.length - this.limit} remaining)
               </button>
             </div>
@@ -121,22 +121,22 @@
       const resourceTypes = ['all', 'Lesson', 'Handout', 'Activity', 'Assessment', 'Resource', 'Hub Page'];
       
       return `
-        <div style="background: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;">
-          <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; align-items: center;">
+        <div class="bg-white$1">
+          <div style="flex  gap: 1rem; flex-wrap: wrap; justify-content: center; align-items: center;">
             <div>
-              <label style="font-weight: 600; color: #475569; margin-right: 0.5rem;">Year Level:</label>
+              <label style="font-semibold  color: #475569; margin-right: 0.5rem;">Year Level:</label>
               <select id="filter-year-${this.container.id}" onchange="window.graphragBrowser_${this.container.id}.setFilter('yearLevel', this.value)" style="padding: 0.5rem; border-radius: 6px; border: 2px solid #e2e8f0;">
                 ${yearLevels.map(y => `<option value="${y}" ${this.filters.yearLevel === y ? 'selected' : ''}>${y === 'all' ? 'All Years' : y}</option>`).join('')}
               </select>
             </div>
             <div>
-              <label style="font-weight: 600; color: #475569; margin-right: 0.5rem;">Type:</label>
+              <label style="font-semibold  color: #475569; margin-right: 0.5rem;">Type:</label>
               <select id="filter-type-${this.container.id}" onchange="window.graphragBrowser_${this.container.id}.setFilter('resourceType', this.value)" style="padding: 0.5rem; border-radius: 6px; border: 2px solid #e2e8f0;">
                 ${resourceTypes.map(t => `<option value="${t}" ${this.filters.resourceType === t ? 'selected' : ''}>${t === 'all' ? 'All Types' : t}</option>`).join('')}
               </select>
             </div>
             <div>
-              <label style="font-weight: 600; color: #475569; margin-right: 0.5rem;">Min Quality:</label>
+              <label style="font-semibold  color: #475569; margin-right: 0.5rem;">Min Quality:</label>
               <select id="filter-quality-${this.container.id}" onchange="window.graphragBrowser_${this.container.id}.setFilter('quality', parseInt(this.value))" style="padding: 0.5rem; border-radius: 6px; border: 2px solid #e2e8f0;">
                 <option value="80">80+</option>
                 <option value="85" selected>85+</option>
@@ -158,21 +158,21 @@
         const cleanPath = r.file_path.replace('/public', '');
         
         return `
-          <a href="${cleanPath}" style="background: white; padding: 1.5rem; border-radius: 12px; text-decoration: none; box-shadow: 0 2px 12px rgba(0,0,0,0.1); border-top: 4px solid ${color}; transition: transform 0.2s; position: relative; display: block;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform=''">
+          <a href="${cleanPath}" class="bg-white$1" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform=''">
             <div class="connection-badge" data-resource-path="${r.file_path}" style="position: absolute; top: -12px; right: 12px; background: #e0f2fe; color: #075985; padding: 0.35rem 0.75rem; border-radius: 18px; font-weight: 800; font-size: 0.75rem;">
               🔄 Loading...
             </div>
             <div style="font-size: 2rem; margin-bottom: 0.75rem;">${emoji}</div>
-            <h3 style="color: #1a4d2e; font-weight: 700; margin-bottom: 0.5rem; font-size: 1.05rem;">${r.title || 'Untitled Resource'}</h3>
-            <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 0.5rem;">
+            <h3 style="color: #1a4d2e; font-bold  mb-2  font-size: 1.05rem;">${r.title || 'Untitled Resource'}</h3>
+            <p style="color: #64748b; font-size: 0.85rem; mb-2 ">
               ${r.year_level || 'All Years'} • ${r.resource_type || 'Resource'}
             </p>
-            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
-              <span style="background: ${this.getQualityBadgeColor(r.quality_score)}; color: ${this.getQualityTextColor(r.quality_score)}; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700;">
+            <div style="flex  gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;">
+              <span style="background: ${this.getQualityBadgeColor(r.quality_score)}; color: ${this.getQualityTextColor(r.quality_score)}; padding: 0.25rem 0.75rem; rounded-xl  font-size: 0.75rem; font-bold ">
                 ⭐ Q${r.quality_score || 85}
               </span>
-              ${r.has_te_reo ? '<span style="background: #dcfce7; color: #166534; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">🗣️ Te Reo</span>' : ''}
-              ${r.has_whakataukī ? '<span style="background: #fef3c7; color: #78350f; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">🌿 Whakataukī</span>' : ''}
+              ${r.has_te_reo ? '<span style="background: #dcfce7; color: #166534; padding: 0.25rem 0.75rem; rounded-xl  font-size: 0.75rem; font-semibold ">🗣️ Te Reo</span>' : ''}
+              ${r.has_whakataukī ? '<span style="background: #fef3c7; color: #78350f; padding: 0.25rem 0.75rem; rounded-xl  font-size: 0.75rem; font-semibold ">🌿 Whakataukī</span>' : ''}
             </div>
           </a>
         `;

@@ -4,8 +4,8 @@
 <style>
 .connected-resource-card {
     background: white;
-    padding: 1.5rem;
-    border-radius: 12px;
+    p-6 
+    rounded-xl 
     text-decoration: none;
     display: block;
     box-shadow: 0 2px 12px rgba(0,0,0,0.08);
@@ -23,17 +23,17 @@
     right: 12px;
     background: linear-gradient(135deg, #fbbf24, #f59e0b);
     color: #78350f;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
+    px-4 py-2 
+    rounded-full 
     font-weight: 800;
     font-size: 0.75rem;
     box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
 }
 .connected-resource-title {
     color: #1f2937;
-    font-weight: 700;
+    font-bold 
     font-size: 1.1rem;
-    margin-bottom: 0.5rem;
+    mb-2 
     padding-right: 80px; /* Space for badge */
 }
 .connected-resource-meta {
@@ -43,7 +43,7 @@
 }
 .connected-resource-desc {
     color: #374151;
-    font-size: 0.9rem;
+    text-sm 
     line-height: 1.5;
 }
 </style>
@@ -103,7 +103,7 @@
                     .limit(limit);
 
                 if (resError || !subjectResources || subjectResources.length === 0) {
-                    container.innerHTML = '<p style="color: #6b7280; text-align: center;">Loading connected resources...</p>';
+                    container.innerHTML = '<p style="color: #6b7280; text-center ">Loading connected resources...</p>';
                     continue;
                 }
 
@@ -127,15 +127,15 @@
                 // Render
                 const color = subjectColors[subject] || '#6b7280';
                 container.innerHTML = `
-                    <section style="background: white; padding: 3rem 2rem; border-radius: 16px; margin: 3rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
-                        <div style="text-align: center; margin-bottom: 2rem;">
-                            <div style="display: inline-block; background: ${color}; color: white; padding: 0.5rem 1.5rem; border-radius: 20px; font-weight: 700; margin-bottom: 1rem;">
+                    <section class="bg-white$1">
+                        <div style="text-center  mb-8 ">
+                            <div style="display: inline-block; background: ${color}; text-white  padding: 0.5rem 1.5rem; rounded-full  font-bold  mb-4 ">
                                 🔗 MOST CONNECTED
                             </div>
-                            <h2 style="font-size: 2rem; color: #1a4d2e; margin-bottom: 0.5rem;">Top ${subject} Resources</h2>
+                            <h2 style="font-size: 2rem; color: #1a4d2e; mb-2 ">Top ${subject} Resources</h2>
                             <p style="color: #6b7280; font-size: 0.95rem;">Resources with the strongest cross-curricular connections in GraphRAG</p>
                         </div>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+                        <div style="grid  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
                             ${enrichedResources.map((resource, index) => {
                                 const badgeLabel = resource.connection_count >= 50 ? '⚡ CHAMPION' :
                                                  resource.connection_count >= 20 ? '🌟 HIGHLY CONNECTED' :
@@ -159,8 +159,8 @@
                                 `;
                             }).join('')}
                         </div>
-                        <div style="text-align: center; margin-top: 2rem;">
-                            <a href="/cross-subject-discovery.html?from=${encodeURIComponent(subject)}" style="display: inline-block; background: ${color}; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 700;">
+                        <div style="text-center  margin-top: 2rem;">
+                            <a href="/cross-subject-discovery.html?from=${encodeURIComponent(subject)}" style="display: inline-block; background: ${color}; text-white  padding: 0.75rem 1.5rem; rounded-lg  text-decoration: none; font-bold ">
                                 Explore All ${subject} Connections →
                             </a>
                         </div>
