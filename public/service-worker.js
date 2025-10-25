@@ -8,7 +8,7 @@
  * ================================================================
  */
 
-const CACHE_VERSION = 'te-kete-ako-v1.0.7-oct25-8442px-header-fix';
+const CACHE_VERSION = 'te-kete-ako-v1.0.8-phase5a-nav-consolidation';
 const CACHE_STATIC = `${CACHE_VERSION}-static`;
 const CACHE_DYNAMIC = `${CACHE_VERSION}-dynamic`;
 
@@ -18,9 +18,9 @@ const STATIC_ASSETS = [
     '/index.html',
     '/offline.html',
     
-    // Core CSS (canonical system)
+    // Core CSS (canonical system - Phase 5A consolidated)
     '/css/component-library.css',
-    '/css/beautiful-navigation.css',
+    '/css/navigation-standard.css',
     '/css/animations-professional.css',
     '/css/mobile-optimization.css',
     '/css/print.css',

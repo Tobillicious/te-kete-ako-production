@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Performance: Optimize rendering -->
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#1b4332">
+    <meta name="color-scheme" content="light">
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Te Kete Ako - Server Error">
+    <title>Server Error - Te Kete Ako</title>
+    
+    <!-- Professional Design System -->
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+</head>
+<body class="pattern-koru-subtle">
+
+<!-- Navigation -->
+<header class="site-header no-print">
+    <div class="nav-container">
+        <a href="/index.html" class="nav-brand">Te Kete Ako</a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="/index.html" class="nav-link"><span class="nav-icon">🏠</span>Home</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="error-container">
+    <div class="error-content">
+        <div class="error-code">500</div>
+        <h1 class="error-title">Kua hapa te tūmau</h1>
+        <p class="error-message">
+            We're experiencing technical difficulties. Our team has been notified and is working to fix the issue. Please try again in a few moments.
+        </p>
+        
+        <div class="error-actions">
+            <a href="/index.html" class="btn-primary">🏠 Return Home</a>
+            <a href="javascript:location.reload()" class="btn-secondary">🔄 Refresh Page</a>
+        </div>
+        
+        <div class="quick-links">
+            <a href="/teachers/index.html" class="quick-link">
+                <strong>🧑‍🏫 Teacher Hub</strong><br>
+                <small>Access teacher resources</small>
+            </a>
+            <a href="/lessons.html" class="quick-link">
+                <strong>📚 Lessons</strong><br>
+                <small>Browse lesson plans</small>
+            </a>
+            <a href="/handouts.html" class="quick-link">
+                <strong>📄 Handouts</strong><br>
+                <small>View teaching resources</small>
+            </a>
+        </div>
+        
+        <div class="cultural-note">
+            <strong>Whakatauki:</strong> "Tōia mai te waka; ki te urunga te waka" - Draw the canoe to its resting place - We will work through this together.
+        </div>
+        
+        <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(239,68,68,0.05); border-left: 4px solid #ef4444; border-radius: 8px;">
+            <p style="margin: 0; font-size: 0.95rem; color: #991b1b;">
+                <strong>🔧 Technical Status:</strong> Our engineers are investigating this issue. If this problem persists, please contact support.
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+// Log error for monitoring
+if (typeof console !== 'undefined') {
+    console.error('500 Server Error displayed at:', new Date().toISOString());
+}
+
+// Track 500 errors for analytics
+if (typeof gtag !== 'undefined') {
+    gtag('event', 'exception', {
+        description: '500 Server Error',
+        fatal: true
+    });
+}
+</script>
+
+<!-- Footer -->
+<div id="footer-container"></div>
+<script>
+    fetch('/components/footer.html').then(r=>r.text()).then(html=>{
+        document.getElementById('footer-container').innerHTML=html;
+    }).catch(() => {
+        // Graceful degradation if footer fails
+        document.getElementById('footer-container').innerHTML = '<footer style="text-align: center; padding: 2rem; color: #666;">© 2025 Te Kete Ako</footer>';
+    });
+</script>
+
+</body>
+</html>
+
