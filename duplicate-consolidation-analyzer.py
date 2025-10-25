@@ -145,21 +145,22 @@ def create_consolidation_plan(duplicate_analysis):
         print(f"📂 {group_name}: {len(duplicates)} duplicate pairs")
 
         for dup in duplicates:
+            rec = dup['recommendation']
             action = {
                 'group': group_name,
-                'canonical_file': str(dup['canonical']),
-                'archive_file': str(dup['to_archive']),
-                'strategy': dup['strategy'],
-                'confidence': dup['confidence'],
+                'canonical_file': str(rec['canonical']),
+                'archive_file': str(rec['to_archive']),
+                'strategy': rec['strategy'],
+                'confidence': rec['confidence'],
                 'action': 'archive_duplicate'
             }
             consolidation_actions.append(action)
 
-    print("
-📋 CONSOLIDATION STRATEGY:"    print(f"   Total actions: {len(consolidation_actions)}")
-    print("   Primary strategy: Archive older duplicates"
-    print("   Confidence level: High (filename-based detection)"
-    print("   Safety: Can be reversed if needed"
+    print("\n📋 CONSOLIDATION STRATEGY:")
+    print(f"   Total actions: {len(consolidation_actions)}")
+    print("   Primary strategy: Archive older duplicates")
+    print("   Confidence level: High (filename-based detection)")
+    print("   Safety: Can be reversed if needed")
 
     return consolidation_actions
 
@@ -176,13 +177,13 @@ def main():
     # Create consolidation plan
     consolidation_plan = create_consolidation_plan(duplicate_analysis)
 
-    print("
-🚀 DUPLICATE ANALYSIS COMPLETE!"    print(f"   - Analyzed {len(duplicate_analysis)} file groups")
+    print("\n🚀 DUPLICATE ANALYSIS COMPLETE!")
+    print(f"   - Analyzed {len(duplicate_analysis)} file groups")
     print(f"   - Identified {len(consolidation_plan)} consolidation actions")
     print("   - Ready for systematic duplicate removal")
 
-    print("
-🎯 CONSOLIDATION STRATEGY:"    print("   1. Archive older duplicate versions")
+    print("\n🎯 CONSOLIDATION STRATEGY:")
+    print("   1. Archive older duplicate versions")
     print("   2. Keep most recent canonical versions")
     print("   3. Preserve unique insights in canonical")
     print("   4. Update any references to archived files")

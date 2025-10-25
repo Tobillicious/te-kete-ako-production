@@ -6,51 +6,191 @@
     margin: 12mm 12mm 14mm 12mm;
   }
   /* Base */
-  html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  html,
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #000 !important;
     background: #fff !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
 
-  /* Layout simplification */
-  .no-print, header.site-header, footer.site-footer, nav, .main-nav, .breadcrumbs { display: none !important; }
-  .container, main, article, section { width: 100% !important; max-width: 100% !important; margin: 0 !important; padding: 0.5in 0.5in !important; }
+  /* Layout simplification - hide non-essential elements */
+  .no-print,
+  header.site-header,
+  footer.site-footer,
+  nav,
+  .main-nav,
+  .breadcrumbs,
+  #navigation-container,
+  #footer-container,
+  .modal,
+  .preview-modal,
+  .download-buttons,
+  .download-btn,
+  button:not(.print-keep),
+  .btn:not(.print-keep),
+  [onclick*="window.print"],
+  [data-preview-resource],
+  .hover\\:lift,
+  .card-elevated {
+    display: none !important;
+  }
+
+  /* Keep quality badges in print (teachers want to see quality!) */
+  .quality-badge {
+    display: inline-flex !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .container,
+  main,
+  article,
+  section {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0.5in 0.5in !important;
+    page-break-inside: avoid;
+  }
+
+  /* Ensure cards print nicely */
+  .card {
+    border: 1px solid #ddd !important;
+    margin-bottom: 0.5in !important;
+    padding: 0.25in !important;
+    page-break-inside: avoid;
+    background: white !important;
+  }
 
   /* Links show URLs */
-  a[href^="http"]::after { content: " (" attr(href) ")"; font-weight: normal; font-size: 90%; }
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-weight: normal;
+    font-size: 90%;
+  }
 
   /* Images */
-  img { max-width: 100% !important; height: auto !important; page-break-inside: avoid; break-inside: avoid; }
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
 
   /* Headings and text */
-  h1, h2, h3, h4, h5, h6 { color: #000 !important; break-after: avoid-page; page-break-after: avoid; }
-  h1 { font-size: 22pt; letter-spacing: -0.02em; }
-  h2 { font-size: 18pt; letter-spacing: -0.015em; }
-  h3 { font-size: 14pt; letter-spacing: -0.01em; }
-  p, li { font-size: 11pt; line-height: 1.35; orphans: 3; widows: 3; }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #000 !important;
+    break-after: avoid-page;
+    page-break-after: avoid;
+  }
+  h1 {
+    font-size: 22pt;
+    letter-spacing: -0.02em;
+  }
+  h2 {
+    font-size: 18pt;
+    letter-spacing: -0.015em;
+  }
+  h3 {
+    font-size: 14pt;
+    letter-spacing: -0.01em;
+  }
+  p,
+  li {
+    font-size: 11pt;
+    line-height: 1.35;
+    orphans: 3;
+    widows: 3;
+  }
 
   /* Avoid cutting content mid-page */
-  ul, ol, li, blockquote, pre, code, figure, figcaption,
-  .card, .panel, .section, .lesson, .handout, .resource, .rubric {
-    page-break-inside: avoid; break-inside: avoid; }
+  ul,
+  ol,
+  li,
+  blockquote,
+  pre,
+  code,
+  figure,
+  figcaption,
+  .card,
+  .panel,
+  .section,
+  .lesson,
+  .handout,
+  .resource,
+  .rubric {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
 
   /* Tables */
-  table { width: 100%; border-collapse: collapse; page-break-inside: auto; }
-  thead { display: table-header-group; }
-  tfoot { display: table-footer-group; }
-  tr { page-break-inside: avoid; break-inside: avoid; }
-  th, td { border: 1px solid #000; padding: 6pt; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    page-break-inside: auto;
+  }
+  thead {
+    display: table-header-group;
+  }
+  tfoot {
+    display: table-footer-group;
+  }
+  tr {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  th,
+  td {
+    border: 1px solid #000;
+    padding: 6pt;
+  }
 
   /* Page breaks helpers */
-  .page-break { page-break-before: always; break-before: page; }
-  .avoid-break { page-break-inside: avoid; break-inside: avoid; }
+  .page-break {
+    page-break-before: always;
+    break-before: page;
+  }
+  .avoid-break {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
 
-  /* Remove decorative backgrounds/borders */
-  [class*="hero"], [class*="banner"], [class*="card"], [class*="panel"] {
+  /* Remove decorative backgrounds/borders - SAVE INK! */
+  [class*="hero"],
+  [class*="banner"],
+  [class*="card"],
+  [class*="panel"] {
     background: transparent !important;
     box-shadow: none !important;
     border-color: #000 !important;
+  }
+
+  /* Remove all gradient backgrounds - SAVE INK! */
+  * {
+    background-image: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Show resource metadata clearly */
+  .resource-meta,
+  .lesson-info,
+  .handout-info {
+    border: 2px solid #000;
+    padding: 8pt;
+    margin-bottom: 12pt;
+  }
+
+  /* Page number for multi-page resources */
+  @page {
+    @bottom-right {
+      content: "Page " counter(page) " of " counter(pages);
+      font-size: 9pt;
+    }
   }
 }

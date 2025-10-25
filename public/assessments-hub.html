@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment Resources & Rubrics | Te Kete Ako</title>
+    
+    <!-- Professional CSS -->
+    <link rel="stylesheet" href="/css/professionalization-system.css">
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/navigation-standard.css">
+    <link rel="stylesheet" href="/css/mobile-revolution.css">
+    <!-- Quality Badge System -->
+    <link href="/css/components/quality-badges.css" rel="stylesheet"/>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/js/supabase-singleton.js"></script>
+    <script src="/js/navigation-loader.js"></script>
+    <script defer src="/js/quality-badge-system.js"></script>
+</head>
+<body>
+    
+    <!-- Hero Section -->
+    <section style="background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%); padding: 4rem 2rem; color: white; text-align: center;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h1 style="font-size: 3rem; margin-bottom: 1rem;">
+                📊 Assessment Resources & Rubrics
+            </h1>
+            <p style="font-size: 1.5rem; opacity: 0.95; margin-bottom: 2rem;">
+                348 assessment tools across all subjects - NCEA aligned, culturally responsive
+            </p>
+            <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;">
+                <div style="background: rgba(255,255,255,0.2); padding: 1rem 2rem; border-radius: 12px;">
+                    <div style="font-size: 2rem; font-weight: bold;">348</div>
+                    <div style="font-size: 0.9rem; opacity: 0.9;">Total Assessments</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.2); padding: 1rem 2rem; border-radius: 12px;">
+                    <div style="font-size: 2rem; font-weight: bold;">14</div>
+                    <div style="font-size: 0.9rem; opacity: 0.9;">Featured Rubrics</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.2); padding: 1rem 2rem; border-radius: 12px;">
+                    <div style="font-size: 2rem; font-weight: bold;">7</div>
+                    <div style="font-size: 0.9rem; opacity: 0.9;">Subjects Covered</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Filter Section -->
+    <section style="padding: 2rem; background: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h2 style="margin-bottom: 1rem; color: #334155;">Filter by Subject:</h2>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button onclick="filterSubject('all')" class="filter-btn active" style="padding: 0.75rem 1.5rem; border-radius: 50px; border: 2px solid #0891b2; background: #0891b2; color: white; cursor: pointer; transition: all 0.3s;">
+                    ✨ All Subjects
+                </button>
+                <button onclick="filterSubject('Mathematics')" class="filter-btn" style="padding: 0.75rem 1.5rem; border-radius: 50px; border: 2px solid #0891b2; background: white; color: #0891b2; cursor: pointer; transition: all 0.3s;">
+                    📐 Mathematics
+                </button>
+                <button onclick="filterSubject('Science')" class="filter-btn" style="padding: 0.75rem 1.5rem; border-radius: 50px; border: 2px solid #0891b2; background: white; color: #0891b2; cursor: pointer; transition: all 0.3s;">
+                    🔬 Science
+                </button>
+                <button onclick="filterSubject('English')" class="filter-btn" style="padding: 0.75rem 1.5rem; border-radius: 50px; border: 2px solid #0891b2; background: white; color: #0891b2; cursor: pointer; transition: all 0.3s;">
+                    📚 English
+                </button>
+                <button onclick="filterSubject('Social Studies')" class="filter-btn" style="padding: 0.75rem 1.5rem; border-radius: 50px; border: 2px solid #0891b2; background: white; color: #0891b2; cursor: pointer; transition: all 0.3s;">
+                    🌍 Social Studies
+                </button>
+                <button onclick="filterSubject('Digital Technologies')" class="filter-btn" style="padding: 0.75rem 1.5rem; border-radius: 50px; border: 2px solid #0891b2; background: white; color: #0891b2; cursor: pointer; transition: all 0.3s;">
+                    💻 Digital Tech
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Assessment Grid -->
+    <section style="padding: 3rem 2rem;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div id="assessment-count" style="color: #64748b; margin-bottom: 2rem;">
+                Loading assessments...
+            </div>
+            <div id="assessments-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem;">
+                <!-- Loaded by JavaScript -->
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        let allAssessments = [];
+        let currentFilter = 'all';
+        
+        // Load assessments from database
+        async function loadAssessments() {
+            try {
+                const supabase = window.supabaseSingleton ? await window.supabaseSingleton.getClient() : null;
+                if (!supabase) {
+                    console.error('Supabase not available');
+                    return;
+                }
+                
+                // Query assessment resources
+                const { data, error } = await supabase
+                    .from('resources')
+                    .select('*')
+                    .contains('tags', ['assessment'])
+                    .eq('is_active', true)
+                    .order('featured', { ascending: false })
+                    .order('title');
+                
+                if (error) {
+                    console.error('Error loading assessments:', error);
+                    return;
+                }
+                
+                allAssessments = data || [];
+                
+                // Update count
+                document.getElementById('assessment-count').textContent = 
+                    `${allAssessments.length} assessment resources found`;
+                
+                // Render
+                renderAssessments(allAssessments);
+                
+            } catch (error) {
+                console.error('Failed to load assessments:', error);
+            }
+        }
+        
+        function renderAssessments(assessments) {
+            const grid = document.getElementById('assessments-grid');
+            
+            if (!assessments || assessments.length === 0) {
+                grid.innerHTML = '<p style="color: #64748b;">No assessments found for this filter.</p>';
+                return;
+            }
+            
+            grid.innerHTML = assessments.map(a => `
+                <a href="${a.path}" style="text-decoration: none; background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: all 0.3s; display: block; border-top: 4px solid ${a.featured ? '#0891b2' : '#cbd5e1'};" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.15)';" onmouseout="this.style.transform=''; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)';">
+                    ${a.featured ? '<div style="display: inline-block; background: #0891b2; color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; margin-bottom: 0.75rem;">⭐ Featured</div>' : ''}
+                    <h3 style="color: #0f172a; margin: 0 0 0.75rem 0; font-size: 1.25rem;">
+                        ${a.title}
+                    </h3>
+                    <p style="color: #64748b; margin: 0 0 1rem 0; line-height: 1.6;">
+                        ${a.description || 'Assessment resource'}
+                    </p>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <span style="background: #e0f2fe; color: #0c4a6e; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem;">
+                            ${a.subject || 'General'}
+                        </span>
+                        <span style="background: #fef3c7; color: #78350f; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem;">
+                            ${a.level || 'All Levels'}
+                        </span>
+                    </div>
+                </a>
+            `).join('');
+        }
+        
+        function filterSubject(subject) {
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.style.background = 'white';
+                btn.style.color = '#0891b2';
+                btn.classList.remove('active');
+            });
+            event.target.style.background = '#0891b2';
+            event.target.style.color = 'white';
+            event.target.classList.add('active');
+            
+            // Filter assessments
+            currentFilter = subject;
+            if (subject === 'all') {
+                renderAssessments(allAssessments);
+            } else {
+                const filtered = allAssessments.filter(a => a.subject === subject);
+                renderAssessments(filtered);
+                document.getElementById('assessment-count').textContent = 
+                    `${filtered.length} assessment resources in ${subject}`;
+            }
+        }
+        
+        // Load on page ready
+        document.addEventListener('DOMContentLoaded', loadAssessments);
+    </script>
+    
+    <!-- Footer loaded by navigation-loader.js -->
+    
+</body>
+</html>
+
