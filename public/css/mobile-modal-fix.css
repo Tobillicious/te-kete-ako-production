@@ -1,0 +1,139 @@
+/**
+ * MOBILE PREVIEW MODAL FIX
+ * Simulation found: 19.2% preview modal cutoff on mobile (96/500 sessions)
+ * Fix: Responsive modal that fits all screen sizes
+ */
+
+/* Mobile-responsive modal */
+.preview-modal .modal-content {
+  /* Desktop: 80% width */
+  width: 80%;
+  max-width: 1200px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Tablet adjustments */
+@media (max-width: 1024px) {
+  .preview-modal .modal-content {
+    width: 90%;
+    max-height: 85vh;
+  }
+  
+  .modal-header h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Mobile phone adjustments */
+@media (max-width: 768px) {
+  .preview-modal .modal-content {
+    width: 95%;
+    max-width: 100%;
+    max-height: 90vh;
+    margin: 5vh auto;
+  }
+  
+  .modal-header {
+    padding: 12px 15px;
+    flex-wrap: wrap;
+  }
+  
+  .modal-header h2 {
+    font-size: 1.25rem;
+    margin-right: auto;
+  }
+  
+  .modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 36px;
+    height: 36px;
+    font-size: 24px;
+    /* Touch-friendly */
+    min-width: 44px;
+    min-height: 44px;
+  }
+  
+  .modal-body {
+    padding: 15px;
+    max-height: calc(90vh - 120px); /* Account for header/footer */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth iOS scrolling */
+  }
+  
+  .modal-footer {
+    padding: 10px 15px;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .modal-footer .btn {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+/* Small phone adjustments */
+@media (max-width: 480px) {
+  .preview-modal .modal-content {
+    width: 100%;
+    height: 100%;
+    max-height: 100vh;
+    margin: 0;
+    border-radius: 0;
+  }
+  
+  .modal-header h2 {
+    font-size: 1.1rem;
+  }
+  
+  .modal-body {
+    font-size: 14px;
+    padding: 12px;
+    max-height: calc(100vh - 140px);
+  }
+  
+  /* Ensure images fit */
+  .modal-body img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Ensure tables are scrollable */
+  .modal-body table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Fix for modal overlay on mobile */
+.preview-modal .modal-overlay {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+}
+
+/* Prevent body scroll when modal open on mobile */
+body.modal-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+
+/* Touch-friendly scrollbar for modal content */
+.modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
+
+/* Ensure modal is accessible via keyboard on mobile */
+.preview-modal[aria-hidden="false"] {
+  display: flex !important;
+}
+

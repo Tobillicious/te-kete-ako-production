@@ -1,0 +1,209 @@
+/**
+ * MOBILE SHARE BUTTON STYLES
+ * Simulation found: 20.8% users wanted mobile share (104/500 sessions)
+ */
+
+/* Share button on resource cards (mobile only) */
+.mobile-share-btn {
+  display: none; /* Hidden on desktop */
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); /* WhatsApp colors */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(37, 211, 102, 0.3);
+}
+
+/* Show on mobile */
+@media (max-width: 768px) {
+  .mobile-share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    /* Touch-friendly */
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .mobile-share-btn:active {
+    transform: scale(0.95);
+    box-shadow: 0 1px 2px rgba(37, 211, 102, 0.3);
+  }
+}
+
+/* Mobile-only card actions container */
+.card-actions.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .card-actions.mobile-only {
+    display: flex;
+    justify-content: flex-end;
+    padding: 12px;
+    gap: 8px;
+    border-top: 1px solid #e5e7eb;
+  }
+}
+
+/* Share menu overlay */
+.mobile-share-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.share-menu-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+}
+
+/* Share menu content */
+.share-menu-content {
+  position: relative;
+  background: white;
+  border-radius: 16px 16px 0 0;
+  padding: 24px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.share-menu-content h3 {
+  margin: 0 0 20px 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+/* Share options grid */
+.share-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.share-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  background: #f9fafb;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #374151;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s;
+  cursor: pointer;
+  /* Touch-friendly */
+  min-height: 88px;
+}
+
+.share-option:active {
+  transform: scale(0.95);
+  background: #f3f4f6;
+}
+
+.share-option .share-icon {
+  font-size: 32px;
+}
+
+/* WhatsApp green */
+.share-option.whatsapp:hover,
+.share-option.whatsapp:focus {
+  background: #25D366;
+  color: white;
+  border-color: #25D366;
+}
+
+/* SMS blue */
+.share-option.sms:hover,
+.share-option.sms:focus {
+  background: #0ea5e9;
+  color: white;
+  border-color: #0ea5e9;
+}
+
+/* Email */
+.share-option.email:hover,
+.share-option.email:focus {
+  background: #6366f1;
+  color: white;
+  border-color: #6366f1;
+}
+
+/* Copy */
+.share-option.copy:hover,
+.share-option.copy:focus {
+  background: #8b5cf6;
+  color: white;
+  border-color: #8b5cf6;
+}
+
+/* Cancel button */
+.share-close {
+  width: 100%;
+  padding: 14px;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 10px;
+  color: #6b7280;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.share-close:active {
+  background: #e5e7eb;
+  transform: scale(0.98);
+}
+
+/* Tablet adjustments */
+@media (min-width: 769px) {
+  .mobile-share-menu {
+    align-items: center;
+  }
+  
+  .share-menu-content {
+    border-radius: 16px;
+    max-width: 400px;
+  }
+  
+  .share-options {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+

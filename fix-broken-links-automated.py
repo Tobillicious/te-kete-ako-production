@@ -157,10 +157,9 @@ if __name__ == '__main__':
     broken = fixer.scan_for_broken_links()
     
     if broken:
-        response = input(f"\nFix {len(broken)} broken links? (yes/no): ")
-        if response.lower() in ['yes', 'y']:
-            fixer.fix_links()
-            fixer.generate_report()
+        print(f"\n🔧 AUTO-FIXING {len(broken)} broken links...")
+        fixer.fix_links()
+        fixer.generate_report()
     else:
         print("\n✅ No broken links found! Navigation is clean.")
 

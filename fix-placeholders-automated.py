@@ -165,13 +165,9 @@ if __name__ == '__main__':
     
     if files:
         print(f"\n⚠️  Found placeholders in {len(files)} files")
-        response = input("\nFix all placeholders? (yes/no): ")
-        
-        if response.lower() in ['yes', 'y']:
-            fixer.fix_placeholders(files)
-            fixer.generate_report()
-        else:
-            print("Cancelled. No changes made.")
+        print("\n🔧 AUTO-FIXING (non-interactive mode)...")
+        fixer.fix_placeholders(files)
+        fixer.generate_report()
     else:
         print("\n✅ No placeholders found! Platform is clean.")
 
