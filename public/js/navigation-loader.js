@@ -1,11 +1,16 @@
 // Navigation Loader Singleton
 // Ensures navigation is loaded exactly once, preventing duplicate headers/navs
 (function() {
-  // Flag to prevent multiple navigation loads
-  let navigationLoaded = false;
+  // Use a marker on document to track if nav is loaded
+  const NAV_LOADED_MARKER = 'data-nav-loaded';
   
-  // Check if navigation is already in the DOM (from parent page like index.html)
-  function isNavigationAlreadyInDOM() {
+  // Check if navigation is already loaded or in DOM
+  function isNavigationAlreadyPresent() {
+    // Check marker
+    if (document.documentElement.getAttribute(NAV_LOADED_MARKER)) {
+      return true;
+    }
+    
     // Look for navigation component indicators
     return document.querySelector('nav.navigation') || 
            document.querySelector('[data-component="navigation"]') ||
@@ -16,12 +21,10 @@
   // Load navigation from component
   function loadNavigation() {
     // Prevent duplicate loads
-    if (navigationLoaded || isNavigationAlreadyInDOM()) {
+    if (isNavigationAlreadyPresent()) {
       console.log('[Navigation] Navigation already loaded, skipping');
       return Promise.resolve();
     }
-    
-    navigationLoaded = true;
     
     return fetch('/components/navigation-standard.html')
       .then(response => {
@@ -31,11 +34,20 @@
         return response.text();
       })
       .then(html => {
+        // Check one more time to prevent race condition
+        if (isNavigationAlreadyPresent()) {
+          console.log('[Navigation] Navigation loaded by another request, skipping');
+          return;
+        }
+        
         const container = document.createElement('div');
         container.innerHTML = html;
         const navElement = container.firstElementChild;
         
         if (navElement) {
+          // Mark navigation as loaded (race-condition safe)
+          document.documentElement.setAttribute(NAV_LOADED_MARKER, 'true');
+          
           // Insert at the very top of body
           document.body.insertBefore(navElement, document.body.firstChild);
           console.log('[Navigation] Navigation loaded successfully');
@@ -45,24 +57,24 @@
       })
       .catch(err => {
         console.error('[Navigation] Load error:', err);
-        navigationLoaded = false; // Reset flag on error to allow retry
       });
   }
   
   // Expose global function for pages to call
   window.loadNavigation = loadNavigation;
   
-  // Auto-load on DOMContentLoaded if not already present
+  // Auto-load on DOMContentLoaded only for non-homepage pages
+  // (homepage has its own navigation loading logic)
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function() {
-      // Only load if this is not the homepage (which loads nav differently)
-      if (document.body.classList.contains('page-not-homepage')) {
+      // Load if page doesn't already have navigation
+      if (!isNavigationAlreadyPresent()) {
         loadNavigation();
       }
     });
   } else {
     // DOM already loaded
-    if (document.body.classList.contains('page-not-homepage')) {
+    if (!isNavigationAlreadyPresent()) {
       loadNavigation();
     }
   }
