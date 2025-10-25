@@ -8,7 +8,7 @@
  * ================================================================
  */
 
-const CACHE_VERSION = 'te-kete-ako-v1.0.6-oct24-singleton-fixes';
+const CACHE_VERSION = 'te-kete-ako-v1.0.7-oct25-8442px-header-fix';
 const CACHE_STATIC = `${CACHE_VERSION}-static`;
 const CACHE_DYNAMIC = `${CACHE_VERSION}-dynamic`;
 

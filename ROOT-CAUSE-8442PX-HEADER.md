@@ -288,3 +288,67 @@ Ready to dig deeper! 🔬
 
 **Next:** Test if removing duplicate CSS links from navigation-standard.html fixes the issue!
 
+---
+
+## 🔬 **INVESTIGATION UPDATE #2: Structure is CORRECT!**
+
+### **Formatted /units/index.html shows:**
+
+```html
+<body class="pattern-koru-subtle">
+  <!-- Load Navigation -->
+  <div id="nav-container"></div>  ← ✅ PROPERLY CLOSED!
+  <script>
+    fetch('/components/navigation-standard.html')
+      .then(html => document.getElementById('nav-container').innerHTML = html);
+  </script>
+  
+  <!-- Hero Section -->
+  <div class="hero-section">...</div>
+  
+  <!-- Content -->
+  <div class="container">...</div>
+</body>
+```
+
+**Structure is PERFECT!** ✅  
+**nav-container does NOT contain page content** ✅
+
+---
+
+## 🎯 **NEW HYPOTHESIS: CSS Cascade Bug**
+
+Since the HTML structure is correct, the problem MUST be CSS-related!
+
+**Evidence:**
+1. navigation-standard.html loads CSS: te-kete-professional.css, main.css, mobile-revolution.css
+2. /units/index.html loads CSS: te-kete-professional.css, te-kete-ultimate-beauty-system.css, main.css, mobile-revolution.css, tailwind.css
+3. **DUPLICATE CSS loads could cause cascade conflicts!**
+
+**CSS in navigation-standard.html (lines 144-166):**
+```css
+.site-header-synthesis {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    ...
+}
+
+.header-container {
+    height: 80px;  ← Should lock height!
+}
+```
+
+**But what if mobile-revolution.css or te-kete-ultimate-beauty-system.css overrides this?**
+
+---
+
+## 🔍 **NEXT STEPS:**
+
+1. Check if mobile-revolution.css has header overrides
+2. Check if te-kete-ultimate-beauty-system.css has header overrides
+3. Check if .pattern-koru-subtle body class affects header
+4. Check if .hero-section is somehow contained in header
+
+---
+
