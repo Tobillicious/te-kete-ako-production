@@ -51,7 +51,16 @@ async function loadRelatedResources() {
             loadRelatedUnits()
         ]);
     } catch (error) {
-        console.error('Error loading related resources:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
     }
 }
 
@@ -103,7 +112,16 @@ async function loadRelatedLessons() {
         `).join('');
         
     } catch (error) {
-        console.error('Error loading related lessons:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         container.innerHTML = '<div style="color: var(--color-neutral-500); font-size: 0.9rem;">Unable to load related lessons</div>';
     }
 }
@@ -149,7 +167,16 @@ async function loadRelatedHandouts() {
         `).join('');
         
     } catch (error) {
-        console.error('Error loading related handouts:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         container.innerHTML = '<div style="color: var(--color-neutral-500); font-size: 0.9rem;">Unable to load related handouts</div>';
     }
 }
@@ -195,7 +222,16 @@ async function loadRelatedUnits() {
         `).join('');
         
     } catch (error) {
-        console.error('Error loading related units:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         container.innerHTML = '<div style="color: var(--color-neutral-500); font-size: 0.9rem;">Unable to load related units</div>';
     }
 }
@@ -229,7 +265,16 @@ async function findBySimilarTags(tags, type, limit = 3) {
             .slice(0, limit);
             
     } catch (error) {
-        console.error('Error finding by tags:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         return [];
     }
 }

@@ -146,7 +146,16 @@
         : null;
 
     if (!supabase) {
-        console.warn('[Cultural Widget] Supabase not available');
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         return;
     }
 
@@ -167,7 +176,16 @@
 
             renderCultural(data || []);
         } catch (err) {
-            console.error('[Cultural Widget] Error:', err);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             document.getElementById('cultural-container').innerHTML = 
                 '<p style="text-align: center; color: var(--color-gray-600);">Unable to load cultural resources. Please refresh.</p>';
         }

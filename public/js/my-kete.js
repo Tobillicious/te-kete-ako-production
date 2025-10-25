@@ -20,7 +20,16 @@ async function initMyKetePage() {
         await loadSavedResources();
         await loadProgressData();
     } catch (error) {
-        console.error('Error initializing My Kete page:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         showAuthRequired();
     }
 }
@@ -77,7 +86,16 @@ async function loadSavedResources() {
         }, 500);
 
         } catch (error) {
-        console.error('Error loading saved resources:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         loadingElement.innerHTML = `
             <p style="color: var(--color-error); text-align: center;">
                 ❌ Error loading your saved resources. Please try refreshing the page.
@@ -194,7 +212,16 @@ async function loadProgressData() {
             loadAchievements(summary);
         }
     } catch (error) {
-        console.error('Error loading progress data:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
     }
 }
 
@@ -248,7 +275,16 @@ async function loadAIRecommendations() {
             `).join('');
         }
     } catch (error) {
-        console.error('Error loading AI recommendations:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
     }
 }
 

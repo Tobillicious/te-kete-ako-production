@@ -23,7 +23,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
         init: function() {
             if (!this.container) {
-                console.error("Vowel team activity container not found!");
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 return; 
             }
             this.renderWords();
@@ -40,7 +49,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 const teamIndex = item.word.indexOf(item.team);
                 if (teamIndex === -1) {
-                    console.error(`Vowel team "${item.team}" not found in word "${item.word}".`);
+                    // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                     wordSpan.textContent = item.word; 
                 } else {
                     wordSpan.textContent = item.word.substring(0, teamIndex) +
@@ -68,7 +86,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const correctItem = this.words.find(item => item.word === word);
 
             if (!this.feedbackEl) {
-                console.error("Vowel team feedback element not found!");
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 return;
             }
             this.feedbackEl.classList.remove('hidden');
@@ -107,7 +134,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
         init: function() {
             if (!this.elements.gridContainer ||!this.elements.wordsListEl ||!this.elements.feedbackEl ||!this.elements.resetBtn) {
-                console.error("One or more Word Search game elements are missing from the DOM!");
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 return;
             }
             this.elements.resetBtn.addEventListener('click', () => {

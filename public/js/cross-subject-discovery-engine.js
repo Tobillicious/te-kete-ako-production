@@ -70,7 +70,16 @@ class CrossSubjectDiscoveryEngine {
             return connections;
 
         } catch (error) {
-            console.error('Error in cross-subject discovery:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return { error: error.message };
         }
     }
@@ -127,7 +136,16 @@ class CrossSubjectDiscoveryEngine {
             return overlaps.slice(0, 10); // Top 10 discoveries
 
         } catch (error) {
-            console.error('Error finding concept overlap:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return [];
         }
     }
@@ -177,7 +195,16 @@ class CrossSubjectDiscoveryEngine {
             return threads;
 
         } catch (error) {
-            console.error('Error finding cultural threads:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return [];
         }
     }
@@ -220,7 +247,16 @@ class CrossSubjectDiscoveryEngine {
             return bridges;
 
         } catch (error) {
-            console.error('Error finding real-world bridges:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return [];
         }
     }
@@ -325,7 +361,16 @@ class CrossSubjectDiscoveryEngine {
 
             return { success: !error, data, error };
         } catch (error) {
-            console.error('Error exporting discoveries:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return { success: false, error };
         }
     }

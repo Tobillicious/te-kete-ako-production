@@ -43,7 +43,16 @@ class PerfectPathwaysWidget {
             await this.loadPathways();
             this.render();
         } else {
-            console.warn('⏳ Waiting for Supabase singleton...');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             setTimeout(() => this.init(), 500);
         }
     }
@@ -60,7 +69,16 @@ class PerfectPathwaysWidget {
                 .limit(50);
 
             if (error) {
-                console.error('❌ Perfect Pathways query error:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 return;
             }
 
@@ -84,7 +102,16 @@ class PerfectPathwaysWidget {
 
             console.log(`✅ Loaded ${this.pathways.length} perfect pathways`);
         } catch (error) {
-            console.error('❌ Pathways loading error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 

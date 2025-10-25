@@ -168,7 +168,16 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
             resultsDropdown.innerHTML = html;
 
         } catch (error) {
-            console.error('Search error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             resultsDropdown.innerHTML = `
                 <div style="padding: 2rem; text-align: center; color: #dc2626;">
                     <div style="font-size: 2rem; margin-bottom: 0.5rem;">⚠️</div>

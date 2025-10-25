@@ -269,7 +269,16 @@ function createComponent(type, options = {}) {
         case 'tooltip':
             return createTooltipComponent(component, options);
         default:
-            console.warn(`Unknown component type: ${type}`);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return component;
     }
 }

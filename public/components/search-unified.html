@@ -412,12 +412,21 @@
     // Initialize search
     function initializeSearch() {
         if (!searchInput || !searchSuggestions || !graphragResults) {
-            console.warn('[Search] Required elements not found');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return;
         }
 
         setupEventListeners();
-        console.log('✅ Unified Search initialized');
+        // User feedback provided via UI
     }
 
     // Event listeners
@@ -573,7 +582,16 @@
                 showNoResults(query);
             }
         } catch (error) {
-            console.error('[Search] Error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             showErrorState();
         }
     }
@@ -605,7 +623,16 @@
             return enhanceResultsWithCulturalContext(data, query);
 
         } catch (error) {
-            console.error('[Search] API Error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return [];
         }
     }

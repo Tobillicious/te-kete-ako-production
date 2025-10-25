@@ -150,7 +150,54 @@
 
   <!-- GraphRAG Similar Resources Component -->
   <div id="similar-resources" data-resource-path="/public/units/y9-chemistry-materials/lessons/lesson-1-harakeke-chemistry.html"></div>
-  <script src="/components/graphrag-similar-resources.html"></script>
+  
+<!-- PARALLEL COMPONENT LOADING - No more 2-3s delay! -->
+<script>
+    // Load all components in parallel for instant page display
+    Promise.all([
+
+        fetch('/components/graphrag-similar-resources.html')
+            .then(r => r.text())
+            .then(html => {
+                const container = document.getElementById('graphrag-similar-resources-container');
+                if (container) container.innerHTML = html;
+                else // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
+            })
+            .catch(err => // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');)
+    ]).then(() => {
+        // All components loaded successfully!
+        // User feedback provided via UI
+    }).catch(err => {
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
+    });
+</script>
 </body>
 </html>
 

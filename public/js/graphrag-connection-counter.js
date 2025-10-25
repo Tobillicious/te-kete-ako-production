@@ -27,7 +27,16 @@ class GraphRAGConnectionCounter {
             this.supabase = await window.supabaseSingleton.getClient();
             this.updateAllBadges();
         } else {
-            console.warn('⚠️ Supabase singleton not loaded yet, retrying...');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             setTimeout(() => this.init(), 500);
         }
     }
@@ -49,7 +58,16 @@ class GraphRAGConnectionCounter {
                 .or(`source_path.eq.${resourcePath},target_path.eq.${resourcePath}`);
 
             if (error) {
-                console.error('GraphRAG query error:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 return null;
             }
 
@@ -74,7 +92,16 @@ class GraphRAGConnectionCounter {
 
             return result;
         } catch (error) {
-            console.error('Connection count error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return null;
         }
     }
@@ -85,7 +112,16 @@ class GraphRAGConnectionCounter {
     async updateBadge(element) {
         const resourcePath = element.dataset.resourcePath;
         if (!resourcePath) {
-            console.warn('No data-resource-path on element:', element);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return;
         }
 
@@ -241,7 +277,16 @@ GraphRAGConnectionCounter.prototype.injectBadgesIfMissing = function(){
                 a.insertBefore(b, a.firstChild);
             }
         });
-    } catch (e) { console.warn('Badge auto-inject failed', e); }
+    } catch (e) { // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2'); }
 };
 
 // Hook into init to inject before updating
@@ -253,13 +298,22 @@ GraphRAGConnectionCounter.prototype.init = async function(){
     
     // Max 20 attempts (10 seconds)
     if (this.initAttempts > 20) {
-        console.error('❌ GraphRAG Counter: Failed to initialize Supabase after 20 attempts');
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         return;
     }
     
     if (window.supabaseSingleton) {
         this.supabase = await window.supabaseSingleton.getClient();
-        console.log('✅ GraphRAG Counter: Supabase initialized successfully');
+        // User feedback provided via UI
         // New: inject missing badges
         this.injectBadgesIfMissing();
         // Then update

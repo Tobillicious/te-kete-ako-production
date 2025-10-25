@@ -75,7 +75,16 @@ class CulturalIntelligenceLayer {
                 patterns: this.culturalPatterns.size
             });
         } catch (error) {
-            console.error('Error loading cultural wisdom:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 
@@ -407,7 +416,16 @@ class CulturalIntelligenceLayer {
 
             return { success: false, error };
         } catch (error) {
-            console.error('Error evolving cultural intelligence:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return { success: false, error };
         }
     }

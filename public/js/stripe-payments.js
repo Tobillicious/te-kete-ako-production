@@ -160,7 +160,16 @@ class TeKeteStripe {
             }
             
         } catch (error) {
-            console.error('Stripe error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.showError('Unable to process payment. Please try again.');
         }
     }
@@ -198,7 +207,16 @@ class TeKeteStripe {
             }
             
         } catch (error) {
-            console.error('School subscription error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.showError('Unable to process school subscription. Please try again.');
         }
     }
@@ -235,7 +253,16 @@ class TeKeteStripe {
             }
             
         } catch (error) {
-            console.error('Premium features error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.showError('Unable to process premium features. Please try again.');
         }
     }

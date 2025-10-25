@@ -317,7 +317,16 @@
         const grid = document.getElementById('recommendations-grid');
 
         if (!container || !grid) {
-            console.warn('[Recommendations] Container not found');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return;
         }
 
@@ -325,7 +334,7 @@
         loadRecommendations();
         updateStats();
 
-        console.log('✅ Unified Recommendations initialized');
+        // User feedback provided via UI
     }
 
     // Setup filter buttons
@@ -364,7 +373,16 @@
             displayRecommendations(recommendations);
 
         } catch (error) {
-            console.error('[Recommendations] Error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             showError();
         }
     }
@@ -405,7 +423,16 @@
             return enhanceRecommendations(data || []);
 
         } catch (error) {
-            console.error('[Recommendations] Fetch error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return [];
         }
     }

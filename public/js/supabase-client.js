@@ -30,7 +30,16 @@
         }
         
         if (!window.ENV) {
-            console.warn('⚠️ ENV not loaded; initializing mock Supabase client for static/local context');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             const mock = {
                 auth: {
                     getUser: () => Promise.resolve({ data: { user: null } }),
@@ -50,7 +59,16 @@
         }
         
         if (!window.supabaseSingleton) {
-            console.error('❌ Supabase singleton not loaded after 5 seconds - falling back to basic functionality');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             // Fallback: create mock client for testing
             const mock = {
                 auth: {
@@ -67,7 +85,16 @@
         const supabaseKey = window.ENV.SUPABASE_ANON_KEY;
         
         if (!supabaseUrl || !supabaseKey) {
-            console.warn('⚠️ Supabase config missing; using mock client');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             const mock = {
                 auth: {
                     getUser: () => Promise.resolve({ data: { user: null } }),
@@ -117,7 +144,16 @@
                 detail: { client }
             }));
         }).catch(error => {
-            console.error('❌ Failed to initialize Supabase:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             // As a last resort, expose a mock to prevent UI crashes
             const mock = {
                 auth: {

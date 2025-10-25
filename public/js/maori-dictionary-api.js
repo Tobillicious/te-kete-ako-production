@@ -1709,7 +1709,16 @@ class MaoriDictionaryAPI {
                     return isValid;
                 }
             } catch (error) {
-                console.warn('Te Aka API validation failed, using fallback:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             }
         }
 
@@ -1762,7 +1771,16 @@ class MaoriDictionaryAPI {
                     }
                 }
             } catch (error) {
-                console.warn('Te Aka API definition failed, using fallback:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             }
         }
 
@@ -1812,7 +1830,16 @@ class MaoriDictionaryAPI {
     validateMaoriPattern(word) {
         // CRITICAL CULTURAL FIX: Never accept words based on "looking Māori"
         // This was culturally inappropriate and educationally harmful
-        console.warn(`Cultural Safety: Pattern validation disabled for "${word}". Only authentic Māori words accepted.`);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         return false; // Always return false - only authentic dictionary words allowed
     }
 

@@ -73,13 +73,22 @@
         // Use singleton pattern
         const supabase = window.supabaseSingleton ? await window.supabaseSingleton.getClient() : null;
         if (!supabase) {
-            console.warn('Supabase singleton not loaded');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return;
         }
 
         async function loadCulturalStats() {
             try {
-                console.log('🌿 Loading cultural stats from GraphRAG...');
+                // User feedback provided via UI
 
                 // Get cultural resources by subject
                 const { data: bySubject, error: subErr } = await supabase
@@ -179,9 +188,18 @@
                     `;
                 }).join('');
 
-                console.log('✅ Cultural stats loaded!');
+                // User feedback provided via UI
             } catch (error) {
-                console.error('Error loading cultural stats:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             }
         }
 

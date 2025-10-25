@@ -355,7 +355,16 @@
       document.addEventListener('DOMContentLoaded', async () => {
         try {
           const { data: records, error } = await supabase.from('graphrag_subject_counts').select('*');
-          if (error) { console.error('Subject chips load error (Arts):', error); return; }
+          if (error) { // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2'); return; }
           const order = ['Mathematics','Science','English','Social Studies','Digital Technologies','Te Ao Māori','Arts','Health & PE','Languages','Cross-Curricular','Platform Infrastructure'];
           const sorted = (records||[]).slice().sort((a,b)=>order.indexOf(a.canonical_subject)-order.indexOf(b.canonical_subject));
           const grid = document.getElementById('subject-chips');
@@ -367,7 +376,16 @@
               + '</a>'
             )).join('');
           }
-        } catch (e) { console.error(e); }
+        } catch (e) { // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2'); }
       });
     </script>
     
@@ -405,7 +423,16 @@
             .eq('canonical_subject','Arts')
             .order('quality_score',{ascending:false})
             .limit(12);
-          if (error) { console.error('Orphans load error (Arts):', error); return; }
+          if (error) { // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2'); return; }
           const grid = document.getElementById('arts-orphans');
           if (grid) {
             grid.innerHTML = (data||[]).map(r => (
@@ -415,7 +442,16 @@
               + '</a>'
             )).join('');
           }
-        } catch (e) { console.error(e); }
+        } catch (e) { // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2'); }
       });
     </script>
     <!-- Footer -->
@@ -432,7 +468,16 @@
         // Use singleton pattern
         const supabase = window.supabaseSingleton ? await window.supabaseSingleton.getClient() : null;
         if (!supabase) {
-            console.warn('Supabase singleton not loaded');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return;
         }
         
@@ -495,7 +540,16 @@
                 }
                 
             } catch (error) {
-                console.error('Error loading arts data:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             }
         }
         
@@ -530,5 +584,14 @@
   s.setAttribute('style','background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%); padding: 2rem; border-radius: 16px; margin: 2rem auto; max-width: 1100px; box-shadow: 0 4px 16px rgba(0,0,0,0.06);');
   s.innerHTML='<h2 style="font-size:2rem;color:#0f172a;margin:0 0 0.5rem 0;text-align:center;font-weight:800;">⭐ Featured Picks</h2><p style="text-align:center;color:#475569;margin:0 0 1.25rem 0;">High-impact Arts resources with live GraphRAG links</p><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">  <a href="/generated-resources-alpha/handouts/visual-arts-analysis-with-cultural-context.html" style="background:white;padding:1.25rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;border-top:4px solid #6d28d9;display:block;">    <div class="connection-badge" data-resource-path="/public/generated-resources-alpha/handouts/visual-arts-analysis-with-cultural-context.html" style="position:absolute;top:-12px;right:12px;background:#e0f2fe;color:#075985;padding:0.35rem 0.75rem;border-radius:18px;font-weight:800;font-size:0.75rem;">🔄 Loading...</div>    <div style="font-size:1.5rem;margin-bottom:0.5rem;">🖼️</div>    <h3 style="color:#0f172a;margin:0 0 0.25rem 0;font-weight:700;">Visual Arts Analysis with Cultural Context</h3>    <p style="color:#64748b;margin:0;">All Years • Handout</p>  </a>  <a href="/generated-resources-alpha/lessons/creative-problem-solving-with-design-thinking.html" style="background:white;padding:1.25rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;border-top:4px solid #059669;display:block;">    <div class="connection-badge" data-resource-path="/public/generated-resources-alpha/lessons/creative-problem-solving-with-design-thinking.html" style="position:absolute;top:-12px;right:12px;background:#e0f2fe;color:#075985;padding:0.35rem 0.75rem;border-radius:18px;font-weight:800;font-size:0.75rem;">🔄 Loading...</div>    <div style="font-size:1.5rem;margin-bottom:0.5rem;">🎨</div>    <h3 style="color:#0f172a;margin:0 0 0.25rem 0;font-weight:700;">Creative Problem Solving & Design Thinking</h3>    <p style="color:#64748b;margin:0;">Years 9-11 • Lesson</p>  </a>  <a href="/generated-resources-alpha/lessons/game-development-with-cultural-themes.html" style="background:white;padding:1.25rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;border-top:4px solid #1e40af;display:block;">    <div class="connection-badge" data-resource-path="/public/generated-resources-alpha/lessons/game-development-with-cultural-themes.html" style="position:absolute;top:-12px;right:12px;background:#e0f2fe;color:#075985;padding:0.35rem 0.75rem;border-radius:18px;font-weight:800;font-size:0.75rem;">🔄 Loading...</div>    <div style="font-size:1.5rem;margin-bottom:0.5rem;">🎮</div>    <h3 style="color:#0f172a;margin:0 0 0.25rem 0;font-weight:700;">Game Development with Cultural Themes</h3>    <p style="color:#64748b;margin:0;">Years 9-11 • Lesson</p>  </a></div>';
   if(anchor && anchor.parentNode){anchor.parentNode.insertBefore(s, anchor);} else {document.body.insertBefore(s, document.body.children[1]||null);} if(window.graphragCounter&&typeof window.graphragCounter.updateAllBadges==='function'){window.graphragCounter.updateAllBadges();}
-}catch(e){console.warn('Featured Picks insert failed (Arts)',e);}})();
+}catch(e){// Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');}})();
 </script>

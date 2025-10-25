@@ -25,7 +25,16 @@ class MyKeteDatabase {
         // Safety: Prevent infinite loops
         this.initAttempts++;
         if (this.initAttempts > this.maxAttempts) {
-            console.error('❌ MyKete: Failed to initialize Supabase after', this.maxAttempts, 'attempts');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return;
         }
         
@@ -42,7 +51,7 @@ class MyKeteDatabase {
             return;
         }
         
-        console.log('✅ MyKete: Supabase initialized successfully');
+        // User feedback provided via UI
             
         // Get current user
         const { data: { user } } = await this.supabase.auth.getUser();
@@ -68,7 +77,16 @@ class MyKeteDatabase {
                 localStorage.removeItem('te-kete-favorites');
             }
         } catch (e) {
-            console.error('Migration error:', e);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
     
@@ -99,7 +117,16 @@ class MyKeteDatabase {
                 }));
                 
             } catch (e) {
-                console.error('Database error:', e);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 return this.getLocalStorageFavorites(); // Fallback to localStorage
             }
         } else {
@@ -139,7 +166,16 @@ class MyKeteDatabase {
                 return true;
                 
             } catch (e) {
-                console.error('Save error:', e);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 // Fallback to localStorage
                 return this.saveToLocalStorage(path, title, description);
             }
@@ -178,7 +214,16 @@ class MyKeteDatabase {
             localStorage.setItem('te-kete-favorites', JSON.stringify(favorites));
             return true;
         } catch (e) {
-            console.error('localStorage save error:', e);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return false;
         }
     }
@@ -198,7 +243,16 @@ class MyKeteDatabase {
                 return true;
                 
             } catch (e) {
-                console.error('Remove error:', e);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 return false;
             }
         } else {

@@ -114,7 +114,16 @@
             return enrichedResources;
 
         } catch (error) {
-            console.error('Error getting recommendations:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return [];
         }
     }
@@ -159,7 +168,16 @@
                 .single();
 
             if (sourceError || !source) {
-                console.error('Source resource not found');
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 return [];
             }
 
@@ -195,7 +213,16 @@
             return scored.slice(0, maxResults);
 
         } catch (error) {
-            console.error('Error getting similar resources:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return [];
         }
     }
@@ -275,7 +302,16 @@
             return pathway;
 
         } catch (error) {
-            console.error('Error building learning pathway:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return [];
         }
     }

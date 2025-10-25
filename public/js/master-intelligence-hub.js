@@ -55,7 +55,16 @@ class MasterIntelligenceHub {
         }
 
         if (waited >= maxWait) {
-            console.warn('⚠️ Some intelligence components not loaded within timeout');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 
@@ -81,7 +90,16 @@ class MasterIntelligenceHub {
             this.systemHealth.components.legacyAnalyzer = this.legacyAnalyzer ? 'ready' : 'failed';
 
         } catch (error) {
-            console.error('Error initializing intelligence systems:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 
@@ -155,7 +173,16 @@ class MasterIntelligenceHub {
 
             return guidance;
         } catch (error) {
-            console.error('Error in agent guidance:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             guidance.approved = false;
             guidance.reasoning.push('Error in guidance system');
             return guidance;
@@ -208,7 +235,16 @@ class MasterIntelligenceHub {
 
             return recommendations;
         } catch (error) {
-            console.error('Error getting intelligent recommendations:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return recommendations;
         }
     }
@@ -315,7 +351,16 @@ class MasterIntelligenceHub {
             
             return { success: false, reason: 'Evolution engine not available' };
         } catch (error) {
-            console.error('Error evolving system:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return { success: false, error };
         }
     }
@@ -335,7 +380,16 @@ class MasterIntelligenceHub {
             
             this.systemHealth.lastUpdate = new Date().toISOString();
         } catch (error) {
-            console.error('Error refreshing systems:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 

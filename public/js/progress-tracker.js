@@ -36,7 +36,16 @@ class TeKeteProgressTracker {
             
             return true;
         } catch (error) {
-            console.error('Progress tracker initialization error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return false;
         }
     }
@@ -82,7 +91,16 @@ class TeKeteProgressTracker {
             
             return [];
         } catch (error) {
-            console.error('Failed to load user progress:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return [];
         }
     }
@@ -145,7 +163,16 @@ class TeKeteProgressTracker {
 
             return false;
         } catch (error) {
-            console.error('Failed to track progress:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return false;
         }
     }
@@ -194,7 +221,16 @@ class TeKeteProgressTracker {
 
             return null;
         } catch (error) {
-            console.error('Failed to get GraphRAG tips:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return null;
         }
     }
@@ -259,7 +295,16 @@ class TeKeteProgressTracker {
                 source: 'graphrag'
             };
         } catch (error) {
-            console.error('Error parsing GraphRAG tips:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return {
                 tips: ['Keep exploring and learning!', 'Practice regularly for best results.', 'Connect with other learners for support.'],
                 generated_at: new Date().toISOString(),
@@ -330,7 +375,16 @@ class TeKeteProgressTracker {
             
             localStorage.setItem('te_kete_progress', JSON.stringify(progressData));
         } catch (error) {
-            console.error('Failed to save progress to localStorage:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 
@@ -347,7 +401,16 @@ class TeKeteProgressTracker {
                 return true;
             }
         } catch (error) {
-            console.error('Failed to load progress from localStorage:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
         return false;
     }

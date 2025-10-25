@@ -59,7 +59,16 @@ class PerformanceCacheManager {
             if (this.config.debugMode) {
             }
         } catch (error) {
-            console.warn('Cache initialization failed:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 
@@ -126,7 +135,16 @@ class PerformanceCacheManager {
                 compressedSize: compressedData.length
             };
         } catch (error) {
-            console.warn('Compression failed, storing uncompressed:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return { compressed: false, data: JSON.stringify(data) };
         }
     }
@@ -162,7 +180,16 @@ class PerformanceCacheManager {
             
             return JSON.parse(decompressed);
         } catch (error) {
-            console.error('Decompression failed:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             throw error;
         }
     }
@@ -200,7 +227,16 @@ class PerformanceCacheManager {
             if (this.config.debugMode) {
             }
         } catch (error) {
-            console.warn('Failed to cache query:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 
@@ -244,7 +280,16 @@ class PerformanceCacheManager {
                 originalTimestamp: entry.timestamp
             };
         } catch (error) {
-            console.warn('Failed to decompress cached result:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.cache.delete(cacheKey);
             this.accessTimes.delete(cacheKey);
             return null;
@@ -289,7 +334,16 @@ class PerformanceCacheManager {
             localStorage.setItem('tkako_query_cache', JSON.stringify(cacheObject));
             localStorage.setItem('tkako_metrics', JSON.stringify(this.metrics));
         } catch (error) {
-            console.warn('Failed to persist cache:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 

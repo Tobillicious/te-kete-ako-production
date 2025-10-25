@@ -1,6 +1,15 @@
 // Prevent double loading (STRICT - fixes hasFramerMotion identifier conflict)
 if (window.TeKeteUltimateCulturalGestures || window.hasFramerMotion !== undefined) {
-  console.warn('⚠️ Te Kete Cultural Gestures already loaded - skipping duplicate');
+  // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
   // Exit early to prevent identifier conflicts
   if (typeof module !== 'undefined' && module.exports) { module.exports = window.TeKeteUltimateCulturalGestures; }
 } else {

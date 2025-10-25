@@ -71,7 +71,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 1000);
                 
             } catch (error) {
-                console.error('Login error:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 showMessage(error.message || 'Login failed. Please check your credentials.', 'error');
                 
                 if (loginBtn) {
@@ -108,7 +117,16 @@ async function redirectByRole(userId) {
         }
         
     } catch (error) {
-        console.error('Error getting user profile:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         // Fallback to homepage
         window.location.href = '/';
     }
@@ -157,7 +175,16 @@ async function resetPassword() {
         alert('✅ Password reset email sent! Please check your inbox.');
         
     } catch (error) {
-        console.error('Password reset error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         alert('Error sending password reset email. Please try again.');
     }
 }

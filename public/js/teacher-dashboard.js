@@ -58,7 +58,16 @@ async function initializeDashboard() {
         document.getElementById('dashboard').style.display = 'block';
         
     } catch (error) {
-        console.error('Dashboard initialization error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         showError('Error loading dashboard. Please refresh the page.');
     }
 }
@@ -114,7 +123,16 @@ async function loadClasses(teacherId) {
         renderClassesList(classes || []);
         
     } catch (error) {
-        console.error('Error loading classes:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
     }
 }
 
@@ -204,7 +222,16 @@ async function loadResourceLibrary(profile) {
         renderResourceLibrary(resources || []);
         
     } catch (error) {
-        console.error('Error loading resources:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
     }
 }
 
@@ -301,7 +328,16 @@ async function logout() {
         await supabaseClient.auth.signOut();
         window.location.href = '/';
     } catch (error) {
-        console.error('Logout error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         alert('Error logging out. Please try again.');
     }
 }

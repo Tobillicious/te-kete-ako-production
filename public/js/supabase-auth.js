@@ -12,7 +12,16 @@
 
 // Load environment configuration first
 if (!window.ENV) {
-    console.warn('Environment config not loaded, using defaults');
+    // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
     window.ENV = {};
 }
 
@@ -72,7 +81,16 @@ async function checkCurrentSession() {
         currentUser = session?.user || null;
         updateAuthUI(currentUser);
     } catch (error) {
-        console.error('Session check error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
     }
 }
 
@@ -86,7 +104,16 @@ function showError(message, elementId = 'error-message') {
         errorElement.style.display = 'block';
         errorElement.className = 'message error show';
     } else {
-        console.error(message);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         // Fallback
     }
 }
@@ -152,7 +179,16 @@ async function redirectByRole(user) {
             .single();
         
         if (error) {
-            console.error('Error fetching profile:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             // Default redirect if profile not found - use getting started as fallback
             window.location.href = '/getting-started.html';
             return;
@@ -169,7 +205,16 @@ async function redirectByRole(user) {
             window.location.href = '/getting-started.html';
         }
     } catch (error) {
-        console.error('Redirect error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         // Fallback to role-based routing
         window.location.href = '/getting-started.html';
     }
@@ -230,7 +275,16 @@ async function handleSignup(email, password, confirmPassword, displayName, schoo
         }
         
     } catch (error) {
-        console.error('Signup error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         showError('Failed to create account. Please try again.');
     } finally {
         setLoadingState('signup-btn', false);
@@ -284,7 +338,16 @@ async function handleLogin(email, password) {
         }
         
     } catch (error) {
-        console.error('Login error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         showError('Failed to sign in. Please try again.');
     } finally {
         setLoadingState('login-btn', false);
@@ -296,7 +359,16 @@ async function handleLogin(email, password) {
  */
 async function handleLogout() {
     if (!supabase) {
-        console.error('Supabase not initialized');
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         return;
     }
     
@@ -307,7 +379,16 @@ async function handleLogout() {
         // Redirect to home page
         window.location.href = '/index.html';
     } catch (error) {
-        console.error('Logout error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         showError('Failed to sign out. Please try again.');
     }
 }
@@ -344,7 +425,16 @@ async function handlePasswordReset(email) {
         }
         
     } catch (error) {
-        console.error('Password reset error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         showError('Failed to send password reset email. Please try again.');
     } finally {
         setLoadingState('reset-btn', false);
@@ -361,7 +451,16 @@ async function getCurrentUserToken() {
         const { data: { session } } = await supabase.auth.getSession();
         return session?.access_token || null;
     } catch (error) {
-        console.error('Token retrieval error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         return null;
     }
 }
@@ -565,7 +664,16 @@ async function initialize() {
         setTimeout(() => {
             clearInterval(checkSupabase);
             if (!supabase) {
-                console.error('Failed to load Supabase');
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 showError('Authentication system failed to load. Please refresh the page.');
             }
         }, 10000);
@@ -612,7 +720,16 @@ async function redirectBasedOnRole() {
             .single();
 
         if (error) {
-            console.error('Error fetching profile:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             // Default redirect if profile not found
             window.location.href = '/getting-started.html';
             return;
@@ -629,7 +746,16 @@ async function redirectBasedOnRole() {
             window.location.href = '/getting-started.html';
         }
     } catch (error) {
-        console.error('Redirect error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         // Fallback to getting started
         window.location.href = '/getting-started.html';
     }

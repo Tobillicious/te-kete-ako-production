@@ -19,7 +19,16 @@ class AgentGraphRAGLearner {
     
     async initialize() {
         if (!window.supabaseSingleton) {
-            console.warn('⚠️ Supabase singleton not loaded. Agent learning disabled.');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return false;
         }
         
@@ -36,7 +45,16 @@ class AgentGraphRAGLearner {
      */
     async teachResource(resourceData) {
         if (!this.supabase) {
-            console.warn('⚠️ GraphRAG learning not initialized');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return null;
         }
         
@@ -69,14 +87,32 @@ class AgentGraphRAGLearner {
                 .select();
             
             if (error) {
-                console.error('❌ Failed to teach GraphRAG:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 return null;
             }
             
             return data;
             
         } catch (error) {
-            console.error('❌ GraphRAG teaching error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return null;
         }
     }
@@ -86,7 +122,16 @@ class AgentGraphRAGLearner {
      */
     async teachRelationship(relationshipData) {
         if (!this.supabase) {
-            console.warn('⚠️ GraphRAG learning not initialized');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return null;
         }
         
@@ -114,14 +159,32 @@ class AgentGraphRAGLearner {
                 if (error.code === '23505') { // Unique constraint violation
                     return null;
                 }
-                console.error('❌ Failed to teach relationship:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 return null;
             }
             
             return data;
             
         } catch (error) {
-            console.error('❌ GraphRAG relationship teaching error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return null;
         }
     }
@@ -190,14 +253,32 @@ class AgentGraphRAGLearner {
                 .limit(10);
             
             if (error) {
-                console.error('❌ GraphRAG query error:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 return [];
             }
             
             return data;
             
         } catch (error) {
-            console.error('❌ GraphRAG query error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return [];
         }
     }
@@ -234,14 +315,32 @@ class AgentGraphRAGLearner {
                 .select();
             
             if (error) {
-                console.error('❌ Batch teaching failed:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 return null;
             }
             
             return data;
             
         } catch (error) {
-            console.error('❌ Batch teaching error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return null;
         }
     }
@@ -270,7 +369,16 @@ class AgentGraphRAGLearner {
             };
             
         } catch (error) {
-            console.error('❌ Error getting contributions:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return { resources: 0, relationships: 0 };
         }
     }

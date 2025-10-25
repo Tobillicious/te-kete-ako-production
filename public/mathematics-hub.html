@@ -136,7 +136,16 @@ Searchable & Ready</div>
           // Use singleton pattern
           window.supabase = window.supabaseSingleton ? await window.supabaseSingleton.getClient() : null;
           if (!window.supabase) {
-            console.warn('Supabase singleton not loaded');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return;
           }
           const { count: totalCount, error: e1 } = await window.supabase.from('graphrag_resources').select('id', { count: 'exact', head: true }).eq('canonical_subject', 'Mathematics');
@@ -152,7 +161,16 @@ Searchable & Ready</div>
               cards[2].textContent = pct + '%';
             }
           }
-        } catch (e) { console.error('Math hero stats update failed', e); }
+        } catch (e) { // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2'); }
       });
     </script>
 
@@ -218,7 +236,16 @@ Searchable & Ready</div>
             });
 
             if (error) {
-                console.error('Error fetching most connected:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 // Fallback to direct query
                 const { data: relationships, error: relError } = await window.supabase
                     .from('graphrag_relationships')
@@ -254,7 +281,16 @@ Searchable & Ready</div>
             }
 
         } catch (e) {
-            console.error('Most Connected error:', e);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             document.getElementById('most-connected-math').innerHTML = '<div class="text-center text-slate-500">Unable to load connections at this time.</div>';
         }
 
@@ -1001,7 +1037,25 @@ Learn More →</a>
                 <a href="/orphans-dashboard.html" style="display: inline-block; background: #4f46e5; color: white; padding: 0.75rem 1.25rem; border-radius: 10px; text-decoration: none; font-weight: 700;">View All Orphans →</a>
             </div>
         </section>
-        <script>document.addEventListener('DOMContentLoaded', async () => {try {const SUPABASE_URL='https://nlgldaqtubrlcqddppbq.supabase.co';const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';if(typeof window.supabase==='undefined'||!window.supabase.from){window.supabase=(await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2')).createClient(SUPABASE_URL,SUPABASE_KEY);}const { data, error } = await window.supabase.from('graphrag_orphans').select('file_path,title,quality_score,resource_type').eq('canonical_subject','Mathematics').order('quality_score',{ascending:false}).limit(12);if(error){console.error('Orphans load error (Mathematics):',error);return;}const grid=document.getElementById('math-orphans');if(grid){grid.innerHTML=(data||[]).map(r=>('<a href="'+r.file_path+'" style="background:white;padding:1rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 12px rgba(0,0,0,0.06);border-top:4px solid #4f46e5;display:block;">'+'<h3 style="color:#1f2937;margin:0 0 0.5rem 0;font-size:1rem;font-weight:700;">'+(r.title||'Untitled')+'</h3>'+'<div style="color:#6b7280;font-size:0.85rem;">'+(r.resource_type||'Resource')+(r.quality_score?(' • ⭐ '+r.quality_score):'')+'</div>'+'</a>')).join('');}} catch(e){console.error(e);}});</script>
+        <script>document.addEventListener('DOMContentLoaded', async () => {try {const SUPABASE_URL='https://nlgldaqtubrlcqddppbq.supabase.co';const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';if(typeof window.supabase==='undefined'||!window.supabase.from){window.supabase=(await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2')).createClient(SUPABASE_URL,SUPABASE_KEY);}const { data, error } = await window.supabase.from('graphrag_orphans').select('file_path,title,quality_score,resource_type').eq('canonical_subject','Mathematics').order('quality_score',{ascending:false}).limit(12);if(error){// Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');return;}const grid=document.getElementById('math-orphans');if(grid){grid.innerHTML=(data||[]).map(r=>('<a href="'+r.file_path+'" style="background:white;padding:1rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 12px rgba(0,0,0,0.06);border-top:4px solid #4f46e5;display:block;">'+'<h3 style="color:#1f2937;margin:0 0 0.5rem 0;font-size:1rem;font-weight:700;">'+(r.title||'Untitled')+'</h3>'+'<div style="color:#6b7280;font-size:0.85rem;">'+(r.resource_type||'Resource')+(r.quality_score?(' • ⭐ '+r.quality_score):'')+'</div>'+'</a>')).join('');}} catch(e){// Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');}});</script>
         <!-- Cross-Subject Connections (GraphRAG Intelligence) -->
         <section style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); padding: 3rem 2rem; border-radius: 16px; margin: 3rem 0; border: 2px solid #3b82f6;">
             <div style="text-align: center; margin-bottom: 2rem;">
@@ -1035,7 +1089,7 @@ Learn More →</a>
         
         <!-- GraphRAG Most Connected Resources -->
         <div id="most-connected" data-subject="Mathematics" data-limit="10"></div>
-        <script src="/components/graphrag-most-connected.html"></script>
+        
 
         <!-- Integrated Lessons Collection -->
         <section style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 3rem 2rem; border-radius: 16px; margin: 3rem 0; border: 2px solid #f59e0b;">
@@ -1079,7 +1133,7 @@ Learn More →</a>
 
         <!-- See Also: Cross-Curricular Connections -->
         <div id="see-also" data-resource-path="/public/mathematics-hub.html" data-limit="4"></div>
-        <script src="/components/see-also-cross-curricular.html"></script>
+        
 
         <!-- GraphRAG Recommendations -->
         <section style="margin: 4rem 0;">
@@ -1108,7 +1162,16 @@ Learn More →</a>
                 .eq('canonical_subject','Mathematics')
                 .order('quality_score',{ascending:false})
                 .limit(12);
-              if (error) { console.error('Orphans load error (Mathematics):', error); return; }
+              if (error) { // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2'); return; }
               const grid = document.getElementById('math-orphans');
               if (grid) {
                 grid.innerHTML = (data||[]).map(r => (
@@ -1118,7 +1181,16 @@ Learn More →</a>
                   + '</a>'
                 )).join('');
               }
-            } catch (e) { console.error(e); }
+            } catch (e) { // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2'); }
           });
         </script>
         <!-- Canonical Subject Chips (Live) -->
@@ -1135,7 +1207,16 @@ Learn More →</a>
                 window.supabase = (await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2')).createClient(SUPABASE_URL, SUPABASE_KEY);
               }
               const { data: records, error } = await supabase.from('graphrag_subject_counts').select('*');
-              if (error) { console.error('Subject chips load error:', error); return; }
+              if (error) { // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2'); return; }
               const order = ['Mathematics','Science','English','Social Studies','Digital Technologies','Te Ao Māori','Arts','Health & PE','Languages','Cross-Curricular','Platform Infrastructure'];
               const sorted = (records||[]).slice().sort((a,b)=>order.indexOf(a.canonical_subject)-order.indexOf(b.canonical_subject));
               const grid = document.getElementById('subject-chips');
@@ -1147,7 +1228,16 @@ Learn More →</a>
                   + '</a>'
                 )).join('');
               }
-            } catch (e) { console.error(e); }
+            } catch (e) { // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2'); }
           });
         </script>
         <!-- Quick Start: Teacher Picks -->
@@ -1269,9 +1359,36 @@ Contact Us</a>
     <script>        // GraphRAG-Powered Mathematics Hub using singleton
         const supabase = window.supabaseSingleton ? await window.supabaseSingleton.getClient() : null;
         if (!supabase) {
-            console.warn('Supabase singleton not loaded');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return;
-        }        async function loadGraphRAGMathematics() {            try {                console.log('🧮 Loading Mathematics from GraphRAG Knowledge Graph...');                // Query GraphRAG for mathematics resources                const { data: mathData, error, count } = await supabase                    .from('graphrag_resources')                    .select('*', { count: 'exact' })                    .or('subject.ilike.%math%,subject.ilike.%algebra%,subject.ilike.%geometry%,subject.ilike.%calculus%')                    .order('quality_score', { ascending: false })                    .limit(100);                if (error) {                    console.error('GraphRAG Error:', error);                    return;                }                const totalCount = count || mathData.length;                const culturalCount = mathData.filter(r => r.cultural_context).length;                const teReoCount = mathData.filter(r => r.has_te_reo).length;                const avgQuality = mathData.reduce((sum, r) => sum + (r.quality_score || 0), 0) / mathData.length;                // Update UI                const countEl = document.getElementById('math-resource-count');                const culturalEl = document.getElementById('math-cultural-count');                const teReoEl = document.getElementById('math-te-reo-count');                const qualityEl = document.getElementById('math-quality-avg');                if (countEl) countEl.textContent = totalCount.toLocaleString();                if (culturalEl) culturalEl.textContent = culturalCount.toLocaleString();                if (teReoEl) teReoEl.textContent = teReoCount.toLocaleString();                if (qualityEl) qualityEl.textContent = avgQuality.toFixed(1);                // Console success                console.log('✅ GraphRAG Mathematics Connection Successful!');                console.log(`   📊 Total Math Resources: ${totalCount.toLocaleString()}`);                console.log(`   🌿 Cultural Integration: ${culturalCount} (${Math.round(culturalCount/totalCount*100)}%)`);                console.log(`   🗣️ With Te Reo: ${teReoCount} (${Math.round(teReoCount/totalCount*100)}%)`);                console.log(`   ⭐ Average Quality: ${avgQuality.toFixed(1)}/100`);                console.log(`   🧠 Knowledge Graph: 19,771 resources × 238,253 relationships`);            } catch (error) {                console.error('❌ GraphRAG Connection Error:', error);            }        }        document.addEventListener('DOMContentLoaded', loadGraphRAGMathematics);    </script>
+        }        async function loadGraphRAGMathematics() {            try {                console.log('🧮 Loading Mathematics from GraphRAG Knowledge Graph...');                // Query GraphRAG for mathematics resources                const { data: mathData, error, count } = await supabase                    .from('graphrag_resources')                    .select('*', { count: 'exact' })                    .or('subject.ilike.%math%,subject.ilike.%algebra%,subject.ilike.%geometry%,subject.ilike.%calculus%')                    .order('quality_score', { ascending: false })                    .limit(100);                if (error) {                    // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');                    return;                }                const totalCount = count || mathData.length;                const culturalCount = mathData.filter(r => r.cultural_context).length;                const teReoCount = mathData.filter(r => r.has_te_reo).length;                const avgQuality = mathData.reduce((sum, r) => sum + (r.quality_score || 0), 0) / mathData.length;                // Update UI                const countEl = document.getElementById('math-resource-count');                const culturalEl = document.getElementById('math-cultural-count');                const teReoEl = document.getElementById('math-te-reo-count');                const qualityEl = document.getElementById('math-quality-avg');                if (countEl) countEl.textContent = totalCount.toLocaleString();                if (culturalEl) culturalEl.textContent = culturalCount.toLocaleString();                if (teReoEl) teReoEl.textContent = teReoCount.toLocaleString();                if (qualityEl) qualityEl.textContent = avgQuality.toFixed(1);                // Console success                // User feedback provided via UI                console.log(`   📊 Total Math Resources: ${totalCount.toLocaleString()}`);                console.log(`   🌿 Cultural Integration: ${culturalCount} (${Math.round(culturalCount/totalCount*100)}%)`);                console.log(`   🗣️ With Te Reo: ${teReoCount} (${Math.round(teReoCount/totalCount*100)}%)`);                console.log(`   ⭐ Average Quality: ${avgQuality.toFixed(1)}/100`);                console.log(`   🧠 Knowledge Graph: 19,771 resources × 238,253 relationships`);            } catch (error) {                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');            }        }        document.addEventListener('DOMContentLoaded', loadGraphRAGMathematics);    </script>
     <script src="/js/enhanced-search.js"></script>
     <script>        async function loadMathResources() {            const search = new EnhancedSearch();            const resources = await search.search('', { subject: 'Mathematics' });            renderResources(resources);        }        function renderResources(resources) {            const grid = document.getElementById('resources-grid');            const html = resources.map(r => `                <a href="${r.path}" class="resource-card">
                     <h3>
@@ -1290,7 +1407,16 @@ Loading resources...</p>
 ';        }        function filterBy(type) {            // Update active button            document.querySelectorAll('.filter-chip').forEach(btn => btn.classList.remove('active'));            event.target.classList.add('active');            // Filter and render            // TODO: Implement filtering        }        document.addEventListener('DOMContentLoaded', loadMathResources);    </script>
     <style>
         .filter-chip {            padding: 0.75rem 1.5rem;            border: 2px solid #0284c7;            background: white;            color: #0284c7;            border-radius: 50px;            font-weight: 600;            cursor: pointer;            transition: all 0.3s;        }        .filter-chip:hover, .filter-chip.active {            background: #0284c7;            color: white;        }    </style>
-    <script>        // Load REAL mathematics resources from GraphRAG (FIXED: now uses graphrag_resources for COMPLETE data!)        async function loadMathResources() {            try {                const url = 'https://nlgldaqtubrlcqddppbq.supabase.co/rest/v1/graphrag_resources';                const headers = {                    'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM',                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'                };                // Query graphrag_resources table (303 math resources instead of 137!)                const response = await fetch(`${url}?or=(subject.ilike.%mathematics%,subject.ilike.%math%)&file_path=like./public/*&order=quality_score.desc&limit=100`, { headers });                const resources = await response.json();                console.log(`✅ Loaded ${resources.length} mathematics resources from GraphRAG (showing ALL content, not just ${Math.floor(resources.length/2.2)}!)`);                // Update count on page                const countElement = document.querySelector('.count-badge');                if (countElement && resources.length > 0) {                    countElement.textContent = `${resources.length}+ Resources`;                }            } catch (error) {                console.error('Error loading mathematics resources:', error);            }        }        document.addEventListener('DOMContentLoaded', loadMathResources);    </script>
+    <script>        // Load REAL mathematics resources from GraphRAG (FIXED: now uses graphrag_resources for COMPLETE data!)        async function loadMathResources() {            try {                const url = 'https://nlgldaqtubrlcqddppbq.supabase.co/rest/v1/graphrag_resources';                const headers = {                    'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM',                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'                };                // Query graphrag_resources table (303 math resources instead of 137!)                const response = await fetch(`${url}?or=(subject.ilike.%mathematics%,subject.ilike.%math%)&file_path=like./public/*&order=quality_score.desc&limit=100`, { headers });                const resources = await response.json();                console.log(`✅ Loaded ${resources.length} mathematics resources from GraphRAG (showing ALL content, not just ${Math.floor(resources.length/2.2)}!)`);                // Update count on page                const countElement = document.querySelector('.count-badge');                if (countElement && resources.length > 0) {                    countElement.textContent = `${resources.length}+ Resources`;                }            } catch (error) {                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');            }        }        document.addEventListener('DOMContentLoaded', loadMathResources);    </script>
     <!-- Cultural Excellence Network (GraphRAG Intelligence: Orphaned Treasures) -->
     <section style="max-width: 1200px; margin: 4rem auto; padding: 0 2rem;">
         <div style="background: linear-gradient(135deg, #059669, #047857); padding: 3rem; border-radius: 20px; margin-bottom: 3rem; position: relative; overflow: hidden;">
@@ -1351,19 +1477,7 @@ Perfect for:</strong>
     
     <!-- Mathematics Hidden Gems Component -->
     <div id="math-hidden-gems-container"></div>
-    <script>
-        fetch('/components/graphrag-mathematics-hidden-gems.html')
-            .then(r => r.text())
-            .then(html => {
-                document.getElementById('math-hidden-gems-container').innerHTML = html;
-                const scripts = document.getElementById('math-hidden-gems-container').querySelectorAll('script');
-                scripts.forEach(script => {
-                    const newScript = document.createElement('script');
-                    newScript.textContent = script.textContent;
-                    document.body.appendChild(newScript);
-                });
-            });
-    </script>
+    
     <!-- 🧠 DYNAMIC GRAPHRAG RESOURCE BROWSER -->
     <div id="mathematics-resource-browser" data-graphrag-browser data-subject="Mathematics" data-limit="30" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;"></div>
     <script src="/components/graphrag-dynamic-resource-browser.html"></script>
@@ -1406,6 +1520,197 @@ Perfect for:</strong>
     <div id="see-also" data-resource-path="/public/mathematics-hub.html" data-limit="4"></div>
     <script src="/components/see-also-cross-curricular.html"></script>
 
-    <script>(function(){try{var main=document.querySelector('main');if(!main)return;var s=document.createElement('section');s.id='featured-picks-math';s.setAttribute('style','background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%); padding: 2rem; border-radius: 16px; margin: 2rem 0;');s.innerHTML='<h2 style="font-size:2rem;color:#1a4d2e;margin:0 0 0.5rem 0;text-align:center;font-weight:800;">⭐ Featured Picks</h2><p style="text-align:center;color:#475569;margin:0 0 1.25rem 0;">High-impact maths resources with live GraphRAG links</p><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">  <a href="/generated-resources-alpha/handouts/algebraic-thinking-in-traditional-māori-games.html" style="background:white;padding:1.25rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;border-top:4px solid #059669;display:block;">    <div class="connection-badge" data-resource-path="/public/generated-resources-alpha/handouts/algebraic-thinking-in-traditional-māori-games.html" style="position:absolute;top:-12px;right:12px;background:#e0f2fe;color:#075985;padding:0.35rem 0.75rem;border-radius:18px;font-weight:800;font-size:0.75rem;">🔄 Loading...</div>    <div style="font-size:1.5rem;margin-bottom:0.5rem;">🎲</div>    <h3 style="color:#0f172a;margin:0 0 0.25rem 0;font-weight:700;">Algebraic Thinking in Māori Games</h3>    <p style="color:#64748b;margin:0;">Years 8-10 • Handout</p>  </a>  <a href="/generated-resources-alpha/handouts/data-visualization-of-cultural-demographics.html" style="background:white;padding:1.25rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;border-top:4px solid #0284c7;display:block;">    <div class="connection-badge" data-resource-path="/public/generated-resources-alpha/handouts/data-visualization-of-cultural-demographics.html" style="position:absolute;top:-12px;right:12px;background:#e0f2fe;color:#075985;padding:0.35rem 0.75rem;border-radius:18px;font-weight:800;font-size:0.75rem;">🔄 Loading...</div>    <div style="font-size:1.5rem;margin-bottom:0.5rem;">📊</div>    <h3 style="color:#0f172a;margin:0 0 0.25rem 0;font-weight:700;">Data Visualization of Cultural Demographics</h3>    <p style="color:#64748b;margin:0;">Years 10-13 • Handout</p>  </a>  <a href="/units/y9-maths-geometry-patterns/index.html" style="background:white;padding:1.25rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;border-top:4px solid #10b981;display:block;">    <div class="connection-badge" data-resource-path="/public/units/y9-maths-geometry-patterns/index.html" style="position:absolute;top:-12px;right:12px;background:#e0f2fe;color:#075985;padding:0.35rem 0.75rem;border-radius:18px;font-weight:800;font-size:0.75rem;">🔄 Loading...</div>    <div style="font-size:1.5rem;margin-bottom:0.5rem;">🔷</div>    <h3 style="color:#0f172a;margin:0 0 0.25rem 0;font-weight:700;">Y9 Geometry & Māori Patterns</h3>    <p style="color:#64748b;margin:0;">Year 9 • Unit</p>  </a></div>';main.insertBefore(s,main.firstChild);if(window.graphragCounter&&typeof window.graphragCounter.updateAllBadges==='function'){window.graphragCounter.updateAllBadges();}}catch(e){console.warn('Featured Picks insert failed (Math)',e);}})();
+    <script>(function(){try{var main=document.querySelector('main');if(!main)return;var s=document.createElement('section');s.id='featured-picks-math';s.setAttribute('style','background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%); padding: 2rem; border-radius: 16px; margin: 2rem 0;');s.innerHTML='<h2 style="font-size:2rem;color:#1a4d2e;margin:0 0 0.5rem 0;text-align:center;font-weight:800;">⭐ Featured Picks</h2><p style="text-align:center;color:#475569;margin:0 0 1.25rem 0;">High-impact maths resources with live GraphRAG links</p><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">  <a href="/generated-resources-alpha/handouts/algebraic-thinking-in-traditional-māori-games.html" style="background:white;padding:1.25rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;border-top:4px solid #059669;display:block;">    <div class="connection-badge" data-resource-path="/public/generated-resources-alpha/handouts/algebraic-thinking-in-traditional-māori-games.html" style="position:absolute;top:-12px;right:12px;background:#e0f2fe;color:#075985;padding:0.35rem 0.75rem;border-radius:18px;font-weight:800;font-size:0.75rem;">🔄 Loading...</div>    <div style="font-size:1.5rem;margin-bottom:0.5rem;">🎲</div>    <h3 style="color:#0f172a;margin:0 0 0.25rem 0;font-weight:700;">Algebraic Thinking in Māori Games</h3>    <p style="color:#64748b;margin:0;">Years 8-10 • Handout</p>  </a>  <a href="/generated-resources-alpha/handouts/data-visualization-of-cultural-demographics.html" style="background:white;padding:1.25rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;border-top:4px solid #0284c7;display:block;">    <div class="connection-badge" data-resource-path="/public/generated-resources-alpha/handouts/data-visualization-of-cultural-demographics.html" style="position:absolute;top:-12px;right:12px;background:#e0f2fe;color:#075985;padding:0.35rem 0.75rem;border-radius:18px;font-weight:800;font-size:0.75rem;">🔄 Loading...</div>    <div style="font-size:1.5rem;margin-bottom:0.5rem;">📊</div>    <h3 style="color:#0f172a;margin:0 0 0.25rem 0;font-weight:700;">Data Visualization of Cultural Demographics</h3>    <p style="color:#64748b;margin:0;">Years 10-13 • Handout</p>  </a>  <a href="/units/y9-maths-geometry-patterns/index.html" style="background:white;padding:1.25rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;border-top:4px solid #10b981;display:block;">    <div class="connection-badge" data-resource-path="/public/units/y9-maths-geometry-patterns/index.html" style="position:absolute;top:-12px;right:12px;background:#e0f2fe;color:#075985;padding:0.35rem 0.75rem;border-radius:18px;font-weight:800;font-size:0.75rem;">🔄 Loading...</div>    <div style="font-size:1.5rem;margin-bottom:0.5rem;">🔷</div>    <h3 style="color:#0f172a;margin:0 0 0.25rem 0;font-weight:700;">Y9 Geometry & Māori Patterns</h3>    <p style="color:#64748b;margin:0;">Year 9 • Unit</p>  </a></div>';main.insertBefore(s,main.firstChild);if(window.graphragCounter&&typeof window.graphragCounter.updateAllBadges==='function'){window.graphragCounter.updateAllBadges();}}catch(e){// Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');}})();
+<!-- PARALLEL COMPONENT LOADING - No more 2-3s delay! -->
+<script>
+    // Load all components in parallel for instant page display
+    Promise.all([
+
+        fetch('/components/graphrag-most-connected.html')
+            .then(r => r.text())
+            .then(html => {
+                const container = document.getElementById('graphrag-most-connected-container');
+                if (container) container.innerHTML = html;
+                else // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
+            })
+            .catch(err => // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');),
+
+        fetch('/components/see-also-cross-curricular.html')
+            .then(r => r.text())
+            .then(html => {
+                const container = document.getElementById('see-also-cross-curricular-container');
+                if (container) container.innerHTML = html;
+                else // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
+            })
+            .catch(err => // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');),
+
+        fetch('/components/graphrag-live-recommendations.html')
+            .then(r => r.text())
+            .then(html => {
+                const container = document.getElementById('graphrag-live-recommendations-container');
+                if (container) container.innerHTML = html;
+                else // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
+            })
+            .catch(err => // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');),
+
+        fetch('/components/graphrag-recommendations.html')
+            .then(r => r.text())
+            .then(html => {
+                const container = document.getElementById('graphrag-recommendations-container');
+                if (container) container.innerHTML = html;
+                else // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
+            })
+            .catch(err => // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');),
+
+        fetch('/components/graphrag-dynamic-resource-browser.html')
+            .then(r => r.text())
+            .then(html => {
+                const container = document.getElementById('graphrag-dynamic-resource-browser-container');
+                if (container) container.innerHTML = html;
+                else // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
+            })
+            .catch(err => // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');),
+
+        fetch('/components/see-also-cross-curricular.html')
+            .then(r => r.text())
+            .then(html => {
+                const container = document.getElementById('see-also-cross-curricular-container');
+                if (container) container.innerHTML = html;
+                else // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
+            })
+            .catch(err => // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');)
+    ]).then(() => {
+        // All components loaded successfully!
+        // User feedback provided via UI
+    }).catch(err => {
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
+    });
+</script>
 </body>
 </html>

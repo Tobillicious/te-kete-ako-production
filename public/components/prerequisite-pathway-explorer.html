@@ -54,7 +54,16 @@
         // Use singleton pattern - supabase-singleton.js loaded in main HTML
         const supabase = window.supabaseSingleton ? await window.supabaseSingleton.getClient() : null;
         if (!supabase) {
-            console.warn('Supabase singleton not available');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return;
         }
 
@@ -92,7 +101,16 @@
                 const { data: relationships, error } = await query;
 
                 if (error) {
-                    console.error('Error loading pathways:', error);
+                    // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                     pathwayViz.innerHTML = `<p style="text-align: center; color: #ef4444;">Error loading pathways</p>`;
                     return;
                 }
@@ -115,7 +133,16 @@
                 const { data: resources, error: resourceError } = await resourceQuery;
 
                 if (resourceError) {
-                    console.error('Error loading resources:', resourceError);
+                    // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 }
 
                 // Build pathway visualization
@@ -194,7 +221,16 @@
                 console.log(`✅ Loaded ${filteredRels.length} prerequisite pathways`);
 
             } catch (error) {
-                console.error('Error:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 pathwayViz.innerHTML = `<p style="text-align: center; color: #ef4444;">Error loading pathways</p>`;
             }
         }

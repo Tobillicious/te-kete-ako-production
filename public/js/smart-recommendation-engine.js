@@ -57,7 +57,16 @@ class SmartRecommendationEngine {
             
             return ranked;
         } catch (error) {
-            console.error('Error getting contextual recommendations:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return this.getFallbackRecommendations(userContext);
         }
     }
@@ -228,7 +237,16 @@ class SmartRecommendationEngine {
                 reasoning: 'Optimal single variant'
             };
         } catch (error) {
-            console.error('Error getting teaching variants:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return { type: 'error', message: 'Unable to load teaching variants' };
         }
     }
@@ -254,7 +272,16 @@ class SmartRecommendationEngine {
                 display: 'cultural_card'
             })) || [];
         } catch (error) {
-            console.error('Error getting cultural recommendations:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return [];
         }
     }

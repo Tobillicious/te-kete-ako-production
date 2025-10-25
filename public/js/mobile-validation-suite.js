@@ -61,7 +61,16 @@ class MobileValidationSuite {
             }
             
         } catch (error) {
-            console.error('❌ Validation suite failed:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
     
@@ -90,7 +99,16 @@ class MobileValidationSuite {
                 this.validationResults.touchTargets.passed++;
             } else {
                 this.validationResults.touchTargets.failed++;
-                console.warn(`❌ Touch target too small: ${this.getElementPath(element)} (${Math.round(rect.width)}x${Math.round(rect.height)}px)`);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');} (${Math.round(rect.width)}x${Math.round(rect.height)}px)`);
             }
             
             // Check for comfortable tablet size (56px)
@@ -162,7 +180,16 @@ class MobileValidationSuite {
         this.validationResults.performance.score = Math.max(0, score);
         
         if (this.validationResults.performance.issues.length > 0) {
-            this.validationResults.performance.issues.forEach(issue => console.warn(`❌ ${issue}`));
+            this.validationResults.performance.issues.forEach(issue => // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2'););
         }
     }
     
@@ -228,7 +255,16 @@ class MobileValidationSuite {
         this.validationResults.accessibility.score = Math.max(0, score);
         
         if (this.validationResults.accessibility.issues.length > 0) {
-            this.validationResults.accessibility.issues.forEach(issue => console.warn(`❌ ${issue}`));
+            this.validationResults.accessibility.issues.forEach(issue => // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2'););
         }
     }
     
@@ -455,7 +491,16 @@ class MobileValidationSuite {
         this.validationResults.cultural.issues = preservationIssues;
         
         if (preservationIssues.length > 0) {
-            preservationIssues.forEach(issue => console.warn(`❌ ${issue}`));
+            preservationIssues.forEach(issue => // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2'););
         }
     }
     

@@ -50,7 +50,16 @@ class TeKeteErrorBoundary {
 
         // Only log critical errors to console
         if (this.isCriticalError(error)) {
-            console.error(`[Te Kete ${type}]:`, errorInfo);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
 
         // Send to error monitoring service (if available)
@@ -61,7 +70,16 @@ class TeKeteErrorBoundary {
     }
 
     handleAuthError(error) {
-        console.warn('[Auth Recovery]:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         
         // Attempt auth system recovery
         if (window.teKeteAuth) {
@@ -101,7 +119,16 @@ class TeKeteErrorBoundary {
                 try {
                     window.initializeAuth();
                 } catch (e) {
-                    console.warn('Auth recovery failed:', e.message);
+                    // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 }
             }
         }, 1000);

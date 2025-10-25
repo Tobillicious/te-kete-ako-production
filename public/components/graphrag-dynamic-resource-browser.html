@@ -33,14 +33,32 @@
         if (window.supabaseSingleton) {
           this.supabase = await window.supabaseSingleton.getClient();
         } else {
-          console.warn('Supabase singleton not available');
+          // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
           this.supabase = null;
         }
         
         await this.loadResources();
         this.render();
       } catch (error) {
-        console.error('GraphRAG Browser initialization failed:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         this.container.innerHTML = '<p style="color:#666;text-center p-8 ">Unable to load resources from GraphRAG</p>';
       }
     }
@@ -57,7 +75,16 @@
         .limit(200);
       
       if (error) {
-        console.error('GraphRAG query error:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         return;
       }
       

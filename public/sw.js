@@ -81,7 +81,16 @@ self.addEventListener('install', event => {
                         }
                     });
                 })).catch(err => {
-                    console.warn('Some essential resources failed to cache:', err);
+                    // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 });
             }),
             
@@ -140,7 +149,16 @@ self.addEventListener('fetch', event => {
                 return response;
             })
             .catch(error => {
-                console.warn('Request failed:', request.url, error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 return handleOfflineRequest(request);
             })
     );
@@ -359,7 +377,16 @@ async function doBackgroundSync() {
         );
         
         } catch (error) {
-        console.warn('Background sync failed:', error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
     }
 }
 

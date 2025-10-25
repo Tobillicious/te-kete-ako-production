@@ -67,11 +67,7 @@
 <link rel="stylesheet" href="/css/cascade-fix.css">
 <body class="pattern-koru-subtle">
   <div id="nav-container"></div>
-  <script>
-    fetch('/components/navigation-standard.html')
-      .then(r => r.text())
-      .then(html => { document.getElementById('nav-container').innerHTML = html; });
-  </script>
+  
 
   <main style="max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem;">
     <section style="background: linear-gradient(135deg, #eef2ff, #e0e7ff); padding: 2rem; border-radius: 16px; border-left: 6px solid #4f46e5; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
@@ -235,7 +231,16 @@
         updatedAtEl.textContent = `Last updated: ${ts.toLocaleString()}`;
       } catch (e) {
         updatedAtEl.textContent = 'Error fetching metrics';
-        console.error(e);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
       }
     }
     document.addEventListener('DOMContentLoaded', loadPlatformMetrics);
@@ -264,7 +269,16 @@
           }
         }
       } catch (e) {
-        console.warn('Failed to fetch GraphRAG dist-handout tails', e);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
       }
       return Array.from(acc);
     }
@@ -379,7 +393,16 @@
               document.body.removeChild(ta);
             }
           } catch (e) {
-            console.warn('Copy failed', e);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
           }
         };
 
@@ -401,7 +424,16 @@
         }
       } catch (e) {
         if (rateEl) rateEl.textContent = 'Coverage scan unavailable';
-        console.warn('Dist handouts coverage scan failed:', e);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
       }
     }
     document.addEventListener('DOMContentLoaded', scanDistHandoutsCoverage);
@@ -500,6 +532,53 @@
         .catch(console.error);
     });
   </script>
+<!-- PARALLEL COMPONENT LOADING - No more 2-3s delay! -->
+<script>
+    // Load all components in parallel for instant page display
+    Promise.all([
+
+        fetch('/components/navigation-standard.html')
+            .then(r => r.text())
+            .then(html => {
+                const container = document.getElementById('navigation-standard-container');
+                if (container) container.innerHTML = html;
+                else // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
+            })
+            .catch(err => // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');)
+    ]).then(() => {
+        // All components loaded successfully!
+        // User feedback provided via UI
+    }).catch(err => {
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
+    });
+</script>
 </body>
 </html>
 

@@ -340,7 +340,16 @@ class ContentRecommendationEngine {
                 return new Map(Object.entries(data));
             }
         } catch (e) {
-            console.warn('[Recommendations] Could not load user behavior:', e);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
         return new Map();
     }
@@ -350,7 +359,16 @@ class ContentRecommendationEngine {
             const data = Object.fromEntries(this.userBehavior);
             localStorage.setItem('te-kete-ako-user-behavior', JSON.stringify(data));
         } catch (e) {
-            console.warn('[Recommendations] Could not save user behavior:', e);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 

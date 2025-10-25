@@ -125,7 +125,16 @@ class GraphRAGAutoHealer {
             return cycle;
 
         } catch (error) {
-            console.error('Error in healing cycle:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.logEvent('Healing cycle error', { error: error.message });
             return { error: error.message };
         }
@@ -192,7 +201,16 @@ class GraphRAGAutoHealer {
             return problems;
 
         } catch (error) {
-            console.error('Error detecting problems:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return [];
         }
     }
@@ -260,7 +278,16 @@ class GraphRAGAutoHealer {
                     return { error: 'Unknown strategy' };
             }
         } catch (error) {
-            console.error('Error applying healing:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return { error: error.message };
         }
     }
@@ -286,7 +313,16 @@ class GraphRAGAutoHealer {
                     quality_score: 85
                 });
         } catch (error) {
-            console.error('Error storing cycle:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 

@@ -70,7 +70,16 @@ class GraphRAGSelfEvolutionEngine {
                 learnings: this.sessionLearnings.length
             });
         } catch (error) {
-            console.error('Error loading system intelligence:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 
@@ -120,7 +129,16 @@ class GraphRAGSelfEvolutionEngine {
 
             return data?.[0] || null;
         } catch (error) {
-            console.error('Error finding legacy pattern:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return null;
         }
     }
@@ -152,7 +170,16 @@ class GraphRAGSelfEvolutionEngine {
                 recommendation: 'Create new synthesis and index in GraphRAG'
             };
         } catch (error) {
-            console.error('Error in Hegelian synthesis:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return { hasPrecedent: false };
         }
     }
@@ -189,7 +216,16 @@ class GraphRAGSelfEvolutionEngine {
                 reasoning: 'Teaching Variants System: Offer 2-3 distinct pedagogical choices'
             };
         } catch (error) {
-            console.error('Error synthesizing teaching variants:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return { needsSynthesis: false };
         }
     }
@@ -286,7 +322,16 @@ class GraphRAGSelfEvolutionEngine {
 
             return enhanced.filter(e => e !== null);
         } catch (error) {
-            console.error('Error getting intelligent recommendations:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return [];
         }
     }
@@ -347,7 +392,16 @@ class GraphRAGSelfEvolutionEngine {
 
             return { success: false, reason: 'Pattern already exists' };
         } catch (error) {
-            console.error('Error evolving GraphRAG:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return { success: false, error };
         }
     }

@@ -184,7 +184,16 @@ Loading your resources...</p>
         </section>
     </main>
     <!-- JavaScript: GraphRAG Integration -->
-    <script>        // Initialize Dashboard        document.addEventListener('DOMContentLoaded', async () => {            await loadNavigation();            await loadQuickStats();            await loadAIRecommendations();            await loadRecentResources();            initializeAnalytics();        });        // Load Navigation Component        async function loadNavigation() {            try {                const response = await fetch('/components/navigation-standard.html');                const html = await response.text();                document.getElementById('nav-container').innerHTML = html;            } catch (error) {                console.error('Navigation load failed:', error);            }        }        // Load Quick Stats from PostHog/GraphRAG        async function loadQuickStats() {            // Simulate data loading (replace with actual PostHog API calls)            const stats = {                totalLessons: 247,                totalStudents: 156,                engagementRate: 87,                resourcesUsed: 342            };            const statsHTML = `                <div class="stat-box">
+    <script>        // Initialize Dashboard        document.addEventListener('DOMContentLoaded', async () => {            await loadNavigation();            await loadQuickStats();            await loadAIRecommendations();            await loadRecentResources();            initializeAnalytics();        });        // Load Navigation Component        async function loadNavigation() {            try {                const response = await fetch('/components/navigation-standard.html');                const html = await response.text();                document.getElementById('nav-container').innerHTML = html;            } catch (error) {                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');            }        }        // Load Quick Stats from PostHog/GraphRAG        async function loadQuickStats() {            // Simulate data loading (replace with actual PostHog API calls)            const stats = {                totalLessons: 247,                totalStudents: 156,                engagementRate: 87,                resourcesUsed: 342            };            const statsHTML = `                <div class="stat-box">
                     <div class="stat-value">
 ${stats.totalLessons}</div>
                     <div class="stat-label">

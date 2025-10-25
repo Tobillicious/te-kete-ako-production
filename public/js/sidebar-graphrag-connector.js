@@ -59,13 +59,31 @@ class SidebarGraphRAGConnector {
             // Initialize GraphRAG connections
             await this.connectToGraphRAG();
         } catch (error) {
-            console.error('Error injecting sidebar:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 
     async connectToGraphRAG() {
         if (!this.supabase) {
-            console.warn('Supabase not initialized - using fallback recommendations');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             return;
         }
 
@@ -96,7 +114,16 @@ class SidebarGraphRAGConnector {
                 }
             }
         } catch (error) {
-            console.error('GraphRAG connection error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 
@@ -129,7 +156,16 @@ class SidebarGraphRAGConnector {
                 ).join('');
             }
         } catch (error) {
-            console.error('Error displaying GraphRAG resources:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 

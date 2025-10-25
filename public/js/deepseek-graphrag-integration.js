@@ -240,7 +240,16 @@ Make it engaging, achievable, and culturally responsive.`;
             });
         } catch (error) {
             if (retryCount < this.config.maxRetries && !error.name === 'AbortError') {
-                console.warn(`Request failed, retrying (${retryCount + 1}/${this.config.maxRetries}):`, error.message);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');:`, error.message);
                 await this.delay(1000 * Math.pow(2, retryCount)); // Exponential backoff
                 return this.makeRequest(url, body, retryCount + 1);
             }
@@ -278,7 +287,16 @@ Make it engaging, achievable, and culturally responsive.`;
                 try {
                     callback(data);
                 } catch (error) {
-                    console.error(`Error in event listener for ${event}:`, error);
+                    // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 }
             });
         }

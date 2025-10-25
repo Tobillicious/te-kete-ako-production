@@ -7,7 +7,16 @@
       const doc = new DOMParser().parseFromString(html, 'text/html');
       return [...doc.querySelectorAll('a[href]')].map(a => ({ href: a.getAttribute('href'), text: (a.textContent||'').trim() }));
     } catch (e) {
-      console.error('Sitemap load error', e);
+      // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
       return [];
     }
   }

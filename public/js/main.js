@@ -82,7 +82,16 @@ function setupFormEnhancements() {
 function setupErrorHandling() {
     // Global error handler
     window.addEventListener('error', function(e) {
-        console.error('Te Kete Ako Error:', e.error);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         // Could integrate with analytics here
     });
 }

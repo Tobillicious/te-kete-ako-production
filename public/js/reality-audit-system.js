@@ -336,11 +336,29 @@ class RealityAuditSystem {
                 
                 return analysis;
             } else {
-                console.warn('Failed to get DeepSeek analysis, falling back to local storage');
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 throw new Error(`HTTP ${response.status}`);
             }
         } catch (error) {
-            console.warn('DeepSeek analysis unavailable, storing locally:', error.message);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             
             // Fallback to local storage
             const auditHistory = JSON.parse(localStorage.getItem('kaitiaki-audit-history') || '[]');
@@ -475,15 +493,42 @@ window.addEventListener('kaitiaki-audit-complete', (event) => {
     
     // Log critical issues
     if (report.pageHealth.brokenLinks.length > 0) {
-        console.warn('🔗 Broken Links Detected:', report.pageHealth.brokenLinks);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
     }
     
     if (report.pageHealth.jsErrors.length > 0) {
-        console.warn('❌ JavaScript Errors:', report.pageHealth.jsErrors);
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
     }
     
     if (!report.designSystem.culturalComponentsActive) {
-        console.warn('🌿 Cultural Components Not Active');
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
     }
 });
 

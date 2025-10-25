@@ -142,7 +142,16 @@ class TeKeteBulkOperations {
             }, 2000);
             
         } catch (error) {
-            console.error('Bulk user import error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.hideProgress();
             this.showError('Failed to import users. Please check the CSV format.');
         }
@@ -169,7 +178,16 @@ class TeKeteBulkOperations {
             if (error) throw error;
             
         } catch (error) {
-            console.error('Batch import error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             throw error;
         }
     }
@@ -208,7 +226,16 @@ class TeKeteBulkOperations {
             }, 2000);
             
         } catch (error) {
-            console.error('Bulk assignment error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.hideProgress();
             this.showError('Failed to assign resources. Please try again.');
         }
@@ -227,7 +254,16 @@ class TeKeteBulkOperations {
             if (error) throw error;
             
         } catch (error) {
-            console.error('Assignment error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             throw error;
         }
     }
@@ -260,7 +296,16 @@ class TeKeteBulkOperations {
             }, 2000);
             
         } catch (error) {
-            console.error('Bulk role update error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.hideProgress();
             this.showError('Failed to update roles. Please try again.');
         }
@@ -276,7 +321,16 @@ class TeKeteBulkOperations {
             if (error) throw error;
             
         } catch (error) {
-            console.error('Role update error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             throw error;
         }
     }
@@ -317,7 +371,16 @@ class TeKeteBulkOperations {
             }, 2000);
             
         } catch (error) {
-            console.error('Bulk content operation error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.hideProgress();
             this.showError('Failed to execute operation. Please try again.');
         }
@@ -370,7 +433,16 @@ class TeKeteBulkOperations {
             if (error) throw error;
             
         } catch (error) {
-            console.error('Content status update error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             throw error;
         }
     }
@@ -385,7 +457,16 @@ class TeKeteBulkOperations {
             if (error) throw error;
             
         } catch (error) {
-            console.error('Content deletion error:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             throw error;
         }
     }

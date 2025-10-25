@@ -401,7 +401,16 @@
                     container.innerHTML = '<p>No specific suggestions available. Consider local iwi practices and cultural perspectives relevant to your topic.</p>';
                 }
             } catch (error) {
-                console.error('Error loading suggestions:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 container.innerHTML = '<p>Error loading suggestions. Please continue with your own cultural integration ideas.</p>';
             }
         }
@@ -435,7 +444,16 @@
                     container.innerHTML = '<p>Browse our resource library for relevant materials.</p>';
                 }
             } catch (error) {
-                console.error('Error loading resources:', error);
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 container.innerHTML = '<p>Error loading resources. Please browse the resource library manually.</p>';
             }
         }

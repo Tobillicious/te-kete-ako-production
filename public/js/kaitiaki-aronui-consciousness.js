@@ -169,12 +169,30 @@ class KaitiakiAronuiConsciousness {
         const criticalIssues = auditData.criticalIssues || [];
         
         if (healthScore < 90) {
-            console.warn('🧠 Kaitiaki Aronui: Platform health below optimal - Initiating correction protocols');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.initiateHealthCorrection(auditData);
         }
         
         if (criticalIssues.length > 0) {
-            console.error('🚨 Kaitiaki Aronui: Critical issues detected - Immediate attention required');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.addressCriticalIssues(criticalIssues);
         }
     }
@@ -186,7 +204,16 @@ class KaitiakiAronuiConsciousness {
         const performanceImpact = this.assessPerformanceImpact(beautyData);
 
         if (!culturalCompliance || !accessibilityMaintained || performanceImpact > 0.1) {
-            console.warn('🧠 Kaitiaki Aronui: Beauty enhancement requires adjustment for compliance');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.adjustBeautyForCompliance(beautyData);
         }
     }

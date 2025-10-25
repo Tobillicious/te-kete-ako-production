@@ -22,7 +22,16 @@ class CurriculumTagger {
             const response = await fetch('/data/temataiaho.json');
             this.curriculumData = await response.json();
         } catch (error) {
-            console.warn('Te Mātaiaho data not found, using fallback');
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
             this.curriculumData = this.getFallbackData();
         }
     }
@@ -61,7 +70,16 @@ class CurriculumTagger {
                 .single();
 
             if (!lesson) {
-                console.warn('Lesson not found in GraphRAG');
+                // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
                 return;
             }
 
@@ -79,7 +97,16 @@ class CurriculumTagger {
             container.innerHTML = this.renderAlignment(outcomes, lesson, phase);
 
         } catch (error) {
-            console.error('Error displaying curriculum alignment:', error);
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('error', {
+                message: '$2',
+                details: $3,
+                url: window.location.pathname
+            });
+        }
+        // Show user-friendly message instead of error
+        console.log('Issue detected: $2');
         }
     }
 
