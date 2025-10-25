@@ -200,13 +200,13 @@ Searchable & Ready</div>
 
         } catch (e) {
             console.error('Most Connected error:', e);
-            document.getElementById('most-connected-math').innerHTML = '<div style="text-align:center;color:#64748b;">Unable to load connections at this time.</div>';
+            document.getElementById('most-connected-math').innerHTML = '<div class="text-center text-slate-500">Unable to load connections at this time.</div>';
         }
 
         function displayMostConnected(resources, connectionCounts = {}) {
             const container = document.getElementById('most-connected-math');
             if (!resources || resources.length === 0) {
-                container.innerHTML = '<div style="text-align:center;color:#64748b;">No connected resources found yet.</div>';
+                container.innerHTML = '<div class="text-center text-slate-500">No connected resources found yet.</div>';
                 return;
             }
 
@@ -216,19 +216,19 @@ Searchable & Ready</div>
                 const colors = ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#14b8a6', '#f97316', '#06b6d4'];
                 const color = colors[index % colors.length];
                 
-                html += `<a href="${resource.file_path}" style="background: white; padding: 1.5rem; border-radius: 12px; border-top: 4px solid ${color}; box-shadow: 0 2px 12px rgba(0,0,0,0.06); text-decoration: none; display: block; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.12)';" onmouseout="this.style.transform=''; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.06)';">`;
-                html += `<div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem;">`;
-                html += `<span style="background: ${color}; color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700;">${connections} connections</span>`;
+                html += `<a href="${resource.file_path}" class="bg-white p-6 rounded-xl border-t-4 shadow-lg no-underline block transition-all hover:-translate-y-1 hover:shadow-2xl" style="border-color: ${color}">`;
+                html += `<div class="flex justify-between items-start mb-3">`;
+                html += `<span class="text-white px-3 py-1 rounded-xl text-xs font-bold" style="background: ${color}">${connections} connections</span>`;
                 if (resource.quality_score >= 90) {
-                    html += `<span style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700;">⭐ Q${resource.quality_score}</span>`;
+                    html += `<span class="gradient-warm text-white px-3 py-1 rounded-xl text-xs font-bold">⭐ Q${resource.quality_score}</span>`;
                 }
                 html += `</div>`;
-                html += `<h3 style="color: #0f172a; font-size: 1.1rem; font-weight: 700; margin: 0 0 0.5rem 0;">${resource.title || 'Untitled'}</h3>`;
-                html += `<div style="color: #64748b; font-size: 0.85rem; margin-bottom: 0.75rem;">`;
+                html += `<h3 class="text-slate-900 text-lg font-bold mb-2">${resource.title || 'Untitled'}</h3>`;
+                html += `<div class="text-slate-500 text-sm mb-3">`;
                 if (resource.resource_type) html += `${resource.resource_type}`;
                 if (resource.year_level) html += ` • ${resource.year_level}`;
                 html += `</div>`;
-                html += `<div style="color: ${color}; font-weight: 700; font-size: 0.9rem;">View Resource →</div>`;
+                html += `<div class="font-bold text-base" style="color: ${color}">View Resource →</div>`;
                 html += `</a>`;
             });
 
