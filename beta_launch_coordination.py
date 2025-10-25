@@ -81,7 +81,7 @@ class BetaLaunchCoordinator:
             'platform_status': 'READY' if readiness_score >= 7 else 'NEEDS_WORK'
         }
 
-        print(f"\n📊 Readiness Score: {readiness_score}/{len(readiness_checks)} ({self.beta_plan['launch_readiness']['readiness_percentage']:.1".1f"")
+        print(f"\n📊 Readiness Score: {readiness_score}/{len(readiness_checks)} ({self.beta_plan['launch_readiness']['readiness_percentage']:.1".1f"
 
     def prepare_teacher_recruitment(self):
         """Prepare beta teacher recruitment campaign"""
