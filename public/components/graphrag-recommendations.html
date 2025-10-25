@@ -1,1 +1,287 @@
-<!-- GraphRAG-Powered Recommendations Component --><!-- Usage: Include this component on any page to show smart, contextual recommendations --><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><section id="graphrag-recommendations" style="background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); color: white; padding: 4rem 2rem; margin: 3rem 0; border-radius: 20px; box-shadow: 0 12px 32px rgba(0,0,0,0.15);">    <div style="max-width: 1200px; margin: 0 auto;">        <div style="text-align: center; margin-bottom: 3rem;">            <div style="display: inline-block; background: rgba(255,255,255,0.2); padding: 0.5rem 1.5rem; border-radius: 24px; margin-bottom: 1rem;">                <span style="color: white; font-weight: 600; font-size: 0.9rem;">🧠 AI POWERED</span>            </div>            <h2 style="font-size: 2.5rem; color: white; margin-bottom: 1rem; font-weight: 800;">                Recommended For You            </h2>            <p style="font-size: 1.2rem; color: rgba(255,255,255,0.95); max-width: 700px; margin: 0 auto; line-height: 1.6;">                Powered by 231,469 GraphRAG relationships across 19,737 resources            </p>        </div>        <div id="graphrag-recommendations-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">            <!-- Recommendations will be loaded here -->            <div style="text-align: center; padding: 3rem; grid-column: 1 / -1;">                <div style="border: 4px solid rgba(255,255,255,0.3); border-top: 4px solid white; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 0 auto 1rem;"></div>                <p style="opacity: 0.9;">Loading intelligent recommendations...</p>            </div>        </div>    </div></section><style>@keyframes spin {    0% { transform: rotate(0deg); }    100% { transform: rotate(360deg); }}</style><script>(async function() {    const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);    // Get current page path    const currentPath = window.location.pathname;    try {        // Query GraphRAG for related resources        const { data: relationships, error } = await supabase            .from('graphrag_relationships')            .select('target_path, relationship_type, confidence, metadata')            .eq('source_path', currentPath)            .in('relationship_type', [                'related_content',                'prerequisite',                'has_handout',                'shared_cultural_element',                'same_subject',                'complementary_tool',                'unit_contains_lesson'            ])            .gte('confidence', 0.75)            .order('confidence', { ascending: false })            .limit(12);        if (error) throw error;        if (!relationships || relationships.length === 0) {            // Show fallback if no relationships            document.getElementById('graphrag-recommendations-container').innerHTML = `                <div style="text-align: center; padding: 3rem; grid-column: 1 / -1;">                    <p style="opacity: 0.9;">🔮 No recommendations available yet - this content is being indexed!</p>                </div>            `;            return;        }        // Get resource details for targets        const targetPaths = relationships.map(r => r.target_path);        const { data: resources, error: resourceError } = await supabase            .from('graphrag_resources')            .select('file_path, title, resource_type, quality_score, subject')            .in('file_path', targetPaths)            .order('quality_score', { ascending: false })            .limit(6);        if (resourceError) throw resourceError;        // Render recommendations        const container = document.getElementById('graphrag-recommendations-container');        container.innerHTML = resources.map(resource => {            const rel = relationships.find(r => r.target_path === resource.file_path);            const relType = rel?.relationship_type || 'related';            const confidence = Math.round((rel?.confidence || 0.8) * 100);            // Badge colors by relationship type            const badges = {                'prerequisite': { emoji: '📚', label: 'Foundation', color: '#3b82f6' },                'related_content': { emoji: '🔗', label: 'Related', color: '#10b981' },                'has_handout': { emoji: '📄', label: 'Handout', color: '#f59e0b' },                'shared_cultural_element': { emoji: '🌿', label: 'Cultural', color: '#14b8a6' },                'same_subject': { emoji: '📖', label: 'Same Subject', color: '#6366f1' },                'complementary_tool': { emoji: '🛠️', label: 'Tool', color: '#8b5cf6' },                'unit_contains_lesson': { emoji: '🎓', label: 'In Unit', color: '#ec4899' }            };            const badge = badges[relType] || { emoji: '⭐', label: 'Related', color: '#6b7280' };            return `                <a href="${resource.file_path}" style="background: white; border-radius: 12px; padding: 1.5rem; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s; display: block; border-top: 4px solid ${badge.color};">                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem;">                        <span style="background: ${badge.color}; color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">                            ${badge.emoji} ${badge.label}                        </span>                        <span style="background: #fef3c7; color: #92400e; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">                            ⭐ ${resource.quality_score || 85}                        </span>                    </div>                    <h3 style="color: #1a4d2e; font-size: 1.1rem; margin-bottom: 0.5rem; font-weight: 700;">                        ${resource.title}                    </h3>                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 0.75rem;">                        ${resource.resource_type || 'Resource'} ${resource.subject ? `• ${resource.subject}` : ''}                    </p>                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 1rem;">                        <div style="flex: 1; height: 4px; background: #e5e7eb; border-radius: 2px; overflow: hidden;">                            <div style="height: 100%; background: linear-gradient(90deg, #7c3aed, #a855f7); width: ${confidence}%;"></div>                        </div>                        <span style="color: #7c3aed; font-size: 0.75rem; font-weight: 600;">${confidence}%</span>                    </div>                </a>            `;        }).join('');        // Add "View All" button        container.innerHTML += `            <div style="grid-column: 1 / -1; text-align: center; margin-top: 1.5rem;">                <a href="/advanced-search-graphrag.html" style="display: inline-block; background: white; color: #7c3aed; padding: 1rem 2rem; border-radius: 12px; font-weight: 700; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s;">                    Explore GraphRAG Intelligence →                </a>            </div>        `;    } catch (error) {        console.error('GraphRAG Recommendations Error:', error);        document.getElementById('graphrag-recommendations-container').innerHTML = `            <div style="text-align: center; padding: 3rem; grid-column: 1 / -1;">                <p style="opacity: 0.9;">💡 Unable to load recommendations right now</p>            </div>        `;    }})();</script>
+<!-- ═══════════════════════════════════════════════════════════════════════
+     GRAPHRAG RECOMMENDATIONS COMPONENT
+     Powered by 1.18M relationships, 959 relationship types, 77.7% avg confidence
+     ═════════════════════════════════════════════════════════════════════ -->
+
+<link rel="stylesheet" href="/css/cascade-fix.css">
+
+<style>
+.recommendations-section {
+    margin: var(--space-16) 0;
+    padding: var(--space-12) var(--space-6);
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-radius: var(--radius-xl);
+    border-left: 4px solid var(--color-info);
+}
+
+.recommendations-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+}
+
+.recommendations-title {
+    font-size: var(--text-4xl);
+    color: var(--color-primary);
+    margin-bottom: var(--space-4);
+    font-family: var(--font-primary);
+}
+
+.recommendations-subtitle {
+    font-size: var(--text-lg);
+    color: var(--color-text-secondary);
+}
+
+.recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-6);
+    margin-top: var(--space-8);
+}
+
+.recommendation-card {
+    background: white;
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-fast);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    border-top: 3px solid var(--color-pounamu);
+}
+
+.recommendation-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+}
+
+.recommendation-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: rgba(7, 160, 122, 0.1);
+    color: var(--color-pounamu);
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    margin-bottom: var(--space-3);
+}
+
+.recommendation-title {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: var(--space-2);
+    line-height: var(--line-height-snug);
+}
+
+.recommendation-meta {
+    display: flex;
+    gap: var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-3);
+    flex-wrap: wrap;
+}
+
+.recommendation-description {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--space-4);
+}
+
+.recommendation-confidence {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: var(--text-xs);
+    color: var(--color-success);
+    font-weight: 600;
+}
+
+.confidence-bar {
+    width: 60px;
+    height: 4px;
+    background: rgba(16, 185, 129, 0.2);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.confidence-fill {
+    height: 100%;
+    background: var(--color-success);
+    transition: width 0.3s ease;
+}
+
+.loading-state {
+    text-align: center;
+    padding: var(--space-16);
+    color: var(--color-text-secondary);
+}
+
+.spinner {
+    border: 3px solid rgba(7, 160, 122, 0.1);
+    border-top: 3px solid var(--color-pounamu);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto var(--space-4);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>
+
+<section class="recommendations-section">
+    <div class="recommendations-header">
+        <h2 class="recommendations-title">
+            🧠 Intelligent Recommendations
+        </h2>
+        <p class="recommendations-subtitle">
+            Powered by GraphRAG - 1.18M relationships across 12,575 resources
+        </p>
+    </div>
+
+    <div id="recommendations-container">
+        <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Discovering perfect resources for you...</p>
+        </div>
+    </div>
+</section>
+
+<script>
+(async function() {
+    // Use Supabase singleton
+    const supabase = window.supabaseSingleton 
+        ? await window.supabaseSingleton.getClient()
+        : window.supabase;
+
+    if (!supabase) {
+        console.warn('[Recommendations] Supabase not available');
+        return;
+    }
+
+    async function loadRecommendations() {
+        try {
+            // Get top resources by quality and connections
+            const { data: topResources, error } = await supabase
+                .rpc('get_top_recommended_resources', {
+                    min_quality: 90,
+                    limit_count: 6
+                });
+
+            if (error) {
+                // Fallback: Get top quality resources directly
+                const { data: fallbackData } = await supabase
+                    .from('graphrag_resources')
+                    .select('file_path, title, quality_score, subject, year_level, resource_type, has_whakataukī')
+                    .eq('archive_status', 'active')
+                    .gte('quality_score', 90)
+                    .order('quality_score', { ascending: false })
+                    .limit(6);
+                
+                renderRecommendations(fallbackData || []);
+                return;
+            }
+
+            renderRecommendations(topResources || []);
+        } catch (err) {
+            console.error('[Recommendations] Error:', err);
+            document.getElementById('recommendations-container').innerHTML = 
+                '<p style="text-align: center; color: var(--color-text-secondary);">Unable to load recommendations. Please refresh.</p>';
+        }
+    }
+
+    function renderRecommendations(resources) {
+        const container = document.getElementById('recommendations-container');
+        
+        if (!resources || resources.length === 0) {
+            container.innerHTML = '<p style="text-align: center;">No recommendations available at this time.</p>';
+            return;
+        }
+
+        const grid = document.createElement('div');
+        grid.className = 'recommendations-grid';
+
+        resources.forEach(resource => {
+            const card = createRecommendationCard(resource);
+            grid.appendChild(card);
+        });
+
+        container.innerHTML = '';
+        container.appendChild(grid);
+    }
+
+    function createRecommendationCard(resource) {
+        const card = document.createElement('a');
+        card.className = 'recommendation-card';
+        card.href = resource.file_path || '#';
+
+        const badge = document.createElement('span');
+        badge.className = 'recommendation-badge';
+        badge.textContent = resource.has_whakataukī ? '🌿 Culturally Integrated' : '⭐ Gold Standard';
+
+        const title = document.createElement('h3');
+        title.className = 'recommendation-title';
+        title.textContent = resource.title || 'Resource';
+
+        const meta = document.createElement('div');
+        meta.className = 'recommendation-meta';
+        if (resource.subject) {
+            const subjectSpan = document.createElement('span');
+            subjectSpan.textContent = `📚 ${resource.subject}`;
+            meta.appendChild(subjectSpan);
+        }
+        if (resource.year_level) {
+            const yearSpan = document.createElement('span');
+            yearSpan.textContent = `🎯 ${resource.year_level}`;
+            meta.appendChild(yearSpan);
+        }
+        if (resource.resource_type) {
+            const typeSpan = document.createElement('span');
+            typeSpan.textContent = resource.resource_type;
+            meta.appendChild(typeSpan);
+        }
+
+        const description = document.createElement('p');
+        description.className = 'recommendation-description';
+        description.textContent = resource.content_preview || 'High-quality resource with excellent cultural integration.';
+
+        const confidence = document.createElement('div');
+        confidence.className = 'recommendation-confidence';
+        
+        const qualityScore = resource.quality_score || 90;
+        const confidenceText = document.createElement('span');
+        confidenceText.textContent = `Quality: ${qualityScore}/100`;
+        
+        const bar = document.createElement('div');
+        bar.className = 'confidence-bar';
+        const fill = document.createElement('div');
+        fill.className = 'confidence-fill';
+        fill.style.width = `${qualityScore}%`;
+        bar.appendChild(fill);
+
+        confidence.appendChild(confidenceText);
+        confidence.appendChild(bar);
+
+        card.appendChild(badge);
+        card.appendChild(title);
+        card.appendChild(meta);
+        card.appendChild(description);
+        card.appendChild(confidence);
+
+        return card;
+    }
+
+    // Load on component ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadRecommendations);
+    } else {
+        loadRecommendations();
+    }
+})();
+</script>
