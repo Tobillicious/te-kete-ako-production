@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Kete - Saved Resources | Te Kete Ako</title>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <style>
+        .kete-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .kete-header {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+        }
+        
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .resource-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.1);
+            border-color: #3b82f6;
+        }
+        
+        .resource-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 0.5rem;
+        }
+        
+        .resource-meta {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            margin: 0.5rem 0;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        
+        .resource-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .subject-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: #dbeafe;
+            color: #1e40af;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #64748b;
+        }
+        
+        .empty-state svg {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 1.5rem;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <!-- Site Header Navigation -->
+    <div id="header-component"></div>
+    <script src="/components/navigation-standard.html" defer></script>
+    
+    <div class="kete-container">
+        <div class="kete-header">
+            <h1 style="margin: 0 0 1rem 0; font-size: 2.5rem;">📚 My Kete</h1>
+            <p style="margin: 0; font-size: 1.1rem; opacity: 0.95;">
+                Your saved resources for quick access
+            </p>
+            <div id="bookmark-count" style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 700;"></div>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <div>
+                <button id="filter-all" class="filter-btn active" onclick="filterBySubject('all')">All</button>
+                <button id="filter-mathematics" class="filter-btn" onclick="filterBySubject('mathematics')">Mathematics</button>
+                <button id="filter-science" class="filter-btn" onclick="filterBySubject('science')">Science</button>
+                <button id="filter-english" class="filter-btn" onclick="filterBySubject('english')">English</button>
+                <button id="filter-social-studies" class="filter-btn" onclick="filterBySubject('social-studies')">Social Studies</button>
+            </div>
+            <div>
+                <button onclick="exportBookmarks()" class="btn btn-primary">📤 Export</button>
+                <button onclick="clearAllBookmarks()" class="btn btn-danger">🗑️ Clear All</button>
+            </div>
+        </div>
+        
+        <div id="resources-container" class="resource-grid"></div>
+        
+        <div id="empty-state" class="empty-state" style="display: none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <h2 style="color: #64748b; margin: 0 0 1rem 0;">No Saved Resources Yet</h2>
+            <p style="color: #94a3b8; margin: 0 0 1.5rem 0;">
+                Browse our library and click "Save for Later" to add resources here
+            </p>
+            <a href="/lessons-complete.html" class="btn btn-primary" style="display: inline-block;">
+                Browse Lessons →
+            </a>
+        </div>
+        
+        <div style="background: rgba(59, 130, 246, 0.05); border-left: 4px solid #3b82f6; padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
+            <h3 style="margin: 0 0 0.75rem 0; color: #1e40af;">💡 Want More Features?</h3>
+            <p style="margin: 0 0 1rem 0; color: #475569;">
+                Create a free account to:
+            </p>
+            <ul style="color: #475569; margin: 0 0 1rem 0;">
+                <li>Save unlimited resources</li>
+                <li>Sync across all devices</li>
+                <li>Organize into custom collections</li>
+                <li>Share with colleagues</li>
+            </ul>
+            <a href="/signup-teacher.html" class="btn btn-primary">Create Free Account →</a>
+        </div>
+    </div>
+    
+    <script>
+        // Get bookmarks from localStorage
+        function getBookmarks() {
+            try {
+                const stored = localStorage.getItem('te-kete-bookmarks');
+                return stored ? JSON.parse(stored) : [];
+            } catch (error) {
+                console.error('Failed to load bookmarks:', error);
+                return [];
+            }
+        }
+        
+        // Render bookmarks
+        function renderBookmarks(filter = 'all') {
+            const bookmarks = getBookmarks();
+            const container = document.getElementById('resources-container');
+            const emptyState = document.getElementById('empty-state');
+            const countEl = document.getElementById('bookmark-count');
+            
+            // Update count
+            countEl.textContent = `${bookmarks.length} Resources Saved`;
+            
+            // Filter
+            const filtered = filter === 'all' 
+                ? bookmarks 
+                : bookmarks.filter(b => b.subject === filter);
+            
+            // Show empty state if no bookmarks
+            if (filtered.length === 0) {
+                container.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            
+            // Render cards
+            container.innerHTML = filtered.map(bookmark => `
+                <div class="resource-card" data-subject="${bookmark.subject}">
+                    <div class="resource-title">${bookmark.title}</div>
+                    <div class="resource-meta">
+                        <span class="subject-badge">${bookmark.subject || 'General'}</span>
+                        <span>${new Date(bookmark.addedAt).toLocaleDateString()}</span>
+                    </div>
+                    <div class="resource-actions">
+                        <a href="${bookmark.url}" class="btn btn-primary">View Resource</a>
+                        <button class="btn btn-danger" onclick="removeBookmark('${bookmark.url}')">Remove</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Filter by subject
+        function filterBySubject(subject) {
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`filter-${subject}`).classList.add('active');
+            
+            // Render filtered
+            renderBookmarks(subject);
+        }
+        
+        // Remove a bookmark
+        function removeBookmark(url) {
+            if (!confirm('Remove this resource from My Kete?')) return;
+            
+            const bookmarks = getBookmarks();
+            const filtered = bookmarks.filter(b => b.url !== url);
+            localStorage.setItem('te-kete-bookmarks', JSON.stringify(filtered));
+            renderBookmarks();
+        }
+        
+        // Clear all bookmarks
+        function clearAllBookmarks() {
+            if (!confirm('Are you sure you want to clear all saved resources?')) return;
+            
+            localStorage.removeItem('te-kete-bookmarks');
+            renderBookmarks();
+        }
+        
+        // Export bookmarks
+        function exportBookmarks() {
+            const bookmarks = getBookmarks();
+            const dataStr = JSON.stringify(bookmarks, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = 'my-kete-bookmarks.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+        }
+        
+        // Initialize
+        renderBookmarks();
+    </script>
+    
+    <style>
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            margin-right: 0.5rem;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            color: #475569;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .filter-btn:hover {
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+        
+        .filter-btn.active {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border-color: #3b82f6;
+        }
+    </style>
+</body>
+</html>
+

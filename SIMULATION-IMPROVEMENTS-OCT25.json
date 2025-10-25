@@ -1,0 +1,38 @@
+[
+  {
+    "issue": "download_handout",
+    "reason": "No handout available for this lesson",
+    "frequency": 1089,
+    "fix": "Create lesson-handout pairs automatically",
+    "implementation": "INSERT INTO graphrag_relationships (lesson, handout, type='has_handout') ...",
+    "impact": "Provides handouts for 1089+ lessons",
+    "priority": "MEDIUM"
+  },
+  {
+    "issue": "save_to_my_kete",
+    "reason": "Login required, didn't have account",
+    "frequency": 916,
+    "fix": "Allow guest bookmarking (localStorage)",
+    "implementation": "// localStorage.setItem('bookmarks', JSON.stringify(bookmarks))",
+    "impact": "Enables 916+ teachers to save without login",
+    "priority": "HIGH"
+  },
+  {
+    "issue": "search_by_subject",
+    "reason": "Too many results, couldn't find specific year level",
+    "frequency": 493,
+    "fix": "Add 'Sort by Relevance' default + Better filters",
+    "implementation": "UPDATE resources SET featured = true WHERE quality_score >= 90 AND subject = ...",
+    "impact": "Helps 493+ teachers find best content first",
+    "priority": "HIGH"
+  },
+  {
+    "issue": "check_assessments",
+    "reason": "Couldn't find assessment rubric",
+    "frequency": 259,
+    "fix": "Build Assessment Hub + Link from lessons",
+    "implementation": "CREATE /assessments/index.html + Add links in lessons",
+    "impact": "Helps 259+ teachers find rubrics",
+    "priority": "HIGH"
+  }
+]
