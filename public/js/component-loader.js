@@ -186,20 +186,22 @@ class ComponentLoader {
         // Skip - navigation loads synchronously before this
 
         // Priority 2: Hero sections (above fold)
-        loader.register({
-            id: 'hero-enhanced',
-            url: '/components/hero-enhanced.html',
-            selector: '#hero-component',
-            priority: 'high'
-        });
+        // DISABLED - Hero already loads via inline script in index.html (#hero-enhanced-container)
+        // loader.register({
+        //     id: 'hero-enhanced',
+        //     url: '/components/hero-enhanced.html',
+        //     selector: '#hero-component',
+        //     priority: 'high'
+        // });
 
         // Priority 3: Featured content (still above fold)
-        loader.register({
-            id: 'featured-carousel',
-            url: '/components/featured-carousel.html',
-            selector: '#featured-component',
-            priority: 'normal'
-        });
+        // DISABLED - Featured carousel already loads via inline script in index.html (#featured-carousel-container)
+        // loader.register({
+        //     id: 'featured-carousel',
+        //     url: '/components/featured-carousel.html',
+        //     selector: '#featured-component',
+        //     priority: 'normal'
+        // });
 
         // Priority 4: Footer and polish (below fold)
         loader.register({
@@ -237,14 +239,15 @@ class ComponentLoader {
 // Global instance for homepage
 window.componentLoader = ComponentLoader.createForHomepage();
 
-// Auto-start on DOM ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        window.componentLoader.loadAll();
-    });
-} else {
-    window.componentLoader.loadAll();
-}
+// Auto-start DISABLED - Components already in HTML, no need to load dynamically
+// Re-enable this when using dynamic component loading
+// if (document.readyState === 'loading') {
+//     document.addEventListener('DOMContentLoaded', () => {
+//         window.componentLoader.loadAll();
+//     });
+// } else {
+//     window.componentLoader.loadAll();
+// }
 
 // Export for module systems
 if (typeof module !== 'undefined' && module.exports) {
