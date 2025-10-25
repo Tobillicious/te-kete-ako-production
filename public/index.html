@@ -15,8 +15,30 @@ Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori</titl
 <meta content="#1a4d2e" name="theme-color"/>
 
 <!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
-<!-- This single file replaces 9+ conflicting CSS files for optimal performance -->
 <link rel="stylesheet" href="/css/te-kete-professional.css"/>
+
+<!-- CSS - ULTIMATE BEAUTY SYSTEM (Tailwind + Cultural Patterns) -->
+<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css"/>
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/navigation-standard.css">
+<link rel="stylesheet" href="/css/mobile-revolution.css">
+<link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css">
+<link rel="stylesheet" href="/css/professionalization-system.css">
+<link rel="stylesheet" href="/css/print.css" media="print">
+<link rel="stylesheet" href="/css/print-professional.css" media="print"/>
+<link rel="stylesheet" href="/css/tailwind.css">
+
+<!-- UTILITY LAYER: Tailwind loads last but only provides utilities -->
+<link rel="stylesheet" href="/css/tailwind.css">
+
+<!-- NOTE on removed files:
+  ✅ te-kete-ultimate-beauty-system.css - MERGED into professionalization-system.css
+  ✅ main.css - CONSOLIDATED into professionalization-system.css  
+  ✅ mobile-first-classroom-tablets.css - MERGED into mobile-revolution.css
+  ✅ print-professional.css - MERGED into print.css
+  To ensure professionalization system wins the cascade, it loads FIRST.
+  Tailwind loads LAST but uses !important sparingly (utilities only).
+-->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -30,6 +52,10 @@ Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori</titl
 <script src="/js/supabase-singleton.js"></script>
 <!-- My Kete Database Integration - loads after singleton -->
 <script src="/js/my-kete-database.js"></script>
+<!-- Navigation Loader Singleton - loads after supabase setup -->
+<script src="/js/navigation-loader.js"></script>
+<!-- Component Loader - centralized async component management -->
+<script src="/js/component-loader.js"></script>
 <meta name="mobile-web-app-capable" content="yes"/>
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
@@ -2411,5 +2437,9 @@ Discover More →</div>
 <script src="/js/posthog-analytics.js" defer></script>
 <!-- 🚨 Automatic Error Monitoring - PostHog + Supabase -->
 <script src="/js/error-monitoring.js" defer></script>
+<!-- Navigation Loader Singleton - loads after supabase setup -->
+<script src="/js/navigation-loader.js"></script>
+<!-- Component Loader - centralized async component management -->
+<script src="/js/component-loader.js"></script>
 </body>
 </html>
