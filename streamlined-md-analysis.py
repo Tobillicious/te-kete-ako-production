@@ -128,8 +128,8 @@ def calculate_priority_score(file_size, days_old, file_type):
 def create_indexing_strategy(analysis):
     """Create an efficient indexing strategy based on analysis"""
 
-    print("
-🎯 CREATING INDEXING STRATEGY..."    print("=" * 40)
+    print("\n🎯 CREATING INDEXING STRATEGY...")
+    print("=" * 40)
 
     # Top directories with most files
     top_dirs = analysis['by_directory'].most_common(10)
@@ -138,27 +138,27 @@ def create_indexing_strategy(analysis):
         print(f"   {dir_path}: {count} files")
 
     # File type distribution
-    print("
-📊 File type distribution:"    for file_type, count in analysis['by_type'].most_common():
+    print("\n📊 File type distribution:")
+    for file_type, count in analysis['by_type'].most_common():
         percentage = (count / sum(analysis['by_type'].values())) * 100
         print(f"   {file_type}: {count} files ({percentage:.1f}%)")
 
     # Priority files
     priority_files = sorted(analysis['priority_files'], key=lambda x: x['priority_score'], reverse=True)
-    print("
-⭐ Top priority files (by score):"    for i, file_info in enumerate(priority_files[:10]):
+    print("\n⭐ Top priority files (by score):")
+    for i, file_info in enumerate(priority_files[:10]):
         days_old = (datetime.now() - file_info['modified']).days
         print(f"   {i+1}. {file_info['path']} ({file_info['priority_score']} pts)")
         print(f"      Size: {file_info['size']:,} bytes, Modified: {days_old} days ago, Type: {file_info['type']}")
 
     # Recent files
-    print("
-🕐 Most recent files:"    for file_path, mod_time in analysis['recent_files'][:5]:
+    print("\n🕐 Most recent files:")
+    for file_path, mod_time in analysis['recent_files'][:5]:
         print(f"   {file_path} ({mod_time.strftime('%Y-%m-%d %H:%M')})")
 
     # Strategy recommendations
-    print("
-🎯 RECOMMENDED INDEXING STRATEGY:"    print("   PHASE 1: Index top 100 priority files (high impact, recent)")
+    print("\n🎯 RECOMMENDED INDEXING STRATEGY:")
+    print("   PHASE 1: Index top 100 priority files (high impact, recent)")
     print("   PHASE 2: Index by directory (start with highest concentration)")
     print("   PHASE 3: Index by type (critical types first)")
     print("   PHASE 4: Complete remaining files in batches")
@@ -189,14 +189,14 @@ def main():
     # Create strategy
     strategy = create_indexing_strategy(analysis)
 
-    print("
-🚀 ANALYSIS COMPLETE!"    print(f"   - Analyzed {len(analysis['priority_files'])} files for prioritization")
+    print("\n🚀 ANALYSIS COMPLETE!")
+    print(f"   - Analyzed {len(analysis['priority_files'])} files for prioritization")
     print(f"   - Identified {len(strategy['priority_files'])} high-priority files")
     print(f"   - Created efficient indexing strategy")
     print(f"   - Estimated completion: {strategy['estimated_completion_hours']:.1f} hours")
 
-    print("
-🎯 NEXT ACTIONABLE STEPS:"    print("   1. Index the top 100 priority files first")
+    print("\n🎯 NEXT ACTIONABLE STEPS:")
+    print("   1. Index the top 100 priority files first")
     print("   2. Process by directory concentration")
     print("   3. Focus on critical document types")
     print("   4. Batch remaining files efficiently")

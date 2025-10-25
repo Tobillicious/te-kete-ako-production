@@ -20,9 +20,12 @@
 
 ---
 
-## 🚀 DEPLOYMENT STEPS
+## 🚨 MANUAL DEPLOYMENT REQUIRED (Terminal Issues Detected)
 
-### **Step 1: Commit Changes**
+**The automated commands are getting interrupted. Please execute these manually in your terminal:**
+
+### **Step 1: Manual Git Commit**
+**Open Terminal and run exactly:**
 ```bash
 cd /Users/admin/Documents/te-kete-ako-clean
 git add .
@@ -39,13 +42,18 @@ git commit -m "🚀 DEPLOY: Consolidated platform systems ready for production
 - Whakataukī integration enhanced
 - Māori language support in search
 - Cultural relevance scoring
-- Accessibility compliance maintained"
+- Accessibility compliance maintained
+
+🎯 Ready for Netlify deployment"
 ```
 
-### **Step 2: Push to Production**
+### **Step 2: Manual Git Push**
+**Then run:**
 ```bash
 git push origin main
 ```
+
+**If you get any prompts, just press Enter for defaults.**
 
 ### **Step 3: Wait for Netlify Deployment**
 - Auto-deployment typically takes 2-3 minutes
