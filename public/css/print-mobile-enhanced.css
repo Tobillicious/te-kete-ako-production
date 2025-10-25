@@ -1,0 +1,203 @@
+/* =================================================================
+   MOBILE PRINT ENHANCEMENTS - Te Kete Ako
+   Fixes print issues on iOS, Android, and mobile browsers
+   ================================================================= */
+
+@media print {
+  /* Mobile-specific print fixes */
+
+  /* Force portrait orientation for better mobile printing */
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+
+  /* iOS Safari print fixes */
+  html {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  body {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 11pt !important; /* Readable on paper */
+  }
+
+  /* Prevent content cutoff on mobile */
+  * {
+    box-sizing: border-box !important;
+    max-width: 100% !important;
+  }
+
+  /* Fix for iOS cutting off content */
+  .main-content,
+  article,
+  section {
+    width: auto !important;
+    max-width: none !important;
+    overflow: visible !important;
+  }
+
+  /* Ensure all text is black (mobile browsers sometimes don't respect colors) */
+  p,
+  li,
+  td,
+  th,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  span,
+  div {
+    color: #000 !important;
+  }
+
+  /* Hide absolutely everything non-essential for mobile */
+  .quick-start-guide,
+  .answer-key-notice,
+  .top-10-curated,
+  nav,
+  header,
+  footer,
+  .no-print,
+  button,
+  [class*="button"],
+  [class*="btn"],
+  [onclick],
+  .modal,
+  .sidebar,
+  .navigation,
+  aside {
+    display: none !important;
+  }
+
+  /* Print the actual lesson content clearly */
+  .lesson-content,
+  .handout-content,
+  .worksheet-content,
+  main {
+    display: block !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Headings clear and bold */
+  h1 {
+    font-size: 18pt !important;
+    font-weight: bold !important;
+    margin-bottom: 12pt !important;
+    page-break-after: avoid !important;
+  }
+
+  h2 {
+    font-size: 14pt !important;
+    font-weight: bold !important;
+    margin-top: 10pt !important;
+    margin-bottom: 6pt !important;
+    page-break-after: avoid !important;
+  }
+
+  /* Lists print clearly */
+  ul,
+  ol {
+    margin-left: 15pt !important;
+    margin-bottom: 10pt !important;
+  }
+
+  li {
+    margin-bottom: 4pt !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Tables print without breaking */
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    page-break-inside: avoid !important;
+  }
+
+  td,
+  th {
+    padding: 4pt !important;
+    border: 1px solid #000 !important;
+  }
+
+  /* Images scale properly */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+    page-break-inside: avoid !important;
+    page-break-after: auto !important;
+  }
+
+  /* Code blocks readable */
+  pre,
+  code {
+    font-family: "Courier New", monospace !important;
+    font-size: 9pt !important;
+    background: #f5f5f5 !important;
+    border: 1px solid #ddd !important;
+    padding: 6pt !important;
+    page-break-inside: avoid !important;
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+  }
+
+  /* Page breaks */
+  .page-break {
+    page-break-before: always !important;
+  }
+
+  .page-break-after {
+    page-break-after: always !important;
+  }
+
+  /* Avoid breaking these */
+  .keep-together {
+    page-break-inside: avoid !important;
+  }
+
+  /* Links show URL on mobile print */
+  a[href^="http"]::after {
+    content: " [" attr(href) "]" !important;
+    font-size: 8pt !important;
+    color: #666 !important;
+  }
+
+  /* Internal links don't show URL */
+  a[href^="/"]::after,
+  a[href^="#"]::after {
+    content: "" !important;
+  }
+}
+
+/* Mobile-specific print button enhancement */
+@media screen and (max-width: 768px) {
+  .print-button-mobile {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: #1a4d2e;
+    color: white;
+    border: none;
+    padding: 1rem 1.5rem;
+    border-radius: 50px;
+    box-shadow: 0 4px 12px rgba(26, 77, 46, 0.4);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .print-button-mobile:active {
+    transform: scale(0.95);
+  }
+}

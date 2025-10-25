@@ -258,8 +258,8 @@ class ComprehensivePlanningAnalyzer:
         medium_useful = {k: v for k, v in usefulness_scores.items() if 60 <= v < 80}
         low_useful = {k: v for k, v in usefulness_scores.items() if v < 60}
 
-        print("
-📊 USEFULNESS SCORING:"        print(f"   • High usefulness (80+): {len(high_useful)} documents")
+        print("\n📊 USEFULNESS SCORING:")
+        print(f"   • High usefulness (80+): {len(high_useful)} documents")
         print(f"   • Medium usefulness (60-79): {len(medium_useful)} documents")
         print(f"   • Low usefulness (<60): {len(low_useful)} documents")
 
@@ -310,8 +310,8 @@ class ComprehensivePlanningAnalyzer:
         needed = {k: v for k, v in completion_status.items() if v == 'needed'}
         divergent = {k: v for k, v in completion_status.items() if v == 'divergent'}
 
-        print("
-📋 COMPLETION STATUS:"        print(f"   • Complete: {len(complete)} documents")
+        print("\n📋 COMPLETION STATUS:")
+        print(f"   • Complete: {len(complete)} documents")
         print(f"   • Still needed: {len(needed)} documents")
         print(f"   • Divergent: {len(divergent)} documents")
 
@@ -379,8 +379,8 @@ class ComprehensivePlanningAnalyzer:
 
         self.analysis_results['relationship_graph'] = dict(relationship_graph)
 
-        print("
-🔗 RELATIONSHIP GRAPH BUILT:"        print(f"   • {len(relationship_graph)} documents with relationships")
+        print("\n🔗 RELATIONSHIP GRAPH BUILT:")
+        print(f"   • {len(relationship_graph)} documents with relationships")
         print(f"   • {sum(len(rels) for rels in relationship_graph.values())} total relationships")
 
     def documents_related(self, doc1, doc2):
@@ -462,8 +462,8 @@ class ComprehensivePlanningAnalyzer:
 
         self.analysis_results['recommendations'] = recommendations
 
-        print("
-💡 RECOMMENDATIONS GENERATED:"        print(f"   • {len(recommendations)} actionable recommendations")
+        print("\n💡 RECOMMENDATIONS GENERATED:")
+        print(f"   • {len(recommendations)} actionable recommendations")
         for rec in recommendations:
             print(f"   • {rec['title']}: {rec['description']}")
 
@@ -604,8 +604,8 @@ def main():
     analyzer = ComprehensivePlanningAnalyzer()
     results = analyzer.analyze_all_planning()
 
-    print("
-🎊 COMPREHENSIVE PLANNING ANALYSIS COMPLETE!"    print("   - Analyzed all planning and coordination documents")
+    print("\n🎊 COMPREHENSIVE PLANNING ANALYSIS COMPLETE!")
+    print("   - Analyzed all planning and coordination documents")
     print("   - Scored by usefulness and relevance")
     print("   - Identified completion status and conflicts")
     print("   - Built intelligent relationship graph")
