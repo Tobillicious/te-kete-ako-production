@@ -8,7 +8,7 @@
  * ================================================================
  */
 
-const CACHE_VERSION = 'te-kete-ako-v2.1-oct22-bugfix-clean';
+const CACHE_VERSION = 'te-kete-ako-v1.0.6-oct24-singleton-fixes';
 const CACHE_STATIC = `${CACHE_VERSION}-static`;
 const CACHE_DYNAMIC = `${CACHE_VERSION}-dynamic`;
 
