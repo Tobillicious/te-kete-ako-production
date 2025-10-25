@@ -37,27 +37,28 @@ def clean_path(path: str) -> str:
     
     return path
 
-def get_priority(resource_type: str, featured: bool, quality_score: int = None) -> float:
+def get_priority(resource_type: str, quality_score: int = None) -> float:
     """Calculate URL priority based on resource metadata"""
     base_priority = {
         'lesson': 0.9,
         'unit-plan': 1.0,
+        'unit': 1.0,
         'handout': 0.7,
         'game': 0.8,
         'assessment': 0.8,
         'activity': 0.7,
         'interactive': 0.8,
-        'video': 0.6
+        'video': 0.6,
+        'hub': 0.85,
+        'other': 0.5
     }.get(resource_type, 0.5)
-    
-    # Boost for featured resources
-    if featured:
-        base_priority = min(1.0, base_priority + 0.1)
-    
-    # Boost for high quality
+
+    # Boost for high quality (Gold Standard: 90+)
     if quality_score and quality_score >= 90:
+        base_priority = min(1.0, base_priority + 0.2)
+    elif quality_score and quality_score >= 80:
         base_priority = min(1.0, base_priority + 0.1)
-    
+
     return round(base_priority, 2)
 
 def get_changefreq(resource_type: str) -> str:
@@ -90,23 +91,26 @@ def generate_sitemap():
     # Query all public resources
     print("📊 Querying resources from database...")
     
-    response = supabase.table('resources').select(
-        'path, title, type, updated_at, featured'
-    ).eq('is_active', True).is_('path', 'not.null').order(
-        'featured', desc=True
-    ).order('type').execute()
+    response = supabase.table('graphrag_resources').select(
+        'file_path, title, resource_type, updated_at, quality_score'
+    ).eq('archive_status', 'active').not_.is_(None, 'file_path').limit(25000).execute()
     
     resources = response.data
     
-    # Filter out private/system pages
+    # Filter out private/system pages and non-public resources
     exclude_patterns = [
         'login', 'register', 'dashboard', 'my-kete', 'reset-password',
-        'forgot-password', 'coordination', 'docs', 'site-crawl'
+        'forgot-password', 'coordination', 'docs', 'site-crawl',
+        'components/', 'css/', 'js/', 'images/', 'api/', '.bak'
     ]
-    
+
     filtered_resources = []
     for resource in resources:
-        path = resource['path']
+        path = resource['file_path']
+        # Only include public HTML files
+        if not (path.startswith('/public/') and (path.endswith('.html') or '/' in path)):
+            continue
+        # Skip excluded patterns
         if any(pattern in path.lower() for pattern in exclude_patterns):
             continue
         filtered_resources.append(resource)
@@ -149,30 +153,30 @@ def generate_sitemap():
     print("🔨 Building sitemap URLs...")
     
     for resource in filtered_resources:
-        path = clean_path(resource['path'])
-        
+        path = clean_path(resource['file_path'])
+
         # Skip invalid paths
         if not path or path == '/':
             continue
-        
+
         url = ET.SubElement(urlset, 'url')
         ET.SubElement(url, 'loc').text = SITE_URL + path
-        
+
         # Last modified date
         if resource.get('updated_at'):
             lastmod = resource['updated_at'].split('T')[0]  # Get YYYY-MM-DD
             ET.SubElement(url, 'lastmod').text = lastmod
         else:
             ET.SubElement(url, 'lastmod').text = datetime.now().strftime('%Y-%m-%d')
-        
+
         # Change frequency
-        changefreq = get_changefreq(resource.get('type', 'other'))
+        changefreq = get_changefreq(resource.get('resource_type', 'other'))
         ET.SubElement(url, 'changefreq').text = changefreq
-        
+
         # Priority
         priority = get_priority(
-            resource.get('type', 'other'),
-            resource.get('featured', False)
+            resource.get('resource_type', 'other'),
+            resource.get('quality_score')
         )
         ET.SubElement(url, 'priority').text = str(priority)
     
