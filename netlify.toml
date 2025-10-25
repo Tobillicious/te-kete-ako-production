@@ -1,155 +1,23 @@
 [build]
-  base = "."
   publish = "public"
-  command = "echo 'CSS pre-built and committed - deploying static files'"
+  functions = "netlify/functions"
 
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    Content-Security-Policy = '''
-      default-src 'self';
-      script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://fonts.googleapis.com https://www.youtube.com https://*.supabase.co;
-      script-src-elem 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com https://fonts.gstatic.com https://*.supabase.co;
-      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.tailwindcss.com;
-      font-src 'self' https://fonts.gstatic.com;
-      connect-src 'self' https://*.supabase.co https://nlgldaqtubrlcqddppbq.supabase.co https://api.exa.ai https://api.deepseek.com https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.jsdelivr.net wss://*.supabase.co;
-      img-src 'self' data: https: blob:;
-      frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com;
-      object-src 'none';
-      base-uri 'self';
-      form-action 'self';
-      frame-ancestors 'none';
-      worker-src 'self' blob:;
-    '''
+[build.environment]
+  NODE_VERSION = "18"
 
-[[headers]]
-  for = "*.js"
-  [headers.values]
-    Content-Type = "application/javascript; charset=utf-8"
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "*.css"
-  [headers.values]
-    Content-Type = "text/css; charset=utf-8"
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/css/tailwind.css"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-    
-[[headers]]
-  for = "/icons/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[redirects]]
-  from = "/index"
-  to = "/index.html"
-  status = 301
-
-[[redirects]]
-  from = "/curriculum"
-  to = "/curriculum-alignment.html"
-  status = 301
-
-[[redirects]]
-  from = "/maori-wordle"
-  to = "/games/te-reo-wordle.html"
-  status = 301
-
-[[redirects]]
-  from = "/activities"
-  to = "/activities.html"
-  status = 301
+# Environment variables (set these in Netlify dashboard for security)
+# STRIPE_SECRET_KEY=sk_test_...
+# STRIPE_PUBLISHABLE_KEY=pk_test_...
+# POSTHOG_API_KEY=phc_...
+# ANTHROPIC_API_KEY=sk-ant-...
 
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
 
-# Allow direct access to these specific pages
 [[redirects]]
-  from = "/handouts.html"
-  to = "/handouts.html"
-  status = 200
-
-[[redirects]]
-  from = "/youtube.html"
-  to = "/youtube.html"
-  status = 200
-
-[[redirects]]
-  from = "/lessons.html"
-  to = "/lessons.html"
-  status = 200
-
-[[redirects]]
-  from = "/resource-hub.html"
-  to = "/resource-hub.html"
-  status = 200
-
-[[redirects]]
-  from = "/curriculum-index.html"
-  to = "/curriculum-index.html"
-  status = 200
-
-[[redirects]]
-  from = "/teachers/index.html"
-  to = "/teachers/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/games.html"
-  to = "/games.html"
-  status = 200
-
-[[redirects]]
-  from = "/guided-inquiry-unit/*"
-  to = "/guided-inquiry-unit/:splat"
-  status = 200
-
-[[redirects]]
-  from = "/units/*"
-  to = "/units/:splat"
-  status = 200
-
-[[redirects]]
-  from = "/lessons/*"
-  to = "/lessons/:splat"
-  status = 200
-
-[[redirects]]
-  from = "/handouts/*"
-  to = "/handouts/:splat"
-  status = 200
-
-[[redirects]]
-  from = "/404"
+  from = "/*"
   to = "/index.html"
-  status = 404
-
-# NO catch-all redirect - this is a static site, not SPA
-# Files should be served directly, only actual 404s go to index
-
-[build.environment]
-  NODE_VERSION = "18"
-
-# Build hooks for validation and testing
-[build.lifecycle]
-  onInit = "echo 'Starting build process...'"
-  onDev = "echo 'Development mode'"
-  # preBuild = "npm run predeploy"  # Disabled - static site
-  onBuild = "echo 'Building...'"
-  onSuccess = "echo 'Build successful - Te Kete Ako deployed!'"
-  onFailure = "echo 'Build failed!'"
-
-[[headers]]
-  for = "*.css"
-  [headers.values]
-    Content-Type = "text/css; charset=utf-8"
+  status = 200
+  force = false

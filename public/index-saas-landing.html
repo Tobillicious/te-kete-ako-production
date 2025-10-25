@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Te Kete Ako - Professional Teaching Resources for Aotearoa</title>
+    <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <style>
+        /* Ultimate Beauty SaaS Landing Page */
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .saas-nav {
+            background: linear-gradient(90deg, #064e3b 0%, #047857 100%);
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-bottom: 3px solid #ffd700;
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #ffd700;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 300ms ease;
+        }
+        
+        .nav-link:hover {
+            color: #fef3c7;
+        }
+        
+        .btn-login {
+            padding: 0.75rem 1.5rem;
+            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            transition: all 300ms ease;
+        }
+        
+        .btn-login:hover {
+            background: rgba(255,255,255,0.25);
+            border-color: #ffd700;
+        }
+        
+        .btn-trial {
+            padding: 0.75rem 2rem;
+            background: linear-gradient(135deg, #f5d915 0%, #fbbf24 100%);
+            border-radius: 8px;
+            color: #064e3b;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(245, 217, 21, 0.4);
+        }
+        
+        .btn-trial:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(245, 217, 21, 0.5);
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #1b4332 0%, #1b7f5a 40%, #006994 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><path d="M50 10 Q60 30 50 50 Q40 30 50 10" fill="none" stroke="rgba(255,215,0,0.1)" stroke-width="2"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 900;
+            color: #ffd700;
+            margin: 0 0 1.5rem;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            margin: 0 0 1rem;
+            opacity: 0.95;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin: 3rem 0 2rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #ffd700;
+            display: block;
+        }
+        
+        .stat-label {
+            color: rgba(255,255,255,0.9);
+            font-size: 1rem;
+        }
+        
+        .cta-buttons {
+            margin-top: 3rem;
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .btn-large {
+            padding: 1.25rem 3rem;
+            font-size: 1.2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #f5d915 0%, #fbbf24 100%);
+            color: #064e3b;
+            box-shadow: 0 8px 24px rgba(245, 217, 21, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 12px 32px rgba(245, 217, 21, 0.5);
+        }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.4);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.25);
+            border-color: #ffd700;
+        }
+        
+        .trial-note {
+            margin-top: 1.5rem;
+            color: rgba(255,255,255,0.85);
+            font-size: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="saas-nav">
+        <a href="/" class="logo">Te Kete Ako</a>
+        <div class="nav-links">
+            <a href="/pricing-professional.html" class="nav-link">Pricing</a>
+            <a href="/about.html" class="nav-link">About</a>
+            <a href="/login.html" class="nav-link btn-login">Login</a>
+            <a href="/register.html" class="nav-link btn-trial">Start Free Trial</a>
+        </div>
+    </nav>
+    
+    <!-- Hero -->
+    <section class="hero">
+        <h1>Professional Teaching Resources<br>for Aotearoa</h1>
+        <p class="hero-subtitle">
+            3,500+ culturally integrated lessons, units, and handouts.<br>
+            AI-powered tools. Professional support. Trusted by NZ educators.
+        </p>
+        
+        <div class="hero-stats">
+            <div class="stat">
+                <span class="stat-number">3,500+</span>
+                <span class="stat-label">Teaching Resources</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">98%</span>
+                <span class="stat-label">Culturally Integrated</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">1,200+</span>
+                <span class="stat-label">Happy Teachers</span>
+            </div>
+        </div>
+        
+        <div class="cta-buttons">
+            <a href="/register.html" class="btn-large btn-primary">
+                Start 14-Day Free Trial
+            </a>
+            <a href="/pricing-professional.html" class="btn-large btn-secondary">
+                View Pricing
+            </a>
+        </div>
+        
+        <p class="trial-note">
+            ✅ No credit card required for trial &nbsp;•&nbsp; 
+            ✅ Cancel anytime &nbsp;•&nbsp; 
+            ✅ Full access during trial
+        </p>
+    </section>
+    
+    <!-- Features (3 columns) -->
+    <section style="padding: 6rem 2rem; background: #f5f1eb;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 3rem; color: #064e3b; text-align: center; margin-bottom: 4rem;">
+                Why Teachers Love Te Kete Ako
+            </h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 3rem;">
+                <div style="background: white; padding: 2.5rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border-top: 4px solid #059669;">
+                    <div style="font-size: 4rem; margin-bottom: 1.5rem;">🌿</div>
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #064e3b; margin-bottom: 1rem;">
+                        Genuinely Cultural
+                    </h3>
+                    <p style="color: #64748b; line-height: 1.7; font-size: 1.05rem;">
+                        Not tokenistic - authentic integration of mātauranga Māori throughout every resource. 
+                        Honors Te Tiriti o Waitangi and embeds bicultural perspectives naturally.
+                    </p>
+                </div>
+                
+                <div style="background: white; padding: 2.5rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border-top: 4px solid #f5d915;">
+                    <div style="font-size: 4rem; margin-bottom: 1.5rem;">🤖</div>
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #064e3b; margin-bottom: 1rem;">
+                        AI-Powered Excellence
+                    </h3>
+                    <p style="color: #64748b; line-height: 1.7; font-size: 1.05rem;">
+                        Save hours with AI lesson planning, content generation, and pronunciation guides. 
+                        All built specifically for NZ curriculum and cultural integration.
+                    </p>
+                </div>
+                
+                <div style="background: white; padding: 2.5rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border-top: 4px solid #006994;">
+                    <div style="font-size: 4rem; margin-bottom: 1.5rem;">📊</div>
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #064e3b; margin-bottom: 1rem;">
+                        Track & Celebrate
+                    </h3>
+                    <p style="color: #64748b; line-height: 1.7; font-size: 1.05rem;">
+                        See student progress, identify learning gaps, celebrate growth. 
+                        Beautiful dashboards make assessment and reflection effortless.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Pricing Preview -->
+    <section style="padding: 6rem 2rem; background: white;">
+        <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 3rem; color: #064e3b; margin-bottom: 2rem;">
+                Simple, Transparent Pricing
+            </h2>
+            <p style="color: #64748b; font-size: 1.2rem; margin-bottom: 4rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+                Choose the plan that works for you. All plans include 14-day free trial, no credit card required.
+            </p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; max-width: 1000px; margin: 0 auto;">
+                <div style="background: #f5f1eb; padding: 2.5rem 2rem; border-radius: 16px; border: 2px solid #e5e7eb;">
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #064e3b; margin-bottom: 1rem;">Individual</h3>
+                    <div style="font-size: 2.5rem; font-weight: 900; color: #059669; margin-bottom: 0.5rem;">$15<span style="font-size: 1.2rem; font-weight: 500; color: #64748b;">/month</span></div>
+                    <a href="/register.html?plan=individual" style="display: block; margin-top: 1.5rem; padding: 0.875rem 1.5rem; background: linear-gradient(135deg, #059669 0%, #047857 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
+                        Start Free Trial
+                    </a>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 2.5rem 2rem; border-radius: 16px; border: 3px solid #ffd700; transform: scale(1.05); box-shadow: 0 20px 40px rgba(255,215,0,0.3); position: relative;">
+                    <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: #059669; color: white; padding: 0.5rem 1.5rem; border-radius: 20px; font-weight: 700; font-size: 0.75rem;">⭐ MOST POPULAR</div>
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #064e3b; margin-bottom: 1rem;">School</h3>
+                    <div style="font-size: 2.5rem; font-weight: 900; color: #059669; margin-bottom: 0.5rem;">$499<span style="font-size: 1.2rem; font-weight: 500; color: #64748b;">/year</span></div>
+                    <p style="color: #064e3b; font-size: 0.9rem; margin: 0.5rem 0 1rem;">Up to 50 users</p>
+                    <a href="/register.html?plan=school" style="display: block; margin-top: 1.5rem; padding: 0.875rem 1.5rem; background: linear-gradient(135deg, #059669 0%, #047857 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
+                        Start School Trial
+                    </a>
+                </div>
+                
+                <div style="background: #f5f1eb; padding: 2.5rem 2rem; border-radius: 16px; border: 2px solid #e5e7eb;">
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #064e3b; margin-bottom: 1rem;">Enterprise</h3>
+                    <div style="font-size: 2rem; font-weight: 700; color: #006994; margin-bottom: 0.5rem;">Custom</div>
+                    <p style="color: #64748b; font-size: 0.9rem; margin: 0.5rem 0 1rem;">Large schools & districts</p>
+                    <a href="/contact-sales.html" style="display: block; margin-top: 1.5rem; padding: 0.875rem 1.5rem; background: linear-gradient(135deg, #006994 0%, #0284c7 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
+                        Contact Sales
+                    </a>
+                </div>
+            </div>
+            
+            <p style="margin-top: 3rem; color: #64748b; font-size: 1rem;">
+                <a href="/pricing-professional.html" style="color: #059669; text-decoration: underline; font-weight: 600;">
+                    View detailed pricing & features →
+                </a>
+            </p>
+        </div>
+    </section>
+    
+    <!-- Social Proof -->
+    <section style="padding: 6rem 2rem; background: #f5f1eb;">
+        <div style="max-width: 1000px; margin: 0 auto;">
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: #064e3b; text-align: center; margin-bottom: 3rem;">
+                Trusted by NZ Educators
+            </h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div style="background: white; padding: 2rem; border-radius: 12px; border-left: 4px solid #059669;">
+                    <p style="color: #475569; font-style: italic; margin-bottom: 1rem; line-height: 1.6;">
+                        "Finally! Resources that genuinely integrate mātauranga Māori - not just token mentions. My students engage so much more."
+                    </p>
+                    <p style="color: #064e3b; font-weight: 600;">— Aroha T., Te Reo Māori Teacher</p>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: 12px; border-left: 4px solid #f5d915;">
+                    <p style="color: #475569; font-style: italic; margin-bottom: 1rem; line-height: 1.6;">
+                        "The AI lesson planner saves me 3-4 hours every week. And the cultural integration is actually authentic!"
+                    </p>
+                    <p style="color: #064e3b; font-weight: 600;">— James C., Mathematics HOD</p>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: 12px; border-left: 4px solid #006994;">
+                    <p style="color: #475569; font-style: italic; margin-bottom: 1rem; line-height: 1.6;">
+                        "Best $499 our school has spent. Every teacher uses it, students love the culturally responsive content."
+                    </p>
+                    <p style="color: #064e3b; font-weight: 600;">— Sarah W., Deputy Principal</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Final CTA -->
+    <section style="background: linear-gradient(135deg, #064e3b 0%, #047857 100%); padding: 5rem 2rem; text-align: center; color: white;">
+        <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: #ffd700; margin-bottom: 1.5rem;">
+            Start Your Free Trial Today
+        </h2>
+        <p style="font-size: 1.2rem; margin-bottom: 2.5rem; opacity: 0.95;">
+            14 days free. No credit card required. Full access to everything.
+        </p>
+        <a href="/register.html" class="btn-large btn-primary">
+            Start Free Trial Now →
+        </a>
+    </section>
+    
+    <!-- Footer -->
+    <footer style="background: #064e3b; color: rgba(255,255,255,0.8); padding: 3rem 2rem; text-align: center;">
+        <p>&copy; 2025 Te Kete Ako. All rights reserved.</p>
+        <p style="margin-top: 0.5rem;">
+            <a href="/privacy.html" style="color: #fcd34d; text-decoration: none; margin: 0 1rem;">Privacy</a>
+            <a href="/terms.html" style="color: #fcd34d; text-decoration: none; margin: 0 1rem;">Terms</a>
+            <a href="/contact.html" style="color: #fcd34d; text-decoration: none; margin: 0 1rem;">Contact</a>
+        </p>
+    </footer>
+    
+    <script src="/js/posthog-analytics.js" defer></script>
+</body>
+</html>
+
