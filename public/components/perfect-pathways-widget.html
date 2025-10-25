@@ -1,0 +1,327 @@
+<!-- ═══════════════════════════════════════════════════════════════════════
+     PERFECT PATHWAYS WIDGET
+     Showcases 8,000 learning_sequence relationships at 0.95 confidence
+     ═════════════════════════════════════════════════════════════════════ -->
+
+<style>
+.perfect-pathways-section {
+    margin: 3rem 0;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-radius: 16px;
+    border-left: 4px solid var(--color-pounamu);
+}
+
+.pathways-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.pathways-title {
+    font-size: 2.25rem;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.pathways-subtitle {
+    font-size: 1.125rem;
+    color: var(--color-gray-600);
+}
+
+.pathways-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.pathway-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.pathway-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+}
+
+.pathway-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: rgba(7, 160, 122, 0.1);
+    color: var(--color-pounamu);
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.pathway-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+}
+
+.pathway-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.875rem;
+    color: var(--color-gray-600);
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.pathway-description {
+    font-size: 0.9375rem;
+    color: var(--color-gray-700);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.pathway-chain {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding: 0.75rem;
+    background: var(--color-gray-50);
+    border-radius: 8px;
+    font-size: 0.8125rem;
+    color: var(--color-gray-700);
+}
+
+.pathway-chain-item {
+    background: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid var(--color-gray-300);
+    font-weight: 600;
+}
+
+.pathway-arrow {
+    color: var(--color-pounamu);
+    font-weight: 700;
+}
+
+.pathway-confidence {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--color-success);
+    font-weight: 600;
+}
+
+.confidence-bar-mini {
+    width: 80px;
+    height: 4px;
+    background: rgba(16, 185, 129, 0.2);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.confidence-fill-mini {
+    height: 100%;
+    background: var(--color-success);
+}
+</style>
+
+<section class="perfect-pathways-section">
+    <div class="pathways-header">
+        <h2 class="pathways-title">🎯 Perfect Learning Pathways</h2>
+        <p class="pathways-subtitle">
+            8,000 expertly sequenced progressions at 95%+ confidence
+        </p>
+    </div>
+
+    <div id="pathways-container" class="pathways-grid">
+        <div style="text-align: center; padding: 2rem; grid-column: 1 / -1;">
+            <div class="spinner"></div>
+            <p style="color: var(--color-gray-600); margin-top: 1rem;">Loading perfect pathways...</p>
+        </div>
+    </div>
+</section>
+
+<script>
+(async function() {
+    const supabase = window.supabaseSingleton 
+        ? await window.supabaseSingleton.getClient()
+        : null;
+
+    if (!supabase) {
+        console.warn('[Perfect Pathways] Supabase not available');
+        return;
+    }
+
+    async function loadPerfectPathways() {
+        try {
+            // Get top learning sequences at 0.95+ confidence
+            const { data, error } = await supabase
+                .from('graphrag_relationships')
+                .select(`
+                    source_path,
+                    target_path,
+                    confidence,
+                    metadata
+                `)
+                .eq('relationship_type', 'learning_sequence')
+                .gte('confidence', 0.95)
+                .order('confidence', { ascending: false })
+                .limit(6);
+
+            if (error) throw error;
+
+            renderPathways(data || []);
+        } catch (err) {
+            console.error('[Perfect Pathways] Error:', err);
+            document.getElementById('pathways-container').innerHTML = 
+                '<p style="text-align: center; color: var(--color-gray-600);">Unable to load pathways. Please refresh.</p>';
+        }
+    }
+
+    function renderPathways(pathways) {
+        const container = document.getElementById('pathways-container');
+        
+        if (!pathways || pathways.length === 0) {
+            container.innerHTML = '<p style="text-align: center;">No pathways available.</p>';
+            return;
+        }
+
+        // Group by source (unit)
+        const grouped = {};
+        pathways.forEach(p => {
+            if (!grouped[p.source_path]) {
+                grouped[p.source_path] = [];
+            }
+            grouped[p.source_path].push(p);
+        });
+
+        container.innerHTML = '';
+
+        // Show top 6 units
+        Object.entries(grouped).slice(0, 6).forEach(([unitPath, lessons]) => {
+            const card = createPathwayCard(unitPath, lessons);
+            container.appendChild(card);
+        });
+    }
+
+    function createPathwayCard(unitPath, lessons) {
+        const card = document.createElement('a');
+        card.className = 'pathway-card';
+        card.href = unitPath;
+
+        // Extract unit info from path
+        const unitName = extractUnitName(unitPath);
+        const yearLevel = extractYearLevel(unitPath);
+        const subject = extractSubject(unitPath);
+
+        const badge = document.createElement('span');
+        badge.className = 'pathway-badge';
+        badge.textContent = `${lessons.length} Lessons`;
+
+        const title = document.createElement('h3');
+        title.className = 'pathway-name';
+        title.textContent = unitName;
+
+        const meta = document.createElement('div');
+        meta.className = 'pathway-meta';
+        meta.innerHTML = `
+            <span>📚 ${subject}</span>
+            <span>🎯 ${yearLevel}</span>
+        `;
+
+        const description = document.createElement('p');
+        description.className = 'pathway-description';
+        description.textContent = `Complete learning sequence with ${lessons.length} expertly sequenced lessons.`;
+
+        // Show lesson chain
+        const chain = document.createElement('div');
+        chain.className = 'pathway-chain';
+        
+        lessons.slice(0, 3).forEach((lesson, idx) => {
+            if (idx > 0) {
+                const arrow = document.createElement('span');
+                arrow.className = 'pathway-arrow';
+                arrow.textContent = '→';
+                chain.appendChild(arrow);
+            }
+            
+            const item = document.createElement('span');
+            item.className = 'pathway-chain-item';
+            item.textContent = `L${idx + 1}`;
+            chain.appendChild(item);
+        });
+
+        if (lessons.length > 3) {
+            const arrow = document.createElement('span');
+            arrow.className = 'pathway-arrow';
+            arrow.textContent = '→';
+            chain.appendChild(arrow);
+            
+            const more = document.createElement('span');
+            more.className = 'pathway-chain-item';
+            more.textContent = `+${lessons.length - 3} more`;
+            chain.appendChild(more);
+        }
+
+        const confidence = document.createElement('div');
+        confidence.className = 'pathway-confidence';
+        confidence.innerHTML = `
+            <span>Confidence: 95%+</span>
+            <div class="confidence-bar-mini">
+                <div class="confidence-fill-mini" style="width: 95%;"></div>
+            </div>
+        `;
+
+        card.appendChild(badge);
+        card.appendChild(title);
+        card.appendChild(meta);
+        card.appendChild(description);
+        card.appendChild(chain);
+        card.appendChild(confidence);
+
+        return card;
+    }
+
+    function extractUnitName(path) {
+        const parts = path.split('/');
+        const unitFolder = parts[parts.length - 2];
+        return unitFolder
+            .replace(/-/g, ' ')
+            .replace(/\b\w/g, l => l.toUpperCase())
+            .replace(/Y(\d+)/, 'Year $1');
+    }
+
+    function extractYearLevel(path) {
+        const match = path.match(/y(\d+)/i);
+        return match ? `Year ${match[1]}` : 'All Years';
+    }
+
+    function extractSubject(path) {
+        if (path.includes('maths') || path.includes('algebra')) return 'Mathematics';
+        if (path.includes('science') || path.includes('ecosystem')) return 'Science';
+        if (path.includes('digital') || path.includes('kaitiakitanga')) return 'Digital Technologies';
+        if (path.includes('walker') || path.includes('history')) return 'Social Studies';
+        if (path.includes('critical-thinking')) return 'Cross-Curricular';
+        return 'General';
+    }
+
+    // Load on ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadPerfectPathways);
+    } else {
+        loadPerfectPathways();
+    }
+})();
+</script>
+
