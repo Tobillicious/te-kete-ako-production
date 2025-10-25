@@ -1,0 +1,395 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   INLINE STYLE REPLACEMENTS
+   ═══════════════════════════════════════════════════════════════════════════
+   
+   This file provides CSS classes that replace the 965+ inline styles in the codebase.
+   Goal: Transition from style="..." to class="..." 
+   
+   MIGRATION PLAN:
+   1. These classes are already available in index.html via cascade-fix.css
+   2. Find and replace inline styles with class names
+   3. Test on each page
+   4. Remove inline style attributes
+   
+   COMMON PATTERNS (from analysis of index.html):
+   - Linear gradients (background: linear-gradient...)
+   - Flexbox layouts (display: flex; ...)
+   - Text alignment (text-align: ...)
+   - Opacity (opacity: ...)
+   - Font sizes (font-size: ...)
+   
+   ═════════════════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────────────────────
+   COMMON GRADIENT BACKGROUNDS
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* Primary gradient (forest green to darker green) */
+.gradient-primary {
+  background: linear-gradient(135deg, #1a4d2e 0%, #0f2818 100%);
+}
+
+/* Secondary gradient (light to accent) */
+.gradient-primary-light {
+  background: linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 100%);
+}
+
+/* Warm gradient (gold/amber) */
+.gradient-warm {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+}
+
+/* Rose gradient */
+.gradient-rose {
+  background: linear-gradient(135deg, #fce7f3 0%, #fdf2f8 100%);
+}
+
+/* Indigo gradient */
+.gradient-indigo {
+  background: linear-gradient(135deg, #e0e7ff 0%, #eef2ff 100%);
+}
+
+/* Slate gradient (neutral) */
+.gradient-slate {
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   LAYOUT UTILITIES
+   ───────────────────────────────────────────────────────────────────────── */
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-around {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.grid-auto-fit {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
+
+.grid-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+}
+
+@media (max-width: 768px) {
+  .grid-auto-fit,
+  .grid-3col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   TEXT ALIGNMENT
+   ───────────────────────────────────────────────────────────────────────── */
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   OPACITY & TRANSPARENCY
+   ───────────────────────────────────────────────────────────────────────── */
+
+.opacity-50 {
+  opacity: 0.5;
+}
+
+.opacity-75 {
+  opacity: 0.75;
+}
+
+.opacity-80 {
+  opacity: 0.8;
+}
+
+.opacity-90 {
+  opacity: 0.9;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   MAX-WIDTH CONTAINERS
+   ───────────────────────────────────────────────────────────────────────── */
+
+.max-w-xs {
+  max-width: 20rem;
+}
+
+.max-w-sm {
+  max-width: 24rem;
+}
+
+.max-w-md {
+  max-width: 28rem;
+}
+
+.max-w-lg {
+  max-width: 32rem;
+}
+
+.max-w-xl {
+  max-width: 36rem;
+}
+
+.max-w-2xl {
+  max-width: 42rem;
+}
+
+.max-w-3xl {
+  max-width: 48rem;
+}
+
+.max-w-full {
+  max-width: 100%;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   SPACING UTILITIES (margin & padding)
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* Margin top */
+.mt-0 {
+  margin-top: 0;
+}
+.mt-2 {
+  margin-top: var(--space-2);
+}
+.mt-4 {
+  margin-top: var(--space-4);
+}
+.mt-6 {
+  margin-top: var(--space-6);
+}
+.mt-8 {
+  margin-top: var(--space-8);
+}
+.mt-12 {
+  margin-top: var(--space-12);
+}
+
+/* Margin bottom */
+.mb-0 {
+  margin-bottom: 0;
+}
+.mb-2 {
+  margin-bottom: var(--space-2);
+}
+.mb-4 {
+  margin-bottom: var(--space-4);
+}
+.mb-6 {
+  margin-bottom: var(--space-6);
+}
+.mb-8 {
+  margin-bottom: var(--space-8);
+}
+.mb-12 {
+  margin-bottom: var(--space-12);
+}
+
+/* Margin auto (centering) */
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Padding utilities */
+.p-4 {
+  padding: var(--space-4);
+}
+.p-6 {
+  padding: var(--space-6);
+}
+.p-8 {
+  padding: var(--space-8);
+}
+.px-4 {
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+.py-4 {
+  padding-top: var(--space-4);
+  padding-bottom: var(--space-4);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   COMMON INLINE STYLE COMBINATIONS (frequently used patterns)
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* Primary section with centered content */
+.section-primary-centered {
+  background: linear-gradient(135deg, #1a4d2e 0%, #0f2818 100%);
+  padding: var(--space-16) var(--space-6);
+  text-align: center;
+}
+
+/* Card header with gradient */
+.card-header-gradient-light {
+  background: linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 100%);
+}
+
+/* Stat item layout */
+.stat-item {
+  text-align: center;
+}
+
+/* Stats container */
+.stats-container {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-8);
+  margin-top: var(--space-8);
+  opacity: 0.9;
+}
+
+/* Featured badge */
+.featured-badge {
+  font-size: var(--text-xs);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-lg);
+  display: inline-block;
+}
+
+/* Hero description text */
+.hero-description-text {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: var(--text-lg);
+}
+
+/* ═════════════════════════════════════════════════════════════════════════
+   HERO SECTION & AUDIENCE CARDS
+   ═════════════════════════════════════════════════════════════════════════ */
+
+/* Hero container wrapper */
+.hero-container-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Audience cards grid */
+.audience-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Individual audience card */
+.audience-card-styled {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 16px;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  display: block;
+  color: inherit;
+}
+
+/* Audience card hover effect */
+.audience-card-styled:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Audience card with teacher accent */
+.audience-card-teacher {
+  border-top: 6px solid #f59e0b;
+}
+
+/* Audience card with student accent */
+.audience-card-student {
+  border-top: 6px solid #3b82f6;
+}
+
+/* Audience card with browse accent */
+.audience-card-browse {
+  border-top: 6px solid #10b981;
+}
+
+/* Large emoji/icon in card */
+.card-icon-large {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+/* Card headline */
+.card-headline {
+  font-size: 1.75rem;
+  color: #1a4d2e;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+}
+
+/* Card description text */
+.card-description {
+  color: #546e7a;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* Card CTA text */
+.card-cta {
+  margin-top: 1.5rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* Card CTA - Teacher theme (amber) */
+.card-cta-teacher {
+  color: #f59e0b;
+}
+
+/* Card CTA - Student theme (blue) */
+.card-cta-student {
+  color: #3b82f6;
+}
+
+/* Card CTA - Browse theme (green) */
+.card-cta-browse {
+  color: #10b981;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   END INLINE STYLE REPLACEMENTS
+   ═════════════════════════════════════════════════════════════════════════ */
