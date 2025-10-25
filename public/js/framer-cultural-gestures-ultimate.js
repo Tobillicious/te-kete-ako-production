@@ -9,8 +9,7 @@ if (window.TeKeteUltimateCulturalGestures || window.hasFramerMotion !== undefine
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-  // Exit early to prevent identifier conflicts
+        // Exit early to prevent identifier conflicts
   if (typeof module !== 'undefined' && module.exports) { module.exports = window.TeKeteUltimateCulturalGestures; }
 } else {
 

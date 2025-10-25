@@ -64,8 +64,7 @@ class TeKeteOAuth {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.showError('Google sign-in failed. Please try again.');
+        this.showError('Google sign-in failed. Please try again.');
         }
     }
 
@@ -94,8 +93,7 @@ class TeKeteOAuth {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.showError('Microsoft sign-in failed. Please try again.');
+        this.showError('Microsoft sign-in failed. Please try again.');
         }
     }
 
@@ -140,8 +138,7 @@ class TeKeteOAuth {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.showError('Authentication failed. Please try again.');
+        this.showError('Authentication failed. Please try again.');
         }
     }
 

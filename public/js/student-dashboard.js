@@ -26,7 +26,6 @@ async function initStudentDashboard() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         showError('Unable to connect. Please refresh the page.');
         return;
     }
@@ -109,7 +108,6 @@ async function loadStudentProfile(userId) {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         showError('Unable to load your profile. Please try again.');
     }
 }
@@ -165,7 +163,6 @@ async function loadProgressData() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         // Continue with default values
     }
 }
@@ -275,8 +272,7 @@ async function loadRecommendedResources() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-    }
+        }
 }
 
 /**
@@ -325,8 +321,7 @@ async function loadMyClasses() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-    }
+        }
 }
 
 /**
@@ -369,8 +364,7 @@ async function loadSavedResources() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-    }
+        }
 }
 
 /**

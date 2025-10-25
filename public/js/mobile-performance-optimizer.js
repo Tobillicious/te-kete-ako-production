@@ -729,8 +729,6 @@ class MobilePerformanceOptimizer {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-        
         // Show user-friendly notification if performance is severely impacted
         if (this.isSlowConnection) {
             this.showConnectionIndicator('slow');

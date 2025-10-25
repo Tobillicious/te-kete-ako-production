@@ -109,8 +109,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-      this.hideLoading();
+        this.hideLoading();
       return [];
     }
   }
@@ -163,8 +162,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-      return { current: [], variants: [] };
+        return { current: [], variants: [] };
     }
   }
 
@@ -214,8 +212,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-      return [];
+        return [];
     }
   }
 
@@ -246,8 +243,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-      return [];
+        return [];
     }
   }
 
@@ -291,8 +287,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-      return { total: 0, byType: {}, bySubject: {} };
+        return { total: 0, byType: {}, bySubject: {} };
     }
   }
 }

@@ -39,8 +39,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            const mock = {
+        const mock = {
                 auth: {
                     getUser: () => Promise.resolve({ data: { user: null } }),
                     signInWithPassword: async () => ({ error: { message: 'Auth disabled in static preview' } }),
@@ -68,8 +67,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            // Fallback: create mock client for testing
+        // Fallback: create mock client for testing
             const mock = {
                 auth: {
                     getUser: () => Promise.resolve({ data: { user: null } }),
@@ -94,8 +92,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            const mock = {
+        const mock = {
                 auth: {
                     getUser: () => Promise.resolve({ data: { user: null } }),
                     signInWithPassword: async () => ({ error: { message: 'Missing Supabase config' } }),
@@ -153,8 +150,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            // As a last resort, expose a mock to prevent UI crashes
+        // As a last resort, expose a mock to prevent UI crashes
             const mock = {
                 auth: {
                     getUser: () => Promise.resolve({ data: { user: null } }),

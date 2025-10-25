@@ -91,7 +91,6 @@ function setupErrorHandling() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         // Could integrate with analytics here
     });
 }

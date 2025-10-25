@@ -86,7 +86,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');return;}const grid=document.getElementById('english-orphans');if(grid){grid.innerHTML=(data||[]).map(function(r){return '<a href="'+r.file_path+'" style="background:white;padding:1rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 12px rgba(0,0,0,0.06);border-top:4px solid #4f46e5;display:block;">'+'<h3 style="color:#1f2937;margin:0 0 0.5rem 0;font-size:1rem;font-weight:700;">'+(r.title||'Untitled')+'</h3>'+'<div style="color:#6b7280;font-size:0.85rem;">'+(r.resource_type||'Resource')+(r.quality_score?(' • ⭐ '+r.quality_score):'')+'</div>'+'</a>';}).join('');}}catch(e){// Log to monitoring instead of console
+        return;}const grid=document.getElementById('english-orphans');if(grid){grid.innerHTML=(data||[]).map(function(r){return '<a href="'+r.file_path+'" style="background:white;padding:1rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 12px rgba(0,0,0,0.06);border-top:4px solid #4f46e5;display:block;">'+'<h3 style="color:#1f2937;margin:0 0 0.5rem 0;font-size:1rem;font-weight:700;">'+(r.title||'Untitled')+'</h3>'+'<div style="color:#6b7280;font-size:0.85rem;">'+(r.resource_type||'Resource')+(r.quality_score?(' • ⭐ '+r.quality_score):'')+'</div>'+'</a>';}).join('');}}catch(e){// Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
                 message: '$2',
@@ -95,7 +95,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');}})();</script>
+        }})();</script>
         <!-- Cross-Subject Connections (GraphRAG Intelligence) -->
         <section style="background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); padding: 3rem 2rem; border-radius: 16px; margin: 3rem 0; border: 2px solid #dc2626;">
             <div style="text-align: center; margin-bottom: 2rem;">
@@ -187,8 +187,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return;
+        return;
         }        async function loadGraphRAGEnglish() {            try {                console.log('🚀 Connecting to GraphRAG Knowledge Graph (English)...');                // Query GraphRAG for English resources                const { data: englishData, error, count } = await supabase                    .from('graphrag_resources')                    .select('file_path, title, resource_type, quality_score, cultural_context, has_te_reo, year_level', { count: 'exact' })                    .or('subject.ilike.%english%,subject.ilike.%literacy%,subject.ilike.%writing%')                    .order('quality_score', { ascending: false })                    .limit(100);                if (error) {                    // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
@@ -198,7 +197,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');                    return;                }                const totalCount = count || englishData.length;                const culturalCount = englishData.filter(r => r.cultural_context).length;                const teReoCount = englishData.filter(r => r.has_te_reo).length;                const avgQuality = englishData.reduce((sum, r) => sum + (r.quality_score || 0), 0) / englishData.length;                // Update UI with real data                const countEl = document.getElementById('english-resource-count');                const culturalEl = document.getElementById('english-cultural-count');                if (countEl) countEl.textContent = totalCount.toLocaleString();                if (culturalEl) {                    culturalEl.textContent = culturalCount.toLocaleString();                    // Update percentage in label                    const labelEl = culturalEl.nextElementSibling;                    if (labelEl) {                        const pct = Math.round((culturalCount / totalCount) * 100);                        labelEl.textContent = `Culturally Integrated (${pct}%)`;                    }                }                // Console success                // User feedback provided via UI                console.log(`   📊 Total English Resources: ${totalCount.toLocaleString()}`);                console.log(`   🌿 With Cultural Context: ${culturalCount} (${Math.round(culturalCount/totalCount*100)}%)`);                console.log(`   🗣️ With Te Reo: ${teReoCount}`);                console.log(`   ⭐ Average Quality Score: ${avgQuality.toFixed(1)}/100`);                console.log(`   🧠 Knowledge Graph: 19,737 resources × 231,469 relationships`);                // Sample high-quality resources                const topResources = englishData                    .filter(r => r.quality_score >= 90)                    .slice(0, 5);                console.log('🏆 Top Quality English Resources:', topResources.map(r => r.title));            } catch (error) {                // Log to monitoring instead of console
+        return;                }                const totalCount = count || englishData.length;                const culturalCount = englishData.filter(r => r.cultural_context).length;                const teReoCount = englishData.filter(r => r.has_te_reo).length;                const avgQuality = englishData.reduce((sum, r) => sum + (r.quality_score || 0), 0) / englishData.length;                // Update UI with real data                const countEl = document.getElementById('english-resource-count');                const culturalEl = document.getElementById('english-cultural-count');                if (countEl) countEl.textContent = totalCount.toLocaleString();                if (culturalEl) {                    culturalEl.textContent = culturalCount.toLocaleString();                    // Update percentage in label                    const labelEl = culturalEl.nextElementSibling;                    if (labelEl) {                        const pct = Math.round((culturalCount / totalCount) * 100);                        labelEl.textContent = `Culturally Integrated (${pct}%)`;                    }                }                // Console success                // User feedback provided via UI                console.log(`   📊 Total English Resources: ${totalCount.toLocaleString()}`);                console.log(`   🌿 With Cultural Context: ${culturalCount} (${Math.round(culturalCount/totalCount*100)}%)`);                console.log(`   🗣️ With Te Reo: ${teReoCount}`);                console.log(`   ⭐ Average Quality Score: ${avgQuality.toFixed(1)}/100`);                console.log(`   🧠 Knowledge Graph: 19,737 resources × 231,469 relationships`);                // Sample high-quality resources                const topResources = englishData                    .filter(r => r.quality_score >= 90)                    .slice(0, 5);                console.log('🏆 Top Quality English Resources:', topResources.map(r => r.title));            } catch (error) {                // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
                 message: '$2',
@@ -207,7 +206,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');            }        }        document.addEventListener('DOMContentLoaded', loadGraphRAGEnglish);    </script>    <!-- GraphRAG English Recommendations Component -->    <div id="graphrag-english-container"></div>    <!-- 📊 ULTIMATE BEAUTY: PostHog Analytics (Privacy-First) --><script src="/js/posthog-analytics.js" defer></script>
+        }        }        document.addEventListener('DOMContentLoaded', loadGraphRAGEnglish);    </script>    <!-- GraphRAG English Recommendations Component -->    <div id="graphrag-english-container"></div>    <!-- 📊 ULTIMATE BEAUTY: PostHog Analytics (Privacy-First) --><script src="/js/posthog-analytics.js" defer></script>
 <script>(function(){try{var main=document.querySelector('main');if(!main)return;var s=document.createElement('section');s.id='featured-picks-english';s.setAttribute('style','background: linear-gradient(135deg, #f8fafc 0%, #fee2e2 100%); padding: 2rem; border-radius: 16px; margin: 2rem 0;');s.innerHTML='\n  <h2 style="font-size:2rem;color:#991b1b;margin:0 0 0.5rem 0;text-align:center;font-weight:800;">⭐ Featured Picks</h2>\n  <p style="text-align:center;color:#475569;margin:0 0 1.25rem 0;">High-impact English resources with live GraphRAG links</p>\n  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">\n    <a href="/generated-resources-alpha/lessons/digital-storytelling-with-pūrākau-framework.html" style="background:white;padding:1.25rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;border-top:4px solid #dc2626;display:block;">\n      <div class="connection-badge" data-resource-path="/public/generated-resources-alpha/lessons/digital-storytelling-with-pūrākau-framework.html" style="position:absolute;top:-12px;right:12px;background:#fee2e2;color:#991b1b;padding:0.35rem 0.75rem;border-radius:18px;font-weight:800;font-size:0.75rem;">🔄 Loading...</div>\n      <div style="font-size:1.5rem;margin-bottom:0.5rem;">📱</div>\n      <h3 style="color:#0f172a;margin:0 0 0.25rem 0;font-weight:700;">Digital Storytelling with Pūrākau</h3>\n      <p style="color:#64748b;margin:0;">Years 9-11 • Lesson</p>\n    </a>\n    <a href="/generated-resources-alpha/lessons/poetry-analysis-through-māori-literary-traditions.html" style="background:white;padding:1.25rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;border-top:4px solid #7c3aed;display:block;">\n      <div class="connection-badge" data-resource-path="/public/generated-resources-alpha/lessons/poetry-analysis-through-māori-literary-traditions.html" style="position:absolute;top:-12px;right:12px;background:#ede9fe;color:#5b21b6;padding:0.35rem 0.75rem;border-radius:18px;font-weight:800;font-size:0.75rem;">🔄 Loading...</div>\n      <div style="font-size:1.5rem;margin-bottom:0.5rem;">📜</div>\n      <h3 style="color:#0f172a;margin:0 0 0.25rem 0;font-weight:700;">Poetry Analysis & Māori Traditions</h3>\n      <p style="color:#64748b;margin:0;">Years 9-13 • Lesson</p>\n    </a>\n    <a href="/generated-resources-alpha/handouts/public-speaking-with-cultural-confidence.html" style="background:white;padding:1.25rem;border-radius:12px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,0.06);position:relative;border-top:4px solid #10b981;display:block;">\n      <div class="connection-badge" data-resource-path="/public/generated-resources-alpha/handouts/public-speaking-with-cultural-confidence.html" style="position:absolute;top:-12px;right:12px;background:#ecfdf5;color:#065f46;padding:0.35rem 0.75rem;border-radius:18px;font-weight:800;font-size:0.75rem;">🔄 Loading...</div>\n      <div style="font-size:1.5rem;margin-bottom:0.5rem;">🎤</div>\n      <h3 style="color:#0f172a;margin:0 0 0.25rem 0;font-weight:700;">Public Speaking with Cultural Confidence</h3>\n      <p style="color:#64748b;margin:0;">All Years • Handout</p>\n    </a>\n  </div>\n';main.insertBefore(s, main.firstChild);if(window.graphragCounter&&typeof window.graphragCounter.updateAllBadges==='function'){window.graphragCounter.updateAllBadges();}}catch(e){// Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
@@ -217,7 +216,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');}})();</script>
+        }})();</script>
 <script>(function(){try{function track(name,props){try{if(window.posthog&&posthog.capture)posthog.capture(name,props||{});}catch(e){}}document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;var href=a.getAttribute('href')||'';if(a.closest('#english-orphans'))track('cta_orphan_click',{hub:'English',href:href});else if(a.closest('#subject-chips'))track('cta_subject_chip',{hub:'English',subject:a.textContent.trim(),href:href});else if(a.closest('#graphrag-recommendations'))track('cta_recommendation_click',{hub:'English',href:href});else if(href.indexOf('/generated-resources-alpha/')===0)track('cta_alpha_click',{hub:'English',href:href});});}catch(e){}})();</script>
 <!-- PARALLEL COMPONENT LOADING - No more 2-3s delay! -->
 <script>
@@ -238,8 +237,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            })
+        })
             .catch(err => // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
@@ -249,7 +247,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');),
+        ,
 
         fetch('/components/see-also-cross-curricular.html')
             .then(r => r.text())
@@ -265,8 +263,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            })
+        })
             .catch(err => // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
@@ -276,7 +273,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');),
+        ,
 
         fetch('/components/graphrag-dynamic-resource-browser.html')
             .then(r => r.text())
@@ -292,8 +289,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            })
+        })
             .catch(err => // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
@@ -303,7 +299,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');),
+        ,
 
         fetch('/components/see-also-cross-curricular.html')
             .then(r => r.text())
@@ -319,8 +315,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            })
+        })
             .catch(err => // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
@@ -330,7 +325,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');)
+        
     ]).then(() => {
         // All components loaded successfully!
         // User feedback provided via UI
@@ -344,7 +339,6 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-    });
+        });
 </script>
 </body></html>

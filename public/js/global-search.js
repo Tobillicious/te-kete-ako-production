@@ -177,8 +177,7 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            resultsDropdown.innerHTML = `
+        resultsDropdown.innerHTML = `
                 <div style="padding: 2rem; text-align: center; color: #dc2626;">
                     <div style="font-size: 2rem; margin-bottom: 0.5rem;">⚠️</div>
                     <p>Search error. Please try again.</p>

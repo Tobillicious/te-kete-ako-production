@@ -99,8 +99,7 @@ class EnhancedHeader {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.isAuthenticated = false;
+        this.isAuthenticated = false;
             this.currentUser = null;
             return;
         }
@@ -119,8 +118,7 @@ class EnhancedHeader {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            this.isAuthenticated = false;
+        this.isAuthenticated = false;
             this.currentUser = null;
         }
     }
@@ -1820,7 +1818,6 @@ class EnhancedHeader {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 

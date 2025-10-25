@@ -21,8 +21,7 @@ if (!window.ENV) {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-    window.ENV = {};
+        window.ENV = {};
 }
 
 // Supabase configuration
@@ -90,8 +89,7 @@ async function checkCurrentSession() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-    }
+        }
 }
 
 /**
@@ -113,7 +111,6 @@ function showError(message, elementId = 'error-message') {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         // Fallback
     }
 }
@@ -188,8 +185,7 @@ async function redirectByRole(user) {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            // Default redirect if profile not found - use getting started as fallback
+        // Default redirect if profile not found - use getting started as fallback
             window.location.href = '/getting-started.html';
             return;
         }
@@ -214,7 +210,6 @@ async function redirectByRole(user) {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         // Fallback to role-based routing
         window.location.href = '/getting-started.html';
     }
@@ -284,7 +279,6 @@ async function handleSignup(email, password, confirmPassword, displayName, schoo
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         showError('Failed to create account. Please try again.');
     } finally {
         setLoadingState('signup-btn', false);
@@ -347,7 +341,6 @@ async function handleLogin(email, password) {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         showError('Failed to sign in. Please try again.');
     } finally {
         setLoadingState('login-btn', false);
@@ -368,7 +361,6 @@ async function handleLogout() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         return;
     }
     
@@ -388,7 +380,6 @@ async function handleLogout() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         showError('Failed to sign out. Please try again.');
     }
 }
@@ -434,7 +425,6 @@ async function handlePasswordReset(email) {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         showError('Failed to send password reset email. Please try again.');
     } finally {
         setLoadingState('reset-btn', false);
@@ -460,7 +450,6 @@ async function getCurrentUserToken() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         return null;
     }
 }
@@ -673,8 +662,7 @@ async function initialize() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                showError('Authentication system failed to load. Please refresh the page.');
+        showError('Authentication system failed to load. Please refresh the page.');
             }
         }, 10000);
     }
@@ -729,8 +717,7 @@ async function redirectBasedOnRole() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            // Default redirect if profile not found
+        // Default redirect if profile not found
             window.location.href = '/getting-started.html';
             return;
         }
@@ -755,7 +742,6 @@ async function redirectBasedOnRole() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         // Fallback to getting started
         window.location.href = '/getting-started.html';
     }

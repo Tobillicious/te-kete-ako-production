@@ -34,8 +34,7 @@ class MyKeteDatabase {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return;
+        return;
         }
         
         // Initialize Supabase client
@@ -86,7 +85,6 @@ class MyKeteDatabase {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
     
@@ -126,8 +124,7 @@ class MyKeteDatabase {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                return this.getLocalStorageFavorites(); // Fallback to localStorage
+        return this.getLocalStorageFavorites(); // Fallback to localStorage
             }
         } else {
             // Not logged in - use localStorage as fallback
@@ -175,8 +172,7 @@ class MyKeteDatabase {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                // Fallback to localStorage
+        // Fallback to localStorage
                 return this.saveToLocalStorage(path, title, description);
             }
         } else {
@@ -223,8 +219,7 @@ class MyKeteDatabase {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return false;
+        return false;
         }
     }
     
@@ -252,8 +247,7 @@ class MyKeteDatabase {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                return false;
+        return false;
             }
         } else {
             // Not logged in - remove from localStorage

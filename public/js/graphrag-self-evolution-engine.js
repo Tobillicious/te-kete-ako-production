@@ -79,7 +79,6 @@ class GraphRAGSelfEvolutionEngine {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 
@@ -138,8 +137,7 @@ class GraphRAGSelfEvolutionEngine {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return null;
+        return null;
         }
     }
 
@@ -179,8 +177,7 @@ class GraphRAGSelfEvolutionEngine {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return { hasPrecedent: false };
+        return { hasPrecedent: false };
         }
     }
 
@@ -225,8 +222,7 @@ class GraphRAGSelfEvolutionEngine {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return { needsSynthesis: false };
+        return { needsSynthesis: false };
         }
     }
 
@@ -331,8 +327,7 @@ class GraphRAGSelfEvolutionEngine {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return [];
+        return [];
         }
     }
 
@@ -401,8 +396,7 @@ class GraphRAGSelfEvolutionEngine {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return { success: false, error };
+        return { success: false, error };
         }
     }
 

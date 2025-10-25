@@ -32,8 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                return; 
+        return; 
             }
             this.renderWords();
         },
@@ -58,8 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                    wordSpan.textContent = item.word; 
+        wordSpan.textContent = item.word; 
                 } else {
                     wordSpan.textContent = item.word.substring(0, teamIndex) +
                         `<span class="clickable-vowel-team" data-word="${item.word}" data-team="${item.team}">${item.team}</span>` +
@@ -95,8 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                return;
+        return;
             }
             this.feedbackEl.classList.remove('hidden');
 
@@ -143,8 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                return;
+        return;
             }
             this.elements.resetBtn.addEventListener('click', () => {
                 this.start();

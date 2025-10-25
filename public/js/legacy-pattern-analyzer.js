@@ -45,7 +45,6 @@ class LegacyPatternAnalyzer {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 
@@ -198,8 +197,7 @@ class LegacyPatternAnalyzer {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return {
+        return {
                 type: 'fallback',
                 patterns: patterns,
                 approach: 'use_highest_quality',
@@ -368,8 +366,7 @@ class LegacyPatternAnalyzer {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return { success: false, error };
+        return { success: false, error };
         }
     }
 

@@ -67,8 +67,7 @@ class ErrorMonitoring {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-    }
+        }
     
     async handlePromiseRejection(event) {
         if (this.errorCount >= this.maxErrorsPerSession) return;
@@ -97,8 +96,7 @@ class ErrorMonitoring {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-    }
+        }
     
     sendToPostHog(errorData) {
         try {
@@ -121,7 +119,6 @@ class ErrorMonitoring {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
     
@@ -166,7 +163,6 @@ class ErrorMonitoring {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
     

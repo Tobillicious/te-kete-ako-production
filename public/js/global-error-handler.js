@@ -59,7 +59,6 @@ class TeKeteErrorBoundary {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
 
         // Send to error monitoring service (if available)
@@ -79,8 +78,6 @@ class TeKeteErrorBoundary {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-        
         // Attempt auth system recovery
         if (window.teKeteAuth) {
             window.teKeteAuth.recoverFromError();
@@ -128,8 +125,7 @@ class TeKeteErrorBoundary {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                }
+        }
             }
         }, 1000);
     }

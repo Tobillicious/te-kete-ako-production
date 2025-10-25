@@ -29,7 +29,6 @@ async function initMyKetePage() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         showAuthRequired();
     }
 }
@@ -95,7 +94,6 @@ async function loadSavedResources() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         loadingElement.innerHTML = `
             <p style="color: var(--color-error); text-align: center;">
                 ❌ Error loading your saved resources. Please try refreshing the page.
@@ -221,8 +219,7 @@ async function loadProgressData() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-    }
+        }
 }
 
 function updateProgressDashboard(summary) {
@@ -284,8 +281,7 @@ async function loadAIRecommendations() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-    }
+        }
 }
 
 async function generatePersonalizedRecommendations() {

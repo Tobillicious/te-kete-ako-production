@@ -52,8 +52,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            }
+        }
         },
 
         async trackEvent(eventData) {
@@ -80,8 +79,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                }
+        }
             } catch (error) {
                 // Log to monitoring instead of console
         if (window.posthog) {
@@ -92,8 +90,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            }
+        }
         },
 
         trackPageView() {

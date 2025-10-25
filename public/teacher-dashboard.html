@@ -84,7 +84,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');                // Fallback to placeholder data if API fails                document.getElementById('total-students').textContent = '24';                document.getElementById('pending-submissions').textContent = '7';                document.getElementById('cultural-engagement').textContent = '87%';                document.getElementById('collaboration-score').textContent = '92%';            }        }        // Live data loading functions        async function loadStudentCount() {            try {                const { data, error } = await supabase                    .from('profiles')                    .select('id', { count: 'exact' })                    .eq('role', 'student');                if (error) throw error;                return data?.length || 0;            } catch (error) {                // Log to monitoring instead of console
+        // Fallback to placeholder data if API fails                document.getElementById('total-students').textContent = '24';                document.getElementById('pending-submissions').textContent = '7';                document.getElementById('cultural-engagement').textContent = '87%';                document.getElementById('collaboration-score').textContent = '92%';            }        }        // Live data loading functions        async function loadStudentCount() {            try {                const { data, error } = await supabase                    .from('profiles')                    .select('id', { count: 'exact' })                    .eq('role', 'student');                if (error) throw error;                return data?.length || 0;            } catch (error) {                // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
                 message: '$2',
@@ -93,7 +93,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');                return 0;            }        }        async function loadPendingSubmissions() {            try {                const { data, error } = await supabase                    .from('student_projects')                    .select('id', { count: 'exact' })                    .in('status', ['submitted', 'under_review']);                if (error) throw error;                return data?.length || 0;            } catch (error) {                // Log to monitoring instead of console
+        return 0;            }        }        async function loadPendingSubmissions() {            try {                const { data, error } = await supabase                    .from('student_projects')                    .select('id', { count: 'exact' })                    .in('status', ['submitted', 'under_review']);                if (error) throw error;                return data?.length || 0;            } catch (error) {                // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
                 message: '$2',
@@ -102,7 +102,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');                return 0;            }        }        async function loadEngagementMetrics() {            try {                const { data, error } = await supabase                    .from('learning_sessions')                    .select('cultural_engagement_score')                    .not('cultural_engagement_score', 'is', null);                if (error) throw error;                if (data && data.length > 0) {                    const avgScore = data.reduce((sum, session) => sum + session.cultural_engagement_score, 0) / data.length;                    return Math.round(avgScore) + '%';                }                return '85%';            } catch (error) {                // Log to monitoring instead of console
+        return 0;            }        }        async function loadEngagementMetrics() {            try {                const { data, error } = await supabase                    .from('learning_sessions')                    .select('cultural_engagement_score')                    .not('cultural_engagement_score', 'is', null);                if (error) throw error;                if (data && data.length > 0) {                    const avgScore = data.reduce((sum, session) => sum + session.cultural_engagement_score, 0) / data.length;                    return Math.round(avgScore) + '%';                }                return '85%';            } catch (error) {                // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
                 message: '$2',
@@ -111,7 +111,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');                return '85%';            }        }        async function loadRecentActivity() {            try {                const { data, error } = await supabase                    .from('student_projects')                    .select('group_members')                    .not('group_members', 'is', null);                if (error) throw error;                // Calculate collaboration score based on group project participation                const groupProjects = data?.filter(project =>                    project.group_members && project.group_members.length > 1                ).length || 0;                const totalProjects = data?.length || 1;                const collaborationRate = Math.round((groupProjects / totalProjects) * 100);                return collaborationRate + '%';            } catch (error) {                // Log to monitoring instead of console
+        return '85%';            }        }        async function loadRecentActivity() {            try {                const { data, error } = await supabase                    .from('student_projects')                    .select('group_members')                    .not('group_members', 'is', null);                if (error) throw error;                // Calculate collaboration score based on group project participation                const groupProjects = data?.filter(project =>                    project.group_members && project.group_members.length > 1                ).length || 0;                const totalProjects = data?.length || 1;                const collaborationRate = Math.round((groupProjects / totalProjects) * 100);                return collaborationRate + '%';            } catch (error) {                // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
                 message: '$2',
@@ -120,7 +120,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');                return '90%';            }        }        // Dashboard interaction functions        function reviewSubmission(submissionId) {            }        function bulkReview(category) {            }        function viewProject(projectId) {            }        function viewGroupProgress(groupId) {            }        function facilitateGroup(groupId) {            }        function interveneGroup(groupId) {            }        function createNewAssignment() {            }        function exportData() {            }        function generateDoNow() {            window.open('activities.html', '_blank');        }        function createRubric() {            }        function exportProgress() {            }        // Logout functionality        document.getElementById('logout-btn').addEventListener('click', () => {            localStorage.removeItem('teKeteAko_token');            localStorage.removeItem('teKeteAko_refreshToken');            localStorage.removeItem('teKeteAko_user');            window.location.href = 'login.html';        });        // Mobile menu toggle (basic implementation)        document.querySelector('.mobile-menu-toggle')?.addEventListener('click', () => {            const sidebar = document.querySelector('.sidebar');            sidebar.style.display = sidebar.style.display === 'none' ? 'block' : 'none';        });    </script><footer class="site-footer no-print"><div class="footer-content"><div class="footer-simple"><div class="footer-brand"><h3>🧺 Te Kete Ako</h3><p>"Whaowhia te kete mātauranga" - Fill the basket of knowledge</p></div><div class="footer-links"><a href="/unit-plans.html">Unit Plans</a><a href="/lessons.html">Lessons</a><a href="/handouts.html">Handouts</a><a href="/my-kete.html">My Kete</a><a href="/sitemap.html">Sitemap</a><a href="/orphans.html">Discover</a></div></div><div class="footer-bottom"><span>© 2025 Te Kete Ako - Educational resources for Aotearoa New Zealand</span></div></div></footer><!-- Standard auth script includes --><script defer="" src="vendor/supabase.min.js"></script><script defer="" src="/js/env-config.js"></script><script defer="" src="/js/supabase-client.js"></script><script defer="" src="/js/auth-enhanced.js"></script><script defer="" src="/js/teacher-dashboard.js"></script><script>    // Register service worker for performance    if ('serviceWorker' in navigator) {        window.addEventListener('load', () => {            navigator.serviceWorker.register('/sw.js')                .then(registration => console.log('SW registered'))                .catch(error => console.log('SW registration failed'));        });    }    </script><script src="/js/components.js"></script>    <!-- 🎨 ULTIMATE BEAUTY SYSTEM: Complete UX -->
+        return '90%';            }        }        // Dashboard interaction functions        function reviewSubmission(submissionId) {            }        function bulkReview(category) {            }        function viewProject(projectId) {            }        function viewGroupProgress(groupId) {            }        function facilitateGroup(groupId) {            }        function interveneGroup(groupId) {            }        function createNewAssignment() {            }        function exportData() {            }        function generateDoNow() {            window.open('activities.html', '_blank');        }        function createRubric() {            }        function exportProgress() {            }        // Logout functionality        document.getElementById('logout-btn').addEventListener('click', () => {            localStorage.removeItem('teKeteAko_token');            localStorage.removeItem('teKeteAko_refreshToken');            localStorage.removeItem('teKeteAko_user');            window.location.href = 'login.html';        });        // Mobile menu toggle (basic implementation)        document.querySelector('.mobile-menu-toggle')?.addEventListener('click', () => {            const sidebar = document.querySelector('.sidebar');            sidebar.style.display = sidebar.style.display === 'none' ? 'block' : 'none';        });    </script><footer class="site-footer no-print"><div class="footer-content"><div class="footer-simple"><div class="footer-brand"><h3>🧺 Te Kete Ako</h3><p>"Whaowhia te kete mātauranga" - Fill the basket of knowledge</p></div><div class="footer-links"><a href="/unit-plans.html">Unit Plans</a><a href="/lessons.html">Lessons</a><a href="/handouts.html">Handouts</a><a href="/my-kete.html">My Kete</a><a href="/sitemap.html">Sitemap</a><a href="/orphans.html">Discover</a></div></div><div class="footer-bottom"><span>© 2025 Te Kete Ako - Educational resources for Aotearoa New Zealand</span></div></div></footer><!-- Standard auth script includes --><script defer="" src="vendor/supabase.min.js"></script><script defer="" src="/js/env-config.js"></script><script defer="" src="/js/supabase-client.js"></script><script defer="" src="/js/auth-enhanced.js"></script><script defer="" src="/js/teacher-dashboard.js"></script><script>    // Register service worker for performance    if ('serviceWorker' in navigator) {        window.addEventListener('load', () => {            navigator.serviceWorker.register('/sw.js')                .then(registration => console.log('SW registered'))                .catch(error => console.log('SW registration failed'));        });    }    </script><script src="/js/components.js"></script>    <!-- 🎨 ULTIMATE BEAUTY SYSTEM: Complete UX -->
 
     <!-- Footer -->
     <div id="footer-container"></div>
@@ -158,8 +158,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            })
+        })
             .catch(err => // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
@@ -169,7 +168,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');)
+        
     ]).then(() => {
         // All components loaded successfully!
         // User feedback provided via UI
@@ -183,7 +182,6 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-    });
+        });
 </script>
 </body></html>

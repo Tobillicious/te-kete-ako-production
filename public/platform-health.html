@@ -240,8 +240,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-      }
+        }
     }
     document.addEventListener('DOMContentLoaded', loadPlatformMetrics);
 
@@ -278,8 +277,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-      }
+        }
       return Array.from(acc);
     }
 
@@ -402,8 +400,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-          }
+        }
         };
 
         const missingBtn = document.getElementById('copy-missing-csv');
@@ -433,8 +430,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-      }
+        }
     }
     document.addEventListener('DOMContentLoaded', scanDistHandoutsCoverage);
   </script>
@@ -529,7 +525,16 @@
             document.body.appendChild(s);
           }
         })
-        .catch(console.error);
+        .catch(err => {
+        // Log error to monitoring
+        if (window.posthog) {
+            posthog.capture('javascript_error', {
+                message: err.message,
+                stack: err.stack,
+                url: window.location.pathname
+            });
+        }
+    });
     });
   </script>
 <!-- PARALLEL COMPONENT LOADING - No more 2-3s delay! -->
@@ -551,8 +556,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            })
+        })
             .catch(err => // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
@@ -562,7 +566,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');)
+        
     ]).then(() => {
         // All components loaded successfully!
         // User feedback provided via UI
@@ -576,8 +580,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-    });
+        });
 </script>
 </body>
 </html>

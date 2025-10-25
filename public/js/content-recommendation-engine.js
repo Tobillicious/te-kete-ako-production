@@ -349,7 +349,6 @@ class ContentRecommendationEngine {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
         return new Map();
     }
@@ -368,7 +367,6 @@ class ContentRecommendationEngine {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 

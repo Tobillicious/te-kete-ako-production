@@ -146,8 +146,7 @@ async function onExplore() {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-    setStatus('Error loading pathway.');
+        setStatus('Error loading pathway.');
   }
 }
 

@@ -66,8 +66,7 @@ class SmartRecommendationEngine {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return this.getFallbackRecommendations(userContext);
+        return this.getFallbackRecommendations(userContext);
         }
     }
 
@@ -246,8 +245,7 @@ class SmartRecommendationEngine {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return { type: 'error', message: 'Unable to load teaching variants' };
+        return { type: 'error', message: 'Unable to load teaching variants' };
         }
     }
 
@@ -281,8 +279,7 @@ class SmartRecommendationEngine {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return [];
+        return [];
         }
     }
 

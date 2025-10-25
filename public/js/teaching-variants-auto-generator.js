@@ -52,8 +52,7 @@ class TeachingVariantsAutoGenerator {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-                return;
+        return;
             }
 
             // Group by lesson number/title
@@ -69,7 +68,6 @@ class TeachingVariantsAutoGenerator {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 

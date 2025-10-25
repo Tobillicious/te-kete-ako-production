@@ -45,8 +45,7 @@ class TeKeteProgressTracker {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return false;
+        return false;
         }
     }
 
@@ -100,8 +99,7 @@ class TeKeteProgressTracker {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return [];
+        return [];
         }
     }
 
@@ -172,8 +170,7 @@ class TeKeteProgressTracker {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return false;
+        return false;
         }
     }
 
@@ -230,8 +227,7 @@ class TeKeteProgressTracker {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return null;
+        return null;
         }
     }
 
@@ -304,8 +300,7 @@ class TeKeteProgressTracker {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
-            return {
+        return {
                 tips: ['Keep exploring and learning!', 'Practice regularly for best results.', 'Connect with other learners for support.'],
                 generated_at: new Date().toISOString(),
                 source: 'fallback'
@@ -384,7 +379,6 @@ class TeKeteProgressTracker {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
     }
 
@@ -410,7 +404,6 @@ class TeKeteProgressTracker {
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');
         }
         return false;
     }

@@ -72,7 +72,7 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');                    const existing = JSON.parse(localStorage.getItem('beta_feedback') || '[]');                    existing.push(feedback);                    localStorage.setItem('beta_feedback', JSON.stringify(existing));                    // User feedback provided via UI                }                // Show success message                document.getElementById('feedback-form').classList.add('hidden');                document.getElementById('success-message').classList.remove('hidden');                // Scroll to success message                document.getElementById('success-message').scrollIntoView({ behavior: 'smooth' });            } catch (error) {                // Log to monitoring instead of console
+        const existing = JSON.parse(localStorage.getItem('beta_feedback') || '[]');                    existing.push(feedback);                    localStorage.setItem('beta_feedback', JSON.stringify(existing));                    // User feedback provided via UI                }                // Show success message                document.getElementById('feedback-form').classList.add('hidden');                document.getElementById('success-message').classList.remove('hidden');                // Scroll to success message                document.getElementById('success-message').scrollIntoView({ behavior: 'smooth' });            } catch (error) {                // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
                 message: '$2',
@@ -81,4 +81,4 @@
             });
         }
         // Show user-friendly message instead of error
-        console.log('Issue detected: $2');                alert('❌ Error submitting feedback. Please try again or email us directly at feedback@tekete.ac.nz');                submitBtn.disabled = false;                submitBtn.innerHTML = originalText;            }        });    </script><!-- 📊 ULTIMATE BEAUTY: PostHog Analytics (Privacy-First) --><script src="/js/posthog-analytics.js" defer></script></body></html>
+        alert('❌ Error submitting feedback. Please try again or email us directly at feedback@tekete.ac.nz');                submitBtn.disabled = false;                submitBtn.innerHTML = originalText;            }        });    </script><!-- 📊 ULTIMATE BEAUTY: PostHog Analytics (Privacy-First) --><script src="/js/posthog-analytics.js" defer></script></body></html>
