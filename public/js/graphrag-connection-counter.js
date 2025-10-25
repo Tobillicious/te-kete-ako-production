@@ -13,7 +13,6 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
 class GraphRAGConnectionCounter {
     constructor() {
-        this.supabase = null;
         this.cache = new Map();
         this.init();
     }
@@ -23,14 +22,12 @@ class GraphRAGConnectionCounter {
         console.log('🔇 GraphRAG Connection Counter temporarily disabled for debugging');
         return;
         
-        // Initialize Supabase client
-        if (window.supabase && window.supabase.createClient) {
-            this.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-            
-            // Auto-update all connection badges on page
+        // Use shared singleton instead of creating new client
+        if (window.supabaseSingleton) {
+            this.supabase = await window.supabaseSingleton.getClient();
             this.updateAllBadges();
         } else {
-            console.warn('⚠️ Supabase not loaded yet, retrying...');
+            console.warn('⚠️ Supabase singleton not loaded yet, retrying...');
             setTimeout(() => this.init(), 500);
         }
     }
