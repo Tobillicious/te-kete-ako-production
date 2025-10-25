@@ -63,11 +63,10 @@ class MobileValidationSuite {
         } catch (error) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         }
@@ -100,11 +99,10 @@ class MobileValidationSuite {
                 this.validationResults.touchTargets.failed++;
                 // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         } (${Math.round(rect.width)}x${Math.round(rect.height)}px)`);
@@ -181,11 +179,10 @@ class MobileValidationSuite {
         if (this.validationResults.performance.issues.length > 0) {
             this.validationResults.performance.issues.forEach(issue => // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         ;
@@ -256,11 +253,10 @@ class MobileValidationSuite {
         if (this.validationResults.accessibility.issues.length > 0) {
             this.validationResults.accessibility.issues.forEach(issue => // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         ;
@@ -492,11 +488,10 @@ class MobileValidationSuite {
         if (preservationIssues.length > 0) {
             preservationIssues.forEach(issue => // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         ;

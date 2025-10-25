@@ -1,6 +1,92 @@
 <!DOCTYPE html><html lang="en"><head>
     <title>GraphRAG Relationship Builder | Add Missing Connections | Te Kete Ako</title>
 
+<!-- UNIFIED DESIGN SYSTEM -->
+<!-- PWA Manifest -->
+<link href="/manifest.json" rel="manifest"/>
+<meta content="#1a4d2e" name="theme-color"/>
+
+<!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
+<!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
+<link rel="stylesheet" href="/css/professionalization-system.css">
+
+<!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
+<link rel="stylesheet" href="/css/te-kete-professional.css"/>
+<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css"/>
+
+<!-- ⭐ COMPONENT STYLES -->
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/navigation-standard.css">
+<link rel="stylesheet" href="/css/mobile-revolution.css">
+<link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css"/>
+
+<!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
+<link rel="stylesheet" href="/css/print.css" media="print"/>
+<link rel="stylesheet" href="/css/print-professional.css" media="print"/>
+
+<!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
+<link rel="stylesheet" href="/css/tailwind.css">
+
+<!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
+<link rel="stylesheet" href="/css/cascade-fix.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    // Wait for Supabase CDN to load before initializing singleton
+    window.addEventListener('DOMContentLoaded', () => {
+        if (!window.supabase) {
+            // Log to monitoring instead of console
+            if (window.posthog) {
+                posthog.capture('supabase_cdn_error', {
+                    message: 'Supabase CDN failed to load',
+                    url: window.location.pathname
+                });
+            }
+        }
+    });
+</script>
+<script src="/js/supabase-singleton.js"></script>
+<!-- My Kete Database Integration - loads after singleton -->
+<script src="/js/my-kete-database.js"></script>
+<!-- Navigation Loader Singleton - loads after supabase setup -->
+<script src="/js/navigation-loader.js"></script>
+<!-- Component Loader - centralized async component management -->
+<script src="/js/component-loader.js"></script>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="Te Kete Ako" name="apple-mobile-web-app-title"/>
+<link href="/icons/icon-192x192.png" rel="apple-touch-icon"/>
+<!-- ENHANCED SEARCH -->
+<script src="/js/enhanced-search.js" defer></script>
+<!-- MOBILE PERFORMANCE OPTIMIZER -->
+<script src="/js/mobile-performance-optimizer.js" defer></script>
+<!-- TOUCH TARGET AUDITOR -->
+<script src="/js/touch-target-auditor.js" defer></script>
+<!-- 🎨 ULTIMATE CULTURAL GESTURES - Framer Motion System -->
+<script src="/js/framer-cultural-gestures-ultimate.js" defer></script>
+<!-- Service Worker Registration -->
+<script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('✅ PWA: Service Worker registered!', registration);
+                    })
+                    .catch(error => {
+                        // Log to monitoring instead of console
+                        if (window.posthog) {
+                            posthog.capture('pwa_service_worker_error', {
+                                message: 'Service Worker registration failed',
+                                error: error.message,
+                                url: window.location.pathname
+                            });
+                        }
+                    });
+            });
+        }
+</script>
+
 <meta name="robots" content="index, follow"/>
 <meta name="googlebot" content="index, follow"/>
 <meta name="theme-color" content="#1a4d2e"/>
@@ -44,11 +130,10 @@
 <!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
 <link rel="stylesheet" href="/css/cascade-fix.css"><body class="pattern-koru-subtle">    <!-- Navigation -->    <div id="nav-container"></div>    <script>        fetch('/components/navigation-standard.html')            .then(r => r.text())            .then(html => document.getElementById('nav-container').innerHTML = html);    </script>    <!-- Hero -->    <section class="builder-hero">        <h1 style="font-size: 4rem; ">🔧 GraphRAG Relationship Builder</h1>        <p class="m-0 mx-auto" Add missing pedagogical relationships to strengthen the knowledge graph        </p>        <div style="background: rgba(255,255,255,0.15); margin: 2rem auto;">            <div style="font-size: 2.5rem; ">Only 4!</div>            <div style="opacity: 0.9;">builds_on & applies_to relationships exist</div>            <div style="opacity: 0.8; margin-top: 0.5rem;">Let's fix that! 🚀</div>        </div>    </section>    <main style="margin: 3rem auto; padding: 0 2rem;">        <!-- Missing Relationships Alert -->        <div class="missing-relationships">            <h2 style="color: #92400e; font-size: 1.75rem; ">                ⚠️ GraphRAG Analysis: Critical Gaps Found            </h2>            <p style="color: #78350f; line-margin-bottom: 1.5rem;">                Our knowledge graph has <strong>231,469 relationships</strong>, but key pedagogical                relationship types are severely underutilized:            </p>            <div style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">                <div >                    <div style="font-size: 2rem; color: #dc2626; ">2</div>                    <div style="color: #666;">"builds_on" relationships</div>                </div>                <div >                    <div style="font-size: 2rem; color: #dc2626; ">2</div>                    <div style="color: #666;">"applies_to" relationships</div>                </div>                <div >                    <div style="font-size: 2rem; color: #10b981; ">849</div>                    <div style="color: #666;">"prerequisite" (well used!)</div>                </div>            </div>        </div>        <!-- AI Suggestions -->        <section style="margin: 3rem 0;">            <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">                🤖 AI-Suggested Relationships to Create            </h2>            <div class="suggestion-card">                <div style="justify-content: space-between; align-items: start;">                    <div style="flex: 1;">                        <h3 style="color: #7c3aed; font-size: 1.25rem; ">builds_on</h3>                        <p style="color: #666; ">                            <strong>From:</strong> Geometric Patterns in Māori Art<br>                            <strong>To:</strong> Y9 Geometry Unit<br>                            <strong>Confidence:</strong> 0.92 (High)                        </p>                        <p style="color: #546e7a; ">                            "The handout introduces concepts that the full unit builds upon"                        </p>                    </div>                    <button onclick="createRelationship('builds_on', '/generated-resources-alpha/handouts/geometric-patterns-in-māori-art-and-architecture.html', '/public/units/y9-maths-geometry-patterns/index.html', 0.92)"                        class="p-3" style="background: #10b981; color: white; border: none; padding: 0.75rem 1.5rem; cursor: pointer;"                        ✅ Create                    </button>                </div>            </div>            <div class="suggestion-card">                <div style="justify-content: space-between; align-items: start;">                    <div style="flex: 1;">                        <h3 style="color: #7c3aed; font-size: 1.25rem; ">applies_to</h3>                        <p style="color: #666; ">                            <strong>From:</strong> Scientific Method via Māori Practices<br>                            <strong>To:</strong> All science lessons (unit_contains_lesson)<br>                            <strong>Confidence:</strong> 0.88 (High)                        </p>                        <p style="color: #546e7a; ">                            "This methodology applies across all scientific inquiry lessons"                        </p>                    </div>                    <button onclick="createMultipleRelationships('applies_to', '/generated-resources-alpha/lessons/scientific-method-using-traditional-māori-practices.html')"                        class="p-3" style="background: #10b981; color: white; border: none; padding: 0.75rem 1.5rem; cursor: pointer;"                        ✅ Bulk Create                    </button>                </div>            </div>            <div class="suggestion-card">                <div style="justify-content: space-between; align-items: start;">                    <div style="flex: 1;">                        <h3 style="color: #7c3aed; font-size: 1.25rem; ">builds_on</h3>                        <p style="color: #666; ">                            <strong>From:</strong> Algebraic Thinking in Māori Games<br>                            <strong>To:</strong> Y7 Algebra Unit<br>                            <strong>Confidence:</strong> 0.89 (High)                        </p>                        <p style="color: #546e7a; ">                            "Cultural applications build on foundational algebra concepts"                        </p>                    </div>                    <button onclick="createRelationship('builds_on', '/generated-resources-alpha/handouts/algebraic-thinking-in-traditional-māori-games.html', '/public/units/y7-maths-algebra/index.html', 0.89)"                        class="p-3" style="background: #10b981; color: white; border: none; padding: 0.75rem 1.5rem; cursor: pointer;"                        ✅ Create                    </button>                </div>            </div>        </section>        <!-- Manual Creation Form -->        <div class="relationship-form">            <h2 style="font-size: 2rem; ">                ➕ Create Custom Relationship            </h2>            <form id="relationship-form">                <div class="form-group">                    <label>Relationship Type</label>                    <select id="rel-type" required>                        <option value="">Select type...</option>                        <option value="builds_on">builds_on - Concept development</option>                        <option value="applies_to">applies_to - Practical application</option>                        <option value="extends_concept">extends_concept - Advanced extension</option>                        <option value="contrasts_with">contrasts_with - Compare & contrast</option>                        <option value="prerequisite">prerequisite - Required before</option>                        <option value="related_content">related_content - Thematically similar</option>                        <option value="shared_cultural_element">shared_cultural_element - Cultural connection</option>                    </select>                </div>                <div class="form-group">                    <label>Source Resource Path</label>                    <input type="text" id="source-path" placeholder="/public/generated-resources-alpha/lessons/..." required>                    <small style="color: #666;">The resource that this relationship starts from</small>                </div>                <div class="form-group">                    <label>Target Resource Path</label>                    <input type="text" id="target-path" placeholder="/public/units/..." required>                    <small style="color: #666;">The resource that this relationship points to</small>                </div>                <div class="form-group">                    <label>Confidence Score (0.0 - 1.0)</label>                    <input type="number" id="confidence" min="0" max="1" step="0.01" value="0.85" required>                    <small style="color: #666;">How confident are you in this connection?</small>                </div>                <div class="form-group">                    <label>Reasoning (Optional)</label>                    <textarea id="reasoning" rows="3" placeholder="Why these resources should be connected..."></textarea>                </div>                <button type="submit" class="btn-create" >                    🔗 Create Relationship in GraphRAG                </button>            </form>            <div id="result-message" style="margin-top: 2rem; display: none;"></div>        </div>        <!-- Recent Additions -->        <section style="margin: 3rem 0;">            <h2 style="font-size: 2rem; margin-bottom: 1.5rem; ">                📊 Recently Created Relationships            </h2>            <div id="recent-relationships" class="m-0 mx-auto" <p >Loading...</p>            </div>        </section>    </main>    <script>        const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);        // Pre-fill suggestions        async function createRelationship(type, source, target, confidence) {            try {                const { data, error } = await supabase                    .from('graphrag_relationships')                    .insert([{                        relationship_type: type,                        source_path: source,                        target_path: target,                        confidence: confidence,                        metadata: {                            created_by: 'graphrag_relationship_builder',                            created_at: new Date().toISOString(),                            auto_generated: false                        }                    }])                    .select();                if (error) throw error;                showMessage(`✅ Created ${type} relationship! Graph updated.`, 'success');                loadRecentRelationships();            } catch (error) {                showMessage(`❌ Error: ${error.message}`, 'error');            }        }        // Form submission        document.getElementById('relationship-form').addEventListener('submit', async (e) => {            e.preventDefault();            const type = document.getElementById('rel-type').value;            const source = document.getElementById('source-path').value;            const target = document.getElementById('target-path').value;            const confidence = parseFloat(document.getElementById('confidence').value);            const reasoning = document.getElementById('reasoning').value;            try {                const { data, error } = await supabase                    .from('graphrag_relationships')                    .insert([{                        relationship_type: type,                        source_path: source,                        target_path: target,                        confidence: confidence,                        metadata: {                            created_by: 'manual_entry',                            created_at: new Date().toISOString(),                            reasoning: reasoning || null                        }                    }])                    .select();                if (error) throw error;                showMessage(`✅ Successfully created ${type} relationship!`, 'success');                e.target.reset();                loadRecentRelationships();            } catch (error) {                showMessage(`❌ Error: ${error.message}`, 'error');            }        });        // Show message        function showMessage(text, type) {            const msgDiv = document.getElementById('result-message');            msgDiv.textContent = text;            msgDiv.style.display = 'block';            msgDiv.style.background = type === 'success' ? '#dcfce7' : '#fee2e2';            msgDiv.style.color = type === 'success' ? '#166534' : '#991b1b';            msgDiv.style.fontWeight = '600';        }        // Load recent relationships        async function loadRecentRelationships() {            try {                const { data, error } = await supabase                    .from('graphrag_relationships')                    .select('*')                    .in('relationship_type', ['builds_on', 'applies_to', 'extends_concept', 'contrasts_with'])                    .order('created_at', { ascending: false })                    .limit(10);                if (error) throw error;                const container = document.getElementById('recent-relationships');                if (!data || data.length === 0) {                    container.innerHTML = '<p style="color: #666;">No recent relationships of these types found.</p>';                    return;                }                container.innerHTML = data.map(rel => `                    <div class="suggestion-card">                        <div style="justify-content: space-between; align-items: start; margin-bottom: 0.75rem;">                            <span class="p-2" style="background: #dbeafe; color: #1e40af; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem;"                                ${rel.relationship_type}                            </span>                            <span class="p-2" style="background: #dcfce7; color: #166534; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem;"                                Confidence: ${(rel.confidence * 100).toFixed(0)}%                            </span>                        </div>                        <div style="color: #1f2937; ">                            ${rel.source_path.split('/').pop().replace('.html', '')}                        </div>                        <div class="m-0" style="color: #7c3aed; margin: 0.5rem 0;"↓</div>                        <div style="color: #1f2937; ">                            ${rel.target_path.split('/').pop().replace('.html', '')}                        </div>                    </div>                `).join('');            } catch (error) {                // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-        message: '$2',
-        details: $3,
-        url: window.location.pathname
-    });
+            posthog.capture('javascript_error', {
+                error: err.message,
+                url: window.location.pathname
+            }));
         }
         // Show user-friendly message instead of error
         }        }        // Load on page load        document.addEventListener('DOMContentLoaded', loadRecentRelationships);    </script><!-- 🎨 ULTIMATE BEAUTY SYSTEM: Complete UX --><!-- Footer --><div id="footer-container"></div><script>  fetch('/components/footer.html').then(r=>r.text()).then(html=>{    document.getElementById('footer-container').innerHTML=html;  });</script><!-- Mobile Navigation --><div id="mobile-nav-bottom"></div><script>  fetch('/components/mobile-bottom-nav.html').then(r=>r.text()).then(html=>{    document.getElementById('mobile-nav-bottom').innerHTML=html;  });</script><!-- Floating Action Button (Help) --><div id="fab-quick-actions"></div><script>  fetch('/components/quick-actions-fab.html').then(r=>r.text()).then(html=>{    document.getElementById('fab-quick-actions').innerHTML=html;  });</script><!-- 🎨 ULTIMATE BEAUTY: Framer Cultural Gestures --><script src="/js/framer-cultural-gestures-ultimate.js" defer></script><!-- 📊 ULTIMATE BEAUTY: PostHog Analytics (Privacy-First) --><script src="/js/posthog-analytics.js" defer></script></body></html>

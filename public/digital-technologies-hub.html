@@ -45,7 +45,92 @@
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/js/navigation-loader.js"></script>
-</head>
+
+<!-- UNIFIED DESIGN SYSTEM -->
+<!-- PWA Manifest -->
+<link href="/manifest.json" rel="manifest"/>
+<meta content="#1a4d2e" name="theme-color"/>
+
+<!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
+<!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
+<link rel="stylesheet" href="/css/professionalization-system.css">
+
+<!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
+<link rel="stylesheet" href="/css/te-kete-professional.css"/>
+<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css"/>
+
+<!-- ⭐ COMPONENT STYLES -->
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/navigation-standard.css">
+<link rel="stylesheet" href="/css/mobile-revolution.css">
+<link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css"/>
+
+<!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
+<link rel="stylesheet" href="/css/print.css" media="print"/>
+<link rel="stylesheet" href="/css/print-professional.css" media="print"/>
+
+<!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
+<link rel="stylesheet" href="/css/tailwind.css">
+
+<!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
+<link rel="stylesheet" href="/css/cascade-fix.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    // Wait for Supabase CDN to load before initializing singleton
+    window.addEventListener('DOMContentLoaded', () => {
+        if (!window.supabase) {
+            // Log to monitoring instead of console
+            if (window.posthog) {
+                posthog.capture('supabase_cdn_error', {
+                    message: 'Supabase CDN failed to load',
+                    url: window.location.pathname
+                });
+            }
+        }
+    });
+</script>
+<script src="/js/supabase-singleton.js"></script>
+<!-- My Kete Database Integration - loads after singleton -->
+<script src="/js/my-kete-database.js"></script>
+<!-- Navigation Loader Singleton - loads after supabase setup -->
+<script src="/js/navigation-loader.js"></script>
+<!-- Component Loader - centralized async component management -->
+<script src="/js/component-loader.js"></script>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="Te Kete Ako" name="apple-mobile-web-app-title"/>
+<link href="/icons/icon-192x192.png" rel="apple-touch-icon"/>
+<!-- ENHANCED SEARCH -->
+<script src="/js/enhanced-search.js" defer></script>
+<!-- MOBILE PERFORMANCE OPTIMIZER -->
+<script src="/js/mobile-performance-optimizer.js" defer></script>
+<!-- TOUCH TARGET AUDITOR -->
+<script src="/js/touch-target-auditor.js" defer></script>
+<!-- 🎨 ULTIMATE CULTURAL GESTURES - Framer Motion System -->
+<script src="/js/framer-cultural-gestures-ultimate.js" defer></script>
+<!-- Service Worker Registration -->
+<script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('✅ PWA: Service Worker registered!', registration);
+                    })
+                    .catch(error => {
+                        // Log to monitoring instead of console
+                        if (window.posthog) {
+                            posthog.capture('pwa_service_worker_error', {
+                                message: 'Service Worker registration failed',
+                                error: error.message,
+                                url: window.location.pathname
+                            });
+                        }
+                    });
+            });
+        }
+</script></head>
 <body class="pattern-koru-subtle page-not-homepage">
 
     <!-- Navigation -->
@@ -61,29 +146,26 @@
 
     <script>document.addEventListener('DOMContentLoaded', async () => {try {window.supabase = window.supabaseSingleton ? await window.supabaseSingleton.getClient() : null;if(!window.supabase){// Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-        message: '$2',
-        details: $3,
-        url: window.location.pathname
-    });
+            posthog.capture('javascript_error', {
+                error: err.message,
+                url: window.location.pathname
+            }));
         }
         // Show user-friendly message instead of error
         return;}const { data, error } = await window.supabase.from('graphrag_orphans').select('file_path,title,quality_score,resource_type').eq('canonical_subject','Digital Technologies').order('quality_score',{ascending:false}).limit(12);if(error){// Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-        message: '$2',
-        details: $3,
-        url: window.location.pathname
-    });
+            posthog.capture('javascript_error', {
+                error: err.message,
+                url: window.location.pathname
+            }));
         }
         // Show user-friendly message instead of error
         return;}const grid=document.getElementById('digitech-orphans');if(grid){grid.innerHTML=(data||[]).map(r=>('<a href="'+r.file_path+'" class="bg-white p-4 rounded-xl block" >'+'<h3 class="text-sm font-bold" >'+(r.title||'Untitled')+'</h3>'+'<div style="color:#6b7280;font-size:0.85rem;">'+(r.resource_type||'Resource')+(r.quality_score?(' • ⭐ '+r.quality_score):'')+'</div>'+'</a>')).join('');}} catch(e){// Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-        message: '$2',
-        details: $3,
-        url: window.location.pathname
-    });
+            posthog.capture('javascript_error', {
+                error: err.message,
+                url: window.location.pathname
+            }));
         }
         // Show user-friendly message instead of error
         }});</script>
@@ -111,11 +193,10 @@ Promise.all([
 </html>
 <script>(function(){try{function afterHero(){var hs=[].slice.call(document.querySelectorAll('h1'));for(var i=0;i<hs.length;i++){if((hs[i].textContent||'').indexOf('Digital Technologies Hub')>-1){return hs[i].closest('section');}}return document.querySelector('section');}var anchor=afterHero();var s=document.createElement('section');s.id='featured-picks-digitech';s.setAttribute('style','background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%); padding: 2rem; border-radius: 16px; margin: 2rem auto; max-width: 1100px; box-shadow: 0 4px 16px rgba(0,0,0,0.06);');s.innerHTML='<h2 class="text-center font-extrabold" >⭐ Featured Picks</h2><p class="text-center" >High-impact Digital Tech resources with live GraphRAG links</p><div class="grid" >  <a href="/generated-resources-alpha/lessons/ai-ethics-through-māori-data-sovereignty.html" class="bg-white rounded-xl relative block" >    <div class="connection-badge absolute font-extrabold" data-resource-path="/public/generated-resources-alpha/lessons/ai-ethics-through-māori-data-sovereignty.html" >🔄 Loading...</div>    <div class="mb-2" >🤖</div>    <h3 class="font-bold" >AI Ethics & Māori Data Sovereignty</h3>    <p class="m-0" >Years 10-13 • Lesson</p>  </a>  <a href="/generated-resources-alpha/handouts/coding-projects-inspired-by-māori-patterns.html" class="bg-white rounded-xl relative block" >    <div class="connection-badge absolute font-extrabold" data-resource-path="/public/generated-resources-alpha/handouts/coding-projects-inspired-by-māori-patterns.html" >🔄 Loading...</div>    <div class="mb-2" >💻</div>    <h3 class="font-bold" >Coding with Māori Patterns</h3>    <p class="m-0" >Years 9-10 • Handout</p>  </a>  <a href="/generated-resources-alpha/lessons/game-development-with-cultural-themes.html" class="bg-white rounded-xl relative block" >    <div class="connection-badge absolute font-extrabold" data-resource-path="/public/generated-resources-alpha/lessons/game-development-with-cultural-themes.html" >🔄 Loading...</div>    <div class="mb-2" >🎮</div>    <h3 class="font-bold" >Game Development with Cultural Themes</h3>    <p class="m-0" >Years 9-11 • Lesson</p>  </a></div>';if(anchor&&anchor.parentNode){anchor.parentNode.insertBefore(s,anchor);}else{document.body.insertBefore(s,document.body.children[1]||null);}if(window.graphragCounter&&typeof window.graphragCounter.updateAllBadges==='function'){window.graphragCounter.updateAllBadges();}}catch(e){// Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-        message: '$2',
-        details: $3,
-        url: window.location.pathname
-    });
+            posthog.capture('javascript_error', {
+                error: err.message,
+                url: window.location.pathname
+            }));
         }
         // Show user-friendly message instead of error
         }})();</script>

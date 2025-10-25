@@ -14,11 +14,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (error) {
                 // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         resourceGrid.textContent = '<p class="error-message">Could not load games. Please try again later.</p>';
@@ -56,11 +55,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         } catch (err) {
             // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         resourceGrid.textContent = '<p class="error-message">An unexpected error occurred while loading games.</p>';

@@ -25,11 +25,10 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!this.container) {
                 // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         return; 
@@ -50,11 +49,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (teamIndex === -1) {
                     // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         wordSpan.textContent = item.word; 
@@ -86,11 +84,10 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!this.feedbackEl) {
                 // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         return;
@@ -133,11 +130,10 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!this.elements.gridContainer ||!this.elements.wordsListEl ||!this.elements.feedbackEl ||!this.elements.resetBtn) {
                 // Log to monitoring instead of console
         if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
+            posthog.capture('javascript_error', {
+                error: err.message,
                 url: window.location.pathname
-            });
+            }));
         }
         // Show user-friendly message instead of error
         return;
