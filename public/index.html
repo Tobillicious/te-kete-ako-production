@@ -103,20 +103,7 @@ Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori</titl
 </head>
 <body data-auto-init="true" data-current-page="home" class="pattern-koru-subtle">
 <!-- Professional Navigation - Single Component (Fixed duplicate loading bug) -->
-<script>
-        // Load standardized navigation immediately
-        fetch('/components/navigation-standard.html')
-            .then(response => response.text())
-            .then(html => {
-                const container = document.createElement('div');
-                container.innerHTML = html;
-                const navElement = container.firstElementChild;
-                if (navElement) {
-                    document.body.insertBefore(navElement, document.body.firstChild);
-                }
-            })
-            .catch(err => console.error('Navigation load error:', err));
-</script>
+<!-- Navigation is loaded via navigation-loader.js singleton (prevents duplicates) -->
 <!-- Whakataukī Banner -->
 <div class="whakatauki-banner">
     <p class="whakatauki-text">
