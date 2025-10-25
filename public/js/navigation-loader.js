@@ -11,11 +11,12 @@
       return true;
     }
     
-    // Look for navigation component indicators
-    return document.querySelector('nav.navigation') || 
+    // Look for navigation component indicators (but not just the container)
+    return document.querySelector('nav.navigation') ||
            document.querySelector('[data-component="navigation"]') ||
            document.querySelector('.navigation-standard') ||
-           document.querySelector('header.main-header');
+           document.querySelector('header.main-header') ||
+           document.querySelector('.main-header');
   }
   
   // Load navigation from component
@@ -47,10 +48,17 @@
         if (navElement) {
           // Mark navigation as loaded (race-condition safe)
           document.documentElement.setAttribute(NAV_LOADED_MARKER, 'true');
-          
-          // Insert at the very top of body
-          document.body.insertBefore(navElement, document.body.firstChild);
-          console.log('[Navigation] Navigation loaded successfully');
+
+          // Try to insert into navigation container first, fallback to top of body
+          const navContainer = document.getElementById('navigation-container');
+          if (navContainer) {
+            navContainer.appendChild(navElement);
+            console.log('[Navigation] Navigation loaded into container');
+          } else {
+            // Fallback: Insert at the very top of body
+            document.body.insertBefore(navElement, document.body.firstChild);
+            console.log('[Navigation] Navigation loaded at top of body (fallback)');
+          }
         } else {
           // Log to monitoring instead of console
         if (window.posthog) {
