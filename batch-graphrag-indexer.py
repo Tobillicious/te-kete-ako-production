@@ -269,21 +269,21 @@ def main():
             sql_statements = generate_batch_insert_sql(all_documents[:100])
 
             print(f"✅ Generated {len(sql_statements)} SQL statements")
-            print("
-🎯 SAMPLE INSERT:"            print(sql_statements[0][:200] + "...")
+            print("\n🎯 SAMPLE INSERT:")
+            print(sql_statements[0][:200] + "...")
 
             # Reset for next batch
             all_documents = all_documents[100:]
 
             break  # Stop after first batch for now
 
-    print("
-🚀 BATCH INDEXING SETUP COMPLETE!"    print(f"   - Analyzed {len(all_documents)} files")
+    print("\n🚀 BATCH INDEXING SETUP COMPLETE!")
+    print(f"   - Analyzed {len(all_documents)} files")
     print(f"   - Generated SQL for {len(sql_statements) if 'sql_statements' in locals() else 0} insertions")
     print("   - Ready to index to agent_knowledge table")
 
-    print("
-🎯 NEXT STEPS:"    print("   1. Execute SQL insertions to add to GraphRAG")
+    print("\n🎯 NEXT STEPS:")
+    print("   1. Execute SQL insertions to add to GraphRAG")
     print("   2. Process remaining 1,307 files in batches")
     print("   3. Update agent search and cross-referencing")
     print("   4. Verify knowledge gap closure")

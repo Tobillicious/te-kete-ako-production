@@ -143,18 +143,25 @@ class PostDeploymentValidator:
                 self.results['overall_status'] = 'FAILING'
 
         # Check main navigation pages
-        main_pages = ['/index.html', '/lessons.html', '/unit-plans.html', '/games.html']
-        for page in main_pages:
-            full_path = self.public_dir / page[1:]
+        main_pages = [
+            ('index.html', 'Homepage'),
+            ('lessons.html', 'Lessons Hub'),
+            ('unit-plans.html', 'Unit Plans Hub'),
+            ('games.html', 'Games Hub'),
+            ('mathematics-hub.html', 'Mathematics Hub')
+        ]
+
+        for page_path, description in main_pages:
+            full_path = self.public_dir / page_path
             if full_path.exists():
                 content = full_path.read_text(encoding='utf-8')
-                # Check for navigation includes
-                if 'navigation-unified.html' in content or 'mega-navigation' in content:
-                    results.append(f"✅ {page} has navigation")
+                # Check for navigation loader (component system)
+                if 'navigation-loader.js' in content or 'navigation-container' in content:
+                    results.append(f"✅ {description} has navigation system")
                 else:
-                    results.append(f"⚠️ {page} missing navigation include")
+                    results.append(f"⚠️ {description} missing navigation system")
             else:
-                results.append(f"❌ {page} missing")
+                results.append(f"❌ {description} missing")
                 self.results['overall_status'] = 'FAILING'
 
         self.results['checks']['navigation'] = {
