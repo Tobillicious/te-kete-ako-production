@@ -1,207 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>AI Teacher Planning Assistant | Te Kete Ako</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Teacher Planning Assistant | Te Kete Ako</title>
     <meta name="description" content="Intelligent unit and lesson planning powered by GraphRAG">
-    
-    <link rel="stylesheet" href="/css/te-kete-professional.css">
-    
-    
-    
-    
-    
-    
-    <style>
-        .planning-container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-        }
-        
-        .planning-wizard {
-            background: white;
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            margin: 2rem 0;
-        }
-        
-        .wizard-step {
-            display: none;
-        }
-        
-        .wizard-step.active {
-            display: block;
-            animation: fadeIn 0.3s ease-in;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .form-group {
-            margin: 1.5rem 0;
-        }
-        
-        .form-label {
-            display: block;
-            font-weight: 600;
-            color: #1a4d2e;
-            margin-bottom: 0.5rem;
-        }
-        
-        .form-input, .form-select, .form-textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.2s;
-        }
-        
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
-            outline: none;
-            border-color: #1a4d2e;
-        }
-        
-        .form-textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-        
-        .btn-primary {
-            background: #1a4d2e;
-            color: white;
-            padding: 0.75rem 2rem;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.2s;
-        }
-        
-        .btn-primary:hover {
-            background: #0f2818;
-            transform: translateY(-2px);
-        }
-        
-        .btn-secondary {
-            background: #e0e0e0;
-            color: #333;
-            padding: 0.75rem 2rem;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.2s;
-            margin-left: 0.5rem;
-        }
-        
-        .btn-secondary:hover {
-            background: #d0d0d0;
-        }
-        
-        .ai-suggestion {
-            background: linear-gradient(135deg, #dcfce7, #bbf7d0);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            border-left: 4px solid #059669;
-        }
-        
-        .resource-suggestion {
-            background: white;
-            border-radius: 8px;
-            padding: 1rem;
-            margin: 0.5rem 0;
-            border-left: 3px solid #DAA520;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .resource-suggestion:hover {
-            transform: translateX(4px);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        
-        .progress-indicator {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 2rem;
-            position: relative;
-        }
-        
-        .progress-step {
-            flex: 1;
-            text-align: center;
-            position: relative;
-            padding: 1rem 0;
-        }
-        
-        .progress-step::before {
-            content: '';
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            right: -50%;
-            height: 2px;
-            background: #e0e0e0;
-            z-index: -1;
-        }
-        
-        .progress-step:last-child::before {
-            display: none;
-        }
-        
-        .progress-step.completed::before {
-            background: #1a4d2e;
-        }
-        
-        .progress-circle {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #e0e0e0;
-            color: #666;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        
-        .progress-step.active .progress-circle {
-            background: #1a4d2e;
-            color: white;
-        }
-        
-        .progress-step.completed .progress-circle {
-            background: #059669;
-            color: white;
-        }
-        
-        .generated-plan {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            margin: 2rem 0;
-        }
-        
-        .lesson-card {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            border-left: 4px solid #1a4d2e;
-        }
-    </style>
-</head>
+
+<!-- UNIFIED DESIGN SYSTEM -->
+<!-- PWA Manifest -->
+<link href="/manifest.json" rel="manifest"/>
+<meta content="#1a4d2e" name="theme-color"/>
+
+<!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
+<!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
+<link rel="stylesheet" href="/css/professionalization-system.css">
+
+<!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
+<link rel="stylesheet" href="/css/te-kete-professional.css"/>
+<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css"/>
+
+<!-- ⭐ COMPONENT STYLES -->
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/navigation-standard.css">
+    <link rel="stylesheet" href="/css/mobile-revolution.css">
+    <link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css"/>
+
+<!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
+    <link rel="stylesheet" href="/css/print.css" media="print"/>
+<link rel="stylesheet" href="/css/print-professional.css" media="print"/>
+
+<!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
+<link rel="stylesheet" href="/css/tailwind.css">
+
+<!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
+<link rel="stylesheet" href="/css/cascade-fix.css">
 <body class="pattern-koru-subtle">
     
     <!-- Navigation -->

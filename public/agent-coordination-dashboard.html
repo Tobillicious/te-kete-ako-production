@@ -1,219 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>🤖 Agent Coordination Dashboard - Te Kete Ako</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🤖 Agent Coordination Dashboard - Te Kete Ako</title>
-    
-    <link rel="stylesheet" href="/css/te-kete-professional.css">
-    <style>
-        body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            color: white;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            min-height: 100vh;
-            padding: 2rem;
-        }
 
-        .dashboard {
-            max-width: 1600px;
-            margin: 0 auto;
-        }
+<!-- UNIFIED DESIGN SYSTEM -->
+<!-- PWA Manifest -->
+<link href="/manifest.json" rel="manifest"/>
+<meta content="#1a4d2e" name="theme-color"/>
 
-        .header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
+<!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
+<!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
+<link rel="stylesheet" href="/css/professionalization-system.css">
 
-        .header h1 {
-            font-size: 3rem;
-            margin: 0 0 1rem 0;
-            background: linear-gradient(135deg, #10b981, #34d399);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+<!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
+<link rel="stylesheet" href="/css/te-kete-professional.css"/>
+<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css"/>
 
-        .collective-status {
-            background: rgba(16, 185, 129, 0.1);
-            border: 2px solid #10b981;
-            border-radius: 16px;
-            padding: 2rem;
-            margin-bottom: 3rem;
-            text-align: center;
-        }
+<!-- ⭐ COMPONENT STYLES -->
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/navigation-standard.css">
+    <link rel="stylesheet" href="/css/mobile-revolution.css">
+    <link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css"/>
 
-        .status-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
+<!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
+    <link rel="stylesheet" href="/css/print.css" media="print"/>
+<link rel="stylesheet" href="/css/print-professional.css" media="print"/>
 
-        .status-item {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 1.5rem;
-            border-radius: 12px;
-        }
+<!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
+<link rel="stylesheet" href="/css/tailwind.css">
 
-        .status-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #10b981;
-        }
-
-        .status-label {
-            font-size: 0.875rem;
-            opacity: 0.8;
-            margin-top: 0.5rem;
-        }
-
-        .agents-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .agent-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 1.5rem;
-            transition: all 0.3s;
-        }
-
-        .agent-card.active {
-            border-color: #10b981;
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
-        }
-
-        .agent-card.idle {
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .agent-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .agent-name {
-            font-size: 1.25rem;
-            font-weight: 700;
-        }
-
-        .agent-status {
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 700;
-        }
-
-        .agent-status.active {
-            background: #10b981;
-            animation: pulse 2s infinite;
-        }
-
-        .agent-status.idle {
-            background: #6b7280;
-        }
-
-        .agent-task {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 1rem;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            margin: 1rem 0;
-            border-left: 4px solid #10b981;
-        }
-
-        .agent-meta {
-            font-size: 0.8rem;
-            opacity: 0.7;
-            margin-top: 0.5rem;
-        }
-
-        .tasks-section {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .task-item {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin-bottom: 1rem;
-            border-left: 4px solid #3b82f6;
-        }
-
-        .task-item.completed {
-            border-color: #10b981;
-            opacity: 0.7;
-        }
-
-        .task-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.75rem;
-        }
-
-        .task-title {
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .knowledge-feed {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 2rem;
-        }
-
-        .knowledge-item {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            border-left: 4px solid #f59e0b;
-        }
-
-        .knowledge-title {
-            font-weight: 700;
-            color: #f59e0b;
-            margin-bottom: 0.5rem;
-        }
-
-        .insight {
-            font-size: 0.9rem;
-            opacity: 0.9;
-            margin: 0.25rem 0;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
-
-        .refresh-btn {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 700;
-            margin: 1rem 0;
-        }
-
-        .section-title {
-            font-size: 1.75rem;
-            margin-bottom: 1.5rem;
-            color: #10b981;
-        }
-    </style>
-</head>
+<!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
+<link rel="stylesheet" href="/css/cascade-fix.css">
 <body>
     <div class="dashboard">
         <div class="header">

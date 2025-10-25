@@ -1,153 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Enhanced GraphRAG Search | Te Kete Ako</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enhanced GraphRAG Search | Te Kete Ako</title>
     <meta name="description" content="AI-powered semantic search across 17,335+ resources with advanced filtering">
-    
-    <link rel="stylesheet" href="/css/te-kete-professional.css">
-    <link rel="stylesheet" href="/css/quality-badges.css">
-    <script src="/js/css-safeguard.js" defer></script>
-    
-    <style>
-        .search-hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-align: center;
-            padding: 4rem 2rem;
-            margin-bottom: 2rem;
-        }
-        .search-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        .advanced-search-panel {
-            background: white;
-            padding: 2rem;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
-            margin: 2rem 0;
-        }
-        .filter-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-        .filter-section {
-            background: #f8fafc;
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 2px solid #e2e8f0;
-        }
-        .filter-chips {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-        .filter-chip {
-            padding: 0.5rem 1rem;
-            background: #e2e8f0;
-            border: 2px solid transparent;
-            border-radius: 25px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: #475569;
-        }
-        .filter-chip:hover {
-            background: #cbd5e1;
-            transform: translateY(-1px);
-        }
-        .filter-chip.active {
-            background: #059669;
-            color: white;
-            border-color: #047857;
-        }
-        .search-input-container {
-            margin: 2rem 0;
-            background: white;
-            padding: 2rem;
-            border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-        .search-input {
-            width: 100%;
-            padding: 1rem 1.5rem;
-            font-size: 1.125rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            margin-bottom: 1rem;
-        }
-        .search-input:focus {
-            outline: none;
-            border-color: #059669;
-            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
-        }
-        .search-button {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.125rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .search-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px -3px rgba(16, 185, 129, 0.3);
-        }
-        .results-container {
-            margin: 2rem 0;
-        }
-        .result-card {
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            transition: all 0.3s ease;
-        }
-        .result-card:hover {
-            border-color: #059669;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
-        }
-        .result-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 0.5rem;
-        }
-        .result-title a {
-            color: inherit;
-            text-decoration: none;
-        }
-        .result-title a:hover {
-            color: #059669;
-        }
-        .result-meta {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin: 1rem 0;
-            flex-wrap: wrap;
-        }
-        .quality-indicator {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.875rem;
-            font-weight: 600;
-        }
-    </style>
-</head>
+
+<!-- UNIFIED DESIGN SYSTEM -->
+<!-- PWA Manifest -->
+<link href="/manifest.json" rel="manifest"/>
+<meta content="#1a4d2e" name="theme-color"/>
+
+<!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
+<!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
+<link rel="stylesheet" href="/css/professionalization-system.css">
+
+<!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
+<link rel="stylesheet" href="/css/te-kete-professional.css"/>
+<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css"/>
+
+<!-- ⭐ COMPONENT STYLES -->
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/navigation-standard.css">
+    <link rel="stylesheet" href="/css/mobile-revolution.css">
+    <link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css"/>
+
+<!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
+    <link rel="stylesheet" href="/css/print.css" media="print"/>
+<link rel="stylesheet" href="/css/print-professional.css" media="print"/>
+
+<!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
+<link rel="stylesheet" href="/css/tailwind.css">
+
+<!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
+<link rel="stylesheet" href="/css/cascade-fix.css">
 <body class="pattern-koru-subtle">
     <div id="nav-container"></div>
     <script>fetch('/components/navigation-standard.html').then(r=>r.text()).then(html=>document.getElementById('nav-container').innerHTML=html);</script>

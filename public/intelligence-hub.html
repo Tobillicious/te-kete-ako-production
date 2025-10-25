@@ -1,250 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>🧠 Central Intelligence Hub - Te Kete Ako</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🧠 Central Intelligence Hub - Te Kete Ako</title>
-    
-    <link rel="stylesheet" href="/css/te-kete-professional.css">
-    <style>
-        body {
-            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
-            color: white;
-            min-height: 100vh;
-            font-family: system-ui, -apple-system, sans-serif;
-        }
 
-        .hub-container {
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-        }
+<!-- UNIFIED DESIGN SYSTEM -->
+<!-- PWA Manifest -->
+<link href="/manifest.json" rel="manifest"/>
+<meta content="#1a4d2e" name="theme-color"/>
 
-        .hub-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
+<!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
+<!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
+<link rel="stylesheet" href="/css/professionalization-system.css">
 
-        .hub-header h1 {
-            font-size: 3.5rem;
-            margin: 0 0 1rem 0;
-            background: linear-gradient(135deg, #10b981, #34d399, #6ee7b7);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+<!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
+<link rel="stylesheet" href="/css/te-kete-professional.css"/>
+<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css"/>
 
-        .hub-header p {
-            font-size: 1.25rem;
-            opacity: 0.9;
-            max-width: 800px;
-            margin: 0 auto;
-        }
+<!-- ⭐ COMPONENT STYLES -->
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/navigation-standard.css">
+    <link rel="stylesheet" href="/css/mobile-revolution.css">
+    <link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css"/>
 
-        .intelligence-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
+<!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
+    <link rel="stylesheet" href="/css/print.css" media="print"/>
+<link rel="stylesheet" href="/css/print-professional.css" media="print"/>
 
-        .intelligence-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 2rem;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
+<!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
+<link rel="stylesheet" href="/css/tailwind.css">
 
-        .intelligence-card:hover {
-            transform: translateY(-8px);
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(16, 185, 129, 0.5);
-            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.2);
-        }
-
-        .intelligence-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .intelligence-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: #10b981;
-        }
-
-        .intelligence-stat {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .intelligence-desc {
-            opacity: 0.8;
-            line-height: 1.6;
-        }
-
-        .central-brain {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.2));
-            border: 3px solid #10b981;
-            border-radius: 24px;
-            padding: 3rem;
-            margin-bottom: 3rem;
-            text-align: center;
-        }
-
-        .central-brain h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .brain-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .brain-stat {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1.5rem;
-            border-radius: 12px;
-        }
-
-        .brain-stat-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #10b981;
-            margin-bottom: 0.5rem;
-        }
-
-        .brain-stat-label {
-            font-size: 0.875rem;
-            opacity: 0.8;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 2rem;
-        }
-
-        .action-btn {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            border: none;
-            padding: 1.25rem 2.5rem;
-            border-radius: 12px;
-            font-size: 1.125rem;
-            font-weight: 700;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s;
-        }
-
-        .action-btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 32px rgba(16, 185, 129, 0.4);
-        }
-
-        .action-btn.secondary {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .capabilities-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .capability-card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 1.5rem;
-            border-radius: 12px;
-            border-left: 4px solid #10b981;
-        }
-
-        .capability-title {
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: #10b981;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-left: 0.5rem;
-        }
-
-        .status-active {
-            background: #10b981;
-            color: white;
-        }
-
-        .status-ready {
-            background: #f59e0b;
-            color: white;
-        }
-
-        .real-time-stats {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 16px;
-            padding: 2rem;
-            margin-top: 3rem;
-        }
-
-        .real-time-header {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .stat-row:last-child {
-            border-bottom: none;
-        }
-
-        .pulse {
-            animation: pulse-animation 2s infinite;
-        }
-
-        @keyframes pulse-animation {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-    </style>
-
-    <!-- NAVIGATION INTEGRATION -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('/components/navigation-standard.html')
-                .then(response => response.text())
-                .then(html => {
-                    document.body.insertAdjacentHTML('afterbegin', html);
-                });
-        });
-    </script>
-</head>
+<!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
+<link rel="stylesheet" href="/css/cascade-fix.css">
 <body>
     <div class="hub-container">
         <div class="hub-header">
