@@ -79,11 +79,15 @@ have you on board.
 
 **YOUR NEXT STEPS:**
 
-1️⃣ **ACCESS THE PLATFORM** (right now!)
-   👉 https://tekete.netlify.app
-   👉 Sign up with this email: [TEACHER_EMAIL]
+1️⃣ **WELCOME PAGE** (start here!)
+   👉 https://tekete.netlify.app/welcome-beta-teacher.html
+   👉 This will guide you through everything!
    
-2️⃣ **EXPLORE** (5 minutes)
+2️⃣ **QUICK ONBOARDING** (5 minutes)
+   👉 https://tekete.netlify.app/teacher-onboarding.html
+   👉 Learn the 5 essential things you need to know
+   
+3️⃣ **EXPLORE** (after onboarding)
    • Emergency Lessons: https://tekete.netlify.app/emergency-lessons.html
    • Search all resources: https://tekete.netlify.app/search.html
    • Subject hubs: Mathematics, Science, English, etc.

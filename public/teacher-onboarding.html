@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Beta Teacher! Your 5-Minute Onboarding | Te Kete Ako</title>
+    <meta name="description" content="Quick onboarding guide for beta teachers. Get started with Te Kete Ako in 5 minutes - find lessons, understand quality ratings, and access emergency resources.">
+    
+    <!-- CSS -->
+    <link href="/css/professionalization-system.css" rel="stylesheet"/>
+    <link href="/css/te-kete-professional.css" rel="stylesheet"/>
+    <link href="/css/navigation-standard.css" rel="stylesheet"/>
+    <link href="/css/mobile-revolution.css" rel="stylesheet"/>
+    <link href="/css/tailwind.css" rel="stylesheet"/>
+    
+    <!-- Scripts -->
+    <script src="/js/navigation-loader.js"></script>
+    
+    <style>
+        .onboarding-step {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-left: 8px solid #8b5cf6;
+        }
+        
+        .onboarding-step.completed {
+            border-left-color: #10b981;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        }
+        
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            border-radius: 50%;
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 16px;
+        }
+        
+        .step-completed {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+        
+        .quick-action {
+            display: inline-block;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            margin: 8px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+        
+        .quick-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+        }
+        
+        .quick-action.secondary {
+            background: white;
+            color: #8b5cf6;
+            border: 2px solid #8b5cf6;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #8b5cf6, #ec4899);
+            transition: width 0.5s ease;
+        }
+        
+        .tip-box {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-left: 4px solid #f59e0b;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+        
+        .video-placeholder {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            border-radius: 12px;
+            padding: 48px;
+            text-align: center;
+            margin: 24px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div id="navigation-container"></div>
+    
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 text-white py-16">
+        <div class="container mx-auto px-4 text-center">
+            <div class="text-7xl mb-6">👋</div>
+            <h1 class="text-5xl font-bold mb-4">
+                Welcome to Te Kete Ako!
+            </h1>
+            <p class="text-2xl mb-6 max-w-3xl mx-auto">
+                You're one of our 15 pioneering beta teachers. Let's get you teaching in 5 minutes! ⏱️
+            </p>
+            <div class="progress-bar max-w-2xl mx-auto">
+                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+            </div>
+            <p class="mt-4 text-lg" id="progress-text">0% Complete - Let's start!</p>
+        </div>
+    </section>
+    
+    <!-- Quick Start Guide -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4 max-w-5xl">
+            
+            <!-- Step 1: Emergency Lessons (Most Important!) -->
+            <div class="onboarding-step" id="step-1">
+                <div class="flex items-center mb-6">
+                    <span class="step-number">1</span>
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-800">Emergency Access (30 seconds)</h2>
+                        <p class="text-gray-600 text-lg">For when you need a lesson RIGHT NOW!</p>
+                    </div>
+                </div>
+                
+                <p class="text-gray-700 text-lg mb-6">
+                    <strong>Why this matters:</strong> Sometimes you need a print-ready lesson in the next 5 minutes 
+                    (absent colleague, surprise relief, planning emergency). We've got you covered!
+                </p>
+                
+                <div class="bg-red-50 p-6 rounded-xl border-2 border-red-200 mb-6">
+                    <h3 class="text-xl font-bold text-red-700 mb-3">🚨 BOOKMARK THIS PAGE NOW:</h3>
+                    <a href="/emergency-lessons.html" class="text-2xl font-bold text-red-600 hover:text-red-800 underline" target="_blank">
+                        tekete.netlify.app/emergency-lessons.html
+                    </a>
+                    <p class="text-gray-700 mt-3">
+                        Gold-standard lessons for Math, Science, English, Social Studies (Year 7-10). 
+                        Click "View Lesson" → Print → Teach. Done in 3 minutes! ⚡
+                    </p>
+                </div>
+                
+                <div class="flex gap-4">
+                    <a href="/emergency-lessons.html" class="quick-action" target="_blank" onclick="markComplete(1)">
+                        🚨 Open Emergency Lessons
+                    </a>
+                    <button class="quick-action secondary" onclick="markComplete(1)">
+                        ✅ Got it, I bookmarked it!
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Step 2: Find Your Subject Hub -->
+            <div class="onboarding-step" id="step-2">
+                <div class="flex items-center mb-6">
+                    <span class="step-number">2</span>
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-800">Find Your Subject Hub (1 minute)</h2>
+                        <p class="text-gray-600 text-lg">All your subject resources in one place</p>
+                    </div>
+                </div>
+                
+                <p class="text-gray-700 text-lg mb-6">
+                    <strong>What you get:</strong> Every subject has a dedicated hub with lessons, units, 
+                    handouts, and games - all organized by year level and quality-rated!
+                </p>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+                    <a href="/mathematics-hub.html" class="bg-blue-50 p-4 rounded-xl text-center hover:bg-blue-100 transition border-2 border-blue-200" target="_blank">
+                        <div class="text-4xl mb-2">📊</div>
+                        <div class="font-bold text-blue-700">Mathematics</div>
+                    </a>
+                    <a href="/science-hub.html" class="bg-green-50 p-4 rounded-xl text-center hover:bg-green-100 transition border-2 border-green-200" target="_blank">
+                        <div class="text-4xl mb-2">🔬</div>
+                        <div class="font-bold text-green-700">Science</div>
+                    </a>
+                    <a href="/english-hub.html" class="bg-purple-50 p-4 rounded-xl text-center hover:bg-purple-100 transition border-2 border-purple-200" target="_blank">
+                        <div class="text-4xl mb-2">📚</div>
+                        <div class="font-bold text-purple-700">English</div>
+                    </a>
+                    <a href="/social-studies-hub.html" class="bg-amber-50 p-4 rounded-xl text-center hover:bg-amber-100 transition border-2 border-amber-200" target="_blank">
+                        <div class="text-4xl mb-2">🌏</div>
+                        <div class="font-bold text-amber-700">Social Studies</div>
+                    </a>
+                    <a href="/te-reo-maori-hub.html" class="bg-emerald-50 p-4 rounded-xl text-center hover:bg-emerald-100 transition border-2 border-emerald-200" target="_blank">
+                        <div class="text-4xl mb-2">🌿</div>
+                        <div class="font-bold text-emerald-700">Te Reo Māori</div>
+                    </a>
+                    <a href="/digital-technologies-hub.html" class="bg-indigo-50 p-4 rounded-xl text-center hover:bg-indigo-100 transition border-2 border-indigo-200" target="_blank">
+                        <div class="text-4xl mb-2">💻</div>
+                        <div class="font-bold text-indigo-700">Digital Tech</div>
+                    </a>
+                </div>
+                
+                <div class="tip-box">
+                    <strong>💡 Pro Tip:</strong> Use the filter buttons at the top of each hub to narrow by 
+                    resource type (Lessons, Units, Handouts, Games, Assessments).
+                </div>
+                
+                <button class="quick-action" onclick="markComplete(2)">
+                    ✅ I found my subject hub!
+                </button>
+            </div>
+            
+            <!-- Step 3: Understanding Quality Badges -->
+            <div class="onboarding-step" id="step-3">
+                <div class="flex items-center mb-6">
+                    <span class="step-number">3</span>
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-800">Quality Ratings Explained (30 seconds)</h2>
+                        <p class="text-gray-600 text-lg">Know what you're getting before you click!</p>
+                    </div>
+                </div>
+                
+                <p class="text-gray-700 text-lg mb-6">
+                    <strong>Every resource is rated 0-100.</strong> Higher = better quality, completeness, 
+                    and cultural integration. Look for the stars! ⭐
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-yellow-50 p-6 rounded-xl border-2 border-yellow-300">
+                        <div class="text-4xl mb-2">🌟🌟🌟🌟🌟</div>
+                        <h3 class="text-xl font-bold text-yellow-700 mb-2">Exceptional (95-100)</h3>
+                        <p class="text-gray-700">
+                            Gold standard! Complete, culturally excellent, classroom-ready. 
+                            We have <strong>271 of these!</strong>
+                        </p>
+                    </div>
+                    
+                    <div class="bg-purple-50 p-6 rounded-xl border-2 border-purple-300">
+                        <div class="text-4xl mb-2">⭐⭐⭐⭐</div>
+                        <h3 class="text-xl font-bold text-purple-700 mb-2">Excellent (90-94)</h3>
+                        <p class="text-gray-700">
+                            High quality, well-structured, culturally integrated. 
+                            Perfect for classroom use!
+                        </p>
+                    </div>
+                    
+                    <div class="bg-blue-50 p-6 rounded-xl border-2 border-blue-300">
+                        <div class="text-4xl mb-2">⭐⭐⭐</div>
+                        <h3 class="text-xl font-bold text-blue-700 mb-2">Very Good (80-89)</h3>
+                        <p class="text-gray-700">
+                            Solid resources, good structure. May need minor customization.
+                        </p>
+                    </div>
+                    
+                    <div class="bg-emerald-50 p-6 rounded-xl border-2 border-emerald-300">
+                        <div class="text-4xl mb-2">🌿</div>
+                        <h3 class="text-xl font-bold text-emerald-700 mb-2">Cultural Badge</h3>
+                        <p class="text-gray-700">
+                            <strong>90%+ cultural integration!</strong> Te Reo, tikanga, whakataukī woven throughout.
+                        </p>
+                    </div>
+                </div>
+                
+                <button class="quick-action" onclick="markComplete(3)">
+                    ✅ I understand the ratings!
+                </button>
+            </div>
+            
+            <!-- Step 4: Try a Search -->
+            <div class="onboarding-step" id="step-4">
+                <div class="flex items-center mb-6">
+                    <span class="step-number">4</span>
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-800">Search for Anything (1 minute)</h2>
+                        <p class="text-gray-600 text-lg">AI-powered search finds exactly what you need</p>
+                    </div>
+                </div>
+                
+                <p class="text-gray-700 text-lg mb-6">
+                    <strong>Try searching for:</strong> "Year 8 algebra" or "Science experiments" or 
+                    "Te Reo games" or "Essay writing" - anything! Our AI search understands natural language.
+                </p>
+                
+                <div class="bg-blue-50 p-6 rounded-xl border-2 border-blue-200 mb-6">
+                    <h3 class="text-xl font-bold text-blue-700 mb-3">🔍 Search Features:</h3>
+                    <ul class="text-gray-700 space-y-2">
+                        <li>✓ <strong>Natural language:</strong> "I need a quick math warmup for Year 9"</li>
+                        <li>✓ <strong>Filters:</strong> Subject, year level, resource type, quality rating</li>
+                        <li>✓ <strong>Smart results:</strong> Best matches first, with quality badges</li>
+                        <li>✓ <strong>Quick preview:</strong> Click any result to preview before opening</li>
+                    </ul>
+                </div>
+                
+                <div class="flex gap-4">
+                    <a href="/search.html" class="quick-action" target="_blank" onclick="markComplete(4)">
+                        🔍 Try the Search Now
+                    </a>
+                    <button class="quick-action secondary" onclick="markComplete(4)">
+                        ✅ I've tried searching!
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Step 5: Cultural Excellence Hub -->
+            <div class="onboarding-step" id="step-5">
+                <div class="flex items-center mb-6">
+                    <span class="step-number">5</span>
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-800">Cultural Excellence (Optional but Amazing!)</h2>
+                        <p class="text-gray-600 text-lg">268 culturally excellent resources in one place</p>
+                    </div>
+                </div>
+                
+                <p class="text-gray-700 text-lg mb-6">
+                    <strong>Our cultural commitment:</strong> 88.7% avg cultural integration across ALL resources, 
+                    but we've created a special hub for the absolute best (90%+ cultural integration).
+                </p>
+                
+                <div class="bg-emerald-50 p-6 rounded-xl border-2 border-emerald-200 mb-6">
+                    <h3 class="text-xl font-bold text-emerald-700 mb-3">🌿 What you'll find:</h3>
+                    <ul class="text-gray-700 space-y-2">
+                        <li>✓ Te Reo Māori woven naturally throughout</li>
+                        <li>✓ Whakataukī (proverbs) with context and meaning</li>
+                        <li>✓ Tikanga protocols embedded in activities</li>
+                        <li>✓ Mātauranga Māori perspectives on every topic</li>
+                        <li>✓ Not tokenism - authentic integration!</li>
+                    </ul>
+                </div>
+                
+                <a href="/cultural-excellence-hub.html" class="quick-action" target="_blank" onclick="markComplete(5)">
+                    🌿 Explore Cultural Excellence
+                </a>
+            </div>
+            
+            <!-- Completion Section -->
+            <div class="onboarding-step" id="completion" style="display: none;">
+                <div class="text-center py-8">
+                    <div class="text-8xl mb-6">🎉</div>
+                    <h2 class="text-4xl font-bold text-gray-800 mb-4">
+                        You're All Set!
+                    </h2>
+                    <p class="text-xl text-gray-600 mb-8">
+                        You've completed the onboarding! Now go teach something amazing! 🚀
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mt-8">
+                        <div class="bg-purple-50 p-6 rounded-xl">
+                            <div class="text-4xl mb-3">📝</div>
+                            <h3 class="font-bold text-purple-700 mb-2">Weekly Feedback</h3>
+                            <p class="text-gray-700 text-sm mb-4">
+                                Remember to fill out the weekly feedback form (15 min, super helpful!)
+                            </p>
+                            <a href="#" class="text-purple-600 font-bold hover:underline">Feedback Form →</a>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-6 rounded-xl">
+                            <div class="text-4xl mb-3">💬</div>
+                            <h3 class="font-bold text-blue-700 mb-2">Join Community</h3>
+                            <p class="text-gray-700 text-sm mb-4">
+                                Chat with other beta teachers, share wins, ask questions!
+                            </p>
+                            <a href="#" class="text-blue-600 font-bold hover:underline">Slack/Discord →</a>
+                        </div>
+                        
+                        <div class="bg-emerald-50 p-6 rounded-xl">
+                            <div class="text-4xl mb-3">📞</div>
+                            <h3 class="font-bold text-emerald-700 mb-2">Need Help?</h3>
+                            <p class="text-gray-700 text-sm mb-4">
+                                Email us anytime or book a 1-on-1 support call!
+                            </p>
+                            <a href="mailto:support@teketeako.nz" class="text-emerald-600 font-bold hover:underline">Email Support →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+    
+    <!-- Quick Reference Card -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <h2 class="text-3xl font-bold text-center mb-8">📌 Quick Reference Card (Bookmark This!)</h2>
+            
+            <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-8 rounded-2xl border-2 border-purple-200">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-bold text-lg text-purple-700 mb-3">🚨 Emergency Lessons:</h3>
+                        <a href="/emergency-lessons.html" class="text-purple-600 hover:underline text-sm" target="_blank">
+                            /emergency-lessons.html
+                        </a>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-bold text-lg text-purple-700 mb-3">🔍 Search Everything:</h3>
+                        <a href="/search.html" class="text-purple-600 hover:underline text-sm" target="_blank">
+                            /search.html
+                        </a>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-bold text-lg text-purple-700 mb-3">🌿 Cultural Excellence:</h3>
+                        <a href="/cultural-excellence-hub.html" class="text-purple-600 hover:underline text-sm" target="_blank">
+                            /cultural-excellence-hub.html
+                        </a>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-bold text-lg text-purple-700 mb-3">📊 My Subject Hub:</h3>
+                        <p class="text-sm text-gray-700">
+                            /mathematics-hub.html<br>
+                            /science-hub.html<br>
+                            /english-hub.html<br>
+                            /social-studies-hub.html
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="mt-6 pt-6 border-t-2 border-purple-200 text-center">
+                    <p class="text-gray-700 text-sm">
+                        <strong>💡 Pro Tip:</strong> Press Ctrl+D (or Cmd+D on Mac) to bookmark any page!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <div id="footer-container"></div>
+    
+    <script>
+        // Progress tracking
+        let completedSteps = 0;
+        const totalSteps = 5;
+        
+        function markComplete(stepNum) {
+            const step = document.getElementById(`step-${stepNum}`);
+            const stepNumber = step.querySelector('.step-number');
+            
+            if (!step.classList.contains('completed')) {
+                step.classList.add('completed');
+                stepNumber.classList.add('step-completed');
+                stepNumber.innerHTML = '✓';
+                completedSteps++;
+                updateProgress();
+                
+                // Save to localStorage
+                localStorage.setItem(`onboarding-step-${stepNum}`, 'complete');
+            }
+        }
+        
+        function updateProgress() {
+            const percentage = (completedSteps / totalSteps) * 100;
+            document.getElementById('progress-fill').style.width = percentage + '%';
+            document.getElementById('progress-text').textContent = 
+                Math.round(percentage) + '% Complete' + (percentage === 100 ? ' - Amazing! 🎉' : '');
+            
+            if (completedSteps === totalSteps) {
+                setTimeout(() => {
+                    document.getElementById('completion').style.display = 'block';
+                    document.getElementById('completion').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 500);
+            }
+        }
+        
+        // Load saved progress
+        window.addEventListener('DOMContentLoaded', () => {
+            for (let i = 1; i <= totalSteps; i++) {
+                if (localStorage.getItem(`onboarding-step-${i}`) === 'complete') {
+                    markComplete(i);
+                }
+            }
+            
+            // Load navigation
+            if (window.ComponentLoader) {
+                window.ComponentLoader.loadNavigationFor('teacher-onboarding');
+                window.ComponentLoader.loadFooter();
+            }
+        });
+    </script>
+</body>
+</html>
+
