@@ -598,7 +598,7 @@ The analysis reveals that successful platform development requires:
 def main():
     """Main analysis function"""
 
-    print("🧠 COMPREHENSIVE PLANNING ANALYSIS - HEGELIAN SYNTHESIS")
+    print("\\n🧠 COMPREHENSIVE PLANNING ANALYSIS - HEGELIAN SYNTHESIS")
     print("=" * 80)
 
     analyzer = ComprehensivePlanningAnalyzer()
