@@ -73,7 +73,7 @@ Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori</titl
 .whakatauki-banner {    background: linear-gradient(135deg, #f5e6d3 0%, #d4a574 100%);    padding: 3rem 2rem;    text-align: center;    border-bottom: 4px solid #1a4d2e;    margin: 0;}.whakatauki-text {    font-size: 1.8rem;    color: #0f2818;    font-style: italic;    margin-bottom: 0.5rem;    font-weight: 700;}.whakatauki-meaning {    font-size: 1.2rem;    color: #4a6e2a;    font-weight: 500;}</style>
 </head>
 <body data-auto-init="true" data-current-page="home" class="pattern-koru-subtle">
-<!-- Professional Navigation - User's Preferred Dropdown Header -->
+<!-- Professional Navigation - Single Component (Fixed duplicate loading bug) -->
 <script>
         // Load standardized navigation immediately
         fetch('/components/navigation-standard.html')
@@ -86,18 +86,7 @@ Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori</titl
                     document.body.insertBefore(navElement, document.body.firstChild);
                 }
             })
-            .catch(err => console.error('Component load error:', err));
-</script>
-
-<!-- 🧠 Intelligent Mega-Navigation Component -->
-<script>
-    fetch('/components/mega-navigation-intelligent.html')
-        .then(r => r.text())
-        .then(html => {
-            const div = document.createElement('div');
-            div.innerHTML = html;
-            document.body.appendChild(div);
-        });
+            .catch(err => console.error('Navigation load error:', err));
 </script>
 <!-- Whakataukī Banner -->
 <div class="whakatauki-banner">
