@@ -10,27 +10,27 @@
 
 <!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
 <!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
-<link rel="stylesheet" href="/css/professionalization-system.css">
+
 
 <!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
-<link rel="stylesheet" href="/css/te-kete-professional.css"/>
-<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css"/>
+
+
 
 <!-- ⭐ COMPONENT STYLES -->
-<link rel="stylesheet" href="/css/main.css">
-<link rel="stylesheet" href="/css/navigation-standard.css">
-<link rel="stylesheet" href="/css/mobile-revolution.css">
-<link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css"/>
+
+
+
+
 
 <!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
-<link rel="stylesheet" href="/css/print.css" media="print"/>
-<link rel="stylesheet" href="/css/print-professional.css" media="print"/>
+
+
 
 <!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
-<link rel="stylesheet" href="/css/tailwind.css">
+
 
 <!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
-<link rel="stylesheet" href="/css/cascade-fix.css">
+
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -111,27 +111,27 @@
 
 <!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
 <!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
-<link rel="stylesheet" href="/css/professionalization-system.css">
+
 
 <!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
-<link rel="stylesheet" href="/css/te-kete-professional.css"/>
-<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css"/>
+
+
 
 <!-- ⭐ COMPONENT STYLES -->
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/navigation-standard.css">
-    <link rel="stylesheet" href="/css/mobile-revolution.css">
-    <link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css"/>
+    
+    
+    
+    
 
 <!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
-    <link rel="stylesheet" href="/css/print.css" media="print"/>
-<link rel="stylesheet" href="/css/print-professional.css" media="print"/>
+    
+
 
 <!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
-<link rel="stylesheet" href="/css/tailwind.css">
+
 
 <!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
-<link rel="stylesheet" href="/css/cascade-fix.css"><body class="pattern-koru-subtle"> <!-- 🎨 ULTIMATE BEAUTY: Navigation --> <div id="nav-container"></div> <script>   fetch('/components/navigation-standard.html')     .then(r => r.text())     .then(html => document.getElementById('nav-container').innerHTML = html); </script>    <!-- Whakataukī Banner -->    <div class="whakatauki-banner">        <p class="whakatauki-text">"Whāia te iti kahurangi, ki te tuohu koe me he maunga teitei"</p>        <p class="whakatauki-meaning">Seek the treasure you value most dearly; if you bow your head, let it be to a lofty mountain</p>    </div>    <div class="hero">        <h1>🏆 Gold Collection</h1>        <p class="text-lg max-w-4xl" >            Te Kete Ako's finest resources - systematically surfaced from the archives        </p>        <div class="hero-stats">            <div class="stat">                <div class="stat-number" id="gold-count">629</div>                <div class="stat-label">Gold Resources</div>            </div>            <div class="stat">                <div class="stat-number">92</div>                <div class="stat-label">Avg Quality</div>            </div>            <div class="stat">                <div class="stat-number" id="cultural-pct">98%</div>                <div class="stat-label">Cultural</div>            </div>        </div>    </div>    <div class="container">        <div class="filter-bar">            <h3 style="margin-top: 0; color: #92400e; margin-bottom: 1.5rem;">🔍 Filter Gold Resources</h3>            <div class="filter-grid">                <div class="filter-group">                    <label>Resource Type</label>                    <select id="filter-type">                        <option value="">All Types</option>                        <option value="Lesson">Lessons</option>                        <option value="Unit-Plan">Unit Plans</option>                        <option value="Handout">Handouts</option>                        <option value="Game">Games</option>                        <option value="Assessment">Assessments</option>                    </select>                </div>                <div class="filter-group">                    <label>Subject</label>                    <select id="filter-subject">                        <option value="">All Subjects</option>                        <option value="Mathematics">Mathematics</option>                        <option value="Science">Science</option>                        <option value="English">English</option>                        <option value="Social Studies">Social Studies</option>                        <option value="Digital Technologies">Digital Tech</option>                        <option value="Cross-curricular">Cross-curricular</option>                    </select>                </div>                <div class="filter-group">                    <label>Cultural Integration</label>                    <select id="filter-cultural">                        <option value="">All Resources</option>                        <option value="true">With Whakataukī</option>                    </select>                </div>            </div>        </div>        <div id="resources-container" class="resources-grid">            <div class="loading">                <div style="border: 4px solid #fef3c7; border-top: 4px solid #fbbf24; border-radius: 50%; width: 60px; height: 60px; animation: spin 1s linear infinite; margin: 0 auto 1rem;"></div>                Loading gold resources from GraphRAG...            </div>        </div>    </div>    <script>        const { createClient } = supabase;        const supabaseUrl = 'https://nlgldaqtubrlcqddppbq.supabase.co';        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjg4MDA0NzYsImV4cCI6MjA0NDM3NjQ3Nn0.4eta2Wdz1MgJu63-ka1IQi_FcJBNjHdUe43Q_m5nHjY';        const client = createClient(supabaseUrl, supabaseKey);        let allResources = [];        async function loadGoldResources() {            try {                const { data, error } = await client                    .from('graphrag_resources')                    .select('*')                    .gte('quality_score', 90)                    .in('resource_type', ['Lesson', 'Handout', 'Unit-Plan', 'Game', 'Assessment', 'Activity'])                    .order('quality_score', { ascending: false });                if (error) {                    // Log to monitoring instead of console
+<body class="pattern-koru-subtle"> <!-- 🎨 ULTIMATE BEAUTY: Navigation --> <div id="nav-container"></div> <script>   fetch('/components/navigation-standard.html')     .then(r => r.text())     .then(html => document.getElementById('nav-container').innerHTML = html); </script>    <!-- Whakataukī Banner -->    <div class="whakatauki-banner">        <p class="whakatauki-text">"Whāia te iti kahurangi, ki te tuohu koe me he maunga teitei"</p>        <p class="whakatauki-meaning">Seek the treasure you value most dearly; if you bow your head, let it be to a lofty mountain</p>    </div>    <div class="hero">        <h1>🏆 Gold Collection</h1>        <p class="text-lg max-w-4xl" >            Te Kete Ako's finest resources - systematically surfaced from the archives        </p>        <div class="hero-stats">            <div class="stat">                <div class="stat-number" id="gold-count">629</div>                <div class="stat-label">Gold Resources</div>            </div>            <div class="stat">                <div class="stat-number">92</div>                <div class="stat-label">Avg Quality</div>            </div>            <div class="stat">                <div class="stat-number" id="cultural-pct">98%</div>                <div class="stat-label">Cultural</div>            </div>        </div>    </div>    <div class="container">        <div class="filter-bar">            <h3 style="margin-top: 0; color: #92400e; margin-bottom: 1.5rem;">🔍 Filter Gold Resources</h3>            <div class="filter-grid">                <div class="filter-group">                    <label>Resource Type</label>                    <select id="filter-type">                        <option value="">All Types</option>                        <option value="Lesson">Lessons</option>                        <option value="Unit-Plan">Unit Plans</option>                        <option value="Handout">Handouts</option>                        <option value="Game">Games</option>                        <option value="Assessment">Assessments</option>                    </select>                </div>                <div class="filter-group">                    <label>Subject</label>                    <select id="filter-subject">                        <option value="">All Subjects</option>                        <option value="Mathematics">Mathematics</option>                        <option value="Science">Science</option>                        <option value="English">English</option>                        <option value="Social Studies">Social Studies</option>                        <option value="Digital Technologies">Digital Tech</option>                        <option value="Cross-curricular">Cross-curricular</option>                    </select>                </div>                <div class="filter-group">                    <label>Cultural Integration</label>                    <select id="filter-cultural">                        <option value="">All Resources</option>                        <option value="true">With Whakataukī</option>                    </select>                </div>            </div>        </div>        <div id="resources-container" class="resources-grid">            <div class="loading">                <div style="border: 4px solid #fef3c7; border-top: 4px solid #fbbf24; border-radius: 50%; width: 60px; height: 60px; animation: spin 1s linear infinite; margin: 0 auto 1rem;"></div>                Loading gold resources from GraphRAG...            </div>        </div>    </div>    <script>        const { createClient } = supabase;        const supabaseUrl = 'https://nlgldaqtubrlcqddppbq.supabase.co';        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjg4MDA0NzYsImV4cCI6MjA0NDM3NjQ3Nn0.4eta2Wdz1MgJu63-ka1IQi_FcJBNjHdUe43Q_m5nHjY';        const client = createClient(supabaseUrl, supabaseKey);        let allResources = [];        async function loadGoldResources() {            try {                const { data, error } = await client                    .from('graphrag_resources')                    .select('*')                    .gte('quality_score', 90)                    .in('resource_type', ['Lesson', 'Handout', 'Unit-Plan', 'Game', 'Assessment', 'Activity'])                    .order('quality_score', { ascending: false });                if (error) {                    // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('javascript_error', {
                 error: err.message,

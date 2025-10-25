@@ -10,27 +10,27 @@
 
 <!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
 <!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
-<link rel="stylesheet" href="/css/professionalization-system.css">
+
 
 <!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
-<link rel="stylesheet" href="/css/te-kete-professional.css"/>
-<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css"/>
+
+
 
 <!-- ⭐ COMPONENT STYLES -->
-<link rel="stylesheet" href="/css/main.css">
-<link rel="stylesheet" href="/css/navigation-standard.css">
-<link rel="stylesheet" href="/css/mobile-revolution.css">
-<link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css"/>
+
+
+
+
 
 <!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
-<link rel="stylesheet" href="/css/print.css" media="print"/>
-<link rel="stylesheet" href="/css/print-professional.css" media="print"/>
+
+
 
 <!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
-<link rel="stylesheet" href="/css/tailwind.css">
+
 
 <!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
-<link rel="stylesheet" href="/css/cascade-fix.css">
+
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -111,27 +111,27 @@
 
 <!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
 <!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
-<link rel="stylesheet" href="/css/professionalization-system.css">
+
 
 <!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
-<link rel="stylesheet" href="/css/te-kete-professional.css"/>
-<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css"/>
+
+
 
 <!-- ⭐ COMPONENT STYLES -->
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/navigation-standard.css">
-    <link rel="stylesheet" href="/css/mobile-revolution.css">
-    <link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css"/>
+    
+    
+    
+    
 
 <!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
-    <link rel="stylesheet" href="/css/print.css" media="print"/>
-<link rel="stylesheet" href="/css/print-professional.css" media="print"/>
+    
+
 
 <!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
-<link rel="stylesheet" href="/css/tailwind.css">
+
 
 <!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
-<link rel="stylesheet" href="/css/cascade-fix.css"><body class="pattern-koru-subtle">    <!-- Whakataukī Banner -->    <div class="whakatauki-banner">        <p class="whakatauki-text">"He waka eke noa"</p>        <p class="whakatauki-meaning">We are all in this together - knowledge weaves across all subjects</p>    </div>    <!-- Navigation -->    <div id="nav-container"></div>    <script>        fetch('/components/navigation-standard.html')            .then(r => r.text())            .then(html => document.getElementById('nav-container').innerHTML = html);    </script>    <!-- Hero -->    <section class="bridge-hero">        <h1 class="font-extrabold" >            🌉 Cross-Curricular Bridges        </h1>        <p class="max-w-4xl mx-auto" >            Discover resources that connect multiple subjects through mātauranga Māori        </p>    </section>    <!-- Stats -->    <div class="stats-bar" style="padding: 0 2rem;">        <div class="grid text-center" >            <div>                <div class="font-extrabold" id="total-bridges">30,214</div>                <div style="color: #546e7a;">Total Connections</div>            </div>            <div>                <div class="font-extrabold" id="bridge-resources">15</div>                <div style="color: #546e7a;">Bridge Resources</div>            </div>            <div>                <div class="font-extrabold" id="subject-combos">170</div>                <div style="color: #546e7a;">Subject Combinations</div>            </div>            <div>                <div class="font-extrabold" id="avg-quality">87.5</div>                <div style="color: #546e7a;">Avg Quality Score</div>            </div>        </div>    </div>    <!-- Loading State -->    <div id="loading" class="loading">        🧠 Querying GraphRAG for cross-curricular intelligence...    </div>    <!-- Content -->    <main class="max-w-6xl" id="bridges-content">    </main>    <!-- Script -->    <script>        const supabase = window.supabase.createClient(            'https://nlgldaqtubrlcqddppbq.supabase.co',            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'        );        async function loadBridges() {            try {                // Query for resources that bridge multiple subjects                const { data: bridges, error } = await supabase.rpc('get_cross_curricular_bridges', {});                if (error) {                    // Fallback: query directly                    const { data: resources } = await supabase                        .from('graphrag_resources')                        .select(`                            file_path,                            title,                            subject,                            quality_score,                            resource_type                        `)                        .like('file_path', 'public/%')                        .gte('quality_score', 85)                        .or('subject.ilike.%Mathematics, Science%,subject.ilike.%Science, English%,subject.ilike.%STEM%')                        .order('quality_score', { ascending: false })                        .limit(30);                    renderBridges(resources || []);                } else {                    renderBridges(bridges || []);                }                document.getElementById('loading').style.display = 'none';            } catch (err) {                // Log to monitoring instead of console
+<body class="pattern-koru-subtle">    <!-- Whakataukī Banner -->    <div class="whakatauki-banner">        <p class="whakatauki-text">"He waka eke noa"</p>        <p class="whakatauki-meaning">We are all in this together - knowledge weaves across all subjects</p>    </div>    <!-- Navigation -->    <div id="nav-container"></div>    <script>        fetch('/components/navigation-standard.html')            .then(r => r.text())            .then(html => document.getElementById('nav-container').innerHTML = html);    </script>    <!-- Hero -->    <section class="bridge-hero">        <h1 class="font-extrabold" >            🌉 Cross-Curricular Bridges        </h1>        <p class="max-w-4xl mx-auto" >            Discover resources that connect multiple subjects through mātauranga Māori        </p>    </section>    <!-- Stats -->    <div class="stats-bar" style="padding: 0 2rem;">        <div class="grid text-center" >            <div>                <div class="font-extrabold" id="total-bridges">30,214</div>                <div style="color: #546e7a;">Total Connections</div>            </div>            <div>                <div class="font-extrabold" id="bridge-resources">15</div>                <div style="color: #546e7a;">Bridge Resources</div>            </div>            <div>                <div class="font-extrabold" id="subject-combos">170</div>                <div style="color: #546e7a;">Subject Combinations</div>            </div>            <div>                <div class="font-extrabold" id="avg-quality">87.5</div>                <div style="color: #546e7a;">Avg Quality Score</div>            </div>        </div>    </div>    <!-- Loading State -->    <div id="loading" class="loading">        🧠 Querying GraphRAG for cross-curricular intelligence...    </div>    <!-- Content -->    <main class="max-w-6xl" id="bridges-content">    </main>    <!-- Script -->    <script>        const supabase = window.supabase.createClient(            'https://nlgldaqtubrlcqddppbq.supabase.co',            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'        );        async function loadBridges() {            try {                // Query for resources that bridge multiple subjects                const { data: bridges, error } = await supabase.rpc('get_cross_curricular_bridges', {});                if (error) {                    // Fallback: query directly                    const { data: resources } = await supabase                        .from('graphrag_resources')                        .select(`                            file_path,                            title,                            subject,                            quality_score,                            resource_type                        `)                        .like('file_path', 'public/%')                        .gte('quality_score', 85)                        .or('subject.ilike.%Mathematics, Science%,subject.ilike.%Science, English%,subject.ilike.%STEM%')                        .order('quality_score', { ascending: false })                        .limit(30);                    renderBridges(resources || []);                } else {                    renderBridges(bridges || []);                }                document.getElementById('loading').style.display = 'none';            } catch (err) {                // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('javascript_error', {
                 error: err.message,

@@ -10,27 +10,27 @@
 
 <!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
 <!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
-<link rel="stylesheet" href="/css/professionalization-system.css">
+
 
 <!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
-<link rel="stylesheet" href="/css/te-kete-professional.css"/>
-<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css"/>
+
+
 
 <!-- ⭐ COMPONENT STYLES -->
-<link rel="stylesheet" href="/css/main.css">
-<link rel="stylesheet" href="/css/navigation-standard.css">
-<link rel="stylesheet" href="/css/mobile-revolution.css">
-<link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css"/>
+
+
+
+
 
 <!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
-<link rel="stylesheet" href="/css/print.css" media="print"/>
-<link rel="stylesheet" href="/css/print-professional.css" media="print"/>
+
+
 
 <!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
-<link rel="stylesheet" href="/css/tailwind.css">
+
 
 <!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
-<link rel="stylesheet" href="/css/cascade-fix.css">
+
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -110,27 +110,27 @@
 
 <!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
 <!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
-<link rel="stylesheet" href="/css/professionalization-system.css">
+
 
 <!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
-<link rel="stylesheet" href="/css/te-kete-professional.css"/>
-<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css"/>
+
+
 
 <!-- ⭐ COMPONENT STYLES -->
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/navigation-standard.css">
-    <link rel="stylesheet" href="/css/mobile-revolution.css">
-    <link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css"/>
+    
+    
+    
+    
 
 <!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
-    <link rel="stylesheet" href="/css/print.css" media="print"/>
-<link rel="stylesheet" href="/css/print-professional.css" media="print"/>
+    
+
 
 <!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
-<link rel="stylesheet" href="/css/tailwind.css">
+
 
 <!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
-<link rel="stylesheet" href="/css/cascade-fix.css"><body class="pattern-koru-subtle"> <!-- 🎨 ULTIMATE BEAUTY: Navigation --> <div id="nav-container"></div> <script>   fetch('/components/navigation-standard.html')     .then(r => r.text())     .then(html => document.getElementById('nav-container').innerHTML = html); </script>    <div class="dashboard">        <div class="hero">            <h1>📊 Subject Excellence Dashboard</h1>            <p style="opacity: 0.9;">Real-time cultural integration across Te Kete Ako</p>            <div class="platform-stat" id="platform-percentage">...</div>            <p >Platform-Wide Cultural Integration</p>        </div>        <div id="milestone-container"></div>        <div class="chart-container">            <h2 >Cultural Integration by Subject</h2>            <canvas id="subjectChart" style="max-"></canvas>        </div>        <h2 style="margin-bottom: 1.5rem;">Subject Breakdown</h2>        <div class="subject-grid" id="subject-grid"></div>    </div>    <script>        // Initialize Supabase        const supabaseUrl = 'https://nlgldaqtubrlcqddppbq.supabase.co';        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjY1MzY5NTksImV4cCI6MjA0MjExMjk1OX0.m1DKLLZkOT3_BSan7Itawvdc0B3l0Z5xU9e_HaIJR3c';        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);        let chart = null;        // Load dashboard data        async function loadDashboard() {            try {                // Get all subjects data                const { data: subjects } = await supabase.rpc('get_subject_stats');                if (!subjects) {                    // Fallback query                    const query = `                        SELECT                            subject,                            COUNT(*) as total,                            COUNT(CASE WHEN cultural_context = true THEN 1 END) as cultural,                            ROUND(COUNT(CASE WHEN cultural_context = true THEN 1 END)::numeric / COUNT(*)::numeric * 100, 1) as percentage                        FROM graphrag_resources                        WHERE subject != ''                        GROUP BY subject                        ORDER BY percentage DESC                    `;                    const { data } = await supabase.rpc('execute_sql', { query });                    renderDashboard(data);                } else {                    renderDashboard(subjects);                }            } catch (error) {                // Log to monitoring instead of console
+<body class="pattern-koru-subtle"> <!-- 🎨 ULTIMATE BEAUTY: Navigation --> <div id="nav-container"></div> <script>   fetch('/components/navigation-standard.html')     .then(r => r.text())     .then(html => document.getElementById('nav-container').innerHTML = html); </script>    <div class="dashboard">        <div class="hero">            <h1>📊 Subject Excellence Dashboard</h1>            <p style="opacity: 0.9;">Real-time cultural integration across Te Kete Ako</p>            <div class="platform-stat" id="platform-percentage">...</div>            <p >Platform-Wide Cultural Integration</p>        </div>        <div id="milestone-container"></div>        <div class="chart-container">            <h2 >Cultural Integration by Subject</h2>            <canvas id="subjectChart" style="max-"></canvas>        </div>        <h2 style="margin-bottom: 1.5rem;">Subject Breakdown</h2>        <div class="subject-grid" id="subject-grid"></div>    </div>    <script>        // Initialize Supabase        const supabaseUrl = 'https://nlgldaqtubrlcqddppbq.supabase.co';        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjY1MzY5NTksImV4cCI6MjA0MjExMjk1OX0.m1DKLLZkOT3_BSan7Itawvdc0B3l0Z5xU9e_HaIJR3c';        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);        let chart = null;        // Load dashboard data        async function loadDashboard() {            try {                // Get all subjects data                const { data: subjects } = await supabase.rpc('get_subject_stats');                if (!subjects) {                    // Fallback query                    const query = `                        SELECT                            subject,                            COUNT(*) as total,                            COUNT(CASE WHEN cultural_context = true THEN 1 END) as cultural,                            ROUND(COUNT(CASE WHEN cultural_context = true THEN 1 END)::numeric / COUNT(*)::numeric * 100, 1) as percentage                        FROM graphrag_resources                        WHERE subject != ''                        GROUP BY subject                        ORDER BY percentage DESC                    `;                    const { data } = await supabase.rpc('execute_sql', { query });                    renderDashboard(data);                } else {                    renderDashboard(subjects);                }            } catch (error) {                // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('javascript_error', {
                 error: err.message,

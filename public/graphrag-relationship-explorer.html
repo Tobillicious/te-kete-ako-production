@@ -8,27 +8,27 @@
 
 <!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
 <!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
-<link rel="stylesheet" href="/css/professionalization-system.css">
+
 
 <!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
-<link rel="stylesheet" href="/css/te-kete-professional.css"/>
-<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css"/>
+
+
 
 <!-- ⭐ COMPONENT STYLES -->
-<link rel="stylesheet" href="/css/main.css">
-<link rel="stylesheet" href="/css/navigation-standard.css">
-<link rel="stylesheet" href="/css/mobile-revolution.css">
-<link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css"/>
+
+
+
+
 
 <!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
-<link rel="stylesheet" href="/css/print.css" media="print"/>
-<link rel="stylesheet" href="/css/print-professional.css" media="print"/>
+
+
 
 <!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
-<link rel="stylesheet" href="/css/tailwind.css">
+
 
 <!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
-<link rel="stylesheet" href="/css/cascade-fix.css">
+
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -108,27 +108,27 @@
 
 <!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
 <!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
-<link rel="stylesheet" href="/css/professionalization-system.css">
+
 
 <!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
-<link rel="stylesheet" href="/css/te-kete-professional.css"/>
-<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css"/>
+
+
 
 <!-- ⭐ COMPONENT STYLES -->
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/navigation-standard.css">
-    <link rel="stylesheet" href="/css/mobile-revolution.css">
-    <link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css"/>
+    
+    
+    
+    
 
 <!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
-    <link rel="stylesheet" href="/css/print.css" media="print"/>
-<link rel="stylesheet" href="/css/print-professional.css" media="print"/>
+    
+
 
 <!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
-<link rel="stylesheet" href="/css/tailwind.css">
+
 
 <!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
-<link rel="stylesheet" href="/css/cascade-fix.css"><body class="pattern-koru-subtle"> <!-- 🎨 ULTIMATE BEAUTY: Navigation --> <div id="nav-container"></div> <script>   fetch('/components/navigation-standard.html')     .then(r => r.text())     .then(html => document.getElementById('nav-container').innerHTML = html); </script>    <div class="explorer-container">        <header >            <h1>🌉 GraphRAG Relationship Explorer</h1>            <p >                Discover intelligent connections across 238,000+ learning relationships            </p>        </header>        <div class="stats-grid" id="stats-container">            <div class="stat-card">                <span class="stat-number" id="total-relationships">...</span>                <span class="stat-label">Total Relationships</span>            </div>            <div class="stat-card">                <span class="stat-number" id="cultural-bridges">...</span>                <span class="stat-label">Cultural Bridges</span>            </div>            <div class="stat-card">                <span class="stat-number" id="cross-curricular">...</span>                <span class="stat-label">Cross-Curricular Links</span>            </div>            <div class="stat-card">                <span class="stat-number" id="learning-chains">...</span>                <span class="stat-label">Learning Progressions</span>            </div>        </div>        <div class="search-section">            <h2 >🔍 Explore Relationships</h2>            <input                type="text"                class="search-input"                id="search-input"                placeholder="Search for a resource (e.g., 'algebra', 'ecology', 'pūrākau')..."            >            <div class="filter-buttons">                <button class="filter-btn active" data-filter="all">All Relationships</button>                <button class="filter-btn" data-filter="embodies_māori_concept">Cultural Concepts</button>                <button class="filter-btn" data-filter="cross_curricular_connection">Cross-Curricular</button>                <button class="filter-btn" data-filter="builds_to">Learning Progressions</button>                <button class="filter-btn" data-filter="prerequisite">Prerequisites</button>            </div>        </div>        <div id="results-container">            <div class="loading">Loading relationships...</div>        </div>    </div>    <script>        // Initialize Supabase        const supabaseUrl = 'https://nlgldaqtubrlcqddppbq.supabase.co';        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjY1MzY5NTksImV4cCI6MjA0MjExMjk1OX0.m1DKLLZkOT3_BSan7Itawvdc0B3l0Z5xU9e_HaIJR3c';        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);        let currentFilter = 'all';        let allRelationships = [];        // Load statistics        async function loadStats() {            try {                // Total relationships                const { count: total } = await supabase                    .from('graphrag_relationships')                    .select('*', { count: 'exact', head: true });                document.getElementById('total-relationships').textContent = total.toLocaleString();                // Cultural bridges                const { count: cultural } = await supabase                    .from('graphrag_relationships')                    .select('*', { count: 'exact', head: true })                    .eq('relationship_type', 'embodies_māori_concept');                document.getElementById('cultural-bridges').textContent = cultural.toLocaleString();                // Cross-curricular                const { count: crossCurr } = await supabase                    .from('graphrag_relationships')                    .select('*', { count: 'exact', head: true })                    .eq('relationship_type', 'cross_curricular_connection');                document.getElementById('cross-curricular').textContent = crossCurr.toLocaleString();                // Learning chains                const { count: chains } = await supabase                    .from('graphrag_relationships')                    .select('*', { count: 'exact', head: true })                    .eq('relationship_type', 'builds_to');                document.getElementById('learning-chains').textContent = chains.toLocaleString();            } catch (error) {                // Log to monitoring instead of console
+<body class="pattern-koru-subtle"> <!-- 🎨 ULTIMATE BEAUTY: Navigation --> <div id="nav-container"></div> <script>   fetch('/components/navigation-standard.html')     .then(r => r.text())     .then(html => document.getElementById('nav-container').innerHTML = html); </script>    <div class="explorer-container">        <header >            <h1>🌉 GraphRAG Relationship Explorer</h1>            <p >                Discover intelligent connections across 238,000+ learning relationships            </p>        </header>        <div class="stats-grid" id="stats-container">            <div class="stat-card">                <span class="stat-number" id="total-relationships">...</span>                <span class="stat-label">Total Relationships</span>            </div>            <div class="stat-card">                <span class="stat-number" id="cultural-bridges">...</span>                <span class="stat-label">Cultural Bridges</span>            </div>            <div class="stat-card">                <span class="stat-number" id="cross-curricular">...</span>                <span class="stat-label">Cross-Curricular Links</span>            </div>            <div class="stat-card">                <span class="stat-number" id="learning-chains">...</span>                <span class="stat-label">Learning Progressions</span>            </div>        </div>        <div class="search-section">            <h2 >🔍 Explore Relationships</h2>            <input                type="text"                class="search-input"                id="search-input"                placeholder="Search for a resource (e.g., 'algebra', 'ecology', 'pūrākau')..."            >            <div class="filter-buttons">                <button class="filter-btn active" data-filter="all">All Relationships</button>                <button class="filter-btn" data-filter="embodies_māori_concept">Cultural Concepts</button>                <button class="filter-btn" data-filter="cross_curricular_connection">Cross-Curricular</button>                <button class="filter-btn" data-filter="builds_to">Learning Progressions</button>                <button class="filter-btn" data-filter="prerequisite">Prerequisites</button>            </div>        </div>        <div id="results-container">            <div class="loading">Loading relationships...</div>        </div>    </div>    <script>        // Initialize Supabase        const supabaseUrl = 'https://nlgldaqtubrlcqddppbq.supabase.co';        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjY1MzY5NTksImV4cCI6MjA0MjExMjk1OX0.m1DKLLZkOT3_BSan7Itawvdc0B3l0Z5xU9e_HaIJR3c';        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);        let currentFilter = 'all';        let allRelationships = [];        // Load statistics        async function loadStats() {            try {                // Total relationships                const { count: total } = await supabase                    .from('graphrag_relationships')                    .select('*', { count: 'exact', head: true });                document.getElementById('total-relationships').textContent = total.toLocaleString();                // Cultural bridges                const { count: cultural } = await supabase                    .from('graphrag_relationships')                    .select('*', { count: 'exact', head: true })                    .eq('relationship_type', 'embodies_māori_concept');                document.getElementById('cultural-bridges').textContent = cultural.toLocaleString();                // Cross-curricular                const { count: crossCurr } = await supabase                    .from('graphrag_relationships')                    .select('*', { count: 'exact', head: true })                    .eq('relationship_type', 'cross_curricular_connection');                document.getElementById('cross-curricular').textContent = crossCurr.toLocaleString();                // Learning chains                const { count: chains } = await supabase                    .from('graphrag_relationships')                    .select('*', { count: 'exact', head: true })                    .eq('relationship_type', 'builds_to');                document.getElementById('learning-chains').textContent = chains.toLocaleString();            } catch (error) {                // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('javascript_error', {
                 error: err.message,

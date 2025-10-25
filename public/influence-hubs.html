@@ -8,27 +8,27 @@
 
 <!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
 <!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
-<link rel="stylesheet" href="/css/professionalization-system.css">
+
 
 <!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
-<link rel="stylesheet" href="/css/te-kete-professional.css"/>
-<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css"/>
+
+
 
 <!-- ⭐ COMPONENT STYLES -->
-<link rel="stylesheet" href="/css/main.css">
-<link rel="stylesheet" href="/css/navigation-standard.css">
-<link rel="stylesheet" href="/css/mobile-revolution.css">
-<link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css"/>
+
+
+
+
 
 <!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
-<link rel="stylesheet" href="/css/print.css" media="print"/>
-<link rel="stylesheet" href="/css/print-professional.css" media="print"/>
+
+
 
 <!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
-<link rel="stylesheet" href="/css/tailwind.css">
+
 
 <!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
-<link rel="stylesheet" href="/css/cascade-fix.css">
+
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -109,27 +109,27 @@
 
 <!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
 <!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
-<link rel="stylesheet" href="/css/professionalization-system.css">
+
 
 <!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
-<link rel="stylesheet" href="/css/te-kete-professional.css"/>
-<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css"/>
+
+
 
 <!-- ⭐ COMPONENT STYLES -->
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/navigation-standard.css">
-    <link rel="stylesheet" href="/css/mobile-revolution.css">
-    <link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css"/>
+    
+    
+    
+    
 
 <!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
-    <link rel="stylesheet" href="/css/print.css" media="print"/>
-<link rel="stylesheet" href="/css/print-professional.css" media="print"/>
+    
+
 
 <!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
-<link rel="stylesheet" href="/css/tailwind.css">
+
 
 <!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
-<link rel="stylesheet" href="/css/cascade-fix.css"><body class="pattern-koru-subtle"> <!-- 🎨 ULTIMATE BEAUTY: Navigation --> <div id="nav-container"></div> <script>   fetch('/components/navigation-standard.html')     .then(r => r.text())     .then(html => document.getElementById('nav-container').innerHTML = html); </script>    <!-- Navigation -->    <script>        fetch('/components/navigation-standard.html')            .then(response => response.text())            .then(data => {                document.body.insertAdjacentHTML('afterbegin', data);            });    </script>    <div class="container">        <div class="hero">            <h1>🌐 Influence Hubs</h1>            <p class="mb-4" >The Most Connected Resources in Te Kete Ako</p>            <p style="color: #6b7280;">These resources have the highest number of relationships in our 163,200-connection knowledge graph</p>        </div>        <div id="loading" class="loading">            ⏳ Loading influence hubs from GraphRAG...        </div>        <div id="content" style="display: none;">            <!-- Champion Card -->            <div class="champion">                <div class="champion-title">👑 REIGNING CHAMPION</div>                <div id="champion-title" class="font-bold" ></div>                <div class="champion-connections" id="champion-connections"></div>                <div class="font-semibold" >Connections in Knowledge Graph</div>                <div id="champion-path" class="text-xs" ></div>            </div>            <!-- Network Visualization Placeholder -->            <div class="network-viz">                <h2>🕸️ Connection Network</h2>                <p class="mb-8" >These influence hubs connect thousands of educational resources, creating powerful learning pathways</p>                <div class="rounded-2xl" >                    <p class="font-bold mb-4" >163,200 Total Relationships</p>                    <p style="color: #6b7280;">Connecting 5,269 educational resources across subjects, year levels, and cultural contexts</p>                </div>            </div>            <!-- Top Influence Hubs -->            <h2 class="text-center" >🏆 Top 20 Influence Hubs</h2>            <div class="hubs-grid" id="hubs-grid"></div>        </div>    </div>    <script>        const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';        async function loadInfluenceHubs() {            try {                const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);                // Get all relationships                const { data: relationships, error: relError } = await supabase                    .from('graphrag_relationships')                    .select('source_path, target_path');                if (relError) throw relError;                // Count connections per resource                const connectionCounts = {};                relationships.forEach(rel => {                    connectionCounts[rel.source_path] = (connectionCounts[rel.source_path] || 0) + 1;                    connectionCounts[rel.target_path] = (connectionCounts[rel.target_path] || 0) + 1;                });                // Sort by connection count                const sorted = Object.entries(connectionCounts)                    .sort((a, b) => b[1] - a[1])                    .slice(0, 20);                // Get resource details                const paths = sorted.map(([path]) => path);                const { data: resources, error: resError } = await supabase                    .from('graphrag_resources')                    .select('*')                    .in('file_path', paths);                if (resError) throw resError;                // Merge data                const hubs = sorted.map(([path, count], index) => {                    const resource = resources.find(r => r.file_path === path) || { title: path, file_path: path };                    return {                        ...resource,                        connections: count,                        rank: index + 1                    };                });                displayHubs(hubs);            } catch (error) {                // Log to monitoring instead of console
+<body class="pattern-koru-subtle"> <!-- 🎨 ULTIMATE BEAUTY: Navigation --> <div id="nav-container"></div> <script>   fetch('/components/navigation-standard.html')     .then(r => r.text())     .then(html => document.getElementById('nav-container').innerHTML = html); </script>    <!-- Navigation -->    <script>        fetch('/components/navigation-standard.html')            .then(response => response.text())            .then(data => {                document.body.insertAdjacentHTML('afterbegin', data);            });    </script>    <div class="container">        <div class="hero">            <h1>🌐 Influence Hubs</h1>            <p class="mb-4" >The Most Connected Resources in Te Kete Ako</p>            <p style="color: #6b7280;">These resources have the highest number of relationships in our 163,200-connection knowledge graph</p>        </div>        <div id="loading" class="loading">            ⏳ Loading influence hubs from GraphRAG...        </div>        <div id="content" style="display: none;">            <!-- Champion Card -->            <div class="champion">                <div class="champion-title">👑 REIGNING CHAMPION</div>                <div id="champion-title" class="font-bold" ></div>                <div class="champion-connections" id="champion-connections"></div>                <div class="font-semibold" >Connections in Knowledge Graph</div>                <div id="champion-path" class="text-xs" ></div>            </div>            <!-- Network Visualization Placeholder -->            <div class="network-viz">                <h2>🕸️ Connection Network</h2>                <p class="mb-8" >These influence hubs connect thousands of educational resources, creating powerful learning pathways</p>                <div class="rounded-2xl" >                    <p class="font-bold mb-4" >163,200 Total Relationships</p>                    <p style="color: #6b7280;">Connecting 5,269 educational resources across subjects, year levels, and cultural contexts</p>                </div>            </div>            <!-- Top Influence Hubs -->            <h2 class="text-center" >🏆 Top 20 Influence Hubs</h2>            <div class="hubs-grid" id="hubs-grid"></div>        </div>    </div>    <script>        const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';        async function loadInfluenceHubs() {            try {                const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);                // Get all relationships                const { data: relationships, error: relError } = await supabase                    .from('graphrag_relationships')                    .select('source_path, target_path');                if (relError) throw relError;                // Count connections per resource                const connectionCounts = {};                relationships.forEach(rel => {                    connectionCounts[rel.source_path] = (connectionCounts[rel.source_path] || 0) + 1;                    connectionCounts[rel.target_path] = (connectionCounts[rel.target_path] || 0) + 1;                });                // Sort by connection count                const sorted = Object.entries(connectionCounts)                    .sort((a, b) => b[1] - a[1])                    .slice(0, 20);                // Get resource details                const paths = sorted.map(([path]) => path);                const { data: resources, error: resError } = await supabase                    .from('graphrag_resources')                    .select('*')                    .in('file_path', paths);                if (resError) throw resError;                // Merge data                const hubs = sorted.map(([path, count], index) => {                    const resource = resources.find(r => r.file_path === path) || { title: path, file_path: path };                    return {                        ...resource,                        connections: count,                        rank: index + 1                    };                });                displayHubs(hubs);            } catch (error) {                // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('javascript_error', {
                 error: err.message,

@@ -8,27 +8,27 @@
 
 <!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
 <!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
-<link rel="stylesheet" href="/css/professionalization-system.css">
+
 
 <!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
-<link rel="stylesheet" href="/css/te-kete-professional.css"/>
-<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css"/>
+
+
 
 <!-- ⭐ COMPONENT STYLES -->
-<link rel="stylesheet" href="/css/main.css">
-<link rel="stylesheet" href="/css/navigation-standard.css">
-<link rel="stylesheet" href="/css/mobile-revolution.css">
-<link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css"/>
+
+
+
+
 
 <!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
-<link rel="stylesheet" href="/css/print.css" media="print"/>
-<link rel="stylesheet" href="/css/print-professional.css" media="print"/>
+
+
 
 <!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
-<link rel="stylesheet" href="/css/tailwind.css">
+
 
 <!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
-<link rel="stylesheet" href="/css/cascade-fix.css">
+
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -108,27 +108,27 @@
 
 <!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
 <!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
-<link rel="stylesheet" href="/css/professionalization-system.css">
+
 
 <!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
-<link rel="stylesheet" href="/css/te-kete-professional.css"/>
-<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css"/>
+
+
 
 <!-- ⭐ COMPONENT STYLES -->
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/navigation-standard.css">
-    <link rel="stylesheet" href="/css/mobile-revolution.css">
-    <link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css"/>
+    
+    
+    
+    
 
 <!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
-    <link rel="stylesheet" href="/css/print.css" media="print"/>
-<link rel="stylesheet" href="/css/print-professional.css" media="print"/>
+    
+
 
 <!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
-<link rel="stylesheet" href="/css/tailwind.css">
+
 
 <!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
-<link rel="stylesheet" href="/css/cascade-fix.css"><body class="pattern-koru-subtle"> <!-- 🎨 ULTIMATE BEAUTY: Navigation --> <div id="nav-container"></div> <script>   fetch('/components/navigation-standard.html')     .then(r => r.text())     .then(html => document.getElementById('nav-container').innerHTML = html); </script>    <!-- Whakataukī Banner -->    <div style="top: 0; left: 0; right: 0; z-index: 99; border-bottom: 3px solid #1a4d2e;">        <p style="font-size: 0.95rem;">            "Ehara taku toa i te toa takitahi, engari he toa takitini" — Success is not the work of one, but the work of many        </p>    </div>    <div class="controls" style="top: 70px;">        <h2>🧠 Knowledge Graph</h2>        <div >            <label >View Mode:</label>            <button class="filter-btn active" onclick="loadGraph('science')">🔬 Science</button>            <button class="filter-btn" onclick="loadGraph('mathematics')">📊 Mathematics</button>            <button class="filter-btn" onclick="loadGraph('english')">📝 English</button>            <button class="filter-btn" onclick="loadGraph('cultural')">🌿 Cultural</button>            <button class="filter-btn" onclick="loadGraph('cross-subject')">🔗 Cross-Subject</button>        </div>        <div class="legend">            <div >Relationship Types:</div>            <div class="legend-item">                <div class="legend-color" style="background: #a855f7;"></div>                Cultural Connection            </div>            <div class="legend-item">                <div class="legend-color" style="background: #10b981; opacity: 0.7;"></div>                Prerequisite Chain            </div>            <div class="legend-item">                <div class="legend-color" style="background: #f59e0b;"></div>                Cross-Curricular            </div>            <div class="legend-item">                <div class="legend-color" style="background: #475569; opacity: 0.6;"></div>                Related Content            </div>        </div>        <div class="stats" id="stats">            <div>Nodes: <strong id="node-count">0</strong></div>            <div>Connections: <strong id="link-count">0</strong></div>            <div>Avg Confidence: <strong id="avg-confidence">0%</strong></div>        </div>        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #334155;">            <button class="filter-btn" style="background: #1e293b;" onclick="window.location.href='/cross-subject-discovery.html'">                ← Back to Discovery            </button>        </div>    </div>    <div id="loading" class="loading">        <div class="spinner"></div>        <p>Loading GraphRAG data...</p>    </div>    <svg class="graph-container" id="graph"></svg>    <script>    const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';    let simulation;    let currentMode = 'science';    const subjectColors = {        'Science': '#0891b2',        'Mathematics': '#6366f1',        'English': '#dc2626',        'Social Studies': '#059669',        'Digital Tech': '#10b981',        'Health & PE': '#f97316',        'Te Ao Māori': '#a855f7',        'General': '#64748b'    };    async function loadGraph(mode) {        currentMode = mode;        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));        event.target.classList.add('active');        document.getElementById('loading').style.display = 'block';        try {            let query;            if (mode === 'science') {                query = `relationship_type=in.(related_content,prerequisite)&limit=50`;            } else if (mode === 'mathematics') {                query = `relationship_type=eq.prerequisite&limit=40`;            } else if (mode === 'english') {                query = `relationship_type=in.(related_content,shared_cultural_element)&limit=40`;            } else if (mode === 'cultural') {                query = `relationship_type=eq.shared_cultural_element&confidence=gte.0.9&limit=30`;            } else if (mode === 'cross-subject') {                query = `relationship_type=in.(cross_curricular_link,shared_cultural_element)&confidence=gte.0.85&limit=35`;            }            const response = await fetch(                `${SUPABASE_URL}/rest/v1/graphrag_relationships?select=source_path,target_path,relationship_type,confidence&${query}&order=confidence.desc`,                { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }            );            const relationships = await response.json();            console.log(`Loaded ${relationships.length} relationships for ${mode}`);            // Get unique paths            const paths = [...new Set([                ...relationships.map(r => r.source_path),                ...relationships.map(r => r.target_path)            ])].slice(0, 50);            // Fetch resource details            const pathFilter = paths.slice(0, 50).map(p => `"${p}"`).join(',');            const resourceResponse = await fetch(                `${SUPABASE_URL}/rest/v1/graphrag_resources?select=file_path,title,subject&file_path=in.(${pathFilter})`,                { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }            );            const resources = await resourceResponse.json();            const resourceMap = {};            resources.forEach(r => {                resourceMap[r.file_path] = r;            });            // Build graph data            const nodes = resources.map(r => ({                id: r.file_path,                label: r.title?.substring(0, 30) || 'Resource',                subject: r.subject?.split(',')[0] || 'General',                fullTitle: r.title            }));            const links = relationships                .filter(r => resourceMap[r.source_path] && resourceMap[r.target_path])                .map(r => ({                    source: r.source_path,                    target: r.target_path,                    type: r.relationship_type,                    confidence: r.confidence                }));            renderGraph({ nodes, links });        } catch (error) {            // Log to monitoring instead of console
+<body class="pattern-koru-subtle"> <!-- 🎨 ULTIMATE BEAUTY: Navigation --> <div id="nav-container"></div> <script>   fetch('/components/navigation-standard.html')     .then(r => r.text())     .then(html => document.getElementById('nav-container').innerHTML = html); </script>    <!-- Whakataukī Banner -->    <div style="top: 0; left: 0; right: 0; z-index: 99; border-bottom: 3px solid #1a4d2e;">        <p style="font-size: 0.95rem;">            "Ehara taku toa i te toa takitahi, engari he toa takitini" — Success is not the work of one, but the work of many        </p>    </div>    <div class="controls" style="top: 70px;">        <h2>🧠 Knowledge Graph</h2>        <div >            <label >View Mode:</label>            <button class="filter-btn active" onclick="loadGraph('science')">🔬 Science</button>            <button class="filter-btn" onclick="loadGraph('mathematics')">📊 Mathematics</button>            <button class="filter-btn" onclick="loadGraph('english')">📝 English</button>            <button class="filter-btn" onclick="loadGraph('cultural')">🌿 Cultural</button>            <button class="filter-btn" onclick="loadGraph('cross-subject')">🔗 Cross-Subject</button>        </div>        <div class="legend">            <div >Relationship Types:</div>            <div class="legend-item">                <div class="legend-color" style="background: #a855f7;"></div>                Cultural Connection            </div>            <div class="legend-item">                <div class="legend-color" style="background: #10b981; opacity: 0.7;"></div>                Prerequisite Chain            </div>            <div class="legend-item">                <div class="legend-color" style="background: #f59e0b;"></div>                Cross-Curricular            </div>            <div class="legend-item">                <div class="legend-color" style="background: #475569; opacity: 0.6;"></div>                Related Content            </div>        </div>        <div class="stats" id="stats">            <div>Nodes: <strong id="node-count">0</strong></div>            <div>Connections: <strong id="link-count">0</strong></div>            <div>Avg Confidence: <strong id="avg-confidence">0%</strong></div>        </div>        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #334155;">            <button class="filter-btn" style="background: #1e293b;" onclick="window.location.href='/cross-subject-discovery.html'">                ← Back to Discovery            </button>        </div>    </div>    <div id="loading" class="loading">        <div class="spinner"></div>        <p>Loading GraphRAG data...</p>    </div>    <svg class="graph-container" id="graph"></svg>    <script>    const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';    let simulation;    let currentMode = 'science';    const subjectColors = {        'Science': '#0891b2',        'Mathematics': '#6366f1',        'English': '#dc2626',        'Social Studies': '#059669',        'Digital Tech': '#10b981',        'Health & PE': '#f97316',        'Te Ao Māori': '#a855f7',        'General': '#64748b'    };    async function loadGraph(mode) {        currentMode = mode;        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));        event.target.classList.add('active');        document.getElementById('loading').style.display = 'block';        try {            let query;            if (mode === 'science') {                query = `relationship_type=in.(related_content,prerequisite)&limit=50`;            } else if (mode === 'mathematics') {                query = `relationship_type=eq.prerequisite&limit=40`;            } else if (mode === 'english') {                query = `relationship_type=in.(related_content,shared_cultural_element)&limit=40`;            } else if (mode === 'cultural') {                query = `relationship_type=eq.shared_cultural_element&confidence=gte.0.9&limit=30`;            } else if (mode === 'cross-subject') {                query = `relationship_type=in.(cross_curricular_link,shared_cultural_element)&confidence=gte.0.85&limit=35`;            }            const response = await fetch(                `${SUPABASE_URL}/rest/v1/graphrag_relationships?select=source_path,target_path,relationship_type,confidence&${query}&order=confidence.desc`,                { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }            );            const relationships = await response.json();            console.log(`Loaded ${relationships.length} relationships for ${mode}`);            // Get unique paths            const paths = [...new Set([                ...relationships.map(r => r.source_path),                ...relationships.map(r => r.target_path)            ])].slice(0, 50);            // Fetch resource details            const pathFilter = paths.slice(0, 50).map(p => `"${p}"`).join(',');            const resourceResponse = await fetch(                `${SUPABASE_URL}/rest/v1/graphrag_resources?select=file_path,title,subject&file_path=in.(${pathFilter})`,                { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }            );            const resources = await resourceResponse.json();            const resourceMap = {};            resources.forEach(r => {                resourceMap[r.file_path] = r;            });            // Build graph data            const nodes = resources.map(r => ({                id: r.file_path,                label: r.title?.substring(0, 30) || 'Resource',                subject: r.subject?.split(',')[0] || 'General',                fullTitle: r.title            }));            const links = relationships                .filter(r => resourceMap[r.source_path] && resourceMap[r.target_path])                .map(r => ({                    source: r.source_path,                    target: r.target_path,                    type: r.relationship_type,                    confidence: r.confidence                }));            renderGraph({ nodes, links });        } catch (error) {            // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('javascript_error', {
                 error: err.message,

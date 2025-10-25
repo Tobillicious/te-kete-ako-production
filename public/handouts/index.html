@@ -8,27 +8,27 @@
 
 <!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
 <!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
-<link rel="stylesheet" href="/css/professionalization-system.css">
+
 
 <!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
-<link rel="stylesheet" href="/css/te-kete-professional.css"/>
-<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css"/>
+
+
 
 <!-- ⭐ COMPONENT STYLES -->
-<link rel="stylesheet" href="/css/main.css">
-<link rel="stylesheet" href="/css/navigation-standard.css">
-<link rel="stylesheet" href="/css/mobile-revolution.css">
-<link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css"/>
+
+
+
+
 
 <!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
-<link rel="stylesheet" href="/css/print.css" media="print"/>
-<link rel="stylesheet" href="/css/print-professional.css" media="print"/>
+
+
 
 <!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
-<link rel="stylesheet" href="/css/tailwind.css">
+
 
 <!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
-<link rel="stylesheet" href="/css/cascade-fix.css">
+
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -109,27 +109,27 @@
 
 <!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
 <!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
-<link rel="stylesheet" href="/css/professionalization-system.css">
+
 
 <!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
-<link rel="stylesheet" href="/css/te-kete-professional.css"/>
-<link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css"/>
+
+
 
 <!-- ⭐ COMPONENT STYLES -->
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/navigation-standard.css">
-    <link rel="stylesheet" href="/css/mobile-revolution.css">
-    <link rel="stylesheet" href="/css/mobile-first-classroom-tablets.css"/>
+    
+    
+    
+    
 
 <!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
-    <link rel="stylesheet" href="/css/print.css" media="print"/>
-<link rel="stylesheet" href="/css/print-professional.css" media="print"/>
+    
+
 
 <!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
-<link rel="stylesheet" href="/css/tailwind.css">
+
 
 <!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
-<link rel="stylesheet" href="/css/cascade-fix.css"><body class="pattern-koru-subtle">    <!-- Whakataukī -->    <div >        <p >            "He kai kei aku ringa"        </p>        <p >            There is food at the end of my hands — These handouts provide the tools for learning        </p>    </div>    <!-- Navigation -->    <div id="nav-container"></div>    <script>        fetch('/components/navigation-standard.html')            .then(r => r.text())            .then(html => document.getElementById('nav-container').innerHTML = html);    </script>    <!-- Hero -->    <section class="handouts-hero">        <div class="m-0 mx-auto" <h1 >📄 Handouts Collection</h1>            <p style="font-size: 1.5rem; opacity: 0.95; ">                285 handouts across all subjects            </p>            <p style="opacity: 0.85;">                🧠 GraphRAG-powered discovery | 🌿 Culturally integrated            </p>        </div>    </section>    <!-- Filter Bar -->    <div class="filter-bar">        <div style="margin-bottom: 1.5rem;">            <h2 style="font-size: 1.5rem; color: #1f2937; ">Browse by Subject</h2>            <p style="color: #6b7280;">All handouts verified to exist in GraphRAG</p>        </div>        <div class="subject-tabs">            <button class="subject-tab active" onclick="filterSubject('all')">All (285)</button>            <button class="subject-tab" onclick="filterSubject('Mathematics')">Mathematics (64)</button>            <button class="subject-tab" onclick="filterSubject('Cross-Curricular')">Cross-Curricular (70)</button>            <button class="subject-tab" onclick="filterSubject('Science')">Science (42)</button>            <button class="subject-tab" onclick="filterSubject('English')">English (34)</button>            <button class="subject-tab" onclick="filterSubject('Social Studies')">Social Studies (33)</button>            <button class="subject-tab" onclick="filterSubject('Digital Technologies')">Digital Tech (29)</button>            <button class="subject-tab" onclick="filterSubject('Arts')">Arts (6)</button>            <button class="subject-tab" onclick="filterSubject('Te Ao Māori')">Te Ao Māori (5)</button>            <button class="subject-tab" onclick="filterSubject('Health & PE')">Health & PE (2)</button>        </div>        <div >            <input type="text" id="searchBox" placeholder="Search handouts..." onkeyup="searchHandouts()">        </div>    </div>    <main id="handoutsContainer" style="margin: 3rem auto; padding: 0 2rem;">        <!-- Handouts will be dynamically loaded here -->    </main>    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>    <script>        const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);        let allHandouts = [];        let currentFilter = 'all';        async function loadHandouts() {            try {                const { data, error } = await supabase                    .from('graphrag_resources')                    .select('file_path, title, quality_score, year_level, subject, cultural_context')                    .like('file_path', '/public/handouts/%')                    .not('file_path', 'like', '%/index.html')                    .in('resource_type', ['Handout', 'Tool', 'PD Resource', 'Framework', 'Hub Page', 'Resource'])                    .order('subject', { ascending: true })                    .order('title', { ascending: true });                if (error) {                    // Log to monitoring instead of console
+<body class="pattern-koru-subtle">    <!-- Whakataukī -->    <div >        <p >            "He kai kei aku ringa"        </p>        <p >            There is food at the end of my hands — These handouts provide the tools for learning        </p>    </div>    <!-- Navigation -->    <div id="nav-container"></div>    <script>        fetch('/components/navigation-standard.html')            .then(r => r.text())            .then(html => document.getElementById('nav-container').innerHTML = html);    </script>    <!-- Hero -->    <section class="handouts-hero">        <div class="m-0 mx-auto" <h1 >📄 Handouts Collection</h1>            <p style="font-size: 1.5rem; opacity: 0.95; ">                285 handouts across all subjects            </p>            <p style="opacity: 0.85;">                🧠 GraphRAG-powered discovery | 🌿 Culturally integrated            </p>        </div>    </section>    <!-- Filter Bar -->    <div class="filter-bar">        <div style="margin-bottom: 1.5rem;">            <h2 style="font-size: 1.5rem; color: #1f2937; ">Browse by Subject</h2>            <p style="color: #6b7280;">All handouts verified to exist in GraphRAG</p>        </div>        <div class="subject-tabs">            <button class="subject-tab active" onclick="filterSubject('all')">All (285)</button>            <button class="subject-tab" onclick="filterSubject('Mathematics')">Mathematics (64)</button>            <button class="subject-tab" onclick="filterSubject('Cross-Curricular')">Cross-Curricular (70)</button>            <button class="subject-tab" onclick="filterSubject('Science')">Science (42)</button>            <button class="subject-tab" onclick="filterSubject('English')">English (34)</button>            <button class="subject-tab" onclick="filterSubject('Social Studies')">Social Studies (33)</button>            <button class="subject-tab" onclick="filterSubject('Digital Technologies')">Digital Tech (29)</button>            <button class="subject-tab" onclick="filterSubject('Arts')">Arts (6)</button>            <button class="subject-tab" onclick="filterSubject('Te Ao Māori')">Te Ao Māori (5)</button>            <button class="subject-tab" onclick="filterSubject('Health & PE')">Health & PE (2)</button>        </div>        <div >            <input type="text" id="searchBox" placeholder="Search handouts..." onkeyup="searchHandouts()">        </div>    </div>    <main id="handoutsContainer" style="margin: 3rem auto; padding: 0 2rem;">        <!-- Handouts will be dynamically loaded here -->    </main>    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>    <script>        const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);        let allHandouts = [];        let currentFilter = 'all';        async function loadHandouts() {            try {                const { data, error } = await supabase                    .from('graphrag_resources')                    .select('file_path, title, quality_score, year_level, subject, cultural_context')                    .like('file_path', '/public/handouts/%')                    .not('file_path', 'like', '%/index.html')                    .in('resource_type', ['Handout', 'Tool', 'PD Resource', 'Framework', 'Hub Page', 'Resource'])                    .order('subject', { ascending: true })                    .order('title', { ascending: true });                if (error) {                    // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('javascript_error', {
                 error: err.message,
