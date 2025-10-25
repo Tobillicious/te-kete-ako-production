@@ -88,21 +88,7 @@ Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori</titl
 .whakatauki-banner {    background: linear-gradient(135deg, #f5e6d3 0%, #d4a574 100%);    padding: 3rem 2rem;    text-align: center;    border-bottom: 4px solid #1a4d2e;    margin: 0;}.whakatauki-text {    font-size: 1.8rem;    color: #0f2818;    font-style: italic;    margin-bottom: 0.5rem;    font-weight: 700;}.whakatauki-meaning {    font-size: 1.2rem;    color: #4a6e2a;    font-weight: 500;}</style>
 </head>
 <body data-auto-init="true" data-current-page="home" class="pattern-koru-subtle">
-<!-- Professional Navigation - Single Component (Fixed duplicate loading bug) -->
-<script>
-        // Load standardized navigation immediately
-        fetch('/components/navigation-standard.html')
-            .then(response => response.text())
-            .then(html => {
-                const container = document.createElement('div');
-                container.innerHTML = html;
-                const navElement = container.firstElementChild;
-                if (navElement) {
-                    document.body.insertBefore(navElement, document.body.firstChild);
-                }
-            })
-            .catch(err => console.error('Navigation load error:', err));
-</script>
+<!-- Navigation will be injected by navigation-loader.js singleton -->
 <!-- Whakataukī Banner -->
 <div class="whakatauki-banner">
     <p class="whakatauki-text">
