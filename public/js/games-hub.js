@@ -1,8 +1,9 @@
 
 document.addEventListener('DOMContentLoaded', async () => {
     const resourceGrid = document.querySelector('.resource-grid');
-    const { createClient } = supabase;
-    const supabaseClient = createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+    
+    // Use the global Supabase singleton instead of creating a new client
+    const supabaseClient = await window.supabaseSingleton.getClient();
 
     async function loadGames() {
         if (!resourceGrid) return;
