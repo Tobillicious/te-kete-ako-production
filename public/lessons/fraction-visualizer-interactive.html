@@ -2,33 +2,13 @@
 <html lang="en">
 <head>
     <title>Fraction Visualizer - Hangi Portions | Te Kete Ako</title>
-<!-- SEO TAGS - Open Graph, Twitter Cards, Canonical URL -->
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website"/>
-<meta property="og:url" content="https://tekete.netlify.app/lessons/fraction-visualizer-interactive.html"/>
-<meta property="og:title" content="Fraction Visualizer - Hangi Portions | Te Kete Ako"/>
-<meta property="og:description" content="World-class educational resources integrating mātauranga Māori with modern pedagogy"/>
-<meta property="og:image" content="https://tekete.netlify.app/images/og-image.jpg"/>
-<meta property="og:image:width" content="1200"/>
-<meta property="og:image:height" content="630"/>
-<meta property="og:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta property="og:site_name" content="Te Kete Ako"/>
-<meta property="og:locale" content="en_NZ"/>
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:url" content="https://tekete.netlify.app/lessons/fraction-visualizer-interactive.html"/>
-<meta name="twitter:title" content="Fraction Visualizer - Hangi Portions | Te Kete Ako"/>
-<meta name="twitter:description" content="World-class educational resources integrating mātauranga Māori with modern pedagogy"/>
-<meta name="twitter:image" content="https://tekete.netlify.app/images/twitter-card.jpg"/>
-<meta name="twitter:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta name="twitter:site" content="@TeKeteAko"/>
-<meta name="twitter:creator" content="@TeKeteAko"/>
+<meta name="robots" content="index, follow"/>
+<meta name="googlebot" content="index, follow"/>
+<meta name="theme-color" content="#1a4d2e"/>
 
-<!-- Canonical URL -->
-<link rel="canonical" href="https://tekete.netlify.app/lessons/fraction-visualizer-interactive.html"/>
 
-<!-- Additional SEO -->
+
 <meta name="robots" content="index, follow"/>
 <meta name="googlebot" content="index, follow"/>
 <meta name="theme-color" content="#1a4d2e"/>
@@ -72,8 +52,8 @@
     <main class="container">
         <h1>Fraction Visualizer: Hangi Portions</h1>
         
-        <section style="background: #fff7ed; padding: 2rem; border-radius: 12px; margin: 2rem 0; text-align: center;">
-            <p style="font-style: italic; font-size: 1.2rem;">"Nāu te rourou, nāku te rourou"</p>
+        <section style="background: #fff7ed; margin: 2rem 0; ">
+            <p >"Nāu te rourou, nāku te rourou"</p>
             <p>"With your food basket and my food basket" - Sharing fairly through fractions</p>
         </section>
         
@@ -84,21 +64,21 @@
             
             <div style="margin: 2rem 0;">
                 <label><strong>Numerator (parts taken):</strong></label>
-                <input type="range" id="numerator" min="0" max="8" value="1" oninput="updateFraction()" style="width: 100%;">
-                <span id="numDisplay" style="font-size: 1.2rem; font-weight: bold;">1</span>
+                <input type="range" id="numerator" min="0" max="8" value="1" oninput="updateFraction()" >
+                <span id="numDisplay" style="font-weight: bold;">1</span>
                 
-                <label style="margin-top: 1rem; display: block;"><strong>Denominator (total parts):</strong></label>
-                <input type="range" id="denominator" min="1" max="12" value="4" oninput="updateFraction()" style="width: 100%;">
-                <span id="denDisplay" style="font-size: 1.2rem; font-weight: bold;">4</span>
+                <label style="margin-top: 1rem; "><strong>Denominator (total parts):</strong></label>
+                <input type="range" id="denominator" min="1" max="12" value="4" oninput="updateFraction()" >
+                <span id="denDisplay" style="font-weight: bold;">4</span>
             </div>
             
-            <div style="text-align: center; font-size: 3rem; font-weight: bold; color: var(--color-primary); margin: 1rem 0;">
+            <div style="font-size: 3rem; font-weight: bold; color: var(--color-primary); ">
                 <span id="fractionDisplay">1/4</span>
             </div>
             
-            <canvas id="fractionCanvas" width="300" height="300" style="display: block; margin: 2rem auto; border: 3px solid var(--color-primary); border-radius: 50%;"></canvas>
+            <canvas id="fractionCanvas" width="300" height="300" style="margin: 2rem auto; border: 3px solid var(--color-primary); border-radius: 50%;"></canvas>
             
-            <p style="text-align: center; font-size: 1.2rem; margin-top: 1rem;">
+            <p style="margin-top: 1rem;">
                 <strong>Decimal:</strong> <span id="decimal">0.25</span><br>
                 <strong>Percentage:</strong> <span id="percentage">25</span>%
             </p>
@@ -146,7 +126,7 @@
             </ul>
             <p><strong>Calculate:</strong> Total amount of each food needed</p>
             
-            <button class="calc-btn" onclick="solveHangi()" style="width: auto; padding: 0.75rem 1.5rem;">Show Solution</button>
+            <button class="calc-btn" onclick="solveHangi()" class="p-3" style="width: auto; padding: 0.75rem 1.5rem;"Show Solution</button>
             <div id="hangiSolution" class="result"></div>
         </div>
         
@@ -272,44 +252,19 @@
 <!-- PARALLEL COMPONENT LOADING - No more 2-3s delay! -->
 <script>
     // Load all components in parallel for instant page display
-    Promise.all([
-
-        fetch('/components/graphrag-similar-resources.html')
-            .then(r => r.text())
-            .then(html => {
-                const container = document.getElementById('graphrag-similar-resources-container');
-                if (container) container.innerHTML = html;
-                else // Log to monitoring instead of console
-        if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
-        }
-        // Show user-friendly message instead of error
-        })
-            .catch(err => // Log to monitoring instead of console
-        if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
-        }
-        // Show user-friendly message instead of error
-        
-    ]).then(() => {
-        // All components loaded successfully!
-        // User feedback provided via UI
-    }).catch(err => {
-        // Log to monitoring instead of console
-        if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+    // PARALLEL COMPONENT LOADING - No more 2-3s delay!
+Promise.all([
+    // Components will be loaded here
+]).then(() => {
+    console.log('✅ All components loaded in parallel');
+}).catch(err => {
+    if (window.posthog) {
+        posthog.capture('component_loading_error', {
+            message: err.message,
+            url: window.location.pathname
+        });
+    }
+});
         }
         // Show user-friendly message instead of error
         });

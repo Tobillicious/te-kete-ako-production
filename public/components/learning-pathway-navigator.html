@@ -20,10 +20,10 @@
         // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         return;
@@ -42,10 +42,10 @@
         // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         return;
@@ -62,10 +62,10 @@
         // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         return;
@@ -129,7 +129,7 @@
       const html = `
         <section style="background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); p-8  rounded-2xl  margin: 3rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
           <div style="text-center  mb-8 ">
-            <div style="display: inline-block; background: linear-gradient(135deg, #7c3aed, #6366f1); padding: 0.5rem 1.5rem; border-radius: 24px; mb-4  text-white  font-bold  text-sm ">
+            <div class="inline-block" >
               🧭 GraphRAG Learning Pathways
             </div>
             <h2 style="font-size: 2rem; color: #1a4d2e; mb-2 ">Your Learning Journey</h2>
@@ -138,7 +138,7 @@
           
           ${prerequisites.length > 0 ? `
             <div class="bg-white$1">
-              <h3 style="color: #3b82f6; font-size: 1.3rem; mb-4 ">📖 Build On These First</h3>
+              <h3 class="text-lg" >📖 Build On These First</h3>
               <p style="color: #666; text-sm  mb-4 ">Recommended prerequisites for stronger understanding:</p>
               <div style="grid  gap: 1rem;">
                 ${prerequisites.map(p => `
@@ -159,7 +159,7 @@
           
           ${nextSteps.length > 0 ? `
             <div class="bg-white$1">
-              <h3 style="color: #10b981; font-size: 1.3rem; mb-4 ">🚀 Next Steps in Your Journey</h3>
+              <h3 class="text-lg" >🚀 Next Steps in Your Journey</h3>
               <p style="color: #666; text-sm  mb-4 ">Continue learning with these connected resources:</p>
               <div style="grid  gap: 1rem;">
                 ${nextSteps.map(n => `
@@ -180,14 +180,14 @@
           
           ${crossCurricular.length > 0 ? `
             <div class="bg-white$1">
-              <h3 style="color: #f59e0b; font-size: 1.3rem; mb-4 ">🌈 Cross-Curricular Connections</h3>
+              <h3 class="text-lg" >🌈 Cross-Curricular Connections</h3>
               <p style="color: #666; text-sm  mb-4 ">Explore related concepts from different subjects:</p>
               <div style="grid  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
                 ${crossCurricular.map(c => `
-                  <a href="${(c.target?.file_path || '').replace('/public', '')}" style="display: block; p-4  background: #fff7ed; rounded-lg  text-decoration: none; transition: all 0.3s; border-top: 3px solid #f59e0b;" onmouseover="this.style.background='#ffedd5'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#fff7ed'; this.style.transform='translateY(0)'">
+                  <a href="${(c.target?.file_path || '').replace('/public', '')}" class="block" onmouseover="this.style.background='#ffedd5'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#fff7ed'; this.style.transform='translateY(0)'">
                     <div style="font-bold  color: #92400e; mb-2  font-size: 0.95rem;">${c.target?.title || 'Resource'}</div>
-                    <div style="font-size: 0.8rem; color: #78350f; mb-2 ">
-                      <span style="background: #fef3c7; padding: 0.25rem 0.5rem; border-radius: 6px; margin-right: 0.25rem;">${c.target?.canonical_subject || 'Cross-Curricular'}</span>
+                    <div class="text-xs" >
+                      <span class="rounded-md" >${c.target?.canonical_subject || 'Cross-Curricular'}</span>
                       ${c.target?.year_level || ''}
                     </div>
                     <div style="font-size: 0.75rem; color: #a16207; font-semibold ">
@@ -202,7 +202,7 @@
           ${!prerequisites.length && !nextSteps.length && !crossCurricular.length ? `
             <div class="bg-white$1">
               <div style="font-size: 3rem; mb-4  opacity: 0.5;">🧭</div>
-              <p style="color: #666; font-style: italic;">No learning pathways discovered yet. Check back as GraphRAG builds more connections!</p>
+              <p class="italic" >No learning pathways discovered yet. Check back as GraphRAG builds more connections!</p>
             </div>
           ` : ''}
         </section>
@@ -225,10 +225,10 @@
     // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         }

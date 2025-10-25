@@ -1,32 +1,12 @@
 <!DOCTYPE html><html lang="en"><head>
     <title>Signing you in... - Te Kete Ako</title>
-<!-- SEO TAGS - Open Graph, Twitter Cards, Canonical URL -->
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website"/>
-<meta property="og:url" content="https://tekete.netlify.app/auth/callback.html"/>
-<meta property="og:title" content="Signing you in... - Te Kete Ako"/>
-<meta property="og:description" content="World-class educational resources integrating mātauranga Māori with modern pedagogy"/>
-<meta property="og:image" content="https://tekete.netlify.app/images/og-image.jpg"/>
-<meta property="og:image:width" content="1200"/>
-<meta property="og:image:height" content="630"/>
-<meta property="og:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta property="og:site_name" content="Te Kete Ako"/>
-<meta property="og:locale" content="en_NZ"/>
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:url" content="https://tekete.netlify.app/auth/callback.html"/>
-<meta name="twitter:title" content="Signing you in... - Te Kete Ako"/>
-<meta name="twitter:description" content="World-class educational resources integrating mātauranga Māori with modern pedagogy"/>
-<meta name="twitter:image" content="https://tekete.netlify.app/images/twitter-card.jpg"/>
-<meta name="twitter:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta name="twitter:site" content="@TeKeteAko"/>
-<meta name="twitter:creator" content="@TeKeteAko"/>
+<meta name="robots" content="index, follow"/>
+<meta name="googlebot" content="index, follow"/>
+<meta name="theme-color" content="#1a4d2e"/>
 
-<!-- Canonical URL -->
-<link rel="canonical" href="https://tekete.netlify.app/auth/callback.html"/>
 
-<!-- Additional SEO -->
+
 <meta name="robots" content="index, follow"/>
 <meta name="googlebot" content="index, follow"/>
 <meta name="theme-color" content="#1a4d2e"/>
@@ -65,64 +45,64 @@
 <link rel="stylesheet" href="/css/cascade-fix.css"><body class="pattern-koru-subtle">    <!-- Loading State -->    <div id="loading-state" class="loading-container">        <div class="koru-accent">🌿</div>        <div class="spinner"></div>        <h1>Signing you in...</h1>        <p>Completing your authentication with kaitiakitanga</p>        <div class="whakataukī">            "Whaowhia te kete mātauranga"<br>            <small>Fill the basket of knowledge</small>        </div>    </div>    <!-- Error State (hidden by default) -->    <div id="error-state" class="error-container loading-container">        <h2>❌ Authentication Error</h2>        <p id="error-message">Something went wrong during sign-in.</p>        <button onclick="window.location.href='/login.html'">Return to Login</button>    </div>    <!-- Supabase Auth Library -->    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>    <script>        // User feedback provided via UI        // Initialize Supabase client        const supabaseClient = window.supabase.createClient(            'https://nlgldaqtubrlcqddppbq.supabase.co',            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'        );        // Show error UI        function showError(message) {            // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         document.getElementById('loading-state').style.display = 'none';            const errorState = document.getElementById('error-state');            errorState.classList.add('show');            document.getElementById('error-message').textContent = message;        }        // Helper function: Get dashboard URL based on user role        async function getUserDashboardUrl(user) {            if (!user) return '/getting-started.html';            try {                console.log('🔍 Fetching user profile for:', user.email);                // Query profiles table for user role                const { data: profile, error } = await supabaseClient                    .from('profiles')                    .select('role')                    .eq('user_id', user.id)                    .single();                if (error) {                    // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         return '/getting-started.html'; // Default for new users                }                if (!profile) {                    // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         return '/getting-started.html';                }                console.log('✅ User role:', profile.role);                // Route by role                if (profile.role === 'teacher') return '/teacher-dashboard-unified.html';                if (profile.role === 'student') return '/student-dashboard.html';                if (profile.role === 'admin') return '/admin-dashboard.html';                return '/getting-started.html'; // Fallback            } catch (err) {                // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         return '/getting-started.html';            }        }        // Handle OAuth callback        async function handleOAuthCallback() {            try {                console.log('🔐 Processing OAuth callback...');                // Supabase automatically handles the OAuth callback via URL parameters                // Just need to get the session                const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();                if (sessionError) {                    // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         showError(`Authentication failed: ${sessionError.message}`);                    return;                }                if (!session || !session.user) {                    // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         showError('No authentication session found. Please try signing in again.');                    setTimeout(() => {                        window.location.href = '/login.html';                    }, 3000);                    return;                }                // User feedback provided via UI                console.log('👤 User:', session.user.email);                console.log('🔑 Provider:', session.user.app_metadata?.provider || 'unknown');                // Get appropriate dashboard for user                const dashboardUrl = await getUserDashboardUrl(session.user);                console.log(`🚀 Redirecting to: ${dashboardUrl}`);                // Small delay for user to see "Signing you in..." message                setTimeout(() => {                    window.location.href = dashboardUrl;                }, 800);            } catch (error) {                // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         showError(`An unexpected error occurred: ${error.message}`);                setTimeout(() => {                    window.location.href = '/login.html';                }, 5000);            }        }        // Execute on page load        console.log('🚀 Starting OAuth callback handler...');        handleOAuthCallback();    </script>    <!-- 📊 ULTIMATE BEAUTY: PostHog Analytics (Privacy-First) -->    <script src="/js/posthog-analytics.js" defer></script></body></html>

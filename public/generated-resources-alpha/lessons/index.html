@@ -2,33 +2,13 @@
 <html lang="en">
 <head>
     <title>Excellence Alpha: Lessons | Te Kete Ako</title>
-<!-- SEO TAGS - Open Graph, Twitter Cards, Canonical URL -->
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website"/>
-<meta property="og:url" content="https://tekete.netlify.app/generated-resources-alpha/lessons"/>
-<meta property="og:title" content="Excellence Alpha: Lessons | Te Kete Ako"/>
-<meta property="og:description" content="World-class educational resources integrating mātauranga Māori with modern pedagogy"/>
-<meta property="og:image" content="https://tekete.netlify.app/images/og-image.jpg"/>
-<meta property="og:image:width" content="1200"/>
-<meta property="og:image:height" content="630"/>
-<meta property="og:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta property="og:site_name" content="Te Kete Ako"/>
-<meta property="og:locale" content="en_NZ"/>
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:url" content="https://tekete.netlify.app/generated-resources-alpha/lessons"/>
-<meta name="twitter:title" content="Excellence Alpha: Lessons | Te Kete Ako"/>
-<meta name="twitter:description" content="World-class educational resources integrating mātauranga Māori with modern pedagogy"/>
-<meta name="twitter:image" content="https://tekete.netlify.app/images/twitter-card.jpg"/>
-<meta name="twitter:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta name="twitter:site" content="@TeKeteAko"/>
-<meta name="twitter:creator" content="@TeKeteAko"/>
+<meta name="robots" content="index, follow"/>
+<meta name="googlebot" content="index, follow"/>
+<meta name="theme-color" content="#1a4d2e"/>
 
-<!-- Canonical URL -->
-<link rel="canonical" href="https://tekete.netlify.app/generated-resources-alpha/lessons"/>
 
-<!-- Additional SEO -->
+
 <meta name="robots" content="index, follow"/>
 <meta name="googlebot" content="index, follow"/>
 <meta name="theme-color" content="#1a4d2e"/>
@@ -74,33 +54,32 @@
             .then(html => document.getElementById('nav-container').innerHTML = html);
     </script>
 
-    <main style="max-width: 1200px; margin: 3rem auto; padding: 0 2rem;">
+    <main class="max-w-6xl" >
         <!-- Hero -->
-        <section style="text-align: center; margin-bottom: 3rem;">
-            <div style="display: inline-block; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; padding: 0.75rem 2rem; border-radius: 30px; font-weight: 800; margin-bottom: 1.5rem;">
+        <section class="text-center" >
+            <div class="inline-block font-extrabold" >
                 🎓 EXCELLENCE ALPHA: LESSONS
             </div>
-            <h1 style="font-size: 3.5rem; color: #1a4d2e; margin-bottom: 1rem; font-weight: 800;">
+            <h1 class="mb-4 font-extrabold" >
                 Complete Lessons Collection
             </h1>
-            <p style="font-size: 1.3rem; color: #546e7a; margin-bottom: 0.5rem;">
+            <p class="text-lg mb-2" >
                 AI-Generated ready-to-teach lessons (Average Quality: <strong>90.0/100</strong>)
             </p>
-            <p id="lesson-count" style="font-size: 1.1rem; color: #3b82f6; font-weight: 700;">
+            <p id="lesson-count" class="text-sm font-bold" >
                 Loading lessons from GraphRAG...
             </p>
         </section>
 
         <!-- Filter Bar -->
         <div class="filter-bar">
-            <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+            <div class="flex" >
                 <input 
                     type="text" 
                     id="search-input" 
                     placeholder="🔍 Search lessons..." 
-                    style="flex: 1; min-width: 250px; padding: 0.75rem 1rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;"
-                />
-                <select id="subject-filter" style="padding: 0.75rem 1rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
+                    class="rounded-lg text-sm" />
+                <select id="subject-filter" class="rounded-lg text-sm" >
                     <option value="">All Subjects</option>
                     <option value="Science">Science</option>
                     <option value="Mathematics">Mathematics</option>
@@ -108,7 +87,7 @@
                     <option value="Social Studies">Social Studies</option>
                     <option value="Digital Technologies">Digital Technologies</option>
                 </select>
-                <select id="year-filter" style="padding: 0.75rem 1rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem;">
+                <select id="year-filter" class="rounded-lg text-sm" >
                     <option value="">All Years</option>
                     <option value="7">Year 7</option>
                     <option value="8">Year 8</option>
@@ -157,10 +136,10 @@
                     // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         return;
@@ -178,15 +157,15 @@
                 // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         document.getElementById('lessons-container').innerHTML = `
-                    <div style="text-align: center; padding: 3rem;">
-                        <p style="color: #dc2626; font-weight: 600;">Error loading lessons</p>
+                    <div class="text-center" >
+                        <p class="font-semibold" >Error loading lessons</p>
                     </div>
                 `;
             }
@@ -197,7 +176,7 @@
             
             if (lessons.length === 0) {
                 container.innerHTML = `
-                    <div style="text-align: center; padding: 3rem;">
+                    <div class="text-center" >
                         <p style="color: #666;">No lessons match your filters</p>
                     </div>
                 `;
@@ -205,7 +184,7 @@
             }
 
             container.innerHTML = `
-                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.5rem;">
+                <div class="grid" >
                     ${lessons.map(l => createLessonCard(l)).join('')}
                 </div>
             `;
@@ -222,30 +201,30 @@
 
             return `
                 <a href="${lesson.file_path}" class="lesson-card" style="border-top-color: ${subjectColor};">
-                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
-                        <span style="background: ${subjectColor}15; color: ${subjectColor}; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem; font-weight: 600;">
+                    <div class="flex mb-4" >
+                        <span class="rounded-xl font-semibold" >
                             🎓 Lesson
                         </span>
-                        <span style="background: #fbbf24; color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem; font-weight: 700;">
+                        <span class="rounded-xl font-bold" >
                             ⭐ ${lesson.quality_score}
                         </span>
                     </div>
-                    <h3 style="color: #1a4d2e; font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem; line-height: 1.4;">
+                    <h3 class="font-bold" >
                         ${lesson.title}
                     </h3>
-                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.5rem;">
+                    <div class="flex mb-2" >
                         ${lesson.subject ? `
-                            <span style="background: ${subjectColor}15; color: ${subjectColor}; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem; font-weight: 600;">
+                            <span class="rounded-xl font-semibold" >
                                 ${lesson.subject}
                             </span>
                         ` : ''}
                         ${lesson.year_level ? `
-                            <span style="background: #fef3c7; color: #92400e; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem; font-weight: 600;">
+                            <span class="rounded-xl font-semibold" >
                                 ${lesson.year_level}
                             </span>
                         ` : ''}
-                        ${lesson.cultural_context ? '<span style="background: #d1fae5; color: #065f46; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem; font-weight: 600;">🌿 Cultural</span>' : ''}
-                        ${lesson.has_whakataukī ? '<span style="background: #fef3c7; color: #92400e; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem; font-weight: 600;">✨ Whakataukī</span>' : ''}
+                        ${lesson.cultural_context ? '<span class="rounded-xl font-semibold" >🌿 Cultural</span>' : ''}
+                        ${lesson.has_whakataukī ? '<span class="rounded-xl font-semibold" >✨ Whakataukī</span>' : ''}
                     </div>
                 </a>
             `;

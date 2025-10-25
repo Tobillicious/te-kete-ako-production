@@ -1,32 +1,12 @@
 <!DOCTYPE html><html lang="en"><head>
     <title>EXA.ai Resource Discovery | Te Kete Ako</title>
-<!-- SEO TAGS - Open Graph, Twitter Cards, Canonical URL -->
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website"/>
-<meta property="og:url" content="https://tekete.netlify.app/exa-search.html"/>
-<meta property="og:title" content="EXA.ai Resource Discovery | Te Kete Ako"/>
-<meta property="og:description" content="Te Kete Ako - Award-winning educational platform integrating mātauranga Māori with contemporary learning"/>
-<meta property="og:image" content="https://tekete.netlify.app/images/og-image.jpg"/>
-<meta property="og:image:width" content="1200"/>
-<meta property="og:image:height" content="630"/>
-<meta property="og:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta property="og:site_name" content="Te Kete Ako"/>
-<meta property="og:locale" content="en_NZ"/>
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:url" content="https://tekete.netlify.app/exa-search.html"/>
-<meta name="twitter:title" content="EXA.ai Resource Discovery | Te Kete Ako"/>
-<meta name="twitter:description" content="Te Kete Ako - Award-winning educational platform integrating mātauranga Māori with contemporary learning"/>
-<meta name="twitter:image" content="https://tekete.netlify.app/images/twitter-card.jpg"/>
-<meta name="twitter:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta name="twitter:site" content="@TeKeteAko"/>
-<meta name="twitter:creator" content="@TeKeteAko"/>
+<meta name="robots" content="index, follow"/>
+<meta name="googlebot" content="index, follow"/>
+<meta name="theme-color" content="#1a4d2e"/>
 
-<!-- Canonical URL -->
-<link rel="canonical" href="https://tekete.netlify.app/exa-search.html"/>
 
-<!-- Additional SEO -->
+
 <meta name="robots" content="index, follow"/>
 <meta name="googlebot" content="index, follow"/>
 <meta name="theme-color" content="#1a4d2e"/>
@@ -77,44 +57,19 @@
 <link rel="stylesheet" href="/css/cascade-fix.css"><body class="pattern-koru-subtle"> <!-- Professional Mega Menu Navigation --> <div id="beautiful-nav-container"></div>  <header class="site-header no-print"> <div class="nav-container"> <a href="/index.html" class="nav-brand">Te Kete Ako</a> <nav class="main-nav"> <ul> <li><a href="/unit-plans.html" class="nav-link"><span class="nav-icon">📚</span><span class="nav-text-en">Unit Plans</span><span class="nav-text-mi" lang="mi">Ngā Waehere</span></a></li> <li><a href="/lessons.html" class="nav-link"><span class="nav-icon">🎓</span><span class="nav-text-en">Lessons</span><span class="nav-text-mi" lang="mi">Ngā Akoranga</span></a></li> <li><a href="/handouts.html" class="nav-link"><span class="nav-icon">📄</span><span class="nav-text-en">Handouts</span><span class="nav-text-mi" lang="mi">Ngā Rauemi</span></a></li> <li><a href="/teachers/index.html" class="nav-link"><span class="nav-icon">🧑‍🏫</span><span class="nav-text-en">Teachers</span><span class="nav-text-mi" lang="mi">Ngā Kaiako</span></a></li> <li class="auth-nav"><a href="/login.html" class="nav-link login-btn"><span class="nav-icon">👤</span>Login</a></li> </ul> </nav> <nav class="breadcrumbs no-print" aria-label="Breadcrumb"><ol id="breadcrumbs" class="breadcrumbs-list"></ol></nav> </div> </header> <div id="search-container"></div> <div class="exa-container"> <h1 class="wiley-hero-title">🔍 EXA.ai Educational Resource Discovery</h1> <input type="text" class="search-box" id="exa-query" placeholder="Search for educational resources..."> <button onclick="searchExa()" class="btn-primary">Search with EXA.ai</button> <div id="exa-results" class="exa-results"></div> </div> <script src="/js/env-config.js" defer></script> <script> async function searchExa() { const query = document.getElementById('exa-query').value; const resultsDiv = document.getElementById('exa-results'); resultsDiv.innerHTML = 'Searching...'; try { const response = await fetch('/.netlify/functions/exa-search', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query }) }); const data = await response.json(); resultsDiv.innerHTML = data.results.map(r => `<div class="result-item"><h3>${r.title}</h3><p>${r.snippet}</p><a href="${r.url}">View Resource</a></div>` ).join(''); } catch (error) { resultsDiv.innerHTML = 'Error: ' + error.message; } } </script> <!-- Load Supabase Client --> <!-- Load Auth UI --> <script> // Register service worker for performance if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js') .then(registration => ) .catch(error => ); }); } </script><!-- 🎨 ULTIMATE BEAUTY SYSTEM: Complete UX --><!-- Footer --><div id="footer-container"></div><!-- Mobile Navigation --><div id="mobile-nav-bottom"></div><!-- Floating Action Button (Help) --><div id="fab-quick-actions"></div><!-- 🎨 ULTIMATE BEAUTY: Framer Cultural Gestures --><script src="/js/framer-cultural-gestures-ultimate.js" defer></script><!-- 📊 ULTIMATE BEAUTY: PostHog Analytics (Privacy-First) --><script src="/js/posthog-analytics.js" defer></script><!-- PARALLEL COMPONENT LOADING - No more 2-3s delay! -->
 <script>
     // Load all components in parallel for instant page display
-    Promise.all([
-
-        fetch('/components/navigation-standard.html')
-            .then(r => r.text())
-            .then(html => {
-                const container = document.getElementById('navigation-standard-container');
-                if (container) container.innerHTML = html;
-                else // Log to monitoring instead of console
-        if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
-        }
-        // Show user-friendly message instead of error
-        })
-            .catch(err => // Log to monitoring instead of console
-        if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
-        }
-        // Show user-friendly message instead of error
-        
-    ]).then(() => {
-        // All components loaded successfully!
-        // User feedback provided via UI
-    }).catch(err => {
-        // Log to monitoring instead of console
-        if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+    // PARALLEL COMPONENT LOADING - No more 2-3s delay!
+Promise.all([
+    // Components will be loaded here
+]).then(() => {
+    console.log('✅ All components loaded in parallel');
+}).catch(err => {
+    if (window.posthog) {
+        posthog.capture('component_loading_error', {
+            message: err.message,
+            url: window.location.pathname
+        });
+    }
+});
         }
         // Show user-friendly message instead of error
         });

@@ -6,35 +6,13 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>
 Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori</title>
-<!-- SEO TAGS - Open Graph, Twitter Cards, Canonical URL -->
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website"/>
-<meta property="og:url" content="https://tekete.netlify.app/"/>
-<meta property="og:title" content="
-Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori"/>
-<meta property="og:description" content="Te Kete Ako - World-class educational resources integrating mātauranga Māori with modern pedagogy for Aotearoa New Zealand"/>
-<meta property="og:image" content="https://tekete.netlify.app/images/og-image.jpg"/>
-<meta property="og:image:width" content="1200"/>
-<meta property="og:image:height" content="630"/>
-<meta property="og:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta property="og:site_name" content="Te Kete Ako"/>
-<meta property="og:locale" content="en_NZ"/>
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:url" content="https://tekete.netlify.app/"/>
-<meta name="twitter:title" content="
-Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori"/>
-<meta name="twitter:description" content="Te Kete Ako - World-class educational resources integrating mātauranga Māori with modern pedagogy for Aotearoa New Zealand"/>
-<meta name="twitter:image" content="https://tekete.netlify.app/images/twitter-card.jpg"/>
-<meta name="twitter:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta name="twitter:site" content="@TeKeteAko"/>
-<meta name="twitter:creator" content="@TeKeteAko"/>
+<meta name="robots" content="index, follow"/>
+<meta name="googlebot" content="index, follow"/>
+<meta name="theme-color" content="#1a4d2e"/>
 
-<!-- Canonical URL -->
-<link rel="canonical" href="https://tekete.netlify.app/"/>
 
-<!-- Additional SEO -->
+
 <meta name="robots" content="index, follow"/>
 <meta name="googlebot" content="index, follow"/>
 <meta name="theme-color" content="#1a4d2e"/>
@@ -44,33 +22,7 @@ Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori"/>
 <meta content="education, māori, indigenous, teaching resources, new zealand, curriculum" name="keywords"/>
 <meta content="Te Kete Ako" name="author"/>
 
-<!-- SEO TAGS - Open Graph, Twitter Cards, Canonical URL -->
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website"/>
-<meta property="og:url" content="https://tekete.netlify.app/"/>
-<meta property="og:title" content="Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori"/>
-<meta property="og:description" content="Award-winning educational platform integrating mātauranga Māori with contemporary learning for New Zealand classrooms. 24,971+ teaching resources, culturally integrated content, and AI-powered learning tools."/>
-<meta property="og:image" content="https://tekete.netlify.app/images/og-image.jpg"/>
-<meta property="og:image:width" content="1200"/>
-<meta property="og:image:height" content="630"/>
-<meta property="og:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta property="og:site_name" content="Te Kete Ako"/>
-<meta property="og:locale" content="en_NZ"/>
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:url" content="https://tekete.netlify.app/"/>
-<meta name="twitter:title" content="Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori"/>
-<meta name="twitter:description" content="Award-winning educational platform integrating mātauranga Māori with contemporary learning for New Zealand classrooms. 24,971+ teaching resources, culturally integrated content, and AI-powered learning tools."/>
-<meta name="twitter:image" content="https://tekete.netlify.app/images/twitter-card.jpg"/>
-<meta name="twitter:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta name="twitter:site" content="@TeKeteAko"/>
-<meta name="twitter:creator" content="@TeKeteAko"/>
-
-<!-- Canonical URL -->
-<link rel="canonical" href="https://tekete.netlify.app/"/>
-
-<!-- Additional SEO -->
 <meta name="robots" content="index, follow"/>
 <meta name="googlebot" content="index, follow"/>
 <meta name="theme-color" content="#1a4d2e"/>
@@ -120,14 +72,12 @@ Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori"/>
     window.addEventListener('DOMContentLoaded', () => {
         if (!window.supabase) {
             // Log to monitoring instead of console
-        if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
-        }
-        // Show user-friendly message instead of error
+            if (window.posthog) {
+                posthog.capture('supabase_cdn_error', {
+                    message: 'Supabase CDN failed to load',
+                    url: window.location.pathname
+                });
+            }
         }
     });
 </script>
@@ -161,15 +111,14 @@ Te Kete Ako | World-Class Educational Platform Honoring Mātauranga Māori"/>
                     })
                     .catch(error => {
                         // Log to monitoring instead of console
-        if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
-        }
-        // Show user-friendly message instead of error
-        });
+                        if (window.posthog) {
+                            posthog.capture('pwa_service_worker_error', {
+                                message: 'Service Worker registration failed',
+                                error: error.message,
+                                url: window.location.pathname
+                            });
+                        }
+                    });
             });
         }
 </script>
@@ -260,7 +209,7 @@ Just Browsing</h2>
 </section>
 
 <!-- 🎯 HOMEPAGE RECOMMENDATIONS ENGINE -->
-<div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+<div class="container max-w-6xl mx-auto" >
     <!-- Perfect Pathways Widget (Loaded via Component Loader) -->
     <div id="perfect-pathways-widget"></div>
 
@@ -668,19 +617,21 @@ Quality 95</span>
     <script>
     // DISABLED FOR PUBLIC - Only load for admin/teacher users
     /*
-        fetch('/components/stats-dashboard.html')            .then(response => response.text())            .then(html => {
+        fetch('/components/stats-dashboard.html')
+            .then(response => response.text())
+            .then(html => {
                 const container = document.getElementById('stats-dashboard-container');
                 if (container) container.innerHTML = html;
-            })            .catch(err => // Log to monitoring instead of console
-        if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
+            })
+            .catch(err => {
+                // Log to monitoring instead of console
+                if (window.posthog) {
+                    posthog.capture('stats_dashboard_error', {
+                        error: err.message,
+                        url: window.location.pathname
+                    });
+                }
             });
-        }
-        // Show user-friendly message instead of error
-        ;
     */
     </script>
     <!-- FEATURED CAROUSEL - Curated Collections -->
@@ -693,18 +644,18 @@ Quality 95</span>
  <!-- Main Content -->
  <main id="main-content" role="main">
     <!-- Quick Actions Bar -->
- <div style="background: var(--color-primary); padding: 1rem 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-        <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; max-width: 1200px; margin: 0 auto;">
+ <div class="shadow-lg" >
+        <div class="container flex max-w-6xl mx-auto" >
             <div style="color: white;">
                 <strong>
 🎓 Ready to start learning?</strong>
             </div>
-            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
- <a href="/login.html" style="border-radius: var(--radius-lg); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem;">
+            <div class="flex" >
+ <a href="/login.html" class="font-semibold" >
                     🔐 Login                </a>
- <a href="/signup-student.html" style="border-radius: var(--radius-lg); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem;">
+ <a href="/signup-student.html" class="font-semibold" >
                     👨‍🎓 Student Signup                </a>
- <a href="/signup-teacher.html" style="border-radius: var(--radius-lg); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem;">
+ <a href="/signup-teacher.html" class="font-semibold" >
                     👩‍🏫 Teacher Signup                </a>
             </div>
         </div>
@@ -891,136 +842,136 @@ Explore Inquiry →</div>
     </div>
 </section>
 <!-- 🔍 DISCOVERY TOOLS SECTION - GraphRAG Intelligence (HIDDEN FOR END USERS) -->
-<section style="display: none; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 5rem 2rem; margin: 3rem 0; border-radius: 20px; box-shadow: 0 12px 32px rgba(0,0,0,0.3); position: relative; overflow: hidden;">
-    <div style="max-width: 1400px; margin: 0 auto; position: relative; z-index: 1;">
-        <div style="text-align: center; margin-bottom: 4rem;">
-            <div style="display: inline-block; background: linear-gradient(135deg, #7c3aed, #a855f7); padding: 0.5rem 1.5rem; border-radius: 24px; margin-bottom: 1rem; border: 2px solid rgba(255,255,255,0.2);">
-                <span style="color: white; font-weight: 700; font-size: 0.95rem;">
+<section class="relative" >
+    <div class="mx-auto relative" >
+        <div class="text-center" >
+            <div class="inline-block mb-4" >
+                <span class="font-bold" >
 🧠 AI-POWERED INTELLIGENCE</span>
             </div>
-            <h2 style="font-size: 3.5rem; color: white; margin-bottom: 1rem; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+            <h2 class="mb-4 font-extrabold" >
                 Discovery Tools            </h2>
-            <p style="font-size: 1.4rem; color: rgba(255,255,255,0.9); max-width: 900px; margin: 0 auto 2rem; line-height: 1.6;">
+            <p class="text-xl" >
                 Explore 19,685 resources using GraphRAG intelligence with 231,237 relationship connections            </p>
-            <a href="/discovery-tools.html" style="display: inline-block; background: linear-gradient(135deg, #7c3aed, #6d28d9); color: white; padding: 1.2rem 2.5rem; border-radius: 50px; font-weight: 700; font-size: 1.1rem; text-decoration: none; box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4); transition: all 0.3s;">
+            <a href="/discovery-tools.html" class="inline-block font-bold text-sm" >
                 View All Discovery Tools →            </a>
         </div>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
+        <div class="grid" >
             <!-- Advanced Search Tool -->
-            <a href="/advanced-search-graphrag.html" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); padding: 2rem; border-radius: 16px; text-decoration: none; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s; border-top: 4px solid #6366f1;">
-                <div style="font-size: 3rem; margin-bottom: 1rem; text-align: center;">
+            <a href="/advanced-search-graphrag.html" class="p-8 rounded-2xl" >
+                <div class="mb-4 text-center" >
 🔎</div>
-                <h3 style="font-size: 1.5rem; color: white; margin-bottom: 0.75rem; font-weight: 700; text-align: center;">
+                <h3 class="font-bold text-center" >
 Advanced Search</h3>
-                <p style="color: rgba(255,255,255,0.8); font-size: 1rem; line-height: 1.5; text-align: center; margin-bottom: 1rem;">
+                <p class="text-sm text-center mb-4" >
                     Search all 19,685 resources with intelligent filtering by subject, year, quality, and cultural content                </p>
-                <div style="display: flex; gap: 1rem; justify-content: center;">
-                    <div style="background: rgba(99, 102, 241, 0.3); padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid rgba(99, 102, 241, 0.5);">
-                        <div style="font-weight: 700; color: #a5b4fc; font-size: 0.75rem; text-transform: uppercase;">
+                <div class="flex" >
+                    <div class="rounded-lg" >
+                        <div class="font-bold" >
 Resources</div>
-                        <div style="color: white; font-size: 1.25rem; font-weight: 700;">
+                        <div class="font-bold" >
 19,685</div>
                     </div>
-                    <div style="background: rgba(245, 158, 11, 0.3); padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid rgba(245, 158, 11, 0.5);">
-                        <div style="font-weight: 700; color: #fcd34d; font-size: 0.75rem; text-transform: uppercase;">
+                    <div class="rounded-lg" >
+                        <div class="font-bold" >
 Gold</div>
-                        <div style="color: white; font-size: 1.25rem; font-weight: 700;">
+                        <div class="font-bold" >
 10,117</div>
                     </div>
                 </div>
             </a>
             <!-- Knowledge Graph -->
-            <a href="/knowledge-graph.html" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); padding: 2rem; border-radius: 16px; text-decoration: none; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s; border-top: 4px solid #8b5cf6;">
-                <div style="font-size: 3rem; margin-bottom: 1rem; text-align: center;">
+            <a href="/knowledge-graph.html" class="p-8 rounded-2xl" >
+                <div class="mb-4 text-center" >
 🕸️</div>
-                <h3 style="font-size: 1.5rem; color: white; margin-bottom: 0.75rem; font-weight: 700; text-align: center;">
+                <h3 class="font-bold text-center" >
 Knowledge Graph</h3>
-                <p style="color: rgba(255,255,255,0.8); font-size: 1rem; line-height: 1.5; text-align: center; margin-bottom: 1rem;">
+                <p class="text-sm text-center mb-4" >
                     Visualize how resources connect across 235K relationships. Explore patterns and discover hidden connections with our updated knowledge graph                </p>
-                <div style="display: flex; gap: 1rem; justify-content: center;">
-                    <div style="background: rgba(139, 92, 246, 0.3); padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid rgba(139, 92, 246, 0.5);">
-                        <div style="font-weight: 700; color: #c4b5fd; font-size: 0.75rem; text-transform: uppercase;">
+                <div class="flex" >
+                    <div class="rounded-lg" >
+                        <div class="font-bold" >
 Connections</div>
-                        <div style="color: white; font-size: 1.25rem; font-weight: 700;">
+                        <div class="font-bold" >
 235K</div>
                     </div>
-                    <div style="background: rgba(236, 72, 153, 0.3); padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid rgba(236, 72, 153, 0.5);">
-                        <div style="font-weight: 700; color: #fbcfe8; font-size: 0.75rem; text-transform: uppercase;">
+                    <div class="rounded-lg" >
+                        <div class="font-bold" >
 Types</div>
-                        <div style="color: white; font-size: 1.25rem; font-weight: 700;">
+                        <div class="font-bold" >
 171</div>
                     </div>
                 </div>
             </a>
             <!-- Learning Pathways -->
-            <a href="/learning-pathways-visualizer.html" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); padding: 2rem; border-radius: 16px; text-decoration: none; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s; border-top: 4px solid #ec4899;">
-                <div style="font-size: 3rem; margin-bottom: 1rem; text-align: center;">
+            <a href="/learning-pathways-visualizer.html" class="p-8 rounded-2xl" >
+                <div class="mb-4 text-center" >
 🛤️</div>
-                <h3 style="font-size: 1.5rem; color: white; margin-bottom: 0.75rem; font-weight: 700; text-align: center;">
+                <h3 class="font-bold text-center" >
 Learning Pathways</h3>
-                <p style="color: rgba(255,255,255,0.8); font-size: 1rem; line-height: 1.5; text-align: center; margin-bottom: 1rem;">
+                <p class="text-sm text-center mb-4" >
                     Visualize complete learning progressions with 849 prerequisite chains across all subjects                </p>
-                <div style="display: flex; gap: 1rem; justify-content: center;">
-                    <div style="background: rgba(236, 72, 153, 0.3); padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid rgba(236, 72, 153, 0.5);">
-                        <div style="font-weight: 700; color: #fbcfe8; font-size: 0.75rem; text-transform: uppercase;">
+                <div class="flex" >
+                    <div class="rounded-lg" >
+                        <div class="font-bold" >
 Prerequisites</div>
-                        <div style="color: white; font-size: 1.25rem; font-weight: 700;">
+                        <div class="font-bold" >
 849</div>
                     </div>
-                    <div style="background: rgba(168, 85, 247, 0.3); padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.5);">
-                        <div style="font-weight: 700; color: #e9d5ff; font-size: 0.75rem; text-transform: uppercase;">
+                    <div class="rounded-lg" >
+                        <div class="font-bold" >
 Units</div>
-                        <div style="color: white; font-size: 1.25rem; font-weight: 700;">
+                        <div class="font-bold" >
 396</div>
                     </div>
                 </div>
             </a>
             <!-- Cross-Subject Discovery (NEW!) -->
-            <a href="/cross-subject-discovery.html" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); padding: 2rem; border-radius: 16px; text-decoration: none; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s; border-top: 4px solid #10b981; position: relative;">
-                <div style="position: absolute; top: 10px; right: 10px; background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.7rem; font-weight: 800;">
+            <a href="/cross-subject-discovery.html" class="p-8 rounded-2xl relative" >
+                <div class="absolute rounded-xl font-extrabold" >
 NEW!</div>
-                <div style="font-size: 3rem; margin-bottom: 1rem; text-align: center;">
+                <div class="mb-4 text-center" >
 🔗</div>
-                <h3 style="font-size: 1.5rem; color: white; margin-bottom: 0.75rem; font-weight: 700; text-align: center;">
+                <h3 class="font-bold text-center" >
 Cross-Subject Discovery</h3>
-                <p style="color: rgba(255,255,255,0.8); font-size: 1rem; line-height: 1.5; text-align: center; margin-bottom: 1rem;">
+                <p class="text-sm text-center mb-4" >
                     Discover interdisciplinary connections - 451 Science-Math links, 205 Science-Social Studies connections                </p>
-                <div style="display: flex; gap: 1rem; justify-content: center;">
-                    <div style="background: rgba(16, 185, 129, 0.3); padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.5);">
-                        <div style="font-weight: 700; color: #6ee7b7; font-size: 0.75rem; text-transform: uppercase;">
+                <div class="flex" >
+                    <div class="rounded-lg" >
+                        <div class="font-bold" >
 Cross-Links</div>
-                        <div style="color: white; font-size: 1.25rem; font-weight: 700;">
+                        <div class="font-bold" >
 1,200+</div>
                     </div>
-                    <div style="background: rgba(124, 58, 237, 0.3); padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid rgba(124, 58, 237, 0.5);">
-                        <div style="font-weight: 700; color: #ddd6fe; font-size: 0.75rem; text-transform: uppercase;">
+                    <div class="rounded-lg" >
+                        <div class="font-bold" >
 Cultural</div>
-                        <div style="color: white; font-size: 1.25rem; font-weight: 700;">
+                        <div class="font-bold" >
 5,062</div>
                     </div>
                 </div>
             </a>
             <!-- Science × Math Integration (NEW!) -->
-            <a href="/science-math-integration.html" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); padding: 2rem; border-radius: 16px; text-decoration: none; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s; border-top: 4px solid #0891b2; position: relative;">
-                <div style="position: absolute; top: 10px; right: 10px; background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.7rem; font-weight: 800;">
+            <a href="/science-math-integration.html" class="p-8 rounded-2xl relative" >
+                <div class="absolute rounded-xl font-extrabold" >
 NEW!</div>
-                <div style="font-size: 3rem; margin-bottom: 1rem; text-align: center;">
+                <div class="mb-4 text-center" >
 🔬📊</div>
-                <h3 style="font-size: 1.5rem; color: white; margin-bottom: 0.75rem; font-weight: 700; text-align: center;">
+                <h3 class="font-bold text-center" >
 Science × Math Integration</h3>
-                <p style="color: rgba(255,255,255,0.8); font-size: 1rem; line-height: 1.5; text-align: center; margin-bottom: 1rem;">
+                <p class="text-sm text-center mb-4" >
                     The ultimate cross-curricular hub - 451 verified connections between Science and Mathematics                </p>
-                <div style="display: flex; gap: 1rem; justify-content: center;">
-                    <div style="background: rgba(8, 145, 178, 0.3); padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid rgba(8, 145, 178, 0.5);">
-                        <div style="font-weight: 700; color: #67e8f9; font-size: 0.75rem; text-transform: uppercase;">
+                <div class="flex" >
+                    <div class="rounded-lg" >
+                        <div class="font-bold" >
 Sci → Math</div>
-                        <div style="color: white; font-size: 1.25rem; font-weight: 700;">
+                        <div class="font-bold" >
 261</div>
                     </div>
-                    <div style="background: rgba(2, 132, 199, 0.3); padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid rgba(2, 132, 199, 0.5);">
-                        <div style="font-weight: 700; color: #7dd3fc; font-size: 0.75rem; text-transform: uppercase;">
+                    <div class="rounded-lg" >
+                        <div class="font-bold" >
 Math → Sci</div>
-                        <div style="color: white; font-size: 1.25rem; font-weight: 700;">
+                        <div class="font-bold" >
 190</div>
                     </div>
                 </div>
@@ -1170,87 +1121,87 @@ Integrate scientific and cultural perspectives on inheritance</p>
 ⭐ Quality: 94/100 | Cultural Excellence</span>
                 </div>
             </a>
-            <a href="/units/y8-digital-kaitiakitanga/index.html" style="background: white; padding: 2rem; border-radius: 16px; text-decoration: none; box-shadow: 0 4px 20px rgba(0,0,0,0.15); transition: all 0.3s;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 32px rgba(0,0,0,0.2)';" onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.15)';">
-                <div style="font-size: 2.5rem; margin-bottom: 1rem;">
+            <a href="/units/y8-digital-kaitiakitanga/index.html" class="bg-white p-8 rounded-2xl" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 32px rgba(0,0,0,0.2)';" onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.15)';">
+                <div class="mb-4" >
 💻</div>
-                <h3 style="color: #059669; font-weight: 700; margin-bottom: 0.75rem; font-size: 1.3rem;">
+                <h3 class="font-bold text-lg" >
 Digital Kaitiakitanga</h3>
-                <p style="color: #666; font-size: 0.9rem; margin-bottom: 0.5rem;">
+                <p class="text-xs mb-2" >
 Year 8 • Complete Unit</p>
                 <p style="color: #546e7a; font-size: 0.95rem; line-height: 1.5;">
 18-lesson unit on digital citizenship through Māori values</p>
-                <div style="margin-top: 1rem; padding: 0.5rem; background: #d1fae5; border-radius: 6px; text-align: center;">
-                    <span style="color: #059669; font-weight: 600; font-size: 0.85rem;">
+                <div class="p-2 rounded-md text-center" >
+                    <span class="font-semibold" >
 ⭐ Quality: 92/100 | 18 Lessons</span>
                 </div>
             </a>
-            <a href="/integrated-lessons/te reo māori/living-whakapapa.html" style="background: white; padding: 2rem; border-radius: 16px; text-decoration: none; box-shadow: 0 4px 20px rgba(0,0,0,0.15); transition: all 0.3s;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 32px rgba(0,0,0,0.2)';" onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.15)';">
-                <div style="font-size: 2.5rem; margin-bottom: 1rem;">
+            <a href="/integrated-lessons/te reo māori/living-whakapapa.html" class="bg-white p-8 rounded-2xl" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 32px rgba(0,0,0,0.2)';" onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.15)';">
+                <div class="mb-4" >
 🌳</div>
-                <h3 style="color: #059669; font-weight: 700; margin-bottom: 0.75rem; font-size: 1.3rem;">
+                <h3 class="font-bold text-lg" >
 Living Whakapapa</h3>
-                <p style="color: #666; font-size: 0.9rem; margin-bottom: 0.5rem;">
+                <p class="text-xs mb-2" >
 Years 7-13 • Interactive</p>
                 <p style="color: #546e7a; font-size: 0.95rem; line-height: 1.5;">
 Interactive exploration of identity and connections</p>
-                <div style="margin-top: 1rem; padding: 0.5rem; background: #d1fae5; border-radius: 6px; text-align: center;">
-                    <span style="color: #059669; font-weight: 600; font-size: 0.85rem;">
+                <div class="p-2 rounded-md text-center" >
+                    <span class="font-semibold" >
 ⭐ Quality: 96/100 | Interactive</span>
                 </div>
             </a>
         </div>
-        <div style="text-align: center; margin-top: 3rem;">
-            <a href="/generated-resources-alpha/index.html" style="display: inline-block; background: white; color: #059669; padding: 1.2rem 2.5rem; border-radius: 12px; font-weight: 700; font-size: 1.2rem; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: all 0.3s;">
+        <div class="text-center" >
+            <a href="/generated-resources-alpha/index.html" class="inline-block bg-white rounded-xl font-bold text-base shadow-lg" >
                 Explore All 47 Treasures →            </a>
         </div>
     </div>
 </section>
 <!-- 🎉 TEACHING OPTIONS LIBRARY SHOWCASE -->
-<section style="background: linear-gradient(135deg, #0c4a6e 0%, #0284c7 100%); padding: 4rem 2rem; margin: 3rem 0; border-radius: 20px; box-shadow: 0 12px 32px rgba(0,0,0,0.2); position: relative; overflow: hidden;">
+<section class="relative" >
     <!-- Decorative elements -->
-    <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: rgba(255,255,255,0.1); border-radius: 50%;">
+    <div class="absolute" >
 </div>
-    <div style="position: absolute; bottom: -30px; left: -30px; width: 150px; height: 150px; background: rgba(255,255,255,0.08); border-radius: 50%;">
+    <div class="absolute" >
 </div>
-    <div style="max-width: 1200px; margin: 0 auto; position: relative; z-index: 1;">
-        <div style="text-align: center; margin-bottom: 3rem;">
-            <div style="display: inline-block; background: rgba(255,255,255,0.2); padding: 0.5rem 1.5rem; border-radius: 24px; margin-bottom: 1rem;">
-                <span style="color: white; font-weight: 600; font-size: 0.9rem;">
+    <div class="max-w-6xl mx-auto relative" >
+        <div class="text-center" >
+            <div class="inline-block mb-4" >
+                <span class="font-semibold text-xs" >
 ✨ NEW FEATURE</span>
             </div>
-        <h2 style="font-size: 3.5rem; color: white; margin-bottom: 1rem; font-weight: 800;">
+        <h2 class="mb-4 font-extrabold" >
             🎯 19,685 Teaching Resources Library        </h2>
-        <p style="font-size: 1.4rem; color: rgba(255,255,255,0.95); max-width: 700px; margin: 0 auto; line-height: 1.6;">
+        <p class="text-xl mx-auto" >
             10,117 gold-quality resources! AI-powered discovery with 231,237 intelligent connections.        </p>
         </div>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin: 3rem 0; text-align: center;">
-            <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 2rem; border-radius: 16px; border: 2px solid rgba(255,255,255,0.2);">
-                <div style="font-size: 3.5rem; font-weight: 800; color: white;">
+        <div class="grid text-center" >
+            <div class="p-8 rounded-2xl" >
+                <div class="font-extrabold" >
 19,150</div>
-                <div style="color: rgba(255,255,255,0.9); margin-top: 0.5rem; font-size: 1.1rem;">
+                <div class="text-sm" >
 Resources</div>
             </div>
-            <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 2rem; border-radius: 16px; border: 2px solid rgba(255,255,255,0.2);">
-                <div style="font-size: 3.5rem; font-weight: 800; color: white;">
+            <div class="p-8 rounded-2xl" >
+                <div class="font-extrabold" >
 247</div>
-                <div style="color: rgba(255,255,255,0.9); margin-top: 0.5rem; font-size: 1.1rem;">
+                <div class="text-sm" >
 Year 7-9 Lessons</div>
             </div>
-            <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 2rem; border-radius: 16px; border: 2px solid rgba(255,255,255,0.2);">
-                <div style="font-size: 3.5rem; font-weight: 800; color: white;">
+            <div class="p-8 rounded-2xl" >
+                <div class="font-extrabold" >
 9,900</div>
-                <div style="color: rgba(255,255,255,0.9); margin-top: 0.5rem; font-size: 1.1rem;">
+                <div class="text-sm" >
 Gold Quality (90+)</div>
             </div>
-            <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 2rem; border-radius: 16px; border: 2px solid rgba(255,255,255,0.2);">
-                <div style="font-size: 3.5rem; font-weight: 800; color: white;">
+            <div class="p-8 rounded-2xl" >
+                <div class="font-extrabold" >
 167K</div>
-                <div style="color: rgba(255,255,255,0.9); margin-top: 0.5rem; font-size: 1.1rem;">
+                <div class="text-sm" >
 AI Connections</div>
             </div>
         </div>
-        <div style="text-align: center; margin-top: 3rem;">
-            <a href="/teaching-options-library.html" style="background: white; color: #0c4a6e; padding: 1.25rem 3rem; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 1.2rem; box-shadow: 0 8px 20px rgba(0,0,0,0.3); display: inline-block; transition: transform 0.2s;">
+        <div class="text-center" >
+            <a href="/teaching-options-library.html" class="bg-white rounded-xl font-bold text-base inline-block" >
                 🎯 Explore Teaching Options Library →            </a>
         </div>
     </div>
@@ -1339,49 +1290,49 @@ Play →</span>
 <style>
 .game-card:hover {    transform: translateY(-4px);    box-shadow: 0 8px 24px rgba(0,0,0,0.2) !important;}/* Professional hover effects for all showcase cards */a[href*="year-"][href*="curriculum"]:hover,a[href*="handouts-complete"]:hover,a[href*="assessments-complete"]:hover,a[href*="teaching-options"]:hover {    transform: translateY(-4px);    box-shadow: 0 12px 32px rgba(0,0,0,0.2) !important;}</style>
 <!-- 💎 INTEGRATED LESSONS TREASURE -->
-<section style="background: linear-gradient(135deg, #7c3aed, #6366f1); padding: 4rem 2rem; margin: 3rem 0; border-radius: 20px; box-shadow: 0 12px 32px rgba(124,58,237,0.3); position: relative; overflow: hidden;">
+<section class="relative" >
     <!-- Kōwhaiwhai top border -->
-    <div style="position: absolute; top: 0; left: 0; right: 0; height: 8px; background: repeating-linear-gradient(90deg, #fbbf24 0, #fbbf24 20px, #f59e0b 20px, #f59e0b 40px, #fbbf24 40px, #fbbf24 60px);">
+    <div class="absolute" >
 </div>
-    <div style="max-width: 1200px; margin: 0 auto; position: relative; z-index: 1;">
-        <div style="text-align: center; margin-bottom: 3rem;">
-            <div style="display: inline-block; background: rgba(255,255,255,0.2); padding: 0.5rem 1.5rem; border-radius: 24px; margin-bottom: 1rem;">
-                <span style="color: white; font-weight: 700; font-size: 0.95rem;">
+    <div class="max-w-6xl mx-auto relative" >
+        <div class="text-center" >
+            <div class="inline-block mb-4" >
+                <span class="font-bold" >
 💎 HIDDEN TREASURE</span>
             </div>
-            <h2 style="font-size: 3.5rem; color: white; margin-bottom: 1rem; font-weight: 800; text-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+            <h2 class="mb-4 font-extrabold" >
                 377 Integrated Lessons            </h2>
-            <p style="font-size: 1.4rem; color: rgba(255,255,255,0.95); max-width: 700px; margin: 0 auto; line-height: 1.6;">
+            <p class="text-xl mx-auto" >
                 40,694 lines of professional content - Science, Maths, Te Reo, English            </p>
         </div>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2rem; margin: 3rem 0; text-align: center;">
-            <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 2rem; border-radius: 16px;">
-                <div style="font-size: 3rem; font-weight: 800; color: white;">
+        <div class="grid text-center" >
+            <div class="p-8 rounded-2xl" >
+                <div class="font-extrabold" >
 122</div>
                 <div style="color: rgba(255,255,255,0.9); margin-top: 0.5rem;">
 🔬 Science</div>
             </div>
-            <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 2rem; border-radius: 16px;">
-                <div style="font-size: 3rem; font-weight: 800; color: white;">
+            <div class="p-8 rounded-2xl" >
+                <div class="font-extrabold" >
 105</div>
                 <div style="color: rgba(255,255,255,0.9); margin-top: 0.5rem;">
 🔢 Maths</div>
             </div>
-            <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 2rem; border-radius: 16px;">
-                <div style="font-size: 3rem; font-weight: 800; color: white;">
+            <div class="p-8 rounded-2xl" >
+                <div class="font-extrabold" >
 86</div>
                 <div style="color: rgba(255,255,255,0.9); margin-top: 0.5rem;">
 🗣️ Te Reo</div>
             </div>
-            <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 2rem; border-radius: 16px;">
-                <div style="font-size: 3rem; font-weight: 800; color: white;">
+            <div class="p-8 rounded-2xl" >
+                <div class="font-extrabold" >
 40</div>
                 <div style="color: rgba(255,255,255,0.9); margin-top: 0.5rem;">
 📝 English</div>
             </div>
         </div>
-        <div style="text-align: center; margin-top: 3rem;">
-            <a href="/integrated-lessons-showcase.html" style="background: white; color: #7c3aed; padding: 1.25rem 3rem; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 1.2rem; box-shadow: 0 8px 20px rgba(0,0,0,0.3); display: inline-block; transition: transform 0.2s;">
+        <div class="text-center" >
+            <a href="/integrated-lessons-showcase.html" class="bg-white rounded-xl font-bold text-base inline-block" >
                 💎 Discover the Treasure →            </a>
         </div>
     </div>
@@ -1513,99 +1464,99 @@ World-class educational resources created by educators for educators, with prove
 </div>
 <!-- Games Showcase Component (Loaded via Component Loader) -->
 <!-- 🧠 GRAPHRAG PLATFORM CHAMPIONS - Most Connected Resources (HIDDEN FOR END USERS) -->
-<section style="display: none; background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); padding: 4rem 2rem; margin: 3rem auto; border-radius: 16px; box-shadow: 0 12px 32px rgba(124,58,237,0.3); max-width: 1400px;">
-    <div style="max-width: 1200px; margin: 0 auto;">
-        <div style="text-align: center; margin-bottom: 3rem;">
-            <div style="display: inline-block; background: rgba(255,255,255,0.25); padding: 0.5rem 1.5rem; border-radius: 50px; margin-bottom: 1rem;">
-                <span style="font-size: 0.9rem; font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 1px;">
+<section class="rounded-2xl" >
+    <div class="max-w-6xl mx-auto" >
+        <div class="text-center" >
+            <div class="inline-block mb-4" >
+                <span class="text-xs font-bold" >
 🧠 GRAPHRAG INTELLIGENCE</span>
             </div>
-            <h2 style="font-size: 3.5rem; color: white; margin-bottom: 1rem; font-weight: 800;">
+            <h2 class="mb-4 font-extrabold" >
                 Platform Champions            </h2>
-            <p style="font-size: 1.3rem; color: white; max-width: 800px; margin: 0 auto; line-height: 1.6; opacity: 0.95;">
+            <p class="text-lg max-w-4xl mx-auto" >
                 The most connected resources on the platform, discovered through semantic analysis of <strong>
 235,188 knowledge relationships</strong>
  (+2,925 today!)            </p>
         </div>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-bottom: 2.5rem;">
+        <div class="grid" >
             <!-- Champion #1: Algebraic Thinking - 203 connections -->
-            <div style="background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.15); position: relative; overflow: hidden;">
-                <div style="position: absolute; top: 0; right: 0; background: #fbbf24; color: #78350f; padding: 0.5rem 1rem; border-bottom-left-radius: 12px; font-weight: 800; font-size: 0.85rem;">
+            <div class="bg-white rounded-2xl p-8 shadow-xl relative" >
+                <div class="absolute font-extrabold" >
                     🏆 #1 CHAMPION                </div>
-                <div style="font-size: 3.5rem; margin-top: 1rem; margin-bottom: 1rem;">
+                <div class="mb-4" >
 📐🎲</div>
-                <h3 style="font-size: 1.5rem; color: #7c3aed; margin-bottom: 0.8rem; font-weight: 800;">
+                <h3 class="font-extrabold" >
                     Algebraic Thinking in Traditional Māori Games                </h3>
-                <p style="color: #64748b; line-height: 1.6; margin-bottom: 1rem;">
+                <p class="mb-4" >
                     The ultimate cross-curricular connector! Discover mathematical patterns through cultural play.                </p>
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
-                    <span style="background: #ede9fe; color: #6b21a8; padding: 0.4rem 0.8rem; border-radius: 12px; font-size: 0.8rem; font-weight: 700;">
+                <div class="flex mb-4" >
+                    <span class="rounded-xl text-xs font-bold" >
 Mathematics</span>
-                    <span style="background: #dcfce7; color: #166534; padding: 0.4rem 0.8rem; border-radius: 12px; font-size: 0.8rem; font-weight: 700;">
+                    <span class="rounded-xl text-xs font-bold" >
 Years 7-10</span>
                 </div>
-                <div style="background: linear-gradient(90deg, #7c3aed, #a855f7); height: 6px; border-radius: 3px; margin-bottom: 0.5rem;">
+                <div class="mb-2" >
 </div>
-                <p style="color: #7c3aed; font-weight: 800; font-size: 1.1rem; margin-bottom: 1.5rem;">
+                <p class="font-extrabold text-sm" >
                     🔗 203 Connections                </p>
-                <a href="/generated-resources-alpha/handouts/algebraic-thinking-in-traditional-māori-games.html" style="display: block; background: #7c3aed; color: white; text-align: center; padding: 0.9rem; border-radius: 8px; text-decoration: none; font-weight: 700; transition: background 0.2s;" onmouseover="this.style.background='#6b21a8'" onmouseout="this.style.background='#7c3aed'">
+                <a href="/generated-resources-alpha/handouts/algebraic-thinking-in-traditional-māori-games.html" class="block text-center rounded-lg font-bold" onmouseover="this.style.background='#6b21a8'" onmouseout="this.style.background='#7c3aed'">
                     Explore Resource →                </a>
             </div>
             <!-- Champion #2: Biotechnology Ethics - 118 connections -->
-            <div style="background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.15); position: relative; overflow: hidden;">
-                <div style="position: absolute; top: 0; right: 0; background: #cbd5e1; color: #1e293b; padding: 0.5rem 1rem; border-bottom-left-radius: 12px; font-weight: 800; font-size: 0.85rem;">
+            <div class="bg-white rounded-2xl p-8 shadow-xl relative" >
+                <div class="absolute font-extrabold" >
                     🥈 #2 CHAMPION                </div>
-                <div style="font-size: 3.5rem; margin-top: 1rem; margin-bottom: 1rem;">
+                <div class="mb-4" >
 🧬🌿</div>
-                <h3 style="font-size: 1.5rem; color: #0891b2; margin-bottom: 0.8rem; font-weight: 800;">
+                <h3 class="font-extrabold" >
                     Biotechnology Ethics Through Māori Worldview                </h3>
-                <p style="color: #64748b; line-height: 1.6; margin-bottom: 1rem;">
+                <p class="mb-4" >
                     Examine modern genetics and biotech through cultural ethical frameworks and values.                </p>
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
-                    <span style="background: #e0f2fe; color: #0c4a6e; padding: 0.4rem 0.8rem; border-radius: 12px; font-size: 0.8rem; font-weight: 700;">
+                <div class="flex mb-4" >
+                    <span class="rounded-xl text-xs font-bold" >
 Science</span>
-                    <span style="background: #dcfce7; color: #166534; padding: 0.4rem 0.8rem; border-radius: 12px; font-size: 0.8rem; font-weight: 700;">
+                    <span class="rounded-xl text-xs font-bold" >
 Years 11-13</span>
                 </div>
-                <div style="background: linear-gradient(90deg, #0891b2, #06b6d4); height: 6px; border-radius: 3px; margin-bottom: 0.5rem;">
+                <div class="mb-2" >
 </div>
-                <p style="color: #0891b2; font-weight: 800; font-size: 1.1rem; margin-bottom: 1.5rem;">
+                <p class="font-extrabold text-sm" >
                     🔗 118 Connections                </p>
-                <a href="/generated-resources-alpha/handouts/biotechnology-ethics-through-māori-worldview.html" style="display: block; background: #0891b2; color: white; text-align: center; padding: 0.9rem; border-radius: 8px; text-decoration: none; font-weight: 700; transition: background 0.2s;" onmouseover="this.style.background='#0e7490'" onmouseout="this.style.background='#0891b2'">
+                <a href="/generated-resources-alpha/handouts/biotechnology-ethics-through-māori-worldview.html" class="block text-center rounded-lg font-bold" onmouseover="this.style.background='#0e7490'" onmouseout="this.style.background='#0891b2'">
                     Explore Resource →                </a>
             </div>
             <!-- Champion #3: Digital Storytelling - 112 connections -->
-            <div style="background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.15); position: relative; overflow: hidden;">
-                <div style="position: absolute; top: 0; right: 0; background: #fcd34d; color: #78350f; padding: 0.5rem 1rem; border-bottom-left-radius: 12px; font-weight: 800; font-size: 0.85rem;">
+            <div class="bg-white rounded-2xl p-8 shadow-xl relative" >
+                <div class="absolute font-extrabold" >
                     🥉 #3 CHAMPION                </div>
-                <div style="font-size: 3.5rem; margin-top: 1rem; margin-bottom: 1rem;">
+                <div class="mb-4" >
 📱📖</div>
-                <h3 style="font-size: 1.5rem; color: #dc2626; margin-bottom: 0.8rem; font-weight: 800;">
+                <h3 class="font-extrabold" >
                     Digital Storytelling with Pūrākau Framework                </h3>
-                <p style="color: #64748b; line-height: 1.6; margin-bottom: 1rem;">
+                <p class="mb-4" >
                     Create multimedia narratives using traditional Māori story structures and digital tools.                </p>
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
-                    <span style="background: #fee2e2; color: #7f1d1d; padding: 0.4rem 0.8rem; border-radius: 12px; font-size: 0.8rem; font-weight: 700;">
+                <div class="flex mb-4" >
+                    <span class="rounded-xl text-xs font-bold" >
 English</span>
-                    <span style="background: #dcfce7; color: #166534; padding: 0.4rem 0.8rem; border-radius: 12px; font-size: 0.8rem; font-weight: 700;">
+                    <span class="rounded-xl text-xs font-bold" >
 Years 9-11</span>
                 </div>
-                <div style="background: linear-gradient(90deg, #dc2626, #ef4444); height: 6px; border-radius: 3px; margin-bottom: 0.5rem;">
+                <div class="mb-2" >
 </div>
-                <p style="color: #dc2626; font-weight: 800; font-size: 1.1rem; margin-bottom: 1.5rem;">
+                <p class="font-extrabold text-sm" >
                     🔗 112 Connections                </p>
-                <a href="/generated-resources-alpha/lessons/digital-storytelling-with-pūrākau-framework.html" style="display: block; background: #dc2626; color: white; text-align: center; padding: 0.9rem; border-radius: 8px; text-decoration: none; font-weight: 700; transition: background 0.2s;" onmouseover="this.style.background='#991b1b'" onmouseout="this.style.background='#dc2626'">
+                <a href="/generated-resources-alpha/lessons/digital-storytelling-with-pūrākau-framework.html" class="block text-center rounded-lg font-bold" onmouseover="this.style.background='#991b1b'" onmouseout="this.style.background='#dc2626'">
                     Explore Resource →                </a>
             </div>
         </div>
         <!-- CTA to explore more GraphRAG intelligence -->
-        <div style="text-align: center; padding: 2rem; background: rgba(255,255,255,0.15); border-radius: 12px;">
-            <p style="color: white; font-size: 1.2rem; font-weight: 600; margin-bottom: 1.5rem;">
+        <div class="text-center p-8 rounded-xl" >
+            <p class="text-base font-semibold" >
                 🔍 Discover how 2,284 Science-Math connections, 1,210 Digital-Cultural links, 5,065 shared cultural elements, and 235,188 total relationships power intelligent learning pathways            </p>
-            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                <a href="/cross-subject-discovery.html" style="background: white; color: #7c3aed; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 700; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+            <div class="flex" >
+                <a href="/cross-subject-discovery.html" class="bg-white rounded-lg font-bold shadow-lg" >
                     Explore Cross-Curricular Connections →                </a>
-                <a href="/science-math-integration.html" style="background: rgba(255,255,255,0.2); color: white; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 700; border: 2px solid white;">
+                <a href="/science-math-integration.html" class="rounded-lg font-bold" >
                     Science × Math Integration →                </a>
             </div>
         </div>
@@ -1748,8 +1699,8 @@ Interactive</div>
 Unit Plans</div>
  </div>
  </div>
- <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(255,255,255,0.15); border-radius: 12px; max-width: 800px; margin-left: auto; margin-right: auto;">
- <p style="color: white; font-size: 1.1rem; margin: 0;">
+ <div class="p-6 rounded-xl max-w-4xl" >
+ <p class="text-sm m-0" >
  ✨ <strong>
 96.8% quality verified</strong>
  | 🌺 <strong>
@@ -2040,10 +1991,10 @@ Explore →</span>
  </a>
  </div>
  <!-- HIDDEN FOR PUBLIC USERS - Admin tool -->
- <div style="display: none !important; text-align: center; margin-top: 3rem; padding: 2rem; background: rgba(26, 77, 46, 0.05); border-radius: 12px;">
- <p style="font-size: 1.1rem; color: #1a4d2e; font-weight: 600; margin-bottom: 0.75rem;">
+ <div class="text-center p-8 rounded-xl" >
+ <p class="text-sm font-semibold" >
  ✨ Explore all subjects with live counts from GraphRAG.</p>
- <a href="/subject-dashboard.html" style="display: inline-block; background: #1a4d2e; color: white; padding: 0.75rem 1.25rem; border-radius: 10px; text-decoration: none; font-weight: 700;">
+ <a href="/subject-dashboard.html" class="inline-block font-bold" >
      Open Subject Dashboard →
  </a>
  </div>
@@ -2497,73 +2448,21 @@ Discover More →</div>
 <!-- PARALLEL COMPONENT LOADING - No more 2-3s delay! -->
 <script>
     // Load all components in parallel for instant page display
-    Promise.all([
-
-        fetch('/components/stats-dashboard.html')
-            .then(r => r.text())
-            .then(html => {
-                const container = document.getElementById('stats-dashboard-container');
-                if (container) container.innerHTML = html;
-                else // Log to monitoring instead of console
-        if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
-        }
-        // Show user-friendly message instead of error
-        })
-            .catch(err => // Log to monitoring instead of console
-        if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
-        }
-        // Show user-friendly message instead of error
-        ,
-
-        fetch('/components/graphrag-orphaned-excellence.html')
-            .then(r => r.text())
-            .then(html => {
-                const container = document.getElementById('graphrag-orphaned-excellence-container');
-                if (container) container.innerHTML = html;
-                else // Log to monitoring instead of console
-        if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
-        }
-        // Show user-friendly message instead of error
-        })
-            .catch(err => // Log to monitoring instead of console
-        if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
-        }
-        // Show user-friendly message instead of error
-        
-    ]).then(() => {
-        // All components loaded successfully!
-        // User feedback provided via UI
-    }).catch(err => {
-        // Log to monitoring instead of console
-        if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
-        }
-        // Show user-friendly message instead of error
+    // PARALLEL COMPONENT LOADING - No more 2-3s delay!
+Promise.all([
+    // Components will be loaded here
+]).then(() => {
+    console.log('✅ All components loaded in parallel');
+}).catch(err => {
+    if (window.posthog) {
+        posthog.capture('component_loading_error', {
+            message: err.message,
+            url: window.location.pathname
         });
+    }
+});
+        }
+    });
 </script>
 </body>
 </html>

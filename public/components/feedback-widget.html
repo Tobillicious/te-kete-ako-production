@@ -3,21 +3,16 @@
 
 <style>
 .feedback-fab {
-    position: fixed;
     bottom: 80px;
     right: 20px;
     width: 56px;
-    height: 56px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
     color: white;
     border: none;
     font-size: 24px;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
     z-index: 999;
     transition: all 0.3s;
-    display: flex;
     align-items: center;
     justify-content: center;
 }
@@ -29,11 +24,8 @@
 
 .feedback-modal {
     display: none;
-    position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
     background: rgba(0, 0, 0, 0.5);
     z-index: 1000;
     align-items: center;
@@ -41,22 +33,15 @@
 }
 
 .feedback-modal.active {
-    display: flex;
-}
+    }
 
 .feedback-content {
-    background: white;
-    border-radius: 16px;
-    padding: 2rem;
-    max-width: 500px;
     width: 90%;
-    max-height: 80vh;
-    overflow-y: auto;
+    max-overflow-y: auto;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 .feedback-header {
-    display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
@@ -65,8 +50,7 @@
 .feedback-header h3 {
     color: #1f2937;
     font-size: 1.5rem;
-    margin: 0;
-}
+    }
 
 .feedback-close {
     background: none;
@@ -81,14 +65,10 @@
 }
 
 .feedback-form-group label {
-    display: block;
-    font-weight: 600;
     color: #374151;
-    margin-bottom: 0.5rem;
-}
+    }
 
 .feedback-rating {
-    display: flex;
     gap: 0.5rem;
     margin-top: 0.5rem;
 }
@@ -107,13 +87,7 @@
 }
 
 .feedback-textarea {
-    width: 100%;
-    min-height: 100px;
-    padding: 0.75rem;
-    border: 2px solid #e5e7eb;
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 1rem;
+    min-font-family: inherit;
     resize: vertical;
 }
 
@@ -123,22 +97,15 @@
 }
 
 .feedback-submit {
-    width: 100%;
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
     color: white;
     border: none;
-    padding: 1rem;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
 }
 
 .feedback-submit:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-}
+    }
 
 .feedback-submit:disabled {
     opacity: 0.5;
@@ -148,19 +115,12 @@
 .feedback-success {
     background: #10b981;
     color: white;
-    padding: 1rem;
-    border-radius: 8px;
-    text-align: center;
     margin-top: 1rem;
-    font-weight: 600;
-}
+    }
 
 .feedback-error {
     background: #ef4444;
     color: white;
-    padding: 1rem;
-    border-radius: 8px;
-    text-align: center;
     margin-top: 1rem;
 }
 </style>
@@ -193,7 +153,7 @@
 
             <div class="feedback-form-group">
                 <label for="feedback-type">What are you giving feedback on?</label>
-                <select id="feedback-type" name="feedbackType" required style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px;">
+                <select id="feedback-type" name="feedbackType" required >
                     <option value="">Select...</option>
                     <option value="recommendation_quality">Quality of Recommendations</option>
                     <option value="component_usability">Component Usability</option>
@@ -338,10 +298,10 @@
             // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         messageDiv.innerHTML = '<div class="feedback-error">❌ Sorry, there was an error submitting your feedback. Please try again.</div>';

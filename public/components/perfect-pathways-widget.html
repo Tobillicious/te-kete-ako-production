@@ -7,22 +7,15 @@
 .perfect-pathways-section {
     margin: 3rem 0;
     padding: 2.5rem;
-    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-    border-radius: 16px;
-    border-left: 4px solid var(--color-pounamu);
-}
+    }
 
 .pathways-header {
-    text-align: center;
-    margin-bottom: 2rem;
-}
+    }
 
 .pathways-title {
     font-size: 2.25rem;
     color: var(--color-primary);
-    margin-bottom: 0.5rem;
-    font-weight: 700;
-}
+    }
 
 .pathways-subtitle {
     font-size: 1.125rem;
@@ -30,23 +23,17 @@
 }
 
 .pathways-grid {
-    display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 1.5rem;
     margin-top: 2rem;
 }
 
 .pathway-card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
     cursor: pointer;
     text-decoration: none;
     color: inherit;
-    display: block;
-}
+    }
 
 .pathway-card:hover {
     transform: translateY(-6px);
@@ -54,25 +41,20 @@
 }
 
 .pathway-badge {
-    display: inline-block;
     padding: 0.25rem 0.75rem;
     background: rgba(7, 160, 122, 0.1);
     color: var(--color-pounamu);
     border-radius: 20px;
     font-size: 0.75rem;
-    font-weight: 700;
     margin-bottom: 0.75rem;
 }
 
 .pathway-name {
     font-size: 1.25rem;
-    font-weight: 700;
     color: var(--color-primary);
-    margin-bottom: 0.5rem;
-}
+    }
 
 .pathway-meta {
-    display: flex;
     gap: 1rem;
     font-size: 0.875rem;
     color: var(--color-gray-600);
@@ -83,55 +65,41 @@
 .pathway-description {
     font-size: 0.9375rem;
     color: var(--color-gray-700);
-    line-height: 1.6;
-    margin-bottom: 1rem;
-}
+    line-}
 
 .pathway-chain {
-    display: flex;
     align-items: center;
     gap: 0.5rem;
     flex-wrap: wrap;
-    padding: 0.75rem;
     background: var(--color-gray-50);
-    border-radius: 8px;
     font-size: 0.8125rem;
     color: var(--color-gray-700);
 }
 
 .pathway-chain-item {
-    background: white;
     padding: 0.25rem 0.75rem;
-    border-radius: 6px;
-    border: 1px solid var(--color-gray-300);
-    font-weight: 600;
-}
+    }
 
 .pathway-arrow {
     color: var(--color-pounamu);
-    font-weight: 700;
-}
+    }
 
 .pathway-confidence {
-    display: flex;
     align-items: center;
     gap: 0.5rem;
     margin-top: 0.75rem;
     font-size: 0.75rem;
     color: var(--color-success);
-    font-weight: 600;
-}
+    }
 
 .confidence-bar-mini {
     width: 80px;
-    height: 4px;
     background: rgba(16, 185, 129, 0.2);
     border-radius: 2px;
     overflow: hidden;
 }
 
 .confidence-fill-mini {
-    height: 100%;
     background: var(--color-success);
 }
 </style>
@@ -145,7 +113,7 @@
     </div>
 
     <div id="pathways-container" class="pathways-grid">
-        <div style="text-align: center; padding: 2rem; grid-column: 1 / -1;">
+        <div style="grid-column: 1 / -1;">
             <div class="spinner"></div>
             <p style="color: var(--color-gray-600); margin-top: 1rem;">Loading perfect pathways...</p>
         </div>
@@ -162,10 +130,10 @@
         // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         return;
@@ -194,14 +162,14 @@
             // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         document.getElementById('pathways-container').innerHTML = 
-                '<p style="text-align: center; color: var(--color-gray-600);">Unable to load pathways. Please refresh.</p>';
+                '<p style="color: var(--color-gray-600);">Unable to load pathways. Please refresh.</p>';
         }
     }
 
@@ -209,7 +177,7 @@
         const container = document.getElementById('pathways-container');
         
         if (!pathways || pathways.length === 0) {
-            container.innerHTML = '<p style="text-align: center;">No pathways available.</p>';
+            container.innerHTML = '<p >No pathways available.</p>';
             return;
         }
 

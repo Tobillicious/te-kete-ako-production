@@ -1,9 +1,9 @@
 <!-- GraphRAG English Hidden Gems Component -->
-<section id="english-hidden-gems" style="background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%); color: #0f172a; p-12  2rem; rounded-2xl  margin: 3rem 0; box-shadow: 0 8px 24px rgba(220,38,38,0.12);">
+<section id="english-hidden-gems" class="shadow-xl" >
     <div style="text-center  mb-4 ">
-        <span style="display: inline-block; background: rgba(220,38,38,0.12); color: #991b1b; padding: 0.5rem 1.25rem; border-radius: 24px; font-size: 0.85rem; font-weight: 800;">💎 ENGLISH HIDDEN GEMS</span>
+        <span class="inline-block font-extrabold" >💎 ENGLISH HIDDEN GEMS</span>
     </div>
-    <h2 style="font-size: 2rem; font-weight: 800; text-center  margin-bottom: 0.25rem;">Under-connected high-quality resources</h2>
+    <h2 class="font-extrabold" >Under-connected high-quality resources</h2>
     <p style="text-center  color: #334155; font-size: 0.95rem; mb-6 ">Q90+ with &lt; 5 GraphRAG connections</p>
     <div id="english-gems-grid" style="grid  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem;"></div>
 </section>
@@ -59,7 +59,7 @@
             const emoji = g.r.resource_type === 'lesson' ? '📚' : (g.r.resource_type === 'handout' ? '📄' : '✨');
             const link = (g.r.file_path || '').replace('/public', '') || g.r.file_path;
             return `<a href="${link}" class="bg-white$1" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform=''">
-                <div class="connection-badge" data-resource-path="${g.r.file_path}" style="position: absolute; top: -12px; right: 12px; background: #fee2e2; color: #991b1b; padding: 0.4rem 0.8rem; border-radius: 18px; font-weight: 800; font-size: 0.75rem;">${g.c} links</div>
+                <div class="connection-badge absolute font-extrabold" data-resource-path="${g.r.file_path}" >${g.c} links</div>
                 <div style="text-2xl  mb-2 ">${emoji}</div>
                 <h3 style="color: #0f172a; font-bold  margin-bottom: 0.25rem;">${g.r.title || 'Resource'}</h3>
                 <p style="color: #475569; font-size: 0.85rem;">${g.r.year_level || 'All Years'} • Quality ${g.r.quality_score || 90}</p>
@@ -74,10 +74,10 @@
         // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         }

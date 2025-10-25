@@ -3,35 +3,13 @@
 <head>
     <title>
 Teacher Dashboard | Te Kete Ako</title>
-<!-- SEO TAGS - Open Graph, Twitter Cards, Canonical URL -->
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website"/>
-<meta property="og:url" content="https://tekete.netlify.app/teacher-dashboard-unified.html"/>
-<meta property="og:title" content="
-Teacher Dashboard | Te Kete Ako"/>
-<meta property="og:description" content="AI-powered Teacher Dashboard with GraphRAG intelligence, real-time analytics, and authentic Te Ao Māori integration"/>
-<meta property="og:image" content="https://tekete.netlify.app/images/og-image.jpg"/>
-<meta property="og:image:width" content="1200"/>
-<meta property="og:image:height" content="630"/>
-<meta property="og:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta property="og:site_name" content="Te Kete Ako"/>
-<meta property="og:locale" content="en_NZ"/>
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:url" content="https://tekete.netlify.app/teacher-dashboard-unified.html"/>
-<meta name="twitter:title" content="
-Teacher Dashboard | Te Kete Ako"/>
-<meta name="twitter:description" content="AI-powered Teacher Dashboard with GraphRAG intelligence, real-time analytics, and authentic Te Ao Māori integration"/>
-<meta name="twitter:image" content="https://tekete.netlify.app/images/twitter-card.jpg"/>
-<meta name="twitter:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta name="twitter:site" content="@TeKeteAko"/>
-<meta name="twitter:creator" content="@TeKeteAko"/>
+<meta name="robots" content="index, follow"/>
+<meta name="googlebot" content="index, follow"/>
+<meta name="theme-color" content="#1a4d2e"/>
 
-<!-- Canonical URL -->
-<link rel="canonical" href="https://tekete.netlify.app/teacher-dashboard-unified.html"/>
 
-<!-- Additional SEO -->
+
 <meta name="robots" content="index, follow"/>
 <meta name="googlebot" content="index, follow"/>
 <meta name="theme-color" content="#1a4d2e"/>
@@ -187,10 +165,10 @@ Loading your resources...</p>
     <script>        // Initialize Dashboard        document.addEventListener('DOMContentLoaded', async () => {            await loadNavigation();            await loadQuickStats();            await loadAIRecommendations();            await loadRecentResources();            initializeAnalytics();        });        // Load Navigation Component        async function loadNavigation() {            try {                const response = await fetch('/components/navigation-standard.html');                const html = await response.text();                document.getElementById('nav-container').innerHTML = html;            } catch (error) {                // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         }        }        // Load Quick Stats from PostHog/GraphRAG        async function loadQuickStats() {            // Simulate data loading (replace with actual PostHog API calls)            const stats = {                totalLessons: 247,                totalStudents: 156,                engagementRate: 87,                resourcesUsed: 342            };            const statsHTML = `                <div class="stat-box">
@@ -227,7 +205,7 @@ ${rec.title}</h4>
 ${rec.description}</p>
                     </div>
                 </div>
-            `).join('');            document.getElementById('ai-recommendations').innerHTML = recommendationsHTML;        }        // Load Recent Resources        async function loadRecentResources() {            // Simulate recent resources (replace with actual data)            const resourcesHTML = `                <p style="color: #6b7280; text-align: center; padding: 2rem;">
+            `).join('');            document.getElementById('ai-recommendations').innerHTML = recommendationsHTML;        }        // Load Recent Resources        async function loadRecentResources() {            // Simulate recent resources (replace with actual data)            const resourcesHTML = `                <p class="text-center p-8" >
                     Your recently accessed resources will appear here.                </p>
             `;            document.getElementById('recent-resources').innerHTML = resourcesHTML;        }        // Initialize PostHog Analytics        function initializeAnalytics() {            // PostHog initialization (already loaded via posthog-analytics.js)            if (window.posthog) {                posthog.capture('teacher_dashboard_viewed', {                    dashboard_version: 'unified_v1',                    features: ['graphrag', 'analytics', 'ai_recommendations']                });            }        }        // Quick Action: Create Lesson        function createLesson() {            window.location.href = '/teachers/create-lesson.html';        }    </script>
     <!-- Async Load: Chart.js for analytics -->

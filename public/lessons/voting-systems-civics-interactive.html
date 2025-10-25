@@ -2,33 +2,13 @@
 <html lang="en">
 <head>
     <title>Voting Systems Interactive - NZ Democracy | Te Kete Ako</title>
-<!-- SEO TAGS - Open Graph, Twitter Cards, Canonical URL -->
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website"/>
-<meta property="og:url" content="https://tekete.netlify.app/lessons/voting-systems-civics-interactive.html"/>
-<meta property="og:title" content="Voting Systems Interactive - NZ Democracy | Te Kete Ako"/>
-<meta property="og:description" content="World-class educational resources integrating mātauranga Māori with modern pedagogy"/>
-<meta property="og:image" content="https://tekete.netlify.app/images/og-image.jpg"/>
-<meta property="og:image:width" content="1200"/>
-<meta property="og:image:height" content="630"/>
-<meta property="og:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta property="og:site_name" content="Te Kete Ako"/>
-<meta property="og:locale" content="en_NZ"/>
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:url" content="https://tekete.netlify.app/lessons/voting-systems-civics-interactive.html"/>
-<meta name="twitter:title" content="Voting Systems Interactive - NZ Democracy | Te Kete Ako"/>
-<meta name="twitter:description" content="World-class educational resources integrating mātauranga Māori with modern pedagogy"/>
-<meta name="twitter:image" content="https://tekete.netlify.app/images/twitter-card.jpg"/>
-<meta name="twitter:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta name="twitter:site" content="@TeKeteAko"/>
-<meta name="twitter:creator" content="@TeKeteAko"/>
+<meta name="robots" content="index, follow"/>
+<meta name="googlebot" content="index, follow"/>
+<meta name="theme-color" content="#1a4d2e"/>
 
-<!-- Canonical URL -->
-<link rel="canonical" href="https://tekete.netlify.app/lessons/voting-systems-civics-interactive.html"/>
 
-<!-- Additional SEO -->
+
 <meta name="robots" content="index, follow"/>
 <meta name="googlebot" content="index, follow"/>
 <meta name="theme-color" content="#1a4d2e"/>
@@ -73,7 +53,7 @@
         <h1>🗳️ NZ Voting Systems: MMP Democracy</h1>
         
         <section style="background: #fff7ed; p-8  rounded-xl  margin: 2rem 0; text-center ">
-            <p style="font-style: italic; text-lg ">"Kia kotahi te hoe"</p>
+            <p class="italic" >"Kia kotahi te hoe"</p>
             <p>"Paddle together as one" - Democracy requires participation</p>
         </section>
         
@@ -103,27 +83,27 @@
             
             <div style="margin: 1.5rem 0;">
                 <label>Labour Party (%):</label>
-                <input type="number" id="labour" value="35" min="0" max="100" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 6px; margin-top: 0.5rem;">
+                <input type="number" id="labour" value="35" min="0" max="100" class="w-full p-3 rounded-md" >
             </div>
             <div style="margin: 1.5rem 0;">
                 <label>National Party (%):</label>
-                <input type="number" id="national" value="33" min="0" max="100" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 6px; margin-top: 0.5rem;">
+                <input type="number" id="national" value="33" min="0" max="100" class="w-full p-3 rounded-md" >
             </div>
             <div style="margin: 1.5rem 0;">
                 <label>Green Party (%):</label>
-                <input type="number" id="green" value="10" min="0" max="100" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 6px; margin-top: 0.5rem;">
+                <input type="number" id="green" value="10" min="0" max="100" class="w-full p-3 rounded-md" >
             </div>
             <div style="margin: 1.5rem 0;">
                 <label>ACT Party (%):</label>
-                <input type="number" id="act" value="9" min="0" max="100" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 6px; margin-top: 0.5rem;">
+                <input type="number" id="act" value="9" min="0" max="100" class="w-full p-3 rounded-md" >
             </div>
             <div style="margin: 1.5rem 0;">
                 <label>Te Pāti Māori (%):</label>
-                <input type="number" id="maori" value="8" min="0" max="100" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 6px; margin-top: 0.5rem;">
+                <input type="number" id="maori" value="8" min="0" max="100" class="w-full p-3 rounded-md" >
             </div>
             <div style="margin: 1.5rem 0;">
                 <label>Other parties (%):</label>
-                <input type="number" id="other" value="5" min="0" max="100" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 6px; margin-top: 0.5rem;">
+                <input type="number" id="other" value="5" min="0" max="100" class="w-full p-3 rounded-md" >
             </div>
             
             <button class="vote-btn" onclick="calculateSeats()">Calculate Seat Allocation</button>
@@ -209,7 +189,7 @@
             let breakdown = '';
             for (const [party, seatCount] of Object.entries(seats)) {
                 if (seatCount > 0) {
-                    breakdown += `<p style="font-size: 1.1rem; line-height: 2;"><strong>${party}:</strong> ${seatCount} seats (${votes[party]}%)</p>`;
+                    breakdown += `<p class="text-sm" ><strong>${party}:</strong> ${seatCount} seats (${votes[party]}%)</p>`;
                 }
             }
             document.getElementById('seatBreakdown').innerHTML = breakdown;
@@ -254,44 +234,19 @@
 <!-- PARALLEL COMPONENT LOADING - No more 2-3s delay! -->
 <script>
     // Load all components in parallel for instant page display
-    Promise.all([
-
-        fetch('/components/graphrag-similar-resources.html')
-            .then(r => r.text())
-            .then(html => {
-                const container = document.getElementById('graphrag-similar-resources-container');
-                if (container) container.innerHTML = html;
-                else // Log to monitoring instead of console
-        if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
-        }
-        // Show user-friendly message instead of error
-        })
-            .catch(err => // Log to monitoring instead of console
-        if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
-        }
-        // Show user-friendly message instead of error
-        
-    ]).then(() => {
-        // All components loaded successfully!
-        // User feedback provided via UI
-    }).catch(err => {
-        // Log to monitoring instead of console
-        if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+    // PARALLEL COMPONENT LOADING - No more 2-3s delay!
+Promise.all([
+    // Components will be loaded here
+]).then(() => {
+    console.log('✅ All components loaded in parallel');
+}).catch(err => {
+    if (window.posthog) {
+        posthog.capture('component_loading_error', {
+            message: err.message,
+            url: window.location.pathname
+        });
+    }
+});
         }
         // Show user-friendly message instead of error
         });

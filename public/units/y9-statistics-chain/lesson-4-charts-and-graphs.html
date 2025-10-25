@@ -2,33 +2,13 @@
 <html lang="en">
 <head>
     <title>Y9 Statistics L4: Creating Charts with Chart.js | Te Kete Ako</title>
-<!-- SEO TAGS - Open Graph, Twitter Cards, Canonical URL -->
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website"/>
-<meta property="og:url" content="https://tekete.netlify.app/units/y9-statistics-chain/lesson-4-charts-and-graphs.html"/>
-<meta property="og:title" content="Y9 Statistics L4: Creating Charts with Chart.js | Te Kete Ako"/>
-<meta property="og:description" content="Learn to create and interpret statistical visualizations with Chart.js"/>
-<meta property="og:image" content="https://tekete.netlify.app/images/og-image.jpg"/>
-<meta property="og:image:width" content="1200"/>
-<meta property="og:image:height" content="630"/>
-<meta property="og:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta property="og:site_name" content="Te Kete Ako"/>
-<meta property="og:locale" content="en_NZ"/>
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:url" content="https://tekete.netlify.app/units/y9-statistics-chain/lesson-4-charts-and-graphs.html"/>
-<meta name="twitter:title" content="Y9 Statistics L4: Creating Charts with Chart.js | Te Kete Ako"/>
-<meta name="twitter:description" content="Learn to create and interpret statistical visualizations with Chart.js"/>
-<meta name="twitter:image" content="https://tekete.netlify.app/images/twitter-card.jpg"/>
-<meta name="twitter:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta name="twitter:site" content="@TeKeteAko"/>
-<meta name="twitter:creator" content="@TeKeteAko"/>
+<meta name="robots" content="index, follow"/>
+<meta name="googlebot" content="index, follow"/>
+<meta name="theme-color" content="#1a4d2e"/>
 
-<!-- Canonical URL -->
-<link rel="canonical" href="https://tekete.netlify.app/units/y9-statistics-chain/lesson-4-charts-and-graphs.html"/>
 
-<!-- Additional SEO -->
+
 <meta name="robots" content="index, follow"/>
 <meta name="googlebot" content="index, follow"/>
 <meta name="theme-color" content="#1a4d2e"/>
@@ -71,104 +51,104 @@
   
   
   <!-- Whakataukī -->
-  <div style="background: linear-gradient(135deg, #f5e6d3 0%, #d4a574 100%); padding: 2rem; text-align: center; border-bottom: 4px solid #1a4d2e;">
-    <p style="font-size: 1.4rem; color: #0f2818; font-style: italic; margin-bottom: 0.5rem; font-weight: 600;">
+  <div >
+    <p >
       "Kia kite koe, kia mārama koe"
     </p>
-    <p style="font-size: 1rem; color: #4a6e2a;">
+    <p >
       To see is to understand - Visualizations reveal patterns
     </p>
   </div>
 
-  <main style="max-width: 1200px; margin: 2rem auto; padding: 0 2rem;">
+  <main style="margin: 2rem auto; padding: 0 2rem;">
     
     <!-- Header -->
-    <div style="margin-bottom: 2rem;">
-      <div style="background: #3b82f6; color: white; padding: 0.5rem 1rem; border-radius: 20px; display: inline-block; font-weight: 600; margin-bottom: 1rem;">
+    <div >
+      <div class="p-2" style="background: #3b82f6; color: white; padding: 0.5rem 1rem; border-radius: 20px; "
         📊 Y9 Statistics Learning Chain • Lesson 4 of 5
       </div>
-      <h1 style="color: #1a4d2e; font-size: 3rem; font-weight: 800; margin-bottom: 0.5rem;">Charts & Data Visualization</h1>
-      <h2 style="color: #4a6e2a; font-size: 1.5rem; margin-bottom: 1rem;">Making Data Visual with Chart.js</h2>
+      <h1 style="font-size: 3rem; ">Charts & Data Visualization</h1>
+      <h2 style="font-size: 1.5rem; ">Making Data Visual with Chart.js</h2>
     </div>
 
     <!-- Learning Chain Navigation -->
-    <div style="background: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-        <a href="lesson-3-nz-census-data.html" style="background: #d1fae5; color: #065f46; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none;">← L3: Census Data</a>
-        <div style="background: #3b82f6; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600;">→ L4: Visualization ✓ You are here</div>
-        <a href="lesson-5-statistical-investigation.html" style="background: #e0f2fe; color: #0c4a6e; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none;">L5: Your Investigation →</a>
+    <div >
+      <div style="gap: 1rem; flex-wrap: wrap;">
+        <a href="lesson-3-nz-census-data.html" class="p-3" style="background: #d1fae5; color: #065f46; padding: 0.75rem 1.5rem; text-decoration: none;"← L3: Census Data</a>
+        <div class="p-3" style="background: #3b82f6; color: white; padding: 0.75rem 1.5rem; "→ L4: Visualization ✓ You are here</div>
+        <a href="lesson-5-statistical-investigation.html" class="p-3" style="background: #e0f2fe; color: #0c4a6e; padding: 0.75rem 1.5rem; text-decoration: none;"L5: Your Investigation →</a>
       </div>
     </div>
 
     <!-- Types of Charts -->
-    <section style="background: white; padding: 2.5rem; border-radius: 16px; margin: 2rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+    <section style="padding: 2.5rem; margin: 2rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
       <h2 style="color: #3b82f6; margin-bottom: 1.5rem;">📊 Chart Types & When to Use Them</h2>
       
-      <div style="display: grid; gap: 1.5rem;">
-        <div style="background: #f0f9ff; padding: 2rem; border-radius: 12px; border-left: 6px solid #3b82f6;">
-          <h3 style="color: #1e40af; margin-bottom: 0.5rem;">📈 Line Chart</h3>
-          <p style="margin-bottom: 1rem;"><strong>Best for:</strong> Showing change over time (trends)</p>
+      <div style="gap: 1.5rem;">
+        <div style="background: #f0f9ff; border-left: 6px solid #3b82f6;">
+          <h3 style="color: #1e40af; ">📈 Line Chart</h3>
+          <p ><strong>Best for:</strong> Showing change over time (trends)</p>
           <p style="font-size: 0.95rem; color: #6b7280;"><strong>Example:</strong> NZ population growth 1950-2024, temperature changes, COVID cases over time</p>
         </div>
 
-        <div style="background: #fef9e7; padding: 2rem; border-radius: 12px; border-left: 6px solid #f59e0b;">
-          <h3 style="color: #92400e; margin-bottom: 0.5rem;">📊 Bar Chart</h3>
-          <p style="margin-bottom: 1rem;"><strong>Best for:</strong> Comparing different categories</p>
+        <div style="background: #fef9e7; border-left: 6px solid #f59e0b;">
+          <h3 style="color: #92400e; ">📊 Bar Chart</h3>
+          <p ><strong>Best for:</strong> Comparing different categories</p>
           <p style="font-size: 0.95rem; color: #6b7280;"><strong>Example:</strong> Number of Te Reo speakers by age group, rainfall by region, test scores by class</p>
         </div>
 
-        <div style="background: #f0fdf4; padding: 2rem; border-radius: 12px; border-left: 6px solid #10b981;">
-          <h3 style="color: #065f46; margin-bottom: 0.5rem;">🍩 Pie/Doughnut Chart</h3>
-          <p style="margin-bottom: 1rem;"><strong>Best for:</strong> Showing parts of a whole (percentages)</p>
+        <div style="background: #f0fdf4; border-left: 6px solid #10b981;">
+          <h3 style="color: #065f46; ">🍩 Pie/Doughnut Chart</h3>
+          <p ><strong>Best for:</strong> Showing parts of a whole (percentages)</p>
           <p style="font-size: 0.95rem; color: #6b7280;"><strong>Example:</strong> NZ ethnic groups, student favorite subjects, household waste breakdown</p>
         </div>
       </div>
     </section>
 
     <!-- Interactive Chart Builder -->
-    <section style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 2.5rem; border-radius: 16px; margin: 3rem 0;">
+    <section style="padding: 2.5rem; margin: 3rem 0;">
       <h2 style="color: #92400e; margin-bottom: 1.5rem;">🎨 Build Your Own Chart!</h2>
       
-      <div style="background: white; padding: 2rem; border-radius: 12px;">
-        <p style="margin-bottom: 1.5rem; font-weight: 600;">Enter data about your class:</p>
+      <div >
+        <p style="margin-bottom: 1.5rem; ">Enter data about your class:</p>
         
-        <div style="display: grid; gap: 1rem; margin-bottom: 2rem;">
+        <div style="gap: 1rem; ">
           <div>
-            <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">How many students walk to school?</label>
-            <input type="number" id="walk" min="0" value="8" style="width: 100%; padding: 0.75rem; border: 2px solid #fde68a; border-radius: 8px;">
+            <label >How many students walk to school?</label>
+            <input type="number" id="walk" min="0" value="8" >
           </div>
 
           <div>
-            <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">How many take the bus?</label>
-            <input type="number" id="bus" min="0" value="12" style="width: 100%; padding: 0.75rem; border: 2px solid #fde68a; border-radius: 8px;">
+            <label >How many take the bus?</label>
+            <input type="number" id="bus" min="0" value="12" >
           </div>
 
           <div>
-            <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">How many get driven by car?</label>
-            <input type="number" id="car" min="0" value="5" style="width: 100%; padding: 0.75rem; border: 2px solid #fde68a; border-radius: 8px;">
+            <label >How many get driven by car?</label>
+            <input type="number" id="car" min="0" value="5" >
           </div>
 
           <div>
-            <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">How many bike or scooter?</label>
-            <input type="number" id="bike" min="0" value="3" style="width: 100%; padding: 0.75rem; border: 2px solid #fde68a; border-radius: 8px;">
+            <label >How many bike or scooter?</label>
+            <input type="number" id="bike" min="0" value="3" >
           </div>
         </div>
 
-        <button onclick="updateCustomChart()" style="background: #f59e0b; color: white; padding: 1rem 2rem; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; width: 100%; font-size: 1.1rem;">Create Chart!</button>
+        <button onclick="updateCustomChart()" class="p-4" style="background: #f59e0b; color: white; padding: 1rem 2rem; border: none; cursor: pointer; "Create Chart!</button>
 
         <canvas id="customChart" style="margin-top: 2rem;"></canvas>
       </div>
     </section>
 
     <!-- Lesson Navigation -->
-    <div style="display: flex; justify-content: space-between; margin: 3rem 0; padding: 2rem; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+    <div style="justify-content: space-between; margin: 3rem 0; ">
       <a href="lesson-3-nz-census-data.html" style="text-decoration: none; color: #3b82f6;">
-        <p style="font-size: 0.9rem; color: #6b7280;">← Previous</p>
-        <p style="font-weight: 600;">L3: Census Data</p>
+        <p style="color: #6b7280;">← Previous</p>
+        <p >L3: Census Data</p>
       </a>
-      <a href="lesson-5-statistical-investigation.html" style="text-decoration: none; color: #3b82f6; text-align: right;">
-        <p style="font-size: 0.9rem; color: #6b7280;">Next →</p>
-        <p style="font-weight: 600;">L5: Your Investigation</p>
+      <a href="lesson-5-statistical-investigation.html" style="text-decoration: none; color: #3b82f6; ">
+        <p style="color: #6b7280;">Next →</p>
+        <p >L5: Your Investigation</p>
       </a>
     </div>
 
@@ -268,44 +248,19 @@
 <!-- PARALLEL COMPONENT LOADING - No more 2-3s delay! -->
 <script>
     // Load all components in parallel for instant page display
-    Promise.all([
-
-        fetch('/components/graphrag-similar-resources.html')
-            .then(r => r.text())
-            .then(html => {
-                const container = document.getElementById('graphrag-similar-resources-container');
-                if (container) container.innerHTML = html;
-                else // Log to monitoring instead of console
-        if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
-        }
-        // Show user-friendly message instead of error
-        })
-            .catch(err => // Log to monitoring instead of console
-        if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
-        }
-        // Show user-friendly message instead of error
-        
-    ]).then(() => {
-        // All components loaded successfully!
-        // User feedback provided via UI
-    }).catch(err => {
-        // Log to monitoring instead of console
-        if (window.posthog) {
-            posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+    // PARALLEL COMPONENT LOADING - No more 2-3s delay!
+Promise.all([
+    // Components will be loaded here
+]).then(() => {
+    console.log('✅ All components loaded in parallel');
+}).catch(err => {
+    if (window.posthog) {
+        posthog.capture('component_loading_error', {
+            message: err.message,
+            url: window.location.pathname
+        });
+    }
+});
         }
         // Show user-friendly message instead of error
         });

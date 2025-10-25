@@ -2,33 +2,13 @@
 <html lang="en">
 <head>
     <title>Task Queue Dashboard | Te Kete Ako Admin</title>
-<!-- SEO TAGS - Open Graph, Twitter Cards, Canonical URL -->
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website"/>
-<meta property="og:url" content="https://tekete.netlify.app/admin/task-queue-dashboard.html"/>
-<meta property="og:title" content="Task Queue Dashboard | Te Kete Ako Admin"/>
-<meta property="og:description" content="World-class educational resources integrating mātauranga Māori with modern pedagogy"/>
-<meta property="og:image" content="https://tekete.netlify.app/images/og-image.jpg"/>
-<meta property="og:image:width" content="1200"/>
-<meta property="og:image:height" content="630"/>
-<meta property="og:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta property="og:site_name" content="Te Kete Ako"/>
-<meta property="og:locale" content="en_NZ"/>
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:url" content="https://tekete.netlify.app/admin/task-queue-dashboard.html"/>
-<meta name="twitter:title" content="Task Queue Dashboard | Te Kete Ako Admin"/>
-<meta name="twitter:description" content="World-class educational resources integrating mātauranga Māori with modern pedagogy"/>
-<meta name="twitter:image" content="https://tekete.netlify.app/images/twitter-card.jpg"/>
-<meta name="twitter:image:alt" content="Te Kete Ako - Educational Platform"/>
-<meta name="twitter:site" content="@TeKeteAko"/>
-<meta name="twitter:creator" content="@TeKeteAko"/>
+<meta name="robots" content="index, follow"/>
+<meta name="googlebot" content="index, follow"/>
+<meta name="theme-color" content="#1a4d2e"/>
 
-<!-- Canonical URL -->
-<link rel="canonical" href="https://tekete.netlify.app/admin/task-queue-dashboard.html"/>
 
-<!-- Additional SEO -->
+
 <meta name="robots" content="index, follow"/>
 <meta name="googlebot" content="index, follow"/>
 <meta name="theme-color" content="#1a4d2e"/>
@@ -65,36 +45,35 @@
 
 <!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
 <link rel="stylesheet" href="/css/cascade-fix.css">
-<body style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); min-height: 100vh;">
+<body style="min-">
     
     <!-- Header -->
-    <header style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); color: white; padding: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-        <div style="max-width: 1400px; margin: 0 auto;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+    <header style="color: white; ">
+        <div class="m-0 mx-auto" <div >
                 <div>
-                    <h1 style="font-size: 2rem; font-weight: 800; margin: 0;">🤖 Agent Task Queue Dashboard</h1>
-                    <p style="opacity: 0.9; margin: 0.5rem 0 0 0;">Real-time orchestration system monitoring</p>
+                    <h1 style="font-size: 2rem; ">🤖 Agent Task Queue Dashboard</h1>
+                    <p class="m-0" style="opacity: 0.9; margin: 0.5rem 0 0 0;"Real-time orchestration system monitoring</p>
                 </div>
-                <button id="refresh-btn" onclick="loadDashboard()" style="background: #10b981; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; border: none; cursor: pointer; font-weight: 600;">
+                <button id="refresh-btn" onclick="loadDashboard()" class="p-3" style="background: #10b981; color: white; padding: 0.75rem 1.5rem; border: none; cursor: pointer; "
                     <span id="refresh-icon">🔄</span> Refresh
                 </button>
             </div>
             
             <!-- Quick Stats -->
-            <div id="quick-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+            <div id="quick-stats" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
                 <!-- Populated by JS -->
             </div>
         </div>
     </header>
 
-    <main style="max-width: 1400px; margin: 2rem auto; padding: 0 2rem;">
+    <main style="margin: 2rem auto; padding: 0 2rem;">
         
         <!-- Filters & Controls -->
-        <section style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 2rem;">
-            <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+        <section style="box-shadow: 0 2px 12px rgba(0,0,0,0.08); ">
+            <div style="gap: 1rem; flex-wrap: wrap; align-items: center;">
                 <div>
-                    <label style="font-weight: 600; margin-right: 0.5rem;">Status:</label>
-                    <select id="filter-status" onchange="filterTasks()" style="padding: 0.5rem; border: 2px solid #e2e8f0; border-radius: 6px;">
+                    <label style="margin-right: 0.5rem;">Status:</label>
+                    <select id="filter-status" onchange="filterTasks()" >
                         <option value="all">All</option>
                         <option value="pending">Pending</option>
                         <option value="in_progress">In Progress</option>
@@ -104,8 +83,8 @@
                 </div>
                 
                 <div>
-                    <label style="font-weight: 600; margin-right: 0.5rem;">Priority:</label>
-                    <select id="filter-priority" onchange="filterTasks()" style="padding: 0.5rem; border: 2px solid #e2e8f0; border-radius: 6px;">
+                    <label style="margin-right: 0.5rem;">Priority:</label>
+                    <select id="filter-priority" onchange="filterTasks()" >
                         <option value="all">All</option>
                         <option value="urgent">Urgent (1-2)</option>
                         <option value="high">High (3-5)</option>
@@ -115,33 +94,32 @@
                 </div>
                 
                 <div>
-                    <label style="font-weight: 600; margin-right: 0.5rem;">Agent:</label>
-                    <select id="filter-agent" onchange="filterTasks()" style="padding: 0.5rem; border: 2px solid #e2e8f0; border-radius: 6px;">
+                    <label style="margin-right: 0.5rem;">Agent:</label>
+                    <select id="filter-agent" onchange="filterTasks()" >
                         <option value="all">All Agents</option>
                         <!-- Populated by JS -->
                     </select>
                 </div>
                 
                 <div style="margin-left: auto;">
-                    <input type="text" id="search-box" placeholder="Search tasks..." onkeyup="filterTasks()" style="padding: 0.5rem 1rem; border: 2px solid #e2e8f0; border-radius: 6px; width: 250px;">
+                    <input type="text" id="search-box" placeholder="Search tasks..." onkeyup="filterTasks()" class="p-2" style="padding: 0.5rem 1rem; width: 250px;"
                 </div>
             </div>
         </section>
 
         <!-- Task Queue -->
         <section>
-            <h2 style="font-size: 1.5rem; font-weight: 700; color: #1e293b; margin-bottom: 1rem;">
+            <h2 style="font-size: 1.5rem; color: #1e293b; ">
                 Active Tasks
             </h2>
-            <div id="task-list" style="display: grid; gap: 1rem;">
+            <div id="task-list" style="gap: 1rem;">
                 <!-- Populated by JS -->
             </div>
         </section>
 
         <!-- Task Detail Modal -->
-        <div id="task-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1000; padding: 2rem; overflow-y: auto;">
-            <div style="background: white; max-width: 800px; margin: 0 auto; border-radius: 16px; padding: 2rem; position: relative;">
-                <button onclick="closeModal()" style="position: absolute; top: 1rem; right: 1rem; background: #f3f4f6; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1.2rem;">×</button>
+        <div id="task-modal" style="display: none; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1000; overflow-y: auto;">
+            <div class="m-0 mx-auto" <button onclick="closeModal()" >×</button>
                 <div id="modal-content">
                     <!-- Populated by JS -->
                 </div>
@@ -191,14 +169,14 @@
                 // Log to monitoring instead of console
         if (window.posthog) {
             posthog.capture('error', {
-                message: '$2',
-                details: $3,
-                url: window.location.pathname
-            });
+        message: '$2',
+        details: $3,
+        url: window.location.pathname
+    });
         }
         // Show user-friendly message instead of error
         document.getElementById('task-list').innerHTML = `
-                    <div style="background: #fee2e2; padding: 2rem; border-radius: 12px; text-align: center; color: #991b1b;">
+                    <div style="background: #fee2e2; color: #991b1b;">
                         <strong>Error loading dashboard:</strong><br>
                         ${error.message}
                     </div>
@@ -224,25 +202,25 @@
             ).length;
             
             document.getElementById('quick-stats').innerHTML = `
-                <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 8px;">
-                    <div style="font-size: 2rem; font-weight: 800;">${stats.total}</div>
-                    <div style="opacity: 0.9; font-size: 0.9rem;">Total Tasks</div>
+                <div style="background: rgba(255,255,255,0.2); ">
+                    <div style="font-size: 2rem; ">${stats.total}</div>
+                    <div style="opacity: 0.9; ">Total Tasks</div>
                 </div>
-                <div style="background: rgba(251, 191, 36, 0.3); padding: 1rem; border-radius: 8px;">
-                    <div style="font-size: 2rem; font-weight: 800;">${stats.pending}</div>
-                    <div style="opacity: 0.9; font-size: 0.9rem;">Pending</div>
+                <div style="background: rgba(251, 191, 36, 0.3); ">
+                    <div style="font-size: 2rem; ">${stats.pending}</div>
+                    <div style="opacity: 0.9; ">Pending</div>
                 </div>
-                <div style="background: rgba(59, 130, 246, 0.3); padding: 1rem; border-radius: 8px;">
-                    <div style="font-size: 2rem; font-weight: 800;">${stats.in_progress}</div>
-                    <div style="opacity: 0.9; font-size: 0.9rem;">In Progress</div>
+                <div style="background: rgba(59, 130, 246, 0.3); ">
+                    <div style="font-size: 2rem; ">${stats.in_progress}</div>
+                    <div style="opacity: 0.9; ">In Progress</div>
                 </div>
-                <div style="background: rgba(16, 185, 129, 0.3); padding: 1rem; border-radius: 8px;">
-                    <div style="font-size: 2rem; font-weight: 800;">${completedToday}</div>
-                    <div style="opacity: 0.9; font-size: 0.9rem;">Completed Today</div>
+                <div style="background: rgba(16, 185, 129, 0.3); ">
+                    <div style="font-size: 2rem; ">${completedToday}</div>
+                    <div style="opacity: 0.9; ">Completed Today</div>
                 </div>
-                <div style="background: rgba(239, 68, 68, 0.3); padding: 1rem; border-radius: 8px;">
-                    <div style="font-size: 2rem; font-weight: 800;">${stats.blocked}</div>
-                    <div style="opacity: 0.9; font-size: 0.9rem;">Blocked</div>
+                <div style="background: rgba(239, 68, 68, 0.3); ">
+                    <div style="font-size: 2rem; ">${stats.blocked}</div>
+                    <div style="opacity: 0.9; ">Blocked</div>
                 </div>
             `;
         }
@@ -264,8 +242,8 @@
             
             if (tasks.length === 0) {
                 container.innerHTML = `
-                    <div style="background: white; padding: 3rem; border-radius: 12px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.08);">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
+                    <div style="padding: 3rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08);">
+                        <div style="font-size: 3rem; ">📭</div>
                         <h3 style="color: #64748b; font-size: 1.5rem;">No tasks match your filters</h3>
                         <p style="color: #94a3b8; margin-top: 0.5rem;">Try adjusting your filters or create a new task</p>
                     </div>
@@ -280,30 +258,30 @@
                     (task.started_at ? Math.round((new Date() - new Date(task.started_at)) / 1000 / 60) : 0);
                 
                 return `
-                    <div class="task-card priority-${task.priority}" onclick="showTaskDetail(${task.id})" style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08);">
-                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem;">
+                    <div class="task-card priority-${task.priority}" onclick="showTaskDetail(${task.id})" style="box-shadow: 0 2px 12px rgba(0,0,0,0.08);">
+                        <div style="justify-content: space-between; align-items: start; margin-bottom: 0.75rem;">
                             <div style="flex: 1;">
-                                <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem;">
-                                    <span class="status-${task.status}" style="padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700;">
+                                <div style="gap: 0.5rem; align-items: center; ">
+                                    <span class="status-${task.status}" style="padding: 0.25rem 0.75rem; font-size: 0.75rem; ">
                                         ${task.status.replace('_', ' ').toUpperCase()}
                                     </span>
-                                    <span style="background: #f3f4f6; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700; color: #64748b;">
+                                    <span style="background: #f3f4f6; padding: 0.25rem 0.75rem; font-size: 0.75rem; color: #64748b;">
                                         Priority ${task.priority}
                                     </span>
                                     ${task.dependencies && task.dependencies.length > 0 ? `
-                                        <span style="background: #fef3c7; color: #92400e; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700;">
+                                        <span style="background: #fef3c7; color: #92400e; padding: 0.25rem 0.75rem; font-size: 0.75rem; ">
                                             🔗 ${task.dependencies.length} dependencies
                                         </span>
                                     ` : ''}
                                 </div>
-                                <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e293b; margin: 0 0 0.5rem 0;">
+                                <h3 class="m-0" style="color: #1e293b; margin: 0 0 0.5rem 0;"
                                     ${task.task_type.replace(/_/g, ' ').toUpperCase()}
                                 </h3>
-                                <p style="color: #64748b; margin: 0; font-size: 0.95rem;">
+                                <p style="color: #64748b; font-size: 0.95rem;">
                                     ${task.task_description || 'No description'}
                                 </p>
                             </div>
-                            <div style="text-align: right;">
+                            <div >
                                 <div style="font-size: 1.5rem; margin-bottom: 0.25rem;">
                                     ${getTaskIcon(task.task_type)}
                                 </div>
@@ -313,7 +291,7 @@
                             </div>
                         </div>
                         
-                        <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+                        <div style="gap: 1rem; align-items: center; flex-wrap: wrap; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
                             ${task.assigned_to ? `
                                 <span class="agent-badge" style="background: #dbeafe; color: #1e40af;">
                                     👤 ${task.assigned_to.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
@@ -331,7 +309,7 @@
                             ` : ''}
                             
                             ${task.resource_path ? `
-                                <span style="color: #64748b; font-size: 0.85rem; flex: 1; text-align: right;">
+                                <span style="color: #64748b; font-size: 0.85rem; flex: 1; ">
                                     📄 ${task.resource_path.split('/').pop()}
                                 </span>
                             ` : ''}
@@ -364,29 +342,29 @@
             const content = document.getElementById('modal-content');
             
             content.innerHTML = `
-                <h2 style="font-size: 1.8rem; font-weight: 800; color: #1e293b; margin-bottom: 1rem;">
+                <h2 style="font-size: 1.8rem; color: #1e293b; ">
                     ${getTaskIcon(task.task_type)} Task #${task.id}
                 </h2>
                 
-                <div style="background: #f8fafc; padding: 1.5rem; border-radius: 10px; margin-bottom: 1.5rem;">
-                    <h3 style="font-size: 1.2rem; font-weight: 700; margin: 0 0 0.5rem 0; color: #334155;">
+                <div style="background: #f8fafc; border-radius: 10px; margin-bottom: 1.5rem;">
+                    <h3 class="m-0" style="margin: 0 0 0.5rem 0; color: #334155;"
                         ${task.task_type.replace(/_/g, ' ').toUpperCase()}
                     </h3>
-                    <p style="color: #64748b; margin: 0;">
+                    <p style="color: #64748b; ">
                         ${task.task_description || 'No description provided'}
                     </p>
                 </div>
                 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
                     <div>
-                        <strong style="color: #64748b; font-size: 0.9rem;">Status:</strong>
-                        <div class="status-${task.status}" style="display: inline-block; padding: 0.5rem 1rem; border-radius: 8px; font-weight: 700; margin-top: 0.25rem;">
+                        <strong style="color: #64748b; ">Status:</strong>
+                        <div class="status-${task.status}" class="p-2" style="padding: 0.5rem 1rem; margin-top: 0.25rem;"
                             ${task.status.replace('_', ' ').toUpperCase()}
                         </div>
                     </div>
                     <div>
-                        <strong style="color: #64748b; font-size: 0.9rem;">Priority:</strong>
-                        <div style="font-size: 1.5rem; font-weight: 800; color: #1e293b; margin-top: 0.25rem;">
+                        <strong style="color: #64748b; ">Priority:</strong>
+                        <div style="font-size: 1.5rem; color: #1e293b; margin-top: 0.25rem;">
                             ${task.priority} ${task.priority <= 2 ? '🔥' : task.priority <= 5 ? '⚡' : ''}
                         </div>
                     </div>
@@ -394,8 +372,8 @@
                 
                 ${task.assigned_to ? `
                     <div style="margin-bottom: 1.5rem;">
-                        <strong style="color: #64748b; font-size: 0.9rem;">Assigned To:</strong>
-                        <div class="agent-badge" style="background: #dbeafe; color: #1e40af; display: inline-block; margin-top: 0.25rem;">
+                        <strong style="color: #64748b; ">Assigned To:</strong>
+                        <div class="agent-badge" style="background: #dbeafe; color: #1e40af; margin-top: 0.25rem;">
                             👤 ${task.assigned_to.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
                         </div>
                     </div>
@@ -403,23 +381,23 @@
                 
                 ${task.resource_path ? `
                     <div style="margin-bottom: 1.5rem;">
-                        <strong style="color: #64748b; font-size: 0.9rem;">Resource Path:</strong>
-                        <div style="background: #f1f5f9; padding: 0.75rem; border-radius: 6px; font-family: monospace; font-size: 0.85rem; margin-top: 0.25rem;">
+                        <strong style="color: #64748b; ">Resource Path:</strong>
+                        <div style="background: #f1f5f9; font-family: monospace; font-size: 0.85rem; margin-top: 0.25rem;">
                             ${task.resource_path}
                         </div>
                     </div>
                 ` : ''}
                 
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
                     <div>
-                        <strong style="color: #64748b; font-size: 0.9rem;">Created:</strong>
+                        <strong style="color: #64748b; ">Created:</strong>
                         <div style="font-size: 0.85rem; color: #1e293b; margin-top: 0.25rem;">
                             ${new Date(task.created_at).toLocaleString()}
                         </div>
                     </div>
                     ${task.started_at ? `
                         <div>
-                            <strong style="color: #64748b; font-size: 0.9rem;">Started:</strong>
+                            <strong style="color: #64748b; ">Started:</strong>
                             <div style="font-size: 0.85rem; color: #1e293b; margin-top: 0.25rem;">
                                 ${new Date(task.started_at).toLocaleString()}
                             </div>
@@ -427,7 +405,7 @@
                     ` : ''}
                     ${task.completed_at ? `
                         <div>
-                            <strong style="color: #64748b; font-size: 0.9rem;">Completed:</strong>
+                            <strong style="color: #64748b; ">Completed:</strong>
                             <div style="font-size: 0.85rem; color: #1e293b; margin-top: 0.25rem;">
                                 ${new Date(task.completed_at).toLocaleString()}
                             </div>
@@ -437,20 +415,20 @@
                 
                 ${task.input_data && Object.keys(task.input_data).length > 0 ? `
                     <div style="margin-bottom: 1.5rem;">
-                        <strong style="color: #64748b; font-size: 0.9rem;">Input Data:</strong>
-                        <pre style="background: #f1f5f9; padding: 1rem; border-radius: 6px; overflow-x: auto; font-size: 0.8rem; margin-top: 0.5rem;">${JSON.stringify(task.input_data, null, 2)}</pre>
+                        <strong style="color: #64748b; ">Input Data:</strong>
+                        <pre style="background: #f1f5f9; overflow-x: auto; margin-top: 0.5rem;">${JSON.stringify(task.input_data, null, 2)}</pre>
                     </div>
                 ` : ''}
                 
                 ${task.output_data && Object.keys(task.output_data).length > 0 ? `
                     <div style="margin-bottom: 1.5rem;">
-                        <strong style="color: #64748b; font-size: 0.9rem;">Output Data:</strong>
-                        <pre style="background: #dcfce7; padding: 1rem; border-radius: 6px; overflow-x: auto; font-size: 0.8rem; margin-top: 0.5rem;">${JSON.stringify(task.output_data, null, 2)}</pre>
+                        <strong style="color: #64748b; ">Output Data:</strong>
+                        <pre style="background: #dcfce7; overflow-x: auto; margin-top: 0.5rem;">${JSON.stringify(task.output_data, null, 2)}</pre>
                     </div>
                 ` : ''}
                 
                 ${task.dependencies && task.dependencies.length > 0 ? `
-                    <div style="background: #fef3c7; padding: 1rem; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                    <div style="background: #fef3c7; ">
                         <strong style="color: #92400e;">🔗 Dependencies:</strong>
                         <div style="margin-top: 0.5rem; color: #78350f;">
                             This task depends on tasks: ${task.dependencies.join(', ')}
