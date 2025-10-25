@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guided Learning Pathways | Te Kete Ako</title>
+    <meta name="description" content="Follow proven learning pathways - 8,000+ progressive sequences with 95% confidence ratings.">
+    
+    <!-- CSS -->
+    <link href="/css/professionalization-system.css" rel="stylesheet"/>
+    <link href="/css/te-kete-professional.css" rel="stylesheet"/>
+    <link href="/css/navigation-standard.css" rel="stylesheet"/>
+    <link href="/css/mobile-revolution.css" rel="stylesheet"/>
+    <link href="/css/tailwind.css" rel="stylesheet"/>
+    <link href="/css/components/quality-badges.css" rel="stylesheet"/>
+    
+    <style>
+        .pathway-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .pathway-step {
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+        }
+        
+        .step-number {
+            background: #3b82f6;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .pathway-arrow {
+            text-align: center;
+            color: #64748b;
+            font-size: 1.5rem;
+            margin: 0.5rem 0;
+        }
+    </style>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/js/supabase-singleton.js"></script>
+    <script src="/js/navigation-loader.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <div id="navigation-container"></div>
+    
+    <!-- Hero -->
+    <section class="hero bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-16">
+        <div class="container mx-auto px-4 text-center">
+            <div class="text-7xl mb-4">🎯</div>
+            <h1 class="text-5xl font-bold mb-4">Guided Learning Pathways</h1>
+            <p class="text-2xl mb-6 max-w-3xl mx-auto">
+                Follow proven progressive sequences - 8,000+ learning pathways with expert-verified progressions
+            </p>
+            <div class="flex gap-6 justify-center flex-wrap text-lg">
+                <div class="bg-white bg-opacity-20 px-6 py-3 rounded-lg">
+                    <div class="text-3xl font-bold">8,000+</div>
+                    <div class="text-sm">Learning Sequences</div>
+                </div>
+                <div class="bg-white bg-opacity-20 px-6 py-3 rounded-lg">
+                    <div class="text-3xl font-bold">95%</div>
+                    <div class="text-sm">Avg Confidence</div>
+                </div>
+                <div class="bg-white bg-opacity-20 px-6 py-3 rounded-lg">
+                    <div class="text-3xl font-bold">Y7→Y13</div>
+                    <div class="text-sm">Complete Progressions</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Featured Pathways -->
+    <section class="py-12">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-12">🌟 Featured Learning Pathways</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8" id="pathways-grid">
+                <!-- Loaded dynamically -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const supabase = await window.supabaseSingleton.getClient();
+                
+                // Query for high-confidence learning sequences
+                const { data: pathways } = await supabase
+                    .from('graphrag_relationships')
+                    .select(\`
+                        *,
+                        source:resources!graphrag_relationships_source_path_fkey(*),
+                        target:resources!graphrag_relationships_target_path_fkey(*)
+                    \`)
+                    .in('relationship_type', ['shows_progression_pathway', 'framework_progression', 'literacy_progression'])
+                    .gte('confidence', 0.95)
+                    .limit(10);
+                
+                if (pathways && pathways.length > 0) {
+                    const pathwaysHTML = pathways.map((pw, idx) => \`
+                        <div class="pathway-card">
+                            <h3 class="text-2xl font-bold mb-4">
+                                \${pw.source?.subject || 'Learning'} Progression Pathway
+                            </h3>
+                            <div class="pathway-steps">
+                                <div class="pathway-step">
+                                    <div class="step-number">1</div>
+                                    <div>
+                                        <h4 class="font-bold text-lg">\${pw.source?.title || 'Start Here'}</h4>
+                                        <p class="text-sm text-gray-600">\${pw.source?.level || 'Foundation'}</p>
+                                        <a href="\${pw.source_path}" class="text-blue-600 text-sm hover:underline">View Resource →</a>
+                                    </div>
+                                </div>
+                                <div class="pathway-arrow">↓</div>
+                                <div class="pathway-step">
+                                    <div class="step-number">2</div>
+                                    <div>
+                                        <h4 class="font-bold text-lg">\${pw.target?.title || 'Next Step'}</h4>
+                                        <p class="text-sm text-gray-600">\${pw.target?.level || 'Progression'}</p>
+                                        <a href="\${pw.target_path}" class="text-blue-600 text-sm hover:underline">View Resource →</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 text-sm text-gray-500">
+                                Confidence: \${Math.round(pw.confidence * 100)}% | Type: \${pw.relationship_type.replace(/_/g, ' ')}
+                            </div>
+                        </div>
+                    \`).join('');
+                    
+                    document.getElementById('pathways-grid').innerHTML = pathwaysHTML;
+                }
+                
+            } catch (error) {
+                console.error('Error loading pathways:', error);
+            }
+        });
+    </script>
+</body>
+</html>
+

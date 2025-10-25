@@ -1,0 +1,149 @@
+/* 
+QUALITY BADGE SYSTEM - P0 Critical Fix
+Displays visual quality indicators for all resources
+Priority Score: 2.00 | Impact: 20% users | Effort: 3h
+*/
+
+.quality-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Q95-100: Exceptional (Gold) */
+.quality-exceptional {
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  color: #854d0e;
+  border: 2px solid #ca8a04;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+}
+
+.quality-exceptional::before {
+  content: "🌟🌟🌟🌟🌟";
+  margin-right: 0.25rem;
+}
+
+/* Q90-94: Excellent (Purple) */
+.quality-excellent {
+  background: linear-gradient(135deg, #e9d5ff, #f3e8ff);
+  color: #6b21a8;
+  border: 2px solid #9333ea;
+  box-shadow: 0 2px 8px rgba(147, 51, 234, 0.2);
+}
+
+.quality-excellent::before {
+  content: "⭐⭐⭐⭐";
+  margin-right: 0.25rem;
+}
+
+/* Q85-89: Very Good (Blue) */
+.quality-very-good {
+  background: linear-gradient(135deg, #dbeafe, #eff6ff);
+  color: #1e40af;
+  border: 2px solid #3b82f6;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+}
+
+.quality-very-good::before {
+  content: "⭐⭐⭐";
+  margin-right: 0.25rem;
+}
+
+/* Q80-84: Good (Green) */
+.quality-good {
+  background: linear-gradient(135deg, #d1fae5, #ecfdf5);
+  color: #065f46;
+  border: 2px solid #10b981;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+}
+
+.quality-good::before {
+  content: "⭐⭐";
+  margin-right: 0.25rem;
+}
+
+/* Q75-79: Satisfactory (Gray) */
+.quality-satisfactory {
+  background: linear-gradient(135deg, #f3f4f6, #f9fafb);
+  color: #4b5563;
+  border: 2px solid #9ca3af;
+  box-shadow: 0 2px 8px rgba(156, 163, 175, 0.2);
+}
+
+.quality-satisfactory::before {
+  content: "⭐";
+  margin-right: 0.25rem;
+}
+
+/* Cultural Integration Badge */
+.cultural-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.75rem;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+}
+
+.cultural-badge::before {
+  content: "🌿";
+}
+
+/* Badge Container */
+.badge-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+/* Hover tooltip */
+.quality-badge:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+
+.quality-badge[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1f2937;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  margin-bottom: 0.5rem;
+}
+
+.quality-badge:hover[data-tooltip]::after {
+  opacity: 1;
+}
+
+/* Print: Show text, hide badges */
+@media print {
+  .quality-badge::before {
+    content: "";
+  }
+  .quality-badge {
+    border: 1px solid #ccc;
+    background: white !important;
+    color: #333 !important;
+    box-shadow: none;
+  }
+}
