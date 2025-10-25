@@ -26,7 +26,7 @@
       return Promise.resolve();
     }
     
-    return fetch('/components/navigation-standard.html')
+    return fetch('/components/navigation-unified.html')
       .then(response => {
         if (!response.ok) {
           throw new Error(`Failed to load navigation: ${response.status}`);
