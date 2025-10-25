@@ -72,31 +72,37 @@ def consolidate_css_in_file(file_path: Path) -> Tuple[bool, str]:
 
 def get_files_needing_consolidation() -> List[Path]:
     """
-    Find all HTML files in key directories that likely need CSS consolidation
-    Focus on: units/, lessons/, handouts/, generated-resources-alpha/
+    Find all HTML files that need CSS consolidation
+    NOW INCLUDES: Root-level pages + ALL subdirectories for 100% coverage
     """
     base_path = Path('/Users/admin/Documents/te-kete-ako-clean/public')
-    target_dirs = [
-        'units',
-        'lessons',
-        'handouts',
-        'generated-resources-alpha',
-        'dist-handouts',
-        'integrated-handouts',
-        'integrated-lessons',
-    ]
     
-    files = []
-    for dir_name in target_dirs:
-        dir_path = base_path / dir_name
-        if dir_path.exists():
-            files.extend(dir_path.rglob('*.html'))
+    # Get ALL HTML files recursively
+    files = list(base_path.rglob('*.html'))
+    
+    # Also check root project directory for ./dist/ and other top-level HTML
+    project_root = Path('/Users/admin/Documents/te-kete-ako-clean')
+    
+    # Add ./dist/ directory files
+    dist_path = project_root / 'dist'
+    if dist_path.exists():
+        files.extend(dist_path.rglob('*.html'))
+    
+    # Add root-level HTML files (project/, etc.)
+    for html_file in project_root.glob('*.html'):
+        files.append(html_file)
+    
+    for subdir in ['project', 'navigation-updates']:
+        subdir_path = project_root / subdir
+        if subdir_path.exists():
+            files.extend(subdir_path.rglob('*.html'))
     
     return files
 
 def main():
-    print("🎨 CSS CONSOLIDATION BATCH FIX - PROFESSIONAL EDITION")
+    print("🎨 CSS CONSOLIDATION BATCH FIX - FINAL 100% PUSH!")
     print("=" * 70)
+    print("Processing ALL HTML files for complete professionalization")
     print()
     
     # Get files
