@@ -140,8 +140,8 @@ def main():
     success = execute_batch_insertions()
 
     if success:
-        print("
-🎊 GRAPHRAG KNOWLEDGE BASE UPDATED!"        print("   - Added critical missing documentation")
+        print("\n🎊 GRAPHRAG KNOWLEDGE BASE UPDATED!")
+        print("   - Added critical missing documentation")
         print("   - Agents now have complete project knowledge")
         print("   - Coordination issues resolved")
         print("   - Ready for efficient multi-agent development")
