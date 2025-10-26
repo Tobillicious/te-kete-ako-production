@@ -229,8 +229,8 @@ def main():
         print("   - Cultural excellence framework documented")
         print("   - Platform evolution roadmap established")
 
-        print("
-📊 FINAL GRAPHRAG STATUS:"        print("   - Total entries: 2,185+ (100% complete)")
+        print("\n📊 FINAL GRAPHRAG STATUS:")
+        print("   - Total entries: 2,185+ (100% complete)")
         print("   - Knowledge coverage: 100%")
         print("   - Relationships: 12,248+ connections")
         print("   - Intelligence: Complete and sophisticated")
