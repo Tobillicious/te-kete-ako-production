@@ -5160,35 +5160,77 @@ button:focus-visible {
 }
 
 .year-hero .hero-title {
-  margin: 0 0 1.5rem 0;
+  margin: 0 0 2rem 0;
   font-size: 2.5rem;
   color: white;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* Grid layout for info boxes - better horizontal scanning */
+.year-hero .hero-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
 .year-hero .hero-focus,
-.year-hero .hero-development,
-.year-hero .hero-pedagogy {
+.year-hero .hero-development {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
-  padding: 1.25rem 1.5rem;
+  padding: 1.5rem;
   border-radius: 12px;
-  margin-bottom: 1.25rem;
   line-height: 1.7;
   border-left: 5px solid var(--color-accent);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   color: var(--color-primary);
 }
 
+.year-hero .hero-pedagogy {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 1.5rem;
+  border-radius: 12px;
+  line-height: 1.7;
+  border-left: 5px solid var(--color-forest);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  color: var(--color-primary);
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(236, 253, 245, 0.95) 100%);
+}
+
 .year-hero .hero-focus strong,
 .year-hero .hero-development strong,
 .year-hero .hero-pedagogy strong {
   color: var(--color-secondary);
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   margin-bottom: 0.75rem;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 700;
   letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.year-hero .hero-pedagogy strong {
+  color: var(--color-forest);
+}
+
+.year-hero .hero-focus strong::before,
+.year-hero .hero-development strong::before,
+.year-hero .hero-pedagogy strong::before {
+  content: '●';
+  color: var(--color-accent);
+  font-size: 0.6rem;
+}
+
+.year-hero .hero-focus p,
+.year-hero .hero-development p,
+.year-hero .hero-pedagogy p {
+  margin: 0;
+  font-size: 0.95rem;
 }
 
 /* Mobile Responsive */
@@ -5238,6 +5280,11 @@ button:focus-visible {
 
   .year-hero .hero-title {
     font-size: 2rem;
+  }
+
+  .year-hero .hero-info-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 }
 

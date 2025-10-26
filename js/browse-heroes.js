@@ -254,9 +254,20 @@ class BrowseHeroes {
             </div>
             <div class="hero-content">
                 <h1 class="hero-title">Year ${yearLevel} Resources</h1>
-                <p class="hero-focus"><strong>Learning Focus:</strong> ${year.focus}</p>
-                <p class="hero-development"><strong>Developmental Stage:</strong> ${year.development}</p>
-                <p class="hero-pedagogy"><strong>Teaching Approach:</strong> ${year.pedagogy}</p>
+                <div class="hero-info-grid">
+                    <div class="hero-focus">
+                        <strong>Ako Focus</strong>
+                        <p>${year.focus}</p>
+                    </div>
+                    <div class="hero-development">
+                        <strong>Ākonga Development</strong>
+                        <p>${year.development}</p>
+                    </div>
+                </div>
+                <div class="hero-pedagogy">
+                    <strong>Research-Based Pedagogy</strong>
+                    <p>${year.pedagogy}</p>
+                </div>
             </div>
         `;
 
