@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beta Feedback - Te Kete Ako</title>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <style>
+        .feedback-hero {
+            background: linear-gradient(135deg, var(--pounamu-green), var(--kawakawa-deep));
+            padding: 4rem 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .feedback-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 2rem;
+        }
+
+        .feedback-form {
+            background: white;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .form-section {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .form-section:last-of-type {
+            border-bottom: none;
+            margin-bottom: 2rem;
+        }
+
+        .form-section h3 {
+            color: var(--pounamu-green);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group textarea,
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .rating-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .rating-option {
+            flex: 1;
+            text-align: center;
+        }
+
+        .rating-option input[type="radio"] {
+            display: none;
+        }
+
+        .rating-option label {
+            display: block;
+            padding: 1rem;
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .rating-option input[type="radio"]:checked + label {
+            background: var(--pounamu-green);
+            color: white;
+            border-color: var(--pounamu-green);
+        }
+
+        .checkbox-group {
+            display: grid;
+            gap: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: normal;
+        }
+
+        .submit-btn {
+            background: var(--pounamu-green);
+            color: white;
+            padding: 1rem 3rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: var(--kawakawa-deep);
+        }
+
+        .thank-you {
+            display: none;
+            background: #d1fae5;
+            padding: 3rem;
+            border-radius: 12px;
+            text-align: center;
+            border-left: 5px solid #10b981;
+        }
+
+        .thank-you h2 {
+            color: var(--pounamu-green);
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <main class="main-content">
+        <div class="feedback-hero">
+            <h1>🌿 Beta Tester Feedback</h1>
+            <p style="font-size: 1.2rem; opacity: 0.95;">Your feedback shapes Te Kete Ako! Thank you for being part of our beta journey.</p>
+        </div>
+
+        <div class="container">
+            <!-- Thank You Message (Hidden Initially) -->
+            <div id="thank-you" class="thank-you">
+                <h2>🎊 Ngā mihi nui! Thank you!</h2>
+                <p style="font-size: 1.2rem; margin: 1rem 0;">Your feedback has been received and is incredibly valuable to us.</p>
+                <p>We review all feedback daily and will respond to you personally within 24-48 hours.</p>
+                <p style="margin-top: 2rem;">
+                    <a href="/" style="color: var(--pounamu-green); font-weight: 600;">← Back to Te Kete Ako</a>
+                </p>
+            </div>
+
+            <!-- Feedback Form -->
+            <form id="beta-feedback-form" class="feedback-form">
+                <!-- About You -->
+                <div class="form-section">
+                    <h3>About You</h3>
+                    <div class="form-group">
+                        <label for="name">Name (optional)</label>
+                        <input type="text" id="name" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="school">School</label>
+                        <input type="text" id="school" name="school">
+                    </div>
+                    <div class="form-group">
+                        <label for="subjects">Subjects You Teach</label>
+                        <input type="text" id="subjects" name="subjects" placeholder="e.g., Science, Mathematics">
+                    </div>
+                    <div class="form-group">
+                        <label for="year-levels">Year Levels</label>
+                        <input type="text" id="year-levels" name="year-levels" placeholder="e.g., 7, 8, 9">
+                    </div>
+                </div>
+
+                <!-- Overall Experience -->
+                <div class="form-section">
+                    <h3>Overall Experience</h3>
+                    <div class="form-group">
+                        <label>How would you rate Te Kete Ako overall?</label>
+                        <div class="rating-group">
+                            <div class="rating-option">
+                                <input type="radio" name="overall-rating" value="5" id="overall-5">
+                                <label for="overall-5">🌟🌟🌟🌟🌟<br>Excellent</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="overall-rating" value="4" id="overall-4">
+                                <label for="overall-4">🌟🌟🌟🌟<br>Good</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="overall-rating" value="3" id="overall-3">
+                                <label for="overall-3">🌟🌟🌟<br>Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="overall-rating" value="2" id="overall-2">
+                                <label for="overall-2">🌟🌟<br>Poor</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="overall-rating" value="1" id="overall-1">
+                                <label for="overall-1">🌟<br>Very Poor</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="would-recommend">Would you recommend Te Kete Ako to colleagues?</label>
+                        <select id="would-recommend" name="would-recommend" required>
+                            <option value="">Select...</option>
+                            <option value="definitely">Definitely yes!</option>
+                            <option value="probably">Probably</option>
+                            <option value="maybe">Maybe</option>
+                            <option value="probably-not">Probably not</option>
+                            <option value="definitely-not">Definitely not</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Specific Features -->
+                <div class="form-section">
+                    <h3>Feature Ratings</h3>
+                    
+                    <div class="form-group">
+                        <label>Resource Quality (lessons, handouts, units)</label>
+                        <div class="rating-group">
+                            <div class="rating-option"><input type="radio" name="resources-rating" value="5" id="res-5"><label for="res-5">⭐⭐⭐⭐⭐</label></div>
+                            <div class="rating-option"><input type="radio" name="resources-rating" value="4" id="res-4"><label for="res-4">⭐⭐⭐⭐</label></div>
+                            <div class="rating-option"><input type="radio" name="resources-rating" value="3" id="res-3"><label for="res-3">⭐⭐⭐</label></div>
+                            <div class="rating-option"><input type="radio" name="resources-rating" value="2" id="res-2"><label for="res-2">⭐⭐</label></div>
+                            <div class="rating-option"><input type="radio" name="resources-rating" value="1" id="res-1"><label for="res-1">⭐</label></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cultural Integration (mātauranga Māori)</label>
+                        <div class="rating-group">
+                            <div class="rating-option"><input type="radio" name="cultural-rating" value="5" id="cult-5"><label for="cult-5">⭐⭐⭐⭐⭐</label></div>
+                            <div class="rating-option"><input type="radio" name="cultural-rating" value="4" id="cult-4"><label for="cult-4">⭐⭐⭐⭐</label></div>
+                            <div class="rating-option"><input type="radio" name="cultural-rating" value="3" id="cult-3"><label for="cult-3">⭐⭐⭐</label></div>
+                            <div class="rating-option"><input type="radio" name="cultural-rating" value="2" id="cult-2"><label for="cult-2">⭐⭐</label></div>
+                            <div class="rating-option"><input type="radio" name="cultural-rating" value="1" id="cult-1"><label for="cult-1">⭐</label></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Navigation & Ease of Use</label>
+                        <div class="rating-group">
+                            <div class="rating-option"><input type="radio" name="navigation-rating" value="5" id="nav-5"><label for="nav-5">⭐⭐⭐⭐⭐</label></div>
+                            <div class="rating-option"><input type="radio" name="navigation-rating" value="4" id="nav-4"><label for="nav-4">⭐⭐⭐⭐</label></div>
+                            <div class="rating-option"><input type="radio" name="navigation-rating" value="3" id="nav-3"><label for="nav-3">⭐⭐⭐</label></div>
+                            <div class="rating-option"><input type="radio" name="navigation-rating" value="2" id="nav-2"><label for="nav-2">⭐⭐</label></div>
+                            <div class="rating-option"><input type="radio" name="navigation-rating" value="1" id="nav-1"><label for="nav-1">⭐</label></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>AI Features (Lesson Planner, GraphRAG tools)</label>
+                        <div class="rating-group">
+                            <div class="rating-option"><input type="radio" name="ai-rating" value="5" id="ai-5"><label for="ai-5">⭐⭐⭐⭐⭐</label></div>
+                            <div class="rating-option"><input type="radio" name="ai-rating" value="4" id="ai-4"><label for="ai-4">⭐⭐⭐⭐</label></div>
+                            <div class="rating-option"><input type="radio" name="ai-rating" value="3" id="ai-3"><label for="ai-3">⭐⭐⭐</label></div>
+                            <div class="rating-option"><input type="radio" name="ai-rating" value="2" id="ai-2"><label for="ai-2">⭐⭐</label></div>
+                            <div class="rating-option"><input type="radio" name="ai-rating" value="1" id="ai-1"><label for="ai-1">⭐</label></div>
+                            <div class="rating-option"><input type="radio" name="ai-rating" value="0" id="ai-0"><label for="ai-0">Didn't try</label></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- What Works -->
+                <div class="form-section">
+                    <h3>✅ What Works Well?</h3>
+                    <div class="form-group">
+                        <label for="works-well">Tell us what you love! What's working great?</label>
+                        <textarea id="works-well" name="works-well" placeholder="e.g., The cultural integration is authentic and beautiful, search is fast and accurate, resources are high quality..."></textarea>
+                    </div>
+                </div>
+
+                <!-- What's Confusing -->
+                <div class="form-section">
+                    <h3>❓ What's Confusing?</h3>
+                    <div class="form-group">
+                        <label for="confusing">What was hard to understand or unclear?</label>
+                        <textarea id="confusing" name="confusing" placeholder="e.g., Couldn't find how to..., Not sure what... means, Navigation was unclear..."></textarea>
+                    </div>
+                </div>
+
+                <!-- What's Broken -->
+                <div class="form-section">
+                    <h3>🔧 What's Broken or Not Working?</h3>
+                    <div class="form-group">
+                        <label for="broken">Any bugs, errors, or features that don't work?</label>
+                        <textarea id="broken" name="broken" placeholder="e.g., Couldn't save to My Kete, Search returned no results, Page wouldn't load..."></textarea>
+                    </div>
+                </div>
+
+                <!-- What's Missing -->
+                <div class="form-section">
+                    <h3>🔍 What's Missing?</h3>
+                    <div class="form-group">
+                        <label for="missing">Features or resources you wish we had?</label>
+                        <textarea id="missing" name="missing" placeholder="e.g., Need more Year 10 resources, Would love..., Missing..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Mobile Experience -->
+                <div class="form-section">
+                    <h3>📱 Mobile Experience</h3>
+                    <div class="form-group">
+                        <label>Did you try Te Kete Ako on mobile/tablet?</label>
+                        <select id="mobile-used" name="mobile-used">
+                            <option value="">Select...</option>
+                            <option value="yes-phone">Yes, on phone</option>
+                            <option value="yes-tablet">Yes, on tablet</option>
+                            <option value="yes-both">Yes, both</option>
+                            <option value="no">No, desktop only</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="mobile-feedback">If yes, how was the mobile experience?</label>
+                        <textarea id="mobile-feedback" name="mobile-feedback" placeholder="e.g., Worked great on iPad, Hard to navigate on phone, Sidebar covered content..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Subscription Value -->
+                <div class="form-section">
+                    <h3>💰 Subscription Value</h3>
+                    <div class="form-group">
+                        <label>Is $15/month fair value for what's offered?</label>
+                        <select id="pricing-fair" name="pricing-fair">
+                            <option value="">Select...</option>
+                            <option value="great-value">Great value! Would definitely pay</option>
+                            <option value="fair">Fair price</option>
+                            <option value="expensive">A bit expensive</option>
+                            <option value="too-expensive">Too expensive</option>
+                            <option value="free-only">Would only use if free</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="pricing-feedback">Any thoughts on pricing?</label>
+                        <textarea id="pricing-feedback" name="pricing-feedback" placeholder="e.g., Would pay for..., Free tier would help..., School plan pricing..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Most Valuable Feature -->
+                <div class="form-section">
+                    <h3>💎 What's Most Valuable?</h3>
+                    <div class="form-group">
+                        <label>Which features do you value most? (Check all that apply)</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="valuable" value="resources"> High-quality lessons & handouts</label>
+                            <label><input type="checkbox" name="valuable" value="cultural"> Cultural integration (mātauranga Māori)</label>
+                            <label><input type="checkbox" name="valuable" value="search"> Easy search & discovery</label>
+                            <label><input type="checkbox" name="valuable" value="ai-planner"> AI Lesson Planner</label>
+                            <label><input type="checkbox" name="valuable" value="graphrag"> GraphRAG intelligence tools</label>
+                            <label><input type="checkbox" name="valuable" value="dashboard"> Teacher Dashboard</label>
+                            <label><input type="checkbox" name="valuable" value="my-kete"> My Kete (saving favorites)</label>
+                            <label><input type="checkbox" name="valuable" value="weekly-planner"> Weekly Planner</label>
+                            <label><input type="checkbox" name="valuable" value="print"> Print-ready formatting</label>
+                            <label><input type="checkbox" name="valuable" value="mobile"> Mobile access</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Open Feedback -->
+                <div class="form-section">
+                    <h3>💬 Anything Else?</h3>
+                    <div class="form-group">
+                        <label for="open-feedback">Any other thoughts, suggestions, or feedback?</label>
+                        <textarea id="open-feedback" name="open-feedback" rows="5" placeholder="We're all ears! Tell us anything that's on your mind about Te Kete Ako..."></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Feedback</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Sidebar Auto-Loader -->
+    <script src="/js/sidebar-auto-loader.js" defer></script>
+    
+    <!-- PostHog Analytics -->
+    <script src="/js/posthog-analytics.js" defer></script>
+
+    <!-- Form Handler -->
+    <script>
+        document.getElementById('beta-feedback-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (window.showLoading) window.showLoading('Submitting feedback...');
+
+            const formData = new FormData(e.target);
+            const feedback = {
+                timestamp: new Date().toISOString(),
+                name: formData.get('name'),
+                email: formData.get('email'),
+                school: formData.get('school'),
+                subjects: formData.get('subjects'),
+                year_levels: formData.get('year-levels'),
+                ratings: {
+                    overall: formData.get('overall-rating'),
+                    resources: formData.get('resources-rating'),
+                    cultural: formData.get('cultural-rating'),
+                    navigation: formData.get('navigation-rating'),
+                    ai_features: formData.get('ai-rating')
+                },
+                would_recommend: formData.get('would-recommend'),
+                works_well: formData.get('works-well'),
+                confusing: formData.get('confusing'),
+                broken: formData.get('broken'),
+                missing: formData.get('missing'),
+                mobile_used: formData.get('mobile-used'),
+                mobile_feedback: formData.get('mobile-feedback'),
+                pricing_fair: formData.get('pricing-fair'),
+                pricing_feedback: formData.get('pricing-feedback'),
+                valuable_features: Array.from(formData.getAll('valuable')),
+                open_feedback: formData.get('open-feedback')
+            };
+
+            try {
+                // Save to Supabase
+                if (window.supabaseClient) {
+                    const { error } = await window.supabaseClient
+                        .from('beta_feedback')
+                        .insert([feedback]);
+
+                    if (error) throw error;
+                }
+
+                // Track with PostHog
+                if (window.posthog) {
+                    window.posthog.capture('beta_feedback_submitted', feedback);
+                }
+
+                // Hide form, show thank you
+                if (window.hideLoading) window.hideLoading();
+                document.getElementById('beta-feedback-form').style.display = 'none';
+                document.getElementById('thank-you').style.display = 'block';
+
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            } catch (error) {
+                console.error('Error submitting feedback:', error);
+                if (window.hideLoading) window.hideLoading();
+                if (window.showToast) {
+                    window.showToast('Error submitting feedback. Please email us directly at beta@tekete.co.nz', 'error');
+                } else {
+                    alert('Error submitting feedback. Please email us at beta@tekete.co.nz');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
