@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Tracking - Te Kete Ako</title>
+    <link href="/css/te-kete-ultimate-beauty-system.css" rel="stylesheet"/>
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a4d2e 0%, #2d5a3d 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .header-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+        .header-card h1 {
+            color: #1a4d2e;
+            margin-bottom: 10px;
+        }
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .filter-select {
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+        .class-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .class-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #f4d03f;
+        }
+        .class-title {
+            color: #1a4d2e;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .overall-progress {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .progress-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: conic-gradient(#1a4d2e 0% 73%, #e0e0e0 73% 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .progress-circle::before {
+            content: '';
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: white;
+            position: absolute;
+        }
+        .progress-text {
+            position: relative;
+            z-index: 1;
+            font-weight: bold;
+            color: #1a4d2e;
+        }
+        .student-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        .student-card {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #4A90E2;
+            transition: transform 0.2s;
+        }
+        .student-card:hover {
+            transform: translateX(5px);
+        }
+        .student-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .student-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4A90E2, #5BA3F5);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        .student-info {
+            flex: 1;
+        }
+        .student-name {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1em;
+        }
+        .student-stats {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .lesson-progress {
+            margin-top: 10px;
+        }
+        .lesson-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .lesson-item:last-child {
+            border-bottom: none;
+        }
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        .status-complete {
+            background: #4caf50;
+            color: white;
+        }
+        .status-progress {
+            background: #ff9800;
+            color: white;
+        }
+        .status-notstarted {
+            background: #e0e0e0;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header-card">
+            <h1>📊 Progress Tracking</h1>
+            <p style="color: #666;">Monitor student achievement across all your classes</p>
+            
+            <div class="filters">
+                <select class="filter-select" onchange="filterClass(this.value)">
+                    <option value="all">All Classes</option>
+                    <option value="y9-math">Year 9 Mathematics</option>
+                    <option value="y8-science">Year 8 Science</option>
+                    <option value="y10-stats">Year 10 Statistics</option>
+                </select>
+                
+                <select class="filter-select" onchange="filterSubject(this.value)">
+                    <option value="all">All Subjects</option>
+                    <option value="mathematics">Mathematics</option>
+                    <option value="science">Science</option>
+                    <option value="english">English</option>
+                    <option value="arts">Arts</option>
+                </select>
+                
+                <select class="filter-select" onchange="filterProgress(this.value)">
+                    <option value="all">All Students</option>
+                    <option value="struggling">Needs Support</option>
+                    <option value="ontrack">On Track</option>
+                    <option value="excelling">Excelling</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Year 9 Mathematics -->
+        <div class="class-section">
+            <div class="class-header">
+                <div>
+                    <div class="class-title">Year 9 Mathematics</div>
+                    <div style="color: #666;">24 students • Current unit: Statistics & Data</div>
+                </div>
+                <div class="overall-progress">
+                    <div class="progress-circle">
+                        <span class="progress-text">73%</span>
+                    </div>
+                    <div>
+                        <strong>Class Average</strong><br>
+                        <small style="color: #666;">On track for learning goals</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="student-grid">
+                <!-- Student 1 - Excelling -->
+                <div class="student-card" style="border-color: #4caf50;">
+                    <div class="student-header">
+                        <div class="student-avatar">AK</div>
+                        <div class="student-info">
+                            <div class="student-name">Aroha Kōrero</div>
+                            <div class="student-stats">✅ 8/10 lessons • 92% avg • 🔥 12-day streak</div>
+                        </div>
+                    </div>
+                    <div class="lesson-progress">
+                        <div class="lesson-item">
+                            <span>Statistics Intro</span>
+                            <span class="status-badge status-complete">✓ Complete</span>
+                        </div>
+                        <div class="lesson-item">
+                            <span>Data Collection</span>
+                            <span class="status-badge status-complete">✓ Complete</span>
+                        </div>
+                        <div class="lesson-item">
+                            <span>Social Justice Data</span>
+                            <span class="status-badge status-progress">78%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Student 2 - On Track -->
+                <div class="student-card">
+                    <div class="student-header">
+                        <div class="student-avatar">TM</div>
+                        <div class="student-info">
+                            <div class="student-name">Tama Mana</div>
+                            <div class="student-stats">📖 6/10 lessons • 78% avg • 🔥 5-day streak</div>
+                        </div>
+                    </div>
+                    <div class="lesson-progress">
+                        <div class="lesson-item">
+                            <span>Statistics Intro</span>
+                            <span class="status-badge status-complete">✓ Complete</span>
+                        </div>
+                        <div class="lesson-item">
+                            <span>Data Collection</span>
+                            <span class="status-badge status-progress">65%</span>
+                        </div>
+                        <div class="lesson-item">
+                            <span>Social Justice Data</span>
+                            <span class="status-badge status-notstarted">Not Started</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Student 3 - Needs Support -->
+                <div class="student-card" style="border-color: #ff9800;">
+                    <div class="student-header">
+                        <div class="student-avatar">WT</div>
+                        <div class="student-info">
+                            <div class="student-name">Whaea Tui</div>
+                            <div class="student-stats">⚠️ 3/10 lessons • 62% avg • No recent activity</div>
+                        </div>
+                    </div>
+                    <div class="lesson-progress">
+                        <div class="lesson-item">
+                            <span>Statistics Intro</span>
+                            <span class="status-badge status-complete">✓ Complete</span>
+                        </div>
+                        <div class="lesson-item">
+                            <span>Data Collection</span>
+                            <span class="status-badge status-progress">35%</span>
+                        </div>
+                        <div class="lesson-item">
+                            <span>Social Justice Data</span>
+                            <span class="status-badge status-notstarted">Not Started</span>
+                        </div>
+                    </div>
+                    <div style="background: #fff3cd; padding: 10px; border-radius: 6px; margin-top: 10px; font-size: 0.9em;">
+                        💡 Consider one-on-one check-in
+                    </div>
+                </div>
+
+                <!-- More students... -->
+                <div class="student-card">
+                    <div style="text-align: center; padding: 20px; color: #999;">
+                        <strong>+21 more students</strong><br>
+                        <small>Click "View All" to see complete class</small>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <button style="background: #1a4d2e; color: white; padding: 12px 24px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
+                    View All 24 Students →
+                </button>
+            </div>
+        </div>
+
+        <!-- Back Link -->
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="/teacher-dashboard-personalized.html" style="background: white; color: #1a4d2e; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">
+                ← Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function filterClass(classId) {
+            console.log('Filtering by class:', classId);
+        }
+
+        function filterSubject(subject) {
+            console.log('Filtering by subject:', subject);
+        }
+
+        function filterProgress(level) {
+            console.log('Filtering by progress:', level);
+        }
+    </script>
+</body>
+</html>
+
