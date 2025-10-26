@@ -1,0 +1,82 @@
+/**
+ * SIDEBAR NAVIGATION CLEANUP
+ * Hides old complex navigation when professional sidebar is active
+ * Created: Oct 26, 2025
+ */
+
+/* Hide old navigation when sidebar is present */
+body.has-sidebar .old-nav,
+body.has-sidebar .legacy-navigation,
+body.has-sidebar .complex-nav,
+body.has-sidebar nav.main-nav:not(.te-kete-sidebar),
+body.has-sidebar .top-navigation,
+body.has-sidebar .header-nav {
+    display: none !important;
+}
+
+/* Keep simple breadcrumbs visible (they're helpful!) */
+body.has-sidebar .breadcrumbs,
+body.has-sidebar .breadcrumb,
+body.has-sidebar nav[aria-label="breadcrumb"] {
+    display: block !important;
+}
+
+/* Adjust main content when sidebar is present */
+body.has-sidebar main,
+body.has-sidebar .main-content,
+body.has-sidebar #main-content {
+    margin-left: 280px;
+    padding: 2rem;
+}
+
+/* Mobile: No left margin, add bottom padding for bottom nav */
+@media (max-width: 768px) {
+    body.has-sidebar main,
+    body.has-sidebar .main-content,
+    body.has-sidebar #main-content {
+        margin-left: 0;
+        padding-bottom: 80px; /* Space for bottom nav */
+    }
+}
+
+/* Tablet: Smaller sidebar */
+@media (min-width: 769px) and (max-width: 1024px) {
+    body.has-sidebar main,
+    body.has-sidebar .main-content,
+    body.has-sidebar #main-content {
+        margin-left: 220px;
+    }
+}
+
+/* Print: Remove sidebar space */
+@media print {
+    body.has-sidebar main,
+    body.has-sidebar .main-content,
+    body.has-sidebar #main-content {
+        margin-left: 0 !important;
+    }
+}
+
+/* Ensure page header doesn't overlap with sidebar */
+body.has-sidebar header:not(.te-kete-sidebar) {
+    margin-left: 280px;
+}
+
+@media (max-width: 768px) {
+    body.has-sidebar header:not(.te-kete-sidebar) {
+        margin-left: 0;
+    }
+}
+
+/* Hide hamburger menu buttons when sidebar is present */
+body.has-sidebar .hamburger,
+body.has-sidebar .menu-toggle,
+body.has-sidebar .mobile-menu-toggle {
+    display: none !important;
+}
+
+/* Clean, minimal look */
+body.has-sidebar {
+    background: #f5f1eb; /* Warm earth tone */
+}
+
