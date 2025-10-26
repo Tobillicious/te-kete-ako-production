@@ -16,7 +16,7 @@ class BrowseHeroes {
                     { href: 'toolkit.html', label: 'Writer\'s Toolkit', icon: '✍️' },
                     { href: 'handouts/media-literacy-comprehension-handout.html', label: 'Media Literacy', icon: '📰' }
                 ],
-                pedagogy: 'Focus on authentic contexts, student voice, and culturally responsive literacy practices.'
+                pedagogy: '"Reading the word and reading the world" (Freire, 1970) - literacy as a tool for critical consciousness and social transformation through culturally sustaining practices (Paris & Alim, 2017).'
             },
             'math': {
                 icon: '🔢',
@@ -29,7 +29,7 @@ class BrowseHeroes {
                     { href: 'handouts/probability-handout.html', label: 'Probability', icon: '🎲' },
                     { href: 'curriculum-alignment.html#mathematics', label: 'Mathematics AO', icon: '📋' }
                 ],
-                pedagogy: 'Mathematics as sense-making through cultural contexts and practical application.'
+                pedagogy: '"Mathematics learning occurs through active construction within social and cultural contexts" (Vygotsky, 1978). Ethnomathematics honors Indigenous ways of mathematical knowing (D\'Ambrosio, 1985).'
             },
             'science': {
                 icon: '🔬',
@@ -42,7 +42,7 @@ class BrowseHeroes {
                     { href: 'units/unit-3-stem-matauranga.html', label: 'STEM + Mātauranga', icon: '🌊' },
                     { href: 'curriculum-alignment.html#science', label: 'Science AO', icon: '📋' }
                 ],
-                pedagogy: 'Dual knowledge systems: honoring mātauranga Māori alongside Western scientific methods.'
+                pedagogy: '"Two-eyed seeing" (Bartlett et al., 2012) - learning to see from one eye with Indigenous knowledge and the other with Western science. Mātauranga Māori as legitimate, sophisticated scientific knowledge (Royal, 2009).'
             },
             'social-studies': {
                 icon: '🌏',
@@ -57,7 +57,7 @@ class BrowseHeroes {
                     { href: 'handouts/treaty-of-waitangi-handout.html', label: 'Te Tiriti', icon: '📜' },
                     { href: 'curriculum-alignment.html#social-sciences', label: 'Social Sciences AO', icon: '📋' }
                 ],
-                pedagogy: 'Critical thinking, multiple perspectives, and centering indigenous sovereignty and justice.'
+                pedagogy: '"Culturally Responsive Pedagogy of Relations" (Bishop & Berryman, 2006) - power-sharing relationships where Māori students experience self-determination. Counter-storytelling challenges dominant narratives (Delgado & Stefancic, 2001).'
             },
             'te-reo': {
                 icon: '🌿',
@@ -71,7 +71,7 @@ class BrowseHeroes {
                     { href: 'handouts/haka-comprehension-handout.html', label: 'Haka Analysis', icon: '💪' },
                     { href: 'units/unit-1-te-ao-maori.html', label: 'Te Ao Māori Unit', icon: '🌟' }
                 ],
-                pedagogy: 'Language revitalization through play, cultural immersion, and authentic communication.'
+                pedagogy: '"Ko te reo te mauri o te mana Māori" - language is the life force of Māori identity (Waitangi Tribunal, 1986). Communicative competence develops through meaningful interaction in authentic contexts (Krashen, 1982).'
             },
             'arts': {
                 icon: '🎨',
@@ -81,7 +81,7 @@ class BrowseHeroes {
                 descriptionEn: 'Visual arts, performing arts, music - Māori and global creative expression',
                 color: '#f5a623',
                 quickLinks: [],
-                pedagogy: 'Creative expression rooted in cultural identity and contemporary innovation.'
+                pedagogy: '"The arts are a way of knowing" (Eisner, 2002). Creative expression as cultural renewal and identity affirmation, honoring toi Māori as sophisticated artistic knowledge systems (Mead, 2003).'
             },
             'health-pe': {
                 icon: '💪',
@@ -91,7 +91,7 @@ class BrowseHeroes {
                 descriptionEn: 'Physical, mental, family, spiritual - holistic wellbeing',
                 color: '#40e0d0',
                 quickLinks: [],
-                pedagogy: 'Holistic health through Te Whare Tapa Whā and active, inclusive participation.'
+                pedagogy: 'Te Whare Tapa Whā (Durie, 1985) - holistic Māori health model integrating physical, mental, family, and spiritual dimensions. Health as socio-cultural construct (Burrows & Wright, 2007).'
             },
             'technology': {
                 icon: '🔧',
@@ -104,7 +104,7 @@ class BrowseHeroes {
                     { href: 'units/unit-7-digital-tech-ai-ethics.html', label: 'AI Ethics', icon: '🤖' },
                     { href: 'curriculum-alignment.html#technology', label: 'Technology AO', icon: '📋' }
                 ],
-                pedagogy: 'Ethical tech use, digital citizenship, and protecting Māori data and knowledge.'
+                pedagogy: 'Māori Data Sovereignty principles (Te Mana Raraunga, 2018) - Indigenous peoples\' rights to govern collection and use of data about them. Critical digital literacy (Pangrazio, 2016).'
             }
         };
 
@@ -113,7 +113,7 @@ class BrowseHeroes {
                 stage: 'Primary / Tuatahi',
                 focus: 'Building foundation skills through play, exploration, and cultural grounding',
                 development: 'Ages 5-6: Developing literacy, numeracy, and social skills. Learning through hands-on experiences and storytelling.',
-                pedagogy: 'Play-based learning, sensory experiences, building confidence and curiosity.'
+                pedagogy: '"Play is the work of the child" (Montessori, 1967). Zone of Proximal Development - learning occurs through supported interaction with more capable others (Vygotsky, 1978).'
             },
             '2': {
                 stage: 'Primary / Tuatahi',
@@ -149,13 +149,13 @@ class BrowseHeroes {
                 stage: 'Intermediate / Waenga',
                 focus: 'Navigating early adolescence with cultural identity and academic challenge',
                 development: 'Ages 11-12: Rapid physical and emotional changes, seeking peer acceptance, questioning identity.',
-                pedagogy: 'Culturally responsive practices, youth voice, authentic challenges, pastoral care.'
+                pedagogy: '"Caring relationships and high expectations" (Bishop, 2003) - Te Kotahitanga effective teaching profile. Culturally responsive pedagogy centers student identity and voice (Gay, 2010).'
             },
             '8': {
                 stage: 'Intermediate / Waenga',
                 focus: 'Building critical thinking and preparing for secondary school transitions',
                 development: 'Ages 12-13: Developing abstract thinking, exploring values, preparing for increased academic demands.',
-                pedagogy: 'Critical literacy, student-led inquiry, transition preparation, career exploration.'
+                pedagogy: '"Problem-posing education" (Freire, 1970) - students as critical co-investigators. Adolescent identity formation requires authentic challenges and meaningful participation (Erikson, 1968).'
             },
             '9': {
                 stage: 'Junior Secondary / Tuarua',
@@ -173,19 +173,19 @@ class BrowseHeroes {
                 stage: 'Senior Secondary / NCEA',
                 focus: 'NCEA Level 1 - Building credits and exploring post-school pathways',
                 development: 'Ages 15-16: First year of NCEA, developing assessment skills, beginning to specialize in subject areas.',
-                pedagogy: 'Standards-based assessment, authentic contexts, pathway development, university/polytechnic/trade prep.'
+                pedagogy: 'Assessment for Learning (Black & Wiliam, 1998) - feedback that moves learning forward. Culturally located assessment honors diverse ways of demonstrating knowledge (Penetito, 2010).'
             },
             '12': {
                 stage: 'Senior Secondary / NCEA',
                 focus: 'NCEA Level 2 - Specializing and planning for post-school transitions',
                 development: 'Ages 16-17: Focused study, career planning, developing expertise in chosen areas.',
-                pedagogy: 'Subject specialization, tertiary preparation, workplace learning, scholarship development.'
+                pedagogy: 'Funds of Knowledge (Moll et al., 1992) - drawing on students\' cultural and community resources as learning assets. Self-determination theory supports autonomy in pathway choices (Ryan & Deci, 2000).'
             },
             '13': {
                 stage: 'Senior Secondary / NCEA',
                 focus: 'NCEA Level 3 - Final year preparation for university, polytech, or workforce',
                 development: 'Ages 17-18: University entrance, scholarship opportunities, mature independent learners.',
-                pedagogy: 'Academic rigor, independent research, career readiness, transition support.'
+                pedagogy: '"Conscientização" - critical consciousness (Freire, 1970). Rangatiratanga in education: Māori self-determination and leadership in learning pathways (G.H. Smith, 1997).'
             }
         };
     }
