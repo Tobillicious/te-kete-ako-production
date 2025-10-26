@@ -1,313 +1,331 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- 🌿 BMAD AUTHENTIC CULTURAL DESIGN -->
+    <link rel="stylesheet" href="/css/te-kete-bmad-authentic.css"/>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Learning - Te Kete Ako</title>
-    <link href="/css/te-kete-ultimate-beauty-system.css" rel="stylesheet"/>
+    <title>My Learning Dashboard - Te Kete Ako</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <style>
         body {
-            background: linear-gradient(135deg, #4A90E2 0%, #5BA3F5 100%);
-            min-height: 100vh;
-            padding: 20px;
-            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', sans-serif;
-        }
-        .container {
-            max-width: 1000px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 2rem;
+            background: var(--bmad-cream-white, #FAF9F6);
         }
-        .welcome-card {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        
+        .dashboard-header {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
             text-align: center;
         }
-        .welcome-card h1 {
-            color: #4A90E2;
-            font-size: 2.5em;
-            margin-bottom: 10px;
+        
+        .dashboard-header h1 {
+            margin: 0 0 0.5rem;
+            font-size: 2.5rem;
         }
-        .avatar-large {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #FFD700, #FFA500);
-            color: white;
-            font-size: 3em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            border: 5px solid white;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-        .stats-grid {
+        
+        .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
-        .stat-card {
+        
+        .dashboard-card {
             background: white;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
         }
-        .stat-icon {
-            font-size: 3em;
-            margin-bottom: 10px;
+        
+        .dashboard-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
-        .stat-number {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #4A90E2;
+        
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
         }
-        .stat-label {
-            color: #666;
-            margin-top: 5px;
+        
+        .card-title {
+            color: var(--bmad-forest-green, #2F4F2F);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
         }
-        .section-card {
+        
+        .card-description {
+            color: var(--bmad-warm-gray, #8B7D6B);
+            margin-bottom: 1rem;
+        }
+        
+        .card-stat {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #3b82f6;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--bmad-earth-brown, #8B4513);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: var(--bmad-forest-green, #2F4F2F);
+            transform: translateY(-2px);
+        }
+        
+        .progress-section {
             background: white;
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
         }
-        .section-card h2 {
-            color: #4A90E2;
-            margin-bottom: 20px;
+        
+        .progress-section h2 {
+            color: var(--bmad-forest-green, #2F4F2F);
+            margin: 0 0 1.5rem;
         }
-        .lesson-item {
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 10px;
+        
+        .progress-item {
             display: flex;
             align-items: center;
-            gap: 15px;
-            transition: transform 0.2s;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
         }
-        .lesson-item:hover {
-            transform: translateX(5px);
+        
+        .progress-item:last-child {
+            border-bottom: none;
         }
-        .lesson-icon {
-            font-size: 2.5em;
-        }
-        .lesson-details {
-            flex: 1;
-        }
-        .lesson-title {
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 5px;
-        }
-        .lesson-meta {
-            color: #666;
-            font-size: 0.9em;
-        }
+        
         .progress-bar {
-            background: #e0e0e0;
-            height: 10px;
-            border-radius: 5px;
+            flex: 1;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            margin: 0 1rem;
             overflow: hidden;
-            margin-top: 5px;
         }
+        
         .progress-fill {
-            background: linear-gradient(90deg, #4A90E2, #5BA3F5);
             height: 100%;
-            transition: width 0.3s;
+            background: linear-gradient(90deg, #3b82f6, #2563eb);
+            transition: width 0.3s ease;
         }
+        
         .achievement-badge {
-            display: inline-block;
-            padding: 10px 15px;
-            background: linear-gradient(135deg, #FFD700, #FFA500);
-            color: white;
+            background: var(--bmad-gold-excellence, #FFD700);
+            color: var(--bmad-dark-text, #2D2520);
+            padding: 0.5rem 1rem;
             border-radius: 20px;
-            margin: 5px;
-            font-weight: bold;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        }
-        .btn-fun {
-            background: linear-gradient(135deg, #4A90E2, #5BA3F5);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: bold;
+            font-weight: 700;
+            font-size: 0.875rem;
             display: inline-block;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: transform 0.2s;
-            border: none;
-            cursor: pointer;
-            font-size: 1.1em;
-        }
-        .btn-fun:hover {
-            transform: translateY(-3px);
+            margin: 0.25rem;
         }
     </style>
-<!-- Sentry Error Monitoring -->
-<script src="/js/sentry-init.js"></script>
 </head>
 <body>
-    <div class="container">
-        <!-- Welcome -->
-        <div class="welcome-card">
-            <div class="avatar-large">👋</div>
-            <h1>Kia ora, <span id="student-name">Student</span>!</h1>
-            <p style="color: #666; font-size: 1.2em;">Ready to learn something awesome today?</p>
+    <div class="dashboard-header">
+        <h1>🧑‍🎓 My Learning Dashboard</h1>
+        <p id="welcome-message" style="margin: 0; opacity: 0.9;">Loading...</p>
+    </div>
+    
+    <!-- Quick Stats -->
+    <div class="dashboard-grid">
+        <div class="dashboard-card">
+            <div class="card-icon">📚</div>
+            <div class="card-title">Lessons Completed</div>
+            <div class="card-stat" id="lessons-completed">0</div>
         </div>
-
-        <!-- Quick Stats -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon">📚</div>
-                <div class="stat-number" id="lessons-completed">12</div>
-                <div class="stat-label">Lessons Completed</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">⭐</div>
-                <div class="stat-number" id="points-earned">485</div>
-                <div class="stat-label">Points Earned</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">🔥</div>
-                <div class="stat-number" id="streak-days">7</div>
-                <div class="stat-label">Day Streak</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">🏆</div>
-                <div class="stat-number" id="badges-earned">5</div>
-                <div class="stat-label">Badges Earned</div>
-            </div>
+        
+        <div class="dashboard-card">
+            <div class="card-icon">⭐</div>
+            <div class="card-title">Achievements Earned</div>
+            <div class="card-stat" id="achievements-earned">0</div>
         </div>
-
-        <!-- Current Lessons -->
-        <div class="section-card">
-            <h2>📖 Continue Learning</h2>
-            
-            <div class="lesson-item">
-                <div class="lesson-icon">🧮</div>
-                <div class="lesson-details">
-                    <div class="lesson-title">Year 9 Math - Statistics</div>
-                    <div class="lesson-meta">Social Justice Data Analysis</div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 65%;"></div>
-                    </div>
-                    <small>65% complete</small>
-                </div>
-                <button class="btn-fun">Continue →</button>
-            </div>
-
-            <div class="lesson-item">
-                <div class="lesson-icon">🔬</div>
-                <div class="lesson-details">
-                    <div class="lesson-title">Year 8 Science - Ecology</div>
-                    <div class="lesson-meta">Native Species & Ecosystems</div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 40%;"></div>
-                    </div>
-                    <small>40% complete</small>
-                </div>
-                <button class="btn-fun">Continue →</button>
-            </div>
-
-            <div class="lesson-item">
-                <div class="lesson-icon">🎨</div>
-                <div class="lesson-details">
-                    <div class="lesson-title">Arts - Māori Patterns</div>
-                    <div class="lesson-meta">Whakairo & Raranga</div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 85%;"></div>
-                    </div>
-                    <small>85% complete - Almost done!</small>
-                </div>
-                <button class="btn-fun">Finish →</button>
-            </div>
+        
+        <div class="dashboard-card">
+            <div class="card-icon">🎯</div>
+            <div class="card-title">Current Streak</div>
+            <div class="card-stat" id="current-streak">0 days</div>
         </div>
-
-        <!-- Achievements -->
-        <div class="section-card">
-            <h2>🏆 Your Achievements</h2>
-            <p style="color: #666; margin-bottom: 15px;">Keep up the great work!</p>
-            <div>
-                <span class="achievement-badge">🌟 Week Warrior</span>
-                <span class="achievement-badge">📚 Bookworm</span>
-                <span class="achievement-badge">🔥 Hot Streak</span>
-                <span class="achievement-badge">🎯 Perfect Score</span>
-                <span class="achievement-badge">🌿 Eco Champion</span>
-            </div>
-        </div>
-
-        <!-- My Kete -->
-        <div class="section-card">
-            <h2>🎒 My Kete (Saved Items)</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
-                <div style="background: #f0f0f0; padding: 15px; border-radius: 10px; text-align: center;">
-                    <div style="font-size: 2em;">📄</div>
-                    <small>Handout: Statistics Guide</small>
-                </div>
-                <div style="background: #f0f0f0; padding: 15px; border-radius: 10px; text-align: center;">
-                    <div style="font-size: 2em;">🎮</div>
-                    <small>Game: Math Challenge</small>
-                </div>
-                <div style="background: #f0f0f0; padding: 15px; border-radius: 10px; text-align: center;">
-                    <div style="font-size: 2em;">📊</div>
-                    <small>Unit: Data Analysis</small>
-                </div>
-            </div>
-        </div>
-
-        <!-- Back Button -->
-        <div style="text-align: center; margin-top: 30px;">
-            <a href="/" style="background: white; color: #4A90E2; padding: 12px 24px; border-radius: 25px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-                ← Back to Home
-            </a>
+        
+        <div class="dashboard-card">
+            <div class="card-icon">🌿</div>
+            <div class="card-title">Cultural Connection</div>
+            <div class="card-stat" id="cultural-score">0%</div>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Continue Learning -->
+    <div class="progress-section">
+        <h2>📖 Continue Learning</h2>
+        <div id="continue-learning">
+            <p style="text-align: center; color: var(--bmad-warm-gray);">
+                Start exploring lessons to see your progress here!
+            </p>
+        </div>
+    </div>
+    
+    <!-- Achievements -->
+    <div class="progress-section">
+        <h2>🏆 Your Achievements</h2>
+        <div id="achievements-list" style="text-align: center;">
+            <div class="achievement-badge">🌟 First Lesson</div>
+            <div class="achievement-badge">📚 5 Lessons Complete</div>
+            <div class="achievement-badge">🔥 7-Day Streak</div>
+            <div class="achievement-badge">🌿 Cultural Explorer</div>
+            <div class="achievement-badge">🎯 Perfect Quiz Score</div>
+            <p style="color: var(--bmad-warm-gray); margin-top: 1rem;">
+                Complete lessons to unlock more achievements!
+            </p>
+        </div>
+    </div>
+    
+    <!-- Recommended for You -->
+    <div class="progress-section">
+        <h2>✨ Recommended for You</h2>
+        <div class="dashboard-grid" id="recommended-lessons">
+            <div style="text-align: center; color: var(--bmad-warm-gray); grid-column: 1/-1;">
+                Loading personalized recommendations...
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Actions -->
+    <div style="text-align: center; margin: 2rem 0;">
+        <a href="/search" class="btn" style="margin: 0.5rem;">🔍 Explore All Lessons</a>
+        <a href="/games" class="btn" style="margin: 0.5rem;">🎮 Play Learning Games</a>
+        <a href="/my-kete" class="btn" style="margin: 0.5rem;">💾 My Saved Resources</a>
+    </div>
+    
     <script>
-        (async function initStudentDashboard() {
-            const { createClient } = supabase;
-            const supabaseClient = createClient(
-                'https://nlgldaqtubrlcqddppbq.supabase.co',
-                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
-            );
-
+        // Initialize Supabase
+        const { createClient } = supabase;
+        const supabaseClient = createClient(
+            'https://nlgldaqtubrlcqddppbq.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
+        );
+        
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadStudentDashboard();
+        });
+        
+        async function loadStudentDashboard() {
             try {
-                const { data: { user } } = await supabaseClient.auth.getUser();
+                const { data: { user }, error } = await supabaseClient.auth.getUser();
                 
-                if (user) {
-                    const name = user.user_metadata?.full_name?.split(' ')[0] || 
-                                 user.email?.split('@')[0] || 'Student';
-                    document.getElementById('student-name').textContent = name;
+                if (error || !user) {
+                    window.location.href = '/login.html?redirect=/student-dashboard.html';
+                    return;
                 }
-
-                // Load student stats (mock data)
-                loadStudentStats();
-            } catch (err) {
-                console.log('Not logged in - using demo mode');
+                
+                // Get user profile
+                const { data: profile } = await supabaseClient
+                    .from('profiles')
+                    .select('*')
+                    .eq('user_id', user.id)
+                    .single();
+                
+                // Update welcome message
+                const firstName = profile?.first_name || profile?.display_name || 'Student';
+                document.getElementById('welcome-message').textContent = 
+                    `Kia ora ${firstName}! Ready to learn?`;
+                
+                // Load progress data
+                await loadProgress(user.id);
+                await loadRecommendations(profile);
+                
+            } catch (error) {
+                console.error('Dashboard load error:', error);
             }
-        })();
-
-        function loadStudentStats() {
-            // Mock data - would integrate with real progress tracking
-            document.getElementById('lessons-completed').textContent = Math.floor(Math.random() * 20) + 10;
-            document.getElementById('points-earned').textContent = Math.floor(Math.random() * 500) + 300;
-            document.getElementById('streak-days').textContent = Math.floor(Math.random() * 10) + 3;
-            document.getElementById('badges-earned').textContent = Math.floor(Math.random() * 8) + 3;
+        }
+        
+        async function loadProgress(userId) {
+            // Get student progress
+            const { data: progress } = await supabaseClient
+                .from('student_progress')
+                .select('*')
+                .eq('student_id', userId);
+            
+            // Calculate stats
+            const completed = progress?.filter(p => p.progress_percentage === 100).length || 0;
+            const inProgress = progress?.filter(p => p.progress_percentage > 0 && p.progress_percentage < 100) || [];
+            
+            document.getElementById('lessons-completed').textContent = completed;
+            
+            // Calculate streak (simplified)
+            document.getElementById('current-streak').textContent = '0 days';
+            
+            // Cultural score
+            const culturalAvg = progress?.reduce((sum, p) => sum + (p.cultural_engagement_score || 0), 0) / (progress?.length || 1);
+            document.getElementById('cultural-score').textContent = Math.round(culturalAvg || 0) + '%';
+            
+            // Show in-progress lessons
+            if (inProgress.length > 0) {
+                const continueEl = document.getElementById('continue-learning');
+                continueEl.innerHTML = inProgress.slice(0, 3).map(p => `
+                    <div class="progress-item">
+                        <span style="font-weight: 600;">Lesson in progress</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${p.progress_percentage}%"></div>
+                        </div>
+                        <span>${p.progress_percentage}%</span>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        async function loadRecommendations(profile) {
+            // Get recommended lessons based on year level
+            const yearLevel = profile?.year_level;
+            
+            const { data: lessons } = await supabaseClient
+                .from('graphrag_resources')
+                .select('title, file_path, subject, quality_score')
+                .eq('resource_type', 'lesson')
+                .gte('quality_score', 85)
+                .limit(6);
+            
+            const recommendedEl = document.getElementById('recommended-lessons');
+            
+            if (!lessons || lessons.length === 0) {
+                recommendedEl.innerHTML = '<p style="text-align: center; color: var(--bmad-warm-gray);">Explore lessons to get recommendations!</p>';
+                return;
+            }
+            
+            recommendedEl.innerHTML = lessons.map(lesson => `
+                <div class="dashboard-card">
+                    <div class="card-icon">📖</div>
+                    <div class="card-title" style="font-size: 1.1rem;">${lesson.title}</div>
+                    <div class="card-description">${lesson.subject || 'General'}</div>
+                    <a href="${lesson.file_path}" class="btn" style="font-size: 0.9rem;">Start Lesson →</a>
+                </div>
+            `).join('');
         }
     </script>
-
-<!-- Cultural Pattern Footer -->
-<div class="cultural-pattern-footer" style="margin-top: 60px; padding: 40px 20px; background: linear-gradient(135deg, #1a4d2e 0%, #2d5a3d 100%); border-radius: 12px; text-align: center; color: white;">
-    <img src="/images/cultural-patterns.svg" alt="Māori patterns" style="width: 200px; opacity: 0.4; margin-bottom: 20px;">
-    <p style="font-size: 1.1em; font-style: italic;">"Whaowhia te kete mātauranga"</p>
-    <p style="font-size: 0.9em; opacity: 0.8;">Fill the basket of knowledge</p>
-</div>
-
+    
+    <!-- Sidebar Auto-Loader -->
+    <script src="/js/sidebar-auto-loader.js" defer></script>
 </body>
 </html>

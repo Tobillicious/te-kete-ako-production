@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 🌿 BMAD AUTHENTIC CULTURAL DESIGN -->
+    <link rel="stylesheet" href="/css/te-kete-bmad-authentic.css"/>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation - Te Kete Ako</title>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bmad-cream-white, #FAF9F6);
+        }
+        
+        h1 {
+            color: var(--bmad-forest-green, #2F4F2F);
+            margin-bottom: 2rem;
+        }
+        
+        .endpoint-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .endpoint-title {
+            color: var(--bmad-earth-brown, #8B4513);
+            margin: 0 0 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .method-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.875rem;
+            margin-right: 0.5rem;
+        }
+        
+        .method-get { background: #10b981; color: white; }
+        .method-post { background: #3b82f6; color: white; }
+        .method-put { background: #f59e0b; color: white; }
+        .method-delete { background: #dc2626; color: white; }
+        
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+        }
+        
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        .param-table th {
+            background: var(--bmad-cream-white, #FAF9F6);
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .param-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔌 API Documentation</h1>
+    <p style="color: var(--bmad-warm-gray); margin-bottom: 3rem;">
+        Developer documentation for integrating with Te Kete Ako. Enterprise plan required for API access.
+    </p>
+    
+    <!-- Authentication -->
+    <div class="endpoint-card">
+        <h2 class="endpoint-title">🔐 Authentication</h2>
+        <p>All API requests require authentication using your API key.</p>
+        
+        <div class="code-block">
+curl -H "Authorization: Bearer YOUR_API_KEY" \
+     https://tekete.netlify.app/api/resources
+        </div>
+        
+        <p><strong>Get Your API Key:</strong> Contact <a href="/enterprise-contact.html">Enterprise Sales</a></p>
+    </div>
+    
+    <!-- Get Resources -->
+    <div class="endpoint-card">
+        <h2 class="endpoint-title">
+            <span class="method-badge method-get">GET</span>
+            /api/resources
+        </h2>
+        <p>Retrieve educational resources with optional filtering.</p>
+        
+        <h3 style="margin-top: 1.5rem;">Query Parameters:</h3>
+        <table class="param-table">
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>subject</code></td>
+                    <td>string</td>
+                    <td>Filter by subject (Mathematics, Science, English, etc.)</td>
+                </tr>
+                <tr>
+                    <td><code>year_level</code></td>
+                    <td>string</td>
+                    <td>Filter by year level (7, 8, 9, 10, 11, 12, 13)</td>
+                </tr>
+                <tr>
+                    <td><code>quality_min</code></td>
+                    <td>number</td>
+                    <td>Minimum quality score (0-100)</td>
+                </tr>
+                <tr>
+                    <td><code>limit</code></td>
+                    <td>number</td>
+                    <td>Number of results (default: 20, max: 100)</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3>Example Request:</h3>
+        <div class="code-block">
+GET /api/resources?subject=Mathematics&year_level=9&quality_min=90&limit=10
+        </div>
+        
+        <h3>Example Response:</h3>
+        <div class="code-block">
+{
+  "success": true,
+  "data": [
+    {
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "title": "Algebra Pattern Recognition",
+      "description": "Complete algebra unit with cultural patterns",
+      "subject": "Mathematics",
+      "year_level": "9",
+      "quality_score": 95,
+      "path": "/units/y9-maths-algebra/index.html",
+      "cultural_elements": {
+        "has_whakataukī": true,
+        "has_te_reo": true,
+        "integration_score": 92
+      }
+    }
+  ],
+  "count": 10,
+  "total": 150
+}
+        </div>
+    </div>
+    
+    <!-- Get Resource Details -->
+    <div class="endpoint-card">
+        <h2 class="endpoint-title">
+            <span class="method-badge method-get">GET</span>
+            /api/resources/:id
+        </h2>
+        <p>Get detailed information about a specific resource.</p>
+        
+        <h3>Example Request:</h3>
+        <div class="code-block">
+GET /api/resources/123e4567-e89b-12d3-a456-426614174000
+        </div>
+    </div>
+    
+    <!-- Get Learning Pathways -->
+    <div class="endpoint-card">
+        <h2 class="endpoint-title">
+            <span class="method-badge method-get">GET</span>
+            /api/pathways
+        </h2>
+        <p>Retrieve prerequisite learning pathways for a resource.</p>
+        
+        <h3>Example Request:</h3>
+        <div class="code-block">
+GET /api/pathways?resource_id=123e4567-e89b-12d3-a456-426614174000
+        </div>
+        
+        <h3>Example Response:</h3>
+        <div class="code-block">
+{
+  "success": true,
+  "pathway": [
+    {
+      "step": 1,
+      "title": "Introduction to Patterns",
+      "id": "abc123...",
+      "confidence": 0.95
+    },
+    {
+      "step": 2,
+      "title": "Basic Algebra Concepts",
+      "id": "def456...",
+      "confidence": 0.92
+    }
+  ]
+}
+        </div>
+    </div>
+    
+    <!-- Track Student Progress -->
+    <div class="endpoint-card">
+        <h2 class="endpoint-title">
+            <span class="method-badge method-post">POST</span>
+            /api/progress
+        </h2>
+        <p>Record student progress on a resource. (School/Enterprise plans only)</p>
+        
+        <h3>Request Body:</h3>
+        <div class="code-block">
+{
+  "student_id": "student-uuid",
+  "resource_id": "resource-uuid",
+  "progress_percentage": 75,
+  "score": 18,
+  "max_score": 20,
+  "time_spent_minutes": 45
+}
+        </div>
+    </div>
+    
+    <!-- Rate Limits -->
+    <div class="endpoint-card" style="border-left: 4px solid #f59e0b;">
+        <h2 class="endpoint-title">⚠️ Rate Limits</h2>
+        <ul>
+            <li><strong>Standard:</strong> 100 requests/minute</li>
+            <li><strong>Enterprise:</strong> 1,000 requests/minute</li>
+            <li><strong>Burst:</strong> 200 requests/10 seconds</li>
+        </ul>
+        <p style="margin-top: 1rem; color: #dc2626;">
+            Exceeding rate limits returns <code>429 Too Many Requests</code>
+        </p>
+    </div>
+    
+    <!-- Contact -->
+    <div style="text-align: center; margin-top: 3rem;">
+        <p style="color: var(--bmad-warm-gray); margin-bottom: 1rem;">
+            Need API access or have questions?
+        </p>
+        <a href="/enterprise-contact.html" 
+           style="display: inline-block; background: var(--bmad-earth-brown); color: white; 
+                  padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600;">
+            Contact Enterprise Sales
+        </a>
+    </div>
+    
+    <!-- Sidebar Auto-Loader -->
+    <script src="/js/sidebar-auto-loader.js" defer></script>
+</body>
+</html>
