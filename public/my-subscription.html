@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 🌿 BMAD AUTHENTIC CULTURAL DESIGN -->
+    <link rel="stylesheet" href="/css/te-kete-bmad-authentic.css"/>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Subscription - Te Kete Ako</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bmad-cream-white, #FAF9F6);
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            color: var(--bmad-forest-green, #2F4F2F);
+            margin-bottom: 0.5rem;
+        }
+        
+        .subscription-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .plan-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--bmad-gold-excellence, #FFD700), var(--bmad-golden-ochre, #B8860B));
+            color: var(--bmad-dark-text, #2D2520);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .info-item {
+            padding: 1rem;
+            background: var(--bmad-cream-white, #FAF9F6);
+            border-radius: 8px;
+        }
+        
+        .info-label {
+            font-size: 0.875rem;
+            color: var(--bmad-warm-gray, #8B7D6B);
+            margin-bottom: 0.25rem;
+        }
+        
+        .info-value {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--bmad-forest-green, #2F4F2F);
+        }
+        
+        .features-list {
+            background: var(--bmad-cream-white, #FAF9F6);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+        }
+        
+        .features-list h3 {
+            color: var(--bmad-forest-green, #2F4F2F);
+            margin: 0 0 1rem;
+        }
+        
+        .features-list ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .features-list li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .features-list li::before {
+            content: "✅";
+            margin-right: 0.75rem;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: var(--bmad-earth-brown, #8B4513);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--bmad-forest-green, #2F4F2F);
+        }
+        
+        .btn-secondary {
+            background: var(--bmad-forest-light, #3A7D56);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: #dc2626;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #b91c1c;
+        }
+        
+        .trial-notice {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .trial-notice h3 {
+            color: var(--bmad-earth-brown, #8B4513);
+            margin: 0 0 0.5rem;
+        }
+        
+        .payment-history {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .payment-history h2 {
+            color: var(--bmad-forest-green, #2F4F2F);
+            margin: 0 0 1.5rem;
+        }
+        
+        .payment-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .payment-item:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-header">
+        <h1>💳 My Subscription</h1>
+        <p style="color: var(--bmad-warm-gray);">Manage your Te Kete Ako subscription</p>
+    </div>
+    
+    <!-- Trial Notice -->
+    <div id="trial-notice" class="trial-notice" style="display: none;">
+        <h3>🎁 You're in your free trial!</h3>
+        <p id="trial-days" style="margin: 0; font-weight: 600;"></p>
+    </div>
+    
+    <!-- Subscription Card -->
+    <div class="subscription-card">
+        <div class="plan-badge" id="plan-badge">Loading...</div>
+        
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="info-label">Status</div>
+                <div class="info-value" id="sub-status">Loading...</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Monthly Cost</div>
+                <div class="info-value" id="sub-cost">Loading...</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Next Billing</div>
+                <div class="info-value" id="sub-billing">Loading...</div>
+            </div>
+        </div>
+        
+        <div class="features-list" id="features-list">
+            <h3>Your Plan Includes:</h3>
+            <ul id="features-ul">
+                <li>Loading...</li>
+            </ul>
+        </div>
+        
+        <div class="actions">
+            <button class="btn btn-primary" onclick="openBillingPortal()">
+                💳 Manage Payment Method
+            </button>
+            <button class="btn btn-secondary" onclick="upgradePlan()">
+                ⬆️ Upgrade Plan
+            </button>
+            <button class="btn btn-danger" onclick="confirmCancel()" id="cancel-btn">
+                Cancel Subscription
+            </button>
+        </div>
+    </div>
+    
+    <!-- Payment History -->
+    <div class="payment-history">
+        <h2>💰 Payment History</h2>
+        <div id="payment-history-list">
+            <div class="loading">Loading payment history...</div>
+        </div>
+    </div>
+    
+    <script>
+        // Initialize Supabase
+        const { createClient } = supabase;
+        const supabaseClient = createClient(
+            'https://nlgldaqtubrlcqddppbq.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
+        );
+        
+        // Initialize Stripe
+        const stripe = Stripe('pk_test_51234567890abcdef'); // Replace with publishable key
+        
+        let currentUser = null;
+        let subscription = null;
+        
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadSubscriptionDetails();
+        });
+        
+        async function loadSubscriptionDetails() {
+            try {
+                // Get current user
+                const { data: { user }, error: authError } = await supabaseClient.auth.getUser();
+                
+                if (authError || !user) {
+                    window.location.href = '/login.html?redirect=/my-subscription.html';
+                    return;
+                }
+                
+                currentUser = user;
+                
+                // Get subscription
+                const { data: sub, error: subError } = await supabaseClient
+                    .from('subscriptions')
+                    .select(`
+                        *,
+                        subscription_plans (*)
+                    `)
+                    .eq('user_id', user.id)
+                    .order('created_at', { ascending: false })
+                    .limit(1)
+                    .single();
+                
+                if (subError || !sub) {
+                    // No subscription - redirect to pricing
+                    window.location.href = '/pricing.html';
+                    return;
+                }
+                
+                subscription = sub;
+                displaySubscriptionInfo();
+                
+                // Load payment history
+                await loadPaymentHistory();
+                
+            } catch (error) {
+                console.error('Error loading subscription:', error);
+            }
+        }
+        
+        function displaySubscriptionInfo() {
+            const plan = subscription.subscription_plans;
+            
+            // Plan badge
+            document.getElementById('plan-badge').textContent = plan.name;
+            
+            // Status
+            const statusEl = document.getElementById('sub-status');
+            statusEl.textContent = subscription.status.toUpperCase();
+            statusEl.style.color = subscription.status === 'active' ? '#16a34a' : 
+                                  subscription.status === 'trialing' ? '#f59e0b' : '#dc2626';
+            
+            // Cost
+            const cost = (plan.amount_cents / 100).toFixed(2);
+            document.getElementById('sub-cost').textContent = `$${cost} NZD`;
+            
+            // Next billing
+            if (subscription.current_period_end) {
+                const billingDate = new Date(subscription.current_period_end);
+                document.getElementById('sub-billing').textContent = billingDate.toLocaleDateString('en-NZ', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            }
+            
+            // Trial notice
+            if (subscription.status === 'trialing') {
+                const trialEnd = new Date(subscription.current_period_end);
+                const daysLeft = Math.ceil((trialEnd - new Date()) / (1000 * 60 * 60 * 24));
+                document.getElementById('trial-days').textContent = `${daysLeft} days left in your free trial`;
+                document.getElementById('trial-notice').style.display = 'block';
+            }
+            
+            // Features
+            const features = plan.features || {};
+            const featuresList = [
+                features.full_access && 'Full access to 3,500+ resources',
+                features.ai_lesson_planner && 'AI lesson planning assistant',
+                features.kamar_integration && 'KAMAR integration (timetable sync)',
+                features.download_pdfs && 'Download unlimited PDFs',
+                features.mobile_app && 'Mobile app access',
+                features.email_support && 'Email support',
+                features.priority_support && 'Priority support',
+                features.school_dashboard && 'School-wide dashboard',
+                features.teacher_collaboration && 'Teacher collaboration tools',
+                features.training_workshops && 'Training workshops (2/year)'
+            ].filter(Boolean);
+            
+            document.getElementById('features-ul').innerHTML = featuresList
+                .map(f => `<li>${f}</li>`)
+                .join('');
+            
+            // Cancel button
+            if (subscription.cancel_at_period_end) {
+                document.getElementById('cancel-btn').textContent = 'Reactivate Subscription';
+                document.getElementById('cancel-btn').className = 'btn btn-primary';
+            }
+        }
+        
+        async function loadPaymentHistory() {
+            const { data: payments, error } = await supabaseClient
+                .from('payment_history')
+                .select('*')
+                .eq('subscription_id', subscription.id)
+                .order('created_at', { ascending: false })
+                .limit(10);
+            
+            const listEl = document.getElementById('payment-history-list');
+            
+            if (error || !payments || payments.length === 0) {
+                listEl.innerHTML = '<p style="text-align: center; color: var(--bmad-warm-gray);">No payment history yet.</p>';
+                return;
+            }
+            
+            listEl.innerHTML = payments.map(p => `
+                <div class="payment-item">
+                    <div>
+                        <strong>${new Date(p.created_at).toLocaleDateString('en-NZ')}</strong><br>
+                        <span style="font-size: 0.875rem; color: var(--bmad-warm-gray);">
+                            ${p.payment_method || 'Card'} ending in ****
+                        </span>
+                    </div>
+                    <div style="text-align: right;">
+                        <strong>$${(p.amount_cents / 100).toFixed(2)} NZD</strong><br>
+                        <span style="font-size: 0.875rem; color: ${p.status === 'succeeded' ? '#16a34a' : '#dc2626'}">
+                            ${p.status.toUpperCase()}
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        async function openBillingPortal() {
+            try {
+                // Create Stripe billing portal session
+                const response = await fetch('/.netlify/functions/create-billing-portal', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        customerId: subscription.stripe_customer_id
+                    })
+                });
+                
+                const { url, error } = await response.json();
+                
+                if (error) {
+                    alert('Unable to open billing portal. Please contact support.');
+                    return;
+                }
+                
+                // Redirect to Stripe billing portal
+                window.location.href = url;
+                
+            } catch (error) {
+                console.error('Billing portal error:', error);
+                alert('Error opening billing portal. Please try again.');
+            }
+        }
+        
+        function upgradePlan() {
+            window.location.href = '/pricing.html?upgrade=true';
+        }
+        
+        function confirmCancel() {
+            if (subscription.cancel_at_period_end) {
+                // Reactivate
+                if (confirm('Reactivate your subscription? You will continue to be billed.')) {
+                    reactivateSubscription();
+                }
+            } else {
+                // Cancel
+                const message = `Are you sure you want to cancel your subscription?\n\nYou'll continue to have access until ${new Date(subscription.current_period_end).toLocaleDateString('en-NZ')}, then your account will revert to free tier.`;
+                if (confirm(message)) {
+                    cancelSubscription();
+                }
+            }
+        }
+        
+        async function cancelSubscription() {
+            try {
+                const response = await fetch('/.netlify/functions/cancel-subscription', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        subscriptionId: subscription.stripe_subscription_id
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(result.error || 'Cancellation failed');
+                }
+                
+                alert('✅ Subscription cancelled. You will have access until ' + new Date(subscription.current_period_end).toLocaleDateString('en-NZ'));
+                location.reload();
+                
+            } catch (error) {
+                console.error('Cancel error:', error);
+                alert('❌ ' + error.message);
+            }
+        }
+        
+        async function reactivateSubscription() {
+            try {
+                const response = await fetch('/.netlify/functions/reactivate-subscription', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        subscriptionId: subscription.stripe_subscription_id
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(result.error || 'Reactivation failed');
+                }
+                
+                alert('✅ Subscription reactivated! Your billing will continue as normal.');
+                location.reload();
+                
+            } catch (error) {
+                console.error('Reactivate error:', error);
+                alert('❌ ' + error.message);
+            }
+        }
+    </script>
+    
+    <!-- Sidebar Auto-Loader -->
+    <script src="/js/sidebar-auto-loader.js" defer></script>
+</body>
+</html>

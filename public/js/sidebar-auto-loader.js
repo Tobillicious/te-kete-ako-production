@@ -2,8 +2,17 @@
  * PROFESSIONAL SIDEBAR AUTO-LOADER
  * Automatically loads professional-sidebar-cultural.html on all authenticated pages
  * Created: Oct 26, 2025
+ * Updated: Oct 26 - Added loading states system
  * Status: Production-ready deployment system
  */
+
+// Load professional loading/toast system globally
+(function() {
+    const loadingScript = document.createElement('script');
+    loadingScript.src = '/js/loading-toast-system.js';
+    loadingScript.defer = true;
+    document.head.appendChild(loadingScript);
+})();
 
 (function() {
     'use strict';
