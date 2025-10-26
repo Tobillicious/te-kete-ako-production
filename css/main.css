@@ -5250,21 +5250,24 @@ button:focus-visible {
   filter: grayscale(30%);
 }
 
-/* Year Level Hero */
+/* Year Level Hero - Horizontal Timeline Style */
 .year-hero {
   background: linear-gradient(
-    135deg,
-    var(--color-forest) 0%,
-    var(--color-secondary) 50%,
-    var(--color-cultural-teal) 100%
+    90deg,
+    #4a5899 0%,
+    #6b7bc2 25%,
+    #8b9fdb 50%,
+    #a8b8e8 75%,
+    #c5d3f5 100%
   );
-  border-radius: 16px;
-  padding: 3rem 2.5rem;
+  border-radius: 20px;
+  padding: 0;
   margin-bottom: 3rem;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  display: flex;
-  gap: 2.5rem;
-  align-items: flex-start;
+  box-shadow: 0 8px 24px rgba(74, 88, 153, 0.2);
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 0;
+  align-items: stretch;
   color: white;
   position: relative;
   overflow: hidden;
@@ -5274,7 +5277,7 @@ button:focus-visible {
 
 .year-hero:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 32px rgba(74, 88, 153, 0.25);
 }
 
 .year-hero::before {
@@ -5298,45 +5301,65 @@ button:focus-visible {
 }
 
 .year-hero .hero-year-badge {
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 16px;
-  padding: 2rem 1.5rem;
+  background: linear-gradient(135deg, #3a4577 0%, #4a5899 100%);
+  border-right: 3px solid rgba(255, 255, 255, 0.2);
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  min-width: 180px;
-  flex-shrink: 0;
   position: relative;
   z-index: 2;
 }
 
+.year-hero .hero-year-badge::before {
+  content: "🎓";
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 1rem;
+  opacity: 0.9;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
 .year-hero .year-number {
   display: block;
-  font-size: 3rem;
-  font-weight: 700;
+  font-size: 4rem;
+  font-weight: 800;
   line-height: 1;
-  margin-bottom: 0.5rem;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 0.75rem;
+  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(180deg, #ffffff 0%, #e0e7ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .year-hero .year-stage {
   display: block;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  opacity: 0.9;
+  opacity: 0.95;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.4;
 }
 
 .year-hero .hero-content {
-  flex: 1;
+  padding: 3rem;
+  background: rgba(255, 255, 255, 0.98);
   position: relative;
   z-index: 2;
 }
 
 .year-hero .hero-title {
   margin: 0 0 2rem 0;
-  font-size: 2.5rem;
-  color: white;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  font-size: 2.2rem;
+  color: #1a1a1a;
+  font-weight: 800;
+  text-shadow: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Grid layout for info boxes - better horizontal scanning */
@@ -5349,58 +5372,63 @@ button:focus-visible {
 
 .year-hero .hero-focus,
 .year-hero .hero-development {
-  background: rgba(255, 255, 255, 0.95);
+  background: linear-gradient(
+    135deg,
+    rgba(232, 237, 255, 0.98) 0%,
+    rgba(255, 255, 255, 0.95) 100%
+  );
   backdrop-filter: blur(10px);
   padding: 1.5rem;
   border-radius: 12px;
   line-height: 1.7;
-  border-left: 5px solid var(--color-accent);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  color: var(--color-primary);
+  border-left: 5px solid #6b7bc2;
+  box-shadow: 0 4px 12px rgba(74, 88, 153, 0.12);
+  color: #1a1a1a;
 }
 
 .year-hero .hero-pedagogy {
-  background: rgba(255, 255, 255, 0.95);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 250, 242, 0.98) 0%,
+    rgba(255, 255, 255, 0.95) 100%
+  );
   backdrop-filter: blur(10px);
   padding: 1.5rem;
   border-radius: 12px;
   line-height: 1.7;
-  border-left: 5px solid var(--color-forest);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  color: var(--color-primary);
+  border-left: 5px solid #F5A623;
+  box-shadow: 0 4px 12px rgba(245, 166, 35, 0.12);
+  color: #1a1a1a;
   grid-column: 1 / -1;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.98) 0%,
-    rgba(236, 253, 245, 0.95) 100%
-  );
 }
 
 .year-hero .hero-focus strong,
 .year-hero .hero-development strong,
 .year-hero .hero-pedagogy strong {
-  color: var(--color-secondary);
+  color: #4A5899;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 0.75rem;
-  font-size: 1.05rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
   font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .year-hero .hero-pedagogy strong {
-  color: var(--color-forest);
+  color: #F5A623;
 }
 
 .year-hero .hero-focus strong::before,
-.year-hero .hero-development strong::before,
+.year-hero .hero-development strong::before {
+  content: "📍";
+  font-size: 1rem;
+}
+
 .year-hero .hero-pedagogy strong::before {
-  content: "●";
-  color: var(--color-accent);
-  font-size: 0.6rem;
+  content: "🎯";
+  font-size: 1rem;
 }
 
 .year-hero .hero-focus p,
