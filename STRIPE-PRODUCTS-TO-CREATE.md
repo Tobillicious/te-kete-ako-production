@@ -22,6 +22,30 @@
 
 ## 🏫 **SCHOOL PRODUCTS TO CREATE:**
 
+### **Product 0: KAMAR Add-on (Individual Teachers)**
+
+**Create in Stripe Dashboard:**
+1. Go to https://dashboard.stripe.com/products
+2. Click "Add product"
+3. Fill in:
+   - **Name:** Te Kete Ako - KAMAR Integration Add-on
+   - **Description:** KAMAR integration for individual teachers. Syncs timetable, class lists, and enables weekly planner. Requires school admin permission.
+   - **Pricing:**
+     - Amount: **$2 NZD**
+     - Billing period: **Monthly**
+     - Trial period: **0 days** (no trial for add-ons)
+   - **Metadata:**
+     - addon_type: kamar
+     - requires_permission: true
+     - permission_from: school_admin
+4. **Save and copy Price ID** (starts with `price_...`)
+
+**Expected Price ID:** `price_XXXXXXXXXXXXXXXXXX`
+
+**Note:** This is an ADD-ON, not a standalone plan. Teachers must have Individual Monthly or Individual Annual + school admin approval.
+
+---
+
 ### **Product 1: School Small (Up to 12 Teachers)**
 
 **Create in Stripe Dashboard:**

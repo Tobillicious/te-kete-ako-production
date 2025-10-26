@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 🌿 BMAD AUTHENTIC CULTURAL DESIGN -->
+    <link rel="stylesheet" href="/css/te-kete-bmad-authentic.css"/>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request KAMAR Add-on - Te Kete Ako</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bmad-cream-white, #FAF9F6);
+        }
+        
+        .request-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: var(--bmad-forest-green, #2F4F2F);
+            margin-bottom: 1rem;
+        }
+        
+        .info-box {
+            background: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 4px;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--bmad-forest-green, #2F4F2F);
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--bmad-forest-green, #2F4F2F);
+        }
+        
+        .btn {
+            background: var(--bmad-earth-brown, #8B4513);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            background: var(--bmad-forest-green, #2F4F2F);
+        }
+        
+        .success-message {
+            background: #dcfce7;
+            border-left: 4px solid #16a34a;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .error-message {
+            background: #fee2e2;
+            border-left: 4px solid #dc2626;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            border-radius: 4px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="request-container">
+        <h1>📊 Request KAMAR Integration Add-on</h1>
+        
+        <div class="info-box">
+            <strong>What is KAMAR?</strong><br>
+            KAMAR integration syncs your school timetable, class lists, and student data automatically. 
+            This enables features like the Weekly Planner and automatic class organization.
+            <br><br>
+            <strong>Cost:</strong> +$2.00 NZD/month (in addition to your Individual plan)<br>
+            <strong>Requirement:</strong> School admin must approve your request
+        </div>
+        
+        <form id="kamar-request-form">
+            <div class="form-group">
+                <label for="teacher-name">Your Name *</label>
+                <input type="text" id="teacher-name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="teacher-email">Your Email *</label>
+                <input type="email" id="teacher-email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="school-name">School Name *</label>
+                <input type="text" id="school-name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="admin-name">School Admin Name *</label>
+                <input type="text" id="admin-name" required placeholder="e.g., Jane Smith, Principal">
+            </div>
+            
+            <div class="form-group">
+                <label for="admin-email">School Admin Email *</label>
+                <input type="email" id="admin-email" required placeholder="Admin who can approve KAMAR access">
+            </div>
+            
+            <div class="form-group">
+                <label for="reason">Why do you need KAMAR integration? *</label>
+                <textarea id="reason" rows="4" required placeholder="e.g., I want to automatically sync my timetable to plan lessons more efficiently..."></textarea>
+            </div>
+            
+            <button type="submit" class="btn">
+                Send Permission Request
+            </button>
+        </form>
+        
+        <div id="success-message" class="success-message">
+            ✅ <strong>Request sent successfully!</strong><br>
+            We've emailed your school admin for approval. You'll receive a notification once approved.
+        </div>
+        
+        <div id="error-message" class="error-message">
+            ❌ <strong>Error:</strong> <span id="error-text"></span>
+        </div>
+    </div>
+    
+    <script>
+        // Initialize Supabase
+        const { createClient } = supabase;
+        const supabaseClient = createClient(
+            'https://nlgldaqtubrlcqddppbq.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
+        );
+        
+        document.getElementById('kamar-request-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const teacherName = document.getElementById('teacher-name').value;
+            const teacherEmail = document.getElementById('teacher-email').value;
+            const schoolName = document.getElementById('school-name').value;
+            const adminName = document.getElementById('admin-name').value;
+            const adminEmail = document.getElementById('admin-email').value;
+            const reason = document.getElementById('reason').value;
+            
+            try {
+                // Get current user
+                const { data: { user }, error: authError } = await supabaseClient.auth.getUser();
+                
+                if (authError || !user) {
+                    showError('Please log in first');
+                    return;
+                }
+                
+                // Create KAMAR permission request
+                const { data, error } = await supabaseClient
+                    .from('kamar_permission_requests')
+                    .insert([{
+                        user_id: user.id,
+                        teacher_name: teacherName,
+                        teacher_email: teacherEmail,
+                        school_name: schoolName,
+                        admin_name: adminName,
+                        admin_email: adminEmail,
+                        reason: reason,
+                        status: 'pending'
+                    }]);
+                
+                if (error) throw error;
+                
+                // Send email to school admin (via serverless function)
+                await fetch('/.netlify/functions/send-kamar-permission-request', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        teacherName,
+                        teacherEmail,
+                        schoolName,
+                        adminName,
+                        adminEmail,
+                        reason
+                    })
+                });
+                
+                showSuccess();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showError(error.message || 'Something went wrong. Please try again.');
+            }
+        });
+        
+        function showSuccess() {
+            document.getElementById('success-message').style.display = 'block';
+            document.getElementById('error-message').style.display = 'none';
+            document.getElementById('kamar-request-form').style.display = 'none';
+        }
+        
+        function showError(message) {
+            document.getElementById('error-text').textContent = message;
+            document.getElementById('error-message').style.display = 'block';
+            document.getElementById('success-message').style.display = 'none';
+        }
+    </script>
+    
+    <!-- Sidebar Auto-Loader -->
+    <script src="/js/sidebar-auto-loader.js" defer></script>
+</body>
+</html>
