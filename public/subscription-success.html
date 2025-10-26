@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 🌿 BMAD AUTHENTIC CULTURAL DESIGN (Primary - loads FIRST!) -->
+    <link rel="stylesheet" href="/css/te-kete-bmad-authentic.css"/>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Te Kete Ako! - Subscription Active</title>
+    <meta name="description" content="Your Te Kete Ako subscription is now active. Access 3,500+ teaching resources, AI tools, and professional features.">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bmad-cream-white, #FAF9F6);
+            color: var(--bmad-dark-text, #2D2520);
+            text-align: center;
+        }
+        
+        .success-container {
+            background: white;
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .success-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--bmad-forest-green, #2F4F2F);
+            margin-bottom: 1rem;
+        }
+        
+        .success-message {
+            font-size: 1.25rem;
+            color: var(--bmad-warm-gray, #8B7D6B);
+            margin-bottom: 2rem;
+        }
+        
+        .subscription-details {
+            background: var(--bmad-cream-white, #FAF9F6);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        
+        .subscription-details h3 {
+            color: var(--bmad-forest-green, #2F4F2F);
+            margin-bottom: 1rem;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: var(--bmad-forest-green, #2F4F2F);
+        }
+        
+        .detail-value {
+            color: var(--bmad-warm-gray, #8B7D6B);
+        }
+        
+        .trial-notice {
+            background: linear-gradient(135deg, var(--bmad-gold-excellence, #FFD700), var(--bmad-golden-ochre, #B8860B));
+            color: var(--bmad-dark-text, #2D2520);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: var(--bmad-earth-brown, #8B4513);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--bmad-forest-green, #2F4F2F);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: var(--bmad-forest-light, #3A7D56);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bmad-forest-green, #2F4F2F);
+            transform: translateY(-2px);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .feature-card {
+            background: var(--bmad-cream-white, #FAF9F6);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: left;
+        }
+        
+        .feature-card h4 {
+            color: var(--bmad-forest-green, #2F4F2F);
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-card p {
+            color: var(--bmad-warm-gray, #8B7D6B);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        
+        .loading {
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-icon">🎉</div>
+        <h1 class="success-title">Welcome to Te Kete Ako!</h1>
+        <p class="success-message">Your subscription is now active. You have full access to all features!</p>
+        
+        <div id="trial-notice" class="trial-notice" style="display: none;">
+            🎁 You're in your <strong>14-day free trial</strong>! No charges until your trial ends.
+        </div>
+        
+        <div class="subscription-details">
+            <h3>Subscription Details</h3>
+            <div id="subscription-info">
+                <div class="detail-row">
+                    <span class="detail-label">Status:</span>
+                    <span class="detail-value">Loading...</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Plan:</span>
+                    <span class="detail-value">Loading...</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Next Billing:</span>
+                    <span class="detail-value">Loading...</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <a href="/teacher-dashboard.html" class="btn btn-primary">
+                🏠 Go to Dashboard
+            </a>
+            <a href="/teacher-weekly-planner.html" class="btn btn-secondary">
+                📅 Weekly Planner
+            </a>
+            <a href="/ai-serverless-functions.html" class="btn btn-secondary">
+                🤖 AI Tools
+            </a>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <h4>📚 3,500+ Resources</h4>
+                <p>Access our complete library of lessons, units, and handouts</p>
+            </div>
+            <div class="feature-card">
+                <h4>🤖 AI Lesson Planner</h4>
+                <p>Generate personalized lesson plans with cultural integration</p>
+            </div>
+            <div class="feature-card">
+                <h4>📱 Mobile Access</h4>
+                <p>Use Te Kete Ako on any device, anywhere</p>
+            </div>
+            <div class="feature-card">
+                <h4>🌿 Cultural Integration</h4>
+                <p>Mātauranga Māori woven throughout all content</p>
+            </div>
+            <div class="feature-card">
+                <h4>📊 Progress Tracking</h4>
+                <p>Monitor student progress and engagement</p>
+            </div>
+            <div class="feature-card">
+                <h4>💬 Email Support</h4>
+                <p>Get help when you need it from our support team</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Initialize Supabase
+        const { createClient } = supabase;
+        const supabaseClient = createClient(
+            'https://nlgldaqtubrlcqddppbq.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
+        );
+        
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionId = urlParams.get('session_id');
+        
+        // Load subscription details
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadSubscriptionDetails();
+        });
+        
+        async function loadSubscriptionDetails() {
+            try {
+                // Get current user
+                const { data: { user }, error: authError } = await supabaseClient.auth.getUser();
+                
+                if (authError || !user) {
+                    window.location.href = '/login.html';
+                    return;
+                }
+                
+                // Get user's subscription
+                const { data: subscription, error: subError } = await supabaseClient
+                    .from('subscriptions')
+                    .select(`
+                        *,
+                        subscription_plans (
+                            name,
+                            amount_cents,
+                            currency,
+                            interval
+                        )
+                    `)
+                    .eq('user_id', user.id)
+                    .order('created_at', { ascending: false })
+                    .limit(1)
+                    .single();
+                
+                if (subError || !subscription) {
+                    console.error('Subscription not found:', subError);
+                    showSubscriptionError();
+                    return;
+                }
+                
+                // Update subscription details
+                updateSubscriptionInfo(subscription);
+                
+                // Show trial notice if in trial
+                if (subscription.status === 'trialing') {
+                    document.getElementById('trial-notice').style.display = 'block';
+                }
+                
+            } catch (error) {
+                console.error('Error loading subscription:', error);
+                showSubscriptionError();
+            }
+        }
+        
+        function updateSubscriptionInfo(subscription) {
+            const statusElement = document.querySelector('.detail-value');
+            const planElement = statusElement.nextElementSibling.nextElementSibling;
+            const billingElement = planElement.nextElementSibling.nextElementSibling;
+            
+            // Update status
+            statusElement.textContent = subscription.status.charAt(0).toUpperCase() + subscription.status.slice(1);
+            statusElement.parentElement.classList.remove('loading');
+            
+            // Update plan
+            planElement.textContent = subscription.subscription_plans?.name || 'Unknown Plan';
+            planElement.parentElement.classList.remove('loading');
+            
+            // Update billing date
+            if (subscription.current_period_end) {
+                const billingDate = new Date(subscription.current_period_end);
+                billingElement.textContent = billingDate.toLocaleDateString('en-NZ', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            } else {
+                billingElement.textContent = 'N/A';
+            }
+            billingElement.parentElement.classList.remove('loading');
+        }
+        
+        function showSubscriptionError() {
+            const statusElement = document.querySelector('.detail-value');
+            statusElement.textContent = 'Error loading subscription';
+            statusElement.parentElement.classList.remove('loading');
+        }
+    </script>
+    
+    <!-- Sidebar Auto-Loader -->
+    <script src="/js/sidebar-auto-loader.js" defer></script>
+</body>
+</html>
