@@ -1,4 +1,4 @@
-
+s
 **INDIVIDUAL (Teacher or Student)**
 ```
 Price: $15 NZD/month or $150/year
