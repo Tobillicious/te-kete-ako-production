@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 🌿 BMAD AUTHENTIC CULTURAL DESIGN -->
+    <link rel="stylesheet" href="/css/te-kete-bmad-authentic.css"/>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Usage Analytics - Te Kete Ako</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bmad-cream-white, #FAF9F6);
+        }
+        
+        h1 {
+            color: var(--bmad-forest-green, #2F4F2F);
+            margin-bottom: 2rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--bmad-earth-brown, #8B4513);
+            margin: 0;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: var(--bmad-warm-gray, #8B7D6B);
+            margin: 0.5rem 0 0;
+        }
+        
+        .chart-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .chart-container h2 {
+            color: var(--bmad-forest-green, #2F4F2F);
+            margin: 0 0 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>📊 My Usage Analytics</h1>
+    
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3 class="stat-value" id="stat-resources-viewed">0</h3>
+            <p class="stat-label">Resources Viewed</p>
+        </div>
+        <div class="stat-card">
+            <h3 class="stat-value" id="stat-lessons-taught">0</h3>
+            <p class="stat-label">Lessons Taught</p>
+        </div>
+        <div class="stat-card">
+            <h3 class="stat-value" id="stat-downloads">0</h3>
+            <p class="stat-label">Downloads</p>
+        </div>
+        <div class="stat-card">
+            <h3 class="stat-value" id="stat-favorites">0</h3>
+            <p class="stat-label">Favorites Saved</p>
+        </div>
+    </div>
+    
+    <div class="chart-container">
+        <h2>📈 Your Activity Over Time</h2>
+        <canvas id="activity-chart"></canvas>
+    </div>
+    
+    <div class="chart-container">
+        <h2>📚 Most Used Resources</h2>
+        <div id="top-resources" style="padding: 1rem;">
+            Loading...
+        </div>
+    </div>
+    
+    <script>
+        const { createClient } = supabase;
+        const supabaseClient = createClient(
+            'https://nlgldaqtubrlcqddppbq.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
+        );
+        
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadAnalytics();
+        });
+        
+        async function loadAnalytics() {
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            
+            if (!user) {
+                window.location.href = '/login.html?redirect=/usage-analytics.html';
+                return;
+            }
+            
+            // Get user access data
+            const { data: access } = await supabaseClient
+                .from('user_access')
+                .select('*')
+                .eq('user_id', user.id);
+            
+            // Calculate stats
+            const viewCount = access?.filter(a => a.access_type === 'view').length || 0;
+            const downloadCount = access?.filter(a => a.access_type === 'download').length || 0;
+            const favoriteCount = access?.filter(a => a.access_type === 'favorite').length || 0;
+            
+            document.getElementById('stat-resources-viewed').textContent = viewCount;
+            document.getElementById('stat-downloads').textContent = downloadCount;
+            document.getElementById('stat-favorites').textContent = favoriteCount;
+            document.getElementById('stat-lessons-taught').textContent = Math.floor(viewCount / 3); // Estimate
+            
+            // Create activity chart (placeholder)
+            createActivityChart();
+            
+            // Show top resources
+            showTopResources(access || []);
+        }
+        
+        function createActivityChart() {
+            const ctx = document.getElementById('activity-chart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Resources Accessed',
+                        data: [12, 19, 8, 15, 10, 3, 5],
+                        borderColor: '#8B4513',
+                        backgroundColor: 'rgba(139, 69, 19, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+        
+        function showTopResources(access) {
+            // Count access by resource
+            const resourceCounts = {};
+            access.forEach(a => {
+                resourceCounts[a.resource_id] = (resourceCounts[a.resource_id] || 0) + 1;
+            });
+            
+            // Sort and show top 5
+            const topResources = Object.entries(resourceCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 5);
+            
+            const listEl = document.getElementById('top-resources');
+            
+            if (topResources.length === 0) {
+                listEl.innerHTML = '<p style="text-align: center; color: var(--bmad-warm-gray);">No usage data yet. Start exploring resources!</p>';
+                return;
+            }
+            
+            listEl.innerHTML = `
+                <ol style="margin: 0; padding-left: 1.5rem;">
+                    ${topResources.map(([id, count]) => `
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid #e5e7eb;">
+                            Resource ID: ${id} <span style="color: var(--bmad-warm-gray); float: right;">${count} views</span>
+                        </li>
+                    `).join('')}
+                </ol>
+            `;
+        }
+    </script>
+    
+    <!-- Sidebar Auto-Loader -->
+    <script src="/js/sidebar-auto-loader.js" defer></script>
+</body>
+</html>

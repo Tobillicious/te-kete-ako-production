@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 🌿 BMAD AUTHENTIC CULTURAL DESIGN -->
+    <link rel="stylesheet" href="/css/te-kete-bmad-authentic.css"/>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Te Kete Ako! - Quick Setup Wizard</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--bmad-cream-white, #FAF9F6), #fff);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .wizard-container {
+            max-width: 700px;
+            width: 100%;
+            margin: 2rem;
+        }
+        
+        .wizard-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .wizard-header {
+            background: linear-gradient(135deg, var(--bmad-forest-green, #2F4F2F), var(--bmad-forest-dark, #1d3f2a));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .wizard-header h1 {
+            margin: 0 0 0.5rem;
+            font-size: 2rem;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--bmad-gold-excellence, #FFD700);
+            transition: width 0.3s ease;
+        }
+        
+        .wizard-content {
+            padding: 2.5rem;
+        }
+        
+        .step {
+            display: none;
+        }
+        
+        .step.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .step-title {
+            color: var(--bmad-forest-green, #2F4F2F);
+            font-size: 1.75rem;
+            margin: 0 0 1rem;
+        }
+        
+        .step-description {
+            color: var(--bmad-warm-gray, #8B7D6B);
+            margin-bottom: 2rem;
+        }
+        
+        .choice-grid {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .choice-card {
+            border: 3px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .choice-card:hover {
+            border-color: var(--bmad-forest-green, #2F4F2F);
+            background: var(--bmad-cream-white, #FAF9F6);
+        }
+        
+        .choice-card.selected {
+            border-color: var(--bmad-gold-excellence, #FFD700);
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+        }
+        
+        .choice-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .choice-title {
+            font-weight: 700;
+            color: var(--bmad-forest-green, #2F4F2F);
+            margin-bottom: 0.5rem;
+        }
+        
+        .choice-description {
+            font-size: 0.9rem;
+            color: var(--bmad-warm-gray, #8B7D6B);
+        }
+        
+        .wizard-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: var(--bmad-earth-brown, #8B4513);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-primary:hover {
+            background: var(--bmad-forest-green, #2F4F2F);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: var(--bmad-warm-gray, #8B7D6B);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bmad-forest-green, #2F4F2F);
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--bmad-forest-green, #2F4F2F);
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            color: var(--bmad-forest-green, #2F4F2F);
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-list {
+            background: var(--bmad-cream-white, #FAF9F6);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+        }
+        
+        .feature-list h3 {
+            color: var(--bmad-forest-green, #2F4F2F);
+            margin: 0 0 1rem;
+            font-size: 1.25rem;
+        }
+        
+        .feature-list ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .feature-list li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-list li::before {
+            content: "✅";
+            margin-right: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="wizard-container">
+        <div class="wizard-card">
+            <div class="wizard-header">
+                <h1>🌿 Welcome to Te Kete Ako!</h1>
+                <p style="margin: 0; opacity: 0.9;">Let's personalize your experience (2 minutes)</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill" style="width: 25%"></div>
+                </div>
+            </div>
+            
+            <div class="wizard-content">
+                <!-- Step 1: Role Selection -->
+                <div class="step active" id="step-1">
+                    <h2 class="step-title">What brings you to Te Kete Ako?</h2>
+                    <p class="step-description">This helps us show you the most relevant resources</p>
+                    
+                    <div class="choice-grid">
+                        <div class="choice-card" onclick="selectRole('teacher')">
+                            <div class="choice-icon">🧑‍🏫</div>
+                            <div class="choice-title">I'm a Teacher</div>
+                            <div class="choice-description">Access lesson plans, units, and professional tools</div>
+                        </div>
+                        <div class="choice-card" onclick="selectRole('student')">
+                            <div class="choice-icon">🧑‍🎓</div>
+                            <div class="choice-title">I'm a Student</div>
+                            <div class="choice-description">Explore interactive lessons and learning resources</div>
+                        </div>
+                        <div class="choice-card" onclick="selectRole('parent')">
+                            <div class="choice-icon">👨‍👩‍👧‍👦</div>
+                            <div class="choice-title">I'm a Parent/Whānau</div>
+                            <div class="choice-description">Support your child's learning journey</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Teacher Subjects -->
+                <div class="step" id="step-2-teacher">
+                    <h2 class="step-title">What subjects do you teach?</h2>
+                    <p class="step-description">Select all that apply</p>
+                    
+                    <div class="choice-grid" id="subjects-grid">
+                        <div class="choice-card" onclick="toggleSubject(this, 'Mathematics')">
+                            <div class="choice-icon">🔢</div>
+                            <div class="choice-title">Mathematics</div>
+                        </div>
+                        <div class="choice-card" onclick="toggleSubject(this, 'Science')">
+                            <div class="choice-icon">🔬</div>
+                            <div class="choice-title">Science</div>
+                        </div>
+                        <div class="choice-card" onclick="toggleSubject(this, 'English')">
+                            <div class="choice-icon">📖</div>
+                            <div class="choice-title">English</div>
+                        </div>
+                        <div class="choice-card" onclick="toggleSubject(this, 'Social Studies')">
+                            <div class="choice-icon">🌏</div>
+                            <div class="choice-title">Social Studies</div>
+                        </div>
+                        <div class="choice-card" onclick="toggleSubject(this, 'Digital Technologies')">
+                            <div class="choice-icon">💻</div>
+                            <div class="choice-title">Digital Technologies</div>
+                        </div>
+                        <div class="choice-card" onclick="toggleSubject(this, 'Te Reo Māori')">
+                            <div class="choice-icon">🌿</div>
+                            <div class="choice-title">Te Reo Māori</div>
+                        </div>
+                    </div>
+                    
+                    <div class="wizard-actions">
+                        <button class="btn btn-secondary" onclick="previousStep()">← Back</button>
+                        <button class="btn btn-primary" onclick="nextStep()">Continue →</button>
+                    </div>
+                </div>
+                
+                <!-- Step 3: Year Levels -->
+                <div class="step" id="step-3">
+                    <h2 class="step-title">What year levels?</h2>
+                    <p class="step-description">Select the year levels you work with</p>
+                    
+                    <div class="choice-grid" style="grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));">
+                        <div class="choice-card" onclick="toggleYear(this, '7')">
+                            <div class="choice-title">Year 7</div>
+                        </div>
+                        <div class="choice-card" onclick="toggleYear(this, '8')">
+                            <div class="choice-title">Year 8</div>
+                        </div>
+                        <div class="choice-card" onclick="toggleYear(this, '9')">
+                            <div class="choice-title">Year 9</div>
+                        </div>
+                        <div class="choice-card" onclick="toggleYear(this, '10')">
+                            <div class="choice-title">Year 10</div>
+                        </div>
+                        <div class="choice-card" onclick="toggleYear(this, '11')">
+                            <div class="choice-title">Year 11</div>
+                        </div>
+                        <div class="choice-card" onclick="toggleYear(this, '12')">
+                            <div class="choice-title">Year 12</div>
+                        </div>
+                        <div class="choice-card" onclick="toggleYear(this, '13')">
+                            <div class="choice-title">Year 13</div>
+                        </div>
+                    </div>
+                    
+                    <div class="wizard-actions">
+                        <button class="btn btn-secondary" onclick="previousStep()">← Back</button>
+                        <button class="btn btn-primary" onclick="nextStep()">Continue →</button>
+                    </div>
+                </div>
+                
+                <!-- Step 4: Features You'll Love -->
+                <div class="step" id="step-4">
+                    <h2 class="step-title">🎉 You're All Set!</h2>
+                    <p class="step-description">Here's what you'll love about Te Kete Ako:</p>
+                    
+                    <div class="feature-list">
+                        <h3>✨ Personalized Just For You:</h3>
+                        <ul id="personalized-features">
+                            <li>Loading...</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🚀</div>
+                        <p style="color: var(--bmad-warm-gray); margin-bottom: 1.5rem;">
+                            Ready to explore your personalized dashboard?
+                        </p>
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="completeOnboarding()" style="width: 100%;">
+                        Start Teaching with Te Kete Ako! →
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Initialize Supabase
+        const { createClient } = supabase;
+        const supabaseClient = createClient(
+            'https://nlgldaqtubrlcqddppbq.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
+        );
+        
+        let currentStep = 1;
+        let userData = {
+            role: null,
+            subjects: [],
+            yearLevels: []
+        };
+        
+        function selectRole(role) {
+            userData.role = role;
+            
+            // Highlight selected
+            document.querySelectorAll('#step-1 .choice-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event.target.closest('.choice-card').classList.add('selected');
+            
+            // Auto-advance after 500ms
+            setTimeout(() => {
+                if (role === 'teacher') {
+                    goToStep(2);
+                } else {
+                    // Students/Parents skip to completion
+                    goToStep(4);
+                }
+            }, 500);
+        }
+        
+        function toggleSubject(card, subject) {
+            card.classList.toggle('selected');
+            
+            if (card.classList.contains('selected')) {
+                userData.subjects.push(subject);
+            } else {
+                userData.subjects = userData.subjects.filter(s => s !== subject);
+            }
+        }
+        
+        function toggleYear(card, year) {
+            card.classList.toggle('selected');
+            
+            if (card.classList.contains('selected')) {
+                userData.yearLevels.push(year);
+            } else {
+                userData.yearLevels = userData.yearLevels.filter(y => y !== year);
+            }
+        }
+        
+        function goToStep(stepNum) {
+            // Hide all steps
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            // Show target step
+            if (stepNum === 2 && userData.role === 'teacher') {
+                document.getElementById('step-2-teacher').classList.add('active');
+            } else {
+                document.getElementById(`step-${stepNum}`).classList.add('active');
+            }
+            
+            currentStep = stepNum;
+            updateProgress();
+            
+            // Update personalized features on final step
+            if (stepNum === 4) {
+                updatePersonalizedFeatures();
+            }
+        }
+        
+        function nextStep() {
+            const nextStepNum = userData.role === 'teacher' ? currentStep + 1 : 4;
+            goToStep(nextStepNum);
+        }
+        
+        function previousStep() {
+            goToStep(currentStep - 1);
+        }
+        
+        function updateProgress() {
+            const totalSteps = userData.role === 'teacher' ? 4 : 2;
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+        }
+        
+        function updatePersonalizedFeatures() {
+            const featuresEl = document.getElementById('personalized-features');
+            
+            const features = [];
+            
+            if (userData.role === 'teacher') {
+                features.push(`${userData.subjects.length || 3} subject hubs ready for you`);
+                features.push(`Lessons for Year ${userData.yearLevels.join(', Year ') || '7-13'}`);
+                features.push('Weekly Planner with KAMAR integration');
+                features.push('AI Lesson Planning Assistant');
+                features.push('Emergency Lessons (1-click print!)');
+                features.push('Professional Teacher Dashboard');
+            } else if (userData.role === 'student') {
+                features.push('Interactive lessons and games');
+                features.push('Track your learning progress');
+                features.push('Culturally-connected content');
+                features.push('Student-friendly dashboard');
+            } else {
+                features.push('Support your child\'s learning');
+                features.push('Track their progress');
+                features.push('Access family resources');
+            }
+            
+            featuresEl.innerHTML = features.map(f => `<li>${f}</li>`).join('');
+        }
+        
+        async function completeOnboarding() {
+            try {
+                // Get current user
+                const { data: { user }, error } = await supabaseClient.auth.getUser();
+                
+                if (user) {
+                    // Update user profile
+                    await supabaseClient
+                        .from('profiles')
+                        .update({
+                            role: userData.role,
+                            subjects_taught: userData.subjects,
+                            year_levels_taught: userData.yearLevels.map(Number),
+                            onboarding_completed: true
+                        })
+                        .eq('user_id', user.id);
+                }
+                
+                // Redirect based on role
+                if (userData.role === 'teacher') {
+                    window.location.href = '/teacher-dashboard.html';
+                } else if (userData.role === 'student') {
+                    window.location.href = '/student-dashboard.html';
+                } else {
+                    window.location.href = '/index.html';
+                }
+                
+            } catch (error) {
+                console.error('Onboarding error:', error);
+                // Redirect anyway
+                window.location.href = '/index.html';
+            }
+        }
+    </script>
+</body>
+</html>
