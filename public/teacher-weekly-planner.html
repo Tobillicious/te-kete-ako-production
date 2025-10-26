@@ -534,8 +534,70 @@
         }
         
         function showClassDetails(classData) {
-            alert(`Class: ${classData.class_name}\nCode: ${classData.class_code}\nRoom: ${classData.room}\nTime: ${formatTime(classData.start_time)} - ${formatTime(classData.end_time)}`);
-            // TODO: Show modal with lesson planning options
+            // Create modal
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0, 0, 0, 0.8); display: flex; align-items: center;
+                justify-content: center; z-index: 10000;
+            `;
+            
+            modal.innerHTML = `
+                <div style="
+                    background: white; padding: 2rem; border-radius: 16px;
+                    max-width: 500px; max-height: 80vh; overflow-y: auto;
+                    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
+                ">
+                    <h2 style="color: var(--bmad-forest-green, #2F4F2F); margin: 0 0 1rem;">
+                        ${classData.class_name}
+                    </h2>
+                    <div style="background: #f0f9ff; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                        <strong>Class Code:</strong> ${classData.class_code}<br>
+                        <strong>Room:</strong> ${classData.room || 'TBA'}<br>
+                        <strong>Time:</strong> ${formatTime(classData.start_time)} - ${formatTime(classData.end_time)}<br>
+                        <strong>Subject:</strong> ${classData.subject || 'N/A'}<br>
+                        <strong>Year Level:</strong> ${classData.year_level || 'N/A'}
+                    </div>
+                    
+                    <h3 style="color: var(--bmad-earth-brown, #8B4513); margin: 1.5rem 0 1rem;">
+                        Quick Actions:
+                    </h3>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <a href="/search?subject=${classData.subject}&level=${classData.year_level}" 
+                           style="background: var(--bmad-earth-brown, #8B4513); color: white; 
+                                  padding: 0.75rem; text-align: center; border-radius: 8px; 
+                                  text-decoration: none; font-weight: 600;">
+                            📚 Find Lessons for This Class
+                        </a>
+                        <a href="/emergency-lessons.html" 
+                           style="background: var(--bmad-forest-green, #2F4F2F); color: white; 
+                                  padding: 0.75rem; text-align: center; border-radius: 8px; 
+                                  text-decoration: none; font-weight: 600;">
+                            🚨 Emergency Lesson (Quick!)
+                        </a>
+                        <a href="/collections.html" 
+                           style="background: var(--bmad-forest-light, #3A7D56); color: white; 
+                                  padding: 0.75rem; text-align: center; border-radius: 8px; 
+                                  text-decoration: none; font-weight: 600;">
+                            ⭐ Top 10 Lessons
+                        </a>
+                    </div>
+                    
+                    <button onclick="this.closest('div').parentElement.remove()" 
+                            style="background: var(--bmad-warm-gray, #8B7D6B); color: white; 
+                                   border: none; padding: 0.75rem 1.5rem; border-radius: 8px; 
+                                   font-weight: 600; cursor: pointer; width: 100%; margin-top: 1.5rem;">
+                        Close
+                    </button>
+                </div>
+            `;
+            
+            // Close on background click
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.remove();
+            });
+            
+            document.body.appendChild(modal);
         }
         
         function showStatus(message, type) {

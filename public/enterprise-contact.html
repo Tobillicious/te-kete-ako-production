@@ -332,9 +332,22 @@
             data.features = features;
             
             try {
-                // TODO: Send to Netlify Function or Supabase
-                // For now, just show success (can implement backend later)
-                console.log('Enterprise inquiry:', data);
+                // Send to Netlify Function
+                const response = await fetch('/.netlify/functions/submit-enterprise-inquiry', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(result.error || 'Submission failed');
+                }
+                
+                console.log('Enterprise inquiry submitted successfully:', result);
                 
                 // Track with PostHog
                 if (window.posthog) {
