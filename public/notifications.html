@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 🌿 BMAD AUTHENTIC CULTURAL DESIGN -->
+    <link rel="stylesheet" href="/css/te-kete-bmad-authentic.css"/>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - Te Kete Ako</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bmad-cream-white, #FAF9F6);
+        }
+        
+        h1 {
+            color: var(--bmad-forest-green, #2F4F2F);
+            margin-bottom: 2rem;
+        }
+        
+        .notification-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+            border-left: 4px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .notification-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .notification-card.unread {
+            border-left-color: var(--bmad-gold-excellence, #FFD700);
+            background: linear-gradient(135deg, #fefce8, white);
+        }
+        
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 0.75rem;
+        }
+        
+        .notification-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+        }
+        
+        .notification-title {
+            font-weight: 700;
+            color: var(--bmad-forest-green, #2F4F2F);
+            margin-bottom: 0.25rem;
+        }
+        
+        .notification-time {
+            font-size: 0.875rem;
+            color: var(--bmad-warm-gray, #8B7D6B);
+        }
+        
+        .notification-message {
+            color: var(--bmad-dark-text, #2D2520);
+            line-height: 1.6;
+        }
+        
+        .notification-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .btn-primary {
+            background: var(--bmad-earth-brown, #8B4513);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: var(--bmad-warm-gray, #8B7D6B);
+            color: white;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--bmad-warm-gray, #8B7D6B);
+        }
+        
+        .filter-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .filter-tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            color: var(--bmad-warm-gray, #8B7D6B);
+            font-weight: 600;
+        }
+        
+        .filter-tab.active {
+            border-bottom-color: var(--bmad-forest-green, #2F4F2F);
+            color: var(--bmad-forest-green, #2F4F2F);
+        }
+    </style>
+</head>
+<body>
+    <h1>🔔 Notifications</h1>
+    
+    <div class="filter-tabs">
+        <div class="filter-tab active" onclick="filterNotifications('all')">All</div>
+        <div class="filter-tab" onclick="filterNotifications('unread')">Unread</div>
+        <div class="filter-tab" onclick="filterNotifications('important')">Important</div>
+    </div>
+    
+    <div id="notifications-container">
+        <div class="empty-state">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
+            <p>No notifications yet!</p>
+        </div>
+    </div>
+    
+    <script>
+        const { createClient } = supabase;
+        const supabaseClient = createClient(
+            'https://nlgldaqtubrlcqddppbq.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
+        );
+        
+        let allNotifications = [];
+        
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadNotifications();
+        });
+        
+        async function loadNotifications() {
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            
+            if (!user) {
+                window.location.href = '/login.html?redirect=/notifications.html';
+                return;
+            }
+            
+            // Mock notifications for now (TODO: Build notifications table)
+            allNotifications = [
+                {
+                    id: 1,
+                    icon: '🎉',
+                    title: 'Welcome to Te Kete Ako!',
+                    message: 'Your 14-day free trial has started. Explore 3,500+ resources!',
+                    time: 'Just now',
+                    unread: true,
+                    important: true,
+                    action: { text: 'Get Started', link: '/quick-start-teacher.html' }
+                },
+                {
+                    id: 2,
+                    icon: '📅',
+                    title: 'KAMAR Integration Available',
+                    message: 'Sync your timetable automatically with KAMAR integration (included free!)',
+                    time: '5 minutes ago',
+                    unread: true,
+                    important: false,
+                    action: { text: 'Set Up KAMAR', link: '/teacher-weekly-planner.html' }
+                },
+                {
+                    id: 3,
+                    icon: '⭐',
+                    title: 'Check Out Top 10 Resources',
+                    message: 'Hand-picked lessons perfect for getting started quickly.',
+                    time: '1 hour ago',
+                    unread: false,
+                    important: false,
+                    action: { text: 'View Top 10', link: '/top-10-starter-pack.html' }
+                }
+            ];
+            
+            renderNotifications('all');
+        }
+        
+        function renderNotifications(filter) {
+            const container = document.getElementById('notifications-container');
+            
+            let filtered = allNotifications;
+            if (filter === 'unread') {
+                filtered = allNotifications.filter(n => n.unread);
+            } else if (filter === 'important') {
+                filtered = allNotifications.filter(n => n.important);
+            }
+            
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
+                        <p>No ${filter} notifications!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = filtered.map(n => `
+                <div class="notification-card ${n.unread ? 'unread' : ''}">
+                    <div class="notification-header">
+                        <div style="display: flex; align-items: start;">
+                            <span class="notification-icon">${n.icon}</span>
+                            <div>
+                                <div class="notification-title">${n.title}</div>
+                                <div class="notification-time">${n.time}</div>
+                            </div>
+                        </div>
+                        ${n.unread ? '<span style="width: 12px; height: 12px; background: #fbbf24; border-radius: 50%;"></span>' : ''}
+                    </div>
+                    <div class="notification-message">${n.message}</div>
+                    ${n.action ? `
+                        <div class="notification-actions">
+                            <button class="btn btn-primary" onclick="window.location.href='${n.action.link}'">
+                                ${n.action.text} →
+                            </button>
+                            <button class="btn btn-secondary" onclick="markAsRead(${n.id})">
+                                Mark as Read
+                            </button>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+        
+        function filterNotifications(filter) {
+            // Update active tab
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            renderNotifications(filter);
+        }
+        
+        function markAsRead(id) {
+            const notification = allNotifications.find(n => n.id === id);
+            if (notification) {
+                notification.unread = false;
+                renderNotifications('all');
+            }
+        }
+    </script>
+    
+    <!-- Sidebar Auto-Loader -->
+    <script src="/js/sidebar-auto-loader.js" defer></script>
+</body>
+</html>
