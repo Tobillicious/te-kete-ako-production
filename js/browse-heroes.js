@@ -242,16 +242,26 @@ class BrowseHeroes {
                             `).join('')}
                         </div>
                     ` : ''}
-                    <div class="hero-pedagogy">
-                        <strong>Research-Based Pedagogy</strong>
-                        <p>${subject.pedagogy}</p>
-                        ${subject.culturalNote ? `<p class="cultural-note"><strong>Cultural Responsiveness:</strong> ${subject.culturalNote}</p>` : ''}
-                    </div>
                 </div>
             </div>
         `;
 
         main.insertBefore(hero, main.firstChild);
+        
+        // Add pedagogy section separately after the hero
+        if (subject.pedagogy) {
+            const pedagogyBox = document.createElement('div');
+            pedagogyBox.className = 'hero-pedagogy-box';
+            pedagogyBox.innerHTML = `
+                <div class="hero-pedagogy">
+                    <strong>Research-Based Pedagogy</strong>
+                    <p>${subject.pedagogy}</p>
+                    ${subject.culturalNote ? `<p class="cultural-note"><strong>Cultural Responsiveness:</strong> ${subject.culturalNote}</p>` : ''}
+                </div>
+            `;
+            main.insertBefore(pedagogyBox, hero.nextSibling);
+        }
+        
         console.log(`[Browse Heroes] Rendered subject hero for ${subjectKey}`);
     }
 
