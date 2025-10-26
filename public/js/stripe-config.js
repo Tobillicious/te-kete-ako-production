@@ -10,7 +10,7 @@ const STRIPE_CONFIG = {
     publishableKey: 'pk_test_51SMGLWDhKhPdHioTA315YQtT44VGdqaL1YcnL4sotO2MZY1OcQ3Spr7kyXKdpOsOEkzT0BcOFqi7eE2bkPaguvxv00YrLzu9WB',
     plans: {
         individual_monthly: {
-            priceId: null, // Set after creating in Stripe dashboard
+            priceId: 'price_1SMHrsDhKhPdHioTGHtK83M4', // ✅ LIVE!
             name: 'Individual Monthly',
             price: '$15 NZD/month',
             trial: 14,
@@ -35,7 +35,7 @@ const STRIPE_CONFIG = {
             ]
         },
         school_annual: {
-            priceId: null,
+            priceId: 'price_1SMHwtDhKhPdHioTpLUlMWvI', // ✅ LIVE!
             name: 'School License',
             price: '$499 NZD/year',
             users: 'Up to 50 users',
