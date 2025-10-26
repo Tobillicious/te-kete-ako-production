@@ -1,4 +1,3 @@
-s
 
 **INDIVIDUAL (Teacher or Student)**
 ```
