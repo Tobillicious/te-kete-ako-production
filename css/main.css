@@ -4687,7 +4687,7 @@ html {
 }
 
 .footer-section a::before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -4727,7 +4727,8 @@ html {
 
 /* Active page indicator subtle pulse */
 @keyframes subtlePulse {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 4px 8px rgba(245, 166, 35, 0.3);
   }
   50% {
@@ -4740,11 +4741,13 @@ html {
 }
 
 /* Typography refinement - letter spacing */
-h1, .hero-title {
+h1,
+.hero-title {
   letter-spacing: -0.02em;
 }
 
-h2, .section-title-main {
+h2,
+.section-title-main {
   letter-spacing: -0.01em;
 }
 
@@ -4780,7 +4783,8 @@ button:focus-visible {
 }
 
 @keyframes iconBounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -4818,12 +4822,7 @@ button:focus-visible {
 }
 
 .loading-skeleton {
-  background: linear-gradient(
-    90deg,
-    #f0f0f0 25%,
-    #e0e0e0 50%,
-    #f0f0f0 75%
-  );
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 1000px 100%;
   animation: shimmer 2s infinite;
 }
@@ -4837,7 +4836,7 @@ button:focus-visible {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  
+
   html {
     scroll-behavior: auto;
   }
@@ -4916,12 +4915,12 @@ button:focus-visible {
     padding: 8pt !important;
     margin-bottom: 12pt !important;
   }
-  
+
   .whakatauki-mi {
     font-size: 11pt !important;
     background: white !important;
   }
-  
+
   .whakatauki-en {
     font-size: 9pt !important;
   }
@@ -4949,10 +4948,16 @@ button:focus-visible {
   position: relative;
   overflow: hidden;
   animation: fadeInUp 0.6s ease-out;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.subject-hero:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
 }
 
 .subject-hero::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -50%;
   right: -10%;
@@ -5045,7 +5050,11 @@ button:focus-visible {
 }
 
 .subject-hero .hero-quick-links {
-  background: linear-gradient(135deg, rgba(236, 253, 245, 0.9) 0%, rgba(255, 255, 255, 0.95) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(236, 253, 245, 0.9) 0%,
+    rgba(255, 255, 255, 0.95) 100%
+  );
   border-radius: 12px;
   padding: 1.5rem;
   border: 2px solid var(--subject-color, var(--color-accent));
@@ -5100,7 +5109,11 @@ button:focus-visible {
   color: var(--color-text-secondary);
   margin: 0;
   padding: 1.5rem;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(236, 253, 245, 0.9) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(236, 253, 245, 0.9) 100%
+  );
   border-left: 4px solid var(--color-forest);
   border-radius: 12px;
   line-height: 1.7;
@@ -5109,11 +5122,18 @@ button:focus-visible {
 
 .subject-hero .hero-pedagogy strong {
   color: var(--color-forest);
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   margin-bottom: 0.75rem;
   text-transform: uppercase;
   font-size: 0.85rem;
   letter-spacing: 0.05em;
+}
+
+.subject-hero .hero-pedagogy strong::before {
+  content: "📚";
+  font-size: 1rem;
 }
 
 /* Year Level Hero */
@@ -5135,10 +5155,16 @@ button:focus-visible {
   position: relative;
   overflow: hidden;
   animation: fadeInUp 0.6s ease-out;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.year-hero:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
 }
 
 .year-hero::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -5229,7 +5255,11 @@ button:focus-visible {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   color: var(--color-primary);
   grid-column: 1 / -1;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(236, 253, 245, 0.95) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(236, 253, 245, 0.95) 100%
+  );
 }
 
 .year-hero .hero-focus strong,
@@ -5254,7 +5284,7 @@ button:focus-visible {
 .year-hero .hero-focus strong::before,
 .year-hero .hero-development strong::before,
 .year-hero .hero-pedagogy strong::before {
-  content: '●';
+  content: "●";
   color: var(--color-accent);
   font-size: 0.6rem;
 }
