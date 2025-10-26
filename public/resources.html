@@ -1,14 +1,272 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="0;url=/resource-discovery-hub.html">
-    <title>Resources - Te Kete Ako</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resource Library - Te Kete Ako</title>
+<meta name="description" content="Browse 1,500+ lessons, 380+ units, 1,200+ handouts. World-class educational resources integrating mātauranga Māori with the NZ Curriculum.">
+
+<!-- CSS - BMAD Design System -->
+<link rel="stylesheet" href="/css/te-kete-bmad-authentic.css">
+<link rel="stylesheet" href="/css/navigation-standard.css">
+<link rel="stylesheet" href="/css/mobile-revolution.css">
+<link rel="stylesheet" href="/css/tailwind.css">
+
+<!-- Core JS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/js/supabase-singleton.js"></script>
+<script src="/js/navigation-loader.js"></script>
 </head>
-<body>
-    <p>Redirecting to Resource Discovery Hub...</p>
-    <script>window.location.href = '/resource-discovery-hub.html';</script>
+
+<body class="pattern-koru-subtle" data-current-page="resources">
+
+<!-- Whakataukī Banner -->
+<div class="whakatauki-banner">
+  <p class="whakatauki-text">"Whaowhia te kete mātauranga"</p>
+  <p class="whakatauki-meaning">Fill the basket of knowledge</p>
+</div>
+
+<!-- Main Content -->
+<main class="container-lg mx-auto py-12 px-4">
+  
+  <!-- Hero Section -->
+  <section class="text-center mb-16">
+    <div class="text-6xl mb-4">📚✨</div>
+    <h1 class="text-5xl font-heading font-bold text-forest-900 mb-4">
+      Resource Library
+    </h1>
+    <p class="text-2xl text-earth-700 mb-8 max-w-3xl mx-auto">
+      1,500+ lessons • 380+ units • 1,200+ handouts • 100% culturally integrated
+    </p>
+    
+    <div class="flex justify-center gap-4 flex-wrap">
+      <a href="/resource-discovery-hub.html" class="btn btn-primary text-lg px-8 py-4">
+        Browse All Resources →
+      </a>
+      <a href="/graphrag-search.html" class="btn btn-secondary text-lg px-8 py-4">
+        AI-Powered Search
+      </a>
+    </div>
+  </section>
+
+  <!-- Resource Stats -->
+  <section class="grid md:grid-cols-4 gap-6 mb-16">
+    <div class="card card-elevated p-6 text-center">
+      <div class="text-4xl font-bold text-jade-600 mb-2">1,500+</div>
+      <div class="text-sm text-earth-700">Complete Lessons</div>
+    </div>
+    <div class="card card-elevated p-6 text-center">
+      <div class="text-4xl font-bold text-golden-600 mb-2">380+</div>
+      <div class="text-sm text-earth-700">Learning Units</div>
+    </div>
+    <div class="card card-elevated p-6 text-center">
+      <div class="text-4xl font-bold text-forest-600 mb-2">1,200+</div>
+      <div class="text-sm text-earth-700">Handouts & Tools</div>
+    </div>
+    <div class="card card-elevated p-6 text-center">
+      <div class="text-4xl font-bold text-earth-600 mb-2">95%</div>
+      <div class="text-sm text-earth-700">Culturally Integrated</div>
+    </div>
+  </section>
+
+  <!-- Subject Hubs -->
+  <section class="mb-16">
+    <h2 class="text-4xl font-heading font-bold text-center mb-12">Browse by Subject</h2>
+    
+    <div class="grid md:grid-cols-3 gap-6">
+      
+      <!-- Mathematics -->
+      <a href="/mathematics-hub.html" class="card card-elevated p-8 hover:lift transition-all">
+        <div class="text-5xl mb-4">📐</div>
+        <h3 class="text-2xl font-heading font-bold mb-3">Mathematics</h3>
+        <p class="text-earth-700 mb-4">
+          Algebra, geometry, statistics with Māori mathematical thinking
+        </p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="badge bg-jade-100 text-jade-800">350+ resources</span>
+          <span class="badge bg-golden-100 text-golden-800">Y7-Y13</span>
+        </div>
+      </a>
+
+      <!-- Science -->
+      <a href="/science-hub.html" class="card card-elevated p-8 hover:lift transition-all">
+        <div class="text-5xl mb-4">🔬</div>
+        <h3 class="text-2xl font-heading font-bold mb-3">Science</h3>
+        <p class="text-earth-700 mb-4">
+          Biology, physics, chemistry through Te Ao Māori lens
+        </p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="badge bg-jade-100 text-jade-800">420+ resources</span>
+          <span class="badge bg-golden-100 text-golden-800">Y7-Y13</span>
+        </div>
+      </a>
+
+      <!-- English -->
+      <a href="/english-hub.html" class="card card-elevated p-8 hover:lift transition-all">
+        <div class="text-5xl mb-4">📖</div>
+        <h3 class="text-2xl font-heading font-bold mb-3">English</h3>
+        <p class="text-earth-700 mb-4">
+          Reading, writing, comprehension with cultural narratives
+        </p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="badge bg-jade-100 text-jade-800">280+ resources</span>
+          <span class="badge bg-golden-100 text-golden-800">Y7-Y13</span>
+        </div>
+      </a>
+
+      <!-- Social Studies -->
+      <a href="/social-studies-hub.html" class="card card-elevated p-8 hover:lift transition-all">
+        <div class="text-5xl mb-4">🌍</div>
+        <h3 class="text-2xl font-heading font-bold mb-3">Social Studies</h3>
+        <p class="text-earth-700 mb-4">
+          History, geography, civics with indigenous perspectives
+        </p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="badge bg-jade-100 text-jade-800">200+ resources</span>
+          <span class="badge bg-golden-100 text-golden-800">Y7-Y10</span>
+        </div>
+      </a>
+
+      <!-- Digital Tech -->
+      <a href="/digital-technologies-hub.html" class="card card-elevated p-8 hover:lift transition-all">
+        <div class="text-5xl mb-4">💻</div>
+        <h3 class="text-2xl font-heading font-bold mb-3">Digital Technologies</h3>
+        <p class="text-earth-700 mb-4">
+          Coding, digital citizenship with kaitiakitanga principles
+        </p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="badge bg-jade-100 text-jade-800">150+ resources</span>
+          <span class="badge bg-golden-100 text-golden-800">Y7-Y13</span>
+        </div>
+      </a>
+
+      <!-- Te Ao Māori -->
+      <a href="/te-ao-maori-hub.html" class="card card-elevated p-8 hover:lift transition-all border-2 border-golden-500">
+        <div class="text-5xl mb-4">🌿</div>
+        <h3 class="text-2xl font-heading font-bold mb-3">Te Ao Māori</h3>
+        <p class="text-earth-700 mb-4">
+          Mātauranga Māori, te reo, tikanga across all subjects
+        </p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="badge bg-golden-500 text-white">100% integrated</span>
+          <span class="badge bg-earth-100 text-earth-800">All years</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- Browse By Type -->
+  <section class="mb-16">
+    <h2 class="text-4xl font-heading font-bold text-center mb-12">Browse by Resource Type</h2>
+    
+    <div class="grid md:grid-cols-2 gap-6">
+      
+      <a href="/lessons.html" class="card card-elevated p-6 hover:lift">
+        <div class="flex items-center gap-4">
+          <div class="text-5xl">📝</div>
+          <div class="flex-1">
+            <h4 class="text-xl font-bold mb-2">Complete Lessons</h4>
+            <p class="text-sm text-earth-700">Full lesson plans with activities, assessments, and cultural integration</p>
+            <div class="mt-2">
+              <span class="badge bg-jade-100 text-jade-800">1,500+ lessons</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a href="/handouts-complete.html" class="card card-elevated p-6 hover:lift">
+        <div class="flex items-center gap-4">
+          <div class="text-5xl">📄</div>
+          <div class="flex-1">
+            <h4 class="text-xl font-bold mb-2">Handouts & Worksheets</h4>
+            <p class="text-sm text-earth-700">Print-ready student materials and practice activities</p>
+            <div class="mt-2">
+              <span class="badge bg-jade-100 text-jade-800">1,200+ handouts</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a href="/units.html" class="card card-elevated p-6 hover:lift">
+        <div class="flex items-center gap-4">
+          <div class="text-5xl">📚</div>
+          <div class="flex-1">
+            <h4 class="text-xl font-bold mb-2">Learning Units</h4>
+            <p class="text-sm text-earth-700">Multi-lesson sequences with comprehensive coverage</p>
+            <div class="mt-2">
+              <span class="badge bg-jade-100 text-jade-800">380+ units</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a href="/games.html" class="card card-elevated p-6 hover:lift">
+        <div class="flex items-center gap-4">
+          <div class="text-5xl">🎮</div>
+          <div class="flex-1">
+            <h4 class="text-xl font-bold mb-2">Interactive Games</h4>
+            <p class="text-sm text-earth-700">Engaging educational games and simulations</p>
+            <div class="mt-2">
+              <span class="badge bg-jade-100 text-jade-800">50+ games</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- AI-Powered Discovery -->
+  <section class="bg-gradient-to-r from-jade-50 to-golden-50 rounded-xl p-12 mb-16 text-center">
+    <h2 class="text-4xl font-heading font-bold mb-4">AI-Powered Resource Discovery</h2>
+    <p class="text-xl text-earth-700 mb-8">
+      Let GraphRAG intelligence help you find the perfect resources
+    </p>
+    <div class="flex justify-center gap-4 flex-wrap">
+      <a href="/graphrag-search.html" class="btn btn-primary text-lg px-8 py-4">
+        Smart Search →
+      </a>
+      <a href="/adaptive-learning-paths.html" class="btn btn-secondary text-lg px-8 py-4">
+        Learning Pathways
+      </a>
+      <a href="/browse-relationships.html" class="btn btn-secondary text-lg px-8 py-4">
+        Browse Connections
+      </a>
+    </div>
+  </section>
+
+  <!-- Quality Standards -->
+  <section class="text-center mb-16">
+    <h2 class="text-3xl font-heading font-bold mb-6">Quality You Can Trust</h2>
+    <div class="flex flex-wrap justify-center gap-4 mb-8">
+      <span class="badge badge-lg bg-golden-500 text-white">NZ Curriculum Aligned</span>
+      <span class="badge badge-lg bg-jade-500 text-white">95% Cultural Integration</span>
+      <span class="badge badge-lg bg-earth-500 text-white">Expert Reviewed</span>
+      <span class="badge badge-lg bg-forest-500 text-white">Teacher Tested</span>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-gradient-to-r from-forest-100 to-earth-100 rounded-xl p-12 text-center">
+    <h2 class="text-4xl font-heading font-bold mb-4">Ready to Explore?</h2>
+    <p class="text-xl text-earth-700 mb-8">
+      Discover world-class resources for your classroom
+    </p>
+    <a href="/resource-discovery-hub.html" class="btn btn-primary text-lg px-8 py-4">
+      Browse All Resources →
+    </a>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-forest-900 text-white py-8 mt-16">
+  <div class="container-lg mx-auto px-4 text-center">
+    <p>&copy; 2025 Te Kete Ako. All rights reserved.</p>
+    <p class="text-sm text-sand-200 mt-2">Honoring mātauranga Māori • Empowering learners</p>
+  </div>
+</footer>
+
 </body>
 </html>
-
