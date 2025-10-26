@@ -1,113 +1,147 @@
 /**
- * SENTRY ERROR MONITORING
- * Catches and reports errors across the platform
- * Integrated: October 26, 2025
+ * SENTRY ERROR MONITORING - Te Kete Ako
+ * Professional error tracking for proactive quality
+ * Created: October 26, 2025
  */
 
-// Initialize Sentry for vanilla JavaScript (not React)
 (function() {
-    // Sentry configuration
-    const SENTRY_CONFIG = {
-        dsn: "https://2cd90e8d1c5811d6f11bd845b4c6e535@o4509672250933251.ingest.de.sentry.io/4509672258797648",
-        
-        // Environment
-        environment: window.location.hostname.includes('localhost') ? 'development' : 'production',
-        
-        // Release tracking
-        release: 'te-kete-ako@1.0.0',
-        
-        // Sample rate (100% = all errors)
-        tracesSampleRate: 1.0,
-        
-        // Replay sessions on errors
-        replaysSessionSampleRate: 0.1,
-        replaysOnErrorSampleRate: 1.0,
-        
-        // Capture user info (respects privacy)
-        sendDefaultPii: false, // Changed to false for privacy
-        
-        // Ignore common non-critical errors
-        ignoreErrors: [
-            'Non-Error promise rejection captured',
-            'ResizeObserver loop limit exceeded',
-            'Script error',
-        ],
-        
-        // Before sending, add custom context
-        beforeSend(event, hint) {
-            // Add page context
-            event.tags = event.tags || {};
-            event.tags.page_type = getPageType();
-            event.tags.user_role = getUserRole();
-            
-            // Add custom data
-            event.contexts = event.contexts || {};
-            event.contexts.platform = {
-                name: 'Te Kete Ako',
-                version: '1.0.0',
-                page: window.location.pathname
-            };
-            
-            return event;
-        }
-    };
+    'use strict';
 
-    // Load Sentry SDK from CDN
-    const script = document.createElement('script');
-    script.src = 'https://browser.sentry-cdn.com/7.119.0/bundle.min.js';
-    script.integrity = 'sha384-tG4X0F6F5Z8P0YXqJ5gF7M9jF7HQXqF5gF7M9jF7HQXqF5gF7M9jF7HQ';
-    script.crossOrigin = 'anonymous';
-    script.onload = function() {
-        // Initialize Sentry once loaded
-        if (window.Sentry) {
-            window.Sentry.init(SENTRY_CONFIG);
-            console.log('✅ Sentry initialized - Error monitoring active!');
-        }
-    };
-    document.head.appendChild(script);
+    // Only initialize if Sentry CDN is loaded
+    if (typeof Sentry !== 'undefined') {
+        Sentry.init({
+            dsn: 'https://YOUR_SENTRY_DSN@sentry.io/YOUR_PROJECT_ID', // Replace with actual DSN from Sentry.io
+            environment: window.location.hostname.includes('localhost') ? 'development' : 'production',
+            
+            // Performance Monitoring
+            tracesSampleRate: 0.1, // Sample 10% of transactions for performance
+            
+            // Release tracking
+            release: 'te-kete-ako@1.0.0',
+            
+            // User context
+            beforeSend(event, hint) {
+                // Add user context from Supabase if available
+                if (window.supabaseClient) {
+                    window.supabaseClient.auth.getUser().then(({ data: { user } }) => {
+                        if (user) {
+                            event.user = {
+                                id: user.id,
+                                email: user.email,
+                                school: user.user_metadata?.school
+                            };
+                        }
+                    });
+                }
 
-    // Helper functions
-    function getPageType() {
+                // Filter out known non-critical errors
+                if (event.exception && event.exception.values) {
+                    const error = event.exception.values[0];
+                    const errorMessage = error.value || '';
+
+                    // Ignore browser quirks
+                    if (errorMessage.includes('ResizeObserver loop')) return null;
+                    if (errorMessage.includes('Non-Error promise rejection')) return null;
+                    
+                    // Ignore CDN loading issues (report but don't alert)
+                    if (errorMessage.includes('cdn.jsdelivr.net')) {
+                        event.level = 'warning';
+                    }
+                }
+
+                return event;
+            },
+
+            // Breadcrumbs for debugging context
+            integrations: [
+                new Sentry.BrowserTracing({
+                    tracingOrigins: ['localhost', 'tekete.netlify.app', /^\//],
+                }),
+            ],
+
+            // Ignore certain URLs
+            ignoreErrors: [
+                'ResizeObserver loop',
+                'Non-Error promise rejection',
+                'NetworkError',
+                'cancelled' // User cancelled requests
+            ],
+
+            // Tag errors by page type
+            initialScope: {
+                tags: {
+                    page_type: detectPageType(),
+                    has_sidebar: document.getElementById('sidebar-container') ? 'yes' : 'no',
+                    authenticated: localStorage.getItem('supabase.auth.token') ? 'yes' : 'no'
+                }
+            }
+        });
+
+        console.log('✅ Sentry initialized - Professional error tracking active!');
+
+        // Track page view for context
+        if (window.posthog) {
+            window.posthog.capture('sentry_initialized', {
+                page_type: detectPageType()
+            });
+        }
+
+    } else {
+        console.warn('⚠️ Sentry CDN not loaded - error tracking disabled');
+    }
+
+    function detectPageType() {
         const path = window.location.pathname;
-        if (path.includes('/lessons/')) return 'lesson';
-        if (path.includes('/units/')) return 'unit';
-        if (path.includes('/handouts/')) return 'handout';
-        if (path.includes('/dashboard')) return 'dashboard';
-        if (path.includes('/admin/')) return 'admin';
-        return 'general';
+        if (path.includes('lesson')) return 'lesson';
+        if (path.includes('unit')) return 'unit';
+        if (path.includes('handout')) return 'handout';
+        if (path.includes('hub')) return 'hub';
+        if (path.includes('dashboard')) return 'dashboard';
+        if (path.includes('account') || path.includes('settings')) return 'account';
+        if (path.includes('pricing') || path.includes('subscription')) return 'pricing';
+        if (path === '/' || path.includes('index')) return 'homepage';
+        return 'other';
     }
 
-    function getUserRole() {
-        // Check if user is logged in (simplified check)
-        if (document.body.classList.contains('authenticated')) {
-            return 'authenticated';
-        }
-        return 'guest';
-    }
-
-    // Catch unhandled promise rejections
-    window.addEventListener('unhandledrejection', function(event) {
-        if (window.Sentry) {
-            window.Sentry.captureException(event.reason);
+    // Global error handler
+    window.addEventListener('error', function(event) {
+        console.error('Global error caught:', event.error);
+        
+        // Show user-friendly message for critical errors
+        if (event.error && window.showToast) {
+            window.showToast('Something went wrong. Our team has been notified.', 'error');
         }
     });
 
-    // Export for manual error reporting
-    window.TeKeteSentry = {
-        reportError: function(error, context) {
-            if (window.Sentry) {
-                window.Sentry.captureException(error, {
-                    extra: context
-                });
-            }
-        },
-        setUser: function(userData) {
-            if (window.Sentry) {
-                window.Sentry.setUser(userData);
-            }
+    // Unhandled promise rejection handler
+    window.addEventListener('unhandledrejection', function(event) {
+        console.error('Unhandled promise rejection:', event.reason);
+        
+        // Report to Sentry
+        if (typeof Sentry !== 'undefined') {
+            Sentry.captureException(event.reason);
         }
-    };
+    });
+
 })();
 
-console.log('🚨 Sentry error monitoring loading...');
-
+/**
+ * SETUP INSTRUCTIONS:
+ * 
+ * 1. Create Sentry account at https://sentry.io (FREE tier!)
+ * 2. Create project: "Te Kete Ako"
+ * 3. Copy your DSN
+ * 4. Replace 'YOUR_SENTRY_DSN@sentry.io/YOUR_PROJECT_ID' above
+ * 5. Add Sentry CDN to pages:
+ *    <script src="https://browser.sentry-cdn.com/7.x/bundle.min.js" crossorigin="anonymous"></script>
+ * 6. Include this file after Sentry CDN
+ * 7. Done! Errors automatically tracked!
+ * 
+ * FREE TIER INCLUDES:
+ * - 5,000 errors/month
+ * - 10,000 performance transactions/month
+ * - Unlimited team members
+ * - 30-day event retention
+ * 
+ * COST: $0/month! 🎊
+ */
