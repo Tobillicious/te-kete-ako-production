@@ -16,15 +16,9 @@
   to = "/.netlify/functions/:splat"
   status = 200
 
+# SPA fallback - only for routes that don't match files
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
   force = false
-  conditions = {Role = ["public"]}
-
-# Don't redirect actual files
-[[redirects]]
-  from = "/*.html"
-  to = "/:splat.html"
-  status = 200
