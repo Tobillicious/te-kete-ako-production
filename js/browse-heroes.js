@@ -10,7 +10,7 @@ class BrowseHeroes {
                 titleEn: 'English',
                 descriptionMi: 'Tuhituhi, pānui, kōrero - ngā pūkenga reo hei whakawhitiwhiti whakaaro',
                 descriptionEn: 'Writing, reading, speaking - language skills for sharing ideas and stories',
-                color: '#d83c3e',
+                color: '#5B8DBE',
                 quickLinks: [
                     { href: 'handouts/writers-toolkit-peel-argument-handout.html', label: 'PEEL Method', icon: '📝' },
                     { href: 'toolkit.html', label: 'Writer\'s Toolkit', icon: '✍️' },
@@ -21,10 +21,10 @@ class BrowseHeroes {
             'math': {
                 icon: '🔢',
                 titleMi: 'Pāngarau',
-                titleEn: 'Mathematics',
+                titleEn: 'Mathematics and Statistics',
                 descriptionMi: 'Whakaaro tātai, raraunga, me te whakatau rapanga',
                 descriptionEn: 'Mathematical thinking, data, and problem-solving for real-world contexts',
-                color: '#00b0b9',
+                color: '#8B2E4E',
                 quickLinks: [
                     { href: 'handouts/probability-handout.html', label: 'Probability', icon: '🎲' },
                     { href: 'curriculum-alignment.html#mathematics', label: 'Mathematics AO', icon: '📋' }
@@ -37,7 +37,7 @@ class BrowseHeroes {
                 titleEn: 'Science',
                 descriptionMi: 'Mātauranga Māori me te pūtaiao hou - ngā pūnaha mātai taiao',
                 descriptionEn: 'Integrating mātauranga Māori and contemporary science for environmental understanding',
-                color: '#2c5f41',
+                color: '#1E5741',
                 quickLinks: [
                     { href: 'units/unit-3-stem-matauranga.html', label: 'STEM + Mātauranga', icon: '🌊' },
                     { href: 'curriculum-alignment.html#science', label: 'Science AO', icon: '📋' }
@@ -47,10 +47,10 @@ class BrowseHeroes {
             'social-studies': {
                 icon: '🌏',
                 titleMi: 'Tikanga-ā-Iwi',
-                titleEn: 'Social Studies',
+                titleEn: 'Social Sciences',
                 descriptionMi: 'Te ao Māori, tiriti, me te tika hapori - ako mō te ao hurihuri',
                 descriptionEn: 'Te Ao Māori, Te Tiriti, and social justice - learning about our changing world',
-                color: '#8b6f47',
+                color: '#6B4C9A',
                 quickLinks: [
                     { href: 'y8-systems-unit.html', label: 'Systems Unit (Y8)', icon: '🏛️' },
                     { href: 'units/unit-2-decolonized-history.html', label: 'Decolonized History', icon: '🔥' },
@@ -62,10 +62,10 @@ class BrowseHeroes {
             'te-reo': {
                 icon: '🌿',
                 titleMi: 'Te Reo Māori',
-                titleEn: 'Māori Language',
+                titleEn: 'Learning Languages',
                 descriptionMi: 'Ko te reo te mauri o te mana Māori',
                 descriptionEn: 'The language is the life force of Māori culture',
-                color: '#2c5f41',
+                color: '#40B5AD',
                 quickLinks: [
                     { href: 'games/te-reo-wordle.html', label: 'Te Reo Wordle', icon: '🎮' },
                     { href: 'handouts/haka-comprehension-handout.html', label: 'Haka Analysis', icon: '💪' },
@@ -79,17 +79,17 @@ class BrowseHeroes {
                 titleEn: 'The Arts',
                 descriptionMi: 'Whakairo, toi ataata, puoro - ngā momo toi Māori me te ao whānui',
                 descriptionEn: 'Visual arts, performing arts, music - Māori and global creative expression',
-                color: '#f5a623',
+                color: '#C17A4F',
                 quickLinks: [],
                 pedagogy: '"The arts are a way of knowing" (Eisner, 2002). Creative expression as cultural renewal and identity affirmation, honoring toi Māori as sophisticated artistic knowledge systems (Mead, 2003).'
             },
             'health-pe': {
                 icon: '💪',
                 titleMi: 'Hauora',
-                titleEn: 'Health & Physical Education',
+                titleEn: 'Health and Physical Education',
                 descriptionMi: 'Tinana, hinengaro, whānau, wairua - te hauora whānui',
                 descriptionEn: 'Physical, mental, family, spiritual - holistic wellbeing',
-                color: '#40e0d0',
+                color: '#D64045',
                 quickLinks: [],
                 pedagogy: 'Te Whare Tapa Whā (Durie, 1985) - holistic Māori health model integrating physical, mental, family, and spiritual dimensions. Health as socio-cultural construct (Burrows & Wright, 2007).'
             },
@@ -99,7 +99,7 @@ class BrowseHeroes {
                 titleEn: 'Technology',
                 descriptionMi: 'Hangarau matihiko, hoahoa, me te mātauranga raraunga Māori',
                 descriptionEn: 'Digital technologies, design, and Māori data sovereignty',
-                color: '#1a1a1a',
+                color: '#8B6F47',
                 quickLinks: [
                     { href: 'units/unit-7-digital-tech-ai-ethics.html', label: 'AI Ethics', icon: '🤖' },
                     { href: 'curriculum-alignment.html#technology', label: 'Technology AO', icon: '📋' }
