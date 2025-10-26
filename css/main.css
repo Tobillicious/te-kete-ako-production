@@ -4852,3 +4852,77 @@ button:focus-visible {
     transition: none !important;
   }
 }
+
+/* =================================================================
+   DAILY WHAKATAUKĪ WIDGET - Sidebar
+   Rotating daily proverb for cultural grounding
+   ================================================================= */
+
+.whakatauki-widget {
+  background: linear-gradient(
+    135deg,
+    rgba(44, 95, 65, 0.08) 0%,
+    rgba(245, 166, 35, 0.06) 100%
+  );
+  border-left: 4px solid var(--color-accent);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.whakatauki-widget:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.whakatauki-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.whakatauki-mi {
+  font-size: 1.05rem;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--color-forest);
+  line-height: 1.5;
+  margin: 0;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 6px;
+  border-left: 3px solid var(--color-accent);
+}
+
+.whakatauki-en {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin: 0;
+  padding-left: 0.5rem;
+  font-style: italic;
+}
+
+/* Subtle animation on load */
+.whakatauki-widget {
+  animation: fadeInUp 0.8s ease-out 0.2s backwards;
+}
+
+/* Print styles - keep whakataukī visible */
+@media print {
+  .whakatauki-widget {
+    page-break-inside: avoid;
+    background: #f9f9f9 !important;
+    border: 1pt solid #ccc !important;
+    padding: 8pt !important;
+    margin-bottom: 12pt !important;
+  }
+  
+  .whakatauki-mi {
+    font-size: 11pt !important;
+    background: white !important;
+  }
+  
+  .whakatauki-en {
+    font-size: 9pt !important;
+  }
+}
