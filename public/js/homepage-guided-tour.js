@@ -8,7 +8,7 @@ class HomepageTour {
         this.steps = [
             {
                 element: 'a[href="/teachers/index.html"]',
-                title: '🧑‍🏫 Start Here if You're a Teacher',
+                title: '👩‍🏫 Start Here if You\'re a Teacher',
                 description: 'Click this big button to see all teaching resources, lesson plans, and professional tools.',
                 position: 'bottom'
             },
