@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cross-Subject Discovery | GraphRAG Intelligence | Te Kete Ako</title>
+
+<!-- UNIFIED DESIGN SYSTEM -->
+<!-- PWA Manifest -->
+<link href="/manifest.json" rel="manifest"/>
+<meta content="#1a4d2e" name="theme-color"/>
+
+<!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
+<!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
+
+
+<!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
+
+
+
+<!-- ⭐ COMPONENT STYLES -->
+
+
+
+
+
+<!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
+
+
+
+<!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
+
+
+<!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    // Wait for Supabase CDN to load before initializing singleton
+    window.addEventListener('DOMContentLoaded', () => {
+        if (!window.supabase) {
+            // Log to monitoring instead of console
+            if (window.posthog) {
+                posthog.capture('supabase_cdn_error', {
+                    message: 'Supabase CDN failed to load',
+                    url: window.location.pathname
+                });
+            }
+        }
+    });
+</script>
+<script src="/js/supabase-singleton.js"></script>
+<!-- My Kete Database Integration - loads after singleton -->
+<script src="/js/my-kete-database.js"></script>
+<!-- Navigation Loader Singleton - loads after supabase setup -->
+<script src="/js/navigation-loader.js"></script>
+<!-- Component Loader - centralized async component management -->
+<script src="/js/component-loader.js"></script>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="Te Kete Ako" name="apple-mobile-web-app-title"/>
+<link href="/icons/icon-192x192.png" rel="apple-touch-icon"/>
+<!-- ENHANCED SEARCH -->
+<script src="/js/enhanced-search.js" defer></script>
+<!-- MOBILE PERFORMANCE OPTIMIZER -->
+<script src="/js/mobile-performance-optimizer.js" defer></script>
+<!-- TOUCH TARGET AUDITOR -->
+<script src="/js/touch-target-auditor.js" defer></script>
+<!-- 🎨 ULTIMATE CULTURAL GESTURES - Framer Motion System -->
+<script src="/js/framer-cultural-gestures-ultimate.js" defer></script>
+<!-- Service Worker Registration -->
+<script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('✅ PWA: Service Worker registered!', registration);
+                    })
+                    .catch(error => {
+                        // Log to monitoring instead of console
+                        if (window.posthog) {
+                            posthog.capture('pwa_service_worker_error', {
+                                message: 'Service Worker registration failed',
+                                error: error.message,
+                                url: window.location.pathname
+                            });
+                        }
+                    });
+            });
+        }
+</script>
+
+<meta name="robots" content="index, follow"/>
+<meta name="googlebot" content="index, follow"/>
+<meta name="theme-color" content="#1a4d2e"/>
+
+
+
+<meta name="robots" content="index, follow"/>
+<meta name="googlebot" content="index, follow"/>
+<meta name="theme-color" content="#1a4d2e"/>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Performance Optimizations -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1a4d2e">
+
+<!-- DNS Prefetch for external resources -->
+<link rel="dns-prefetch" href="//fonts.googleapis.com">
+<link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+
+<!-- Preconnect for critical resources -->
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+<!-- Resource hints -->
+
+<link rel="preload" href="/js/component-loader.js" as="script">
+    <meta name="description" content="Explore 1,332+ cross-curricular pathways discovered by GraphRAG. Interactive visualization of Science×Math, English×Digital Tech, and more connections across 17,277 resources.">
+
+<!-- UNIFIED DESIGN SYSTEM -->
+<!-- PWA Manifest -->
+<link href="/manifest.json" rel="manifest"/>
+<meta content="#1a4d2e" name="theme-color"/>
+
+<!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
+<!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
+
+
+<!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
+
+
+
+<!-- ⭐ COMPONENT STYLES -->
+    
+    
+    
+    
+
+<!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
+    
+
+
+<!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
+
+
+<!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
+
+<body class="pattern-koru-subtle">
+    <!-- Navigation -->
+    <div id="nav-container"></div>
+    <script>
+        fetch('/components/navigation-standard.html')
+            .then(r => r.text())
+            .then(html => document.getElementById('nav-container').innerHTML = html);
+    </script>
+
+    <!-- Hero Section -->
+    <section style="color: white; padding: 4rem 2rem; ">
+        <div class="m-0 mx-auto" <div class="m-0 mx-auto" <span >🧠 GRAPHRAG INTELLIGENCE</span>
+            </div>
+            <h1 style="font-size: 3rem; ">Cross-Subject Discovery</h1>
+            <p style="font-size: 1.25rem; opacity: 0.95; ">
+                Explore thousands of cross-curricular connections automatically discovered by our knowledge graph
+            </p>
+            <div style="gap: 2rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
+                <div>
+                    <div style="font-size: 2.5rem; ">1,332</div>
+                    <div style="opacity: 0.9;">Science→Math</div>
+                </div>
+                <div>
+                    <div style="font-size: 2.5rem; ">632</div>
+                    <div style="opacity: 0.9;">Math→Science</div>
+                </div>
+                <div>
+                    <div style="font-size: 2.5rem; ">433</div>
+                    <div style="opacity: 0.9;">Digital→Science</div>
+                </div>
+                <div>
+                    <div style="font-size: 2.5rem; ">407</div>
+                    <div style="opacity: 0.9;">English→Math</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main style="margin: 3rem auto; padding: 0 2rem;">
+        
+        <!-- Interactive Filter -->
+        <section style="margin-bottom: 3rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+            <h2 style="font-size: 1.75rem; margin-bottom: 1.5rem; ">
+                🔍 Explore Cross-Curricular Pathways
+            </h2>
+            <div style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                <div>
+                    <label style="color: #374151;">From Subject:</label>
+                    <select id="fromSubject" >
+                        <option value="">All Subjects</option>
+                        <option value="Science">🔬 Science</option>
+                        <option value="Mathematics">📐 Mathematics</option>
+                        <option value="English">📝 English</option>
+                        <option value="Digital Technologies">💻 Digital Technologies</option>
+                        <option value="Social Studies">🏛️ Social Studies</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="color: #374151;">To Subject:</label>
+                    <select id="toSubject" >
+                        <option value="">All Subjects</option>
+                        <option value="Science">🔬 Science</option>
+                        <option value="Mathematics">📐 Mathematics</option>
+                        <option value="English">📝 English</option>
+                        <option value="Digital Technologies">💻 Digital Technologies</option>
+                        <option value="Social Studies">🏛️ Social Studies</option>
+                    </select>
+                </div>
+            </div>
+            <button onclick="filterConnections()" style="color: white; border: none; cursor: pointer; transition: transform 0.2s;">
+                🔍 Discover Connections
+            </button>
+        </section>
+
+        <!-- Connection Network Visualization -->
+        <section style="padding: 3rem 2rem; margin-bottom: 3rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+            <h2 style="font-size: 2rem; ">
+                🌐 Connection Network
+            </h2>
+            <p style="color: #666; ">
+                Visual map of cross-subject relationships discovered by GraphRAG
+            </p>
+            <div id="networkViz" style="min-grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;"></div>
+        </section>
+
+        <!-- Top Pathways -->
+        <section style="margin-bottom: 3rem;">
+            <h2 style="font-size: 2rem; ">
+                🏆 Top Cross-Subject Pathways
+            </h2>
+            <div id="topPathways" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;"></div>
+        </section>
+
+        <!-- Sample Resources -->
+        <section id="sampleResources" style="display: none; padding: 3rem 2rem; margin-bottom: 3rem; ">
+            <h2 style="font-size: 2rem; color: #1e40af; ">
+                📚 Sample Resources
+            </h2>
+            <p id="pathwayDescription" style="color: #475569; "></p>
+            <div id="resourceGrid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;"></div>
+        </section>
+
+        <!-- Build Your Own Pathway -->
+        <section style="padding: 3rem 2rem; ">
+            <div >
+                <div class="p-2" style="background: #f59e0b; color: white; padding: 0.5rem 1.5rem; border-radius: 20px; "
+                    🛠️ BUILD YOUR OWN
+                </div>
+                <h2 style="font-size: 2rem; color: #92400e; ">
+                    Create a Custom Learning Pathway
+                </h2>
+                <p style="color: #78350f; ">
+                    Design integrated units that bridge multiple subjects
+                </p>
+            </div>
+            <div >
+                <form id="pathwayBuilder" style="gap: 1.5rem;">
+                    <div>
+                        <label >Primary Subject:</label>
+                        <select id="primarySubject" >
+                            <option value="Science">🔬 Science</option>
+                            <option value="Mathematics">📐 Mathematics</option>
+                            <option value="English">📝 English</option>
+                            <option value="Digital Technologies">💻 Digital Technologies</option>
+                            <option value="Social Studies">🏛️ Social Studies</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label >Connect With:</label>
+                        <div style="grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.75rem;">
+                            <label style="align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" value="Science" name="connectSubjects"> Science
+                            </label>
+                            <label style="align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" value="Mathematics" name="connectSubjects"> Math
+                            </label>
+                            <label style="align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" value="English" name="connectSubjects"> English
+                            </label>
+                            <label style="align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" value="Digital Technologies" name="connectSubjects"> Digital Tech
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <label >Year Level:</label>
+                        <select id="yearLevel" >
+                            <option value="7-8">Years 7-8</option>
+                            <option value="9-10">Years 9-10</option>
+                            <option value="11-13">Years 11-13</option>
+                        </select>
+                    </div>
+                    <button type="button" onclick="buildPathway()" style="color: white; border: none; cursor: pointer;">
+                        🚀 Generate Pathway
+                    </button>
+                </form>
+                <div id="pathwayResult" style="margin-top: 2rem; background: #f0fdf4; display: none;">
+                    <h3 style="color: #065f46; ">✅ Your Custom Pathway:</h3>
+                    <div id="pathwayDetails"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Cross-Subject Learning Matters -->
+        <section style="padding: 3rem 2rem; margin: 3rem 0;">
+            <h2 style="font-size: 2rem; ">
+                💡 Why Cross-Subject Learning Matters
+            </h2>
+            <div style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                <div style="box-shadow: 0 2px 12px rgba(0,0,0,0.08);">
+                    <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🧠</div>
+                    <h3 style="color: #065f46; ">Deeper Understanding</h3>
+                    <p style="color: #6b7280; font-size: 0.95rem;">Students see how concepts connect across disciplines, leading to more robust learning</p>
+                </div>
+                <div style="box-shadow: 0 2px 12px rgba(0,0,0,0.08);">
+                    <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🎯</div>
+                    <h3 style="color: #065f46; ">Real-World Relevance</h3>
+                    <p style="color: #6b7280; font-size: 0.95rem;">Problems in the real world don't exist in subject silos—cross-curricular learning reflects reality</p>
+                </div>
+                <div style="box-shadow: 0 2px 12px rgba(0,0,0,0.08);">
+                    <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🌟</div>
+                    <h3 style="color: #065f46; ">NZ Curriculum Alignment</h3>
+                    <p style="color: #6b7280; font-size: 0.95rem;">The NZ Curriculum emphasizes connections across learning areas and key competencies</p>
+                </div>
+                <div style="box-shadow: 0 2px 12px rgba(0,0,0,0.08);">
+                    <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🚀</div>
+                    <h3 style="color: #065f46; ">GraphRAG Advantage</h3>
+                    <p style="color: #6b7280; font-size: 0.95rem;">Our AI automatically discovers connections you might miss—surfacing 241,256 relationships</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <div id="footer-container"></div>
+    <script>
+        fetch('/components/footer.html').then(r=>r.text()).then(html=>{
+            document.getElementById('footer-container').innerHTML=html;
+        });
+    </script>
+
+    <script>
+        // Cross-subject connection data (from GraphRAG analysis)
+        const connections = {
+            'Science→Mathematics': { count: 1332, desc: 'Data analysis, mathematical modeling, statistics in scientific inquiry', color: '#3b82f6' },
+            'Mathematics→Science': { count: 632, desc: 'Mathematical foundations for scientific concepts, measurement, patterns', color: '#10b981' },
+            'Digital Technologies→Science': { count: 433, desc: 'Data collection, sensors, environmental monitoring, computational thinking', color: '#7c3aed' },
+            'English→Mathematics': { count: 407, desc: 'Problem-solving explanations, mathematical writing, communication of ideas', color: '#dc2626' },
+            'Digital Technologies→English': { count: 404, desc: 'Digital storytelling, media literacy, online communication', color: '#ec4899' },
+            'Science→English': { count: 350, desc: 'Scientific writing, research skills, explanation texts', color: '#14b8a6' },
+            'Mathematics→Digital Technologies': { count: 293, desc: 'Computational thinking, algorithms, data structures', color: '#f59e0b' },
+            'English→Digital Technologies': { count: 197, desc: 'Digital literacy, media analysis, online communication', color: '#8b5cf6' },
+            'Science→Digital Technologies': { count: 388, desc: 'Data science, sensors, coding for science', color: '#06b6d4' },
+            'Mathematics→English': { count: 278, desc: 'Explaining mathematical reasoning, word problems, communication', color: '#ef4444' },
+            'Social Studies→Science': { count: 245, desc: 'Environmental policy, climate action, data analysis', color: '#10b981' },
+            'Mathematics→Social Studies': { count: 168, desc: 'Statistics, demographics, economic modeling', color: '#f97316' }
+        };
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            renderNetworkViz();
+            renderTopPathways();
+            
+            // Check URL parameters
+            const params = new URLSearchParams(window.location.search);
+            const from = params.get('from');
+            const to = params.get('to');
+            if (from && to) {
+                document.getElementById('fromSubject').value = from;
+                document.getElementById('toSubject').value = to;
+                filterConnections();
+            }
+        });
+
+        function renderNetworkViz() {
+            const container = document.getElementById('networkViz');
+            const topConnections = Object.entries(connections)
+                .sort((a, b) => b[1].count - a[1].count)
+                .slice(0, 6);
+            
+            container.innerHTML = topConnections.map(([key, data]) => {
+                const [from, to] = key.split('→');
+                return `
+                    <div style="box-shadow: 0 2px 12px rgba(0,0,0,0.08); cursor: pointer; transition: transform 0.2s;" onclick="showPathway('${from}', '${to}')">
+                        <div style="font-size: 2rem; color: ${data.color}; ">${data.count}</div>
+                        <div style="color: #1f2937; ">${key}</div>
+                        <div style="color: #6b7280; font-size: 0.85rem;">${data.desc}</div>
+                        <div style="margin-top: 0.75rem; color: ${data.color}; ">Explore →</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderTopPathways() {
+            const container = document.getElementById('topPathways');
+            const allConnections = Object.entries(connections)
+                .sort((a, b) => b[1].count - a[1].count);
+            
+            container.innerHTML = allConnections.map(([key, data]) => {
+                const [from, to] = key.split('→');
+                return `
+                    <div style="box-shadow: 0 2px 12px rgba(0,0,0,0.08); border-top: 4px solid ${data.color}; cursor: pointer; transition: transform 0.2s;" onclick="showPathway('${from}', '${to}')" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform=''">
+                        <div style="justify-content: space-between; align-items: start; margin-bottom: 0.75rem;">
+                            <div style="font-size: 1.25rem; color: #1f2937;">${key}</div>
+                            <div style="background: ${data.color}; color: white; padding: 0.25rem 0.75rem; font-size: 0.85rem;">${data.count}</div>
+                        </div>
+                        <p style="color: #6b7280; margin-bottom: 0.75rem;">${data.desc}</p>
+                        <div style="color: ${data.color}; ">View Resources →</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterConnections() {
+            const from = document.getElementById('fromSubject').value;
+            const to = document.getElementById('toSubject').value;
+            
+            if (from && to) {
+                showPathway(from, to);
+            } else {
+                alert('Please select both From and To subjects');
+            }
+        }
+
+        function showPathway(from, to) {
+            const key = `${from}→${to}`;
+            const data = connections[key];
+            
+            if (!data) {
+                alert(`Connection ${key} not found in current dataset. Try exploring other combinations!`);
+                return;
+            }
+
+            // Scroll to sample resources
+            const section = document.getElementById('sampleResources');
+            section.style.display = 'block';
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Update description
+            document.getElementById('pathwayDescription').innerHTML = `
+                <strong style="color: #1e40af; ">${from} → ${to}</strong><br>
+                ${data.count.toLocaleString()} connections discovered by GraphRAG<br>
+                <span style="font-size: 0.95rem;">${data.desc}</span>
+            `;
+
+            // Generate sample resources (placeholder - would query Supabase in production)
+            const resourceGrid = document.getElementById('resourceGrid');
+            resourceGrid.innerHTML = `
+                <div style="box-shadow: 0 2px 12px rgba(0,0,0,0.08);">
+                    <div style="font-size: 1.5rem; margin-bottom: 0.75rem;">📚</div>
+                    <h4 style="color: #1f2937; ">Sample Lesson Resources</h4>
+                    <p style="color: #6b7280; ">GraphRAG is connecting you to relevant resources...</p>
+                    <a href="#" style="margin-top: 0.75rem; color: #3b82f6; ">Browse ${from} Hub →</a>
+                </div>
+                <div style="box-shadow: 0 2px 12px rgba(0,0,0,0.08);">
+                    <div style="font-size: 1.5rem; margin-bottom: 0.75rem;">🎯</div>
+                    <h4 style="color: #1f2937; ">Integrated Units</h4>
+                    <p style="color: #6b7280; ">Explore units that combine ${from} and ${to}...</p>
+                    <a href="/browse-units.html" style="margin-top: 0.75rem; color: #3b82f6; ">Browse All Units →</a>
+                </div>
+                <div style="box-shadow: 0 2px 12px rgba(0,0,0,0.08);">
+                    <div style="font-size: 1.5rem; margin-bottom: 0.75rem;">🔗</div>
+                    <h4 style="color: #1f2937; ">Connection Strength</h4>
+                    <p style="color: #6b7280; "><strong>${data.count}</strong> automatic connections found by analyzing 17,277 resources</p>
+                    <p style="color: #6b7280; font-size: 0.85rem; margin-top: 0.5rem;">These pathways were discovered through semantic analysis of content, not manual tagging</p>
+                </div>
+            `;
+        }
+
+        function buildPathway() {
+            const primary = document.getElementById('primarySubject').value;
+            const checkboxes = document.querySelectorAll('input[name="connectSubjects"]:checked');
+            const connected = Array.from(checkboxes).map(cb => cb.value);
+            const yearLevel = document.getElementById('yearLevel').value;
+
+            if (connected.length === 0) {
+                alert('Please select at least one subject to connect with');
+                return;
+            }
+
+            // Show result
+            const resultDiv = document.getElementById('pathwayResult');
+            const detailsDiv = document.getElementById('pathwayDetails');
+            
+            resultDiv.style.display = 'block';
+            detailsDiv.innerHTML = `
+                <div >
+                    <h4 style="color: #065f46; margin-bottom: 0.75rem;">📚 Your Integrated Learning Pathway</h4>
+                    <p><strong>Primary Subject:</strong> ${primary}</p>
+                    <p><strong>Connected Subjects:</strong> ${connected.join(', ')}</p>
+                    <p><strong>Year Level:</strong> ${yearLevel}</p>
+                </div>
+                <div >
+                    <h4 style="color: #065f46; margin-bottom: 0.75rem;">🚀 Next Steps:</h4>
+                    <ol style="color: #374151; line-">
+                        <li>Browse the <a href="#" style="color: #3b82f6; ">${primary} Hub</a> for primary resources</li>
+                        ${connected.map(subject => 
+                            `<li>Explore <a href="/cross-subject-discovery.html?from=${primary}&to=${subject}" style="color: #3b82f6; ">${primary}→${subject} connections</a></li>`
+                        ).join('')}
+                        <li>Check <a href="/browse-units.html" style="color: #3b82f6; ">integrated units</a> that combine these subjects</li>
+                    </ol>
+                </div>
+            `;
+
+            // Scroll to result
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    </script>
+
+    <!-- PostHog Analytics -->
+    <script src="/js/posthog-analytics.js" defer></script>
+    <script src="/js/framer-cultural-gestures-ultimate.js" defer></script>
+</body>
+</html>

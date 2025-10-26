@@ -1,0 +1,153 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Learning Pathways | Te Kete Ako</title>
+
+<!-- UNIFIED DESIGN SYSTEM -->
+<!-- PWA Manifest -->
+<link href="/manifest.json" rel="manifest"/>
+<meta content="#1a4d2e" name="theme-color"/>
+
+<!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
+<!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
+
+
+<!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
+
+
+
+<!-- ⭐ COMPONENT STYLES -->
+
+
+
+
+
+<!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
+
+
+
+<!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
+
+
+<!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    // Wait for Supabase CDN to load before initializing singleton
+    window.addEventListener('DOMContentLoaded', () => {
+        if (!window.supabase) {
+            // Log to monitoring instead of console
+            if (window.posthog) {
+                posthog.capture('supabase_cdn_error', {
+                    message: 'Supabase CDN failed to load',
+                    url: window.location.pathname
+                });
+            }
+        }
+    });
+</script>
+<script src="/js/supabase-singleton.js"></script>
+<!-- My Kete Database Integration - loads after singleton -->
+<script src="/js/my-kete-database.js"></script>
+<!-- Navigation Loader Singleton - loads after supabase setup -->
+<script src="/js/navigation-loader.js"></script>
+<!-- Component Loader - centralized async component management -->
+<script src="/js/component-loader.js"></script>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="Te Kete Ako" name="apple-mobile-web-app-title"/>
+<link href="/icons/icon-192x192.png" rel="apple-touch-icon"/>
+<!-- ENHANCED SEARCH -->
+<script src="/js/enhanced-search.js" defer></script>
+<!-- MOBILE PERFORMANCE OPTIMIZER -->
+<script src="/js/mobile-performance-optimizer.js" defer></script>
+<!-- TOUCH TARGET AUDITOR -->
+<script src="/js/touch-target-auditor.js" defer></script>
+<!-- 🎨 ULTIMATE CULTURAL GESTURES - Framer Motion System -->
+<script src="/js/framer-cultural-gestures-ultimate.js" defer></script>
+<!-- Service Worker Registration -->
+<script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('✅ PWA: Service Worker registered!', registration);
+                    })
+                    .catch(error => {
+                        // Log to monitoring instead of console
+                        if (window.posthog) {
+                            posthog.capture('pwa_service_worker_error', {
+                                message: 'Service Worker registration failed',
+                                error: error.message,
+                                url: window.location.pathname
+                            });
+                        }
+                    });
+            });
+        }
+</script>
+
+<meta name="robots" content="index, follow"/>
+<meta name="googlebot" content="index, follow"/>
+<meta name="theme-color" content="#1a4d2e"/>
+
+
+
+<meta name="robots" content="index, follow"/>
+<meta name="googlebot" content="index, follow"/>
+<meta name="theme-color" content="#1a4d2e"/>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Performance Optimizations -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1a4d2e">
+
+<!-- DNS Prefetch for external resources -->
+<link rel="dns-prefetch" href="//fonts.googleapis.com">
+<link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+
+<!-- Preconnect for critical resources -->
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+<!-- Resource hints -->
+
+<link rel="preload" href="/js/component-loader.js" as="script">
+    <meta name="description" content="272 prerequisite learning pathways. Discover the logical sequence to master concepts across subjects.">
+
+<!-- UNIFIED DESIGN SYSTEM -->
+<!-- PWA Manifest -->
+<link href="/manifest.json" rel="manifest"/>
+<meta content="#1a4d2e" name="theme-color"/>
+
+<!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
+<!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
+
+
+<!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
+
+
+
+<!-- ⭐ COMPONENT STYLES -->
+    
+    
+    
+    
+
+<!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
+    
+
+
+<!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
+
+
+<!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
+<body class="pattern-koru-subtle">    <!-- Navigation -->    <div id="nav-container"></div>    <script>        fetch('/components/navigation-standard.html')            .then(r => r.text())            .then(html => {                document.getElementById('nav-container').innerHTML = html;            });    </script>    <!-- Hero -->    <section class="pathway-hero">        <h1 style="font-size: 3.5rem; ">            📚 Learning Pathways        </h1>        <p class="m-0 mx-auto" 272 prerequisite relationships showing the logical sequence to master concepts.            Start with foundations, build to advanced topics.        </p>    </section>    <!-- Main Content -->    <main class="m-0 mx-auto" <!-- Explanation -->        <section style="margin-bottom: 3rem; ">            <h2 >🤔 What are Learning Pathways?</h2>            <p style="color: #666; line-">                Learning pathways show <strong>prerequisite relationships</strong> between resources.                They answer: "What should students learn before tackling this concept?"            </p>            <p style="color: #666; line-">                Our GraphRAG has identified <strong>272 prerequisite connections</strong> across the platform,                creating clear learning sequences for teachers to follow.            </p>        </section>        <!-- Subject Filter -->        <section class="subject-filter">            <h3 >Filter by Subject</h3>            <p style="color: #666; ">                Select a subject to view relevant learning pathways            </p>            <div class="filter-buttons">                <button class="filter-btn active" onclick="filterSubject('all')">All Subjects (272)</button>                <button class="filter-btn" onclick="filterSubject('mathematics')">Mathematics (89)</button>                <button class="filter-btn" onclick="filterSubject('science')">Science (76)</button>                <button class="filter-btn" onclick="filterSubject('english')">English (45)</button>                <button class="filter-btn" onclick="filterSubject('social-studies')">Social Studies (38)</button>                <button class="filter-btn" onclick="filterSubject('technology')">Technology (24)</button>            </div>        </section>        <!-- Example Pathway 1: Y8 Systems -->        <div class="pathway-card" data-subject="social-studies">            <div style="justify-content: between; align-items: center; ">                <h3 style="font-size: 1.5rem; ">                    Y8 Systems Thinking Pathway                </h3>                <span class="p-2" style="background: #dbeafe; color: #0284c7; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem;"                    Social Studies • 5 steps                </span>            </div>            <p style="color: #666; ">                Master systems thinking from basic concepts to complex global systems            </p>            <div class="pathway-chain">                <div class="pathway-node">                    <div class="pathway-level">L1-1: Foundation</div>                    <div class="pathway-title">What is a System?</div>                    <div class="pathway-desc">Introduction to interconnected parts and wholes</div>                </div>                <div class="pathway-arrow">→</div>                <div class="pathway-node">                    <div class="pathway-level">L2-1: Application</div>                    <div class="pathway-title">Government Systems</div>                    <div class="pathway-desc">Apply systems thinking to governance</div>                </div>                <div class="pathway-arrow">→</div>                <div class="pathway-node">                    <div class="pathway-level">L3-1: Complexity</div>                    <div class="pathway-title">Economic Systems</div>                    <div class="pathway-desc">Understanding interconnected markets</div>                </div>                <div class="pathway-arrow">→</div>                <div class="pathway-node">                    <div class="pathway-level">L4-1: Integration</div>                    <div class="pathway-title">Rights & Systems</div>                    <div class="pathway-desc">How systems affect human rights</div>                </div>                <div class="pathway-arrow">→</div>                <div class="pathway-node">                    <div class="pathway-level">L5-1: Synthesis</div>                    <div class="pathway-title">Future Systems</div>                    <div class="pathway-desc">Design systems for tomorrow</div>                </div>            </div>        </div>        <!-- Example Pathway 2: Mathematics -->        <div class="pathway-card" data-subject="mathematics">            <div style="justify-content: space-between; align-items: center; ">                <h3 style="font-size: 1.5rem; ">                    Algebra Fundamentals Pathway                </h3>                <span class="p-2" style="background: #fef3c7; color: #92400e; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem;"                    Mathematics • 4 steps                </span>            </div>            <p style="color: #666; ">                Build algebraic thinking from variables to equations            </p>            <div class="pathway-chain">                <div class="pathway-node">                    <div class="pathway-level" style="background: #f59e0b;">Y7: Foundation</div>                    <div class="pathway-title">Introduction to Variables</div>                    <div class="pathway-desc">Letters represent numbers</div>                </div>                <div class="pathway-arrow">→</div>                <div class="pathway-node">                    <div class="pathway-level" style="background: #f59e0b;">Y7-8: Development</div>                    <div class="pathway-title">Simple Expressions</div>                    <div class="pathway-desc">Combining terms and simplifying</div>                </div>                <div class="pathway-arrow">→</div>                <div class="pathway-node">                    <div class="pathway-level" style="background: #f59e0b;">Y8: Application</div>                    <div class="pathway-title">Solving Equations</div>                    <div class="pathway-desc">Finding unknown values</div>                </div>                <div class="pathway-arrow">→</div>                <div class="pathway-node">                    <div class="pathway-level" style="background: #f59e0b;">Y8-9: Extension</div>                    <div class="pathway-title">Real-World Problems</div>                    <div class="pathway-desc">Apply algebra to contexts</div>                </div>            </div>        </div>        <!-- Example Pathway 3: Science -->        <div class="pathway-card" data-subject="science">            <div style="justify-content: space-between; align-items: center; ">                <h3 style="font-size: 1.5rem; ">                    Ecosystems & Kaitiakitanga Pathway                </h3>                <span class="p-2" style="background: #d1fae5; color: #065f46; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem;"                    Science • 6 steps                </span>            </div>            <p style="color: #666; ">                Understanding ecosystems through te ao Māori and science            </p>            <div class="pathway-chain">                <div class="pathway-node">                    <div class="pathway-level" style="background: #10b981;">Y7: Introduction</div>                    <div class="pathway-title">What is Kaitiakitanga?</div>                    <div class="pathway-desc">Guardianship and ecosystems</div>                </div>                <div class="pathway-arrow">→</div>                <div class="pathway-node">                    <div class="pathway-level" style="background: #10b981;">Y7: Basics</div>                    <div class="pathway-title">Food Webs & Energy</div>                    <div class="pathway-desc">How energy flows in nature</div>                </div>                <div class="pathway-arrow">→</div>                <div class="pathway-node">                    <div class="pathway-level" style="background: #10b981;">Y7-8: Impact</div>                    <div class="pathway-title">Human Effects</div>                    <div class="pathway-desc">Our impact on ecosystems</div>                </div>                <div class="pathway-arrow">→</div>                <div class="pathway-node">                    <div class="pathway-level" style="background: #10b981;">Y9: Research</div>                    <div class="pathway-title">Field Study Methods</div>                    <div class="pathway-desc">Rangahau in the taiao</div>                </div>            </div>        </div>        <!-- Example Pathway 4: Digital Technologies -->        <div class="pathway-card" data-subject="technology">            <div style="justify-content: space-between; align-items: center; ">                <h3 style="font-size: 1.5rem; ">                    Digital Kaitiakitanga Pathway                </h3>                <span class="p-2" style="background: #ede9fe; color: #5b21b6; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem;"                    Technology • 7 steps                </span>            </div>            <p style="color: #666; ">                Becoming a responsible digital guardian            </p>            <div class="pathway-chain">                <div class="pathway-node">                    <div class="pathway-level" style="background: #8b5cf6;">L1: Foundation</div>                    <div class="pathway-title">Digital Whenua</div>                    <div class="pathway-desc">Understanding our digital space</div>                </div>                <div class="pathway-arrow">→</div>                <div class="pathway-node">                    <div class="pathway-level" style="background: #8b5cf6;">L2-6: Wellbeing</div>                    <div class="pathway-title">Te Whare Tapa Whā Digital</div>                    <div class="pathway-desc">Digital health foundations</div>                </div>                <div class="pathway-arrow">→</div>                <div class="pathway-node">                    <div class="pathway-level" style="background: #8b5cf6;">L7-9: Responsibility</div>                    <div class="pathway-title">Words & Actions</div>                    <div class="pathway-desc">Digital communication ethics</div>                </div>                <div class="pathway-arrow">→</div>                <div class="pathway-node">                    <div class="pathway-level" style="background: #8b5cf6;">L13-15: Mastery</div>                    <div class="pathway-title">Digital Rangatiratanga</div>                    <div class="pathway-desc">Self-determination online</div>                </div>            </div>        </div>        <!-- Load More -->        <div style="margin: 3rem 0;">            <button onclick="loadMorePathways()" class="p-4" style="color: white; border: none; padding: 1rem 2rem; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"                Load More Pathways (268 remaining) →            </button>        </div>        <!-- GraphRAG Note -->        <div style="background: #fff7ed; margin-top: 3rem;">            <h4 style="color: #92400e; ">                💡 About This Data            </h4>            <p style="color: #92400e; line-font-size: 0.95rem;">                These pathways are automatically generated by our GraphRAG system by analyzing                prerequisite relationships between resources. The system has identified 272                prerequisite connections, ensuring students build knowledge systematically.            </p>        </div>    </main>    <script>        function filterSubject(subject) {            // Update active button            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));            event.target.classList.add('active');            // Filter cards            const cards = document.querySelectorAll('.pathway-card');            cards.forEach(card => {                if (subject === 'all' || card.dataset.subject === subject) {                    card.style.display = 'block';                } else {                    card.style.display = 'none';                }            });        }        function loadMorePathways() {            alert('Loading more pathways from GraphRAG...\n\nThis will query the graphrag_relationships table for all prerequisite relationships and render them dynamically.');        }    </script><!-- 🎨 ULTIMATE BEAUTY SYSTEM: Complete UX --><!-- Footer --><div id="footer-container"></div><script>  fetch('/components/footer.html').then(r=>r.text()).then(html=>{    document.getElementById('footer-container').innerHTML=html;  });</script><!-- Mobile Navigation --><div id="mobile-nav-bottom"></div><script>  fetch('/components/mobile-bottom-nav.html').then(r=>r.text()).then(html=>{    document.getElementById('mobile-nav-bottom').innerHTML=html;  });</script><!-- Floating Action Button (Help) --><div id="fab-quick-actions"></div><script>  fetch('/components/quick-actions-fab.html').then(r=>r.text()).then(html=>{    document.getElementById('fab-quick-actions').innerHTML=html;  });</script><!-- 🎨 ULTIMATE BEAUTY: Framer Cultural Gestures --><script src="/js/framer-cultural-gestures-ultimate.js" defer></script><!-- 📊 ULTIMATE BEAUTY: PostHog Analytics (Privacy-First) --><script src="/js/posthog-analytics.js" defer></script></body></html>

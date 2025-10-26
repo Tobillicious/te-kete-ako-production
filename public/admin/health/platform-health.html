@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Platform Health | Te Kete Ako</title>
+
+<!-- UNIFIED DESIGN SYSTEM -->
+<!-- PWA Manifest -->
+<link href="/manifest.json" rel="manifest"/>
+<meta content="#1a4d2e" name="theme-color"/>
+
+<!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
+<!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
+
+
+<!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
+
+
+
+<!-- ⭐ COMPONENT STYLES -->
+
+
+
+
+
+<!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
+
+
+
+<!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
+
+
+<!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    // Wait for Supabase CDN to load before initializing singleton
+    window.addEventListener('DOMContentLoaded', () => {
+        if (!window.supabase) {
+            // Log to monitoring instead of console
+            if (window.posthog) {
+                posthog.capture('supabase_cdn_error', {
+                    message: 'Supabase CDN failed to load',
+                    url: window.location.pathname
+                });
+            }
+        }
+    });
+</script>
+<script src="/js/supabase-singleton.js"></script>
+<!-- My Kete Database Integration - loads after singleton -->
+<script src="/js/my-kete-database.js"></script>
+<!-- Navigation Loader Singleton - loads after supabase setup -->
+<script src="/js/navigation-loader.js"></script>
+<!-- Component Loader - centralized async component management -->
+<script src="/js/component-loader.js"></script>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="Te Kete Ako" name="apple-mobile-web-app-title"/>
+<link href="/icons/icon-192x192.png" rel="apple-touch-icon"/>
+<!-- ENHANCED SEARCH -->
+<script src="/js/enhanced-search.js" defer></script>
+<!-- MOBILE PERFORMANCE OPTIMIZER -->
+<script src="/js/mobile-performance-optimizer.js" defer></script>
+<!-- TOUCH TARGET AUDITOR -->
+<script src="/js/touch-target-auditor.js" defer></script>
+<!-- 🎨 ULTIMATE CULTURAL GESTURES - Framer Motion System -->
+<script src="/js/framer-cultural-gestures-ultimate.js" defer></script>
+<!-- Service Worker Registration -->
+<script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('✅ PWA: Service Worker registered!', registration);
+                    })
+                    .catch(error => {
+                        // Log to monitoring instead of console
+                        if (window.posthog) {
+                            posthog.capture('pwa_service_worker_error', {
+                                message: 'Service Worker registration failed',
+                                error: error.message,
+                                url: window.location.pathname
+                            });
+                        }
+                    });
+            });
+        }
+</script>
+
+<meta name="robots" content="index, follow"/>
+<meta name="googlebot" content="index, follow"/>
+<meta name="theme-color" content="#1a4d2e"/>
+
+
+
+<meta name="robots" content="index, follow"/>
+<meta name="googlebot" content="index, follow"/>
+<meta name="theme-color" content="#1a4d2e"/>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- UNIFIED DESIGN SYSTEM -->
+<!-- PWA Manifest -->
+<link href="/manifest.json" rel="manifest"/>
+<meta content="#1a4d2e" name="theme-color"/>
+
+<!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
+<!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
+
+
+<!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
+
+
+
+<!-- ⭐ COMPONENT STYLES -->
+    
+    
+    
+    
+
+<!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
+    
+
+
+<!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
+
+
+<!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
+
+<body class="pattern-koru-subtle">
+  <div id="nav-container"></div>
+  
+
+  <main class="max-w-6xl" >
+    <section class="p-8 rounded-2xl" >
+      <h1 class="font-extrabold" >📈 Platform Health</h1>
+      <p class="m-0 font-semibold" >Live GraphRAG and site readiness indicators</p>
+      <p id="last-updated" style="margin: 0.5rem 0 0 0; color: #475569;">Loading…</p>
+    </section>
+
+    <section class="grid" >
+      <div class="health-card bg-white rounded-xl" >
+        <h3 class="m-0" >Total Resources</h3>
+        <div id="metric-total-resources" class="font-extrabold" >—</div>
+      </div>
+      <div class="health-card bg-white rounded-xl" >
+        <h3 class="m-0" >With Cultural Context</h3>
+        <div id="metric-cultural" class="font-extrabold" >—</div>
+      </div>
+      <div class="health-card bg-white rounded-xl" >
+        <h3 class="m-0" >With Te Reo Māori</h3>
+        <div id="metric-te-reo" class="font-extrabold" >—</div>
+      </div>
+      <div class="health-card bg-white rounded-xl" >
+        <h3 class="m-0" >Excellence Alpha (count)</h3>
+        <div id="metric-alpha-count" class="font-extrabold" >—</div>
+      </div>
+      <div class="health-card bg-white rounded-xl" >
+        <h3 class="m-0" >Dist Handouts Enriched</h3>
+        <div class="flex" >
+          <div id="metric-dist-enriched" class="font-extrabold" >—</div>
+          <div id="metric-dist-total" style="font-size: 0.95rem; color: #475569;">/ —</div>
+        </div>
+        <div id="metric-dist-rate" style="font-size: 0.95rem; color: #6b7280;">—</div>
+      </div>
+      <div class="health-card bg-white rounded-xl" >
+        <h3 class="m-0" >GraphRAG vs Site (Dist)</h3>
+        <div class="flex" >
+          <div class="flex" >
+            <span>GraphRAG Indexed</span>
+            <strong id="metric-dist-graphrag">—</strong>
+          </div>
+          <div class="flex" >
+            <span>Site Detected</span>
+            <strong id="metric-dist-site">—</strong>
+          </div>
+          <div id="metric-dist-gap" style="color:#334155;">Gap: —</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white rounded-xl p-6" >
+      <h2 style="margin: 0 0 0.75rem 0; font-size: 1.25rem; color: #0f172a;">Subject Distribution (Top)</h2>
+      <div id="subject-distribution" class="grid" ></div>
+    </section>
+
+    <section class="bg-white rounded-xl p-6" >
+      <h2 style="margin: 0 0 0.75rem 0; font-size: 1.25rem; color: #0f172a;">GraphRAG vs Site: Details</h2>
+      <div class="grid" >
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.75rem 1rem;">
+          <div class="flex mb-2" >
+            <div class="font-bold" >Missing in GraphRAG</div>
+            <div class="flex" >
+              <span id="count-missing" style="color:#334155;">—</span>
+              <button id="copy-missing-csv" class="rounded-md" >Copy CSV</button>
+            </div>
+          </div>
+          <ol id="list-missing" class="m-0" ></ol>
+        </div>
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.75rem 1rem;">
+          <div class="flex mb-2" >
+            <div class="font-bold" >Placeholders Detected</div>
+            <div class="flex" >
+              <span id="count-placeholders" style="color:#334155;">—</span>
+              <button id="copy-placeholders-csv" class="rounded-md" >Copy CSV</button>
+            </div>
+          </div>
+          <ol id="list-placeholders" class="m-0" ></ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white rounded-xl p-6" >
+      <h2 style="margin: 0 0 0.75rem 0; font-size: 1.25rem; color: #0f172a;">Missing Includes Audit (Sample)</h2>
+      <p style="margin: 0 0 0.75rem 0; color: #475569;">Scans a sample of Unit and Lesson pages for critical CSS/JS includes.</p>
+      <div class="flex mb-2" >
+        <span>Missing:</span>
+        <span>pro.css: <strong id="miss-pro" style="color:#b91c1c">—</strong></span>
+        <span>beauty.css: <strong id="miss-beauty" style="color:#b91c1c">—</strong></span>
+        <span>main.css: <strong id="miss-main" style="color:#b91c1c">—</strong></span>
+        <span>mobile.css: <strong id="miss-mobile" style="color:#b91c1c">—</strong></span>
+        <span>print.css: <strong id="miss-print" style="color:#b91c1c">—</strong></span>
+        <span>te-kete.js: <strong id="miss-tekete" style="color:#b91c1c">—</strong></span>
+        <span>posthog.js: <strong id="miss-posthog" style="color:#b91c1c">—</strong></span>
+        <button id="copy-missing-includes-csv" class="rounded-md" >Copy CSV</button>
+      </div>
+      <ol id="list-missing-includes" class="m-0" ></ol>
+    </section>
+  </main>
+
+  <!-- Supabase Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://nlgldaqtubrlcqddppbq.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function loadPlatformMetrics() {
+      const updatedAtEl = document.getElementById('last-updated');
+      const set = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
+      try {
+        updatedAtEl.textContent = 'Fetching live metrics…';
+
+        // Total resources
+        const totalQ = await supabase.from('graphrag_resources').select('*', { count: 'exact', head: true });
+        set('metric-total-resources', (totalQ.count ?? 0).toLocaleString());
+
+        // Cultural context count
+        const culturalQ = await supabase.from('graphrag_resources').select('*', { count: 'exact', head: true }).eq('cultural_context', true);
+        set('metric-cultural', (culturalQ.count ?? 0).toLocaleString());
+
+        // Te Reo count
+        const teReoQ = await supabase.from('graphrag_resources').select('*', { count: 'exact', head: true }).eq('has_te_reo', true);
+        set('metric-te-reo', (teReoQ.count ?? 0).toLocaleString());
+
+        // Excellence Alpha (via view)
+        const alphaQ = await supabase.from('graphrag_alpha_resources').select('*', { count: 'exact', head: true });
+        set('metric-alpha-count', (alphaQ.count ?? 0).toLocaleString());
+
+        // Subject distribution (top 8)
+        const subjQ = await supabase
+          .from('graphrag_resources')
+          .select('subject', { count: 'exact' })
+          .limit(10000);
+        if (!subjQ.error && Array.isArray(subjQ.data)) {
+          const counts = {};
+          for (const r of subjQ.data) {
+            const s = (r.subject || 'Other').trim();
+            counts[s] = (counts[s] || 0) + 1;
+          }
+          const sorted = Object.entries(counts).sort((a,b) => b[1]-a[1]).slice(0, 8);
+          const container = document.getElementById('subject-distribution');
+          container.innerHTML = '';
+          sorted.forEach(([name, value]) => {
+            const card = document.createElement('div');
+            card.style.background = '#f8fafc';
+            card.style.border = '1px solid #e2e8f0';
+            card.style.borderRadius = '10px';
+            card.style.padding = '0.75rem 1rem';
+            card.innerHTML = `<div class="font-bold" >${name}</div><div style="color:#334155;">${value.toLocaleString()} resources</div>`;
+            container.appendChild(card);
+          });
+        }
+
+        // Dist-handouts GraphRAG count (with/without leading slash)
+        const dist1 = await supabase.from('graphrag_resources').select('*', { count: 'exact', head: true }).ilike('file_path', '/public/dist-handouts/%');
+        const dist2 = await supabase.from('graphrag_resources').select('*', { count: 'exact', head: true }).ilike('file_path', 'dist-handouts/%');
+        const distGraphragCount = (dist1.count ?? 0) + (dist2.count ?? 0);
+        const graphragEl = document.getElementById('metric-dist-graphrag');
+        if (graphragEl) graphragEl.textContent = distGraphragCount.toString();
+
+        const ts = new Date();
+        updatedAtEl.textContent = `Last updated: ${ts.toLocaleString()}`;
+      } catch (e) {
+        updatedAtEl.textContent = 'Error fetching metrics';
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('javascript_error', {
+                error: err.message,
+                url: window.location.pathname
+            }));
+        }
+        // Show user-friendly message instead of error
+        }
+    }
+    document.addEventListener('DOMContentLoaded', loadPlatformMetrics);
+
+    // Dist Handouts placeholder coverage (client-side scan)
+    function extractDistTail(path) {
+      if (!path) return null;
+      const p = String(path);
+      const idx = p.toLowerCase().indexOf('dist-handouts/');
+      if (idx === -1) return null;
+      return p.slice(idx).replace(/^\/+/, '');
+    }
+
+    async function fetchGraphragDistTails() {
+      const acc = new Set();
+      try {
+        const q = await supabase
+          .from('graphrag_resources')
+          .select('file_path')
+          .ilike('file_path', '%/dist-handouts/%')
+          .limit(10000);
+        if (!q.error && Array.isArray(q.data)) {
+          for (const r of q.data) {
+            const tail = extractDistTail(r.file_path);
+            if (tail) acc.add(tail);
+          }
+        }
+      } catch (e) {
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('javascript_error', {
+                error: err.message,
+                url: window.location.pathname
+            }));
+        }
+        // Show user-friendly message instead of error
+        }
+      return Array.from(acc);
+    }
+
+    async function scanDistHandoutsCoverage() {
+      const totalEl = document.getElementById('metric-dist-total');
+      const enrichedEl = document.getElementById('metric-dist-enriched');
+      const rateEl = document.getElementById('metric-dist-rate');
+      const siteCountEl = document.getElementById('metric-dist-site');
+      const gapEl = document.getElementById('metric-dist-gap');
+      const listMissingEl = document.getElementById('list-missing');
+      const listPlaceholdersEl = document.getElementById('list-placeholders');
+      const countMissingEl = document.getElementById('count-missing');
+      const countPlaceholdersEl = document.getElementById('count-placeholders');
+      try {
+        // Fetch the complete handouts listing and extract /dist-handouts/ links
+        const listingResp = await fetch('/handouts-complete.html');
+        if (!listingResp.ok) throw new Error('Failed to load handouts listing');
+        const listingHtml = await listingResp.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(listingHtml, 'text/html');
+        const links = Array.from(doc.querySelectorAll('a[href]'))
+          .map(a => a.getAttribute('href'))
+          .filter(href => typeof href === 'string' && href.startsWith('/dist-handouts/') && !href.endsWith('.bak'));
+
+        // De-duplicate and cap to avoid excessive requests
+        const unique = Array.from(new Set(links));
+        const siteTails = unique.map(u => u.replace(/^\/+/, ''));
+        const cap = unique.slice(0, 200);
+        let placeholders = 0;
+        let fetched = 0;
+        const placeholderLinks = [];
+
+        // Fetch in small batches to be gentle on the browser
+        const batchSize = 10;
+        for (let i = 0; i < cap.length; i += batchSize) {
+          const batch = cap.slice(i, i + batchSize);
+          const results = await Promise.allSettled(batch.map(async (url) => {
+            const r = await fetch(url);
+            const t = await r.text();
+            return /placeholder|coming soon/i.test(t) ? { kind: 'placeholder', url } : { kind: 'ok', url };
+          }));
+          results.forEach(res => {
+            fetched += 1;
+            if (res.status === 'fulfilled' && res.value.kind === 'placeholder') {
+              placeholders += 1;
+              placeholderLinks.push(res.value.url);
+            }
+          });
+        }
+
+        const total = fetched;
+        const enriched = total - placeholders;
+        const rate = total > 0 ? Math.round((enriched / total) * 100) : 100;
+        if (enrichedEl) enrichedEl.textContent = enriched.toString();
+        if (totalEl) totalEl.textContent = `/ ${total}`;
+        if (rateEl) rateEl.textContent = `${rate}% enriched`;
+
+        // Compare to GraphRAG indexed count (previously set)
+        if (siteCountEl) siteCountEl.textContent = total.toString();
+        const graphragEl = document.getElementById('metric-dist-graphrag');
+        if (gapEl && graphragEl && graphragEl.textContent && !isNaN(Number(graphragEl.textContent))) {
+          const g = Number(graphragEl.textContent);
+          const gap = Math.max(0, total - g);
+          gapEl.textContent = `Gap: ${gap}`;
+          if (gap > 0) {
+            gapEl.style.color = '#b91c1c';
+          } else {
+            gapEl.style.color = '#16a34a';
+            gapEl.textContent = 'Gap: 0 (in sync)';
+          }
+        }
+
+        // Build detailed lists
+        const graphragTails = await fetchGraphragDistTails();
+        const graphragSet = new Set(graphragTails);
+        const missingTails = siteTails.filter(t => !graphragSet.has(t));
+
+        if (countMissingEl) countMissingEl.textContent = `${missingTails.length}`;
+        if (countPlaceholdersEl) countPlaceholdersEl.textContent = `${placeholderLinks.length}`;
+
+        const renderList = (el, items, toHref) => {
+          if (!el) return;
+          el.innerHTML = '';
+          const show = items.slice(0, 100);
+          for (const item of show) {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = toHref(item);
+            a.textContent = toHref(item);
+            a.style.color = '#1d4ed8';
+            a.style.textDecoration = 'none';
+            li.appendChild(a);
+            el.appendChild(li);
+          }
+        };
+
+        renderList(listMissingEl, missingTails, (t) => `/${t}`);
+        renderList(listPlaceholdersEl, placeholderLinks, (u) => u);
+
+        // Copy CSV handlers
+        const copyText = async (text) => {
+          try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              await navigator.clipboard.writeText(text);
+            } else {
+              const ta = document.createElement('textarea');
+              ta.value = text;
+              document.body.appendChild(ta);
+              ta.select();
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+            }
+          } catch (e) {
+            // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('javascript_error', {
+                error: err.message,
+                url: window.location.pathname
+            }));
+        }
+        // Show user-friendly message instead of error
+        }
+        };
+
+        const missingBtn = document.getElementById('copy-missing-csv');
+        if (missingBtn) {
+          missingBtn.addEventListener('click', () => {
+            const rows = missingTails.map(t => `/${t}`);
+            const csv = ['url', ...rows].join('\n');
+            copyText(csv);
+          });
+        }
+        const placeholdersBtn = document.getElementById('copy-placeholders-csv');
+        if (placeholdersBtn) {
+          placeholdersBtn.addEventListener('click', () => {
+            const rows = placeholderLinks;
+            const csv = ['url', ...rows].join('\n');
+            copyText(csv);
+          });
+        }
+      } catch (e) {
+        if (rateEl) rateEl.textContent = 'Coverage scan unavailable';
+        // Log to monitoring instead of console
+        if (window.posthog) {
+            posthog.capture('javascript_error', {
+                error: err.message,
+                url: window.location.pathname
+            }));
+        }
+        // Show user-friendly message instead of error
+        }
+    }
+    document.addEventListener('DOMContentLoaded', scanDistHandoutsCoverage);
+  </script>
+
+  <script>
+    // Missing Includes Audit - lightweight sample
+    async function missingIncludesAudit() {
+      const samplePaths = [
+        '/units/y8-geography-navigation/index.html',
+        '/units/y8-statistics-maramataka/index.html'
+      ];
+      const required = {
+        pro: /\/css\/te-kete-professional\.css/i,
+        beauty: /\/css\/te-kete-ultimate-beauty-system\.css/i,
+        main: /\/css\/main\.css/i,
+        mobile: /\/css\/mobile-revolution\.css/i,
+        print: /\/css\/print\.css/i,
+        tekete: /\/js\/te-kete-professional\.js/i,
+        posthog: /\/js\/posthog-analytics\.js/i
+      };
+      const counters = { pro:0, beauty:0, main:0, mobile:0, print:0, tekete:0, posthog:0 };
+      const rows = [];
+
+      for (const path of samplePaths) {
+        try {
+          const r = await fetch(path);
+          const html = await r.text();
+          const miss = Object.entries(required)
+            .filter(([key, rx]) => !rx.test(html))
+            .map(([key]) => key);
+          if (miss.length > 0) {
+            rows.push({ url: path, missing: miss.join('|') });
+            miss.forEach(k => { counters[k] = (counters[k]||0)+1; });
+          }
+        } catch (e) {
+          rows.push({ url: path, missing: 'fetch_error' });
+        }
+      }
+
+      const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = String(v); };
+      set('miss-pro', counters.pro);
+      set('miss-beauty', counters.beauty);
+      set('miss-main', counters.main);
+      set('miss-mobile', counters.mobile);
+      set('miss-print', counters.print);
+      set('miss-tekete', counters.tekete);
+      set('miss-posthog', counters.posthog);
+
+      const list = document.getElementById('list-missing-includes');
+      if (list) {
+        list.innerHTML = '';
+        rows.forEach(r => {
+          const li = document.createElement('li');
+          li.innerHTML = `<a href="${r.url}" style="color:#1d4ed8; text-decoration:none;">${r.url}</a> — missing: <span style="color:#b91c1c">${r.missing}</span>`;
+          list.appendChild(li);
+        });
+      }
+
+      const btn = document.getElementById('copy-missing-includes-csv');
+      if (btn) {
+        btn.addEventListener('click', async () => {
+          const csv = ['url,missing', ...rows.map(r => `${r.url},${r.missing}`)].join('\n');
+          try {
+            await navigator.clipboard.writeText(csv);
+          } catch (_) {
+            const ta = document.createElement('textarea');
+            ta.value = csv; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+          }
+        });
+      }
+    }
+    document.addEventListener('DOMContentLoaded', missingIncludesAudit);
+  </script>
+
+  <!-- 📊 ULTIMATE BEAUTY: PostHog Analytics (Privacy-First) -->
+  <script src="/js/posthog-analytics.js" defer></script>
+
+  <!-- Badge loader (CSP-safe) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('/components/badge-system.html')
+        .then(r => r.text())
+        .then(html => {
+          const wrapper = document.createElement('div');
+          wrapper.innerHTML = html;
+          const styleEl = wrapper.querySelector('style');
+          const scriptEl = wrapper.querySelector('script');
+          if (styleEl) document.head.appendChild(styleEl);
+          if (scriptEl && scriptEl.textContent) {
+            const s = document.createElement('script');
+            s.textContent = scriptEl.textContent;
+            document.body.appendChild(s);
+          }
+        })
+        .catch(err => {
+        // Log error to monitoring
+        if (window.posthog) {
+            posthog.capture('javascript_error', {
+                message: err.message,
+                stack: err.stack,
+                url: window.location.pathname
+            });
+        }
+    });
+    });
+  </script>
+<!-- PARALLEL COMPONENT LOADING - No more 2-3s delay! -->
+<script>
+    // Load all components in parallel for instant page display
+    // PARALLEL COMPONENT LOADING - No more 2-3s delay!
+Promise.all([
+    // Components will be loaded here
+]).then(() => {
+    console.log('✅ All components loaded in parallel');
+}).catch(err => {
+    if (window.posthog) {
+        posthog.capture('component_loading_error', {
+            message: err.message,
+            url: window.location.pathname
+        });
+    }
+});
+        }
+        // Show user-friendly message instead of error
+        });
+</script>
+</body>
+</html>
+

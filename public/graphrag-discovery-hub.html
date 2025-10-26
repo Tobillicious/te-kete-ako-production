@@ -1,195 +1,46 @@
-<!DOCTYPE html><html lang="en"><head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>GraphRAG Discovery Hub | AI-Powered Knowledge Navigation | Te Kete Ako</title>
-
-<!-- UNIFIED DESIGN SYSTEM -->
-<!-- PWA Manifest -->
-<link href="/manifest.json" rel="manifest"/>
-<meta content="#1a4d2e" name="theme-color"/>
-
-<!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
-<!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
-
-
-<!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
-
-
-
-<!-- ⭐ COMPONENT STYLES -->
-
-
-
-
-
-<!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
-
-
-
-<!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
-
-
-<!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
-
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-    // Wait for Supabase CDN to load before initializing singleton
-    window.addEventListener('DOMContentLoaded', () => {
-        if (!window.supabase) {
-            // Log to monitoring instead of console
-            if (window.posthog) {
-                posthog.capture('supabase_cdn_error', {
-                    message: 'Supabase CDN failed to load',
-                    url: window.location.pathname
-                });
-            }
-        }
-    });
-</script>
-<script src="/js/supabase-singleton.js"></script>
-<!-- My Kete Database Integration - loads after singleton -->
-<script src="/js/my-kete-database.js"></script>
-<!-- Navigation Loader Singleton - loads after supabase setup -->
-<script src="/js/navigation-loader.js"></script>
-<!-- Component Loader - centralized async component management -->
-<script src="/js/component-loader.js"></script>
-<meta name="mobile-web-app-capable" content="yes"/>
-<meta content="yes" name="apple-mobile-web-app-capable"/>
-<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
-<meta content="Te Kete Ako" name="apple-mobile-web-app-title"/>
-<link href="/icons/icon-192x192.png" rel="apple-touch-icon"/>
-<!-- ENHANCED SEARCH -->
-<script src="/js/enhanced-search.js" defer></script>
-<!-- MOBILE PERFORMANCE OPTIMIZER -->
-<script src="/js/mobile-performance-optimizer.js" defer></script>
-<!-- TOUCH TARGET AUDITOR -->
-<script src="/js/touch-target-auditor.js" defer></script>
-<!-- 🎨 ULTIMATE CULTURAL GESTURES - Framer Motion System -->
-<script src="/js/framer-cultural-gestures-ultimate.js" defer></script>
-<!-- Service Worker Registration -->
-<script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js')
-                    .then(registration => {
-                        console.log('✅ PWA: Service Worker registered!', registration);
-                    })
-                    .catch(error => {
-                        // Log to monitoring instead of console
-                        if (window.posthog) {
-                            posthog.capture('pwa_service_worker_error', {
-                                message: 'Service Worker registration failed',
-                                error: error.message,
-                                url: window.location.pathname
-                            });
-                        }
-                    });
-            });
-        }
-</script>
-
-<meta name="robots" content="index, follow"/>
-<meta name="googlebot" content="index, follow"/>
-<meta name="theme-color" content="#1a4d2e"/>
-
-
-
-<meta name="robots" content="index, follow"/>
-<meta name="googlebot" content="index, follow"/>
-<meta name="theme-color" content="#1a4d2e"/>
-
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Explore Te Kete Ako's AI-powered knowledge graph: 19,737 resources × 231,469 relationships revealing hidden excellence, cultural pathways, and personalized learning journeys.">
-
-<!-- UNIFIED DESIGN SYSTEM -->
-<!-- PWA Manifest -->
-<link href="/manifest.json" rel="manifest"/>
-<meta content="#1a4d2e" name="theme-color"/>
-
-<!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
-<!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
-
-
-<!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
-
-
-
-<!-- ⭐ COMPONENT STYLES -->
-    
-    
-    
-    
-
-<!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
-    
-
-
-<!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
-
-
-<!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
-<body class="pattern-koru-subtle page-not-homepage">    <!-- Navigation -->    <!-- Navigation loaded by navigation-loader.js singleton -->    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <title>Redirecting...</title>
+    <meta http-equiv="refresh" content="0;url=/admin/graphrag/graphrag-discovery-hub.html">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #1a4d2e 0%, #2d5a3d 100%);
+            font-family: system-ui, sans-serif;
+            color: white;
+            text-align: center;
+        }
+        .spinner {
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>📍 Page Moved</h1>
+        <p>Redirecting to new location...</p>
+        <div class="spinner"></div>
+        <p><a href="/admin/graphrag/graphrag-discovery-hub.html" style="color: #f4d03f;">Click here if not redirected automatically</a></p>
+    </div>
     <script>
-        // Load real-time GraphRAG stats
-        // Use singleton pattern
-        const supabase = window.supabaseSingleton ? await window.supabaseSingleton.getClient() : null;
-        if (!supabase) {
-            // Log to monitoring instead of console
-        if (window.posthog) {
-            posthog.capture('javascript_error', {
-                error: err.message,
-                url: window.location.pathname
-            }));
-        }
-        // Show user-friendly message instead of error
-        return;
-        }
-
-        async function loadLiveStats() {
-            try {
-                const [resourcesRes, relationshipsRes, variantsRes, dualCulturalRes, typesRes] = await Promise.all([
-                    supabase.from('graphrag_resources').select('*', { count: 'exact', head: true }),
-                    supabase.from('graphrag_relationships').select('*', { count: 'exact', head: true }),
-                    supabase.from('graphrag_resources').select('*', { count: 'exact', head: true })
-                        .in('resource_type', ['Lesson', 'Handout', 'Unit-Plan', 'Unit Plan'])
-                        .gte('quality_score', 75),
-                    supabase.from('graphrag_resources').select('*', { count: 'exact', head: true })
-                        .eq('has_te_reo', true).eq('has_whakataukī', true),
-                    supabase.from('graphrag_relationships').select('relationship_type')
-                        .limit(10000)
-                ]);
-
-                document.getElementById('stat-resources').textContent = (resourcesRes.count || 17363).toLocaleString();
-                document.getElementById('stat-relationships').textContent = (relationshipsRes.count || 242059).toLocaleString();
-                document.getElementById('stat-types').textContent = typesRes.data ? new Set(typesRes.data.map(r => r.relationship_type)).size : 838;
-                document.getElementById('stat-teaching-variants').textContent = (variantsRes.count || 7072).toLocaleString();
-                document.getElementById('stat-cultural').textContent = (dualCulturalRes.count || 2091).toLocaleString();
-
-                // User feedback provided via UI
-                console.log('   🕸️ Knowledge Graph:', resourcesRes.count, 'resources');
-                console.log('   🔗 Relationships:', relationshipsRes.count, 'connections');
-                console.log('   🎯 Teaching Variants:', variantsRes.count);
-                console.log('   🌿 Dual Cultural:', dualCulturalRes.count, 'resources');
-                console.log('   💎 Ready to discover hidden excellence!');
-            } catch (e) {
-                // Log to monitoring instead of console
-        if (window.posthog) {
-            posthog.capture('javascript_error', {
-                error: err.message,
-                url: window.location.pathname
-            }));
-        }
-        // Show user-friendly message instead of error
-        }
-        }
-
-        // Load on page load
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', loadLiveStats);
-        } else {
-            loadLiveStats();
-        }
-    </script><!-- 📊 ULTIMATE BEAUTY: PostHog Analytics (Privacy-First) --><script src="/js/posthog-analytics.js" defer></script></body></html>
+        // Immediate redirect
+        window.location.href = '/admin/graphrag/graphrag-discovery-hub.html';
+    </script>
+</body>
+</html>
