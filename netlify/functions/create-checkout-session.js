@@ -17,11 +17,11 @@ exports.handler = async (event, context) => {
     try {
         const { plan, userEmail } = JSON.parse(event.body);
 
-        // Price IDs (set these after creating products in Stripe dashboard)
+        // Price IDs from Stripe dashboard
         const priceIds = {
-            'individual_monthly': 'price_individual_monthly', // Replace with actual
-            'individual_annual': 'price_individual_annual',   // Replace with actual
-            'school_annual': 'price_school_annual'            // Replace with actual
+            'individual_monthly': 'price_1SMHrsDhKhPdHioTGHtK83M4', // ✅ ACTIVATED!
+            'individual_annual': 'price_individual_annual',   // Needs Price ID
+            'school_annual': 'price_school_annual'            // Needs Price ID
         };
 
         if (!priceIds[plan]) {
