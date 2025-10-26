@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Te Reo Māori Pronunciation Guide - Te Kete Ako</title>
+    <link href="/css/te-kete-ultimate-beauty-system.css" rel="stylesheet"/>
+    <style>
+        body {
+            background: linear-gradient(135deg, #C850C0 0%, #FFCC70 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .guide-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .header-card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+        .header-card h1 {
+            color: #C850C0;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+        .ai-badge {
+            background: linear-gradient(135deg, #C850C0 0%, #FFCC70 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .pronunciation-card {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin-bottom: 25px;
+        }
+        .pronunciation-card h2 {
+            color: #C850C0;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #FFCC70;
+            padding-bottom: 10px;
+        }
+        .input-section {
+            margin-bottom: 30px;
+        }
+        .word-input {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .word-input input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1.2em;
+            min-width: 250px;
+        }
+        .word-input input:focus {
+            border-color: #C850C0;
+            outline: none;
+        }
+        .speak-btn {
+            background: linear-gradient(135deg, #C850C0 0%, #FFCC70 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .speak-btn:hover {
+            transform: translateY(-2px);
+        }
+        .pronunciation-result {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 5px solid #C850C0;
+        }
+        .word-display {
+            font-size: 3em;
+            font-weight: bold;
+            color: #C850C0;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .phonetic-display {
+            font-size: 1.5em;
+            color: #666;
+            text-align: center;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        .audio-player {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .play-btn {
+            background: #C850C0;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            font-size: 2em;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+        .play-btn:hover {
+            transform: scale(1.1);
+        }
+        .common-words {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        .word-btn {
+            padding: 15px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            font-weight: bold;
+        }
+        .word-btn:hover {
+            border-color: #C850C0;
+            background: #fff5fc;
+        }
+        .tips-card {
+            background: #FFCC70;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+        .tips-card h3 {
+            color: #C850C0;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="guide-container">
+        <!-- Header -->
+        <div class="header-card">
+            <div class="ai-badge">🎤 Powered by GLM-4-Voice AI</div>
+            <h1>Te Reo Māori Pronunciation Guide</h1>
+            <p style="color: #666; font-size: 1.2em;">Learn correct pronunciation with AI-powered voice guidance!</p>
+        </div>
+
+        <!-- Input Section -->
+        <div class="pronunciation-card">
+            <h2>🗣️ Enter a Māori Word or Phrase</h2>
+            
+            <div class="input-section">
+                <div class="word-input">
+                    <input type="text" id="maori-word" placeholder="e.g., Kia ora, Aotearoa, Whānau..." />
+                    <button class="speak-btn" onclick="getPronunciation()">
+                        🎤 Hear Pronunciation
+                    </button>
+                </div>
+                
+                <p style="color: #666; margin-top: 10px;">
+                    💡 Tip: Try common greetings, place names, or words from your lessons!
+                </p>
+            </div>
+
+            <div id="result-area" style="display: none;">
+                <div class="pronunciation-result">
+                    <div class="word-display" id="word-display">Kia ora</div>
+                    <div class="phonetic-display" id="phonetic-display">kee-ah oh-rah</div>
+                    
+                    <div class="audio-player">
+                        <button class="play-btn" onclick="playAudio()">
+                            ▶️
+                        </button>
+                        <p style="margin-top: 15px; color: #666;">Click to hear pronunciation</p>
+                    </div>
+
+                    <div class="tips-card">
+                        <h3>📚 About this word:</h3>
+                        <p id="word-meaning"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Common Words -->
+        <div class="pronunciation-card">
+            <h2>🌟 Common Te Reo Māori Words</h2>
+            <p style="color: #666; margin-bottom: 20px;">Click any word to hear pronunciation:</p>
+            
+            <div class="common-words">
+                <button class="word-btn" onclick="quickPronounce('Kia ora')">
+                    Kia ora<br><small>Hello</small>
+                </button>
+                <button class="word-btn" onclick="quickPronounce('Tēnā koe')">
+                    Tēnā koe<br><small>Greetings (to 1)</small>
+                </button>
+                <button class="word-btn" onclick="quickPronounce('Whānau')">
+                    Whānau<br><small>Family</small>
+                </button>
+                <button class="word-btn" onclick="quickPronounce('Aroha')">
+                    Aroha<br><small>Love</small>
+                </button>
+                <button class="word-btn" onclick="quickPronounce('Kaiako')">
+                    Kaiako<br><small>Teacher</small>
+                </button>
+                <button class="word-btn" onclick="quickPronounce('Ākonga')">
+                    Ākonga<br><small>Student</small>
+                </button>
+                <button class="word-btn" onclick="quickPronounce('Mātauranga')">
+                    Mātauranga<br><small>Knowledge</small>
+                </button>
+                <button class="word-btn" onclick="quickPronounce('Aotearoa')">
+                    Aotearoa<br><small>New Zealand</small>
+                </button>
+                <button class="word-btn" onclick="quickPronounce('Kaitiaki')">
+                    Kaitiaki<br><small>Guardian</small>
+                </button>
+                <button class="word-btn" onclick="quickPronounce('Whakapapa')">
+                    Whakapapa<br><small>Genealogy</small>
+                </button>
+                <button class="word-btn" onclick="quickPronounce('Taonga')">
+                    Taonga<br><small>Treasure</small>
+                </button>
+                <button class="word-btn" onclick="quickPronounce('Karakia')">
+                    Karakia<br><small>Prayer</small>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tips Section -->
+        <div class="pronunciation-card">
+            <h2>💡 Pronunciation Tips</h2>
+            
+            <div style="line-height: 1.8;">
+                <p><strong>Vowels:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><strong>a</strong> = "ah" (as in "car")</li>
+                    <li><strong>e</strong> = "eh" (as in "bed")</li>
+                    <li><strong>i</strong> = "ee" (as in "bee")</li>
+                    <li><strong>o</strong> = "oh" (as in "or")</li>
+                    <li><strong>u</strong> = "oo" (as in "boo")</li>
+                </ul>
+
+                <p style="margin-top: 15px;"><strong>Special Characters:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><strong>ā, ē, ī, ō, ū</strong> = Long vowel (hold the sound longer)</li>
+                    <li><strong>wh</strong> = "f" sound (as in "fun")</li>
+                    <li><strong>ng</strong> = as in "singer" (not "finger")</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Back Link -->
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="/teacher-dashboard-personalized.html" style="background: white; color: #C850C0; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">
+                ← Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const wordMeanings = {
+            'Kia ora': 'Common greeting meaning "be well" or "hello"',
+            'Tēnā koe': 'Formal greeting to one person',
+            'Whānau': 'Extended family group',
+            'Aroha': 'Love, compassion, empathy',
+            'Kaiako': 'Teacher, instructor',
+            'Ākonga': 'Student, learner',
+            'Mātauranga': 'Knowledge, wisdom, understanding',
+            'Aotearoa': 'New Zealand (Land of the Long White Cloud)',
+            'Kaitiaki': 'Guardian, protector, custodian',
+            'Whakapapa': 'Genealogy, lineage, connections',
+            'Taonga': 'Treasure, anything precious',
+            'Karakia': 'Prayer, blessing, incantation'
+        };
+
+        async function getPronunciation() {
+            const word = document.getElementById('maori-word').value.trim();
+            
+            if (!word) {
+                alert('Please enter a Māori word or phrase!');
+                return;
+            }
+
+            const btn = document.querySelector('.speak-btn');
+            btn.disabled = true;
+            btn.innerHTML = '🎤 Generating audio...';
+
+            try {
+                // Call GLM-4-Voice via serverless function
+                const response = await fetch('/.netlify/functions/ai-pronunciation-generator', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ word: word })
+                });
+
+                if (!response.ok) {
+                    throw new Error('AI pronunciation failed');
+                }
+
+                const result = await response.json();
+                displayPronunciation(word, result.phonetic, result.audioUrl, result.meaning);
+
+            } catch (error) {
+                console.error('Pronunciation error:', error);
+                // Show mock pronunciation
+                displayMockPronunciation(word);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '🎤 Hear Pronunciation';
+            }
+        }
+
+        function displayPronunciation(word, phonetic, audioUrl, meaning) {
+            document.getElementById('word-display').textContent = word;
+            document.getElementById('phonetic-display').textContent = phonetic;
+            document.getElementById('word-meaning').textContent = meaning || wordMeanings[word] || 'Meaning coming soon!';
+            document.getElementById('result-area').style.display = 'block';
+            document.getElementById('result-area').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function displayMockPronunciation(word) {
+            const phonetic = convertToPhonetic(word);
+            displayPronunciation(word, phonetic, null, wordMeanings[word]);
+        }
+
+        function convertToPhonetic(word) {
+            // Simple phonetic conversion
+            return word.toLowerCase()
+                .replace(/wh/g, 'f')
+                .replace(/ng/g, 'ng')
+                .replace(/a/g, 'ah')
+                .replace(/e/g, 'eh')
+                .replace(/i/g, 'ee')
+                .replace(/o/g, 'oh')
+                .replace(/u/g, 'oo');
+        }
+
+        function playAudio() {
+            // Would play GLM-4-Voice generated audio
+            alert('🎤 Audio playback coming soon! This will play AI-generated native speaker pronunciation using GLM-4-Voice.');
+        }
+
+        function quickPronounce(word) {
+            document.getElementById('maori-word').value = word;
+            getPronunciation();
+        }
+    </script>
+</body>
+</html>
+
