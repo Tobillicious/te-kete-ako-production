@@ -221,8 +221,8 @@ def main():
     entries = create_final_graphrag_update()
 
     if entries:
-        print("
-🎊 FINAL GRAPHRAG KNOWLEDGE INTEGRATION COMPLETE!"        print(f"   - Added {len(entries)} comprehensive knowledge entries")
+        print("\n🎊 FINAL GRAPHRAG KNOWLEDGE INTEGRATION COMPLETE!")
+        print(f"   - Added {len(entries)} comprehensive knowledge entries")
         print("   - Complete platform transformation documented")
         print("   - All agents have access to complete knowledge base")
         print("   - Unified strategic direction integrated")
