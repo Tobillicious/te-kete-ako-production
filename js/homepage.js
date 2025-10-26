@@ -14,6 +14,12 @@ async function loadFeaturedResources() {
 
   try {
     // Attempt to fetch the list of resources from the unified table
+    // Note: This requires valid Supabase credentials - fails gracefully if unavailable
+    if (typeof supabase === 'undefined') {
+      console.log('[Featured Resources] Supabase not available, using static content');
+      return;
+    }
+    
     const { data: resources, error } = await supabase
       .from('resources')
       .select('*')
@@ -21,7 +27,8 @@ async function loadFeaturedResources() {
       .limit(3);
 
     if (error) {
-      throw new Error(`Supabase error: ${error.message}`);
+      console.log('[Featured Resources] Database unavailable, using static content:', error.message);
+      return; // Fail gracefully - static featured resources already in HTML
     }
 
     // Clear the container and render the cards if we have data
@@ -42,8 +49,8 @@ async function loadFeaturedResources() {
     }
 
   } catch (err) {
-    console.error("Failed to load featured resources:", err);
-    // Fallback to static content
+    console.log("[Featured Resources] Using static fallback content (database unavailable)");
+    // Fallback to static content - not an error, just informational
     container.innerHTML = `
       <div class="card">
         <h3>Y8 Systems Unit (Gold Standard)</h3>

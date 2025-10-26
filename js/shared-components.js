@@ -436,17 +436,20 @@ function initializeAccessibilityFeatures() {
         }
     });
     
-    // Add proper heading structure validation
-    const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
-    let currentLevel = 0;
-    
-    headings.forEach(heading => {
-        const level = parseInt(heading.tagName.charAt(1));
-        if (level > currentLevel + 1) {
-            console.warn(`Heading level skip detected: ${heading.tagName} after h${currentLevel}`);
-        }
-        currentLevel = level;
-    });
+    // Add proper heading structure validation (main content only, skip sidebar)
+    const mainContent = document.querySelector('.content-area, main');
+    if (mainContent) {
+        const headings = mainContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
+        let currentLevel = 0;
+        
+        headings.forEach(heading => {
+            const level = parseInt(heading.tagName.charAt(1));
+            if (level > currentLevel + 1) {
+                console.warn(`Heading level skip detected in main content: ${heading.tagName} after h${currentLevel}`);
+            }
+            currentLevel = level;
+        });
+    }
     
     // Add focus indicators for keyboard users
     document.addEventListener('keydown', function(event) {
