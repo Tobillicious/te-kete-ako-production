@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Frequently Asked Questions | Te Kete Ako</title>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <style>
+        .faq-hero {
+            background: linear-gradient(135deg, var(--pounamu-green), var(--kawakawa-deep));
+            padding: 4rem 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .faq-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 2rem;
+        }
+
+        .faq-search {
+            margin-bottom: 3rem;
+        }
+
+        .faq-search input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            transition: border-color 0.3s ease;
+        }
+
+        .faq-search input:focus {
+            outline: none;
+            border-color: var(--pounamu-green);
+        }
+
+        .faq-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .faq-category-btn {
+            padding: 1rem;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .faq-category-btn:hover, .faq-category-btn.active {
+            border-color: var(--pounamu-green);
+            background: #f0f8f0;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            overflow: hidden;
+            border-left: 4px solid var(--kōwhai-gold);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--pounamu-green);
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: #f8f9fa;
+        }
+
+        .faq-icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+
+        .faq-answer p {
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .faq-category-title {
+            color: var(--pounamu-green);
+            font-size: 1.8rem;
+            margin: 3rem 0 1.5rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--kōwhai-gold);
+        }
+
+        .still-questions {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .still-questions h3 {
+            color: var(--pounamu-green);
+            margin-bottom: 1rem;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--pounamu-green);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .contact-btn:hover {
+            background: var(--kawakawa-deep);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Professional Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <main class="main-content">
+        <!-- Hero -->
+        <div class="faq-hero">
+            <h1>Frequently Asked Questions</h1>
+            <p style="font-size: 1.2rem; opacity: 0.95;">Quick answers to common questions about Te Kete Ako</p>
+        </div>
+
+        <div class="container">
+            <!-- Search -->
+            <div class="faq-search">
+                <input type="text" id="faq-search-input" placeholder="🔍 Search questions..." oninput="searchFAQ(this.value)">
+            </div>
+
+            <!-- Categories -->
+            <div class="faq-categories">
+                <button class="faq-category-btn active" onclick="filterCategory('all')">All</button>
+                <button class="faq-category-btn" onclick="filterCategory('getting-started')">Getting Started</button>
+                <button class="faq-category-btn" onclick="filterCategory('subscription')">Subscription</button>
+                <button class="faq-category-btn" onclick="filterCategory('technical')">Technical</button>
+                <button class="faq-category-btn" onclick="filterCategory('teaching')">Teaching</button>
+            </div>
+
+            <!-- Getting Started -->
+            <h2 class="faq-category-title" data-category="getting-started">Getting Started</h2>
+
+            <div class="faq-item" data-category="getting-started">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>How do I create an account?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Click "Start Free Trial" on our homepage or pricing page. You'll need:</p>
+                    <ul>
+                        <li>Valid email address</li>
+                        <li>Password (min 8 characters)</li>
+                        <li>School/organization name (optional)</li>
+                    </ul>
+                    <p>No credit card required for the free trial!</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="getting-started">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>What's included in the free trial?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Full access to everything for 14 days (Individual) or 30 days (School):</p>
+                    <ul>
+                        <li>1,640+ culturally-integrated resources</li>
+                        <li>All AI features and GraphRAG tools</li>
+                        <li>Professional teacher dashboard</li>
+                        <li>Unlimited downloads and printing</li>
+                    </ul>
+                    <p>Cancel anytime during trial = $0 charge!</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="getting-started">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>How do I find resources for my subject and year level?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Several ways to discover resources:</p>
+                    <ul>
+                        <li><strong>Subject Hubs:</strong> Click Mathematics, Science, English, etc. in the sidebar</li>
+                        <li><strong>Search:</strong> Use the search bar with filters (year level, subject, resource type)</li>
+                        <li><strong>GraphRAG Tools:</strong> Use Learning Pathways or Discovery Hub for intelligent recommendations</li>
+                        <li><strong>My Kete:</strong> Save favorites for quick access later</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Subscription & Billing -->
+            <h2 class="faq-category-title" data-category="subscription">Subscription & Billing</h2>
+
+            <div class="faq-item" data-category="subscription">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>How much does Te Kete Ako cost?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p><strong>Individual Monthly:</strong> $15/month<br>
+                    <strong>Individual Annual:</strong> $150/year (save $30!)<br>
+                    <strong>School:</strong> From $200/month (12 teachers)<br>
+                    <strong>Enterprise:</strong> Custom pricing</p>
+                    <p>All plans include 14-30 day free trials!</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="subscription">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Can I cancel anytime?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes! Cancel anytime from your <a href="/account-settings.html">Account Settings</a>. You'll keep access until the end of your billing period. No cancellation fees!</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="subscription">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>What's your refund policy?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>14-day money-back guarantee on first payment! See our complete <a href="/refund-policy.html">Refund Policy</a> for details on annual and school plan refunds.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="subscription">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Can I upgrade or downgrade my plan?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes! Go to <a href="/account-settings.html">Account Settings</a> → Subscription → Change Plan. Pro-rated billing applies automatically.</p>
+                </div>
+            </div>
+
+            <!-- Technical -->
+            <h2 class="faq-category-title" data-category="technical">Technical</h2>
+
+            <div class="faq-item" data-category="technical">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Does Te Kete Ako work on mobile devices?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes! Te Kete Ako is fully responsive and works on:</p>
+                    <ul>
+                        <li>📱 iPhones and iPads (Safari)</li>
+                        <li>🤖 Android phones and tablets (Chrome)</li>
+                        <li>💻 Desktops and laptops (all browsers)</li>
+                    </ul>
+                    <p>The sidebar adapts to a bottom navigation on mobile devices.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="technical">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Can I print resources?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Absolutely! All resources are print-optimized. Just use your browser's print function (Ctrl/Cmd + P). Resources automatically format for A4 paper.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="technical">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>What browsers are supported?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Te Kete Ako works best on modern browsers:</p>
+                    <ul>
+                        <li>Chrome (recommended)</li>
+                        <li>Safari</li>
+                        <li>Edge</li>
+                        <li>Firefox</li>
+                    </ul>
+                    <p>We recommend keeping your browser updated for the best experience.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="technical">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Can I download resources for offline use?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes! Download any resource as PDF or print to PDF for offline access. Your saved resources in "My Kete" are also cached for quick access.</p>
+                </div>
+            </div>
+
+            <!-- Teaching -->
+            <h2 class="faq-category-title" data-category="teaching">Teaching with Te Kete Ako</h2>
+
+            <div class="faq-item" data-category="teaching">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Are resources aligned with the NZ Curriculum?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes! All resources are designed for the New Zealand Curriculum and include:</p>
+                    <ul>
+                        <li>NZC learning area alignment</li>
+                        <li>Achievement objectives mapping</li>
+                        <li>Key competencies integration</li>
+                        <li>Cultural competencies (mātauranga Māori)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="teaching">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>What's the cultural integration quality like?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>We prioritize authentic mātauranga Māori integration:</p>
+                    <ul>
+                        <li>621 resources rated Q90+ (gold standard!)</li>
+                        <li>100% cultural integration in Social Studies, Digital Tech, History</li>
+                        <li>Cultural tooltips explain Māori concepts</li>
+                        <li>Resources developed with cultural advisors</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="teaching">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Can I create my own units from these resources?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes! Use "My Kete" to:</p>
+                    <ul>
+                        <li>Save favorite resources</li>
+                        <li>Organize into collections</li>
+                        <li>Create custom learning sequences</li>
+                        <li>Share with colleagues</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="teaching">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>What AI features are available?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>$800K+ in AI features including:</p>
+                    <ul>
+                        <li>AI Lesson Planner (generate plans in minutes)</li>
+                        <li>GraphRAG Intelligence (14 tools, Q96-Q99!)</li>
+                        <li>Adaptive Learning Paths (personalized progressions)</li>
+                        <li>Smart Resource Recommendations</li>
+                        <li>Prerequisite Explorer (849 perfect pathways!)</li>
+                    </ul>
+                    <p>See full list at <a href="/ai-features-showcase.html">AI Features Showcase</a>!</p>
+                </div>
+            </div>
+
+            <!-- School Plans -->
+            <h2 class="faq-category-title" data-category="subscription">School Plans</h2>
+
+            <div class="faq-item" data-category="subscription">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>How does school licensing work?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>School plans are based on number of teachers:</p>
+                    <ul>
+                        <li>School Small (12 teachers): $200/month</li>
+                        <li>School Medium (50 teachers): $450/month</li>
+                        <li>School Large (1000 teachers): $600/month</li>
+                    </ul>
+                    <p>Includes 30-day free trial, school dashboard, and priority support!</p>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="subscription">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Do you integrate with KAMAR?</span>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes! KAMAR integration is available for School and Enterprise plans. It enables:</p>
+                    <ul>
+                        <li>Automatic timetable sync</li>
+                        <li>Student class lists</li>
+                        <li>Gradebook integration</li>
+                        <li>Weekly planner with your actual schedule</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Still Have Questions? -->
+            <div class="still-questions">
+                <h3>Still have questions?</h3>
+                <p style="margin-bottom: 1.5rem; color: #666;">We're here to help! Get in touch and we'll respond within 24 hours.</p>
+                <a href="/contact.html" class="contact-btn">Contact Support</a>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
+                    Or email <a href="mailto:support@tekete.co.nz" style="color: var(--pounamu-green);">support@tekete.co.nz</a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Sidebar Auto-Loader -->
+    <script src="/js/sidebar-auto-loader.js" defer></script>
+    
+    <!-- PostHog Analytics -->
+    <script src="/js/posthog-analytics.js" defer></script>
+
+    <!-- FAQ Functionality -->
+    <script>
+        function toggleFAQ(element) {
+            const item = element.closest('.faq-item');
+            const wasOpen = item.classList.contains('open');
+            
+            // Close all FAQs
+            document.querySelectorAll('.faq-item').forEach(faq => faq.classList.remove('open'));
+            
+            // Toggle clicked FAQ
+            if (!wasOpen) {
+                item.classList.add('open');
+            }
+        }
+
+        function filterCategory(category) {
+            // Update active button
+            document.querySelectorAll('.faq-category-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Show/hide items
+            document.querySelectorAll('.faq-item').forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Show/hide category titles
+            document.querySelectorAll('.faq-category-title').forEach(title => {
+                if (category === 'all' || title.dataset.category === category) {
+                    title.style.display = 'block';
+                } else {
+                    title.style.display = 'none';
+                }
+            });
+        }
+
+        function searchFAQ(query) {
+            query = query.toLowerCase();
+            
+            document.querySelectorAll('.faq-item').forEach(item => {
+                const question = item.querySelector('.faq-question').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+                
+                if (question.includes(query) || answer.includes(query)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // If searching, show all category titles
+            if (query) {
+                document.querySelectorAll('.faq-category-title').forEach(title => {
+                    title.style.display = 'block';
+                });
+            }
+        }
+    </script>
+</body>
+</html>
+
