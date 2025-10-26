@@ -132,3 +132,4 @@ print(f"   Agents: {moved['agents']} pages → /admin/agents/")
 print(f"\n🎊 Technical pages hidden from teachers!")
 print("💝 Platform now human-friendly!")
 
+
