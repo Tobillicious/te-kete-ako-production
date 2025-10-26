@@ -16,7 +16,7 @@ class BrowseHeroes {
                     { href: 'toolkit.html', label: 'Writer\'s Toolkit', icon: '✍️' },
                     { href: 'handouts/media-literacy-comprehension-handout.html', label: 'Media Literacy', icon: '📰' }
                 ],
-                pedagogy: 'Literacy as liberation: "Reading the word and reading the world" <cite>(Freire, 1970)</cite>. Effective English teaching honors students\' home languages and cultural narratives as assets, not deficits <cite>(Paris & Alim, 2017)</cite>. Counter-storytelling challenges dominant narratives and centers marginalized voices <cite>(Delgado & Stefancic, 2001)</cite>.',
+                pedagogy: 'Literacy as liberation: "Reading the word and reading the world" <cite>(<a href="https://en.wikipedia.org/wiki/Pedagogy_of_the_Oppressed" target="_blank" rel="noopener">Freire, 1970</a>)</cite>. Effective English teaching honors students\' home languages and cultural narratives as assets, not deficits <cite>(<a href="https://doi.org/10.4324/9781315458908" target="_blank" rel="noopener">Paris & Alim, 2017</a>)</cite>. Counter-storytelling challenges dominant narratives and centers marginalized voices <cite>(<a href="https://www.jstor.org/stable/j.ctt7sns7" target="_blank" rel="noopener">Delgado & Stefancic, 2001</a>)</cite>.',
                 culturalNote: 'Te reo Pākehā is taught alongside te reo Māori, recognizing bilingualism as a strength and honoring the languages of all our ākonga.'
             },
             'math': {
@@ -30,7 +30,7 @@ class BrowseHeroes {
                     { href: 'handouts/probability-handout.html', label: 'Probability', icon: '🎲' },
                     { href: 'curriculum-alignment.html#mathematics', label: 'Mathematics AO', icon: '📋' }
                 ],
-                pedagogy: 'Mathematics as cultural practice: Learning occurs through "active construction within social and cultural contexts" <cite>(Vygotsky, 1978)</cite>. Ethnomathematics recognizes that all cultures develop sophisticated mathematical systems <cite>(D\'Ambrosio, 1985)</cite>. Māori navigation, weaving patterns (tukutuku), and land management embody complex mathematical concepts.',
+                pedagogy: 'Mathematics as cultural practice: Learning occurs through "active construction within social and cultural contexts" <cite>(<a href="https://www.marxists.org/archive/vygotsky/works/mind/index.htm" target="_blank" rel="noopener">Vygotsky, 1978</a>)</cite>. Ethnomathematics recognizes that all cultures develop sophisticated mathematical systems <cite>(<a href="https://doi.org/10.1007/BF00302346" target="_blank" rel="noopener">D\'Ambrosio, 1985</a>)</cite>. Māori navigation, weaving patterns (tukutuku), and land management embody complex mathematical concepts.',
                 culturalNote: 'Pāngarau honors mātauranga Māori mathematical knowledge systems including geometry in whakairo, statistics in whakapapa, and spatial reasoning in traditional navigation.'
             },
             'science': {
@@ -44,7 +44,7 @@ class BrowseHeroes {
                     { href: 'units/unit-3-stem-matauranga.html', label: 'STEM + Mātauranga', icon: '🌊' },
                     { href: 'curriculum-alignment.html#science', label: 'Science AO', icon: '📋' }
                 ],
-                pedagogy: 'Two knowledge systems, one vision: "Two-eyed seeing" means learning to see from one eye with Indigenous knowledge and from the other with Western science <cite>(Bartlett et al., 2012)</cite>. Mātauranga Māori is legitimate, sophisticated scientific knowledge developed over centuries <cite>(Royal, 2009)</cite>. Rongoā Māori, mahinga kai, and environmental observation systems demonstrate rigorous scientific methodology.',
+                pedagogy: 'Two knowledge systems, one vision: "Two-eyed seeing" means learning to see from one eye with Indigenous knowledge and from the other with Western science <cite>(<a href="https://www.iwk.nshealth.ca/sites/default/files/integrative_science.pdf" target="_blank" rel="noopener">Bartlett et al., 2012</a>)</cite>. Mātauranga Māori is legitimate, sophisticated scientific knowledge developed over centuries <cite>(<a href="https://doi.org/10.1080/03036758.2009.9523429" target="_blank" rel="noopener">Royal, 2009</a>)</cite>. Rongoā Māori, mahinga kai, and environmental observation systems demonstrate rigorous scientific methodology.',
                 culturalNote: 'Pūtaiao weaves mātauranga Māori and Western science together, honoring kaitiakitanga (guardianship) and whakapapa (interconnection) as foundational scientific principles.'
             },
             'social-studies': {
@@ -60,7 +60,7 @@ class BrowseHeroes {
                     { href: 'handouts/treaty-of-waitangi-handout.html', label: 'Te Tiriti', icon: '📜' },
                     { href: 'curriculum-alignment.html#social-sciences', label: 'Social Sciences AO', icon: '📋' }
                 ],
-                pedagogy: 'Education as power-sharing: "Culturally Responsive Pedagogy of Relations" creates classrooms where Māori students experience genuine self-determination <cite>(Bishop & Berryman, 2006)</cite>. Te Tiriti o Waitangi is our nation\'s founding document, requiring partnership, protection, and participation. Critical Race Theory shows how counter-storytelling challenges dominant narratives and centers Indigenous perspectives <cite>(Delgado & Stefancic, 2001)</cite>.',
+                pedagogy: 'Education as power-sharing: "Culturally Responsive Pedagogy of Relations" creates classrooms where Māori students experience genuine self-determination <cite>(<a href="https://doi.org/10.18296/set.0452" target="_blank" rel="noopener">Bishop & Berryman, 2006</a>)</cite>. Te Tiriti o Waitangi is our nation\'s founding document, requiring partnership, protection, and participation. Critical Race Theory shows how counter-storytelling challenges dominant narratives and centers Indigenous perspectives <cite>(<a href="https://www.jstor.org/stable/j.ctt7sns7" target="_blank" rel="noopener">Delgado & Stefancic, 2001</a>)</cite>.',
                 culturalNote: 'Tikanga-ā-Iwi centers Te Tiriti, te ao Māori, and social justice. We teach history from multiple perspectives, honoring Māori voices and experiences as central, not marginal.'
             },
             'te-reo': {
@@ -75,7 +75,7 @@ class BrowseHeroes {
                     { href: 'handouts/haka-comprehension-handout.html', label: 'Haka Analysis', icon: '💪' },
                     { href: 'units/unit-1-te-ao-maori.html', label: 'Te Ao Māori Unit', icon: '🌟' }
                 ],
-                pedagogy: 'Language revitalization as justice: "Ko te reo te mauri o te mana Māori" - the language is the life force of Māori cultural identity <cite>(Waitangi Tribunal, 1986)</cite>. Communicative competence develops through meaningful interaction in authentic, culturally grounded contexts <cite>(Krashen, 1982)</cite>. Language learning must center Indigenous sovereignty and cultural revitalization, not just linguistic skills.',
+                pedagogy: 'Language revitalization as justice: "Ko te reo te mauri o te mana Māori" - the language is the life force of Māori cultural identity <cite>(<a href="https://forms.justice.govt.nz/search/Documents/WT/wt_DOC_68482156/Report%20on%20the%20Te%20Reo%20Maori%20Claim.pdf" target="_blank" rel="noopener">Waitangi Tribunal, 1986</a>)</cite>. Communicative competence develops through meaningful interaction in authentic, culturally grounded contexts <cite>(<a href="https://www.sdkrashen.com/content/books/principles_and_practice.pdf" target="_blank" rel="noopener">Krashen, 1982</a>)</cite>. Language learning must center Indigenous sovereignty and cultural revitalization, not just linguistic skills.',
                 culturalNote: 'Te reo Māori is a taonga (treasure) protected under Te Tiriti. Our teaching honors language as identity, whakapapa, and a living connection to tūpuna (ancestors).'
             },
             'arts': {
@@ -86,7 +86,7 @@ class BrowseHeroes {
                 descriptionEn: 'Visual arts, performing arts, music - Māori and global creative expression',
                 color: '#C17A4F',
                 quickLinks: [],
-                pedagogy: 'Creativity as knowledge: "The arts are a way of knowing" distinct from but equal to scientific or mathematical thinking <cite>(Eisner, 2002)</cite>. Artistic expression enables cultural renewal, identity affirmation, and intergenerational connection. Toi Māori represents sophisticated knowledge systems in whakairo (carving), raranga (weaving), kapa haka, and mahi toi.',
+                pedagogy: 'Creativity as knowledge: "The arts are a way of knowing" distinct from but equal to scientific or mathematical thinking <cite>(<a href="https://doi.org/10.4324/9780203466452" target="_blank" rel="noopener">Eisner, 2002</a>)</cite>. Artistic expression enables cultural renewal, identity affirmation, and intergenerational connection. Toi Māori represents sophisticated knowledge systems in whakairo (carving), raranga (weaving), kapa haka, and mahi toi.',
                 culturalNote: 'Ngā Toi honors toi Māori as living, evolving artistic traditions. Whakapapa, tikanga, and mātauranga are woven through all creative expression in this learning area.'
             },
             'health-pe': {
@@ -97,7 +97,7 @@ class BrowseHeroes {
                 descriptionEn: 'Physical, mental, family, spiritual - holistic wellbeing',
                 color: '#D64045',
                 quickLinks: [],
-                pedagogy: 'Holistic wellbeing: Te Whare Tapa Whā integrates four dimensions of health - taha tinana (physical), taha hinengaro (mental/emotional), taha whānau (family/social), and taha wairua (spiritual) <cite>(Durie, 1985)</cite>. Health is not individual biology but a socio-cultural construction shaped by context, identity, and relationships <cite>(Burrows & Wright, 2007)</cite>.',
+                pedagogy: 'Holistic wellbeing: Te Whare Tapa Whā integrates four dimensions of health - taha tinana (physical), taha hinengaro (mental/emotional), taha whānau (family/social), and taha wairua (spiritual) <cite>(<a href="https://www.health.govt.nz/our-work/populations/maori-health/maori-health-models/maori-health-models-te-whare-tapa-wha" target="_blank" rel="noopener">Durie, 1985</a>)</cite>. Health is not individual biology but a socio-cultural construction shaped by context, identity, and relationships <cite>(<a href="https://doi.org/10.1080/17408980701345733" target="_blank" rel="noopener">Burrows & Wright, 2007</a>)</cite>.',
                 culturalNote: 'Hauora is grounded in Māori models of wellbeing. We reject deficit narratives about Māori health and center strengths-based, culturally affirming approaches to physical and mental wellness.'
             },
             'technology': {
@@ -111,7 +111,7 @@ class BrowseHeroes {
                     { href: 'units/unit-7-digital-tech-ai-ethics.html', label: 'AI Ethics', icon: '🤖' },
                     { href: 'curriculum-alignment.html#technology', label: 'Technology AO', icon: '📋' }
                 ],
-                pedagogy: 'Data as taonga: Māori Data Sovereignty asserts Indigenous peoples\' rights to govern the collection, ownership, and application of data about Māori communities <cite>(Te Mana Raraunga, 2018)</cite>. Critical digital literacy questions who benefits from technology and challenges assumptions about "neutral" algorithms <cite>(Pangrazio, 2016)</cite>. Technology education must center ethics, equity, and cultural protocols.',
+                pedagogy: 'Data as taonga: Māori Data Sovereignty asserts Indigenous peoples\' rights to govern the collection, ownership, and application of data about Māori communities <cite>(<a href="https://www.temanararaunga.maori.nz/nga-rauemi" target="_blank" rel="noopener">Te Mana Raraunga, 2018</a>)</cite>. Critical digital literacy questions who benefits from technology and challenges assumptions about "neutral" algorithms <cite>(<a href="https://doi.org/10.1080/17439884.2016.1142504" target="_blank" rel="noopener">Pangrazio, 2016</a>)</cite>. Technology education must center ethics, equity, and cultural protocols.',
                 culturalNote: 'Hangarau integrates tikanga Māori into digital design and innovation. We teach students to be critical creators, not passive consumers, of technology.'
             }
         };
