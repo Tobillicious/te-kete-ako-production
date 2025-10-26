@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 🌿 BMAD AUTHENTIC CULTURAL DESIGN (Primary - loads FIRST!) -->
+    <link rel="stylesheet" href="/css/te-kete-bmad-authentic.css"/>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📅 My Weekly Planner - Te Kete Ako</title>
+    <meta name="description" content="Teacher weekly planner powered by KAMAR school management system integration. Plan your week, see your classes, organize lessons.">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bmad-cream-white, #FAF9F6);
+            color: var(--bmad-dark-text, #2D2520);
+        }
+        
+        .planner-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--bmad-forest-green, #2F4F2F), var(--bmad-forest-dark, #1d3f2a));
+            color: white;
+            border-radius: 12px;
+        }
+        
+        .planner-header h1 {
+            margin: 0 0 0.5rem;
+            font-size: 2.5rem;
+        }
+        
+        .planner-header p {
+            margin: 0;
+            opacity: 0.9;
+        }
+        
+        .week-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .week-nav button {
+            background: var(--bmad-earth-brown, #8B4513);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .week-nav button:hover {
+            background: var(--bmad-forest-green, #2F4F2F);
+            transform: translateY(-2px);
+        }
+        
+        .current-week {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--bmad-forest-green, #2F4F2F);
+        }
+        
+        .weekly-grid {
+            display: grid;
+            grid-template-columns: 100px repeat(5, 1fr);
+            gap: 12px;
+            margin-bottom: 2rem;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .grid-header {
+            text-align: center;
+            font-weight: 700;
+            color: var(--bmad-forest-green, #2F4F2F);
+            padding: 1rem;
+            background: var(--bmad-cream-white, #FAF9F6);
+            border-radius: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .period-label {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            color: var(--bmad-warm-gray, #8B7D6B);
+            background: var(--bmad-cream-white, #FAF9F6);
+            border-radius: 8px;
+            padding: 0.5rem;
+            text-align: center;
+        }
+        
+        .period-label .time {
+            font-size: 0.875rem;
+            font-weight: 400;
+            margin-top: 0.25rem;
+        }
+        
+        .class-slot {
+            min-height: 100px;
+            border: 2px dashed var(--bmad-warm-gray, #8B7D6B);
+            border-radius: 8px;
+            padding: 0.75rem;
+            background: var(--bmad-cream-white, #FAF9F6);
+            transition: all 0.3s ease;
+        }
+        
+        .class-slot:hover {
+            border-color: var(--bmad-golden-ochre, #B8860B);
+            background: white;
+        }
+        
+        .class-slot.has-class {
+            border-style: solid;
+            border-color: var(--bmad-forest-green, #2F4F2F);
+            background: linear-gradient(135deg, var(--bmad-earth-brown, #8B4513) 0%, var(--bmad-forest-green, #2F4F2F) 100%);
+            color: white;
+            cursor: pointer;
+        }
+        
+        .class-slot.has-class:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .class-info {
+            font-size: 0.875rem;
+        }
+        
+        .class-code {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .class-details {
+            opacity: 0.9;
+            font-size: 0.8rem;
+        }
+        
+        .empty-slot {
+            text-align: center;
+            color: var(--bmad-warm-gray, #8B7D6B);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+        
+        .lessons-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+        
+        .lessons-section h2 {
+            color: var(--bmad-forest-green, #2F4F2F);
+            margin: 0 0 1.5rem;
+        }
+        
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+        
+        .lesson-card {
+            background: var(--bmad-cream-white, #FAF9F6);
+            border: 2px solid var(--bmad-forest-light, #3A7D56);
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: move;
+            transition: all 0.3s ease;
+        }
+        
+        .lesson-card:hover {
+            border-color: var(--bmad-golden-ochre, #B8860B);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .lesson-title {
+            font-weight: 600;
+            color: var(--bmad-forest-green, #2F4F2F);
+            margin-bottom: 0.5rem;
+        }
+        
+        .lesson-meta {
+            font-size: 0.875rem;
+            color: var(--bmad-warm-gray, #8B7D6B);
+        }
+        
+        .status-message {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+        
+        .status-message.loading {
+            color: var(--bmad-warm-gray, #8B7D6B);
+        }
+        
+        .status-message.error {
+            color: #d32f2f;
+            background: #ffebee;
+        }
+        
+        .status-message.success {
+            color: var(--bmad-forest-green, #2F4F2F);
+            background: #e8f5e9;
+        }
+        
+        .setup-kamar {
+            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 2rem;
+            border: 2px solid var(--bmad-golden-ochre, #B8860B);
+        }
+        
+        .setup-kamar h3 {
+            color: var(--bmad-earth-brown, #8B4513);
+            margin: 0 0 1rem;
+        }
+        
+        .setup-kamar p {
+            color: var(--bmad-warm-gray, #8B7D6B);
+            margin: 0 0 1.5rem;
+        }
+        
+        .setup-kamar button {
+            background: var(--bmad-golden-ochre, #B8860B);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .setup-kamar button:hover {
+            background: var(--bmad-earth-brown, #8B4513);
+        }
+    </style>
+</head>
+<body>
+    <div class="planner-header">
+        <h1>📅 My Weekly Planner</h1>
+        <p>Plan your teaching week with KAMAR integration</p>
+    </div>
+    
+    <!-- Status Messages -->
+    <div id="status-message" class="status-message loading" style="display: none;">
+        Loading your timetable...
+    </div>
+    
+    <!-- KAMAR Setup (shown if no timetable data) -->
+    <div id="setup-kamar" class="setup-kamar" style="display: none;">
+        <h3>🔗 Connect to KAMAR</h3>
+        <p>
+            Automatically sync your class timetable from your school's KAMAR system.<br>
+            Contact your school IT administrator to enable KAMAR integration.
+        </p>
+        <button onclick="showKAMARInstructions()">Setup Instructions</button>
+    </div>
+    
+    <!-- Week Navigation -->
+    <div class="week-nav">
+        <button onclick="previousWeek()">← Previous Week</button>
+        <div class="current-week" id="current-week">Loading...</div>
+        <button onclick="nextWeek()">Next Week →</button>
+    </div>
+    
+    <!-- Weekly Timetable Grid -->
+    <div class="weekly-grid" id="weekly-grid">
+        <!-- Grid header -->
+        <div class="grid-header"></div>
+        <div class="grid-header">Monday</div>
+        <div class="grid-header">Tuesday</div>
+        <div class="grid-header">Wednesday</div>
+        <div class="grid-header">Thursday</div>
+        <div class="grid-header">Friday</div>
+        
+        <!-- Will be populated by JavaScript -->
+    </div>
+    
+    <!-- Suggested Lessons for This Week -->
+    <div class="lessons-section">
+        <h2>📚 Suggested Lessons for This Week</h2>
+        <div class="lessons-grid" id="lessons-grid">
+            <!-- Will be populated by JavaScript -->
+        </div>
+    </div>
+    
+    <script>
+        // Initialize Supabase
+        const { createClient } = supabase;
+        const supabaseClient = createClient(
+            'https://nlgldaqtubrlcqddppbq.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
+        );
+        
+        let currentUser = null;
+        let currentWeekOffset = 0; // 0 = this week, 1 = next week, -1 = last week
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            await checkAuth();
+            await loadWeeklyPlanner();
+            await loadSuggestedLessons();
+        });
+        
+        // Check authentication
+        async function checkAuth() {
+            const { data: { user }, error } = await supabaseClient.auth.getUser();
+            
+            if (error || !user) {
+                window.location.href = '/login.html?redirect=/teacher-weekly-planner.html';
+                return;
+            }
+            
+            currentUser = user;
+        }
+        
+        // Load weekly planner data
+        async function loadWeeklyPlanner() {
+            showStatus('Loading your timetable...', 'loading');
+            
+            try {
+                // Get current academic year
+                const currentYear = new Date().getFullYear();
+                
+                // Fetch KAMAR timetable data
+                const { data: timetable, error } = await supabaseClient
+                    .from('kamar_timetable')
+                    .select('*')
+                    .eq('teacher_id', currentUser.id)
+                    .eq('academic_year', currentYear)
+                    .eq('is_active', true)
+                    .order('day_of_week')
+                    .order('period');
+                
+                if (error) {
+                    console.error('Error loading timetable:', error);
+                    showSetupKAMAR();
+                    return;
+                }
+                
+                if (!timetable || timetable.length === 0) {
+                    showSetupKAMAR();
+                    return;
+                }
+                
+                // Render timetable grid
+                renderTimetableGrid(timetable);
+                updateWeekDisplay();
+                hideStatus();
+                
+            } catch (err) {
+                console.error('Fatal error loading planner:', err);
+                showStatus('Error loading timetable. Please refresh the page.', 'error');
+            }
+        }
+        
+        // Render timetable grid
+        function renderTimetableGrid(timetable) {
+            const grid = document.getElementById('weekly-grid');
+            
+            // Determine number of periods (typically 1-6)
+            const maxPeriod = Math.max(...timetable.map(t => t.period), 6);
+            
+            // Build grid for each period
+            for (let period = 1; period <= maxPeriod; period++) {
+                // Period label
+                const periodLabel = document.createElement('div');
+                periodLabel.className = 'period-label';
+                
+                // Get time from first class in this period
+                const firstClass = timetable.find(t => t.period === period);
+                const startTime = firstClass ? formatTime(firstClass.start_time) : '';
+                
+                periodLabel.innerHTML = `
+                    <div>Period ${period}</div>
+                    ${startTime ? `<div class="time">${startTime}</div>` : ''}
+                `;
+                grid.appendChild(periodLabel);
+                
+                // Slots for each day
+                const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+                days.forEach(day => {
+                    const slot = document.createElement('div');
+                    slot.className = 'class-slot';
+                    slot.dataset.day = day;
+                    slot.dataset.period = period;
+                    
+                    // Find class for this day/period
+                    const classData = timetable.find(t => 
+                        t.day_of_week === day && t.period === period
+                    );
+                    
+                    if (classData) {
+                        slot.classList.add('has-class');
+                        slot.innerHTML = `
+                            <div class="class-info">
+                                <div class="class-code">${classData.class_code}</div>
+                                <div class="class-details">
+                                    ${classData.class_name}<br>
+                                    ${classData.room ? `Room: ${classData.room}` : ''}<br>
+                                    ${formatTime(classData.start_time)} - ${formatTime(classData.end_time)}
+                                </div>
+                            </div>
+                        `;
+                        
+                        slot.onclick = () => showClassDetails(classData);
+                    } else {
+                        slot.innerHTML = `<div class="empty-slot">Free</div>`;
+                    }
+                    
+                    grid.appendChild(slot);
+                });
+            }
+        }
+        
+        // Load suggested lessons
+        async function loadSuggestedLessons() {
+            try {
+                // Get user's subjects from their timetable
+                const { data: timetable } = await supabaseClient
+                    .from('kamar_timetable')
+                    .select('subject')
+                    .eq('teacher_id', currentUser.id);
+                
+                const subjects = [...new Set(timetable?.map(t => t.subject).filter(Boolean) || [])];
+                
+                if (subjects.length === 0) {
+                    return;
+                }
+                
+                // Fetch lessons matching teacher's subjects
+                const { data: lessons, error } = await supabaseClient
+                    .from('resources')
+                    .select('*')
+                    .in('subject', subjects)
+                    .eq('type', 'lesson')
+                    .eq('is_active', true)
+                    .limit(6);
+                
+                if (error) {
+                    console.error('Error loading lessons:', error);
+                    return;
+                }
+                
+                renderSuggestedLessons(lessons || []);
+                
+            } catch (err) {
+                console.error('Error loading suggested lessons:', err);
+            }
+        }
+        
+        // Render suggested lessons
+        function renderSuggestedLessons(lessons) {
+            const grid = document.getElementById('lessons-grid');
+            
+            if (lessons.length === 0) {
+                grid.innerHTML = '<p style="text-align: center; color: var(--bmad-warm-gray);">No lessons available for your subjects yet.</p>';
+                return;
+            }
+            
+            grid.innerHTML = lessons.map(lesson => `
+                <div class="lesson-card" draggable="true">
+                    <div class="lesson-title">${lesson.title}</div>
+                    <div class="lesson-meta">
+                        ${lesson.subject || 'General'} • ${lesson.level || 'All Levels'}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Helper functions
+        function formatTime(time) {
+            if (!time) return '';
+            // Handle both HH:MM:SS and HH:MM formats
+            const parts = time.split(':');
+            return `${parts[0]}:${parts[1]}`;
+        }
+        
+        function updateWeekDisplay() {
+            const weekDisplay = document.getElementById('current-week');
+            const today = new Date();
+            const weekStart = new Date(today);
+            weekStart.setDate(today.getDate() - today.getDay() + 1 + (currentWeekOffset * 7)); // Monday
+            const weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekStart.getDate() + 4); // Friday
+            
+            weekDisplay.textContent = `${formatDate(weekStart)} - ${formatDate(weekEnd)}`;
+        }
+        
+        function formatDate(date) {
+            return date.toLocaleDateString('en-NZ', { month: 'short', day: 'numeric' });
+        }
+        
+        function previousWeek() {
+            currentWeekOffset--;
+            updateWeekDisplay();
+        }
+        
+        function nextWeek() {
+            currentWeekOffset++;
+            updateWeekDisplay();
+        }
+        
+        function showClassDetails(classData) {
+            alert(`Class: ${classData.class_name}\nCode: ${classData.class_code}\nRoom: ${classData.room}\nTime: ${formatTime(classData.start_time)} - ${formatTime(classData.end_time)}`);
+            // TODO: Show modal with lesson planning options
+        }
+        
+        function showStatus(message, type) {
+            const statusEl = document.getElementById('status-message');
+            statusEl.textContent = message;
+            statusEl.className = `status-message ${type}`;
+            statusEl.style.display = 'block';
+        }
+        
+        function hideStatus() {
+            document.getElementById('status-message').style.display = 'none';
+        }
+        
+        function showSetupKAMAR() {
+            hideStatus();
+            document.getElementById('setup-kamar').style.display = 'block';
+        }
+        
+        function showKAMARInstructions() {
+            alert(`KAMAR Integration Setup:\n\n1. Contact your school IT administrator\n2. Request KAMAR integration for Te Kete Ako\n3. Provide webhook URL: https://tekete.netlify.app/.netlify/functions/kamar-webhook-listener\n4. Once connected, your timetable will sync automatically!\n\nFor assistance, email: support@tekete.co.nz`);
+        }
+    </script>
+    
+    <!-- Sidebar Auto-Loader -->
+    <script src="/js/sidebar-auto-loader.js" defer></script>
+</body>
+</html>
+
