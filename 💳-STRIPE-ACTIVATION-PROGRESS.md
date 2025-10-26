@@ -11,18 +11,28 @@
 ### **Price IDs Configured:**
 
 1. ✅ **Individual Monthly** - `price_1SMHrsDhKhPdHioTGHtK83M4`
-   - Status: ACTIVATED!
-   - File: `netlify/functions/create-checkout-session.js` (line 22)
+   - Status: ✅ ACTIVE - Processing payments!
+   - Pricing: $15 NZD/month
    - Trial: 14 days
+   - File: `netlify/functions/create-checkout-session.js` (line 22)
 
-2. ⏳ **Individual Annual** - Needs Price ID
-   - Status: Awaiting configuration
-   - Expected pricing: ~$150/year (save $30!)
+2. ✅ **Individual Annual** - `price_1SMHwtDhKhPdHioTpLUlMWvI`
+   - Status: ✅ ACTIVE - Processing payments!
+   - Pricing: ~$150 NZD/year (save $30!)
+   - Trial: 14 days
+   - File: `netlify/functions/create-checkout-session.js` (line 23)
 
-3. ⏳ **School Annual** - Needs Price ID
-   - Status: Awaiting configuration
-   - Expected pricing: $499/year (50 users)
+3. ⏳ **School Annual** - Coming Soon
+   - Status: Placeholder (can launch without!)
+   - Expected pricing: $499/year (50+ users)
    - Trial: 30 days
+   - Note: Can be added later - not blocking!
+
+4. 🚀 **Enterprise** - Custom Pricing
+   - Status: ✅ Contact form created!
+   - Page: `/enterprise-contact.html`
+   - Features: Unlimited users, KAMAR, SSO, dedicated support
+   - Process: Contact → Custom quote → Implementation
 
 ---
 
