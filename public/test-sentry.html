@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Sentry Error Tracking - Te Kete Ako</title>
+    
+    <!-- Load Sentry from CDN -->
+    <script
+      src="https://browser.sentry-cdn.com/7.100.0/bundle.tracing.replay.min.js"
+      crossorigin="anonymous"
+    ></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem;
+            background: #f5f5f5;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #2F4F2F;
+            margin-bottom: 1rem;
+        }
+        
+        .test-container {
+            background: white;
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .error-button {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 1.5rem 3rem;
+            border-radius: 12px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .error-button:hover {
+            background: #b91c1c;
+            transform: scale(1.05);
+        }
+        
+        .test-button {
+            background: #8B4513;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        
+        .test-button:hover {
+            background: #2F4F2F;
+        }
+        
+        .info {
+            background: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+            padding: 1rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+        
+        .success {
+            background: #dcfce7;
+            border-left: 4px solid #16a34a;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Sentry Error Tracking Test</h1>
+    
+    <div class="test-container">
+        <p style="color: #666; margin-bottom: 2rem;">
+            Click the button below to trigger a test error. This will be sent to your Sentry dashboard!
+        </p>
+        
+        <button class="error-button" id="error-button">
+            💥 Break the World
+        </button>
+        
+        <div class="info">
+            <strong>What happens when you click?</strong><br>
+            1. JavaScript error thrown<br>
+            2. Sent to Sentry dashboard<br>
+            3. You can view in: <a href="https://o4509672250933251.ingest.de.sentry.io/" target="_blank">Sentry Dashboard</a><br>
+            4. Error includes: stack trace, user context, page info
+        </div>
+        
+        <hr style="margin: 2rem 0;">
+        
+        <h2 style="color: #2F4F2F; margin-bottom: 1rem;">Other Test Scenarios:</h2>
+        
+        <button class="test-button" onclick="testUndefinedVariable()">
+            Test: Undefined Variable
+        </button>
+        
+        <button class="test-button" onclick="testNetworkError()">
+            Test: Network Error
+        </button>
+        
+        <button class="test-button" onclick="testPromiseRejection()">
+            Test: Promise Rejection
+        </button>
+        
+        <button class="test-button" onclick="testCustomError()">
+            Test: Custom Error
+        </button>
+        
+        <div id="result" style="margin-top: 2rem;"></div>
+    </div>
+    
+    <div class="test-container">
+        <h2 style="color: #2F4F2F;">✅ Verify Sentry is Working</h2>
+        <p style="color: #666;">
+            After clicking a test button, go to your Sentry dashboard and you should see the error!
+        </p>
+        <a href="https://sentry.io/organizations/te-kete-ako/issues/" 
+           target="_blank" 
+           style="display: inline-block; background: #8B4513; color: white; 
+                  padding: 1rem 2rem; border-radius: 8px; text-decoration: none; 
+                  font-weight: 600; margin-top: 1rem;">
+            Open Sentry Dashboard →
+        </a>
+    </div>
+    
+    <script>
+        // Initialize Sentry
+        Sentry.init({
+            dsn: "https://2cd90e8d1c5811d6f11bd845b4c6e535@o4509672250933251.ingest.de.sentry.io/4509672258797648",
+            environment: 'production',
+            release: 'te-kete-ako@1.0.0',
+            
+            // Performance Monitoring
+            tracesSampleRate: 1.0, // 100% for testing
+            
+            // Session Replay
+            replaysSessionSampleRate: 1.0, // 100% for testing
+            replaysOnErrorSampleRate: 1.0,
+            
+            // User tracking
+            sendDefaultPii: true,
+            
+            integrations: [
+                new Sentry.BrowserTracing(),
+                new Sentry.Replay()
+            ]
+        });
+        
+        console.log('✅ Sentry initialized with DSN:', Sentry.getCurrentHub().getClient().getDsn().toString());
+        
+        // Main error button
+        document.getElementById('error-button').addEventListener('click', function() {
+            console.log('🔥 Throwing test error...');
+            throw new Error('This is your first error! 🎉');
+        });
+        
+        // Test scenarios
+        function testUndefinedVariable() {
+            console.log('Testing undefined variable...');
+            const result = undefinedVariable.toString(); // This will throw
+        }
+        
+        async function testNetworkError() {
+            console.log('Testing network error...');
+            try {
+                await fetch('https://invalid-url-that-does-not-exist.com/api/test');
+            } catch (error) {
+                Sentry.captureException(error);
+                showResult('Network error captured! Check Sentry dashboard.');
+            }
+        }
+        
+        function testPromiseRejection() {
+            console.log('Testing promise rejection...');
+            Promise.reject(new Error('Test promise rejection'));
+            showResult('Promise rejection sent! Check Sentry dashboard.');
+        }
+        
+        function testCustomError() {
+            console.log('Testing custom error...');
+            try {
+                throw new Error('Custom error for testing Sentry integration');
+            } catch (error) {
+                Sentry.captureException(error, {
+                    tags: {
+                        test_type: 'custom',
+                        platform: 'te-kete-ako'
+                    },
+                    extra: {
+                        test_timestamp: new Date().toISOString(),
+                        test_page: window.location.pathname
+                    }
+                });
+                showResult('Custom error captured with extra context! Check Sentry dashboard.');
+            }
+        }
+        
+        function showResult(message) {
+            const resultEl = document.getElementById('result');
+            resultEl.innerHTML = `
+                <div class="success">
+                    <strong>✅ ${message}</strong>
+                </div>
+            `;
+        }
+        
+        // Set user context for testing
+        Sentry.setUser({
+            id: 'test-user-' + Date.now(),
+            email: 'test@tekete.co.nz',
+            username: 'Test User'
+        });
+        
+        // Add breadcrumb
+        Sentry.addBreadcrumb({
+            category: 'test',
+            message: 'Sentry test page loaded',
+            level: 'info'
+        });
+    </script>
+</body>
+</html>
