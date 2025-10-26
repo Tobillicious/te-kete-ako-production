@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 🌿 BMAD AUTHENTIC CULTURAL DESIGN -->
+    <link rel="stylesheet" href="/css/te-kete-bmad-authentic.css"/>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Resources - Te Kete Ako</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bmad-cream-white, #FAF9F6);
+        }
+        
+        h1 {
+            color: var(--bmad-forest-green, #2F4F2F);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .compare-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .resource-column {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .resource-selector {
+            margin-bottom: 2rem;
+        }
+        
+        .resource-selector input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--bmad-forest-green, #2F4F2F);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .comparison-row {
+            padding: 1rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .comparison-row:last-child {
+            border-bottom: none;
+        }
+        
+        .comparison-label {
+            font-weight: 600;
+            color: var(--bmad-forest-green, #2F4F2F);
+            margin-bottom: 0.5rem;
+        }
+        
+        .comparison-value {
+            color: var(--bmad-dark-text, #2D2520);
+        }
+        
+        .score-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+        
+        .score-exceptional {
+            background: var(--bmad-gold-excellence, #FFD700);
+            color: var(--bmad-dark-text, #2D2520);
+        }
+        
+        .score-excellent {
+            background: #a78bfa;
+            color: white;
+        }
+        
+        .score-good {
+            background: #10b981;
+            color: white;
+        }
+        
+        .winner-indicator {
+            background: linear-gradient(135deg, var(--bmad-gold-excellence, #FFD700), var(--bmad-golden-ochre, #B8860B));
+            color: var(--bmad-dark-text, #2D2520);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>⚖️ Compare Resources Side-by-Side</h1>
+    <p style="text-align: center; color: var(--bmad-warm-gray); margin-bottom: 3rem;">
+        Compare quality, cultural integration, and features to choose the best resource
+    </p>
+    
+    <div class="compare-grid" id="compare-grid">
+        <!-- Column 1 -->
+        <div class="resource-column">
+            <div class="resource-selector">
+                <input type="text" placeholder="🔍 Search for resource 1..." 
+                       oninput="searchResources(1, this.value)">
+                <div id="results-1" style="margin-top: 1rem;"></div>
+            </div>
+            <div id="details-1"></div>
+        </div>
+        
+        <!-- Column 2 -->
+        <div class="resource-column">
+            <div class="resource-selector">
+                <input type="text" placeholder="🔍 Search for resource 2..." 
+                       oninput="searchResources(2, this.value)">
+                <div id="results-2" style="margin-top: 1rem;"></div>
+            </div>
+            <div id="details-2"></div>
+        </div>
+        
+        <!-- Column 3 -->
+        <div class="resource-column">
+            <div class="resource-selector">
+                <input type="text" placeholder="🔍 Search for resource 3..." 
+                       oninput="searchResources(3, this.value)">
+                <div id="results-3" style="margin-top: 1rem;"></div>
+            </div>
+            <div id="details-3"></div>
+        </div>
+    </div>
+    
+    <script>
+        const { createClient } = supabase;
+        const supabaseClient = createClient(
+            'https://nlgldaqtubrlcqddppbq.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
+        );
+        
+        let selectedResources = [null, null, null];
+        let searchTimeout;
+        
+        async function searchResources(column, query) {
+            clearTimeout(searchTimeout);
+            
+            if (!query || query.length < 2) {
+                document.getElementById(`results-${column}`).innerHTML = '';
+                return;
+            }
+            
+            searchTimeout = setTimeout(async () => {
+                const { data: resources } = await supabaseClient
+                    .from('graphrag_resources')
+                    .select('*')
+                    .ilike('title', `%${query}%`)
+                    .gte('quality_score', 70)
+                    .limit(5);
+                
+                if (!resources || resources.length === 0) {
+                    document.getElementById(`results-${column}`).innerHTML = 
+                        '<p style="color: #999; font-size: 0.9rem;">No results found</p>';
+                    return;
+                }
+                
+                document.getElementById(`results-${column}`).innerHTML = resources.map(r => `
+                    <div onclick='selectResource(${column}, ${JSON.stringify(r).replace(/'/g, "\\'")})'
+                         style="padding: 0.75rem; background: #f9fafb; border-radius: 6px; 
+                                margin-bottom: 0.5rem; cursor: pointer; border: 2px solid transparent;">
+                        <div style="font-weight: 600; color: #2F4F2F;">${r.title}</div>
+                        <div style="font-size: 0.875rem; color: #999;">
+                            Q${r.quality_score} • ${r.subject || 'General'}
+                        </div>
+                    </div>
+                `).join('');
+            }, 300);
+        }
+        
+        function selectResource(column, resource) {
+            selectedResources[column - 1] = resource;
+            displayResourceDetails(column, resource);
+            
+            // Check for winner
+            determineWinner();
+        }
+        
+        function displayResourceDetails(column, resource) {
+            const detailsEl = document.getElementById(`details-${column}`);
+            
+            const scoreClass = resource.quality_score >= 90 ? 'score-exceptional' :
+                              resource.quality_score >= 80 ? 'score-excellent' : 'score-good';
+            
+            detailsEl.innerHTML = `
+                <div class="comparison-row">
+                    <div class="comparison-label">Title</div>
+                    <div class="comparison-value"><strong>${resource.title}</strong></div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-label">Quality Score</div>
+                    <div class="comparison-value">
+                        <span class="score-badge ${scoreClass}">Q${resource.quality_score}</span>
+                    </div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-label">Subject</div>
+                    <div class="comparison-value">${resource.subject || 'General'}</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-label">Year Level</div>
+                    <div class="comparison-value">${resource.year_level || 'All Years'}</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-label">Cultural Integration</div>
+                    <div class="comparison-value">
+                        ${resource.has_te_reo ? '✅ Te Reo' : ''}
+                        ${resource.has_whakataukī ? '✅ Whakataukī' : ''}
+                        ${!resource.has_te_reo && !resource.has_whakataukī ? '—' : ''}
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <a href="${resource.file_path}" class="btn btn-primary" style="display: block; text-align: center; text-decoration: none; padding: 1rem;">
+                        View Resource →
+                    </a>
+                </div>
+            `;
+        }
+        
+        function determineWinner() {
+            const validResources = selectedResources.filter(r => r !== null);
+            
+            if (validResources.length < 2) return;
+            
+            // Find highest quality
+            const winner = validResources.reduce((best, current) => 
+                current.quality_score > best.quality_score ? current : best
+            );
+            
+            // Highlight winner
+            selectedResources.forEach((resource, index) => {
+                const detailsEl = document.getElementById(`details-${index + 1}`);
+                if (resource && resource.quality_score === winner.quality_score && resource.quality_score >= 85) {
+                    detailsEl.innerHTML = '<div class="winner-indicator">🏆 Highest Quality!</div>' + detailsEl.innerHTML;
+                }
+            });
+        }
+    </script>
+    
+    <!-- Sidebar Auto-Loader -->
+    <script src="/js/sidebar-auto-loader.js" defer></script>
+</body>
+</html>
