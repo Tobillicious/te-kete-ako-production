@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Settings - Te Kete Ako</title>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <link rel="stylesheet" href="/css/te-kete-ultimate-beauty-system.css">
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        .settings-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .settings-header {
+            background: linear-gradient(135deg, var(--pounamu-green), var(--kawakawa-deep));
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .settings-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+
+        .settings-nav {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .settings-nav-item {
+            display: block;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            color: #333;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .settings-nav-item:hover {
+            background: #f8f9fa;
+            border-left-color: var(--kōwhai-gold);
+        }
+
+        .settings-nav-item.active {
+            background: linear-gradient(90deg, #f0f8f0, white);
+            border-left-color: var(--pounamu-green);
+            color: var(--pounamu-green);
+        }
+
+        .settings-content {
+            background: white;
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .settings-section {
+            display: none;
+        }
+
+        .settings-section.active {
+            display: block;
+        }
+
+        .settings-section h2 {
+            color: var(--pounamu-green);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--kōwhai-gold);
+        }
+
+        .settings-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .settings-card h3 {
+            color: var(--kawakawa-deep);
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--pounamu-green);
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--pounamu-green);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--kawakawa-deep);
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-danger {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #b91c1c;
+        }
+
+        .subscription-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .badge-active {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-trial {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-cancelled {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .info-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--pounamu-green);
+        }
+
+        @media (max-width: 768px) {
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .settings-nav {
+                position: static;
+                display: flex;
+                overflow-x: auto;
+                padding: 1rem;
+            }
+
+            .settings-nav-item {
+                white-space: nowrap;
+                margin-right: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Professional Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <main class="main-content">
+        <div class="settings-container">
+            <!-- Header -->
+            <div class="settings-header">
+                <h1>Account Settings</h1>
+                <p>Manage your profile, subscription, and preferences</p>
+            </div>
+
+            <!-- Settings Grid -->
+            <div class="settings-grid">
+                <!-- Navigation -->
+                <nav class="settings-nav">
+                    <a href="#profile" class="settings-nav-item active" data-section="profile">
+                        👤 Profile
+                    </a>
+                    <a href="#subscription" class="settings-nav-item" data-section="subscription">
+                        💳 Subscription
+                    </a>
+                    <a href="#billing" class="settings-nav-item" data-section="billing">
+                        📄 Billing
+                    </a>
+                    <a href="#preferences" class="settings-nav-item" data-section="preferences">
+                        ⚙️ Preferences
+                    </a>
+                    <a href="#security" class="settings-nav-item" data-section="security">
+                        🔒 Security
+                    </a>
+                </nav>
+
+                <!-- Content Sections -->
+                <div class="settings-content">
+                    <!-- PROFILE SECTION -->
+                    <section id="profile-section" class="settings-section active">
+                        <h2>Profile Information</h2>
+
+                        <div class="settings-card">
+                            <h3>Personal Details</h3>
+                            <form id="profile-form">
+                                <div class="form-group">
+                                    <label for="full-name">Full Name</label>
+                                    <input type="text" id="full-name" name="full-name" placeholder="Loading...">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" id="email" name="email" placeholder="Loading..." disabled>
+                                    <small style="color: #666; display: block; margin-top: 0.5rem;">
+                                        Contact support to change email address
+                                    </small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="school">School/Organization</label>
+                                    <input type="text" id="school" name="school" placeholder="Loading...">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="year-level">Year Level(s) You Teach</label>
+                                    <select id="year-level" name="year-level" multiple size="4">
+                                        <option value="7">Year 7</option>
+                                        <option value="8">Year 8</option>
+                                        <option value="9">Year 9</option>
+                                        <option value="10">Year 10</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="subjects">Subject Areas</label>
+                                    <input type="text" id="subjects" name="subjects" placeholder="e.g., Mathematics, Science, Te Reo Māori">
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </form>
+                        </div>
+                    </section>
+
+                    <!-- SUBSCRIPTION SECTION -->
+                    <section id="subscription-section" class="settings-section">
+                        <h2>Subscription</h2>
+
+                        <div class="settings-card">
+                            <h3>Current Plan</h3>
+                            
+                            <div class="info-grid">
+                                <div class="info-card">
+                                    <div class="info-label">Plan</div>
+                                    <div class="info-value" id="plan-name">Loading...</div>
+                                </div>
+                                <div class="info-card">
+                                    <div class="info-label">Status</div>
+                                    <div id="plan-status">
+                                        <span class="subscription-badge badge-active">Loading...</span>
+                                    </div>
+                                </div>
+                                <div class="info-card">
+                                    <div class="info-label">Next Billing Date</div>
+                                    <div class="info-value" id="next-billing">Loading...</div>
+                                </div>
+                                <div class="info-card">
+                                    <div class="info-label">Amount</div>
+                                    <div class="info-value" id="plan-amount">Loading...</div>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 2rem;">
+                                <button class="btn btn-secondary" onclick="window.location.href='/pricing-professional.html'">
+                                    Change Plan
+                                </button>
+                                <button class="btn btn-danger" onclick="showCancelDialog()" style="margin-left: 1rem;">
+                                    Cancel Subscription
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Cancel Dialog (Hidden by default) -->
+                        <div id="cancel-dialog" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 10000; align-items: center; justify-content: center;">
+                            <div style="background: white; padding: 3rem; border-radius: 12px; max-width: 500px; margin: 2rem;">
+                                <h3 style="color: var(--pounamu-green); margin-bottom: 1rem;">Cancel Subscription?</h3>
+                                <p style="margin-bottom: 2rem;">We'd hate to see you go! Your subscription will remain active until the end of your billing period.</p>
+                                
+                                <div style="background: #fef3c7; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; border-left: 4px solid var(--kōwhai-gold);">
+                                    <strong>Special Offer!</strong> Stay subscribed and get 20% off your next renewal!
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Why are you cancelling? (Optional feedback)</label>
+                                    <select id="cancel-reason">
+                                        <option value="">Select a reason...</option>
+                                        <option value="too-expensive">Too expensive</option>
+                                        <option value="not-using">Not using enough</option>
+                                        <option value="missing-features">Missing features I need</option>
+                                        <option value="technical-issues">Technical issues</option>
+                                        <option value="found-alternative">Found alternative</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+
+                                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                                    <button class="btn btn-primary" onclick="acceptOffer()">Accept 20% Off!</button>
+                                    <button class="btn btn-danger" onclick="confirmCancel()">Cancel Anyway</button>
+                                    <button class="btn btn-secondary" onclick="closeCancelDialog()">Keep Subscription</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- BILLING SECTION -->
+                    <section id="billing-section" class="settings-section">
+                        <h2>Billing & Invoices</h2>
+
+                        <div class="settings-card">
+                            <h3>Payment Method</h3>
+                            <div id="payment-method-display">
+                                <p>💳 •••• •••• •••• <span id="card-last4">****</span></p>
+                                <p style="color: #666;">Expires: <span id="card-expiry">**/**</span></p>
+                            </div>
+                            <button class="btn btn-secondary" onclick="updatePaymentMethod()" style="margin-top: 1rem;">
+                                Update Payment Method
+                            </button>
+                        </div>
+
+                        <div class="settings-card">
+                            <h3>Invoice History</h3>
+                            <div id="invoice-list">
+                                <p style="color: #666;">Loading invoices...</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- PREFERENCES SECTION -->
+                    <section id="preferences-section" class="settings-section">
+                        <h2>Preferences</h2>
+
+                        <div class="settings-card">
+                            <h3>Email Notifications</h3>
+                            <form id="notifications-form">
+                                <div style="margin-bottom: 1rem;">
+                                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                        <input type="checkbox" id="email-new-resources" name="email-new-resources" checked>
+                                        New resources in my subjects
+                                    </label>
+                                </div>
+                                <div style="margin-bottom: 1rem;">
+                                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                        <input type="checkbox" id="email-tips" name="email-tips" checked>
+                                        Teaching tips and best practices
+                                    </label>
+                                </div>
+                                <div style="margin-bottom: 1rem;">
+                                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                        <input type="checkbox" id="email-billing" name="email-billing" checked>
+                                        Billing and subscription updates
+                                    </label>
+                                </div>
+                                <div style="margin-bottom: 1rem;">
+                                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                        <input type="checkbox" id="email-marketing" name="email-marketing">
+                                        Product updates and new features
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Preferences</button>
+                            </form>
+                        </div>
+
+                        <div class="settings-card">
+                            <h3>Display Preferences</h3>
+                            <div class="form-group">
+                                <label for="default-year">Default Year Level</label>
+                                <select id="default-year">
+                                    <option value="">All year levels</option>
+                                    <option value="7">Year 7</option>
+                                    <option value="8">Year 8</option>
+                                    <option value="9">Year 9</option>
+                                    <option value="10">Year 10</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="default-subject">Default Subject</label>
+                                <select id="default-subject">
+                                    <option value="">All subjects</option>
+                                    <option value="mathematics">Mathematics</option>
+                                    <option value="science">Science</option>
+                                    <option value="english">English</option>
+                                    <option value="te-reo">Te Reo Māori</option>
+                                    <option value="social-studies">Social Studies</option>
+                                    <option value="digital-tech">Digital Technologies</option>
+                                </select>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SECURITY SECTION -->
+                    <section id="security-section" class="settings-section">
+                        <h2>Security & Privacy</h2>
+
+                        <div class="settings-card">
+                            <h3>Change Password</h3>
+                            <form id="password-form">
+                                <div class="form-group">
+                                    <label for="current-password">Current Password</label>
+                                    <input type="password" id="current-password" name="current-password" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="new-password">New Password</label>
+                                    <input type="password" id="new-password" name="new-password" required minlength="8">
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirm-password">Confirm New Password</label>
+                                    <input type="password" id="confirm-password" name="confirm-password" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Update Password</button>
+                            </form>
+                        </div>
+
+                        <div class="settings-card">
+                            <h3>Two-Factor Authentication</h3>
+                            <p style="color: #666; margin-bottom: 1rem;">Add an extra layer of security to your account</p>
+                            <button class="btn btn-secondary">Enable 2FA (Coming Soon)</button>
+                        </div>
+
+                        <div class="settings-card">
+                            <h3>Active Sessions</h3>
+                            <p style="color: #666; margin-bottom: 1rem;">Manage devices logged into your account</p>
+                            <div id="active-sessions">
+                                <p>Loading sessions...</p>
+                            </div>
+                        </div>
+
+                        <div class="settings-card" style="border: 2px solid #fee2e2; background: #fef2f2;">
+                            <h3 style="color: #dc2626;">Danger Zone</h3>
+                            <p style="color: #666; margin-bottom: 1rem;">Permanent actions - cannot be undone</p>
+                            <button class="btn btn-danger" onclick="deleteAccount()">Delete Account</button>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Sidebar Auto-Loader (includes loading states now!) -->
+    <script src="/js/sidebar-auto-loader.js" defer></script>
+    
+    <!-- PostHog Analytics -->
+    <script src="/js/posthog-analytics.js" defer></script>
+
+    <!-- Account Settings Logic -->
+    <script>
+        // Navigation between sections
+        document.querySelectorAll('.settings-nav-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Update active nav item
+                document.querySelectorAll('.settings-nav-item').forEach(nav => nav.classList.remove('active'));
+                item.classList.add('active');
+                
+                // Show corresponding section
+                const sectionId = item.dataset.section + '-section';
+                document.querySelectorAll('.settings-section').forEach(section => section.classList.remove('active'));
+                document.getElementById(sectionId).classList.add('active');
+            });
+        });
+
+        // Load user data
+        async function loadUserData() {
+            if (!window.supabaseClient) {
+                console.error('Supabase not initialized');
+                return;
+            }
+
+            try {
+                // Show loading
+                if (window.showLoading) window.showLoading('Loading your account...');
+
+                const { data: { user }, error } = await window.supabaseClient.auth.getUser();
+                
+                if (error || !user) {
+                    window.location.href = '/login.html';
+                    return;
+                }
+
+                // Populate profile
+                document.getElementById('full-name').value = user.user_metadata?.full_name || '';
+                document.getElementById('email').value = user.email;
+                document.getElementById('school').value = user.user_metadata?.school || '';
+
+                // Load subscription data from Supabase
+                const { data: subscription } = await window.supabaseClient
+                    .from('subscriptions')
+                    .select('*, subscription_plans(*)')
+                    .eq('user_id', user.id)
+                    .single();
+
+                if (subscription) {
+                    document.getElementById('plan-name').textContent = subscription.subscription_plans?.name || 'Individual';
+                    document.getElementById('plan-amount').textContent = `$${subscription.subscription_plans?.price || 15}/month`;
+                    
+                    const statusBadge = document.querySelector('#plan-status .subscription-badge');
+                    if (subscription.status === 'active') {
+                        statusBadge.className = 'subscription-badge badge-active';
+                        statusBadge.textContent = 'Active';
+                    } else if (subscription.status === 'trialing') {
+                        statusBadge.className = 'subscription-badge badge-trial';
+                        statusBadge.textContent = 'Free Trial';
+                    }
+
+                    if (subscription.current_period_end) {
+                        const date = new Date(subscription.current_period_end);
+                        document.getElementById('next-billing').textContent = date.toLocaleDateString('en-NZ');
+                    }
+                }
+
+                // Hide loading
+                if (window.hideLoading) window.hideLoading();
+
+            } catch (error) {
+                console.error('Error loading user data:', error);
+                if (window.hideLoading) window.hideLoading();
+                if (window.showToast) window.showToast('Error loading account data', 'error');
+            }
+        }
+
+        // Save profile
+        document.getElementById('profile-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const updates = {
+                full_name: formData.get('full-name'),
+                school: formData.get('school'),
+                subjects: formData.get('subjects')
+            };
+
+            try {
+                if (window.showLoading) window.showLoading('Saving changes...');
+
+                const { error } = await window.supabaseClient.auth.updateUser({
+                    data: updates
+                });
+
+                if (error) throw error;
+
+                if (window.hideLoading) window.hideLoading();
+                if (window.showToast) window.showToast('Profile updated successfully!', 'success');
+
+            } catch (error) {
+                if (window.hideLoading) window.hideLoading();
+                if (window.showToast) window.showToast('Error saving profile: ' + error.message, 'error');
+            }
+        });
+
+        // Change password
+        document.getElementById('password-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const newPassword = formData.get('new-password');
+            const confirmPassword = formData.get('confirm-password');
+
+            if (newPassword !== confirmPassword) {
+                if (window.showToast) window.showToast('Passwords do not match', 'error');
+                return;
+            }
+
+            try {
+                if (window.showLoading) window.showLoading('Updating password...');
+
+                const { error } = await window.supabaseClient.auth.updateUser({
+                    password: newPassword
+                });
+
+                if (error) throw error;
+
+                if (window.hideLoading) window.hideLoading();
+                if (window.showToast) window.showToast('Password updated successfully!', 'success');
+                e.target.reset();
+
+            } catch (error) {
+                if (window.hideLoading) window.hideLoading();
+                if (window.showToast) window.showToast('Error updating password: ' + error.message, 'error');
+            }
+        });
+
+        // Cancel subscription dialog
+        function showCancelDialog() {
+            const dialog = document.getElementById('cancel-dialog');
+            dialog.style.display = 'flex';
+        }
+
+        function closeCancelDialog() {
+            const dialog = document.getElementById('cancel-dialog');
+            dialog.style.display = 'none';
+        }
+
+        function acceptOffer() {
+            if (window.showToast) window.showToast('Great! Your 20% discount will apply to your next billing cycle!', 'success');
+            closeCancelDialog();
+            // TODO: Apply discount code via Stripe API
+        }
+
+        async function confirmCancel() {
+            const reason = document.getElementById('cancel-reason').value;
+            
+            try {
+                if (window.showLoading) window.showLoading('Cancelling subscription...');
+
+                // TODO: Call Stripe API to cancel subscription
+                // For now, just close dialog
+                
+                if (window.hideLoading) window.hideLoading();
+                if (window.showToast) window.showToast('Subscription cancelled. You retain access until end of billing period.', 'info');
+                closeCancelDialog();
+
+                // Track cancellation reason
+                if (window.posthog && reason) {
+                    window.posthog.capture('subscription_cancelled', { reason });
+                }
+
+            } catch (error) {
+                if (window.hideLoading) window.hideLoading();
+                if (window.showToast) window.showToast('Error cancelling subscription: ' + error.message, 'error');
+            }
+        }
+
+        function updatePaymentMethod() {
+            // TODO: Integrate Stripe Elements for payment method update
+            if (window.showToast) window.showToast('Payment update coming soon! Contact support for now.', 'info');
+        }
+
+        function deleteAccount() {
+            const confirmed = confirm('Are you ABSOLUTELY SURE you want to delete your account? This cannot be undone!');
+            if (confirmed) {
+                const doubleConfirm = confirm('This will permanently delete all your data, including saved resources and progress. Type DELETE to confirm.');
+                if (doubleConfirm) {
+                    // TODO: Implement account deletion
+                    if (window.showToast) window.showToast('Account deletion initiated. Check your email for final confirmation.', 'warning');
+                }
+            }
+        }
+
+        // Initialize when page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            // Wait for Supabase to initialize
+            setTimeout(() => {
+                loadUserData();
+            }, 500);
+        });
+    </script>
+</body>
+</html>
+
