@@ -122,6 +122,7 @@ class BrowseHeroes {
                 focus: 'Building foundation skills through play, exploration, and cultural grounding',
                 development: 'Ages 5-6: Developing literacy, numeracy, and social skills. Learning through hands-on experiences and storytelling.',
                 pedagogy: 'Play as foundation: "Play is the work of the child" <cite>(<a href="https://amshq.org/About-Montessori/Inside-the-Classroom/Play" target="_blank" rel="noopener">Montessori, 1967</a>)</cite>. Zone of Proximal Development shows learning occurs through supported interaction with more capable others <cite>(<a href="https://www.marxists.org/archive/vygotsky/works/mind/index.htm" target="_blank" rel="noopener">Vygotsky, 1978</a>)</cite>.',
+                transition: 'Starting school: Building secure relationships, establishing routines, honoring home languages and cultural practices. Whānau engagement is critical for successful school entry.',
                 ministryLink: { href: 'https://nzcurriculum.tki.org.nz/The-New-Zealand-Curriculum', label: 'NZC: The New Zealand Curriculum' }
             },
             '2': {
@@ -159,6 +160,7 @@ class BrowseHeroes {
                 focus: 'Navigating early adolescence with cultural identity and academic challenge',
                 development: 'Ages 11-12: Rapid physical and emotional changes, seeking peer acceptance, questioning identity.',
                 pedagogy: 'Responsive relationships: "Caring relationships and high expectations" define effective teaching <cite>(<a href="https://doi.org/10.18296/set.0452" target="_blank" rel="noopener">Bishop, 2003</a>)</cite>. Culturally responsive pedagogy centers student identity and voice, not deficit narratives <cite>(<a href="https://doi.org/10.4324/9780203594391" target="_blank" rel="noopener">Gay, 2010</a>)</cite>.',
+                transition: 'Primary to Intermediate: Major transition requiring new social navigation, multiple teachers, increased independence. Identity development and peer relationships become central. Cultural identity support is critical.',
                 ministryLink: { href: 'https://www.education.govt.nz/school/student-support/wellbeing-in-schools/', label: 'Ministry: Student Wellbeing' }
             },
             '8': {
@@ -166,6 +168,7 @@ class BrowseHeroes {
                 focus: 'Building critical thinking and preparing for secondary school transitions',
                 development: 'Ages 12-13: Developing abstract thinking, exploring values, preparing for increased academic demands.',
                 pedagogy: 'Critical consciousness: "Problem-posing education" frames students as critical co-investigators, not passive recipients <cite>(<a href="https://en.wikipedia.org/wiki/Pedagogy_of_the_Oppressed" target="_blank" rel="noopener">Freire, 1970</a>)</cite>. Adolescent identity formation requires authentic challenges and meaningful participation <cite>(<a href="https://www.verywellmind.com/erik-eriksons-stages-of-psychosocial-development-2795740" target="_blank" rel="noopener">Erikson, 1968</a>)</cite>.',
+                transition: 'Intermediate to Secondary: Preparing for subject specialization, multiple teachers, increased workload. Building study skills, time management, and self-advocacy. Supporting cultural identity through transition.',
                 ministryLink: { href: 'https://www.education.govt.nz/school/running-a-school/curriculum/transition-from-primary-to-secondary/', label: 'Ministry: Primary to Secondary Transition' }
             },
             '9': {
@@ -185,6 +188,7 @@ class BrowseHeroes {
                 focus: 'NCEA Level 1 - Building credits and exploring post-school pathways',
                 development: 'Ages 15-16: First year of NCEA, developing assessment skills, beginning to specialize in subject areas.',
                 pedagogy: 'Assessment as learning: Feedback that moves learning forward, not just measures it <cite>(<a href="https://doi.org/10.1177/003172171009200119" target="_blank" rel="noopener">Black & Wiliam, 1998</a>)</cite>. Culturally located assessment honors diverse ways of demonstrating knowledge beyond Western written exams <cite>(<a href="https://nzareblog.wordpress.com/2010/06/16/wally-penetito/" target="_blank" rel="noopener">Penetito, 2010</a>)</cite>.',
+                transition: 'First year of NCEA: Understanding credits, internal vs external assessments, building portfolio. 80 credits needed (including literacy/numeracy). University Entrance planning begins.',
                 ministryLink: { href: 'https://www.nzqa.govt.nz/ncea/', label: 'NZQA: NCEA Information' }
             },
             '12': {
@@ -199,6 +203,7 @@ class BrowseHeroes {
                 focus: 'NCEA Level 3 - Final year preparation for university, polytech, or workforce',
                 development: 'Ages 17-18: University entrance, scholarship opportunities, mature independent learners.',
                 pedagogy: 'Liberation and leadership: "Conscientização" (critical consciousness) empowers students to read and transform their world <cite>(<a href="https://en.wikipedia.org/wiki/Pedagogy_of_the_Oppressed" target="_blank" rel="noopener">Freire, 1970</a>)</cite>. Rangatiratanga in education means Māori self-determination and leadership in learning pathways <cite>(<a href="https://doi.org/10.1080/0161956970180202" target="_blank" rel="noopener">G.H. Smith, 1997</a>)</cite>.',
+                transition: 'Final year pathways: University Entrance requires NCEA Level 3 + 14 credits at Level 3 in approved subjects. Scholarship exams, tertiary applications, or workforce/training transitions.',
                 ministryLink: { href: 'https://www.nzqa.govt.nz/qualifications-standards/awards/university-entrance/', label: 'NZQA: University Entrance' }
             }
         };
@@ -321,15 +326,21 @@ class BrowseHeroes {
                 <div class="hero-pedagogy">
                     <strong>Research-Based Pedagogy</strong>
                     <p>${year.pedagogy}</p>
-                    ${year.ministryLink ? `
-                        <div class="ministry-resource">
-                            <a href="${year.ministryLink.href}" target="_blank" rel="noopener" class="ministry-link">
-                                <span class="ministry-icon">🏛️</span>
-                                ${year.ministryLink.label}
-                            </a>
-                        </div>
-                    ` : ''}
                 </div>
+                ${year.transition ? `
+                    <div class="hero-transition">
+                        <strong>Transition Support</strong>
+                        <p>${year.transition}</p>
+                    </div>
+                ` : ''}
+                ${year.ministryLink ? `
+                    <div class="ministry-resource">
+                        <a href="${year.ministryLink.href}" target="_blank" rel="noopener" class="ministry-link">
+                            <span class="ministry-icon">🏛️</span>
+                            ${year.ministryLink.label}
+                        </a>
+                    </div>
+                ` : ''}
             </div>
         `;
 
