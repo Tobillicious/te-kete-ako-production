@@ -360,8 +360,8 @@ class SimpleBookmarks {
 }
 
 // Add CSS for animations
-const style = document.createElement('style');
-style.textContent = `
+const bookmarkStyle = document.createElement('style');
+bookmarkStyle.textContent = `
     @keyframes slideInRight {
         from { transform: translateX(100%); opacity: 0; }
         to { transform: translateX(0); opacity: 1; }
@@ -380,7 +380,7 @@ style.textContent = `
         box-shadow: 0 6px 20px rgba(0,0,0,0.3) !important;
     }
 `;
-document.head.appendChild(style);
+document.head.appendChild(bookmarkStyle);
 
 // Initialize bookmarks system
 window.simpleBookmarks = new SimpleBookmarks();

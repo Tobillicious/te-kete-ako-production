@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="mi">
+<head>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌿 Māori Teacher AI Dashboard | Te Kete Ako</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a4d3a 0%, #2d5530 50%, #4a7c59 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1a4d3a;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .cultural-greeting {
+            background: linear-gradient(135deg, #e8f5e8, #f0f8f0);
+            border: 2px solid #4caf50;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            color: #2e7d32;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 968px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .dashboard-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e8f5e8;
+        }
+
+        .panel-icon {
+            font-size: 2rem;
+            margin-right: 15px;
+        }
+
+        .panel-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a4d3a;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .action-button {
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            min-height: 80px;
+            justify-content: center;
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+        }
+
+        .resource-list {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+
+        .resource-item {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .resource-item:hover {
+            background: #e8f5e8;
+        }
+
+        .resource-item:last-child {
+            border-bottom: none;
+        }
+
+        .resource-title {
+            font-weight: 600;
+            color: #1a4d3a;
+            margin-bottom: 5px;
+        }
+
+        .resource-meta {
+            font-size: 0.8rem;
+            color: #666;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .cultural-badge {
+            background: #ff6b35;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .year-badge {
+            background: #3282b8;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .ai-assistant-panel {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+            border: 2px solid #9c27b0;
+        }
+
+        .ai-chat-container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 15px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            min-height: 200px;
+        }
+
+        .chat-input-area {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            resize: none;
+            min-height: 50px;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: #4caf50;
+        }
+
+        .send-button {
+            background: linear-gradient(135deg, #9c27b0, #7b1fa2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .send-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(156, 39, 176, 0.3);
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 10px 15px;
+            border-radius: 12px;
+            max-width: 80%;
+        }
+
+        .message.user {
+            background: #e3f2fd;
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .message.ai {
+            background: #f3e5f5;
+            margin-right: auto;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a4d3a;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(76, 175, 80, 0.3);
+            border-radius: 50%;
+            border-top-color: #4caf50;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+<header class="site-header no-print">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                        <li>
+                            <a href="browse.html">
+                                <span class="nav-icon">📚</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                                <span class="nav-text-en">Resources</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="unit-plans.html"><span class="dropdown-mi">📚 Ngā Mahere Wāhanga</span><span class="dropdown-en">Unit Plans (6-8 weeks)</span></a></li>
+                                <li><a href="lessons.html"><span class="dropdown-mi">📖 Ngā Mahere Akoranga</span><span class="dropdown-en">Lesson Plans (60-75 min)</span></a></li>
+                                <li><a href="handouts.html"><span class="dropdown-mi">📄 Ngā Kape</span><span class="dropdown-en">Handouts & Materials</span></a></li>
+                                <li><a href="browse.html"><span class="dropdown-mi">🔍 Tirohia Katoa</span><span class="dropdown-en">Browse All Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=subject">
+                                <span class="nav-icon">🎨</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Marau</span>
+                                <span class="nav-text-en">Subjects</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="browse.html?subject=english"><span class="dropdown-mi">📝 Reo Pākehā</span><span class="dropdown-en">English</span></a></li>
+                                <li><a href="browse.html?subject=math"><span class="dropdown-mi">🔢 Pāngarau</span><span class="dropdown-en">Mathematics</span></a></li>
+                                <li><a href="browse.html?subject=science"><span class="dropdown-mi">🔬 Pūtaiao</span><span class="dropdown-en">Science</span></a></li>
+                                <li><a href="browse.html?subject=social-studies"><span class="dropdown-mi">🌏 Tikanga-ā-Iwi</span><span class="dropdown-en">Social Studies</span></a></li>
+                                <li><a href="browse.html?subject=te-reo"><span class="dropdown-mi">🌿 Te Reo Māori</span><span class="dropdown-en">Māori Language</span></a></li>
+                                <li><a href="browse.html?subject=arts"><span class="dropdown-mi">🎨 Ngā Toi</span><span class="dropdown-en">The Arts</span></a></li>
+                                <li><a href="browse.html?subject=health-pe"><span class="dropdown-mi">💪 Hauora</span><span class="dropdown-en">Health & PE</span></a></li>
+                                <li><a href="browse.html?subject=technology"><span class="dropdown-mi">🔧 Hangarau</span><span class="dropdown-en">Technology</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=year">
+                                <span class="nav-icon">📅</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Tau</span>
+                                <span class="nav-text-en">Year Levels</span>
+                            </a>
+                            <div class="nav-dropdown nav-dropdown-wide">
+                                <div class="year-stage-label">Primary / Tuatahi (1-6)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=1"><span class="dropdown-mi">Tau 1</span><span class="dropdown-en">Year 1</span></a></li>
+                                    <li><a href="browse.html?year=2"><span class="dropdown-mi">Tau 2</span><span class="dropdown-en">Year 2</span></a></li>
+                                    <li><a href="browse.html?year=3"><span class="dropdown-mi">Tau 3</span><span class="dropdown-en">Year 3</span></a></li>
+                                </ul>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=4"><span class="dropdown-mi">Tau 4</span><span class="dropdown-en">Year 4</span></a></li>
+                                    <li><a href="browse.html?year=5"><span class="dropdown-mi">Tau 5</span><span class="dropdown-en">Year 5</span></a></li>
+                                    <li><a href="browse.html?year=6"><span class="dropdown-mi">Tau 6</span><span class="dropdown-en">Year 6</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Intermediate / Waenga (7-8)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=7"><span class="dropdown-mi">Tau 7</span><span class="dropdown-en">Year 7</span></a></li>
+                                    <li><a href="browse.html?year=8"><span class="dropdown-mi">Tau 8</span><span class="dropdown-en">Year 8</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Junior Secondary / Tuarua (9-10)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=9"><span class="dropdown-mi">Tau 9</span><span class="dropdown-en">Year 9</span></a></li>
+                                    <li><a href="browse.html?year=10"><span class="dropdown-mi">Tau 10</span><span class="dropdown-en">Year 10</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Senior Secondary / NCEA (11-13)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=11"><span class="dropdown-mi">Tau 11</span><span class="dropdown-en">Year 11</span></a></li>
+                                    <li><a href="browse.html?year=12"><span class="dropdown-mi">Tau 12</span><span class="dropdown-en">Year 12</span></a></li>
+                                    <li><a href="browse.html?year=13"><span class="dropdown-mi">Tau 13</span><span class="dropdown-en">Year 13</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    <li>
+                        <a href="#more">
+                            <span class="nav-icon">📦</span>
+                            <span class="nav-text-mi" lang="mi">Ētahi Atu</span>
+                            <span class="nav-text-en">More Stuff</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="games.html"><span class="dropdown-mi">🎮 Ngā Kēmu</span><span class="dropdown-en">Games</span></a></li>
+                                <li><a href="youtube.html"><span class="dropdown-mi">📺 Ataata YouTube</span><span class="dropdown-en">YouTube Videos</span></a></li>
+                                <li><a href="curriculum-alignment.html"><span class="dropdown-mi">📋 Te Marautanga</span><span class="dropdown-en">Curriculum Alignment</span></a></li>
+                                <li><a href="other-resources.html"><span class="dropdown-mi">🔗 Ētahi Atu Rauemi</span><span class="dropdown-en">Other Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="auth-nav auth-logged-out">
+                        <a href="login.html" class="auth-btn">
+                            <span class="nav-icon" data-icon="login"></span>
+                            <span class="nav-text-mi" lang="mi">Takiuru</span>
+                            <span class="nav-text-en">Login</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav auth-logged-in" style="display: none;">
+                        <a href="my-kete.html" class="dashboard-btn">
+                            <span class="nav-icon" data-icon="kete"></span>
+                            <span class="nav-text-mi" lang="mi">Tōku Kete</span>
+                            <span class="nav-text-en">My Kete</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="dashboard-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🌿 Māori Teacher AI Dashboard</h1>
+            <p>Culturally responsive teaching tools powered by artificial intelligence</p>
+            
+            <div class="cultural-greeting">
+                🌺 <strong>Kia ora, kaiako!</strong> This dashboard integrates authentic Te Ao Māori perspectives with AI-powered teaching tools to support culturally responsive education for all students.
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Quick Actions Panel -->
+            <div class="dashboard-panel">
+                <div class="panel-header">
+                    <span class="panel-icon">⚡</span>
+                    <h2 class="panel-title">Quick Actions</h2>
+                </div>
+
+                <div class="quick-actions">
+                    <button class="action-button" onclick="findCulturalResources()">
+                        <span>🌿</span>
+                        <span>Cultural Resources</span>
+                    </button>
+                    <button class="action-button" onclick="generateLessonPlan()">
+                        <span>📝</span>
+                        <span>AI Lesson Plans</span>
+                    </button>
+                    <button class="action-button" onclick="findAssessments()">
+                        <span>📊</span>
+                        <span>Assessments</span>
+                    </button>
+                    <button class="action-button" onclick="translateContent()">
+                        <span>🔄</span>
+                        <span>Te Reo Support</span>
+                    </button>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-resources">467</div>
+                        <div class="stat-label">Total Resources</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="cultural-resources">284</div>
+                        <div class="stat-label">Cultural Focus</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="ai-enhanced">89</div>
+                        <div class="stat-label">AI Enhanced</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Cultural Resources Panel -->
+            <div class="dashboard-panel">
+                <div class="panel-header">
+                    <span class="panel-icon">🏔️</span>
+                    <h2 class="panel-title">Top Cultural Resources</h2>
+                </div>
+
+                <div class="resource-list" id="cultural-resources-list">
+                    <!-- Resources will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Assistant Panel -->
+        <div class="dashboard-panel ai-assistant-panel">
+            <div class="panel-header">
+                <span class="panel-icon">🤖</span>
+                <h2 class="panel-title">AI Teaching Assistant - Culturally Responsive Support</h2>
+            </div>
+
+            <div class="ai-chat-container">
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message ai">
+                        <strong>🌺 Kia ora!</strong> I'm your AI teaching assistant, specializing in culturally responsive education and Te Ao Māori integration. I can help you:
+                        <br><br>
+                        • Find culturally authentic resources from our 467+ collection<br>
+                        • Create lesson plans that honor both cultures<br>
+                        • Suggest Te Reo Māori integration opportunities<br>
+                        • Adapt content for different year levels<br>
+                        • Provide cultural context for teaching materials<br>
+                        <br>
+                        How can I support your teaching today?
+                    </div>
+                </div>
+                
+                <div class="chat-input-area">
+                    <textarea 
+                        class="chat-input" 
+                        id="chat-input" 
+                        placeholder="Ask me anything about culturally responsive teaching, Te Reo Māori integration, or finding the right resources for your students..."
+                        rows="2"
+                    ></textarea>
+                    <button class="send-button" onclick="sendMessage()">
+                        <span id="send-text">Send</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Top 50 Māori-focused educational resources
+        const TOP_CULTURAL_RESOURCES = [
+            {
+                title: "Te Tiriti o Waitangi - Comprehensive Analysis",
+                type: "handout",
+                year: "Y9-13",
+                cultural: "High",
+                url: "/handouts/treaty-of-waitangi-handout.html",
+                description: "In-depth treaty analysis with both Māori and English texts"
+            },
+            {
+                title: "Māori Navigation & Traditional Mathematics",
+                type: "handout", 
+                year: "Y7-10",
+                cultural: "High",
+                url: "/handouts/traditional-navigation-mathematics-handout.html",
+                description: "Integration of Polynesian wayfinding with mathematical concepts"
+            },
+            {
+                title: "Māori Astronomy & Navigation Systems",
+                type: "handout",
+                year: "Y8-12",
+                cultural: "High", 
+                url: "/handouts/maori-astronomy-navigation-handout.html",
+                description: "Traditional star knowledge and navigation techniques"
+            },
+            {
+                title: "Te Reo Māori Greetings & Phrases",
+                type: "handout",
+                year: "Y1-8",
+                cultural: "High",
+                url: "/handouts/te-reo-maori-greetings-handout.html",
+                description: "Essential Te Reo vocabulary for classroom use"
+            },
+            {
+                title: "Māori Geometric Patterns in Mathematics",
+                type: "handout",
+                year: "Y7-10",
+                cultural: "High",
+                url: "/handouts/maori-geometric-patterns-handout.html", 
+                description: "Mathematical concepts through traditional art forms"
+            },
+            {
+                title: "The Art of Haka - Cultural Expression",
+                type: "handout",
+                year: "Y5-10",
+                cultural: "High",
+                url: "/handouts/art-of-haka-handout.html",
+                description: "Understanding haka as cultural communication"
+            },
+            {
+                title: "Arguments of Tino Rangatiratanga",
+                type: "handout", 
+                year: "Y11-13",
+                cultural: "High",
+                url: "/handouts/arguments-of-tino-rangatiratanga-handout.html",
+                description: "Sovereignty and self-determination concepts"
+            },
+            {
+                title: "Māori Battalion Legacy Study",
+                type: "handout",
+                year: "Y9-13", 
+                cultural: "High",
+                url: "/handouts/maori-battalion-legacy.html",
+                description: "Military service and cultural identity"
+            },
+            {
+                title: "Pre-Colonial Innovation Deep Dive",
+                type: "handout",
+                year: "Y8-12",
+                cultural: "High",
+                url: "/handouts/pre-colonial-innovation.html",
+                description: "Traditional Māori technology and innovation"
+            },
+            {
+                title: "Urban Māori Identity Formation",
+                type: "handout",
+                year: "Y10-13",
+                cultural: "High", 
+                url: "/handouts/urban-maori-identity.html",
+                description: "Contemporary Māori identity in urban settings"
+            },
+            {
+                title: "Data Sovereignty & Māori Rights",
+                type: "handout",
+                year: "Y11-13",
+                cultural: "High",
+                url: "/handouts/data-sovereignty-maori.html", 
+                description: "Digital rights and data governance"
+            },
+            {
+                title: "Traditional Ecological Indicators",
+                type: "handout",
+                year: "Y7-11",
+                cultural: "High",
+                url: "/handouts/traditional-ecological-indicators-handout.html",
+                description: "Māori environmental knowledge systems"
+            },
+            {
+                title: "Waitangi Tribunal Cases Study",
+                type: "handout", 
+                year: "Y11-13",
+                cultural: "High",
+                url: "/handouts/waitangi-tribunal-cases.html",
+                description: "Contemporary treaty settlements and justice"
+            },
+            {
+                title: "Te Reo Māori Wordle Game",
+                type: "interactive",
+                year: "Y3-13",
+                cultural: "High", 
+                url: "/games/te-reo-wordle.html",
+                description: "Daily Te Reo vocabulary building game"
+            },
+            {
+                title: "Climate Change in Aotearoa",
+                type: "handout",
+                year: "Y8-13",
+                cultural: "Medium",
+                url: "/handouts/climate-change-aotearoa-handout.html",
+                description: "Environmental challenges from Māori perspective"
+            },
+            {
+                title: "NZ Wars Strategy Analysis", 
+                type: "handout",
+                year: "Y9-13",
+                cultural: "High",
+                url: "/handouts/land-wars-strategy.html",
+                description: "Military tactics and cultural resistance"
+            },
+            {
+                title: "Living Whakapapa Connections",
+                type: "interactive",
+                year: "Y5-10",
+                cultural: "High",
+                url: "/living-whakapapa.html", 
+                description: "Interactive genealogy and connections"
+            },
+            {
+                title: "Te Ao Māori Unit - Comprehensive",
+                type: "unit",
+                year: "Y7-10", 
+                cultural: "High",
+                url: "/units/unit-1-te-ao-maori.html",
+                description: "Complete unit on Māori worldview"
+            },
+            {
+                title: "Decolonized History Unit",
+                type: "unit",
+                year: "Y8-13",
+                cultural: "High",
+                url: "/units/unit-2-decolonized-history.html", 
+                description: "Alternative historical perspectives"
+            },
+            {
+                title: "Year 10 Pepeha Building Lesson",
+                type: "lesson",
+                year: "Y10",
+                cultural: "High",
+                url: "/lesson-plans/te-reo/year-10-pepeha-building.html",
+                description: "Personal introduction in Te Reo Māori"
+            }
+        ];
+
+        // Initialize dashboard
+        function initDashboard() {
+            loadCulturalResources();
+            updateStats();
+            console.log('🌿 Māori Teacher AI Dashboard initialized');
+        }
+
+        function loadCulturalResources() {
+            const container = document.getElementById('cultural-resources-list');
+            container.innerHTML = '';
+
+            TOP_CULTURAL_RESOURCES.slice(0, 10).forEach(resource => {
+                const item = document.createElement('div');
+                item.className = 'resource-item';
+                item.onclick = () => window.open(resource.url, '_blank');
+                
+                item.innerHTML = `
+                    <div class="resource-title">${resource.title}</div>
+                    <div class="resource-meta">
+                        <span class="year-badge">${resource.year}</span>
+                        <span class="cultural-badge">${resource.cultural} Cultural</span>
+                        <span>${resource.type.charAt(0).toUpperCase() + resource.type.slice(1)}</span>
+                    </div>
+                `;
+                
+                container.appendChild(item);
+            });
+        }
+
+        function updateStats() {
+            // Animate numbers
+            animateNumber('total-resources', 467);
+            animateNumber('cultural-resources', 284);
+            animateNumber('ai-enhanced', 89);
+        }
+
+        function animateNumber(id, target) {
+            const element = document.getElementById(id);
+            let current = 0;
+            const increment = target / 30;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current);
+            }, 50);
+        }
+
+        // Quick Actions - Enhanced with Multi-Agent DeepSeek
+        async function findCulturalResources() {
+            addAIMessage("🌿 Deploying multiple DeepSeek agents to find the most culturally authentic resources...");
+            
+            try {
+                const response = await getAIResponse("Find the most culturally authentic Te Ao Māori educational resources from our GraphRAG collection. Prioritize resources with high cultural authenticity and educational impact for New Zealand teachers.");
+                
+                setTimeout(() => {
+                    const resourceList = TOP_CULTURAL_RESOURCES.slice(0, 5).map(r => 
+                        `• <strong>${r.title}</strong> (${r.year}) - ${r.description}`
+                    ).join('<br>');
+                    
+                    addAIMessage(`🤖 <strong>Multi-Agent Analysis Complete:</strong><br><br>${response}<br><br><strong>Direct Access Resources:</strong><br><br>${resourceList}<br><br>Click any resource in the panel to open it directly!`);
+                }, 1000);
+            } catch (error) {
+                addAIMessage("🌿 Here are our top cultural resources with high Te Ao Māori content. These have been specifically selected for their authentic cultural perspectives and educational value.");
+            }
+        }
+
+        async function generateLessonPlan() {
+            addAIMessage("📝 Activating 6 DeepSeek agents for comprehensive lesson planning...");
+            
+            try {
+                const response = await getAIResponse("Create a comprehensive framework for culturally responsive lesson planning that integrates Te Ao Māori perspectives with New Zealand Curriculum requirements. Include practical steps and resource suggestions.");
+                addAIMessage(`🤖 <strong>Multi-Agent Lesson Planning Framework:</strong><br><br>${response}<br><br><strong>Next Step:</strong> Please specify your subject and year level for a personalized lesson plan.`);
+            } catch (error) {
+                addAIMessage("📝 I can help you create culturally responsive lesson plans! What subject and year level are you teaching? I'll integrate appropriate Te Ao Māori perspectives and suggest resources from our collection.");
+            }
+            
+            // Focus input for response
+            document.getElementById('chat-input').focus();
+            document.getElementById('chat-input').placeholder = "e.g., 'Year 9 Science - States of Matter' or 'Year 7 Social Studies - Community'";
+        }
+
+        async function findAssessments() {
+            addAIMessage("📊 Coordinating multiple AI specialists for culturally responsive assessment design...");
+            
+            try {
+                const response = await getAIResponse("Design culturally responsive assessment strategies that honor both academic achievement and cultural knowledge. Include both traditional Western methods and mātauranga Māori approaches for authentic evaluation.");
+                addAIMessage(`🤖 <strong>Multi-Agent Assessment Strategy:</strong><br><br>${response}`);
+            } catch (error) {
+                addAIMessage("📊 I can suggest culturally appropriate assessment strategies that honor both academic achievement and cultural knowledge. What are you assessing, and would you like traditional Western methods, mātauranga Māori approaches, or a bicultural blend?");
+            }
+        }
+
+        async function translateContent() {
+            addAIMessage("🔄 Deploying cultural authenticity agents for Te Reo Māori integration...");
+            
+            try {
+                const response = await getAIResponse("Provide comprehensive guidance for integrating Te Reo Māori into educational content with cultural authenticity. Include appropriate phrases, pronunciation guides, and cultural context for respectful implementation.");
+                addAIMessage(`🤖 <strong>Te Reo Integration Guidance:</strong><br><br>${response}`);
+            } catch (error) {
+                addAIMessage("🔄 I can help with Te Reo Māori integration! I can suggest appropriate Māori phrases for your lessons, help with pronunciation guides, or recommend when to include Te Reo elements in your teaching. What content would you like to enhance?");
+            }
+        }
+
+        // Chat functionality
+        async function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message
+            addUserMessage(message);
+            input.value = '';
+            input.placeholder = "Ask me anything about culturally responsive teaching...";
+            
+            // Show loading
+            const sendButton = document.getElementById('send-text');
+            const originalText = sendButton.textContent;
+            sendButton.innerHTML = '<span class="loading-spinner"></span>';
+            
+            // Get AI response
+            try {
+                const response = await getAIResponse(message);
+                addAIMessage(response);
+            } catch (error) {
+                addAIMessage("Sorry, I'm having trouble connecting right now. Please try again in a moment. In the meantime, feel free to explore the cultural resources in the panel above!");
+            }
+            
+            // Reset button
+            sendButton.textContent = originalText;
+        }
+
+        async function getAIResponse(message) {
+            // Use MULTIPLE DEEPSEEK AGENTS CONSTANTLY for educational queries
+            const response = await fetch('/.netlify/functions/deepseek-multi-agent-orchestra', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    task: message,
+                    context: {
+                        role: 'maori_teacher_assistant',
+                        focus: 'cultural_authenticity',
+                        resources: 'te_kete_ako_collection',
+                        priority: 'high',
+                        source: 'teacher_dashboard'
+                    },
+                    priority: 'high',
+                    agentCount: 6  // Deploy 6 agents constantly
+                })
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                
+                // Display comprehensive multi-agent response
+                let fullResponse = data.orchestration?.primary_response || "I can help you with that!";
+                
+                // Add cultural guidance if available
+                if (data.orchestration?.cultural_guidance) {
+                    fullResponse += `\n\n🌿 <strong>Cultural Guidance:</strong> ${data.orchestration.cultural_guidance}`;
+                }
+                
+                // Add practical steps if available
+                if (data.orchestration?.practical_steps?.length > 0) {
+                    fullResponse += `\n\n📋 <strong>Practical Steps:</strong>\n${data.orchestration.practical_steps.slice(0, 4).map(step => `• ${step}`).join('\n')}`;
+                }
+                
+                // Add resource recommendations
+                if (data.orchestration?.resource_recommendations?.length > 0) {
+                    fullResponse += `\n\n📚 <strong>Recommended Resources:</strong>\n${data.orchestration.resource_recommendations.slice(0, 3).map(resource => `• ${resource}`).join('\n')}`;
+                }
+                
+                // Add engagement strategies
+                if (data.orchestration?.engagement_strategies?.length > 0) {
+                    fullResponse += `\n\n🎯 <strong>Engagement Strategies:</strong>\n${data.orchestration.engagement_strategies.slice(0, 3).map(strategy => `• ${strategy}`).join('\n')}`;
+                }
+                
+                // Show analytics info
+                if (data.analytics) {
+                    console.log(`🤖 Multi-Agent Analytics: ${data.analytics.agents_deployed} agents deployed, Cultural Score: ${data.analytics.cultural_authenticity_score?.toFixed(1) || 'N/A'}`);
+                }
+                
+                return fullResponse;
+            } else {
+                throw new Error('Multi-agent DeepSeek orchestration unavailable');
+            }
+        }
+
+        function addUserMessage(message) {
+            const chatMessages = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message user';
+            messageDiv.textContent = message;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function addAIMessage(message) {
+            const chatMessages = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message ai';
+            messageDiv.innerHTML = `<strong>🌺 AI Assistant:</strong> ${message}`;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Enter key support
+        document.getElementById('chat-input').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initDashboard);
+    </script>
+
+<footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- Brand Section -->
+                <div class="footer-section footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p class="footer-whakataukī">"Whaowhia te kete mātauranga"</p>
+                    <p class="footer-tagline">Fill the basket of knowledge</p>
+                    <p class="footer-description">Quality teaching resources for Aotearoa New Zealand educators, honoring mātauranga Māori and contemporary pedagogy.</p>
+                </div>
+
+                <!-- Resources Section -->
+                <div class="footer-section footer-resources">
+                    <h4><span class="footer-mi">Ngā Rauemi</span> <span class="footer-en">Resources</span></h4>
+                    <ul>
+                        <li><a href="unit-plans.html">📚 Unit Plans / Ngā Mahere Wāhanga</a></li>
+                        <li><a href="lessons.html">📖 Lesson Plans / Ngā Akoranga</a></li>
+                        <li><a href="handouts.html">📄 Handouts / Ngā Kape</a></li>
+                        <li><a href="games.html">🎮 Games / Ngā Kēmu</a></li>
+                        <li><a href="browse.html">🔍 Browse All / Tirohia Katoa</a></li>
+                    </ul>
+                </div>
+
+                <!-- Curriculum Section -->
+                <div class="footer-section footer-curriculum">
+                    <h4><span class="footer-mi">Te Marautanga</span> <span class="footer-en">Curriculum</span></h4>
+                    <ul>
+                        <li><a href="browse.html?subject=english">📝 English / Reo Pākehā</a></li>
+                        <li><a href="browse.html?subject=math">🔢 Mathematics / Pāngarau</a></li>
+                        <li><a href="browse.html?subject=science">🔬 Science / Pūtaiao</a></li>
+                        <li><a href="browse.html?subject=social-studies">🌏 Social Studies / Tikanga-ā-Iwi</a></li>
+                        <li><a href="curriculum-alignment.html">📋 NZ Curriculum Alignment</a></li>
+                    </ul>
+                </div>
+
+                <!-- Account & Support Section -->
+                <div class="footer-section footer-support">
+                    <h4><span class="footer-mi">Tautoko</span> <span class="footer-en">Support</span></h4>
+                    <ul>
+                        <li><a href="my-kete.html">🧺 My Kete / Tōku Kete</a></li>
+                        <li><a href="login.html">🔐 Login / Takiuru</a></li>
+                        <li><a href="#about">ℹ️ About Us / Mō Mātou</a></li>
+                        <li><a href="#contact">✉️ Contact / Whakapā Mai</a></li>
+                        <li><a href="#help">❓ Help / Āwhina</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <span class="footer-copyright">© 2025 Te Kete Ako</span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-location">Aotearoa New Zealand</span>
+                    <span class="footer-separator">•</span>
+                    <a href="#privacy">Privacy</a>
+                    <span class="footer-separator">•</span>
+                    <a href="#terms">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

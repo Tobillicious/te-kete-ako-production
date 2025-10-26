@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://supabase.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: https://placehold.co; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co https://supabase.com;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Te Kete Ako - Lesson 3: Source Evaluation & Fact-Checking</title>
+    <meta name="description" content="Te Kete Ako - Lesson 3: Source Evaluation & Fact-Checking - Educational resource from Te Kete Ako">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/main.css">
+    <style>
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0;
+            gap: 1rem;
+        }
+        .nav-button {
+            padding: 12px 20px;
+            background-color: var(--color-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        .nav-button:hover {
+            background-color: var(--color-secondary);
+            transform: translateY(-2px);
+        }
+        .activity {
+            background-color: var(--color-accent-light);
+            padding: 1.5rem;
+            border-left: 4px solid var(--color-primary);
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+        .tool-list {
+            background-color: var(--color-background-alt);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border: 2px solid var(--color-border);
+        }
+        .case-study {
+            border: 2px solid var(--color-border);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .interactive {
+            background-color: var(--color-cultural-light);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border: 1px solid var(--color-secondary);
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        .comparison-table th, .comparison-table td {
+            padding: 12px;
+            border: 1px solid var(--color-border);
+            text-align: left;
+        }
+        .comparison-table th {
+            background-color: var(--color-primary);
+            color: white;
+        }
+        .comparison-table tr:nth-child(even) {
+            background-color: var(--color-background-alt);
+        }
+    </style>
+</head>
+<body data-auto-init="true">
+
+                    <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                        <li>
+                            <a href="browse.html">
+                                <span class="nav-icon">📚</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                                <span class="nav-text-en">Resources</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="unit-plans.html"><span class="dropdown-mi">📚 Ngā Mahere Wāhanga</span><span class="dropdown-en">Unit Plans (6-8 weeks)</span></a></li>
+                                <li><a href="lessons.html"><span class="dropdown-mi">📖 Ngā Mahere Akoranga</span><span class="dropdown-en">Lesson Plans (60-75 min)</span></a></li>
+                                <li><a href="handouts.html"><span class="dropdown-mi">📄 Ngā Kape</span><span class="dropdown-en">Handouts & Materials</span></a></li>
+                                <li><a href="browse.html"><span class="dropdown-mi">🔍 Tirohia Katoa</span><span class="dropdown-en">Browse All Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=subject">
+                                <span class="nav-icon">🎨</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Marau</span>
+                                <span class="nav-text-en">Subjects</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="browse.html?subject=english"><span class="dropdown-mi">📝 Reo Pākehā</span><span class="dropdown-en">English</span></a></li>
+                                <li><a href="browse.html?subject=math"><span class="dropdown-mi">🔢 Pāngarau</span><span class="dropdown-en">Mathematics</span></a></li>
+                                <li><a href="browse.html?subject=science"><span class="dropdown-mi">🔬 Pūtaiao</span><span class="dropdown-en">Science</span></a></li>
+                                <li><a href="browse.html?subject=social-studies"><span class="dropdown-mi">🌏 Tikanga-ā-Iwi</span><span class="dropdown-en">Social Studies</span></a></li>
+                                <li><a href="browse.html?subject=te-reo"><span class="dropdown-mi">🌿 Te Reo Māori</span><span class="dropdown-en">Māori Language</span></a></li>
+                                <li><a href="browse.html?subject=arts"><span class="dropdown-mi">🎨 Ngā Toi</span><span class="dropdown-en">The Arts</span></a></li>
+                                <li><a href="browse.html?subject=health-pe"><span class="dropdown-mi">💪 Hauora</span><span class="dropdown-en">Health & PE</span></a></li>
+                                <li><a href="browse.html?subject=technology"><span class="dropdown-mi">🔧 Hangarau</span><span class="dropdown-en">Technology</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=year">
+                                <span class="nav-icon">📅</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Tau</span>
+                                <span class="nav-text-en">Year Levels</span>
+                            </a>
+                            <div class="nav-dropdown nav-dropdown-wide">
+                                <div class="year-stage-label">Primary / Tuatahi (1-6)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=1"><span class="dropdown-mi">Tau 1</span><span class="dropdown-en">Year 1</span></a></li>
+                                    <li><a href="browse.html?year=2"><span class="dropdown-mi">Tau 2</span><span class="dropdown-en">Year 2</span></a></li>
+                                    <li><a href="browse.html?year=3"><span class="dropdown-mi">Tau 3</span><span class="dropdown-en">Year 3</span></a></li>
+                                </ul>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=4"><span class="dropdown-mi">Tau 4</span><span class="dropdown-en">Year 4</span></a></li>
+                                    <li><a href="browse.html?year=5"><span class="dropdown-mi">Tau 5</span><span class="dropdown-en">Year 5</span></a></li>
+                                    <li><a href="browse.html?year=6"><span class="dropdown-mi">Tau 6</span><span class="dropdown-en">Year 6</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Intermediate / Waenga (7-8)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=7"><span class="dropdown-mi">Tau 7</span><span class="dropdown-en">Year 7</span></a></li>
+                                    <li><a href="browse.html?year=8"><span class="dropdown-mi">Tau 8</span><span class="dropdown-en">Year 8</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Junior Secondary / Tuarua (9-10)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=9"><span class="dropdown-mi">Tau 9</span><span class="dropdown-en">Year 9</span></a></li>
+                                    <li><a href="browse.html?year=10"><span class="dropdown-mi">Tau 10</span><span class="dropdown-en">Year 10</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Senior Secondary / NCEA (11-13)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=11"><span class="dropdown-mi">Tau 11</span><span class="dropdown-en">Year 11</span></a></li>
+                                    <li><a href="browse.html?year=12"><span class="dropdown-mi">Tau 12</span><span class="dropdown-en">Year 12</span></a></li>
+                                    <li><a href="browse.html?year=13"><span class="dropdown-mi">Tau 13</span><span class="dropdown-en">Year 13</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    <li>
+                        <a href="#more">
+                            <span class="nav-icon">📦</span>
+                            <span class="nav-text-mi" lang="mi">Ētahi Atu</span>
+                            <span class="nav-text-en">More Stuff</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="games.html"><span class="dropdown-mi">🎮 Ngā Kēmu</span><span class="dropdown-en">Games</span></a></li>
+                                <li><a href="youtube.html"><span class="dropdown-mi">📺 Ataata YouTube</span><span class="dropdown-en">YouTube Videos</span></a></li>
+                                <li><a href="curriculum-alignment.html"><span class="dropdown-mi">📋 Te Marautanga</span><span class="dropdown-en">Curriculum Alignment</span></a></li>
+                                <li><a href="other-resources.html"><span class="dropdown-mi">🔗 Ētahi Atu Rauemi</span><span class="dropdown-en">Other Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="auth-nav auth-logged-out">
+                        <a href="login.html" class="auth-btn">
+                            <span class="nav-icon" data-icon="login"></span>
+                            <span class="nav-text-mi" lang="mi">Takiuru</span>
+                            <span class="nav-text-en">Login</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav auth-logged-in" style="display: none;">
+                        <a href="my-kete.html" class="dashboard-btn">
+                            <span class="nav-icon" data-icon="kete"></span>
+                            <span class="nav-text-mi" lang="mi">Tōku Kete</span>
+                            <span class="nav-text-en">My Kete</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="lesson-header">
+            <h1>Source Evaluation & Fact-Checking</h1>
+            <p class="lesson-meta"><strong>Critical Thinking Unit - Lesson 3 of 22</strong> | Year 9-10 | Social Studies</p>
+        </div>
+
+        <section>
+            <h2>🔍 Building on Previous Learning</h2>
+            <p>From Lessons 1-2, we learned to identify media types and recognize bias. Now we focus on verifying information through source evaluation and fact-checking techniques, including Māori approaches to knowledge validation.</p>
+        </section>
+
+        <section>
+            <h2>🛡️ The SIFT Method for Source Evaluation</h2>
+            <div class="content-cards">
+                <div class="content-card">
+                    <h3>🛑 STOP</h3>
+                    <p>Before sharing or using information</p>
+                </div>
+                <div class="content-card">
+                    <h3>🔍 INVESTIGATE</h3>
+                    <p>The source and its credibility</p>
+                </div>
+                <div class="content-card">
+                    <h3>🔗 FIND</h3>
+                    <p>Better coverage from other sources</p>
+                </div>
+                <div class="content-card">
+                    <h3>📍 TRACE</h3>
+                    <p>Claims back to their original context</p>
+                </div>
+            </div>
+            
+            <div class="activity">
+                <h3>🚀 Quick Practice: SIFT in Action</h3>
+                <p><strong>Scenario:</strong> "New Study Shows 90% of Kiwis Want to Leave NZ"</p>
+                <p>Apply the SIFT method step-by-step:</p>
+                <ol>
+                    <li><strong>Stop:</strong> What's your first reaction? Why might this be problematic?</li>
+                    <li><strong>Investigate:</strong> What would you check about the source?</li>
+                    <li><strong>Find:</strong> Where else would you look for information?</li>
+                    <li><strong>Trace:</strong> What original study would you try to find?</li>
+                </ol>
+            </div>
+        </section>
+
+        <section>
+            <h2>🛠️ Fact-Checking Tools & Techniques</h2>
+            
+            <div class="tool-list">
+                <h3>Digital Verification Tools:</h3>
+                <ul>
+                    <li><strong>🖼️ Reverse Image Search:</strong> Google Images, TinEye</li>
+                    <li><strong>🎥 Video Verification:</strong> InVID, Amnesty's YouTube DataViewer</li>
+                    <li><strong>✅ Fact-Checking Sites:</strong> FactCheck.org, Snopes, NZ's The Fact Check</li>
+                    <li><strong>🌐 Domain Analysis:</strong> Whois.net, ICANN Lookup</li>
+                    <li><strong>📊 Data Verification:</strong> Stats NZ, Official government sources</li>
+                </ul>
+            </div>
+
+            <div class="case-study">
+                <h3>🏥 NZ Case Study: COVID-19 Misinformation</h3>
+                <p>During the pandemic, claims circulated that NZ's vaccination rate was lower than reported. Professional fact-checkers used this process:</p>
+                <ol>
+                    <li>📊 <strong>Traced to primary source:</strong> Ministry of Health official data</li>
+                    <li>🔬 <strong>Verified methodology:</strong> Consulted epidemiologists</li>
+                    <li>🌐 <strong>Cross-referenced:</strong> Compared with WHO reporting standards</li>
+                    <li>👥 <strong>Community perspective:</strong> Consulted Māori health providers</li>
+                    <li>📝 <strong>Conclusion:</strong> Original claims were based on incomplete data</li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="cultural-context">
+            <h2>🌿 Māori Knowledge Validation (Mātauranga Māori)</h2>
+            <p>Traditional Māori approaches to validating knowledge emphasize different but complementary criteria:</p>
+            
+            <div class="content-cards">
+                <div class="content-card">
+                    <h3>🌳 Whakapapa</h3>
+                    <p>Lineage of knowledge transmission - who taught this knowledge and their credibility</p>
+                </div>
+                <div class="content-card">
+                    <h3>🛡️ Kaitiakitanga</h3>
+                    <p>Responsibility in sharing knowledge - ensuring information benefits the community</p>
+                </div>
+                <div class="content-card">
+                    <h3>💭 Wānanga</h3>
+                    <p>Deliberation with experts and elders before accepting new information</p>
+                </div>
+                <div class="content-card">
+                    <h3>⚡ Mana</h3>
+                    <p>The spiritual authority and credibility of the knowledge source</p>
+                </div>
+            </div>
+            
+            <div class="interactive">
+                <h3>🔬 Activity: Comparing Validation Systems</h3>
+                <p>How would these different knowledge systems verify a claim about traditional medicinal plants?</p>
+                
+                <table class="comparison-table">
+                    <tr>
+                        <th>Western Scientific Method</th>
+                        <th>Mātauranga Māori</th>
+                    </tr>
+                    <tr>
+                        <td>Peer-reviewed studies</td>
+                        <td>Whakapapa of the knowledge holder</td>
+                    </tr>
+                    <tr>
+                        <td>Controlled clinical trials</td>
+                        <td>Generational observation and use</td>
+                    </tr>
+                    <tr>
+                        <td>Laboratory analysis of compounds</td>
+                        <td>Practical application in community context</td>
+                    </tr>
+                    <tr>
+                        <td>Statistical significance</td>
+                        <td>Holistic understanding of effects</td>
+                    </tr>
+                    <tr>
+                        <td>Reproducible results</td>
+                        <td>Consistent traditional outcomes</td>
+                    </tr>
+                </table>
+                
+                <p><strong>Discussion:</strong> How might combining both approaches lead to more robust knowledge validation?</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>🎯 Interactive Verification Challenge</h2>
+            
+            <div class="interactive">
+                <h3>📱 Scenario: Viral Social Media Claim</h3>
+                <p><strong>The Claim:</strong> A viral tweet claims a famous NZ politician said "Māori should lose voting rights" during a recent interview.</p>
+                
+                <h4>🔍 Your Verification Mission:</h4>
+                <ol>
+                    <li><strong>Stop & Assess:</strong> What red flags do you notice?</li>
+                    <li><strong>Source Investigation:</strong> How would you check:
+                        <ul>
+                            <li>Who posted the original claim?</li>
+                            <li>When and where the interview supposedly occurred?</li>
+                            <li>The account's credibility and history?</li>
+                        </ul>
+                    </li>
+                    <li><strong>Find Better Coverage:</strong> Where would you look for:
+                        <ul>
+                            <li>Official statements from the politician?</li>
+                            <li>Reputable news coverage?</li>
+                            <li>Video or audio of the actual interview?</li>
+                        </ul>
+                    </li>
+                    <li><strong>Trace to Origin:</strong> What primary sources would you seek?</li>
+                </ol>
+                
+                <div style="background: rgba(255,255,255,0.7); padding: 1rem; border-radius: 6px; margin-top: 1rem;">
+                    <h4>🎯 Learning Outcome:</h4>
+                    <p>This exercise teaches us that extraordinary claims require extraordinary evidence, especially when they could harm individuals or communities.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>📝 Assessment Task</h2>
+            <div class="assessment">
+                <h3>Fact-Checking Mission (Individual Work)</h3>
+                <p><strong>Task:</strong> Find a recent news claim about New Zealand and conduct a complete fact-check using today's methods.</p>
+                
+                <h4>Requirements:</h4>
+                <ul>
+                    <li>✅ Apply the SIFT method systematically</li>
+                    <li>🛠️ Use at least 3 digital verification tools</li>
+                    <li>🌿 Include both Western and Māori knowledge validation perspectives</li>
+                    <li>📝 Write a 400-word fact-check report</li>
+                    <li>🎯 Conclude with your confidence level (High/Medium/Low) and reasoning</li>
+                </ul>
+                
+                <h4>Success Criteria:</h4>
+                <ul>
+                    <li>Demonstrates systematic approach to verification</li>
+                    <li>Uses multiple reliable sources</li>
+                    <li>Shows cultural awareness in knowledge validation</li>
+                    <li>Provides clear reasoning for conclusions</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="lesson-nav">
+            <a href="lesson-2.html" class="nav-button">← Lesson 2: Media Bias</a>
+            <a href="lesson-4.html" class="nav-button">Lesson 4: Logic & Reasoning →</a>
+        </div>
+
+        <section class="lesson-footer">
+            <h3>🔗 Next Steps</h3>
+            <p><strong>Lesson 4:</strong> We'll explore logical reasoning, fallacies, and argument construction.</p>
+            <p><strong>Extension:</strong> Research a historical event where fact-checking would have been valuable. How might misinformation have been prevented?</p>
+        </section>
+    </main>
+
+    <script src="../../js/main.js"></script>
+
+    <!-- Load Supabase Client -->
+    <script src="../../js/supabase-client.js"></script>
+    <!-- Load Auth UI -->
+    <script src="../../js/auth-enhanced.js"></script>
+
+<footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- Brand Section -->
+                <div class="footer-section footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p class="footer-whakataukī">"Whaowhia te kete mātauranga"</p>
+                    <p class="footer-tagline">Fill the basket of knowledge</p>
+                    <p class="footer-description">Quality teaching resources for Aotearoa New Zealand educators, honoring mātauranga Māori and contemporary pedagogy.</p>
+                </div>
+
+                <!-- Resources Section -->
+                <div class="footer-section footer-resources">
+                    <h4><span class="footer-mi">Ngā Rauemi</span> <span class="footer-en">Resources</span></h4>
+                    <ul>
+                        <li><a href="unit-plans.html">📚 Unit Plans / Ngā Mahere Wāhanga</a></li>
+                        <li><a href="lessons.html">📖 Lesson Plans / Ngā Akoranga</a></li>
+                        <li><a href="handouts.html">📄 Handouts / Ngā Kape</a></li>
+                        <li><a href="games.html">🎮 Games / Ngā Kēmu</a></li>
+                        <li><a href="browse.html">🔍 Browse All / Tirohia Katoa</a></li>
+                    </ul>
+                </div>
+
+                <!-- Curriculum Section -->
+                <div class="footer-section footer-curriculum">
+                    <h4><span class="footer-mi">Te Marautanga</span> <span class="footer-en">Curriculum</span></h4>
+                    <ul>
+                        <li><a href="browse.html?subject=english">📝 English / Reo Pākehā</a></li>
+                        <li><a href="browse.html?subject=math">🔢 Mathematics / Pāngarau</a></li>
+                        <li><a href="browse.html?subject=science">🔬 Science / Pūtaiao</a></li>
+                        <li><a href="browse.html?subject=social-studies">🌏 Social Studies / Tikanga-ā-Iwi</a></li>
+                        <li><a href="curriculum-alignment.html">📋 NZ Curriculum Alignment</a></li>
+                    </ul>
+                </div>
+
+                <!-- Account & Support Section -->
+                <div class="footer-section footer-support">
+                    <h4><span class="footer-mi">Tautoko</span> <span class="footer-en">Support</span></h4>
+                    <ul>
+                        <li><a href="my-kete.html">🧺 My Kete / Tōku Kete</a></li>
+                        <li><a href="login.html">🔐 Login / Takiuru</a></li>
+                        <li><a href="#about">ℹ️ About Us / Mō Mātou</a></li>
+                        <li><a href="#contact">✉️ Contact / Whakapā Mai</a></li>
+                        <li><a href="#help">❓ Help / Āwhina</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <span class="footer-copyright">© 2025 Te Kete Ako</span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-location">Aotearoa New Zealand</span>
+                    <span class="footer-separator">•</span>
+                    <a href="#privacy">Privacy</a>
+                    <span class="footer-separator">•</span>
+                    <a href="#terms">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

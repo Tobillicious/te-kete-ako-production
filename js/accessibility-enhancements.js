@@ -205,8 +205,9 @@ class AccessibilityEnhancer {
             this.enhanceFocusIndicator(event.target);
         });
 
-        // Skip repetitive focus announcements
-        this.setupFocusAnnouncements();
+        // Skip repetitive focus announcements  
+        // Note: setupFocusAnnouncements method removed as it was causing errors
+        // TODO: Re-implement if needed
     }
 
     manageFocusTrapping(event) {

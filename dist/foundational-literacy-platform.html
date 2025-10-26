@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="mi">
+<head>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 Mangakotukutuku Foundational Learning | Te Kete Ako</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 35%, #f093fb 100%);
+            min-height: 100vh;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* NEURODIVERGENT-FRIENDLY DESIGN PRINCIPLES */
+        .neurodivergent-friendly {
+            font-family: 'Comic Neue', cursive; /* Dyslexia-friendly font */
+            line-height: 1.6;
+            letter-spacing: 0.05em;
+        }
+
+        .high-contrast {
+            background: #ffffff;
+            color: #000000;
+            border: 2px solid #333;
+        }
+
+        .large-touch-target {
+            min-height: 60px; /* 44px minimum, 60px for better accessibility */
+            min-width: 60px;
+        }
+
+        .focus-outline {
+            outline: 3px solid #ff6b35;
+            outline-offset: 2px;
+        }
+
+        /* CULTURAL DESIGN ELEMENTS */
+        .cultural-pattern {
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(76, 175, 80, 0.1) 2px, transparent 2px),
+                radial-gradient(circle at 75% 75%, rgba(33, 150, 243, 0.1) 2px, transparent 2px);
+            background-size: 40px 40px;
+        }
+
+        .maori-inspired {
+            border-radius: 0;
+            border: 3px solid;
+            border-image: linear-gradient(45deg, #4caf50, #2196f3, #ff6b35, #9c27b0) 1;
+            position: relative;
+        }
+
+        .maori-inspired::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(45deg, #4caf50, #2196f3, #ff6b35, #9c27b0);
+            z-index: -1;
+            border-radius: inherit;
+        }
+
+        /* MAIN LAYOUT */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #4caf50, #2196f3, #ff6b35, #9c27b0);
+        }
+
+        .main-title {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+
+        .cultural-greeting {
+            background: rgba(76, 175, 80, 0.1);
+            border: 2px solid #4caf50;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 1.2rem;
+            color: #2e7d32;
+        }
+
+        /* LEARNING MODULES GRID */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .learning-module {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .learning-module:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .learning-module::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .module-literacy::before { background: linear-gradient(90deg, #4caf50, #66bb6a); }
+        .module-numeracy::before { background: linear-gradient(90deg, #2196f3, #42a5f5); }
+        .module-cultural::before { background: linear-gradient(90deg, #ff6b35, #ff8a65); }
+        .module-games::before { background: linear-gradient(90deg, #9c27b0, #ba68c8); }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .module-icon {
+            font-size: 3rem;
+            margin-right: 20px;
+            padding: 15px;
+            border-radius: 50%;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .module-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .module-subtitle {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .difficulty-indicator {
+            display: flex;
+            gap: 5px;
+            margin: 15px 0;
+        }
+
+        .difficulty-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #e0e0e0;
+        }
+
+        .difficulty-dot.active { background: #4caf50; }
+        .difficulty-dot.medium { background: #ff9800; }
+        .difficulty-dot.hard { background: #f44336; }
+
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .activity-card {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .activity-card:hover {
+            transform: scale(1.05);
+            border-color: #667eea;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+        }
+
+        .activity-card:focus {
+            outline: 3px solid #ff6b35;
+            outline-offset: 2px;
+        }
+
+        .activity-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .activity-description {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        /* ADAPTIVE INTERFACE CONTROLS */
+        .accessibility-toolbar {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .accessibility-btn {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .accessibility-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .accessibility-btn.active {
+            background: #4caf50;
+            color: white;
+        }
+
+        /* PROGRESS TRACKING */
+        .progress-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .progress-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .progress-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .progress-bars {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .progress-bar-container {
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .progress-bar-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4caf50, #66bb6a);
+            border-radius: 10px;
+            transition: width 1s ease;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: attr(data-percentage);
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        /* WHĀNAU ENGAGEMENT SECTION */
+        .whanau-section {
+            background: rgba(255, 248, 220, 0.95);
+            border: 2px solid #ff6b35;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .whanau-section::before {
+            content: '🏠';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 8rem;
+            opacity: 0.1;
+        }
+
+        .whanau-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #f57c00;
+            margin-bottom: 15px;
+        }
+
+        .whanau-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .whanau-feature {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .whanau-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .main-title {
+                font-size: 2rem;
+            }
+            
+            .modules-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .accessibility-toolbar {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin-bottom: 20px;
+                justify-content: center;
+            }
+            
+            .activity-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+            
+            .progress-stats {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        /* LOADING STATES AND ANIMATIONS */
+        .loading-shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body>
+    <!-- ADAPTIVE ACCESSIBILITY TOOLBAR -->
+    <div class="accessibility-toolbar">
+        <button class="accessibility-btn" onclick="toggleHighContrast()" title="High Contrast Mode" tabindex="0">
+            <span>🎨</span>
+        </button>
+        <button class="accessibility-btn" onclick="toggleDyslexiaFont()" title="Dyslexia-Friendly Font" tabindex="0">
+            <span>📖</span>
+        </button>
+        <button class="accessibility-btn" onclick="increaseFontSize()" title="Increase Font Size" tabindex="0">
+            <span>🔍</span>
+        </button>
+        <button class="accessibility-btn" onclick="toggleFocusMode()" title="Focus Mode" tabindex="0">
+            <span>🎯</span>
+        </button>
+    </div>
+
+    <div class="container">
+        <!-- CULTURALLY RESPONSIVE HEADER -->
+                        <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                        <li>
+                            <a href="browse.html">
+                                <span class="nav-icon">📚</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                                <span class="nav-text-en">Resources</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="unit-plans.html"><span class="dropdown-mi">📚 Ngā Mahere Wāhanga</span><span class="dropdown-en">Unit Plans (6-8 weeks)</span></a></li>
+                                <li><a href="lessons.html"><span class="dropdown-mi">📖 Ngā Mahere Akoranga</span><span class="dropdown-en">Lesson Plans (60-75 min)</span></a></li>
+                                <li><a href="handouts.html"><span class="dropdown-mi">📄 Ngā Kape</span><span class="dropdown-en">Handouts & Materials</span></a></li>
+                                <li><a href="browse.html"><span class="dropdown-mi">🔍 Tirohia Katoa</span><span class="dropdown-en">Browse All Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=subject">
+                                <span class="nav-icon">🎨</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Marau</span>
+                                <span class="nav-text-en">Subjects</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="browse.html?subject=english"><span class="dropdown-mi">📝 Reo Pākehā</span><span class="dropdown-en">English</span></a></li>
+                                <li><a href="browse.html?subject=math"><span class="dropdown-mi">🔢 Pāngarau</span><span class="dropdown-en">Mathematics</span></a></li>
+                                <li><a href="browse.html?subject=science"><span class="dropdown-mi">🔬 Pūtaiao</span><span class="dropdown-en">Science</span></a></li>
+                                <li><a href="browse.html?subject=social-studies"><span class="dropdown-mi">🌏 Tikanga-ā-Iwi</span><span class="dropdown-en">Social Studies</span></a></li>
+                                <li><a href="browse.html?subject=te-reo"><span class="dropdown-mi">🌿 Te Reo Māori</span><span class="dropdown-en">Māori Language</span></a></li>
+                                <li><a href="browse.html?subject=arts"><span class="dropdown-mi">🎨 Ngā Toi</span><span class="dropdown-en">The Arts</span></a></li>
+                                <li><a href="browse.html?subject=health-pe"><span class="dropdown-mi">💪 Hauora</span><span class="dropdown-en">Health & PE</span></a></li>
+                                <li><a href="browse.html?subject=technology"><span class="dropdown-mi">🔧 Hangarau</span><span class="dropdown-en">Technology</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=year">
+                                <span class="nav-icon">📅</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Tau</span>
+                                <span class="nav-text-en">Year Levels</span>
+                            </a>
+                            <div class="nav-dropdown nav-dropdown-wide">
+                                <div class="year-stage-label">Primary / Tuatahi (1-6)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=1"><span class="dropdown-mi">Tau 1</span><span class="dropdown-en">Year 1</span></a></li>
+                                    <li><a href="browse.html?year=2"><span class="dropdown-mi">Tau 2</span><span class="dropdown-en">Year 2</span></a></li>
+                                    <li><a href="browse.html?year=3"><span class="dropdown-mi">Tau 3</span><span class="dropdown-en">Year 3</span></a></li>
+                                </ul>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=4"><span class="dropdown-mi">Tau 4</span><span class="dropdown-en">Year 4</span></a></li>
+                                    <li><a href="browse.html?year=5"><span class="dropdown-mi">Tau 5</span><span class="dropdown-en">Year 5</span></a></li>
+                                    <li><a href="browse.html?year=6"><span class="dropdown-mi">Tau 6</span><span class="dropdown-en">Year 6</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Intermediate / Waenga (7-8)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=7"><span class="dropdown-mi">Tau 7</span><span class="dropdown-en">Year 7</span></a></li>
+                                    <li><a href="browse.html?year=8"><span class="dropdown-mi">Tau 8</span><span class="dropdown-en">Year 8</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Junior Secondary / Tuarua (9-10)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=9"><span class="dropdown-mi">Tau 9</span><span class="dropdown-en">Year 9</span></a></li>
+                                    <li><a href="browse.html?year=10"><span class="dropdown-mi">Tau 10</span><span class="dropdown-en">Year 10</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Senior Secondary / NCEA (11-13)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=11"><span class="dropdown-mi">Tau 11</span><span class="dropdown-en">Year 11</span></a></li>
+                                    <li><a href="browse.html?year=12"><span class="dropdown-mi">Tau 12</span><span class="dropdown-en">Year 12</span></a></li>
+                                    <li><a href="browse.html?year=13"><span class="dropdown-mi">Tau 13</span><span class="dropdown-en">Year 13</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    <li>
+                        <a href="#more">
+                            <span class="nav-icon">📦</span>
+                            <span class="nav-text-mi" lang="mi">Ētahi Atu</span>
+                            <span class="nav-text-en">More Stuff</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="games.html"><span class="dropdown-mi">🎮 Ngā Kēmu</span><span class="dropdown-en">Games</span></a></li>
+                                <li><a href="youtube.html"><span class="dropdown-mi">📺 Ataata YouTube</span><span class="dropdown-en">YouTube Videos</span></a></li>
+                                <li><a href="curriculum-alignment.html"><span class="dropdown-mi">📋 Te Marautanga</span><span class="dropdown-en">Curriculum Alignment</span></a></li>
+                                <li><a href="other-resources.html"><span class="dropdown-mi">🔗 Ētahi Atu Rauemi</span><span class="dropdown-en">Other Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="auth-nav auth-logged-out">
+                        <a href="login.html" class="auth-btn">
+                            <span class="nav-icon" data-icon="login"></span>
+                            <span class="nav-text-mi" lang="mi">Takiuru</span>
+                            <span class="nav-text-en">Login</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav auth-logged-in" style="display: none;">
+                        <a href="my-kete.html" class="dashboard-btn">
+                            <span class="nav-icon" data-icon="kete"></span>
+                            <span class="nav-text-mi" lang="mi">Tōku Kete</span>
+                            <span class="nav-text-en">My Kete</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+        <!-- STUDENT PROGRESS OVERVIEW -->
+        <section class="progress-section" id="progress-section">
+            <div class="progress-header">
+                <h2 class="progress-title">🎯 Your Learning Journey</h2>
+                <div class="progress-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="streak-count">7</div>
+                        <div class="stat-label">Day Streak</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="activities-completed">23</div>
+                        <div class="stat-label">Activities Done</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="level">3</div>
+                        <div class="stat-label">Current Level</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="progress-bars">
+                <div class="progress-bar-container">
+                    <div class="progress-bar-label">📚 Reading & Writing</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-percentage="68%" style="width: 68%;"></div>
+                    </div>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-label">🔢 Numbers & Maths</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-percentage="45%" style="width: 45%;"></div>
+                    </div>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-label">🌿 Cultural Knowledge</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-percentage="82%" style="width: 82%;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LEARNING MODULES GRID -->
+        <section class="modules-grid">
+            <!-- LITERACY MODULE -->
+            <div class="learning-module module-literacy" data-module="literacy">
+                <div class="module-header">
+                    <div class="module-icon">📚</div>
+                    <div>
+                        <h2 class="module-title">Reading & Writing</h2>
+                        <p class="module-subtitle">Build strong literacy foundations</p>
+                        <div class="difficulty-indicator">
+                            <span class="difficulty-dot active"></span>
+                            <span class="difficulty-dot active"></span>
+                            <span class="difficulty-dot medium"></span>
+                            <span class="difficulty-dot"></span>
+                            <span class="difficulty-dot"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activity-grid">
+                    <div class="activity-card large-touch-target" onclick="startActivity('phonics-fundamentals')" tabindex="0">
+                        <span class="activity-icon">🎵</span>
+                        <div class="activity-title">Sound Patterns</div>
+                        <div class="activity-description">Learn letter sounds with cultural songs</div>
+                    </div>
+                    <div class="activity-card large-touch-target" onclick="startActivity('sight-words')" tabindex="0">
+                        <span class="activity-icon">👁️</span>
+                        <div class="activity-title">Important Words</div>
+                        <div class="activity-description">Recognize common words instantly</div>
+                    </div>
+                    <div class="activity-card large-touch-target" onclick="startActivity('story-building')" tabindex="0">
+                        <span class="activity-icon">📖</span>
+                        <div class="activity-title">Story Builder</div>
+                        <div class="activity-description">Create stories about your life</div>
+                    </div>
+                    <div class="activity-card large-touch-target" onclick="startActivity('writing-practice')" tabindex="0">
+                        <span class="activity-icon">✍️</span>
+                        <div class="activity-title">Writing Practice</div>
+                        <div class="activity-description">Practice writing with fun prompts</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NUMERACY MODULE -->
+            <div class="learning-module module-numeracy" data-module="numeracy">
+                <div class="module-header">
+                    <div class="module-icon">🔢</div>
+                    <div>
+                        <h2 class="module-title">Numbers & Maths</h2>
+                        <p class="module-subtitle">Master basic numeracy skills</p>
+                        <div class="difficulty-indicator">
+                            <span class="difficulty-dot active"></span>
+                            <span class="difficulty-dot active"></span>
+                            <span class="difficulty-dot"></span>
+                            <span class="difficulty-dot"></span>
+                            <span class="difficulty-dot"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activity-grid">
+                    <div class="activity-card large-touch-target" onclick="startActivity('counting-games')" tabindex="0">
+                        <span class="activity-icon">🎲</span>
+                        <div class="activity-title">Counting Fun</div>
+                        <div class="activity-description">Learn numbers through games</div>
+                    </div>
+                    <div class="activity-card large-touch-target" onclick="startActivity('basic-operations')" tabindex="0">
+                        <span class="activity-icon">➕</span>
+                        <div class="activity-title">Add & Take Away</div>
+                        <div class="activity-description">Simple addition and subtraction</div>
+                    </div>
+                    <div class="activity-card large-touch-target" onclick="startActivity('shape-patterns')" tabindex="0">
+                        <span class="activity-icon">🔺</span>
+                        <div class="activity-title">Shapes & Patterns</div>
+                        <div class="activity-description">Geometry with cultural designs</div>
+                    </div>
+                    <div class="activity-card large-touch-target" onclick="startActivity('real-world-maths')" tabindex="0">
+                        <span class="activity-icon">🏪</span>
+                        <div class="activity-title">Everyday Maths</div>
+                        <div class="activity-description">Use maths in daily situations</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CULTURAL LEARNING MODULE -->
+            <div class="learning-module module-cultural" data-module="cultural">
+                <div class="module-header">
+                    <div class="module-icon">🌿</div>
+                    <div>
+                        <h2 class="module-title">Cultural Connection</h2>
+                        <p class="module-subtitle">Learn through Te Ao Māori</p>
+                        <div class="difficulty-indicator">
+                            <span class="difficulty-dot active"></span>
+                            <span class="difficulty-dot active"></span>
+                            <span class="difficulty-dot active"></span>
+                            <span class="difficulty-dot medium"></span>
+                            <span class="difficulty-dot"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activity-grid">
+                    <div class="activity-card large-touch-target" onclick="startActivity('te-reo-basics')" tabindex="0">
+                        <span class="activity-icon">🗣️</span>
+                        <div class="activity-title">Te Reo Words</div>
+                        <div class="activity-description">Learn Māori language basics</div>
+                    </div>
+                    <div class="activity-card large-touch-target" onclick="startActivity('cultural-stories')" tabindex="0">
+                        <span class="activity-icon">📜</span>
+                        <div class="activity-title">Māori Stories</div>
+                        <div class="activity-description">Traditional pūrākau and legends</div>
+                    </div>
+                    <div class="activity-card large-touch-target" onclick="startActivity('whakapapa-tree')" tabindex="0">
+                        <span class="activity-icon">🌳</span>
+                        <div class="activity-title">Family Tree</div>
+                        <div class="activity-description">Explore your connections</div>
+                    </div>
+                    <div class="activity-card large-touch-target" onclick="startActivity('cultural-values')" tabindex="0">
+                        <span class="activity-icon">💎</span>
+                        <div class="activity-title">Māori Values</div>
+                        <div class="activity-description">Learn about aroha, mana, and more</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADAPTIVE GAMES MODULE -->
+            <div class="learning-module module-games" data-module="games">
+                <div class="module-header">
+                    <div class="module-icon">🎮</div>
+                    <div>
+                        <h2 class="module-title">Learning Games</h2>
+                        <p class="module-subtitle">Fun activities that adapt to you</p>
+                        <div class="difficulty-indicator">
+                            <span class="difficulty-dot active"></span>
+                            <span class="difficulty-dot active"></span>
+                            <span class="difficulty-dot active"></span>
+                            <span class="difficulty-dot"></span>
+                            <span class="difficulty-dot"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activity-grid">
+                    <div class="activity-card large-touch-target" onclick="startActivity('word-adventures')" tabindex="0">
+                        <span class="activity-icon">🗺️</span>
+                        <div class="activity-title">Word Adventures</div>
+                        <div class="activity-description">Explore literacy through quests</div>
+                    </div>
+                    <div class="activity-card large-touch-target" onclick="startActivity('number-puzzles')" tabindex="0">
+                        <span class="activity-icon">🧩</span>
+                        <div class="activity-title">Number Puzzles</div>
+                        <div class="activity-description">Solve maths challenges</div>
+                    </div>
+                    <div class="activity-card large-touch-target" onclick="startActivity('memory-games')" tabindex="0">
+                        <span class="activity-icon">🧠</span>
+                        <div class="activity-title">Memory Training</div>
+                        <div class="activity-description">Strengthen concentration skills</div>
+                    </div>
+                    <div class="activity-card large-touch-target" onclick="startActivity('creative-challenges')" tabindex="0">
+                        <span class="activity-icon">🎨</span>
+                        <div class="activity-title">Creative Challenges</div>
+                        <div class="activity-description">Express yourself through learning</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHĀNAU ENGAGEMENT SECTION -->
+        <section class="whanau-section">
+            <h2 class="whanau-title">🏠 Whānau & Family Connection</h2>
+            <p style="margin-bottom: 25px; font-size: 1.1rem; color: #666;">
+                Learning is stronger when whānau are involved. Here's how families can support the journey.
+            </p>
+            
+            <div class="whanau-features">
+                <div class="whanau-feature">
+                    <span class="whanau-icon">📊</span>
+                    <h3>Progress Updates</h3>
+                    <p>Weekly reports in Te Reo and English showing what your child is learning and how they're growing.</p>
+                </div>
+                <div class="whanau-feature">
+                    <span class="whanau-icon">🏠</span>
+                    <h3>Home Activities</h3>
+                    <p>Fun activities to do together at home that reinforce learning and strengthen cultural connections.</p>
+                </div>
+                <div class="whanau-feature">
+                    <span class="whanau-icon">💬</span>
+                    <h3>Teacher Connection</h3>
+                    <p>Direct communication with teachers to discuss progress, challenges, and celebrate successes.</p>
+                </div>
+                <div class="whanau-feature">
+                    <span class="whanau-icon">🎯</span>
+                    <h3>Goal Setting</h3>
+                    <p>Work together to set learning goals that honor both academic growth and cultural identity.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // FOUNDATIONAL LITERACY/NUMERACY PLATFORM
+        // Designed for Mangakotukutuku College junior students
+        // Neurodivergent-friendly, culturally responsive, trauma-informed
+
+        // ADAPTIVE INTERFACE STATE
+        let interfaceState = {
+            highContrast: false,
+            dyslexiaFont: false,
+            fontSize: 1,
+            focusMode: false
+        };
+
+        // STUDENT PROGRESS DATA
+        let studentProgress = {
+            literacy: { level: 3, progress: 68, activities: 15 },
+            numeracy: { level: 2, progress: 45, activities: 8 },
+            cultural: { level: 4, progress: 82, activities: 12 },
+            streak: 7,
+            totalActivities: 23
+        };
+
+        // INITIALIZE PLATFORM
+        function initPlatform() {
+            console.log('📚 Initializing Foundational Learning Platform for Mangakotukutuku College...');
+            
+            loadUserPreferences();
+            updateProgressDisplay();
+            setupKeyboardNavigation();
+            initializeAccessibilityFeatures();
+            
+            // DEPLOY MULTIPLE DEEPSEEK AGENTS for adaptive content
+            deployAdaptiveLearningAgents();
+            
+            console.log('✅ Platform ready - Kia kaha, ākonga!');
+        }
+
+        // ACCESSIBILITY FUNCTIONS
+        function toggleHighContrast() {
+            interfaceState.highContrast = !interfaceState.highContrast;
+            document.body.classList.toggle('high-contrast-mode', interfaceState.highContrast);
+            
+            if (interfaceState.highContrast) {
+                document.body.style.background = '#ffffff';
+                document.body.style.color = '#000000';
+            } else {
+                document.body.style.background = '';
+                document.body.style.color = '';
+            }
+            
+            saveUserPreferences();
+            announceChange('High contrast mode ' + (interfaceState.highContrast ? 'enabled' : 'disabled'));
+        }
+
+        function toggleDyslexiaFont() {
+            interfaceState.dyslexiaFont = !interfaceState.dyslexiaFont;
+            document.body.classList.toggle('neurodivergent-friendly', interfaceState.dyslexiaFont);
+            
+            saveUserPreferences();
+            announceChange('Dyslexia-friendly font ' + (interfaceState.dyslexiaFont ? 'enabled' : 'disabled'));
+        }
+
+        function increaseFontSize() {
+            interfaceState.fontSize = interfaceState.fontSize >= 1.5 ? 1 : interfaceState.fontSize + 0.1;
+            document.body.style.fontSize = interfaceState.fontSize + 'rem';
+            
+            saveUserPreferences();
+            announceChange('Font size changed to ' + Math.round(interfaceState.fontSize * 100) + '%');
+        }
+
+        function toggleFocusMode() {
+            interfaceState.focusMode = !interfaceState.focusMode;
+            document.body.classList.toggle('focus-mode', interfaceState.focusMode);
+            
+            if (interfaceState.focusMode) {
+                // Hide non-essential elements, reduce animations
+                document.querySelector('.cultural-pattern').style.backgroundImage = 'none';
+                document.querySelectorAll('.learning-module').forEach(module => {
+                    module.style.transition = 'none';
+                });
+            } else {
+                document.querySelector('.cultural-pattern').style.backgroundImage = '';
+                document.querySelectorAll('.learning-module').forEach(module => {
+                    module.style.transition = '';
+                });
+            }
+            
+            saveUserPreferences();
+            announceChange('Focus mode ' + (interfaceState.focusMode ? 'enabled' : 'disabled'));
+        }
+
+        function announceChange(message) {
+            // Create accessible announcement for screen readers
+            const announcement = document.createElement('div');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.setAttribute('aria-atomic', 'true');
+            announcement.style.position = 'absolute';
+            announcement.style.left = '-10000px';
+            announcement.textContent = message;
+            document.body.appendChild(announcement);
+            
+            setTimeout(() => {
+                document.body.removeChild(announcement);
+            }, 1000);
+        }
+
+        // ACTIVITY LAUNCHER
+        async function startActivity(activityId) {
+            console.log(`🎯 Starting activity: ${activityId}`);
+            
+            // Show loading state
+            showActivityLoading(activityId);
+            
+            try {
+                // DEPLOY DEEPSEEK AGENTS for adaptive content generation
+                const adaptiveContent = await generateAdaptiveContent(activityId);
+                
+                // Launch activity with personalized content
+                launchActivityInterface(activityId, adaptiveContent);
+                
+            } catch (error) {
+                console.error('Activity launch failed:', error);
+                showActivityError(activityId);
+            }
+        }
+
+        async function generateAdaptiveContent(activityId) {
+            console.log('🤖 Deploying DeepSeek agents for adaptive content generation...');
+            
+            try {
+                const response = await fetch('/.netlify/functions/deepseek-multi-agent-orchestra', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        task: `Generate adaptive learning content for activity "${activityId}" specifically designed for Mangakotukutuku College junior students. Consider neurodivergent-friendly approaches, cultural responsiveness, and foundational literacy/numeracy needs. Include multiple difficulty levels and engagement strategies.`,
+                        context: {
+                            role: 'adaptive_content_generator',
+                            focus: 'foundational_skills',
+                            activity: activityId,
+                            student_level: determineStudentLevel(activityId),
+                            learning_differences: ['ADHD', 'dyslexia', 'processing_differences'],
+                            cultural_integration: 'high',
+                            source: 'foundational_platform'
+                        },
+                        priority: 'high',
+                        agentCount: 4
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    return data.orchestration || {};
+                } else {
+                    throw new Error('Adaptive content generation failed');
+                }
+                
+            } catch (error) {
+                console.error('❌ Adaptive content generation error:', error);
+                return generateFallbackContent(activityId);
+            }
+        }
+
+        function determineStudentLevel(activityId) {
+            const activityModule = getActivityModule(activityId);
+            return studentProgress[activityModule]?.level || 1;
+        }
+
+        function getActivityModule(activityId) {
+            const activityModuleMap = {
+                'phonics-fundamentals': 'literacy',
+                'sight-words': 'literacy',
+                'story-building': 'literacy',
+                'writing-practice': 'literacy',
+                'counting-games': 'numeracy',
+                'basic-operations': 'numeracy',
+                'shape-patterns': 'numeracy',
+                'real-world-maths': 'numeracy',
+                'te-reo-basics': 'cultural',
+                'cultural-stories': 'cultural',
+                'whakapapa-tree': 'cultural',
+                'cultural-values': 'cultural'
+            };
+            
+            return activityModuleMap[activityId] || 'literacy';
+        }
+
+        function generateFallbackContent(activityId) {
+            const fallbackContent = {
+                'phonics-fundamentals': {
+                    title: 'Sound Patterns with Māori Songs',
+                    description: 'Learn letter sounds through traditional Māori waiata',
+                    activities: ['Letter-sound matching', 'Rhythm clapping', 'Cultural songs'],
+                    cultural_context: 'Traditional Māori pronunciation guides'
+                },
+                'counting-games': {
+                    title: 'Counting with Cultural Context',
+                    description: 'Learn numbers using Māori counting systems',
+                    activities: ['Base-5 counting', 'Number patterns', 'Cultural counting songs'],
+                    cultural_context: 'Traditional Māori mathematics concepts'
+                }
+            };
+            
+            return fallbackContent[activityId] || {
+                title: 'Learning Activity',
+                description: 'Adaptive learning experience',
+                activities: ['Interactive content', 'Cultural connections', 'Progress tracking']
+            };
+        }
+
+        function launchActivityInterface(activityId, content) {
+            // Create modal or navigate to activity page
+            console.log(`🚀 Launching ${activityId} with adaptive content:`, content);
+            
+            // For demo, show alert - in production would launch full activity
+            alert(`🎯 Launching ${activityId}!\n\nAdaptive content ready with:\n• ${content.title || 'Interactive learning'}\n• Cultural integration\n• Neurodivergent-friendly design\n• Progress tracking`);
+            
+            // Update progress
+            updateActivityProgress(activityId);
+        }
+
+        function updateActivityProgress(activityId) {
+            const module = getActivityModule(activityId);
+            studentProgress[module].activities += 1;
+            studentProgress.totalActivities += 1;
+            
+            // Update progress bars
+            updateProgressDisplay();
+            
+            // Save progress
+            localStorage.setItem('mangakotukutuku_progress', JSON.stringify(studentProgress));
+        }
+
+        function showActivityLoading(activityId) {
+            // Show loading indicator
+            const loadingMessage = document.createElement('div');
+            loadingMessage.id = 'activity-loading';
+            loadingMessage.innerHTML = `
+                <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); text-align: center; z-index: 2000;">
+                    <div class="loading-shimmer" style="width: 50px; height: 50px; border-radius: 50%; margin: 0 auto 20px;"></div>
+                    <p style="font-size: 1.2rem; font-weight: 600;">🤖 AI agents preparing your activity...</p>
+                    <p style="color: #666;">Creating personalized content just for you!</p>
+                </div>
+                <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1999;"></div>
+            `;
+            document.body.appendChild(loadingMessage);
+        }
+
+        function showActivityError(activityId) {
+            const loading = document.getElementById('activity-loading');
+            if (loading) loading.remove();
+            
+            alert('🔧 This activity is being prepared by our AI agents. Please try again in a moment!');
+        }
+
+        function updateProgressDisplay() {
+            document.getElementById('streak-count').textContent = studentProgress.streak;
+            document.getElementById('activities-completed').textContent = studentProgress.totalActivities;
+            document.getElementById('level').textContent = Math.max(
+                studentProgress.literacy.level,
+                studentProgress.numeracy.level,
+                studentProgress.cultural.level
+            );
+        }
+
+        // DEPLOYMENT OF ADAPTIVE LEARNING AGENTS
+        async function deployAdaptiveLearningAgents() {
+            console.log('🧠 Deploying adaptive learning agents for continuous optimization...');
+            
+            try {
+                const response = await fetch('/.netlify/functions/deepseek-multi-agent-orchestra', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        task: 'Initialize adaptive learning system for Mangakotukutuku College foundational platform. Analyze current student progress, identify learning needs, and recommend personalized content adaptations.',
+                        context: {
+                            role: 'adaptive_learning_coordinator',
+                            focus: 'continuous_optimization',
+                            student_progress: studentProgress,
+                            interface_preferences: interfaceState,
+                            source: 'platform_initialization'
+                        },
+                        priority: 'medium',
+                        agentCount: 3
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('✅ Adaptive learning agents deployed successfully');
+                    
+                    // Apply any immediate recommendations
+                    if (data.orchestration?.practical_steps) {
+                        console.log('📋 AI Recommendations:', data.orchestration.practical_steps);
+                    }
+                }
+                
+            } catch (error) {
+                console.error('❌ Adaptive learning agent deployment failed:', error);
+            }
+        }
+
+        // KEYBOARD NAVIGATION SUPPORT
+        function setupKeyboardNavigation() {
+            document.addEventListener('keydown', (e) => {
+                // Tab navigation enhancement
+                if (e.key === 'Tab') {
+                    document.querySelectorAll('.activity-card, .accessibility-btn').forEach(el => {
+                        el.addEventListener('focus', () => {
+                            el.classList.add('focus-outline');
+                        });
+                        el.addEventListener('blur', () => {
+                            el.classList.remove('focus-outline');
+                        });
+                    });
+                }
+                
+                // Enter key activation
+                if (e.key === 'Enter' && document.activeElement.classList.contains('activity-card')) {
+                    document.activeElement.click();
+                }
+            });
+        }
+
+        function initializeAccessibilityFeatures() {
+            // Add ARIA labels and descriptions
+            document.querySelectorAll('.activity-card').forEach(card => {
+                const title = card.querySelector('.activity-title').textContent;
+                const description = card.querySelector('.activity-description').textContent;
+                
+                card.setAttribute('aria-label', `${title}: ${description}`);
+                card.setAttribute('role', 'button');
+            });
+            
+            // Add skip links for keyboard users
+            const skipLink = document.createElement('a');
+            skipLink.href = '#main-content';
+            skipLink.textContent = 'Skip to main content';
+            skipLink.style.position = 'absolute';
+            skipLink.style.left = '-10000px';
+            skipLink.addEventListener('focus', () => {
+                skipLink.style.left = '0';
+                skipLink.style.top = '0';
+                skipLink.style.zIndex = '10000';
+                skipLink.style.background = 'white';
+                skipLink.style.padding = '10px';
+            });
+            skipLink.addEventListener('blur', () => {
+                skipLink.style.left = '-10000px';
+            });
+            document.body.insertBefore(skipLink, document.body.firstChild);
+        }
+
+        function loadUserPreferences() {
+            const saved = localStorage.getItem('mangakotukutuku_preferences');
+            if (saved) {
+                interfaceState = { ...interfaceState, ...JSON.parse(saved) };
+                
+                // Apply saved preferences
+                if (interfaceState.highContrast) toggleHighContrast();
+                if (interfaceState.dyslexiaFont) toggleDyslexiaFont();
+                if (interfaceState.fontSize !== 1) {
+                    document.body.style.fontSize = interfaceState.fontSize + 'rem';
+                }
+                if (interfaceState.focusMode) toggleFocusMode();
+            }
+            
+            // Load progress
+            const savedProgress = localStorage.getItem('mangakotukutuku_progress');
+            if (savedProgress) {
+                studentProgress = { ...studentProgress, ...JSON.parse(savedProgress) };
+            }
+        }
+
+        function saveUserPreferences() {
+            localStorage.setItem('mangakotukutuku_preferences', JSON.stringify(interfaceState));
+        }
+
+        // Initialize platform when page loads
+        document.addEventListener('DOMContentLoaded', initPlatform);
+    </script>
+
+<footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- Brand Section -->
+                <div class="footer-section footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p class="footer-whakataukī">"Whaowhia te kete mātauranga"</p>
+                    <p class="footer-tagline">Fill the basket of knowledge</p>
+                    <p class="footer-description">Quality teaching resources for Aotearoa New Zealand educators, honoring mātauranga Māori and contemporary pedagogy.</p>
+                </div>
+
+                <!-- Resources Section -->
+                <div class="footer-section footer-resources">
+                    <h4><span class="footer-mi">Ngā Rauemi</span> <span class="footer-en">Resources</span></h4>
+                    <ul>
+                        <li><a href="unit-plans.html">📚 Unit Plans / Ngā Mahere Wāhanga</a></li>
+                        <li><a href="lessons.html">📖 Lesson Plans / Ngā Akoranga</a></li>
+                        <li><a href="handouts.html">📄 Handouts / Ngā Kape</a></li>
+                        <li><a href="games.html">🎮 Games / Ngā Kēmu</a></li>
+                        <li><a href="browse.html">🔍 Browse All / Tirohia Katoa</a></li>
+                    </ul>
+                </div>
+
+                <!-- Curriculum Section -->
+                <div class="footer-section footer-curriculum">
+                    <h4><span class="footer-mi">Te Marautanga</span> <span class="footer-en">Curriculum</span></h4>
+                    <ul>
+                        <li><a href="browse.html?subject=english">📝 English / Reo Pākehā</a></li>
+                        <li><a href="browse.html?subject=math">🔢 Mathematics / Pāngarau</a></li>
+                        <li><a href="browse.html?subject=science">🔬 Science / Pūtaiao</a></li>
+                        <li><a href="browse.html?subject=social-studies">🌏 Social Studies / Tikanga-ā-Iwi</a></li>
+                        <li><a href="curriculum-alignment.html">📋 NZ Curriculum Alignment</a></li>
+                    </ul>
+                </div>
+
+                <!-- Account & Support Section -->
+                <div class="footer-section footer-support">
+                    <h4><span class="footer-mi">Tautoko</span> <span class="footer-en">Support</span></h4>
+                    <ul>
+                        <li><a href="my-kete.html">🧺 My Kete / Tōku Kete</a></li>
+                        <li><a href="login.html">🔐 Login / Takiuru</a></li>
+                        <li><a href="#about">ℹ️ About Us / Mō Mātou</a></li>
+                        <li><a href="#contact">✉️ Contact / Whakapā Mai</a></li>
+                        <li><a href="#help">❓ Help / Āwhina</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <span class="footer-copyright">© 2025 Te Kete Ako</span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-location">Aotearoa New Zealand</span>
+                    <span class="footer-separator">•</span>
+                    <a href="#privacy">Privacy</a>
+                    <span class="footer-separator">•</span>
+                    <a href="#terms">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

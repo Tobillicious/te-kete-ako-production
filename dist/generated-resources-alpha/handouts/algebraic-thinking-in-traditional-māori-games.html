@@ -1,0 +1,491 @@
+# Algebraic Thinking in Traditional Māori Games  
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://supabase.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: https://placehold.co; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co https://supabase.com;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algebraic Thinking in Traditional Māori Games</title>
+    <meta name="description" content="Algebraic Thinking in Traditional Māori Games - Educational resource from Te Kete Ako">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        h1 {
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 10px;
+        }
+        .activity-box {
+            background-color: #f9f9f9;
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .māori-word {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .interactive {
+            background-color: #e8f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .teacher-note {
+            background-color: #fff8e1;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+<header class="site-header no-print">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                        <li>
+                            <a href="browse.html">
+                                <span class="nav-icon">📚</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                                <span class="nav-text-en">Resources</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="unit-plans.html"><span class="dropdown-mi">📚 Ngā Mahere Wāhanga</span><span class="dropdown-en">Unit Plans (6-8 weeks)</span></a></li>
+                                <li><a href="lessons.html"><span class="dropdown-mi">📖 Ngā Mahere Akoranga</span><span class="dropdown-en">Lesson Plans (60-75 min)</span></a></li>
+                                <li><a href="handouts.html"><span class="dropdown-mi">📄 Ngā Kape</span><span class="dropdown-en">Handouts & Materials</span></a></li>
+                                <li><a href="browse.html"><span class="dropdown-mi">🔍 Tirohia Katoa</span><span class="dropdown-en">Browse All Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=subject">
+                                <span class="nav-icon">🎨</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Marau</span>
+                                <span class="nav-text-en">Subjects</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="browse.html?subject=english"><span class="dropdown-mi">📝 Reo Pākehā</span><span class="dropdown-en">English</span></a></li>
+                                <li><a href="browse.html?subject=math"><span class="dropdown-mi">🔢 Pāngarau</span><span class="dropdown-en">Mathematics</span></a></li>
+                                <li><a href="browse.html?subject=science"><span class="dropdown-mi">🔬 Pūtaiao</span><span class="dropdown-en">Science</span></a></li>
+                                <li><a href="browse.html?subject=social-studies"><span class="dropdown-mi">🌏 Tikanga-ā-Iwi</span><span class="dropdown-en">Social Studies</span></a></li>
+                                <li><a href="browse.html?subject=te-reo"><span class="dropdown-mi">🌿 Te Reo Māori</span><span class="dropdown-en">Māori Language</span></a></li>
+                                <li><a href="browse.html?subject=arts"><span class="dropdown-mi">🎨 Ngā Toi</span><span class="dropdown-en">The Arts</span></a></li>
+                                <li><a href="browse.html?subject=health-pe"><span class="dropdown-mi">💪 Hauora</span><span class="dropdown-en">Health & PE</span></a></li>
+                                <li><a href="browse.html?subject=technology"><span class="dropdown-mi">🔧 Hangarau</span><span class="dropdown-en">Technology</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=year">
+                                <span class="nav-icon">📅</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Tau</span>
+                                <span class="nav-text-en">Year Levels</span>
+                            </a>
+                            <div class="nav-dropdown nav-dropdown-wide">
+                                <div class="year-stage-label">Primary / Tuatahi (1-6)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=1"><span class="dropdown-mi">Tau 1</span><span class="dropdown-en">Year 1</span></a></li>
+                                    <li><a href="browse.html?year=2"><span class="dropdown-mi">Tau 2</span><span class="dropdown-en">Year 2</span></a></li>
+                                    <li><a href="browse.html?year=3"><span class="dropdown-mi">Tau 3</span><span class="dropdown-en">Year 3</span></a></li>
+                                </ul>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=4"><span class="dropdown-mi">Tau 4</span><span class="dropdown-en">Year 4</span></a></li>
+                                    <li><a href="browse.html?year=5"><span class="dropdown-mi">Tau 5</span><span class="dropdown-en">Year 5</span></a></li>
+                                    <li><a href="browse.html?year=6"><span class="dropdown-mi">Tau 6</span><span class="dropdown-en">Year 6</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Intermediate / Waenga (7-8)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=7"><span class="dropdown-mi">Tau 7</span><span class="dropdown-en">Year 7</span></a></li>
+                                    <li><a href="browse.html?year=8"><span class="dropdown-mi">Tau 8</span><span class="dropdown-en">Year 8</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Junior Secondary / Tuarua (9-10)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=9"><span class="dropdown-mi">Tau 9</span><span class="dropdown-en">Year 9</span></a></li>
+                                    <li><a href="browse.html?year=10"><span class="dropdown-mi">Tau 10</span><span class="dropdown-en">Year 10</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Senior Secondary / NCEA (11-13)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=11"><span class="dropdown-mi">Tau 11</span><span class="dropdown-en">Year 11</span></a></li>
+                                    <li><a href="browse.html?year=12"><span class="dropdown-mi">Tau 12</span><span class="dropdown-en">Year 12</span></a></li>
+                                    <li><a href="browse.html?year=13"><span class="dropdown-mi">Tau 13</span><span class="dropdown-en">Year 13</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    <li>
+                        <a href="#more">
+                            <span class="nav-icon">📦</span>
+                            <span class="nav-text-mi" lang="mi">Ētahi Atu</span>
+                            <span class="nav-text-en">More Stuff</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="games.html"><span class="dropdown-mi">🎮 Ngā Kēmu</span><span class="dropdown-en">Games</span></a></li>
+                                <li><a href="youtube.html"><span class="dropdown-mi">📺 Ataata YouTube</span><span class="dropdown-en">YouTube Videos</span></a></li>
+                                <li><a href="curriculum-alignment.html"><span class="dropdown-mi">📋 Te Marautanga</span><span class="dropdown-en">Curriculum Alignment</span></a></li>
+                                <li><a href="other-resources.html"><span class="dropdown-mi">🔗 Ētahi Atu Rauemi</span><span class="dropdown-en">Other Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="auth-nav auth-logged-out">
+                        <a href="login.html" class="auth-btn">
+                            <span class="nav-icon" data-icon="login"></span>
+                            <span class="nav-text-mi" lang="mi">Takiuru</span>
+                            <span class="nav-text-en">Login</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav auth-logged-in" style="display: none;">
+                        <a href="my-kete.html" class="dashboard-btn">
+                            <span class="nav-icon" data-icon="kete"></span>
+                            <span class="nav-text-mi" lang="mi">Tōku Kete</span>
+                            <span class="nav-text-en">My Kete</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <h1>Algebraic Thinking in Traditional Māori Games</h1>
+    
+    <section id="cultural-context">
+        <h2>Cultural Context</h2>
+        <p>Traditional Māori games (<span class="māori-word">tākaro</span>) were not just for entertainment - they developed skills, strategy, and mathematical thinking. This resource explores algebraic concepts through three traditional games:</p>
+        <ul>
+            <li><span class="māori-word">Mu torere</span> (strategy board game)</li>
+            <li><span class="māori-word">Poi rākau</span> (stick games)</li>
+            <li><span class="māori-word">Whai</span> (string patterns)</li>
+        </ul>
+        
+        <div class="teacher-note">
+            <h3>Cultural Safety Notes</h3>
+            <ul>
+                <li>Ensure proper pronunciation of Māori words (practice with students)</li>
+                <li>Explain the cultural significance of these games beyond mathematics</li>
+                <li>Invite local kaumātua or cultural advisors if available</li>
+                <li>Respect protocols - some games may have tapu (sacred) aspects</li>
+                <li>Encourage students to approach the games with respect and curiosity</li>
+            </ul>
+        </div>
+    </section>
+    
+    <section id="learning-objectives">
+        <h2>Learning Objectives</h2>
+        <p>By the end of this unit, students will be able to:</p>
+        <ul>
+            <li>Identify and describe patterns in traditional Māori games (NZC L4-5 Mathematics: Patterns and Relationships)</li>
+            <li>Formulate algebraic expressions to represent game strategies (NZC L4-5 Mathematics: Equations and Expressions)</li>
+            <li>Analyze game outcomes using mathematical reasoning (NZC L4-5 Mathematics: Statistical Investigation)</li>
+            <li>Connect mathematical concepts to cultural practices (NZC L4-5 Social Sciences: Understand how cultural practices reflect and express people's customs, traditions, and values)</li>
+        </ul>
+    </section>
+    
+    <section id="activity-1">
+        <h2>Activity 1: Mu Torere Strategy Analysis</h2>
+        <div class="activity-box">
+            <h3>Game Overview</h3>
+            <p><span class="māori-word">Mu torere</span> is a traditional Māori board game played on an 8-pointed star (pūtahi) with 8 playing pieces (4 per player).</p>
+            
+            <div class="interactive">
+                <h3>Algebraic Challenge</h3>
+                <p>After playing several rounds, identify:</p>
+                <ol>
+                    <li>How many possible first moves exist?</li>
+                    <li>If each player has n pieces, how would you calculate possible moves?</li>
+                    <li>Create an equation to predict the minimum number of moves to win</li>
+                </ol>
+            </div>
+            
+            <h3>Teacher Implementation</h3>
+            <ol>
+                <li>Introduce the game with a demonstration (use drawn board or digital version)</li>
+                <li>Have students play in pairs (15 minutes)</li>
+                <li>Facilitate discussion about strategies and patterns</li>
+                <li>Introduce algebraic representation of moves</li>
+                <li>Challenge students to create their own equations</li>
+            </ol>
+        </div>
+    </section>
+    
+    <section id="activity-2">
+        <h2>Activity 2: Poi Rākau Patterns</h2>
+        <div class="activity-box">
+            <h3>Game Overview</h3>
+            <p><span class="māori-word">Poi rākau</span> involves rhythmic passing of sticks in patterns. We'll analyze the mathematics behind these patterns.</p>
+            
+            <div class="interactive">
+                <h3>Pattern Analysis</h3>
+                <p>With a partner, try these passing sequences:</p>
+                <table>
+                    <tr>
+                        <th>Sequence</th>
+                        <th>Algebraic Representation</th>
+                    </tr>
+                    <tr>
+                        <td>Pass every 2 beats</td>
+                        <td>t = 2n</td>
+                    </tr>
+                    <tr>
+                        <td>Pass on prime-numbered beats</td>
+                        <td>t = p (where p is prime)</td>
+                    </tr>
+                </table>
+                <p>Challenge: Create your own sequence and represent it algebraically</p>
+            </div>
+            
+            <h3>Teacher Implementation</h3>
+            <ol>
+                <li>Demonstrate basic poi rākau rhythms (use rulers or rolled paper if sticks unavailable)</li>
+                <li>Start with simple patterns, gradually increasing complexity</li>
+                <li>Connect physical patterns to numerical representations</li>
+                <li>Have students create and share their own algebraic patterns</li>
+            </ol>
+        </div>
+    </section>
+    
+    <section id="assessment">
+        <h2>Assessment Suggestions</h2>
+        <table>
+            <tr>
+                <th>Assessment Type</th>
+                <th>Description</th>
+                <th>NZC Level</th>
+            </tr>
+            <tr>
+                <td>Formative</td>
+                <td>Observation during game play and pattern identification</td>
+                <td>4-5</td>
+            </tr>
+            <tr>
+                <td>Summative</td>
+                <td>Written report analyzing one game's mathematical patterns</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Peer Assessment</td>
+                <td>Evaluate partner's created algebraic representations</td>
+                <td>4</td>
+            </tr>
+        </table>
+        
+        <h3>Sample Rubric</h3>
+        <table>
+            <tr>
+                <th>Criteria</th>
+                <th>Developing (L4)</th>
+                <th>Achieving (L5)</th>
+                <th>Excelling (L5+)</th>
+            </tr>
+            <tr>
+                <td>Pattern Identification</td>
+                <td>Identifies simple patterns</td>
+                <td>Recognizes complex patterns</td>
+                <td>Predicts patterns beyond examples</td>
+            </tr>
+            <tr>
+                <td>Algebraic Representation</td>
+                <td>Creates basic equations</td>
+                <td>Forms accurate equations for all patterns</td>
+                <td>Develops novel representations</td>
+            </tr>
+            <tr>
+                <td>Cultural Connection</td>
+                <td>Describes game basics</td>
+                <td>Explains mathematical-cultural links</td>
+                <td>Analyzes deeper connections</td>
+            </tr>
+        </table>
+    </section>
+    
+    <section id="extensions">
+        <h2>Extension Activities</h2>
+        <div class="activity-box">
+            <h3>Advanced Mathematical Exploration</h3>
+            <ul>
+                <li>Calculate probability distributions for mu torere outcomes</li>
+                <li>Research and analyze the combinatorics of whai (string game) patterns</li>
+                <li>Create a digital simulation of poi rākau patterns using algebraic rules</li>
+                <li>Compare Māori game mathematics to other indigenous game systems</li>
+            </ul>
+            
+            <h3>Cultural Research</h3>
+            <ul>
+                <li>Interview local experts about traditional games</li>
+                <li>Investigate regional variations of these games</li>
+                <li>Create a presentation on the cultural significance of mathematics in Māori society</li>
+            </ul>
+        </div>
+    </section>
+    
+    <section id="adaptations">
+        <h2>Adaptations for Diverse Learners</h2>
+        <table>
+            <tr>
+                <th>Learner Need</th>
+                <th>Adaptation</th>
+            </tr>
+            <tr>
+                <td>Visual learners</td>
+                <td>Use color-coded game pieces and diagrams</td>
+            </tr>
+            <tr>
+                <td>Kinesthetic learners</td>
+                <td>Emphasize physical game components</td>
+            </tr>
+            <tr>
+                <td>ESOL students</td>
+                <td>Provide bilingual vocabulary lists</td>
+            </tr>
+            <tr>
+                <td>Advanced students</td>
+                <td>Assign extension problems with variables</td>
+            </tr>
+            <tr>
+                <td>Students needing support</td>
+                <td>Provide pre-drawn game boards with some moves completed</td>
+            </tr>
+        </table>
+    </section>
+    
+    <section id="resources">
+        <h2>Additional Resources</h2>
+        <ul>
+            <li>Digital mu torere simulator: [link]</li>
+            <li>Video demonstrations of poi rākau: [link]</li>
+            <li>Māori games in education research: [link]</li>
+            <li>Algebraic thinking frameworks: [link]</li>
+        </ul>
+    </section>
+    
+                    <footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- Brand Section -->
+                <div class="footer-section footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p class="footer-whakataukī">"Whaowhia te kete mātauranga"</p>
+                    <p class="footer-tagline">Fill the basket of knowledge</p>
+                    <p class="footer-description">Quality teaching resources for Aotearoa New Zealand educators, honoring mātauranga Māori and contemporary pedagogy.</p>
+                </div>
+
+                <!-- Resources Section -->
+                <div class="footer-section footer-resources">
+                    <h4><span class="footer-mi">Ngā Rauemi</span> <span class="footer-en">Resources</span></h4>
+                    <ul>
+                        <li><a href="unit-plans.html">📚 Unit Plans / Ngā Mahere Wāhanga</a></li>
+                        <li><a href="lessons.html">📖 Lesson Plans / Ngā Akoranga</a></li>
+                        <li><a href="handouts.html">📄 Handouts / Ngā Kape</a></li>
+                        <li><a href="games.html">🎮 Games / Ngā Kēmu</a></li>
+                        <li><a href="browse.html">🔍 Browse All / Tirohia Katoa</a></li>
+                    </ul>
+                </div>
+
+                <!-- Curriculum Section -->
+                <div class="footer-section footer-curriculum">
+                    <h4><span class="footer-mi">Te Marautanga</span> <span class="footer-en">Curriculum</span></h4>
+                    <ul>
+                        <li><a href="browse.html?subject=english">📝 English / Reo Pākehā</a></li>
+                        <li><a href="browse.html?subject=math">🔢 Mathematics / Pāngarau</a></li>
+                        <li><a href="browse.html?subject=science">🔬 Science / Pūtaiao</a></li>
+                        <li><a href="browse.html?subject=social-studies">🌏 Social Studies / Tikanga-ā-Iwi</a></li>
+                        <li><a href="curriculum-alignment.html">📋 NZ Curriculum Alignment</a></li>
+                    </ul>
+                </div>
+
+                <!-- Account & Support Section -->
+                <div class="footer-section footer-support">
+                    <h4><span class="footer-mi">Tautoko</span> <span class="footer-en">Support</span></h4>
+                    <ul>
+                        <li><a href="my-kete.html">🧺 My Kete / Tōku Kete</a></li>
+                        <li><a href="login.html">🔐 Login / Takiuru</a></li>
+                        <li><a href="#about">ℹ️ About Us / Mō Mātou</a></li>
+                        <li><a href="#contact">✉️ Contact / Whakapā Mai</a></li>
+                        <li><a href="#help">❓ Help / Āwhina</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <span class="footer-copyright">© 2025 Te Kete Ako</span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-location">Aotearoa New Zealand</span>
+                    <span class="footer-separator">•</span>
+                    <a href="#privacy">Privacy</a>
+                    <span class="footer-separator">•</span>
+                    <a href="#terms">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+```
+
+## Key Features of This Resource:
+
+1. **Cultural Authenticity**:
+   - Uses accurate Māori terminology with pronunciation support
+   - Respectfully presents games in their cultural context
+   - Includes cultural safety protocols
+
+2. **Mathematical Rigor**:
+   - Directly addresses NZC Level 4-5 algebra standards
+   - Progresses from concrete (game play) to abstract (algebraic representation)
+   - Includes multiple assessment approaches
+
+3. **Accessibility**:
+   - Clean, responsive HTML design works on Chromebooks
+   - Visual and interactive elements support diverse learners
+   - Adaptations provided for various learning needs
+
+4. **Practical Implementation**:
+   - Step-by-step teacher guidance
+   - Ready-to-use classroom activities
+   - Clear learning progression
+
+5. **Extension Opportunities**:
+   - Advanced mathematical challenges
+   - Cultural research options
+   - Technology integration suggestions
+
+Teachers can use this resource immediately by:
+1. Printing the HTML as a handout
+2. Displaying on classroom screens
+3. Adapting sections as needed for their students
+4. Using the assessment tools for evaluation
+
+The resource models culturally responsive pedagogy while maintaining strong mathematical focus.

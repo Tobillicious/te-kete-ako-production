@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://supabase.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: https://placehold.co; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co https://supabase.com;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 6: Evaluating Arguments</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+        }
+        .lesson-header {
+            background: linear-gradient(135deg, #6f42c1, #e83e8c);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .teacher-notes {
+            background: #ffe6cc;
+            border-left: 5px solid #ff9500;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .student-activity {
+            background: #e6f3ff;
+            border-left: 5px solid #4a90e2;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .argument-box {
+            background: #f8f9fa;
+            border: 2px solid #6c757d;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-style: italic;
+        }
+        .argument-map {
+            background: white;
+            border: 2px dashed #28a745;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        .maori-term {
+            color: #d63384;
+            font-style: italic;
+            font-weight: bold;
+        }
+        .timing {
+            background: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            float: right;
+        }
+        .worksheet {
+            border: 2px solid #6f42c1;
+            padding: 20px;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+        }
+        .debate-position {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .digital-tool {
+            background: #e8f5e8;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<header class="site-header no-print">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                        <li>
+                            <a href="browse.html">
+                                <span class="nav-icon">📚</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                                <span class="nav-text-en">Resources</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="unit-plans.html"><span class="dropdown-mi">📚 Ngā Mahere Wāhanga</span><span class="dropdown-en">Unit Plans (6-8 weeks)</span></a></li>
+                                <li><a href="lessons.html"><span class="dropdown-mi">📖 Ngā Mahere Akoranga</span><span class="dropdown-en">Lesson Plans (60-75 min)</span></a></li>
+                                <li><a href="handouts.html"><span class="dropdown-mi">📄 Ngā Kape</span><span class="dropdown-en">Handouts & Materials</span></a></li>
+                                <li><a href="browse.html"><span class="dropdown-mi">🔍 Tirohia Katoa</span><span class="dropdown-en">Browse All Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=subject">
+                                <span class="nav-icon">🎨</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Marau</span>
+                                <span class="nav-text-en">Subjects</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="browse.html?subject=english"><span class="dropdown-mi">📝 Reo Pākehā</span><span class="dropdown-en">English</span></a></li>
+                                <li><a href="browse.html?subject=math"><span class="dropdown-mi">🔢 Pāngarau</span><span class="dropdown-en">Mathematics</span></a></li>
+                                <li><a href="browse.html?subject=science"><span class="dropdown-mi">🔬 Pūtaiao</span><span class="dropdown-en">Science</span></a></li>
+                                <li><a href="browse.html?subject=social-studies"><span class="dropdown-mi">🌏 Tikanga-ā-Iwi</span><span class="dropdown-en">Social Studies</span></a></li>
+                                <li><a href="browse.html?subject=te-reo"><span class="dropdown-mi">🌿 Te Reo Māori</span><span class="dropdown-en">Māori Language</span></a></li>
+                                <li><a href="browse.html?subject=arts"><span class="dropdown-mi">🎨 Ngā Toi</span><span class="dropdown-en">The Arts</span></a></li>
+                                <li><a href="browse.html?subject=health-pe"><span class="dropdown-mi">💪 Hauora</span><span class="dropdown-en">Health & PE</span></a></li>
+                                <li><a href="browse.html?subject=technology"><span class="dropdown-mi">🔧 Hangarau</span><span class="dropdown-en">Technology</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=year">
+                                <span class="nav-icon">📅</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Tau</span>
+                                <span class="nav-text-en">Year Levels</span>
+                            </a>
+                            <div class="nav-dropdown nav-dropdown-wide">
+                                <div class="year-stage-label">Primary / Tuatahi (1-6)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=1"><span class="dropdown-mi">Tau 1</span><span class="dropdown-en">Year 1</span></a></li>
+                                    <li><a href="browse.html?year=2"><span class="dropdown-mi">Tau 2</span><span class="dropdown-en">Year 2</span></a></li>
+                                    <li><a href="browse.html?year=3"><span class="dropdown-mi">Tau 3</span><span class="dropdown-en">Year 3</span></a></li>
+                                </ul>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=4"><span class="dropdown-mi">Tau 4</span><span class="dropdown-en">Year 4</span></a></li>
+                                    <li><a href="browse.html?year=5"><span class="dropdown-mi">Tau 5</span><span class="dropdown-en">Year 5</span></a></li>
+                                    <li><a href="browse.html?year=6"><span class="dropdown-mi">Tau 6</span><span class="dropdown-en">Year 6</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Intermediate / Waenga (7-8)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=7"><span class="dropdown-mi">Tau 7</span><span class="dropdown-en">Year 7</span></a></li>
+                                    <li><a href="browse.html?year=8"><span class="dropdown-mi">Tau 8</span><span class="dropdown-en">Year 8</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Junior Secondary / Tuarua (9-10)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=9"><span class="dropdown-mi">Tau 9</span><span class="dropdown-en">Year 9</span></a></li>
+                                    <li><a href="browse.html?year=10"><span class="dropdown-mi">Tau 10</span><span class="dropdown-en">Year 10</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Senior Secondary / NCEA (11-13)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=11"><span class="dropdown-mi">Tau 11</span><span class="dropdown-en">Year 11</span></a></li>
+                                    <li><a href="browse.html?year=12"><span class="dropdown-mi">Tau 12</span><span class="dropdown-en">Year 12</span></a></li>
+                                    <li><a href="browse.html?year=13"><span class="dropdown-mi">Tau 13</span><span class="dropdown-en">Year 13</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    <li>
+                        <a href="#more">
+                            <span class="nav-icon">📦</span>
+                            <span class="nav-text-mi" lang="mi">Ētahi Atu</span>
+                            <span class="nav-text-en">More Stuff</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="games.html"><span class="dropdown-mi">🎮 Ngā Kēmu</span><span class="dropdown-en">Games</span></a></li>
+                                <li><a href="youtube.html"><span class="dropdown-mi">📺 Ataata YouTube</span><span class="dropdown-en">YouTube Videos</span></a></li>
+                                <li><a href="curriculum-alignment.html"><span class="dropdown-mi">📋 Te Marautanga</span><span class="dropdown-en">Curriculum Alignment</span></a></li>
+                                <li><a href="other-resources.html"><span class="dropdown-mi">🔗 Ētahi Atu Rauemi</span><span class="dropdown-en">Other Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="auth-nav auth-logged-out">
+                        <a href="login.html" class="auth-btn">
+                            <span class="nav-icon" data-icon="login"></span>
+                            <span class="nav-text-mi" lang="mi">Takiuru</span>
+                            <span class="nav-text-en">Login</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav auth-logged-in" style="display: none;">
+                        <a href="my-kete.html" class="dashboard-btn">
+                            <span class="nav-icon" data-icon="kete"></span>
+                            <span class="nav-text-mi" lang="mi">Tōku Kete</span>
+                            <span class="nav-text-en">My Kete</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+
+<div class="lesson-header">
+    <h1>Lesson 6: Te Arotake i ngā Kōrero</h1>
+    <h2>Evaluating Arguments</h2>
+    <p><strong>Year 8 Critical Thinking Unit | 45 minutes</strong></p>
+    <p>Argument mapping & persuasive techniques in real NZ contexts</p>
+</div>
+
+<div class="teacher-notes">
+    <h3>👨‍🏫 Learning Objectives</h3>
+    <ul>
+        <li>Map arguments visually to identify premises and conclusions</li>
+        <li>Evaluate the strength of evidence in persuasive arguments</li>
+        <li>Analyze real NZ council debate arguments for logical structure</li>
+        <li>Create effective counter-arguments using evidence</li>
+        <li>Present reasoned positions using digital tools</li>
+    </ul>
+    
+    <p><strong>Key Vocabulary:</strong></p>
+    <ul>
+        <li><em class="maori-term">Arotake</em> (to examine, evaluate)</li>
+        <li><em class="maori-term">Kōrero</em> (speech, argument)</li>
+        <li><em class="maori-term">Tautoko</em> (support, evidence)</li>
+        <li><strong>Premise</strong> - supporting statements in an argument</li>
+        <li><strong>Conclusion</strong> - main claim being argued</li>
+        <li><strong>Counter-argument</strong> - opposing viewpoint with reasoning</li>
+    </ul>
+
+    <p><strong>Resources Needed:</strong></p>
+    <ul>
+        <li>Chromebooks with MindMup access</li>
+        <li>Flipgrid account for video recordings</li>
+        <li>Printed argument analysis worksheets</li>
+        <li>Council debate video clips (or transcripts)</li>
+    </ul>
+</div>
+
+<div class="student-activity">
+    <h3>🎯 Starter: Argument Anatomy <span class="timing">8 minutes</span></h3>
+    
+    <p><strong>Display this simple argument:</strong></p>
+    
+    <div class="argument-box">
+        "We should ban single-use plastic bags in our town. They harm marine life when they end up in waterways. They take hundreds of years to decompose in landfills. Many other NZ towns have successfully implemented bag bans. It will encourage people to use reusable alternatives."
+    </div>
+    
+    <p><strong>Student Task (Pairs):</strong></p>
+    <ol>
+        <li>Identify the main conclusion (what is being argued for?)</li>
+        <li>Find all the premises (supporting reasons)</li>
+        <li>Decide which premise is strongest/weakest</li>
+    </ol>
+    
+    <div class="argument-map">
+        <h4>Sample Argument Map:</h4>
+        <p><strong>CONCLUSION:</strong> We should ban single-use plastic bags</p>
+        <p><strong>PREMISES:</strong></p>
+        <ul>
+            <li>They harm marine life (environmental evidence)</li>
+            <li>Take centuries to decompose (scientific fact)</li>
+            <li>Other NZ towns succeeded (precedent)</li>
+            <li>Encourages reusable alternatives (behavioral change)</li>
+        </ul>
+    </div>
+</div>
+
+<div class="student-activity">
+    <h3>🏛️ Main Activity: NZ Council Debate Analysis <span class="timing">25 minutes</span></h3>
+    
+    <h4>Real-World Argument Evaluation</h4>
+    
+    <p><strong>Context:</strong> Māori wards in local government have been a significant debate across NZ councils. Some councils support establishing dedicated Māori representation, others oppose it. Let's analyze both sides.</p>
+    
+    <div class="debate-position">
+        <h4>Position A: Support for Māori Wards</h4>
+        <p><em>"Māori wards ensure tangata whenua voices are heard in local decisions that affect their communities. Treaty obligations require genuine partnership in governance. Māori perspectives bring valuable cultural and environmental knowledge to council decisions. Under-representation has persisted despite general elections - targeted representation addresses this systemic issue."</em></p>
+    </div>
+    
+    <div class="debate-position">
+        <h4>Position B: Opposition to Māori Wards</h4>
+        <p><em>"All citizens should have equal voting rights regardless of ethnicity. Māori can already participate through general elections like everyone else. Creating separate representation could divide communities rather than unite them. Local issues affect all residents equally and shouldn't be determined by race-based voting."</em></p>
+    </div>
+    
+    <p><strong>Student Investigation Process (Groups of 3-4):</strong></p>
+    
+    <ol>
+        <li><strong>Initial Analysis (8 minutes):</strong>
+            <ul>
+                <li>Each group analyzes one position</li>
+                <li>Map the argument structure using worksheet</li>
+                <li>Identify premises, conclusion, and evidence types</li>
+            </ul>
+        </li>
+        
+        <li><strong>Digital Mapping (10 minutes):</strong>
+            <ul>
+                <li>Use MindMup to create visual argument map</li>
+                <li>Color-code: Green = strong evidence, Yellow = questionable, Red = weak</li>
+                <li>Add counter-arguments in separate branches</li>
+            </ul>
+        </li>
+        
+        <li><strong>Evidence Evaluation (7 minutes):</strong>
+            <ul>
+                <li>Which premises are based on facts vs. values?</li>
+                <li>What evidence would strengthen weak premises?</li>
+                <li>Are there missing perspectives to consider?</li>
+            </ul>
+        </li>
+    </ol>
+    
+    <div class="teacher-notes">
+        <h4>Teacher Facilitation Guide:</h4>
+        <ul>
+            <li><strong>Sensitive Topic Management:</strong> Emphasize analyzing argument structure, not determining "right" answers</li>
+            <li><strong>Cultural Respect:</strong> Frame as understanding different perspectives rather than choosing sides</li>
+            <li><strong>Push for Evidence:</strong> "What sources support this claim?" "How could we verify this?"</li>
+            <li><strong>Logical Structure Focus:</strong> "Does this premise actually support the conclusion?"</li>
+        </ul>
+    </div>
+</div>
+
+<div class="student-activity">
+    <h3>💬 Cultural Connection: <em class="maori-term">Whakatōhea</em> - Debate Traditions <span class="timing">7 minutes</span></h3>
+    
+    <h4>Traditional Māori Decision-Making</h4>
+    
+    <p><strong>Discussion Points:</strong></p>
+    <ul>
+        <li>How did traditional Māori communities make collective decisions?</li>
+        <li>What role did <em class="maori-term">whakatōhea</em> (formal debate) play in marae processes?</li>
+        <li>How does <em class="maori-term">consensus-building</em> differ from Western-style adversarial debate?</li>
+        <li>What can modern councils learn from traditional Māori decision-making?</li>
+    </ul>
+    
+    <div class="maori-term">
+        <p><strong>Key Concept:</strong> In traditional settings, the goal was often consensus (<em>kotahitanga</em>) rather than winning debates - finding solutions that honored all perspectives.</p>
+    </div>
+</div>
+
+<div class="student-activity">
+    <h3>📹 Digital Assessment: Flipgrid Video Arguments <span class="timing">5 minutes setup</span></h3>
+    
+    <div class="digital-tool">
+        <h4>Video Recording Task:</h4>
+        <p><strong>Individual Task:</strong> Record 60-90 second video presenting your group's argument analysis</p>
+        
+        <p><strong>Video Structure:</strong></p>
+        <ol>
+            <li><strong>Position Summary (20 seconds):</strong> What is the main argument?</li>
+            <li><strong>Evidence Evaluation (40 seconds):</strong> Which premises are strong/weak and why?</li>
+            <li><strong>Missing Pieces (30 seconds):</strong> What additional evidence would help?</li>
+        </ol>
+        
+        <p><strong>Assessment Focus:</strong></p>
+        <ul>
+            <li>Clear identification of argument structure</li>
+            <li>Evidence-based evaluation of premises</li>
+            <li>Respectful presentation of opposing viewpoints</li>
+            <li>Use of critical thinking vocabulary</li>
+        </ul>
+    </div>
+</div>
+
+<div class="worksheet">
+    <h3>📋 ARGUMENT MAPPING WORKSHEET - PRINT SECTION</h3>
+    
+    <h4>Analyzing Council Debate Arguments</h4>
+    <p><strong>Names:</strong> _________________________________ <strong>Date:</strong> ___________</p>
+    <p><strong>Position Analyzing:</strong> ☐ Support for Māori Wards ☐ Opposition to Māori Wards</p>
+    
+    <h4>Part 1: Argument Structure</h4>
+    <p><strong>1. What is the main conclusion (what is being argued for/against)?</strong></p>
+    <p>_________________________________________________________________________</p>
+    <p>_________________________________________________________________________</p>
+    
+    <p><strong>2. List all the premises (supporting reasons) you can identify:</strong></p>
+    <p>a) _____________________________________________________________________</p>
+    <p>b) _____________________________________________________________________</p>
+    <p>c) _____________________________________________________________________</p>
+    <p>d) _____________________________________________________________________</p>
+    
+    <h4>Part 2: Evidence Evaluation</h4>
+    <p><strong>3. Which premise has the strongest evidence? Why?</strong></p>
+    <p>_________________________________________________________________________</p>
+    <p>_________________________________________________________________________</p>
+    
+    <p><strong>4. Which premise is weakest or most questionable? Why?</strong></p>
+    <p>_________________________________________________________________________</p>
+    <p>_________________________________________________________________________</p>
+    
+    <p><strong>5. What type of evidence supports each premise? (Mark: F=Fact, V=Value/Opinion, E=Example)</strong></p>
+    <p>Premise a) _____ Premise b) _____ Premise c) _____ Premise d) _____</p>
+    
+    <h4>Part 3: Counter-Arguments</h4>
+    <p><strong>6. What would someone from the opposing side say in response?</strong></p>
+    <p>_________________________________________________________________________</p>
+    <p>_________________________________________________________________________</p>
+    
+    <p><strong>7. Which counter-argument is strongest? Why?</strong></p>
+    <p>_________________________________________________________________________</p>
+    <p>_________________________________________________________________________</p>
+    
+    <h4>Part 4: Missing Evidence</h4>
+    <p><strong>8. What additional evidence would strengthen this position?</strong></p>
+    <p>_________________________________________________________________________</p>
+    <p>_________________________________________________________________________</p>
+    
+    <p><strong>9. What questions would you ask to test the strength of this argument?</strong></p>
+    <p>_________________________________________________________________________</p>
+    <p>_________________________________________________________________________</p>
+    
+    <h4>Part 5: Personal Reflection</h4>
+    <p><strong>10. After analyzing both sides, what aspects of this issue seem most important to consider?</strong></p>
+    <p>_________________________________________________________________________</p>
+    <p>_________________________________________________________________________</p>
+    <p>_________________________________________________________________________</p>
+    
+    <p><strong>11. How did mapping the argument visually help your understanding?</strong></p>
+    <p>_________________________________________________________________________</p>
+    <p>_________________________________________________________________________</p>
+    
+    <p><strong>12. When might you use argument mapping in your own life?</strong></p>
+    <p>_________________________________________________________________________</p>
+    <p>_________________________________________________________________________</p>
+</div>
+
+<div class="teacher-notes">
+    <h3>📊 Assessment Rubric</h3>
+    
+    <p><strong>Argument Analysis (4 points):</strong></p>
+    <ul>
+        <li><strong>4 - Excellent:</strong> Clearly identifies conclusion and all premises, accurately categorizes evidence types, thoughtful evaluation</li>
+        <li><strong>3 - Good:</strong> Identifies most argument components, some evaluation of evidence strength</li>
+        <li><strong>2 - Developing:</strong> Basic identification of argument parts, limited evidence evaluation</li>
+        <li><strong>1 - Beginning:</strong> Difficulty distinguishing premises from conclusions, minimal analysis</li>
+    </ul>
+    
+    <p><strong>Counter-Argument Recognition (4 points):</strong></p>
+    <ul>
+        <li><strong>4 - Excellent:</strong> Identifies multiple relevant counter-arguments, evaluates their strength fairly</li>
+        <li><strong>3 - Good:</strong> Recognizes main counter-arguments, some evaluation</li>
+        <li><strong>2 - Developing:</strong> Basic counter-argument recognition</li>
+        <li><strong>1 - Beginning:</strong> Limited understanding of opposing perspectives</li>
+    </ul>
+    
+    <p><strong>Digital Presentation (4 points):</strong></p>
+    <ul>
+        <li><strong>4 - Excellent:</strong> Clear, well-structured video with evidence-based reasoning and respectful tone</li>
+        <li><strong>3 - Good:</strong> Organized presentation with some evidence-based reasoning</li>
+        <li><strong>2 - Developing:</strong> Basic presentation structure, limited reasoning</li>
+        <li><strong>1 - Beginning:</strong> Unclear presentation, minimal use of evidence or reasoning</li>
+    </ul>
+</div>
+
+<div class="teacher-notes">
+    <h3>🏠 Extension Activities</h3>
+    <ul>
+        <li><strong>Research Deep-Dive:</strong> Find actual council meeting minutes or recordings to analyze real arguments</li>
+        <li><strong>Community Connection:</strong> Interview local councillors about decision-making processes</li>
+        <li><strong>Digital Creation:</strong> Create infographic showing "How to Analyze Any Argument"</li>
+        <li><strong>Current Events:</strong> Apply argument mapping to current political debates or social issues</li>
+        <li><strong>Cross-Cultural Study:</strong> Compare Western debate styles with other cultural decision-making traditions</li>
+    </ul>
+</div>
+
+<div class="teacher-notes">
+    <h3>🔗 Curriculum Connections</h3>
+    <ul>
+        <li><strong>Social Studies:</strong> Civics, local government, Treaty of Waitangi, political processes</li>
+        <li><strong>English:</strong> Persuasive writing, speech analysis, argument structure</li>
+        <li><strong>Te Reo Māori:</strong> Cultural concepts, traditional governance, Māori perspectives</li>
+        <li><strong>Digital Technologies:</strong> Digital tools, online presentation, visual mapping</li>
+    </ul>
+</div>
+
+<div class="teacher-notes">
+    <h3>💡 Differentiation Strategies</h3>
+    <ul>
+        <li><strong>Advanced Learners:</strong> Analyze multiple positions on complex issues, create original arguments</li>
+        <li><strong>Visual Learners:</strong> Focus on mind-mapping and visual argument structures</li>
+        <li><strong>ESL Support:</strong> Provide argument templates, vocabulary scaffolds</li>
+        <li><strong>Collaborative Options:</strong> Pair stronger analyzers with developing students</li>
+    </ul>
+</div>
+
+<script>
+// Interactive elements for digital version
+document.addEventListener('DOMContentLoaded', function() {
+    // Add click functionality for argument boxes
+    const argumentBoxes = document.querySelectorAll('.argument-box, .debate-position');
+    argumentBoxes.forEach((box, index) => {
+        box.addEventListener('click', function() {
+            this.style.backgroundColor = this.style.backgroundColor === '#ffffcc' ? '' : '#ffffcc';
+        });
+    });
+    
+    // Add keyboard navigation for accessibility
+    argumentBoxes.forEach((box) => {
+        box.setAttribute('tabindex', '0');
+        box.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                this.click();
+                e.preventDefault();
+            }
+        });
+    });
+    
+    });
+</script>
+
+
+<footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- Brand Section -->
+                <div class="footer-section footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p class="footer-whakataukī">"Whaowhia te kete mātauranga"</p>
+                    <p class="footer-tagline">Fill the basket of knowledge</p>
+                    <p class="footer-description">Quality teaching resources for Aotearoa New Zealand educators, honoring mātauranga Māori and contemporary pedagogy.</p>
+                </div>
+
+                <!-- Resources Section -->
+                <div class="footer-section footer-resources">
+                    <h4><span class="footer-mi">Ngā Rauemi</span> <span class="footer-en">Resources</span></h4>
+                    <ul>
+                        <li><a href="unit-plans.html">📚 Unit Plans / Ngā Mahere Wāhanga</a></li>
+                        <li><a href="lessons.html">📖 Lesson Plans / Ngā Akoranga</a></li>
+                        <li><a href="handouts.html">📄 Handouts / Ngā Kape</a></li>
+                        <li><a href="games.html">🎮 Games / Ngā Kēmu</a></li>
+                        <li><a href="browse.html">🔍 Browse All / Tirohia Katoa</a></li>
+                    </ul>
+                </div>
+
+                <!-- Curriculum Section -->
+                <div class="footer-section footer-curriculum">
+                    <h4><span class="footer-mi">Te Marautanga</span> <span class="footer-en">Curriculum</span></h4>
+                    <ul>
+                        <li><a href="browse.html?subject=english">📝 English / Reo Pākehā</a></li>
+                        <li><a href="browse.html?subject=math">🔢 Mathematics / Pāngarau</a></li>
+                        <li><a href="browse.html?subject=science">🔬 Science / Pūtaiao</a></li>
+                        <li><a href="browse.html?subject=social-studies">🌏 Social Studies / Tikanga-ā-Iwi</a></li>
+                        <li><a href="curriculum-alignment.html">📋 NZ Curriculum Alignment</a></li>
+                    </ul>
+                </div>
+
+                <!-- Account & Support Section -->
+                <div class="footer-section footer-support">
+                    <h4><span class="footer-mi">Tautoko</span> <span class="footer-en">Support</span></h4>
+                    <ul>
+                        <li><a href="my-kete.html">🧺 My Kete / Tōku Kete</a></li>
+                        <li><a href="login.html">🔐 Login / Takiuru</a></li>
+                        <li><a href="#about">ℹ️ About Us / Mō Mātou</a></li>
+                        <li><a href="#contact">✉️ Contact / Whakapā Mai</a></li>
+                        <li><a href="#help">❓ Help / Āwhina</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <span class="footer-copyright">© 2025 Te Kete Ako</span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-location">Aotearoa New Zealand</span>
+                    <span class="footer-separator">•</span>
+                    <a href="#privacy">Privacy</a>
+                    <span class="footer-separator">•</span>
+                    <a href="#terms">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

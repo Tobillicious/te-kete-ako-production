@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://supabase.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: https://placehold.co; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co https://supabase.com;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 4: Probability & Real-World Predictions | Y8 Statistics</title>
+    <meta name="description" content="Week 4: Probability & Real-World Predictions | Y8 Statistics - Educational resource from Te Kete Ako">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #431407 0%, #92400e 50%, #d97706 100%);
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.5);
+        }
+        .lesson-header {
+            background: linear-gradient(135deg, #431407 0%, #92400e 50%, #d97706 100%);
+            color: white;
+            padding: 35px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        .lesson-header::before {
+            content: '🎲🌟⚡';
+            font-size: 70px;
+            position: absolute;
+            right: 25px;
+            top: 15px;
+            opacity: 0.15;
+        }
+        .probability-hero {
+            background: linear-gradient(135deg, #7c2d12 0%, #ea580c 50%, #fb923c 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+            text-align: center;
+            border: 3px solid #fbbf24;
+        }
+        .activity-section {
+            background: linear-gradient(135deg, #fef7ff 0%, #f3e8ff 100%);
+            border: 3px solid #8b5cf6;
+            border-radius: 18px;
+            padding: 30px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .maori-term {
+            color: #dc2626;
+            font-style: italic;
+            font-weight: 700;
+            border-bottom: 2px dotted #dc2626;
+        }
+        .lesson-step {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 22px;
+            margin: 15px 0;
+            border-left: 6px solid #8b5cf6;
+        }
+        .probability-game {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 3px solid #10b981;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        .weather-challenge {
+            background: linear-gradient(135deg, #f0f9ff 0%, #dbeafe 100%);
+            border: 3px solid #0ea5e9;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        .cultural-connection {
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+            border-left: 6px solid #ec4899;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 12px;
+        }
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 40px 0;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 15px;
+        }
+        .nav-btn {
+            background: linear-gradient(135deg, #92400e 0%, #d97706 100%);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(146, 64, 14, 0.3);
+        }
+    </style>
+</head>
+<body>
+<header class="site-header no-print">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                        <li>
+                            <a href="browse.html">
+                                <span class="nav-icon">📚</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                                <span class="nav-text-en">Resources</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="unit-plans.html"><span class="dropdown-mi">📚 Ngā Mahere Wāhanga</span><span class="dropdown-en">Unit Plans (6-8 weeks)</span></a></li>
+                                <li><a href="lessons.html"><span class="dropdown-mi">📖 Ngā Mahere Akoranga</span><span class="dropdown-en">Lesson Plans (60-75 min)</span></a></li>
+                                <li><a href="handouts.html"><span class="dropdown-mi">📄 Ngā Kape</span><span class="dropdown-en">Handouts & Materials</span></a></li>
+                                <li><a href="browse.html"><span class="dropdown-mi">🔍 Tirohia Katoa</span><span class="dropdown-en">Browse All Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=subject">
+                                <span class="nav-icon">🎨</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Marau</span>
+                                <span class="nav-text-en">Subjects</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="browse.html?subject=english"><span class="dropdown-mi">📝 Reo Pākehā</span><span class="dropdown-en">English</span></a></li>
+                                <li><a href="browse.html?subject=math"><span class="dropdown-mi">🔢 Pāngarau</span><span class="dropdown-en">Mathematics</span></a></li>
+                                <li><a href="browse.html?subject=science"><span class="dropdown-mi">🔬 Pūtaiao</span><span class="dropdown-en">Science</span></a></li>
+                                <li><a href="browse.html?subject=social-studies"><span class="dropdown-mi">🌏 Tikanga-ā-Iwi</span><span class="dropdown-en">Social Studies</span></a></li>
+                                <li><a href="browse.html?subject=te-reo"><span class="dropdown-mi">🌿 Te Reo Māori</span><span class="dropdown-en">Māori Language</span></a></li>
+                                <li><a href="browse.html?subject=arts"><span class="dropdown-mi">🎨 Ngā Toi</span><span class="dropdown-en">The Arts</span></a></li>
+                                <li><a href="browse.html?subject=health-pe"><span class="dropdown-mi">💪 Hauora</span><span class="dropdown-en">Health & PE</span></a></li>
+                                <li><a href="browse.html?subject=technology"><span class="dropdown-mi">🔧 Hangarau</span><span class="dropdown-en">Technology</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=year">
+                                <span class="nav-icon">📅</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Tau</span>
+                                <span class="nav-text-en">Year Levels</span>
+                            </a>
+                            <div class="nav-dropdown nav-dropdown-wide">
+                                <div class="year-stage-label">Primary / Tuatahi (1-6)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=1"><span class="dropdown-mi">Tau 1</span><span class="dropdown-en">Year 1</span></a></li>
+                                    <li><a href="browse.html?year=2"><span class="dropdown-mi">Tau 2</span><span class="dropdown-en">Year 2</span></a></li>
+                                    <li><a href="browse.html?year=3"><span class="dropdown-mi">Tau 3</span><span class="dropdown-en">Year 3</span></a></li>
+                                </ul>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=4"><span class="dropdown-mi">Tau 4</span><span class="dropdown-en">Year 4</span></a></li>
+                                    <li><a href="browse.html?year=5"><span class="dropdown-mi">Tau 5</span><span class="dropdown-en">Year 5</span></a></li>
+                                    <li><a href="browse.html?year=6"><span class="dropdown-mi">Tau 6</span><span class="dropdown-en">Year 6</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Intermediate / Waenga (7-8)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=7"><span class="dropdown-mi">Tau 7</span><span class="dropdown-en">Year 7</span></a></li>
+                                    <li><a href="browse.html?year=8"><span class="dropdown-mi">Tau 8</span><span class="dropdown-en">Year 8</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Junior Secondary / Tuarua (9-10)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=9"><span class="dropdown-mi">Tau 9</span><span class="dropdown-en">Year 9</span></a></li>
+                                    <li><a href="browse.html?year=10"><span class="dropdown-mi">Tau 10</span><span class="dropdown-en">Year 10</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Senior Secondary / NCEA (11-13)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=11"><span class="dropdown-mi">Tau 11</span><span class="dropdown-en">Year 11</span></a></li>
+                                    <li><a href="browse.html?year=12"><span class="dropdown-mi">Tau 12</span><span class="dropdown-en">Year 12</span></a></li>
+                                    <li><a href="browse.html?year=13"><span class="dropdown-mi">Tau 13</span><span class="dropdown-en">Year 13</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    <li>
+                        <a href="#more">
+                            <span class="nav-icon">📦</span>
+                            <span class="nav-text-mi" lang="mi">Ētahi Atu</span>
+                            <span class="nav-text-en">More Stuff</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="games.html"><span class="dropdown-mi">🎮 Ngā Kēmu</span><span class="dropdown-en">Games</span></a></li>
+                                <li><a href="youtube.html"><span class="dropdown-mi">📺 Ataata YouTube</span><span class="dropdown-en">YouTube Videos</span></a></li>
+                                <li><a href="curriculum-alignment.html"><span class="dropdown-mi">📋 Te Marautanga</span><span class="dropdown-en">Curriculum Alignment</span></a></li>
+                                <li><a href="other-resources.html"><span class="dropdown-mi">🔗 Ētahi Atu Rauemi</span><span class="dropdown-en">Other Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="auth-nav auth-logged-out">
+                        <a href="login.html" class="auth-btn">
+                            <span class="nav-icon" data-icon="login"></span>
+                            <span class="nav-text-mi" lang="mi">Takiuru</span>
+                            <span class="nav-text-en">Login</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav auth-logged-in" style="display: none;">
+                        <a href="my-kete.html" class="dashboard-btn">
+                            <span class="nav-icon" data-icon="kete"></span>
+                            <span class="nav-text-mi" lang="mi">Tōku Kete</span>
+                            <span class="nav-text-en">My Kete</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="lesson-header">
+            <h1>Week 4: Probability & Real-World Predictions</h1>
+            <h2><em class="maori-term">Matapae me nga Tohu</em> - Predictions and Signs</h2>
+            <p><strong>Duration:</strong> 4 lessons (50 minutes each) | <strong>Year Level:</strong> 8</p>
+            <p>Understanding likelihood, making predictions, and connecting probability to traditional Māori knowledge</p>
+        </div>
+
+        <div class="probability-hero">
+            <h3>🎯 Big Question of the Week</h3>
+            <p style="font-size: 1.3em; font-weight: 600;"><em>"How likely is it? Understanding probability in everyday life and traditional knowledge systems"</em></p>
+        </div>
+
+        <div class="cultural-connection">
+            <h4><em class="maori-term">Whakatōhea:</em> Traditional Knowledge - Reading Signs</h4>
+            <p>In <em class="maori-term">mātauranga Māori</em>, understanding likelihood and making predictions has always been essential for survival and prosperity. Our <em class="maori-term">tīpuna</em> (ancestors) read signs in nature - wind patterns for navigation, bird behavior for weather, seasonal changes for planting. This traditional knowledge system shows sophisticated understanding of probability and risk assessment that connects beautifully with modern statistical thinking.</p>
+        </div>
+
+        <!-- LESSON 4.1 -->
+        <div class="activity-section">
+            <h3>📚 Lesson 4.1: Māori Legends & Probability</h3>
+            <p><strong>Focus:</strong> Connecting traditional stories to mathematical probability concepts</p>
+            
+            <div class="lesson-step">
+                <h4>Starter Activity: Māui and the North Island (15 minutes)</h4>
+                <div class="cultural-connection">
+                    <h5>🐟 <em class="maori-term">Pūrākau:</em> Māui's Great Fish</h5>
+                    <p><strong>The Story:</strong> Māui catches Te Ika-a-Māui (North Island) with his magical fishhook. But what if we think about this mathematically?</p>
+                    
+                    <p><strong>Probability Questions:</strong></p>
+                    <ul>
+                        <li>If Māui goes fishing 10 times, what's the probability he catches a normal fish vs something magical?</li>
+                        <li>Based on Polynesian navigation success rates, what was the probability of finding New Zealand?</li>
+                        <li>How do we balance respecting the <em class="maori-term">pūrākau</em> while exploring mathematical concepts?</li>
+                    </ul>
+                </div>
+                <p><strong>Discussion:</strong> Students share how their whānau use probability in daily decisions (weather forecasts, sports predictions, planning events).</p>
+            </div>
+
+            <div class="lesson-step">
+                <h4>Main Activity: Traditional Weather Prediction (25 minutes)</h4>
+                <div class="weather-challenge">
+                    <h5>☁️ <em class="maori-term">Mātauranga</em> Weather Forecasting</h5>
+                    <p><strong>Traditional Indicators vs MetService Data</strong></p>
+                    
+                    <p><strong>Traditional Signs (from kaumātua knowledge):</strong></p>
+                    <ul>
+                        <li><strong>Red sunrise:</strong> 70% chance of rain within 24 hours</li>
+                        <li><strong>Westerly wind + high clouds:</strong> 85% chance of clear weather</li>
+                        <li><strong>Tui singing at dawn:</strong> 60% chance of good weather</li>
+                        <li><strong>Southerly change:</strong> 90% chance of temperature drop</li>
+                    </ul>
+
+                    <p><strong>Student Challenge:</strong> Compare these traditional probability assessments with MetService forecast data for your local area. Which is more accurate over a week?</p>
+                    
+                    <div style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                        <h6>Mathematical Investigation:</h6>
+                        <ol>
+                            <li>Track traditional signs for 5 days</li>
+                            <li>Record MetService predictions for same period</li>
+                            <li>Calculate accuracy percentages for both methods</li>
+                            <li>Discuss: Why might traditional knowledge be more/less accurate in certain situations?</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lesson-step">
+                <h4>Plenary: Probability Language Building (10 minutes)</h4>
+                <p><strong>Vocabulary Development:</strong> Students create bilingual probability glossary</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin: 15px 0;">
+                    <div style="text-align: center; padding: 10px; background: #fef3c7; border-radius: 8px;">
+                        <strong>English</strong><br>
+                        Certain<br>
+                        Likely<br>
+                        Unlikely<br>
+                        Impossible
+                    </div>
+                    <div style="text-align: center; padding: 10px; background: #fed7d7; border-radius: 8px;">
+                        <strong>Te Reo Māori</strong><br>
+                        <em class="maori-term">Pono</em><br>
+                        <em class="maori-term">Atahua</em><br>
+                        <em class="maori-term">Kore rawa</em><br>
+                        <em class="maori-term">Mutu</em>
+                    </div>
+                    <div style="text-align: center; padding: 10px; background: #d1fae5; border-radius: 8px;">
+                        <strong>Mathematical</strong><br>
+                        100% (1.0)<br>
+                        >50% (>0.5)<br>
+                        <50% (<0.5)<br>
+                        0% (0.0)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LESSON 4.2 -->
+        <div class="activity-section">
+            <h3>🎲 Lesson 4.2: Dice & Card Experiments</h3>
+            <p><strong>Focus:</strong> Experimental vs theoretical probability through hands-on investigations</p>
+            
+            <div class="lesson-step">
+                <h4>Starter: Probability Predictions (10 minutes)</h4>
+                <p><strong>Quick Challenge:</strong> Before any experiments, students predict outcomes:</p>
+                <ul>
+                    <li>Rolling a 6 on a standard die: ____%</li>
+                    <li>Flipping heads on a coin: ____%</li>
+                    <li>Drawing a heart from playing cards: ____%</li>
+                    <li>Rolling doubles with two dice: ____%</li>
+                </ul>
+                <p><em>Keep predictions visible - we'll return to compare with experimental results!</em></p>
+            </div>
+
+            <div class="lesson-step">
+                <h4>Main Investigation: Multi-Station Experiments (30 minutes)</h4>
+                
+                <div class="probability-game">
+                    <h5>🎯 Probability Experiment Stations (7 minutes each + rotation)</h5>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div>
+                            <h6><strong>Station 1: Single Die Rolling</strong></h6>
+                            <ul>
+                                <li>Each pair rolls die 30 times</li>
+                                <li>Record frequency of each number (1-6)</li>
+                                <li>Calculate experimental probability for rolling a 6</li>
+                                <li>Compare to theoretical probability (1/6 ≈ 16.7%)</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h6><strong>Station 2: Coin Flipping Challenge</strong></h6>
+                            <ul>
+                                <li>Flip coin 50 times, record H/T</li>
+                                <li>Calculate experimental probability of heads</li>
+                                <li>Try prediction: "Next 10 flips will be..."</li>
+                                <li>Discuss: Why isn't it exactly 50/50?</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h6><strong>Station 3: Playing Card Probability</strong></h6>
+                            <ul>
+                                <li>Draw card, record suit, replace & shuffle</li>
+                                <li>Repeat 20 times</li>
+                                <li>Compare experimental vs theoretical for hearts (25%)</li>
+                                <li>Extension: Calculate probability of drawing face cards</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h6><strong>Station 4: Two-Dice Investigation</strong></h6>
+                            <ul>
+                                <li>Roll two dice 40 times</li>
+                                <li>Record sum each time (2-12)</li>
+                                <li>Which sum appears most often?</li>
+                                <li>Calculate experimental probability for sum of 7</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lesson-step">
+                <h4>Data Analysis & Comparison (10 minutes)</h4>
+                <p><strong>Class Data Compilation:</strong> Combine all groups' results for larger sample sizes</p>
+                
+                <div style="background: #f0f9ff; padding: 20px; border-radius: 12px; border: 2px solid #0ea5e9;">
+                    <h6>🧮 Big Questions for Analysis:</h6>
+                    <ol>
+                        <li><strong>Sample Size Effect:</strong> Do larger sample sizes get closer to theoretical probability?</li>
+                        <li><strong>Individual vs Combined:</strong> How do your pair results compare to the whole class results?</li>
+                        <li><strong>Prediction Accuracy:</strong> How close were your original predictions?</li>
+                        <li><strong>Real-World Application:</strong> Why might experimental probability differ from theoretical?</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- LESSON 4.3 -->
+        <div class="activity-section">
+            <h3>🌧️ Lesson 4.3: Weather Predictions & Data Analysis</h3>
+            <p><strong>Focus:</strong> Using real MetService data to understand probability in weather forecasting</p>
+            
+            <div class="lesson-step">
+                <h4>Starter: Weather Memory Challenge (10 minutes)</h4>
+                <p><strong>Think Back:</strong> Students discuss in pairs:</p>
+                <ul>
+                    <li>What was the weather like yesterday? Last weekend?</li>
+                    <li>When did it last rain in our area?</li>
+                    <li>How often do weather forecasts seem wrong?</li>
+                    <li>What's the difference between "30% chance of rain" and "light rain possible"?</li>
+                </ul>
+            </div>
+
+            <div class="lesson-step">
+                <h4>Main Investigation: MetService Data Analysis (25 minutes)</h4>
+                
+                <div class="weather-challenge">
+                    <h5>☔ Real Weather Data from Your Region</h5>
+                    <p><strong>Dataset:</strong> Last 30 days of weather predictions vs actual outcomes for your local area</p>
+                    
+                    <div style="background: white; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                        <h6><strong>Investigation Questions:</strong></h6>
+                        <ol>
+                            <li><strong>Accuracy Analysis:</strong> When MetService predicted "30% chance of rain," how often did it actually rain?</li>
+                            <li><strong>Temperature Predictions:</strong> Calculate the average difference between predicted and actual temperatures</li>
+                            <li><strong>Extreme Weather:</strong> Were high wind or heavy rain warnings accurate?</li>
+                            <li><strong>Seasonal Patterns:</strong> Do predictions seem more/less accurate in certain seasons?</li>
+                        </ol>
+                    </div>
+
+                    <p><strong>Mathematical Tools:</strong></p>
+                    <ul>
+                        <li><strong>Percentage Accuracy:</strong> (Correct predictions ÷ Total predictions) × 100</li>
+                        <li><strong>Mean Absolute Error:</strong> Average difference between predicted and actual temperatures</li>
+                        <li><strong>Probability Calibration:</strong> When they say "30% chance," does it rain about 3 times out of 10?</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="lesson-step">
+                <h4>Extension: Traditional vs Modern Forecasting (15 minutes)</h4>
+                <div class="cultural-connection">
+                    <h5>🌿 Comparing Knowledge Systems</h5>
+                    <p><strong>Student Research Challenge:</strong> Interview whānau or community kaumātua about traditional weather prediction methods</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div>
+                            <h6><strong>Traditional Methods</strong></h6>
+                            <ul>
+                                <li>Cloud formations and movements</li>
+                                <li>Wind direction changes</li>
+                                <li>Animal and bird behavior</li>
+                                <li>Plant responses (closing flowers, etc.)</li>
+                                <li>Ocean and tide patterns</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h6><strong>Modern Methods</strong></h6>
+                            <ul>
+                                <li>Satellite imagery and radar</li>
+                                <li>Atmospheric pressure measurements</li>
+                                <li>Computer modeling and algorithms</li>
+                                <li>Historical data analysis</li>
+                                <li>International weather station networks</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <p><strong>Critical Thinking:</strong> Both systems use pattern recognition and probability. Traditional knowledge focuses on local, immediate indicators, while modern forecasting uses global data and computer models. How might combining both approaches improve accuracy?</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- LESSON 4.4 -->
+        <div class="activity-section">
+            <h3>🎮 Lesson 4.4: Probability Game Design Challenge</h3>
+            <p><strong>Focus:</strong> Creating original games that demonstrate probability concepts with NZ cultural themes</p>
+            
+            <div class="lesson-step">
+                <h4>Design Brief Introduction (10 minutes)</h4>
+                <div class="probability-game">
+                    <h5>🎯 Game Design Challenge</h5>
+                    <p><strong>Your Task:</strong> Design an original probability game using New Zealand themes that could teach younger students about likelihood and chance.</p>
+                    
+                    <p><strong>Design Requirements:</strong></p>
+                    <ul>
+                        <li><strong>NZ Theme:</strong> Incorporate native birds, conservation, sports, or cultural elements</li>
+                        <li><strong>Clear Probability:</strong> Players must be able to calculate chances of success</li>
+                        <li><strong>Educational Value:</strong> Game teaches at least one probability concept</li>
+                        <li><strong>Playable:</strong> Can be completed in 10-15 minutes</li>
+                        <li><strong>Cultural Respect:</strong> Uses Māori elements appropriately and respectfully</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="lesson-step">
+                <h4>Game Brainstorming & Planning (15 minutes)</h4>
+                <p><strong>Theme Options (Students choose or create their own):</strong></p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 15px 0;">
+                    <div style="background: #ecfdf5; padding: 15px; border-radius: 8px; border-left: 4px solid #10b981;">
+                        <h6>🥝 Kiwi Conservation Rescue</h6>
+                        <p>Save endangered kiwi with dice rolls determining success of conservation efforts</p>
+                    </div>
+                    
+                    <div style="background: #f0f9ff; padding: 15px; border-radius: 8px; border-left: 4px solid #0ea5e9;">
+                        <h6>🏉 All Blacks Training Camp</h6>
+                        <p>Card-based game where probability determines training success and team selection</p>
+                    </div>
+                    
+                    <div style="background: #fef7ff; padding: 15px; border-radius: 8px; border-left: 4px solid #8b5cf6;">
+                        <h6>🌋 Volcanic Eruption Prediction</h6>
+                        <p>Use probability to predict eruptions and evacuate communities safely</p>
+                    </div>
+                    
+                    <div style="background: #fff7ed; padding: 15px; border-radius: 8px; border-left: 4px solid #f97316;">
+                        <h6>🐋 Whale Migration Tracker</h6>
+                        <p>Predict whale movements using probability and environmental factors</p>
+                    </div>
+                </div>
+                
+                <p><strong>Planning Template:</strong> Students sketch game board, write rules, and calculate key probabilities</p>
+            </div>
+
+            <div class="lesson-step">
+                <h4>Game Creation & Testing (20 minutes)</h4>
+                <div style="background: #f8fafc; padding: 20px; border-radius: 12px; border: 2px solid #e2e8f0;">
+                    <h6><strong>Creation Process:</strong></h6>
+                    <ol>
+                        <li><strong>Materials Provided:</strong> Cardboard, dice, cards, counters, markers</li>
+                        <li><strong>Prototype Development (12 min):</strong> Create working version of game</li>
+                        <li><strong>Peer Testing (8 min):</strong> Another pair tests your game and provides feedback</li>
+                    </ol>
+                    
+                    <h6><strong>Testing Feedback Questions:</strong></h6>
+                    <ul>
+                        <li>Are the rules clear and easy to understand?</li>
+                        <li>Can players calculate probabilities during the game?</li>
+                        <li>Is the New Zealand theme engaging and respectful?</li>
+                        <li>What would make this game even better?</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="lesson-step">
+                <h4>Game Showcase & Reflection (5 minutes)</h4>
+                <p><strong>Gallery Walk:</strong> Display all games around the room for silent viewing and sticky note feedback</p>
+                <p><strong>Quick Share:</strong> Each group gives 30-second explanation of their game's probability concept</p>
+            </div>
+        </div>
+
+        <!-- WEEK 4 ASSESSMENT -->
+        <div class="probability-game" style="border-color: #f97316; background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);">
+            <h3>📋 Week 4 Assessment: Probability Game Design</h3>
+            
+            <div style="margin-bottom: 25px;">
+                <h4>Assessment Overview</h4>
+                <p><strong>Summative Assessment:</strong> Design an original probability game with New Zealand cultural themes that teaches younger students about chance and likelihood.</p>
+                <p><strong>Components:</strong> Game prototype + Rule sheet + Probability calculations | <strong>Weight:</strong> 25% of unit grade</p>
+            </div>
+
+            <div style="background: white; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                <h5>🎯 Assessment Criteria</h5>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <h6><strong>ACHIEVED Level:</strong></h6>
+                        <ul>
+                            <li>Game includes basic probability elements</li>
+                            <li>Clear rules and NZ theme</li>
+                            <li>Shows understanding of chance concepts</li>
+                            <li>Game is playable and engaging</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h6><strong>MERIT Level:</strong></h6>
+                        <ul>
+                            <li>Sophisticated probability mechanics</li>
+                            <li>Meaningful cultural integration</li>
+                            <li>Clear mathematical calculations</li>
+                            <li>Well-designed and tested gameplay</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 15px;">
+                    <h6><strong>EXCELLENCE Level:</strong></h6>
+                    <ul>
+                        <li>Innovative and creative game design that other teachers would want to use</li>
+                        <li>Deep integration of probability concepts with engaging gameplay</li>
+                        <li>Respectful and meaningful use of cultural themes and Te Reo Māori</li>
+                        <li>Game teaches probability concepts better than traditional methods</li>
+                        <li>Professional presentation and clear educational value</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.9); padding: 15px; border-radius: 8px;">
+                <h6>🤔 Student Self-Assessment Questions</h6>
+                <ul>
+                    <li>What probability concept does your game teach most effectively?</li>
+                    <li>How did you ensure your cultural themes were respectful and meaningful?</li>
+                    <li>What was the most challenging part of balancing fun gameplay with mathematical learning?</li>
+                    <li>How would you improve your game if you had more time?</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <a href="lesson-3-census-population-trends.html" class="nav-btn">← Week 3: Census Data</a>
+            <span style="font-weight: 700; font-size: 1.1em;">Week 4 of 5</span>
+            <a href="lesson-5-final-project-presentation.html" class="nav-btn">Week 5: Final Project →</a>
+        </div>
+
+        <div style="background: linear-gradient(135deg, #431407 0%, #92400e 100%); color: white; padding: 25px; border-radius: 15px; margin-top: 30px; text-align: center;">
+            <p style="font-size: 1.3em; font-weight: 700;"><em class="maori-term" style="color: #fbbf24;">"Kia mataara ki ngā tohu - Be alert to the signs"</em></p>
+            <p style="color: #fed7aa; margin-top: 10px;"><em>Traditional wisdom meets mathematical probability</em></p>
+            <p style="margin-top: 15px; color: #fde68a;">Through understanding probability, we connect the mathematical thinking of our <em class="maori-term">tīpuna</em> with modern statistical analysis, showing that wisdom and science walk the same path toward understanding our world.</p>
+        </div>
+    </div>
+
+<footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- Brand Section -->
+                <div class="footer-section footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p class="footer-whakataukī">"Whaowhia te kete mātauranga"</p>
+                    <p class="footer-tagline">Fill the basket of knowledge</p>
+                    <p class="footer-description">Quality teaching resources for Aotearoa New Zealand educators, honoring mātauranga Māori and contemporary pedagogy.</p>
+                </div>
+
+                <!-- Resources Section -->
+                <div class="footer-section footer-resources">
+                    <h4><span class="footer-mi">Ngā Rauemi</span> <span class="footer-en">Resources</span></h4>
+                    <ul>
+                        <li><a href="unit-plans.html">📚 Unit Plans / Ngā Mahere Wāhanga</a></li>
+                        <li><a href="lessons.html">📖 Lesson Plans / Ngā Akoranga</a></li>
+                        <li><a href="handouts.html">📄 Handouts / Ngā Kape</a></li>
+                        <li><a href="games.html">🎮 Games / Ngā Kēmu</a></li>
+                        <li><a href="browse.html">🔍 Browse All / Tirohia Katoa</a></li>
+                    </ul>
+                </div>
+
+                <!-- Curriculum Section -->
+                <div class="footer-section footer-curriculum">
+                    <h4><span class="footer-mi">Te Marautanga</span> <span class="footer-en">Curriculum</span></h4>
+                    <ul>
+                        <li><a href="browse.html?subject=english">📝 English / Reo Pākehā</a></li>
+                        <li><a href="browse.html?subject=math">🔢 Mathematics / Pāngarau</a></li>
+                        <li><a href="browse.html?subject=science">🔬 Science / Pūtaiao</a></li>
+                        <li><a href="browse.html?subject=social-studies">🌏 Social Studies / Tikanga-ā-Iwi</a></li>
+                        <li><a href="curriculum-alignment.html">📋 NZ Curriculum Alignment</a></li>
+                    </ul>
+                </div>
+
+                <!-- Account & Support Section -->
+                <div class="footer-section footer-support">
+                    <h4><span class="footer-mi">Tautoko</span> <span class="footer-en">Support</span></h4>
+                    <ul>
+                        <li><a href="my-kete.html">🧺 My Kete / Tōku Kete</a></li>
+                        <li><a href="login.html">🔐 Login / Takiuru</a></li>
+                        <li><a href="#about">ℹ️ About Us / Mō Mātou</a></li>
+                        <li><a href="#contact">✉️ Contact / Whakapā Mai</a></li>
+                        <li><a href="#help">❓ Help / Āwhina</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <span class="footer-copyright">© 2025 Te Kete Ako</span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-location">Aotearoa New Zealand</span>
+                    <span class="footer-separator">•</span>
+                    <a href="#privacy">Privacy</a>
+                    <span class="footer-separator">•</span>
+                    <a href="#terms">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

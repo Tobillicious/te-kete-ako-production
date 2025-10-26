@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tukutuku Pattern Explorer | Interactive Mathematics | Te Kete Ako</title>
+    <meta name="description" content="Tukutuku Pattern Explorer | Interactive Mathematics | Te Kete Ako - Educational resource from Te Kete Ako">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        .explorer-header {
+            background: linear-gradient(135deg, #8e5029 0%, #cd853f 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .explorer-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(45deg,
+                    rgba(255, 255, 255, 0.1) 0px,
+                    rgba(255, 255, 255, 0.1) 20px,
+                    transparent 20px,
+                    transparent 40px);
+        }
+
+        .learning-objectives {
+            background: var(--color-cultural-light);
+            border: 2px solid var(--color-cultural);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .interactive-workspace {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+            margin: 2rem 0;
+            min-height: 700px;
+        }
+
+        .canvas-container {
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .controls-panel {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            overflow-y: auto;
+            max-height: 700px;
+        }
+
+        .control-section {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .control-section h3 {
+            margin: 0 0 1rem 0;
+            color: var(--color-accent);
+            font-size: 1.1rem;
+            border-bottom: 2px solid var(--color-accent);
+            padding-bottom: 0.5rem;
+        }
+
+        .control-section label {
+            display: block;
+            margin: 0.8rem 0 0.3rem 0;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .control-section select,
+        .control-section input[type="range"] {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+
+        .control-section button {
+            background: var(--color-accent);
+            color: white;
+            border: none;
+            padding: 0.8rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 0.3rem 0.3rem 0.3rem 0;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .control-section button:hover {
+            background: var(--color-primary);
+        }
+
+        .cultural-info {
+            background: var(--color-cultural-light);
+            border: 2px solid var(--color-cultural);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .cultural-info h3 {
+            color: var(--color-cultural);
+            margin: 0 0 1rem 0;
+        }
+
+        .cultural-info h4 {
+            color: var(--color-cultural);
+            margin: 1rem 0 0.5rem 0;
+            font-size: 1rem;
+        }
+
+        .mathematical-concepts {
+            background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c8 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .concept-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #4caf50;
+        }
+
+        .concept-card h4 {
+            color: #2e7d32;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .activity-suggestions {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .activity-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid #ff9800;
+        }
+
+        .canvas-tools {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .canvas-tools button {
+            background: var(--color-accent);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .progress-indicator {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: normal;
+            margin: 0;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+        }
+
+        @media (max-width: 1200px) {
+            .interactive-workspace {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .controls-panel {
+                max-height: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .explorer-header {
+                padding: 2rem 1rem;
+            }
+
+            .canvas-container canvas {
+                max-width: 100%;
+                height: auto;
+            }
+        }
+
+        .learning-path {
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .path-step {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-left: 4px solid #9c27b0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .step-number {
+            background: #9c27b0;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body>
+                    <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                        <li>
+                            <a href="browse.html">
+                                <span class="nav-icon">📚</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                                <span class="nav-text-en">Resources</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="unit-plans.html"><span class="dropdown-mi">📚 Ngā Mahere Wāhanga</span><span class="dropdown-en">Unit Plans (6-8 weeks)</span></a></li>
+                                <li><a href="lessons.html"><span class="dropdown-mi">📖 Ngā Mahere Akoranga</span><span class="dropdown-en">Lesson Plans (60-75 min)</span></a></li>
+                                <li><a href="handouts.html"><span class="dropdown-mi">📄 Ngā Kape</span><span class="dropdown-en">Handouts & Materials</span></a></li>
+                                <li><a href="browse.html"><span class="dropdown-mi">🔍 Tirohia Katoa</span><span class="dropdown-en">Browse All Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=subject">
+                                <span class="nav-icon">🎨</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Marau</span>
+                                <span class="nav-text-en">Subjects</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="browse.html?subject=english"><span class="dropdown-mi">📝 Reo Pākehā</span><span class="dropdown-en">English</span></a></li>
+                                <li><a href="browse.html?subject=math"><span class="dropdown-mi">🔢 Pāngarau</span><span class="dropdown-en">Mathematics</span></a></li>
+                                <li><a href="browse.html?subject=science"><span class="dropdown-mi">🔬 Pūtaiao</span><span class="dropdown-en">Science</span></a></li>
+                                <li><a href="browse.html?subject=social-studies"><span class="dropdown-mi">🌏 Tikanga-ā-Iwi</span><span class="dropdown-en">Social Studies</span></a></li>
+                                <li><a href="browse.html?subject=te-reo"><span class="dropdown-mi">🌿 Te Reo Māori</span><span class="dropdown-en">Māori Language</span></a></li>
+                                <li><a href="browse.html?subject=arts"><span class="dropdown-mi">🎨 Ngā Toi</span><span class="dropdown-en">The Arts</span></a></li>
+                                <li><a href="browse.html?subject=health-pe"><span class="dropdown-mi">💪 Hauora</span><span class="dropdown-en">Health & PE</span></a></li>
+                                <li><a href="browse.html?subject=technology"><span class="dropdown-mi">🔧 Hangarau</span><span class="dropdown-en">Technology</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=year">
+                                <span class="nav-icon">📅</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Tau</span>
+                                <span class="nav-text-en">Year Levels</span>
+                            </a>
+                            <div class="nav-dropdown nav-dropdown-wide">
+                                <div class="year-stage-label">Primary / Tuatahi (1-6)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=1"><span class="dropdown-mi">Tau 1</span><span class="dropdown-en">Year 1</span></a></li>
+                                    <li><a href="browse.html?year=2"><span class="dropdown-mi">Tau 2</span><span class="dropdown-en">Year 2</span></a></li>
+                                    <li><a href="browse.html?year=3"><span class="dropdown-mi">Tau 3</span><span class="dropdown-en">Year 3</span></a></li>
+                                </ul>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=4"><span class="dropdown-mi">Tau 4</span><span class="dropdown-en">Year 4</span></a></li>
+                                    <li><a href="browse.html?year=5"><span class="dropdown-mi">Tau 5</span><span class="dropdown-en">Year 5</span></a></li>
+                                    <li><a href="browse.html?year=6"><span class="dropdown-mi">Tau 6</span><span class="dropdown-en">Year 6</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Intermediate / Waenga (7-8)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=7"><span class="dropdown-mi">Tau 7</span><span class="dropdown-en">Year 7</span></a></li>
+                                    <li><a href="browse.html?year=8"><span class="dropdown-mi">Tau 8</span><span class="dropdown-en">Year 8</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Junior Secondary / Tuarua (9-10)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=9"><span class="dropdown-mi">Tau 9</span><span class="dropdown-en">Year 9</span></a></li>
+                                    <li><a href="browse.html?year=10"><span class="dropdown-mi">Tau 10</span><span class="dropdown-en">Year 10</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Senior Secondary / NCEA (11-13)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=11"><span class="dropdown-mi">Tau 11</span><span class="dropdown-en">Year 11</span></a></li>
+                                    <li><a href="browse.html?year=12"><span class="dropdown-mi">Tau 12</span><span class="dropdown-en">Year 12</span></a></li>
+                                    <li><a href="browse.html?year=13"><span class="dropdown-mi">Tau 13</span><span class="dropdown-en">Year 13</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    <li>
+                        <a href="#more">
+                            <span class="nav-icon">📦</span>
+                            <span class="nav-text-mi" lang="mi">Ētahi Atu</span>
+                            <span class="nav-text-en">More Stuff</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="games.html"><span class="dropdown-mi">🎮 Ngā Kēmu</span><span class="dropdown-en">Games</span></a></li>
+                                <li><a href="youtube.html"><span class="dropdown-mi">📺 Ataata YouTube</span><span class="dropdown-en">YouTube Videos</span></a></li>
+                                <li><a href="curriculum-alignment.html"><span class="dropdown-mi">📋 Te Marautanga</span><span class="dropdown-en">Curriculum Alignment</span></a></li>
+                                <li><a href="other-resources.html"><span class="dropdown-mi">🔗 Ētahi Atu Rauemi</span><span class="dropdown-en">Other Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="auth-nav auth-logged-out">
+                        <a href="login.html" class="auth-btn">
+                            <span class="nav-icon" data-icon="login"></span>
+                            <span class="nav-text-mi" lang="mi">Takiuru</span>
+                            <span class="nav-text-en">Login</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav auth-logged-in" style="display: none;">
+                        <a href="my-kete.html" class="dashboard-btn">
+                            <span class="nav-icon" data-icon="kete"></span>
+                            <span class="nav-text-mi" lang="mi">Tōku Kete</span>
+                            <span class="nav-text-en">My Kete</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a> >
+            <a href="../games.html">Interactive Tools</a> >
+            <span>Tukutuku Pattern Explorer</span>
+        </div>
+
+        <div class="explorer-header">
+            <h1>🎨 Tukutuku Pattern Explorer</h1>
+            <p class="unit-subtitle">Interactive Mathematics Through Traditional Māori Art</p>
+            <p><em>"Discover the mathematical genius embedded in traditional tukutuku patterns - where culture and
+                    mathematics unite in perfect harmony."</em></p>
+        </div>
+
+        <section class="learning-objectives">
+            <h2>🎯 Learning Objectives</h2>
+            <p>Through this interactive exploration, you will:</p>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🔄 Master Transformations</h4>
+                    <p>Understand translation, rotation, reflection, and scaling through hands-on pattern creation</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🎨 Appreciate Cultural Mathematics</h4>
+                    <p>Discover how traditional Māori artisans used advanced geometric principles in their designs</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📏 Apply Coordinate Geometry</h4>
+                    <p>Use coordinate systems to describe and analyze pattern transformations</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔗 Connect Knowledge Systems</h4>
+                    <p>Bridge traditional knowledge with modern mathematical understanding</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="learning-path">
+            <h2>🗺️ Your Learning Journey</h2>
+            <p>Follow this step-by-step path to master geometric transformations through tukutuku patterns:</p>
+
+            <div class="path-step">
+                <div class="step-number">1</div>
+                <div>
+                    <h4>Explore Base Patterns</h4>
+                    <p>Start by selecting different traditional patterns and understanding their cultural significance
+                    </p>
+                </div>
+            </div>
+
+            <div class="path-step">
+                <div class="step-number">2</div>
+                <div>
+                    <h4>Try Each Transformation</h4>
+                    <p>Experiment with translation, rotation, reflection, and scaling to see how patterns change</p>
+                </div>
+            </div>
+
+            <div class="path-step">
+                <div class="step-number">3</div>
+                <div>
+                    <h4>Animate and Observe</h4>
+                    <p>Use the animation feature to see transformations in action and understand the mathematics</p>
+                </div>
+            </div>
+
+            <div class="path-step">
+                <div class="step-number">4</div>
+                <div>
+                    <h4>Create and Save</h4>
+                    <p>Design your own patterns and save them for your mathematics portfolio</p>
+                </div>
+            </div>
+
+            <div class="path-step">
+                <div class="step-number">5</div>
+                <div>
+                    <h4>Reflect and Connect</h4>
+                    <p>Think about how traditional knowledge demonstrates mathematical understanding</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="interactive-workspace">
+            <div class="canvas-container">
+                <h3>🎨 Pattern Canvas</h3>
+                <canvas id="patternCanvas" width="800" height="600"
+                    style="border: 2px solid #ddd; border-radius: 8px; max-width: 100%; height: auto;"></canvas>
+                <div class="canvas-tools">
+                    <button onclick="patternGenerator.startAnimation()">▶️ Animate</button>
+                    <button onclick="patternGenerator.stopAnimation()">⏹️ Stop</button>
+                    <button onclick="patternGenerator.resetView()">🔄 Reset</button>
+                    <button onclick="patternGenerator.savePattern()">💾 Save</button>
+                    <button onclick="toggleFullscreen()">🔍 Fullscreen</button>
+                </div>
+
+                <div class="progress-indicator">
+                    <p><strong>💡 Tip:</strong> Click on the canvas to see coordinates! Try different combinations of
+                        patterns and transformations to discover mathematical relationships.</p>
+                </div>
+            </div>
+
+            <div class="controls-panel" id="controlsPanel">
+                <!-- Controls will be dynamically generated by JavaScript -->
+            </div>
+        </div>
+
+        <section class="mathematical-concepts">
+            <h2>📐 Mathematical Concepts in Action</h2>
+            <p>As you explore the patterns, you're discovering these important mathematical ideas:</p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>Translation (Nekehanga)</h4>
+                    <p><strong>Definition:</strong> Moving every point of a shape the same distance in the same
+                        direction</p>
+                    <p><strong>In Tukutuku:</strong> How patterns repeat across wharenui walls in regular intervals</p>
+                    <p><strong>Equation:</strong> (x, y) → (x + a, y + b)</p>
+                </div>
+
+                <div class="concept-card">
+                    <h4>Rotation (Tawhiri)</h4>
+                    <p><strong>Definition:</strong> Turning a shape around a fixed point by a specific angle</p>
+                    <p><strong>In Tukutuku:</strong> Four winds pattern showing 90° rotations around center</p>
+                    <p><strong>Angles:</strong> Common rotations are 90°, 180°, 270°</p>
+                </div>
+
+                <div class="concept-card">
+                    <h4>Reflection (Whakaata)</h4>
+                    <p><strong>Definition:</strong> Flipping a shape across a mirror line</p>
+                    <p><strong>In Tukutuku:</strong> Symmetrical patterns representing balance and harmony</p>
+                    <p><strong>Lines:</strong> Can reflect across horizontal, vertical, or diagonal lines</p>
+                </div>
+
+                <div class="concept-card">
+                    <h4>Scaling (Whakanui)</h4>
+                    <p><strong>Definition:</strong> Making a shape larger or smaller while keeping the same proportions
+                    </p>
+                    <p><strong>In Tukutuku:</strong> How patterns adapt to different panel sizes</p>
+                    <p><strong>Factor:</strong> Scale factor > 1 enlarges, < 1 reduces</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="activity-suggestions">
+            <h2>🎯 Learning Activities</h2>
+            <p>Use these activities to deepen your understanding:</p>
+
+            <div class="activity-card">
+                <h4>🔍 Pattern Detective</h4>
+                <p><strong>Challenge:</strong> Choose the Pātikitiki (diamond) pattern and use translation. Count how
+                    many complete patterns you can see. Calculate the area covered by the patterns using the grid.</p>
+                <p><strong>Extension:</strong> How would the area change if you doubled the grid size?</p>
+            </div>
+
+            <div class="activity-card">
+                <h4>🌪️ Rotation Investigation</h4>
+                <p><strong>Challenge:</strong> Select the Tawhiri (cross) pattern and use rotation. Animate it and
+                    observe. What angle separates each rotation? How many rotations create a full turn?</p>
+                <p><strong>Extension:</strong> Try to predict what the pattern will look like after a 45° rotation.</p>
+            </div>
+
+            <div class="activity-card">
+                <h4>🪞 Symmetry Explorer</h4>
+                <p><strong>Challenge:</strong> Use the Roimata Toroa (chevron) pattern with reflection. How many lines
+                    of symmetry can you identify? Draw them on paper.</p>
+                <p><strong>Extension:</strong> Create your own pattern with exactly 4 lines of symmetry.</p>
+            </div>
+
+            <div class="activity-card">
+                <h4>📏 Coordinate Master</h4>
+                <p><strong>Challenge:</strong> Click different points on the canvas and record their coordinates. Try to
+                    predict where a point will be after translation by (50, 30).</p>
+                <p><strong>Extension:</strong> Use coordinates to describe the exact position of pattern centers.</p>
+            </div>
+
+            <div class="activity-card">
+                <h4>🎨 Cultural Designer</h4>
+                <p><strong>Challenge:</strong> Choose a pattern that represents your own story or values. Use
+                    transformations to create a design that tells your narrative.</p>
+                <p><strong>Extension:</strong> Write a paragraph explaining the mathematical and cultural significance
+                    of your design.</p>
+            </div>
+        </section>
+
+        <section class="cultural-connections">
+            <div class="learning-objectives">
+                <h2>🌿 Cultural Connections & Reflection</h2>
+                <p>As you work with these patterns, consider these important questions:</p>
+
+                <ul style="list-style-type: none; padding: 0;">
+                    <li style="margin: 1rem 0; padding: 1rem; background: rgba(255,255,255,0.7); border-radius: 8px;">
+                        <strong>🤔 Mathematical Understanding:</strong> How does this activity change your view of where
+                        mathematics exists in the world?
+                    </li>
+                    <li style="margin: 1rem 0; padding: 1rem; background: rgba(255,255,255,0.7); border-radius: 8px;">
+                        <strong>🏛️ Cultural Appreciation:</strong> What does this tell you about the mathematical
+                        sophistication of traditional Māori artisans?
+                    </li>
+                    <li style="margin: 1rem 0; padding: 1rem; background: rgba(255,255,255,0.7); border-radius: 8px;">
+                        <strong>🔗 Connection Making:</strong> How might traditional knowledge systems contribute to
+                        modern mathematical and scientific understanding?
+                    </li>
+                    <li style="margin: 1rem 0; padding: 1rem; background: rgba(255,255,255,0.7); border-radius: 8px;">
+                        <strong>🌍 Global Perspective:</strong> What other cultures might have mathematical knowledge
+                        embedded in their traditional arts and practices?
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="explorer-header">
+            <h2>🎓 Assessment & Portfolio Development</h2>
+            <p>Use this tool to demonstrate your learning through:</p>
+            <div style="text-align: left; max-width: 600px; margin: 0 auto;">
+                <p>📸 <strong>Screenshot Documentation:</strong> Save different transformation examples for your
+                    portfolio</p>
+                <p>📝 <strong>Mathematical Explanations:</strong> Write descriptions of how each transformation works
+                </p>
+                <p>🎨 <strong>Creative Applications:</strong> Design original patterns that tell your cultural story</p>
+                <p>🔬 <strong>Investigation Reports:</strong> Document your discoveries about symmetry and mathematical
+                    relationships</p>
+                <p>🗣️ <strong>Peer Teaching:</strong> Use this tool to explain transformations to classmates</p>
+            </div>
+        </div>
+
+        <div class="print-friendly-note">
+            <p><strong>Teacher Note:</strong> This interactive tool directly supports the Y9 Mathematics: Geometry
+                Through Māori Patterns unit and can be used for formative assessment, student engagement, and portfolio
+                development.</p>
+        </div>
+    </main>
+
+    <script src="../js/tukutuku-pattern-generator.js"></script>
+    <script>
+        // Initialize the pattern generator when page loads
+        let patternGenerator;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize the pattern generator
+            patternGenerator = new TukutukuPatternGenerator('patternCanvas', 'controlsPanel');
+
+            // Add some educational enhancements
+            addEducationalFeatures();
+
+            // Track user interactions for learning analytics
+            trackLearningProgress();
+        });
+
+        function addEducationalFeatures() {
+            // Add keyboard shortcuts for common actions
+            document.addEventListener('keydown', function (e) {
+                if (e.target.tagName.toLowerCase() === 'input') return;
+
+                switch (e.key) {
+                    case ' ': // Spacebar to toggle animation
+                        e.preventDefault();
+                        if (patternGenerator.animationId) {
+                            patternGenerator.stopAnimation();
+                        } else {
+                            patternGenerator.startAnimation();
+                        }
+                        break;
+                    case 'r': // R to reset
+                        patternGenerator.resetView();
+                        break;
+                    case 's': // S to save
+                        patternGenerator.savePattern();
+                        break;
+                }
+            });
+
+            // Add tooltips for mathematical terms
+            addMathematicalTooltips();
+
+            // Add progress tracking
+            addProgressTracking();
+        }
+
+        function addMathematicalTooltips() {
+            const tooltips = {
+                'translation': 'Moving every point the same distance in the same direction',
+                'rotation': 'Turning around a fixed center point',
+                'reflection': 'Flipping across a mirror line',
+                'scaling': 'Changing size while keeping proportions'
+            };
+
+            Object.keys(tooltips).forEach(term => {
+                const elements = document.querySelectorAll(`[data-term="${term}"]`);
+                elements.forEach(el => {
+                    el.title = tooltips[term];
+                    el.style.cursor = 'help';
+                });
+            });
+        }
+
+        function addProgressTracking() {
+            const progress = {
+                patternsExplored: new Set(),
+                transformationsUsed: new Set(),
+                animationsWatched: 0,
+                patternsSaved: 0
+            };
+
+            // Track pattern changes
+            const originalUpdateCulturalInfo = patternGenerator.updateCulturalInfo;
+            patternGenerator.updateCulturalInfo = function () {
+                originalUpdateCulturalInfo.call(this);
+                progress.patternsExplored.add(this.settings.basePattern);
+                progress.transformationsUsed.add(this.settings.transformation);
+                updateProgressDisplay();
+            };
+
+            // Track animations
+            const originalStartAnimation = patternGenerator.startAnimation;
+            patternGenerator.startAnimation = function () {
+                originalStartAnimation.call(this);
+                progress.animationsWatched++;
+                updateProgressDisplay();
+            };
+
+            // Track saves
+            const originalSavePattern = patternGenerator.savePattern;
+            patternGenerator.savePattern = function () {
+                originalSavePattern.call(this);
+                progress.patternsSaved++;
+                updateProgressDisplay();
+            };
+
+            function updateProgressDisplay() {
+                const progressDiv = document.querySelector('.progress-indicator');
+                if (progressDiv) {
+                    const completionPercentage = Math.round(
+                        ((progress.patternsExplored.size / 4) * 25) +
+                        ((progress.transformationsUsed.size / 4) * 25) +
+                        (Math.min(progress.animationsWatched / 5, 1) * 25) +
+                        (Math.min(progress.patternsSaved / 3, 1) * 25)
+                    );
+
+                    progressDiv.innerHTML = `
+                        <h4>🏆 Learning Progress: ${completionPercentage}%</h4>
+                        <div style="background: #ddd; border-radius: 10px; height: 20px; margin: 0.5rem 0;">
+                            <div style="background: var(--color-accent); height: 100%; width: ${completionPercentage}%; border-radius: 10px; transition: width 0.3s ease;"></div>
+                        </div>
+                        <p>Patterns explored: ${progress.patternsExplored.size}/4 | Transformations used: ${progress.transformationsUsed.size}/4 | Animations watched: ${progress.animationsWatched} | Patterns saved: ${progress.patternsSaved}</p>
+                    `;
+                }
+            }
+
+            updateProgressDisplay();
+        }
+
+        function trackLearningProgress() {
+            // Simple analytics to understand how students use the tool
+            const analytics = {
+                sessionStart: new Date(),
+                interactions: 0,
+                timeSpent: 0
+            };
+
+            // Track interaction frequency
+            document.addEventListener('click', () => analytics.interactions++);
+            document.addEventListener('change', () => analytics.interactions++);
+
+            // Update time spent every minute
+            setInterval(() => {
+                analytics.timeSpent = Math.round((new Date() - analytics.sessionStart) / 60000);
+            }, 60000);
+
+            // Log session summary when leaving
+            window.addEventListener('beforeunload', () => {
+                console.log('Learning Session Summary:', analytics);
+                // In a real implementation, this could send data to learning analytics system
+            });
+        }
+
+        function toggleFullscreen() {
+            const canvas = document.getElementById('patternCanvas');
+
+            if (!document.fullscreenElement) {
+                canvas.requestFullscreen().then(() => {
+                    canvas.style.width = '100vw';
+                    canvas.style.height = '100vh';
+                    canvas.style.objectFit = 'contain';
+                });
+            } else {
+                document.exitFullscreen().then(() => {
+                    canvas.style.width = '';
+                    canvas.style.height = '';
+                    canvas.style.objectFit = '';
+                });
+            }
+        }
+
+        // Add educational context when patterns change
+        function showPatternContext(patternName) {
+            const contexts = {
+                'diamond': 'Pātikitiki patterns were often used to represent abundance and prosperity in traditional wharenui.',
+                'triangle': 'Niho Taniwha patterns symbolized strength and protection, inspired by the teeth of the legendary taniwha.',
+                'cross': 'Tawhiri patterns represented the four cardinal directions and the balance of natural forces.',
+                'chevron': 'Roimata Toroa patterns symbolized peace and tranquility, like the gentle tears of the albatross.'
+            };
+
+            if (contexts[patternName]) {
+                patternGenerator.showMessage(contexts[patternName], 'info');
+            }
+        }
+    </script>
+
+<footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- Brand Section -->
+                <div class="footer-section footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p class="footer-whakataukī">"Whaowhia te kete mātauranga"</p>
+                    <p class="footer-tagline">Fill the basket of knowledge</p>
+                    <p class="footer-description">Quality teaching resources for Aotearoa New Zealand educators, honoring mātauranga Māori and contemporary pedagogy.</p>
+                </div>
+
+                <!-- Resources Section -->
+                <div class="footer-section footer-resources">
+                    <h4><span class="footer-mi">Ngā Rauemi</span> <span class="footer-en">Resources</span></h4>
+                    <ul>
+                        <li><a href="unit-plans.html">📚 Unit Plans / Ngā Mahere Wāhanga</a></li>
+                        <li><a href="lessons.html">📖 Lesson Plans / Ngā Akoranga</a></li>
+                        <li><a href="handouts.html">📄 Handouts / Ngā Kape</a></li>
+                        <li><a href="games.html">🎮 Games / Ngā Kēmu</a></li>
+                        <li><a href="browse.html">🔍 Browse All / Tirohia Katoa</a></li>
+                    </ul>
+                </div>
+
+                <!-- Curriculum Section -->
+                <div class="footer-section footer-curriculum">
+                    <h4><span class="footer-mi">Te Marautanga</span> <span class="footer-en">Curriculum</span></h4>
+                    <ul>
+                        <li><a href="browse.html?subject=english">📝 English / Reo Pākehā</a></li>
+                        <li><a href="browse.html?subject=math">🔢 Mathematics / Pāngarau</a></li>
+                        <li><a href="browse.html?subject=science">🔬 Science / Pūtaiao</a></li>
+                        <li><a href="browse.html?subject=social-studies">🌏 Social Studies / Tikanga-ā-Iwi</a></li>
+                        <li><a href="curriculum-alignment.html">📋 NZ Curriculum Alignment</a></li>
+                    </ul>
+                </div>
+
+                <!-- Account & Support Section -->
+                <div class="footer-section footer-support">
+                    <h4><span class="footer-mi">Tautoko</span> <span class="footer-en">Support</span></h4>
+                    <ul>
+                        <li><a href="my-kete.html">🧺 My Kete / Tōku Kete</a></li>
+                        <li><a href="login.html">🔐 Login / Takiuru</a></li>
+                        <li><a href="#about">ℹ️ About Us / Mō Mātou</a></li>
+                        <li><a href="#contact">✉️ Contact / Whakapā Mai</a></li>
+                        <li><a href="#help">❓ Help / Āwhina</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <span class="footer-copyright">© 2025 Te Kete Ako</span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-location">Aotearoa New Zealand</span>
+                    <span class="footer-separator">•</span>
+                    <a href="#privacy">Privacy</a>
+                    <span class="footer-separator">•</span>
+                    <a href="#terms">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

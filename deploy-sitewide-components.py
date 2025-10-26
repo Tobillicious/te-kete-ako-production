@@ -211,6 +211,7 @@ def main():
     import sys
     
     dry_run = '--dry-run' in sys.argv or '-n' in sys.argv
+    force = '--force' in sys.argv or '-f' in sys.argv
     
     print("=" * 80)
     print("🚀 Te Kete Ako - Sitewide Component Deployment")
@@ -221,10 +222,13 @@ def main():
         print("    Run without --dry-run to execute changes\n")
     else:
         print("\n🔴 LIVE MODE - Files WILL be modified")
-        response = input("    Continue? (yes/no): ")
-        if response.lower() != 'yes':
-            print("    Deployment cancelled.")
-            return
+        if not force:
+            response = input("    Continue? (yes/no): ")
+            if response.lower() != 'yes':
+                print("    Deployment cancelled.")
+                return
+        else:
+            print("    --force flag detected, proceeding automatically...")
         print()
     
     # Run deployment steps

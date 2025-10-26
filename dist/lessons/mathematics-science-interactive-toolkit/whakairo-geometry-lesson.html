@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://supabase.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: https://placehold.co; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co https://supabase.com;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whakairo Geometry | Mathematics & Science Toolkit | Te Kete Ako</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../../../css/main.css">
+    <style>
+        .lesson-section {
+            background: #f8f9fa;
+            border-left: 4px solid var(--color-accent);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .activity-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .timing-badge {
+            background: var(--color-accent);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .cultural-connection {
+            background: var(--color-cultural-light);
+            border: 2px solid var(--color-cultural);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .teacher-notes {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .example-box {
+            background: #e8f5e8;
+            border: 1px solid #4caf50;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .pattern-card {
+            background: #f0f8ff;
+            border: 1px solid #2196f3;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .materials-list {
+            background: #f0f8ff;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .interactive-canvas {
+            background: #fff;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+                    <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                        <li>
+                            <a href="browse.html">
+                                <span class="nav-icon">📚</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                                <span class="nav-text-en">Resources</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="unit-plans.html"><span class="dropdown-mi">📚 Ngā Mahere Wāhanga</span><span class="dropdown-en">Unit Plans (6-8 weeks)</span></a></li>
+                                <li><a href="lessons.html"><span class="dropdown-mi">📖 Ngā Mahere Akoranga</span><span class="dropdown-en">Lesson Plans (60-75 min)</span></a></li>
+                                <li><a href="handouts.html"><span class="dropdown-mi">📄 Ngā Kape</span><span class="dropdown-en">Handouts & Materials</span></a></li>
+                                <li><a href="browse.html"><span class="dropdown-mi">🔍 Tirohia Katoa</span><span class="dropdown-en">Browse All Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=subject">
+                                <span class="nav-icon">🎨</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Marau</span>
+                                <span class="nav-text-en">Subjects</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="browse.html?subject=english"><span class="dropdown-mi">📝 Reo Pākehā</span><span class="dropdown-en">English</span></a></li>
+                                <li><a href="browse.html?subject=math"><span class="dropdown-mi">🔢 Pāngarau</span><span class="dropdown-en">Mathematics</span></a></li>
+                                <li><a href="browse.html?subject=science"><span class="dropdown-mi">🔬 Pūtaiao</span><span class="dropdown-en">Science</span></a></li>
+                                <li><a href="browse.html?subject=social-studies"><span class="dropdown-mi">🌏 Tikanga-ā-Iwi</span><span class="dropdown-en">Social Studies</span></a></li>
+                                <li><a href="browse.html?subject=te-reo"><span class="dropdown-mi">🌿 Te Reo Māori</span><span class="dropdown-en">Māori Language</span></a></li>
+                                <li><a href="browse.html?subject=arts"><span class="dropdown-mi">🎨 Ngā Toi</span><span class="dropdown-en">The Arts</span></a></li>
+                                <li><a href="browse.html?subject=health-pe"><span class="dropdown-mi">💪 Hauora</span><span class="dropdown-en">Health & PE</span></a></li>
+                                <li><a href="browse.html?subject=technology"><span class="dropdown-mi">🔧 Hangarau</span><span class="dropdown-en">Technology</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=year">
+                                <span class="nav-icon">📅</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Tau</span>
+                                <span class="nav-text-en">Year Levels</span>
+                            </a>
+                            <div class="nav-dropdown nav-dropdown-wide">
+                                <div class="year-stage-label">Primary / Tuatahi (1-6)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=1"><span class="dropdown-mi">Tau 1</span><span class="dropdown-en">Year 1</span></a></li>
+                                    <li><a href="browse.html?year=2"><span class="dropdown-mi">Tau 2</span><span class="dropdown-en">Year 2</span></a></li>
+                                    <li><a href="browse.html?year=3"><span class="dropdown-mi">Tau 3</span><span class="dropdown-en">Year 3</span></a></li>
+                                </ul>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=4"><span class="dropdown-mi">Tau 4</span><span class="dropdown-en">Year 4</span></a></li>
+                                    <li><a href="browse.html?year=5"><span class="dropdown-mi">Tau 5</span><span class="dropdown-en">Year 5</span></a></li>
+                                    <li><a href="browse.html?year=6"><span class="dropdown-mi">Tau 6</span><span class="dropdown-en">Year 6</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Intermediate / Waenga (7-8)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=7"><span class="dropdown-mi">Tau 7</span><span class="dropdown-en">Year 7</span></a></li>
+                                    <li><a href="browse.html?year=8"><span class="dropdown-mi">Tau 8</span><span class="dropdown-en">Year 8</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Junior Secondary / Tuarua (9-10)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=9"><span class="dropdown-mi">Tau 9</span><span class="dropdown-en">Year 9</span></a></li>
+                                    <li><a href="browse.html?year=10"><span class="dropdown-mi">Tau 10</span><span class="dropdown-en">Year 10</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Senior Secondary / NCEA (11-13)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=11"><span class="dropdown-mi">Tau 11</span><span class="dropdown-en">Year 11</span></a></li>
+                                    <li><a href="browse.html?year=12"><span class="dropdown-mi">Tau 12</span><span class="dropdown-en">Year 12</span></a></li>
+                                    <li><a href="browse.html?year=13"><span class="dropdown-mi">Tau 13</span><span class="dropdown-en">Year 13</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    <li>
+                        <a href="#more">
+                            <span class="nav-icon">📦</span>
+                            <span class="nav-text-mi" lang="mi">Ētahi Atu</span>
+                            <span class="nav-text-en">More Stuff</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="games.html"><span class="dropdown-mi">🎮 Ngā Kēmu</span><span class="dropdown-en">Games</span></a></li>
+                                <li><a href="youtube.html"><span class="dropdown-mi">📺 Ataata YouTube</span><span class="dropdown-en">YouTube Videos</span></a></li>
+                                <li><a href="curriculum-alignment.html"><span class="dropdown-mi">📋 Te Marautanga</span><span class="dropdown-en">Curriculum Alignment</span></a></li>
+                                <li><a href="other-resources.html"><span class="dropdown-mi">🔗 Ētahi Atu Rauemi</span><span class="dropdown-en">Other Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="auth-nav auth-logged-out">
+                        <a href="login.html" class="auth-btn">
+                            <span class="nav-icon" data-icon="login"></span>
+                            <span class="nav-text-mi" lang="mi">Takiuru</span>
+                            <span class="nav-text-en">Login</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav auth-logged-in" style="display: none;">
+                        <a href="my-kete.html" class="dashboard-btn">
+                            <span class="nav-icon" data-icon="kete"></span>
+                            <span class="nav-text-mi" lang="mi">Tōku Kete</span>
+                            <span class="nav-text-en">My Kete</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="breadcrumb">
+            <a href="../../../index.html">Home</a> >
+            <a href="../../../lessons.html">Lessons</a> >
+            <a href="index.html">Math & Science Toolkit</a> >
+            <span>Whakairo Geometry</span>
+        </div>
+
+        <section class="lesson-header">
+            <h1>📐 Whakairo Geometry: Mathematical Patterns in Traditional Carving</h1>
+            <p class="lesson-subtitle">Exploring symmetry, angles, and spatial reasoning through the art of Māori
+                carving</p>
+
+            <div class="lesson-meta">
+                <span class="meta-tag">50 minutes</span>
+                <span class="meta-tag">Year 7-9</span>
+                <span class="meta-tag">Geometry</span>
+                <span class="meta-tag">Cultural Art</span>
+                <span class="meta-tag">Hands-on</span>
+            </div>
+        </section>
+
+        <div class="cultural-connection">
+            <h2>🌿 Te Ao Māori Foundation: Whakairo me te Pāngarau</h2>
+            <p><strong>Whakairo (carving) and Pāngarau (mathematics)</strong> are deeply connected in Māori culture.
+                Traditional carvers were master mathematicians who understood:</p>
+            <ul>
+                <li><strong>Symmetry:</strong> Perfect balance in design reflects harmony in life</li>
+                <li><strong>Proportion:</strong> Mathematical ratios create beauty and meaning</li>
+                <li><strong>Patterns:</strong> Geometric designs tell stories and preserve knowledge</li>
+                <li><strong>Spatial Reasoning:</strong> Three-dimensional thinking brings designs to life</li>
+            </ul>
+            <p>This lesson honors that tradition by helping students discover the mathematical thinking embedded in
+                whakairo.</p>
+        </div>
+
+        <section class="learning-objectives">
+            <div class="lesson-section">
+                <h2>🎯 Learning Objectives</h2>
+                <p><strong>Students will be able to:</strong></p>
+                <ul>
+                    <li>Identify and analyze geometric patterns in traditional whakairo designs</li>
+                    <li>Measure and classify angles in carving patterns</li>
+                    <li>Recognize and create symmetrical designs</li>
+                    <li>Apply mathematical concepts to create their own carving-inspired patterns</li>
+                    <li>Understand the cultural significance of geometric precision in Māori art</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="lesson-structure">
+            <h2>📋 Lesson Structure</h2>
+
+            <div class="activity-card">
+                <div class="timing-badge">10 minutes</div>
+                <h3>Opening: Whakairo Pattern Discovery</h3>
+
+                <div class="teacher-notes">
+                    <strong>📝 Teacher Setup:</strong> Prepare images of traditional whakairo patterns, rulers,
+                    protractors, and pattern templates
+                </div>
+
+                <p><strong>Activity:</strong> Students examine traditional whakairo patterns and identify mathematical
+                    elements:</p>
+
+                <div class="pattern-grid">
+                    <div class="pattern-card">
+                        <h4>Koru Pattern</h4>
+                        <p>Spiral symmetry, curved lines, growth patterns</p>
+                        <strong>Math Focus:</strong> Curves, spirals, growth ratios
+                    </div>
+                    <div class="pattern-card">
+                        <h4>Manaia Pattern</h4>
+                        <p>Symmetrical figures, angular designs</p>
+                        <strong>Math Focus:</strong> Symmetry, angles, proportions
+                    </div>
+                    <div class="pattern-card">
+                        <h4>Tā Moko Patterns</h4>
+                        <p>Geometric lines, precise angles</p>
+                        <strong>Math Focus:</strong> Straight lines, angles, precision
+                    </div>
+                    <div class="pattern-card">
+                        <h4>Whakapapa Patterns</h4>
+                        <p>Interconnected lines, branching structures</p>
+                        <strong>Math Focus:</strong> Networks, connections, branching
+                    </div>
+                </div>
+
+                <p><strong>Discussion Questions:</strong></p>
+                <ul>
+                    <li>What geometric shapes do you see in these patterns?</li>
+                    <li>How do the carvers use symmetry to create balance?</li>
+                    <li>What mathematical thinking was required to create these designs?</li>
+                </ul>
+            </div>
+
+            <div class="activity-card">
+                <div class="timing-badge">20 minutes</div>
+                <h3>Hands-on Exploration: Measuring Whakairo Patterns</h3>
+
+                <div class="materials-list">
+                    <strong>📋 Materials Needed:</strong>
+                    <ul>
+                        <li>Whakairo pattern templates (printed)</li>
+                        <li>Rulers and protractors</li>
+                        <li>Colored pencils or markers</li>
+                        <li>Graph paper</li>
+                        <li>Scissors and glue</li>
+                    </ul>
+                </div>
+
+                <p><strong>Activity Steps:</strong></p>
+                <ol>
+                    <li><strong>Pattern Analysis (8 minutes):</strong>
+                        <ul>
+                            <li>Students receive different whakairo pattern templates</li>
+                            <li>They measure and record angles, line lengths, and distances</li>
+                            <li>Identify lines of symmetry and geometric relationships</li>
+                            <li>Record findings in a structured table</li>
+                        </ul>
+                    </li>
+                    <li><strong>Mathematical Classification (7 minutes):</strong>
+                        <ul>
+                            <li>Classify patterns by symmetry type (rotational, reflective)</li>
+                            <li>Measure and categorize angles (acute, obtuse, right)</li>
+                            <li>Calculate proportions and ratios in designs</li>
+                            <li>Identify geometric transformations (translation, rotation, reflection)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Pattern Discussion (5 minutes):</strong>
+                        <ul>
+                            <li>Share findings with partners</li>
+                            <li>Compare mathematical similarities across different patterns</li>
+                            <li>Discuss how mathematical precision creates cultural meaning</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <div class="example-box">
+                    <strong>📊 Sample Data Table:</strong><br>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                        <tr style="background: #f0f0f0;">
+                            <th style="border: 1px solid #ddd; padding: 0.5rem;">Pattern Type</th>
+                            <th style="border: 1px solid #ddd; padding: 0.5rem;">Symmetry Lines</th>
+                            <th style="border: 1px solid #ddd; padding: 0.5rem;">Main Angles</th>
+                            <th style="border: 1px solid #ddd; padding: 0.5rem;">Geometric Shapes</th>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 0.5rem;">Koru</td>
+                            <td style="border: 1px solid #ddd; padding: 0.5rem;">1 vertical</td>
+                            <td style="border: 1px solid #ddd; padding: 0.5rem;">Curved</td>
+                            <td style="border: 1px solid #ddd; padding: 0.5rem;">Spiral</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 0.5rem;">Manaia</td>
+                            <td style="border: 1px solid #ddd; padding: 0.5rem;">1 vertical</td>
+                            <td style="border: 1px solid #ddd; padding: 0.5rem;">45°, 90°</td>
+                            <td style="border: 1px solid #ddd; padding: 0.5rem;">Triangles, rectangles</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="activity-card">
+                <div class="timing-badge">15 minutes</div>
+                <h3>Creative Application: Design Your Own Whakairo Pattern</h3>
+
+                <p><strong>Activity:</strong> Students create their own geometric patterns inspired by whakairo
+                    principles:</p>
+
+                <ol>
+                    <li><strong>Design Planning (5 minutes):</strong>
+                        <ul>
+                            <li>Choose a mathematical concept to feature (symmetry, angles, proportions)</li>
+                            <li>Sketch initial design on graph paper</li>
+                            <li>Plan geometric elements and measurements</li>
+                        </ul>
+                    </li>
+                    <li><strong>Pattern Creation (8 minutes):</strong>
+                        <ul>
+                            <li>Use rulers and protractors to create precise geometric shapes</li>
+                            <li>Apply symmetry principles to ensure balance</li>
+                            <li>Incorporate mathematical relationships (equal angles, proportional lengths)</li>
+                            <li>Add cultural elements while maintaining mathematical precision</li>
+                        </ul>
+                    </li>
+                    <li><strong>Mathematical Documentation (2 minutes):</strong>
+                        <ul>
+                            <li>Label key measurements and angles</li>
+                            <li>Identify symmetry lines and geometric transformations</li>
+                            <li>Write a brief explanation of the mathematical thinking used</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <div class="interactive-canvas">
+                    <h4>🎨 Digital Pattern Creator</h4>
+                    <p>Students can also use this digital tool to experiment with geometric patterns:</p>
+                    <canvas id="patternCanvas" width="400" height="300"
+                        style="border: 1px solid #ccc; background: #f9f9f9;"></canvas>
+                    <br><br>
+                    <button onclick="clearCanvas()"
+                        style="margin: 0.5rem; padding: 0.5rem 1rem; background: var(--color-accent); color: white; border: none; border-radius: 4px; cursor: pointer;">Clear
+                        Canvas</button>
+                    <button onclick="addSymmetricalShape()"
+                        style="margin: 0.5rem; padding: 0.5rem 1rem; background: var(--color-cultural); color: white; border: none; border-radius: 4px; cursor: pointer;">Add
+                        Symmetrical Shape</button>
+                </div>
+            </div>
+
+            <div class="activity-card">
+                <div class="timing-badge">5 minutes</div>
+                <h3>Closing Reflection: Mathematical Beauty in Culture</h3>
+
+                <p><strong>Discussion Questions:</strong></p>
+                <ul>
+                    <li>How does mathematical precision contribute to the beauty of whakairo?</li>
+                    <li>What mathematical concepts were most challenging to apply in your design?</li>
+                    <li>How does understanding the mathematics help us appreciate the cultural art?</li>
+                    <li>What other cultural practices might use similar mathematical thinking?</li>
+                </ul>
+
+                <div class="cultural-connection">
+                    <strong>🌿 Closing Whakataukī:</strong><br>
+                    <em>"He toi whakairo, he mana tangata" - "Where there is artistic excellence, there is human
+                        dignity"</em><br>
+                    Discuss how mathematical precision in whakairo reflects the dignity and excellence of Māori culture
+                    and knowledge.
+                </div>
+            </div>
+        </section>
+
+        <section class="assessment-integration">
+            <div class="lesson-section">
+                <h2>📊 Assessment Integration</h2>
+
+                <h3>Formative Assessment During Lesson:</h3>
+                <ul>
+                    <li><strong>Pattern Analysis Accuracy:</strong> Check measurement precision and mathematical
+                        classification</li>
+                    <li><strong>Design Application:</strong> Observe how students apply mathematical concepts in their
+                        patterns</li>
+                    <li><strong>Cultural Understanding:</strong> Assess respect for and understanding of cultural
+                        significance</li>
+                    <li><strong>Collaborative Learning:</strong> Observe peer discussions and knowledge sharing</li>
+                </ul>
+
+                <h3>Summative Assessment Options:</h3>
+                <ul>
+                    <li><strong>Pattern Portfolio:</strong> Collection of analyzed patterns with mathematical
+                        documentation</li>
+                    <li><strong>Design Project:</strong> Create a complete whakairo-inspired pattern with mathematical
+                        explanation</li>
+                    <li><strong>Mathematical Analysis:</strong> Written analysis of geometric relationships in
+                        traditional patterns</li>
+                    <li><strong>Cultural Reflection:</strong> Essay connecting mathematical precision to cultural values
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="differentiation">
+            <div class="lesson-section">
+                <h2>🎯 Differentiation Strategies</h2>
+
+                <h3>For Struggling Students:</h3>
+                <ul>
+                    <li>Provide pre-drawn pattern templates with measurements already marked</li>
+                    <li>Use larger, simpler patterns to start</li>
+                    <li>Focus on one mathematical concept at a time</li>
+                    <li>Provide step-by-step design guides</li>
+                    <li>Allow partner work for pattern analysis</li>
+                </ul>
+
+                <h3>For Advanced Students:</h3>
+                <ul>
+                    <li>Challenge with complex patterns requiring multiple symmetry types</li>
+                    <li>Analyze three-dimensional aspects of whakairo</li>
+                    <li>Research and compare patterns from different iwi</li>
+                    <li>Create patterns that incorporate multiple mathematical concepts</li>
+                    <li>Investigate the mathematical principles behind traditional carving tools</li>
+                </ul>
+
+                <h3>For English Language Learners:</h3>
+                <ul>
+                    <li>Use visual demonstrations and hands-on activities</li>
+                    <li>Provide bilingual vocabulary lists for geometric terms</li>
+                    <li>Allow students to explain concepts in their first language</li>
+                    <li>Use cultural connections from their background when possible</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="extension-activities">
+            <div class="lesson-section">
+                <h2>🚀 Extension & Homework Options</h2>
+
+                <h3>Independent Practice:</h3>
+                <ul>
+                    <li><strong>Pattern Hunt:</strong> Find geometric patterns in everyday objects and cultural
+                        artifacts</li>
+                    <li><strong>Digital Design:</strong> Use geometry software to create whakairo-inspired patterns</li>
+                    <li><strong>Cultural Research:</strong> Investigate mathematical patterns in other indigenous art
+                        forms</li>
+                    <li><strong>Mathematical Story:</strong> Write about the mathematical thinking behind a specific
+                        whakairo pattern</li>
+                </ul>
+
+                <h3>Cross-Curricular Connections:</h3>
+                <ul>
+                    <li><strong>Art:</strong> Create physical carvings or relief prints using geometric patterns</li>
+                    <li><strong>History:</strong> Research the evolution of whakairo patterns over time</li>
+                    <li><strong>Technology:</strong> Use 3D modeling software to create digital whakairo</li>
+                    <li><strong>Social Studies:</strong> Explore how different cultures use geometry in art</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="teacher-notes">
+            <h3>👩‍🏫 Teacher Reflection Notes</h3>
+            <p><strong>Student engagement with cultural content:</strong></p>
+            <p><strong>Mathematical understanding demonstrated:</strong></p>
+            <p><strong>Areas needing additional support:</strong></p>
+            <p><strong>Cultural sensitivity observations:</strong></p>
+            <p><strong>Ideas for future lessons:</strong></p>
+        </div>
+
+        <div class="print-friendly-note">
+            <p><strong>Print-Friendly Version:</strong> This lesson plan prints clearly for easy classroom reference and
+                implementation.</p>
+        </div>
+    </main>
+
+    <script>
+        // Interactive canvas for pattern creation
+        const canvas = document.getElementById('patternCanvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+
+        // Initialize canvas
+        function initCanvas() {
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+        }
+
+        // Mouse event listeners
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+
+        function startDrawing(e) {
+            isDrawing = true;
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.stroke();
+
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function addSymmetricalShape() {
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const size = 50;
+
+            ctx.strokeStyle = '#e91e63';
+            ctx.lineWidth = 3;
+
+            // Draw a symmetrical diamond pattern
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY - size);
+            ctx.lineTo(centerX + size, centerY);
+            ctx.lineTo(centerX, centerY + size);
+            ctx.lineTo(centerX - size, centerY);
+            ctx.closePath();
+            ctx.stroke();
+
+            // Add inner details
+            ctx.strokeStyle = '#2196f3';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(centerX - size / 2, centerY - size / 2);
+            ctx.lineTo(centerX + size / 2, centerY + size / 2);
+            ctx.moveTo(centerX + size / 2, centerY - size / 2);
+            ctx.lineTo(centerX - size / 2, centerY + size / 2);
+            ctx.stroke();
+
+            // Reset to default
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            initCanvas();
+            });
+    </script>
+
+<footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- Brand Section -->
+                <div class="footer-section footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p class="footer-whakataukī">"Whaowhia te kete mātauranga"</p>
+                    <p class="footer-tagline">Fill the basket of knowledge</p>
+                    <p class="footer-description">Quality teaching resources for Aotearoa New Zealand educators, honoring mātauranga Māori and contemporary pedagogy.</p>
+                </div>
+
+                <!-- Resources Section -->
+                <div class="footer-section footer-resources">
+                    <h4><span class="footer-mi">Ngā Rauemi</span> <span class="footer-en">Resources</span></h4>
+                    <ul>
+                        <li><a href="unit-plans.html">📚 Unit Plans / Ngā Mahere Wāhanga</a></li>
+                        <li><a href="lessons.html">📖 Lesson Plans / Ngā Akoranga</a></li>
+                        <li><a href="handouts.html">📄 Handouts / Ngā Kape</a></li>
+                        <li><a href="games.html">🎮 Games / Ngā Kēmu</a></li>
+                        <li><a href="browse.html">🔍 Browse All / Tirohia Katoa</a></li>
+                    </ul>
+                </div>
+
+                <!-- Curriculum Section -->
+                <div class="footer-section footer-curriculum">
+                    <h4><span class="footer-mi">Te Marautanga</span> <span class="footer-en">Curriculum</span></h4>
+                    <ul>
+                        <li><a href="browse.html?subject=english">📝 English / Reo Pākehā</a></li>
+                        <li><a href="browse.html?subject=math">🔢 Mathematics / Pāngarau</a></li>
+                        <li><a href="browse.html?subject=science">🔬 Science / Pūtaiao</a></li>
+                        <li><a href="browse.html?subject=social-studies">🌏 Social Studies / Tikanga-ā-Iwi</a></li>
+                        <li><a href="curriculum-alignment.html">📋 NZ Curriculum Alignment</a></li>
+                    </ul>
+                </div>
+
+                <!-- Account & Support Section -->
+                <div class="footer-section footer-support">
+                    <h4><span class="footer-mi">Tautoko</span> <span class="footer-en">Support</span></h4>
+                    <ul>
+                        <li><a href="my-kete.html">🧺 My Kete / Tōku Kete</a></li>
+                        <li><a href="login.html">🔐 Login / Takiuru</a></li>
+                        <li><a href="#about">ℹ️ About Us / Mō Mātou</a></li>
+                        <li><a href="#contact">✉️ Contact / Whakapā Mai</a></li>
+                        <li><a href="#help">❓ Help / Āwhina</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <span class="footer-copyright">© 2025 Te Kete Ako</span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-location">Aotearoa New Zealand</span>
+                    <span class="footer-separator">•</span>
+                    <a href="#privacy">Privacy</a>
+                    <span class="footer-separator">•</span>
+                    <a href="#terms">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

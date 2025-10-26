@@ -200,21 +200,23 @@ class AdvancedTeKeteAkoAnalytics {
     }
     
     suggestNextSteps(engagement, curriculum) {
-        const insights = this.generatePredictiveInsights();
+        // Don't call generatePredictiveInsights here - it creates circular dependency!
         const suggestions = [];
         
-        // Content-based suggestions
-        if (insights.recommendedContent.includes('games')) {
+        // Content-based suggestions directly from engagement data
+        const contentTypes = this.getContentRecommendations(engagement);
+        if (contentTypes.includes('games')) {
             suggestions.push('Try the Te Reo Māori Wordle or Spelling Bee games for vocabulary building');
         }
         
-        if (insights.recommendedContent.includes('handouts')) {
+        if (contentTypes.includes('handouts')) {
             suggestions.push('Explore the comprehensive handouts section for structured learning materials');
         }
         
-        // Curriculum gap suggestions
-        if (insights.curriculumGaps.length > 0) {
-            suggestions.push(`Focus on Achievement Objectives: ${insights.curriculumGaps.slice(0, 3).join(', ')}`);
+        // Curriculum gap suggestions directly from curriculum data
+        const curriculumGaps = this.identifyCurriculumGaps(curriculum);
+        if (curriculumGaps.length > 0) {
+            suggestions.push(`Focus on Achievement Objectives: ${curriculumGaps.slice(0, 3).join(', ')}`);
         }
         
         return suggestions;

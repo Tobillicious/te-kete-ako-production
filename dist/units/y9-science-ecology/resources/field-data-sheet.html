@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://supabase.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: https://placehold.co; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co https://supabase.com;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Field Study Data Collection Sheet</title>
+    <meta name="description" content="Field Study Data Collection Sheet - Educational resource from Te Kete Ako">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/handout.css">
+    <style>
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .data-table th, .data-table td {
+            border: 1px solid #333;
+            padding: 8px;
+            text-align: left;
+        }
+        .data-table th {
+            background-color: #4a7c59;
+            color: white;
+            font-weight: bold;
+        }
+        .measurement-box {
+            border: 2px solid #333;
+            padding: 10px;
+            margin: 10px 0;
+            background: #f9f9f9;
+        }
+        .site-info {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+<header class="site-header no-print">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                        <li>
+                            <a href="browse.html">
+                                <span class="nav-icon">📚</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                                <span class="nav-text-en">Resources</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="unit-plans.html"><span class="dropdown-mi">📚 Ngā Mahere Wāhanga</span><span class="dropdown-en">Unit Plans (6-8 weeks)</span></a></li>
+                                <li><a href="lessons.html"><span class="dropdown-mi">📖 Ngā Mahere Akoranga</span><span class="dropdown-en">Lesson Plans (60-75 min)</span></a></li>
+                                <li><a href="handouts.html"><span class="dropdown-mi">📄 Ngā Kape</span><span class="dropdown-en">Handouts & Materials</span></a></li>
+                                <li><a href="browse.html"><span class="dropdown-mi">🔍 Tirohia Katoa</span><span class="dropdown-en">Browse All Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=subject">
+                                <span class="nav-icon">🎨</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Marau</span>
+                                <span class="nav-text-en">Subjects</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="browse.html?subject=english"><span class="dropdown-mi">📝 Reo Pākehā</span><span class="dropdown-en">English</span></a></li>
+                                <li><a href="browse.html?subject=math"><span class="dropdown-mi">🔢 Pāngarau</span><span class="dropdown-en">Mathematics</span></a></li>
+                                <li><a href="browse.html?subject=science"><span class="dropdown-mi">🔬 Pūtaiao</span><span class="dropdown-en">Science</span></a></li>
+                                <li><a href="browse.html?subject=social-studies"><span class="dropdown-mi">🌏 Tikanga-ā-Iwi</span><span class="dropdown-en">Social Studies</span></a></li>
+                                <li><a href="browse.html?subject=te-reo"><span class="dropdown-mi">🌿 Te Reo Māori</span><span class="dropdown-en">Māori Language</span></a></li>
+                                <li><a href="browse.html?subject=arts"><span class="dropdown-mi">🎨 Ngā Toi</span><span class="dropdown-en">The Arts</span></a></li>
+                                <li><a href="browse.html?subject=health-pe"><span class="dropdown-mi">💪 Hauora</span><span class="dropdown-en">Health & PE</span></a></li>
+                                <li><a href="browse.html?subject=technology"><span class="dropdown-mi">🔧 Hangarau</span><span class="dropdown-en">Technology</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=year">
+                                <span class="nav-icon">📅</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Tau</span>
+                                <span class="nav-text-en">Year Levels</span>
+                            </a>
+                            <div class="nav-dropdown nav-dropdown-wide">
+                                <div class="year-stage-label">Primary / Tuatahi (1-6)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=1"><span class="dropdown-mi">Tau 1</span><span class="dropdown-en">Year 1</span></a></li>
+                                    <li><a href="browse.html?year=2"><span class="dropdown-mi">Tau 2</span><span class="dropdown-en">Year 2</span></a></li>
+                                    <li><a href="browse.html?year=3"><span class="dropdown-mi">Tau 3</span><span class="dropdown-en">Year 3</span></a></li>
+                                </ul>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=4"><span class="dropdown-mi">Tau 4</span><span class="dropdown-en">Year 4</span></a></li>
+                                    <li><a href="browse.html?year=5"><span class="dropdown-mi">Tau 5</span><span class="dropdown-en">Year 5</span></a></li>
+                                    <li><a href="browse.html?year=6"><span class="dropdown-mi">Tau 6</span><span class="dropdown-en">Year 6</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Intermediate / Waenga (7-8)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=7"><span class="dropdown-mi">Tau 7</span><span class="dropdown-en">Year 7</span></a></li>
+                                    <li><a href="browse.html?year=8"><span class="dropdown-mi">Tau 8</span><span class="dropdown-en">Year 8</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Junior Secondary / Tuarua (9-10)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=9"><span class="dropdown-mi">Tau 9</span><span class="dropdown-en">Year 9</span></a></li>
+                                    <li><a href="browse.html?year=10"><span class="dropdown-mi">Tau 10</span><span class="dropdown-en">Year 10</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Senior Secondary / NCEA (11-13)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=11"><span class="dropdown-mi">Tau 11</span><span class="dropdown-en">Year 11</span></a></li>
+                                    <li><a href="browse.html?year=12"><span class="dropdown-mi">Tau 12</span><span class="dropdown-en">Year 12</span></a></li>
+                                    <li><a href="browse.html?year=13"><span class="dropdown-mi">Tau 13</span><span class="dropdown-en">Year 13</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    <li>
+                        <a href="#more">
+                            <span class="nav-icon">📦</span>
+                            <span class="nav-text-mi" lang="mi">Ētahi Atu</span>
+                            <span class="nav-text-en">More Stuff</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="games.html"><span class="dropdown-mi">🎮 Ngā Kēmu</span><span class="dropdown-en">Games</span></a></li>
+                                <li><a href="youtube.html"><span class="dropdown-mi">📺 Ataata YouTube</span><span class="dropdown-en">YouTube Videos</span></a></li>
+                                <li><a href="curriculum-alignment.html"><span class="dropdown-mi">📋 Te Marautanga</span><span class="dropdown-en">Curriculum Alignment</span></a></li>
+                                <li><a href="other-resources.html"><span class="dropdown-mi">🔗 Ētahi Atu Rauemi</span><span class="dropdown-en">Other Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="auth-nav auth-logged-out">
+                        <a href="login.html" class="auth-btn">
+                            <span class="nav-icon" data-icon="login"></span>
+                            <span class="nav-text-mi" lang="mi">Takiuru</span>
+                            <span class="nav-text-en">Login</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav auth-logged-in" style="display: none;">
+                        <a href="my-kete.html" class="dashboard-btn">
+                            <span class="nav-icon" data-icon="kete"></span>
+                            <span class="nav-text-mi" lang="mi">Tōku Kete</span>
+                            <span class="nav-text-en">My Kete</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="handout-header">
+            <h1>Field Study Data Collection Sheet</h1>
+            <p class="handout-subtitle">Rangahau Taiao - Environmental Research</p>
+        </div>
+
+        <div class="site-info">
+            <h2>Site Information</h2>
+            <p><strong>Date:</strong> _________________________ <strong>Time:</strong> _____________</p>
+            <p><strong>Weather:</strong> _________________________ <strong>Temperature:</strong> _______°C</p>
+            <p><strong>Site Location:</strong> ________________________________________________</p>
+            <p><strong>Site Description:</strong> _____________________________________________</p>
+            <p><strong>Group Members:</strong> ______________________________________________</p>
+            <p><strong>Research Question:</strong> How does biodiversity differ between sunny and shaded microhabitats?</p>
+        </div>
+
+        <div class="handout-section">
+            <h2>Quadrat Sampling Data</h2>
+            <p><strong>Quadrat Size:</strong> 1m × 1m <strong>Number of Quadrats:</strong> 3 per site</p>
+            
+            <h3>Quadrat 1</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Species Found</th>
+                        <th>Plant/Animal Type</th>
+                        <th>Count/Coverage</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>_________________</td><td>_____________</td><td>__________</td><td>_________________</td></tr>
+                    <tr><td>_________________</td><td>_____________</td><td>__________</td><td>_________________</td></tr>
+                    <tr><td>_________________</td><td>_____________</td><td>__________</td><td>_________________</td></tr>
+                    <tr><td>_________________</td><td>_____________</td><td>__________</td><td>_________________</td></tr>
+                    <tr><td>_________________</td><td>_____________</td><td>__________</td><td>_________________</td></tr>
+                    <tr><td>_________________</td><td>_____________</td><td>__________</td><td>_________________</td></tr>
+                </tbody>
+            </table>
+            <p><strong>Total Species Count (Quadrat 1):</strong> _________</p>
+
+            <h3>Quadrat 2</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Species Found</th>
+                        <th>Plant/Animal Type</th>
+                        <th>Count/Coverage</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>_________________</td><td>_____________</td><td>__________</td><td>_________________</td></tr>
+                    <tr><td>_________________</td><td>_____________</td><td>__________</td><td>_________________</td></tr>
+                    <tr><td>_________________</td><td>_____________</td><td>__________</td><td>_________________</td></tr>
+                    <tr><td>_________________</td><td>_____________</td><td>__________</td><td>_________________</td></tr>
+                    <tr><td>_________________</td><td>_____________</td><td>__________</td><td>_________________</td></tr>
+                    <tr><td>_________________</td><td>_____________</td><td>__________</td><td>_________________</td></tr>
+                </tbody>
+            </table>
+            <p><strong>Total Species Count (Quadrat 2):</strong> _________</p>
+
+            <h3>Quadrat 3</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Species Found</th>
+                        <th>Plant/Animal Type</th>
+                        <th>Count/Coverage</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>_________________</td><td>_____________</td><td>__________</td><td>_________________</td></tr>
+                    <tr><td>_________________</td><td>_____________</td><td>__________</td><td>_________________</td></tr>
+                    <tr><td>_________________</td><td>_____________</td><td>__________</td><td>_________________</td></tr>
+                    <tr><td>_________________</td><td>_____________</td><td>__________</td><td>_________________</td></tr>
+                    <tr><td>_________________</td><td>_____________</td><td>__________</td><td>_________________</td></tr>
+                    <tr><td>_________________</td><td>_____________</td><td>__________</td><td>_________________</td></tr>
+                </tbody>
+            </table>
+            <p><strong>Total Species Count (Quadrat 3):</strong> _________</p>
+        </div>
+
+        <div class="handout-section">
+            <h2>Abiotic Factor Measurements</h2>
+            
+            <div class="measurement-box">
+                <h3>Temperature Measurements</h3>
+                <p><strong>Air Temperature:</strong> ________°C (at ground level)</p>
+                <p><strong>Soil Temperature:</strong> ________°C (5cm depth)</p>
+                <p><strong>Time of measurement:</strong> _____________</p>
+            </div>
+
+            <div class="measurement-box">
+                <h3>Light Measurements</h3>
+                <p><strong>Light intensity:</strong> ________ lux (use light meter or phone app)</p>
+                <p><strong>Light conditions:</strong> □ Full sun □ Partial shade □ Full shade</p>
+                <p><strong>Canopy cover estimate:</strong> ________% (how much sky is blocked?)</p>
+            </div>
+
+            <div class="measurement-box">
+                <h3>Soil Conditions</h3>
+                <p><strong>Soil pH:</strong> ________ (use pH test strip)</p>
+                <p><strong>Soil moisture:</strong> □ Very dry □ Dry □ Moist □ Wet □ Waterlogged</p>
+                <p><strong>Soil type:</strong> □ Sandy □ Clay □ Loam □ Rocky □ Other: _______</p>
+                <p><strong>Soil depth:</strong> ________cm (how deep can you push a stick?)</p>
+            </div>
+
+            <div class="measurement-box">
+                <h3>Other Environmental Factors</h3>
+                <p><strong>Wind conditions:</strong> □ Calm □ Light breeze □ Moderate □ Strong</p>
+                <p><strong>Wind direction:</strong> ________________</p>
+                <p><strong>Slope/topography:</strong> □ Flat □ Gentle slope □ Steep slope □ Hollow</p>
+                <p><strong>Water sources nearby:</strong> □ None □ Puddles □ Stream □ Pond □ Other: _____</p>
+            </div>
+        </div>
+
+        <div class="handout-section">
+            <h2>Observations & Interactions</h2>
+            <h3>Ecological Interactions Observed</h3>
+            <p>Describe any interactions you observed between living and non-living factors:</p>
+            <p>1. _________________________________________________________________</p>
+            <p>2. _________________________________________________________________</p>
+            <p>3. _________________________________________________________________</p>
+
+            <h3>Evidence of Human Impact</h3>
+            <p>List any signs of human influence on this habitat:</p>
+            <p>□ Litter/rubbish □ Trampling/paths □ Planted species □ Structures</p>
+            <p>□ Mowing/maintenance □ Introduced species □ Other: _________________</p>
+
+            <h3>Wildlife Activity</h3>
+            <p>Record any animal activity you observed (even if you didn't see the animal):</p>
+            <p>□ Bird calls/songs □ Insect activity □ Animal droppings □ Tracks/trails</p>
+            <p>□ Feeding signs □ Nests/burrows □ Other: ________________________</p>
+        </div>
+
+        <div class="handout-section">
+            <h2>Data Analysis (Complete after field work)</h2>
+            
+            <h3>Biodiversity Calculations</h3>
+            <p><strong>Average species count:</strong> (Q1 + Q2 + Q3) ÷ 3 = _________ species per m²</p>
+            
+            <h3>Most Common Species</h3>
+            <p>1. ________________________________ (found in ___ quadrats)</p>
+            <p>2. ________________________________ (found in ___ quadrats)</p>
+            <p>3. ________________________________ (found in ___ quadrats)</p>
+
+            <h3>Unique Species (only found in one quadrat)</h3>
+            <p>1. ________________________________________________________________</p>
+            <p>2. ________________________________________________________________</p>
+            <p>3. ________________________________________________________________</p>
+        </div>
+
+        <div class="handout-section">
+            <h2>Hypothesis & Conclusions</h2>
+            
+            <div style="border: 1px solid #333; padding: 10px; margin: 10px 0;">
+                <h3>Original Hypothesis</h3>
+                <p>I predicted that _____________ habitats would have higher biodiversity because:</p>
+                <p>_________________________________________________________________</p>
+                <p>_________________________________________________________________</p>
+            </div>
+
+            <div style="border: 1px solid #333; padding: 10px; margin: 10px 0;">
+                <h3>Results Summary</h3>
+                <p>My results show that:</p>
+                <p>_________________________________________________________________</p>
+                <p>_________________________________________________________________</p>
+                <p>This □ supports □ does not support my original hypothesis.</p>
+            </div>
+
+            <div style="border: 1px solid #333; padding: 10px; margin: 10px 0;">
+                <h3>Scientific Explanation</h3>
+                <p>I think these results occurred because:</p>
+                <p>_________________________________________________________________</p>
+                <p>_________________________________________________________________</p>
+                <p>_________________________________________________________________</p>
+            </div>
+        </div>
+
+        <div class="handout-challenge">
+            <h2><i class="fas fa-camera"></i> iNaturalist Contributions</h2>
+            <p><strong>Citizen Science Data:</strong></p>
+            <p>Number of species photographed: _________</p>
+            <p>Number uploaded to iNaturalist NZ: _________</p>
+            <p>Most interesting species discovered: _________________________</p>
+            <p>Species you couldn't identify: _____________________________</p>
+        </div>
+
+        <div style="background: #f0f8f0; padding: 15px; border-radius: 8px; margin-top: 20px;">
+            <h3>Te Reo Māori - Ecological Terms</h3>
+            <ul>
+                <li><strong>Taiao:</strong> Environment, natural world</li>
+                <li><strong>Rauropi:</strong> Biodiversity, variety of life</li>
+                <li><strong>Oneone:</strong> Soil, earth</li>
+                <li><strong>Wai:</strong> Water</li>
+                <li><strong>Hauhunga:</strong> Ecosystem, natural community</li>
+                <li><strong>Kaitiakitanga:</strong> Guardianship, environmental stewardship</li>
+            </ul>
+        </div>
+    </main>
+
+<footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- Brand Section -->
+                <div class="footer-section footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p class="footer-whakataukī">"Whaowhia te kete mātauranga"</p>
+                    <p class="footer-tagline">Fill the basket of knowledge</p>
+                    <p class="footer-description">Quality teaching resources for Aotearoa New Zealand educators, honoring mātauranga Māori and contemporary pedagogy.</p>
+                </div>
+
+                <!-- Resources Section -->
+                <div class="footer-section footer-resources">
+                    <h4><span class="footer-mi">Ngā Rauemi</span> <span class="footer-en">Resources</span></h4>
+                    <ul>
+                        <li><a href="unit-plans.html">📚 Unit Plans / Ngā Mahere Wāhanga</a></li>
+                        <li><a href="lessons.html">📖 Lesson Plans / Ngā Akoranga</a></li>
+                        <li><a href="handouts.html">📄 Handouts / Ngā Kape</a></li>
+                        <li><a href="games.html">🎮 Games / Ngā Kēmu</a></li>
+                        <li><a href="browse.html">🔍 Browse All / Tirohia Katoa</a></li>
+                    </ul>
+                </div>
+
+                <!-- Curriculum Section -->
+                <div class="footer-section footer-curriculum">
+                    <h4><span class="footer-mi">Te Marautanga</span> <span class="footer-en">Curriculum</span></h4>
+                    <ul>
+                        <li><a href="browse.html?subject=english">📝 English / Reo Pākehā</a></li>
+                        <li><a href="browse.html?subject=math">🔢 Mathematics / Pāngarau</a></li>
+                        <li><a href="browse.html?subject=science">🔬 Science / Pūtaiao</a></li>
+                        <li><a href="browse.html?subject=social-studies">🌏 Social Studies / Tikanga-ā-Iwi</a></li>
+                        <li><a href="curriculum-alignment.html">📋 NZ Curriculum Alignment</a></li>
+                    </ul>
+                </div>
+
+                <!-- Account & Support Section -->
+                <div class="footer-section footer-support">
+                    <h4><span class="footer-mi">Tautoko</span> <span class="footer-en">Support</span></h4>
+                    <ul>
+                        <li><a href="my-kete.html">🧺 My Kete / Tōku Kete</a></li>
+                        <li><a href="login.html">🔐 Login / Takiuru</a></li>
+                        <li><a href="#about">ℹ️ About Us / Mō Mātou</a></li>
+                        <li><a href="#contact">✉️ Contact / Whakapā Mai</a></li>
+                        <li><a href="#help">❓ Help / Āwhina</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <span class="footer-copyright">© 2025 Te Kete Ako</span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-location">Aotearoa New Zealand</span>
+                    <span class="footer-separator">•</span>
+                    <a href="#privacy">Privacy</a>
+                    <span class="footer-separator">•</span>
+                    <a href="#terms">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

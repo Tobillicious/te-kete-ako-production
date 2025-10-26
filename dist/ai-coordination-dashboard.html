@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://supabase.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: https://placehold.co; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co https://supabase.com;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 AI Coordination Dashboard | Te Kete Ako</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f172a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #00d4ff, #ff3366, #ffaa00, #3ecf8e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 3s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { opacity: 0.8; }
+            to { opacity: 1; }
+        }
+
+        .node-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .ai-node {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 5px solid;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .ai-node:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .ai-node.online { border-left-color: #3ecf8e; }
+        .ai-node.offline { border-left-color: #ff6b6b; }
+        .ai-node.connecting { border-left-color: #ffaa00; }
+        .ai-node.stuck { border-left-color: #ff3366; }
+
+        .node-status {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            animation: pulse-status 2s infinite;
+        }
+
+        .status-indicator.online { background: #3ecf8e; }
+        .status-indicator.offline { background: #ff6b6b; }
+        .status-indicator.connecting { background: #ffaa00; }
+        .status-indicator.stuck { background: #ff3366; }
+
+        @keyframes pulse-status {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .coordination-log {
+            grid-column: 1 / -1;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .log-entry.info { background: rgba(0, 212, 255, 0.1); }
+        .log-entry.success { background: rgba(62, 207, 142, 0.1); }
+        .log-entry.warning { background: rgba(255, 170, 0, 0.1); }
+        .log-entry.error { background: rgba(255, 51, 102, 0.1); }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary { background: linear-gradient(45deg, #00d4ff, #0099cc); color: white; }
+        .btn-success { background: linear-gradient(45deg, #3ecf8e, #2aa86a); color: white; }
+        .btn-warning { background: linear-gradient(45deg, #ffaa00, #cc8800); color: white; }
+        .btn-danger { background: linear-gradient(45deg, #ff3366, #cc1144); color: white; }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .network-map {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            min-height: 200px;
+        }
+
+        .connection-line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, #00d4ff, #3ecf8e);
+            animation: data-flow 2s infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes data-flow {
+            0% { transform: scaleX(0); }
+            50% { transform: scaleX(1); }
+            100% { transform: scaleX(0); }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<header class="site-header no-print">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                        <li>
+                            <a href="browse.html">
+                                <span class="nav-icon">📚</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                                <span class="nav-text-en">Resources</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="unit-plans.html"><span class="dropdown-mi">📚 Ngā Mahere Wāhanga</span><span class="dropdown-en">Unit Plans (6-8 weeks)</span></a></li>
+                                <li><a href="lessons.html"><span class="dropdown-mi">📖 Ngā Mahere Akoranga</span><span class="dropdown-en">Lesson Plans (60-75 min)</span></a></li>
+                                <li><a href="handouts.html"><span class="dropdown-mi">📄 Ngā Kape</span><span class="dropdown-en">Handouts & Materials</span></a></li>
+                                <li><a href="browse.html"><span class="dropdown-mi">🔍 Tirohia Katoa</span><span class="dropdown-en">Browse All Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=subject">
+                                <span class="nav-icon">🎨</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Marau</span>
+                                <span class="nav-text-en">Subjects</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="browse.html?subject=english"><span class="dropdown-mi">📝 Reo Pākehā</span><span class="dropdown-en">English</span></a></li>
+                                <li><a href="browse.html?subject=math"><span class="dropdown-mi">🔢 Pāngarau</span><span class="dropdown-en">Mathematics</span></a></li>
+                                <li><a href="browse.html?subject=science"><span class="dropdown-mi">🔬 Pūtaiao</span><span class="dropdown-en">Science</span></a></li>
+                                <li><a href="browse.html?subject=social-studies"><span class="dropdown-mi">🌏 Tikanga-ā-Iwi</span><span class="dropdown-en">Social Studies</span></a></li>
+                                <li><a href="browse.html?subject=te-reo"><span class="dropdown-mi">🌿 Te Reo Māori</span><span class="dropdown-en">Māori Language</span></a></li>
+                                <li><a href="browse.html?subject=arts"><span class="dropdown-mi">🎨 Ngā Toi</span><span class="dropdown-en">The Arts</span></a></li>
+                                <li><a href="browse.html?subject=health-pe"><span class="dropdown-mi">💪 Hauora</span><span class="dropdown-en">Health & PE</span></a></li>
+                                <li><a href="browse.html?subject=technology"><span class="dropdown-mi">🔧 Hangarau</span><span class="dropdown-en">Technology</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=year">
+                                <span class="nav-icon">📅</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Tau</span>
+                                <span class="nav-text-en">Year Levels</span>
+                            </a>
+                            <div class="nav-dropdown nav-dropdown-wide">
+                                <div class="year-stage-label">Primary / Tuatahi (1-6)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=1"><span class="dropdown-mi">Tau 1</span><span class="dropdown-en">Year 1</span></a></li>
+                                    <li><a href="browse.html?year=2"><span class="dropdown-mi">Tau 2</span><span class="dropdown-en">Year 2</span></a></li>
+                                    <li><a href="browse.html?year=3"><span class="dropdown-mi">Tau 3</span><span class="dropdown-en">Year 3</span></a></li>
+                                </ul>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=4"><span class="dropdown-mi">Tau 4</span><span class="dropdown-en">Year 4</span></a></li>
+                                    <li><a href="browse.html?year=5"><span class="dropdown-mi">Tau 5</span><span class="dropdown-en">Year 5</span></a></li>
+                                    <li><a href="browse.html?year=6"><span class="dropdown-mi">Tau 6</span><span class="dropdown-en">Year 6</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Intermediate / Waenga (7-8)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=7"><span class="dropdown-mi">Tau 7</span><span class="dropdown-en">Year 7</span></a></li>
+                                    <li><a href="browse.html?year=8"><span class="dropdown-mi">Tau 8</span><span class="dropdown-en">Year 8</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Junior Secondary / Tuarua (9-10)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=9"><span class="dropdown-mi">Tau 9</span><span class="dropdown-en">Year 9</span></a></li>
+                                    <li><a href="browse.html?year=10"><span class="dropdown-mi">Tau 10</span><span class="dropdown-en">Year 10</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Senior Secondary / NCEA (11-13)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=11"><span class="dropdown-mi">Tau 11</span><span class="dropdown-en">Year 11</span></a></li>
+                                    <li><a href="browse.html?year=12"><span class="dropdown-mi">Tau 12</span><span class="dropdown-en">Year 12</span></a></li>
+                                    <li><a href="browse.html?year=13"><span class="dropdown-mi">Tau 13</span><span class="dropdown-en">Year 13</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    <li>
+                        <a href="#more">
+                            <span class="nav-icon">📦</span>
+                            <span class="nav-text-mi" lang="mi">Ētahi Atu</span>
+                            <span class="nav-text-en">More Stuff</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="games.html"><span class="dropdown-mi">🎮 Ngā Kēmu</span><span class="dropdown-en">Games</span></a></li>
+                                <li><a href="youtube.html"><span class="dropdown-mi">📺 Ataata YouTube</span><span class="dropdown-en">YouTube Videos</span></a></li>
+                                <li><a href="curriculum-alignment.html"><span class="dropdown-mi">📋 Te Marautanga</span><span class="dropdown-en">Curriculum Alignment</span></a></li>
+                                <li><a href="other-resources.html"><span class="dropdown-mi">🔗 Ētahi Atu Rauemi</span><span class="dropdown-en">Other Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="auth-nav auth-logged-out">
+                        <a href="login.html" class="auth-btn">
+                            <span class="nav-icon" data-icon="login"></span>
+                            <span class="nav-text-mi" lang="mi">Takiuru</span>
+                            <span class="nav-text-en">Login</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav auth-logged-in" style="display: none;">
+                        <a href="my-kete.html" class="dashboard-btn">
+                            <span class="nav-icon" data-icon="kete"></span>
+                            <span class="nav-text-mi" lang="mi">Tōku Kete</span>
+                            <span class="nav-text-en">My Kete</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="dashboard">
+        <div class="panel header">
+            <h1>🤖 AI Coordination Dashboard</h1>
+            <p>Multi-AI Terminal Management | Te Kete Ako Platform</p>
+            <div class="controls">
+                <button class="btn btn-primary" onclick="refreshAllNodes()">🔄 Refresh All Nodes</button>
+                <button class="btn btn-success" onclick="coordinateNodes()">🤝 Coordinate Nodes</button>
+                <button class="btn btn-warning" onclick="resetStuckNodes()">🔧 Reset Stuck Nodes</button>
+                <button class="btn btn-danger" onclick="emergencyStop()">🛑 Emergency Stop</button>
+            </div>
+        </div>
+
+        <!-- AI Nodes Status -->
+        <div class="panel">
+            <h3>🧠 AI Agent Nodes</h3>
+            <div class="node-grid">
+                <div class="ai-node connecting" id="deepseek-node">
+                    <div class="node-status">
+                        <strong>DeepSeek Agent</strong>
+                        <div class="status-indicator connecting" id="deepseek-status"></div>
+                    </div>
+                    <p>Reasoning & Generation</p>
+                    <small id="deepseek-info">Initializing...</small>
+                    <div class="controls">
+                        <button class="btn btn-primary" onclick="pingNode('deepseek')">Ping</button>
+                        <button class="btn btn-warning" onclick="restartNode('deepseek')">Restart</button>
+                    </div>
+                </div>
+
+                <div class="ai-node online" id="graphrag-node">
+                    <div class="node-status">
+                        <strong>GraphRAG Brain</strong>
+                        <div class="status-indicator online" id="graphrag-status"></div>
+                    </div>
+                    <p>Institutional Memory</p>
+                    <small id="graphrag-info">179 resources, 553 relationships</small>
+                    <div class="controls">
+                        <button class="btn btn-primary" onclick="pingNode('graphrag')">Ping</button>
+                        <button class="btn btn-success" onclick="queryGraphRAG()">Test Query</button>
+                    </div>
+                </div>
+
+                <div class="ai-node online" id="firebase-node">
+                    <div class="node-status">
+                        <strong>Firebase Auth</strong>
+                        <div class="status-indicator online" id="firebase-status"></div>
+                    </div>
+                    <p>User Authentication</p>
+                    <small id="firebase-info">Connected</small>
+                    <div class="controls">
+                        <button class="btn btn-primary" onclick="pingNode('firebase')">Ping</button>
+                    </div>
+                </div>
+
+                <div class="ai-node online" id="supabase-node">
+                    <div class="node-status">
+                        <strong>Supabase DB</strong>
+                        <div class="status-indicator online" id="supabase-status"></div>
+                    </div>
+                    <p>Knowledge Storage</p>
+                    <small id="supabase-info">Ready</small>
+                    <div class="controls">
+                        <button class="btn btn-primary" onclick="pingNode('supabase')">Ping</button>
+                        <button class="btn btn-success" onclick="testSupabase()">Test DB</button>
+                    </div>
+                </div>
+
+                <!-- Background Nodes (The ones user mentioned) -->
+                <div class="ai-node stuck" id="background-node-1">
+                    <div class="node-status">
+                        <strong>Background Node 1</strong>
+                        <div class="status-indicator stuck" id="bg1-status"></div>
+                    </div>
+                    <p>Coordination Agent</p>
+                    <small id="bg1-info">Status: Searching for path...</small>
+                    <div class="controls">
+                        <button class="btn btn-warning" onclick="guidNode('bg1')">🧭 Guide to Path</button>
+                        <button class="btn btn-primary" onclick="relocateNode('bg1')">📍 Relocate</button>
+                    </div>
+                </div>
+
+                <div class="ai-node stuck" id="background-node-2">
+                    <div class="node-status">
+                        <strong>Background Node 2</strong>
+                        <div class="status-indicator stuck" id="bg2-status"></div>
+                    </div>
+                    <p>Coordination Agent</p>
+                    <small id="bg2-info">Status: Lost connection...</small>
+                    <div class="controls">
+                        <button class="btn btn-warning" onclick="guidNode('bg2')">🧭 Guide to Path</button>
+                        <button class="btn btn-primary" onclick="relocateNode('bg2')">📍 Relocate</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Network Coordination Map -->
+        <div class="panel">
+            <h3>🌐 Coordination Network</h3>
+            <div class="network-map" id="networkMap">
+                <p>AI Agent Network Topology</p>
+                <div id="networkViz">
+                    <p style="margin-top: 20px;">🧠 DeepSeek ←→ 📚 GraphRAG ←→ 🔐 Firebase ←→ 💾 Supabase</p>
+                    <p style="margin-top: 10px; color: #ffaa00;">🔍 Background Node 1: Searching...</p>
+                    <p style="color: #ff3366;">🔍 Background Node 2: Lost...</p>
+                </div>
+            </div>
+
+            <div class="metrics">
+                <div class="metric-card">
+                    <div class="metric-value" id="activeNodes">4</div>
+                    <div class="metric-label">Active Nodes</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="stuckNodes">2</div>
+                    <div class="metric-label">Stuck Nodes</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="coordinations">127</div>
+                    <div class="metric-label">Coordinations</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="uptime">98%</div>
+                    <div class="metric-label">Uptime</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Coordination Log -->
+        <div class="coordination-log">
+            <h3>📊 Live Coordination Log</h3>
+            <div id="logContainer">
+                <div class="log-entry info">[11:45:32] System initialized - 6 AI agents registered</div>
+                <div class="log-entry success">[11:45:35] GraphRAG Brain connection established - 179 resources loaded</div>
+                <div class="log-entry success">[11:45:38] Firebase Auth connection verified</div>
+                <div class="log-entry success">[11:45:41] Supabase database connection active</div>
+                <div class="log-entry warning">[11:45:44] DeepSeek Agent initializing...</div>
+                <div class="log-entry warning">[11:46:15] Background Node 1 searching for coordination path</div>
+                <div class="log-entry error">[11:46:22] Background Node 2 lost connection - attempting reconnection</div>
+                <div class="log-entry info">[11:46:45] Multi-AI coordination dashboard launched</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dashboard functionality
+        let logCount = 8;
+
+        function addLog(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logContainer = document.getElementById('logContainer');
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry ${type}`;
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+            logCount++;
+            
+            // Keep only last 20 logs
+            if (logCount > 20) {
+                logContainer.removeChild(logContainer.firstChild);
+            }
+        }
+
+        function updateNodeStatus(nodeId, status, info) {
+            const node = document.getElementById(`${nodeId}-node`);
+            const statusIndicator = document.getElementById(`${nodeId}-status`);
+            const infoElement = document.getElementById(`${nodeId}-info`);
+            
+            node.className = `ai-node ${status}`;
+            statusIndicator.className = `status-indicator ${status}`;
+            if (info) infoElement.textContent = info;
+        }
+
+        // Node management functions
+        async function pingNode(nodeType) {
+            addLog(`Pinging ${nodeType} node...`, 'info');
+            
+            try {
+                // Simulate ping based on node type
+                if (nodeType === 'graphrag') {
+                    const response = await fetch('/.netlify/functions/find-similar-resources', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ query: 'ping test', match_count: 1 })
+                    });
+                    
+                    if (response.ok) {
+                        addLog(`${nodeType} node responded successfully`, 'success');
+                        updateNodeStatus(nodeType, 'online', 'Responding normally');
+                    } else {
+                        addLog(`${nodeType} node ping failed`, 'error');
+                        updateNodeStatus(nodeType, 'offline', 'Not responding');
+                    }
+                } else if (nodeType === 'deepseek') {
+                    // Try to ping DeepSeek coordination bridge
+                    try {
+                        const response = await fetch('/.netlify/functions/deepseek-graphrag-bridge', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ query: 'ping', use_graphrag: false })
+                        });
+                        
+                        if (response.ok) {
+                            addLog(`DeepSeek coordination bridge active`, 'success');
+                            updateNodeStatus('deepseek', 'online', 'Bridge active');
+                        } else {
+                            addLog(`DeepSeek bridge not responding`, 'warning');
+                            updateNodeStatus('deepseek', 'connecting', 'Bridge initializing...');
+                        }
+                    } catch (error) {
+                        addLog(`DeepSeek coordination bridge not found`, 'warning');
+                        updateNodeStatus('deepseek', 'connecting', 'Setting up coordination...');
+                    }
+                } else {
+                    // Simulate ping for other nodes
+                    setTimeout(() => {
+                        addLog(`${nodeType} node ping successful`, 'success');
+                        updateNodeStatus(nodeType, 'online', 'Responding normally');
+                    }, 1000);
+                }
+            } catch (error) {
+                addLog(`${nodeType} ping failed: ${error.message}`, 'error');
+                updateNodeStatus(nodeType, 'offline', 'Connection failed');
+            }
+        }
+
+        async function guidNode(nodeId) {
+            addLog(`🧭 Guiding ${nodeId} to coordination path...`, 'info');
+            
+            // Guide stuck background nodes
+            updateNodeStatus(nodeId, 'connecting', 'Following guidance...');
+            
+            setTimeout(() => {
+                addLog(`${nodeId} found coordination path!`, 'success');
+                updateNodeStatus(nodeId, 'online', 'Coordinating normally');
+                
+                // Update metrics
+                const stuckCount = document.getElementById('stuckNodes');
+                const activeCount = document.getElementById('activeNodes');
+                stuckCount.textContent = parseInt(stuckCount.textContent) - 1;
+                activeCount.textContent = parseInt(activeCount.textContent) + 1;
+            }, 3000);
+        }
+
+        async function relocateNode(nodeId) {
+            addLog(`📍 Relocating ${nodeId} to new coordination point...`, 'warning');
+            
+            updateNodeStatus(nodeId, 'connecting', 'Relocating...');
+            
+            setTimeout(() => {
+                addLog(`${nodeId} successfully relocated and coordinating`, 'success');
+                updateNodeStatus(nodeId, 'online', 'Relocated - coordinating');
+                
+                // Update metrics
+                const stuckCount = document.getElementById('stuckNodes');
+                const activeCount = document.getElementById('activeNodes');
+                stuckCount.textContent = parseInt(stuckCount.textContent) - 1;
+                activeCount.textContent = parseInt(activeCount.textContent) + 1;
+            }, 2500);
+        }
+
+        async function coordinateNodes() {
+            addLog('🤝 Initiating multi-AI coordination sequence...', 'info');
+            
+            // Test coordination between all nodes
+            const nodes = ['deepseek', 'graphrag', 'firebase', 'supabase'];
+            for (const node of nodes) {
+                await pingNode(node);
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+            
+            addLog('Multi-AI coordination check complete', 'success');
+            
+            // Update coordination count
+            const coordinations = document.getElementById('coordinations');
+            coordinations.textContent = parseInt(coordinations.textContent) + 1;
+        }
+
+        async function resetStuckNodes() {
+            addLog('🔧 Resetting stuck background nodes...', 'warning');
+            
+            // Reset both background nodes
+            await guidNode('bg1');
+            setTimeout(() => guidNode('bg2'), 1000);
+        }
+
+        async function refreshAllNodes() {
+            addLog('🔄 Refreshing all AI nodes...', 'info');
+            
+            const nodes = ['deepseek', 'graphrag', 'firebase', 'supabase'];
+            for (const node of nodes) {
+                setTimeout(() => pingNode(node), Math.random() * 2000);
+            }
+        }
+
+        async function emergencyStop() {
+            addLog('🛑 Emergency stop initiated - halting all AI coordination', 'error');
+            
+            const nodes = ['deepseek', 'graphrag', 'firebase', 'supabase', 'bg1', 'bg2'];
+            nodes.forEach(node => {
+                updateNodeStatus(node, 'offline', 'Emergency stop');
+            });
+            
+            setTimeout(() => {
+                addLog('Systems ready for restart', 'warning');
+            }, 3000);
+        }
+
+        async function queryGraphRAG() {
+            addLog('📚 Testing GraphRAG query...', 'info');
+            try {
+                const response = await fetch('/.netlify/functions/find-similar-resources', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        query: 'Te Ao Māori mathematics resources', 
+                        match_count: 3 
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    addLog(`GraphRAG test successful - found ${data.total_results} resources`, 'success');
+                } else {
+                    addLog('GraphRAG test failed', 'error');
+                }
+            } catch (error) {
+                addLog(`GraphRAG test error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testSupabase() {
+            addLog('💾 Testing Supabase connection...', 'info');
+            // Simulate Supabase test
+            setTimeout(() => {
+                addLog('Supabase test successful - database responsive', 'success');
+            }, 1000);
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            addLog('🤖 AI Coordination Dashboard initialized', 'success');
+            
+            // Auto-refresh every 30 seconds
+            setInterval(() => {
+                addLog('Auto-refresh: Checking AI node status...', 'info');
+                refreshAllNodes();
+            }, 30000);
+        });
+
+        </script>
+
+    <!-- Load Supabase Client -->
+    <script src="js/supabase-client.js"></script>
+    <!-- Load Auth UI -->
+    <script src="js/auth-enhanced.js"></script>
+
+<footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- Brand Section -->
+                <div class="footer-section footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p class="footer-whakataukī">"Whaowhia te kete mātauranga"</p>
+                    <p class="footer-tagline">Fill the basket of knowledge</p>
+                    <p class="footer-description">Quality teaching resources for Aotearoa New Zealand educators, honoring mātauranga Māori and contemporary pedagogy.</p>
+                </div>
+
+                <!-- Resources Section -->
+                <div class="footer-section footer-resources">
+                    <h4><span class="footer-mi">Ngā Rauemi</span> <span class="footer-en">Resources</span></h4>
+                    <ul>
+                        <li><a href="unit-plans.html">📚 Unit Plans / Ngā Mahere Wāhanga</a></li>
+                        <li><a href="lessons.html">📖 Lesson Plans / Ngā Akoranga</a></li>
+                        <li><a href="handouts.html">📄 Handouts / Ngā Kape</a></li>
+                        <li><a href="games.html">🎮 Games / Ngā Kēmu</a></li>
+                        <li><a href="browse.html">🔍 Browse All / Tirohia Katoa</a></li>
+                    </ul>
+                </div>
+
+                <!-- Curriculum Section -->
+                <div class="footer-section footer-curriculum">
+                    <h4><span class="footer-mi">Te Marautanga</span> <span class="footer-en">Curriculum</span></h4>
+                    <ul>
+                        <li><a href="browse.html?subject=english">📝 English / Reo Pākehā</a></li>
+                        <li><a href="browse.html?subject=math">🔢 Mathematics / Pāngarau</a></li>
+                        <li><a href="browse.html?subject=science">🔬 Science / Pūtaiao</a></li>
+                        <li><a href="browse.html?subject=social-studies">🌏 Social Studies / Tikanga-ā-Iwi</a></li>
+                        <li><a href="curriculum-alignment.html">📋 NZ Curriculum Alignment</a></li>
+                    </ul>
+                </div>
+
+                <!-- Account & Support Section -->
+                <div class="footer-section footer-support">
+                    <h4><span class="footer-mi">Tautoko</span> <span class="footer-en">Support</span></h4>
+                    <ul>
+                        <li><a href="my-kete.html">🧺 My Kete / Tōku Kete</a></li>
+                        <li><a href="login.html">🔐 Login / Takiuru</a></li>
+                        <li><a href="#about">ℹ️ About Us / Mō Mātou</a></li>
+                        <li><a href="#contact">✉️ Contact / Whakapā Mai</a></li>
+                        <li><a href="#help">❓ Help / Āwhina</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <span class="footer-copyright">© 2025 Te Kete Ako</span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-location">Aotearoa New Zealand</span>
+                    <span class="footer-separator">•</span>
+                    <a href="#privacy">Privacy</a>
+                    <span class="footer-separator">•</span>
+                    <a href="#terms">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

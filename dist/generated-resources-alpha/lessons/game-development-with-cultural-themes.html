@@ -1,0 +1,524 @@
+# Game Development with Cultural Themes
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Development with Cultural Themes</title>
+    <meta name="description" content="Game Development with Cultural Themes - Educational resource from Te Kete Ako">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        header {
+            background-color: #e63946;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        h1, h2, h3 {
+            color: #1d3557;
+        }
+        .cultural-note {
+            background-color: #f1faee;
+            border-left: 4px solid #457b9d;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .activity {
+            background-color: #a8dadc;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .teacher-tip {
+            background-color: #ffddd2;
+            padding: 10px;
+            border-radius: 8px;
+            font-style: italic;
+        }
+        .rubric-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .rubric-table th, .rubric-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .rubric-table th {
+            background-color: #457b9d;
+            color: white;
+        }
+        .rubric-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .interactive-element {
+            background-color: #e9c46a;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .extension {
+            background-color: #2a9d8f;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .adaptation {
+            background-color: #f4a261;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+                    <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                        <li>
+                            <a href="browse.html">
+                                <span class="nav-icon">📚</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                                <span class="nav-text-en">Resources</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="unit-plans.html"><span class="dropdown-mi">📚 Ngā Mahere Wāhanga</span><span class="dropdown-en">Unit Plans (6-8 weeks)</span></a></li>
+                                <li><a href="lessons.html"><span class="dropdown-mi">📖 Ngā Mahere Akoranga</span><span class="dropdown-en">Lesson Plans (60-75 min)</span></a></li>
+                                <li><a href="handouts.html"><span class="dropdown-mi">📄 Ngā Kape</span><span class="dropdown-en">Handouts & Materials</span></a></li>
+                                <li><a href="browse.html"><span class="dropdown-mi">🔍 Tirohia Katoa</span><span class="dropdown-en">Browse All Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=subject">
+                                <span class="nav-icon">🎨</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Marau</span>
+                                <span class="nav-text-en">Subjects</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="browse.html?subject=english"><span class="dropdown-mi">📝 Reo Pākehā</span><span class="dropdown-en">English</span></a></li>
+                                <li><a href="browse.html?subject=math"><span class="dropdown-mi">🔢 Pāngarau</span><span class="dropdown-en">Mathematics</span></a></li>
+                                <li><a href="browse.html?subject=science"><span class="dropdown-mi">🔬 Pūtaiao</span><span class="dropdown-en">Science</span></a></li>
+                                <li><a href="browse.html?subject=social-studies"><span class="dropdown-mi">🌏 Tikanga-ā-Iwi</span><span class="dropdown-en">Social Studies</span></a></li>
+                                <li><a href="browse.html?subject=te-reo"><span class="dropdown-mi">🌿 Te Reo Māori</span><span class="dropdown-en">Māori Language</span></a></li>
+                                <li><a href="browse.html?subject=arts"><span class="dropdown-mi">🎨 Ngā Toi</span><span class="dropdown-en">The Arts</span></a></li>
+                                <li><a href="browse.html?subject=health-pe"><span class="dropdown-mi">💪 Hauora</span><span class="dropdown-en">Health & PE</span></a></li>
+                                <li><a href="browse.html?subject=technology"><span class="dropdown-mi">🔧 Hangarau</span><span class="dropdown-en">Technology</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=year">
+                                <span class="nav-icon">📅</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Tau</span>
+                                <span class="nav-text-en">Year Levels</span>
+                            </a>
+                            <div class="nav-dropdown nav-dropdown-wide">
+                                <div class="year-stage-label">Primary / Tuatahi (1-6)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=1"><span class="dropdown-mi">Tau 1</span><span class="dropdown-en">Year 1</span></a></li>
+                                    <li><a href="browse.html?year=2"><span class="dropdown-mi">Tau 2</span><span class="dropdown-en">Year 2</span></a></li>
+                                    <li><a href="browse.html?year=3"><span class="dropdown-mi">Tau 3</span><span class="dropdown-en">Year 3</span></a></li>
+                                </ul>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=4"><span class="dropdown-mi">Tau 4</span><span class="dropdown-en">Year 4</span></a></li>
+                                    <li><a href="browse.html?year=5"><span class="dropdown-mi">Tau 5</span><span class="dropdown-en">Year 5</span></a></li>
+                                    <li><a href="browse.html?year=6"><span class="dropdown-mi">Tau 6</span><span class="dropdown-en">Year 6</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Intermediate / Waenga (7-8)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=7"><span class="dropdown-mi">Tau 7</span><span class="dropdown-en">Year 7</span></a></li>
+                                    <li><a href="browse.html?year=8"><span class="dropdown-mi">Tau 8</span><span class="dropdown-en">Year 8</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Junior Secondary / Tuarua (9-10)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=9"><span class="dropdown-mi">Tau 9</span><span class="dropdown-en">Year 9</span></a></li>
+                                    <li><a href="browse.html?year=10"><span class="dropdown-mi">Tau 10</span><span class="dropdown-en">Year 10</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Senior Secondary / NCEA (11-13)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=11"><span class="dropdown-mi">Tau 11</span><span class="dropdown-en">Year 11</span></a></li>
+                                    <li><a href="browse.html?year=12"><span class="dropdown-mi">Tau 12</span><span class="dropdown-en">Year 12</span></a></li>
+                                    <li><a href="browse.html?year=13"><span class="dropdown-mi">Tau 13</span><span class="dropdown-en">Year 13</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    <li>
+                        <a href="#more">
+                            <span class="nav-icon">📦</span>
+                            <span class="nav-text-mi" lang="mi">Ētahi Atu</span>
+                            <span class="nav-text-en">More Stuff</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="games.html"><span class="dropdown-mi">🎮 Ngā Kēmu</span><span class="dropdown-en">Games</span></a></li>
+                                <li><a href="youtube.html"><span class="dropdown-mi">📺 Ataata YouTube</span><span class="dropdown-en">YouTube Videos</span></a></li>
+                                <li><a href="curriculum-alignment.html"><span class="dropdown-mi">📋 Te Marautanga</span><span class="dropdown-en">Curriculum Alignment</span></a></li>
+                                <li><a href="other-resources.html"><span class="dropdown-mi">🔗 Ētahi Atu Rauemi</span><span class="dropdown-en">Other Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="auth-nav auth-logged-out">
+                        <a href="login.html" class="auth-btn">
+                            <span class="nav-icon" data-icon="login"></span>
+                            <span class="nav-text-mi" lang="mi">Takiuru</span>
+                            <span class="nav-text-en">Login</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav auth-logged-in" style="display: none;">
+                        <a href="my-kete.html" class="dashboard-btn">
+                            <span class="nav-icon" data-icon="kete"></span>
+                            <span class="nav-text-mi" lang="mi">Tōku Kete</span>
+                            <span class="nav-text-en">My Kete</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section>
+        <h2>Learning Objectives</h2>
+        <p>By the end of this unit, students will be able to:</p>
+        <ul>
+            <li>Design and develop a simple digital game with a Māori cultural theme</li>
+            <li>Apply computational thinking to solve game design problems</li>
+            <li>Incorporate authentic Māori cultural elements respectfully in digital media</li>
+            <li>Use appropriate game development tools and programming concepts</li>
+            <li>Test and refine their game based on user feedback</li>
+        </ul>
+    </section>
+
+    <div class="cultural-note">
+        <h3>Cultural Context & Safety Considerations</h3>
+        <p>When creating games with Māori cultural themes, it's essential to:</p>
+        <ul>
+            <li>Consult with local iwi or cultural advisors when using specific stories, designs, or concepts</li>
+            <li>Avoid sacred (tapu) elements unless you have proper guidance and permission</li>
+            <li>Ensure representations are accurate and respectful</li>
+            <li>Use te reo Māori correctly - verify spellings and meanings</li>
+            <li>Consider the educational purpose of your game and how it might benefit Māori communities</li>
+        </ul>
+        <p>Recommended cultural themes for beginners: navigation (wayfinding), traditional games (e.g., mū tōrere), nature connections, or creation stories (with guidance).</p>
+    </div>
+
+    <section>
+        <h2>Lesson Content</h2>
+        
+        <div class="activity">
+            <h3>1. Exploring Māori Themes in Games</h3>
+            <p>Before creating your own game, let's examine some examples of games with Māori cultural elements:</p>
+            <ul>
+                <li><strong>Pūrākau:</strong> Interactive storytelling games based on Māori legends</li>
+                <li><strong>Wayfinder:</strong> Navigation games inspired by Polynesian wayfinding techniques</li>
+                <li><strong>Kī-o-rahi digital:</strong> Digital versions of traditional Māori ball games</li>
+            </ul>
+            
+            <div class="interactive-element">
+                <h4>Interactive Activity: Game Analysis</h4>
+                <p>Play one of these sample games (provided by teacher) and answer:</p>
+                <ol>
+                    <li>What cultural elements are included in the game?</li>
+                    <li>How does the game design reflect Māori values?</li>
+                    <li>What aspects would you like to include in your own game?</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="activity">
+            <h3>2. Planning Your Game</h3>
+            <p>Use this template to plan your culturally themed game:</p>
+            <ol>
+                <li><strong>Game Concept:</strong> What is the basic idea? (e.g., "A game where players navigate the Pacific using stars")</li>
+                <li><strong>Cultural Theme:</strong> Which aspect of Māori culture are you representing?</li>
+                <li><strong>Game Mechanics:</strong> How will the game work? (controls, rules, scoring)</li>
+                <li><strong>Visual Style:</strong> What will the game look like? (colors, characters, environment)</li>
+                <li><strong>Cultural Accuracy Check:</strong> What research or consultation is needed?</li>
+            </ol>
+        </div>
+        
+        <div class="activity">
+            <h3>3. Game Development with Scratch</h3>
+            <p>We'll use Scratch (scratch.mit.edu) for our game development platform as it works well on Chromebooks and has low technical barriers.</p>
+            
+            <h4>Basic Game Structure</h4>
+            <p>All games need:</p>
+            <ul>
+                <li>A main character (sprite)</li>
+                <li>Objectives or goals</li>
+                <li>Rules and controls</li>
+                <li>Feedback (score, levels, etc.)</li>
+            </ul>
+            
+            <div class="interactive-element">
+                <h4>Tutorial: Creating a Simple Navigation Game</h4>
+                <p>Follow these steps to create a basic wayfinding game:</p>
+                <ol>
+                    <li>Create a sprite for your waka (canoe)</li>
+                    <li>Add arrow key controls for movement</li>
+                    <li>Create star sprites as navigation points</li>
+                    <li>Program the stars to give points when touched</li>
+                    <li>Add a background of the ocean</li>
+                    <li>Include simple instructions in te reo Māori (e.g., "Haere mai" for welcome)</li>
+                </ol>
+                <p><a href="https://scratch.mit.edu/projects/editor/" target="_blank">Open Scratch Editor</a></p>
+            </div>
+        </div>
+        
+        <div class="activity">
+            <h3>4. Testing and Refining</h3>
+            <p>Game development is an iterative process. Test your game with classmates and ask:</p>
+            <ul>
+                <li>Is the game fun to play?</li>
+                <li>Are the cultural elements clear and respectful?</li>
+                <li>Are there any technical issues?</li>
+                <li>What improvements could be made?</li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <h2>Assessment</h2>
+        <p>Students will be assessed on:</p>
+        
+        <table class="rubric-table">
+            <tr>
+                <th>Criteria</th>
+                <th>Excellent (4)</th>
+                <th>Proficient (3)</th>
+                <th>Developing (2)</th>
+                <th>Beginning (1)</th>
+            </tr>
+            <tr>
+                <td>Cultural Integration</td>
+                <td>Game demonstrates deep understanding and respectful representation of Māori culture</td>
+                <td>Game includes appropriate cultural elements with mostly accurate representation</td>
+                <td>Game includes some cultural elements but may have minor inaccuracies</td>
+                <td>Cultural elements are minimal or potentially inappropriate</td>
+            </tr>
+            <tr>
+                <td>Game Design</td>
+                <td>Game is engaging, with clear objectives and smooth mechanics</td>
+                <td>Game is functional with understandable objectives and mechanics</td>
+                <td>Game is playable but may have some technical or design issues</td>
+                <td>Game is incomplete or largely non-functional</td>
+            </tr>
+            <tr>
+                <td>Technical Implementation</td>
+                <td>Code is efficient, well-organized, and demonstrates advanced techniques</td>
+                <td>Code is functional and appropriately organized</td>
+                <td>Code works but may have some inefficiencies or organizational issues</td>
+                <td>Code is incomplete or largely non-functional</td>
+            </tr>
+            <tr>
+                <td>Creativity & Originality</td>
+                <td>Game shows highly original concept and innovative approach</td>
+                <td>Game shows good originality within the assignment parameters</td>
+                <td>Game follows basic concepts with some original elements</td>
+                <td>Game shows minimal original thought</td>
+            </tr>
+        </table>
+        
+        <div class="teacher-tip">
+            <p><strong>Teacher Tip:</strong> Consider having students present their games to the class and explain their cultural choices. This can be part of the assessment process.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Extension Activities</h2>
+        
+        <div class="extension">
+            <h3>For Advanced Students</h3>
+            <ol>
+                <li><strong>Multi-level Game:</strong> Expand your game to include multiple levels with increasing difficulty.</li>
+                <li><strong>Te Reo Māori Version:</strong> Create a fully bilingual version of your game with all text in both English and te reo Māori.</li>
+                <li><strong>Cultural Consultation:</strong> Interview a Māori elder or cultural expert about your game concept and document their feedback.</li>
+                <li><strong>Advanced Platform:</strong> Port your game to a more advanced platform like Unity or Godot with 3D elements.</li>
+                <li><strong>Educational Value:</strong> Develop supplementary materials explaining the cultural aspects of your game for younger students.</li>
+            </ol>
+        </div>
+    </section>
+
+    <section>
+        <h2>Adaptations for Different Learners</h2>
+        
+        <div class="adaptation">
+            <h3>For Students Needing Additional Support</h3>
+            <ul>
+                <li>Provide pre-made game templates with basic functionality already coded</li>
+                <li>Offer pair programming opportunities</li>
+                <li>Break tasks into smaller, more manageable steps</li>
+                <li>Provide visual step-by-step guides for Scratch programming</li>
+                <li>Allow alternative assessments like explaining game concepts without full implementation</li>
+            </ul>
+        </div>
+        
+        <div class="adaptation">
+            <h3>For Students with Limited Tech Access</h3>
+            <ul>
+                <li>Offer paper prototyping options for initial design phases</li>
+                <li>Provide access to school devices during lunch or after school</li>
+                <li>Suggest lightweight online IDEs that work on mobile devices</li>
+                <li>Create offline coding activities using printable materials</li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <h2>Teacher Implementation Guide</h2>
+        
+        <h3>Suggested Timeline (5-8 lessons)</h3>
+        <ol>
+            <li><strong>Lesson 1:</strong> Introduction to cultural game design, analysis of existing examples</li>
+            <li><strong>Lesson 2:</strong> Game planning and cultural research</li>
+            <li><strong>Lessons 3-4:</strong> Game development in Scratch</li>
+            <li><strong>Lesson 5:</strong> Peer testing and refinement</li>
+            <li><strong>Lesson 6:</strong> Final presentations and reflections</li>
+        </ol>
+        
+        <h3>Resources Needed</h3>
+        <ul>
+            <li>Chromebooks or computers with internet access</li>
+            <li>Scratch accounts (free)</li>
+            <li>Examples of culturally themed games (teacher should curate these in advance)</li>
+            <li>Printed reference materials on Māori culture appropriate for game themes</li>
+            <li>Optional: Guest speaker from local iwi or Māori game developer</li>
+        </ul>
+        
+        <div class="teacher-tip">
+            <p><strong>Cultural Connection Tip:</strong> Consider beginning each lesson with a relevant whakataukī (Māori proverb) about learning, creativity, or technology to set the cultural context.</p>
+        </div>
+    </section>
+
+                    <footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- Brand Section -->
+                <div class="footer-section footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p class="footer-whakataukī">"Whaowhia te kete mātauranga"</p>
+                    <p class="footer-tagline">Fill the basket of knowledge</p>
+                    <p class="footer-description">Quality teaching resources for Aotearoa New Zealand educators, honoring mātauranga Māori and contemporary pedagogy.</p>
+                </div>
+
+                <!-- Resources Section -->
+                <div class="footer-section footer-resources">
+                    <h4><span class="footer-mi">Ngā Rauemi</span> <span class="footer-en">Resources</span></h4>
+                    <ul>
+                        <li><a href="unit-plans.html">📚 Unit Plans / Ngā Mahere Wāhanga</a></li>
+                        <li><a href="lessons.html">📖 Lesson Plans / Ngā Akoranga</a></li>
+                        <li><a href="handouts.html">📄 Handouts / Ngā Kape</a></li>
+                        <li><a href="games.html">🎮 Games / Ngā Kēmu</a></li>
+                        <li><a href="browse.html">🔍 Browse All / Tirohia Katoa</a></li>
+                    </ul>
+                </div>
+
+                <!-- Curriculum Section -->
+                <div class="footer-section footer-curriculum">
+                    <h4><span class="footer-mi">Te Marautanga</span> <span class="footer-en">Curriculum</span></h4>
+                    <ul>
+                        <li><a href="browse.html?subject=english">📝 English / Reo Pākehā</a></li>
+                        <li><a href="browse.html?subject=math">🔢 Mathematics / Pāngarau</a></li>
+                        <li><a href="browse.html?subject=science">🔬 Science / Pūtaiao</a></li>
+                        <li><a href="browse.html?subject=social-studies">🌏 Social Studies / Tikanga-ā-Iwi</a></li>
+                        <li><a href="curriculum-alignment.html">📋 NZ Curriculum Alignment</a></li>
+                    </ul>
+                </div>
+
+                <!-- Account & Support Section -->
+                <div class="footer-section footer-support">
+                    <h4><span class="footer-mi">Tautoko</span> <span class="footer-en">Support</span></h4>
+                    <ul>
+                        <li><a href="my-kete.html">🧺 My Kete / Tōku Kete</a></li>
+                        <li><a href="login.html">🔐 Login / Takiuru</a></li>
+                        <li><a href="#about">ℹ️ About Us / Mō Mātou</a></li>
+                        <li><a href="#contact">✉️ Contact / Whakapā Mai</a></li>
+                        <li><a href="#help">❓ Help / Āwhina</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <span class="footer-copyright">© 2025 Te Kete Ako</span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-location">Aotearoa New Zealand</span>
+                    <span class="footer-separator">•</span>
+                    <a href="#privacy">Privacy</a>
+                    <span class="footer-separator">•</span>
+                    <a href="#terms">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple script to display current date
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-NZ');
+    </script>
+</body>
+</html>
+```
+
+## Additional Implementation Notes
+
+### Curriculum Alignment
+This resource aligns with the New Zealand Digital Technologies Curriculum at Levels 4-6, specifically:
+- **Progress Outcome 4-5:** Developing digital outcomes using appropriate tools and techniques
+- **Progress Outcome 5-6:** Designing and developing increasingly complex digital outcomes
+- **Technological Practice:** Brief development, planning for practice, outcome development and evaluation
+
+### Cultural Safety Protocol
+1. **Pre-lesson Preparation:**
+   - Consult with your school's Māori liaison or local iwi representatives about appropriate cultural themes
+   - Prepare a list of approved cultural elements students may use
+   - Identify potential cultural advisors who can review student projects
+
+2. **During Implementation:**
+   - Begin with a karakia (prayer) if appropriate for your school context
+   - Establish clear guidelines about respectful use of cultural elements
+   - Monitor student work for potential cultural inaccuracies or appropriations
+
+3. **Post-lesson Follow-up:**
+   - Share student work with cultural advisors for feedback
+   - Consider displaying exemplary work at school cultural events
+   - Document the process for future cultural consultation reference
+
+### Technical Considerations
+- All activities are designed to work on Chromebooks with minimal requirements
+- Scratch was chosen as it's free, web-based, and accessible
+- The HTML resource itself is lightweight and should load quickly on school networks
+
+### Differentiation Strategies
+- **For visual learners:** Provide more diagrammatic representations of game mechanics
+- **For kinesthetic learners:** Include physical prototyping before digital development
+- **For auditory learners:** Incorporate podcasts or interviews with Māori game developers
+- **For advanced students:** Offer pathways to more complex game engines or programming concepts
+
+This resource provides a complete, ready-to-use unit that respects Māori culture while engaging students in meaningful digital technologies learning.

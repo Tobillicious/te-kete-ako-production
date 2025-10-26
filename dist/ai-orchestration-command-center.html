@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 AI Orchestration Command Center | Te Kete Ako</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0c0a1a 0%, #1a1625 50%, #2a1f3d 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .command-center {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%);
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed, #ec4899);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #a78bfa;
+            font-weight: 500;
+        }
+
+        .orchestration-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .orchestration-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .control-panel {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(139, 92, 246, 0.2);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(79, 70, 229, 0.1);
+        }
+
+        .panel-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #f1f5f9;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .task-input-section {
+            margin-bottom: 25px;
+        }
+
+        .task-input {
+            width: 100%;
+            background: rgba(30, 41, 59, 0.7);
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            color: #f1f5f9;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .task-input:focus {
+            outline: none;
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        }
+
+        .controls-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .select-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .select-group label {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .select-group select {
+            background: rgba(30, 41, 59, 0.7);
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: 8px;
+            padding: 10px;
+            color: #f1f5f9;
+            font-size: 1rem;
+        }
+
+        .orchestrate-button {
+            width: 100%;
+            background: linear-gradient(135deg, #7c3aed, #4f46e5);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 15px 25px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
+        }
+
+        .orchestrate-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(124, 58, 237, 0.4);
+        }
+
+        .orchestrate-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .agents-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .agent-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 2px solid rgba(34, 197, 94, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .agent-card.active {
+            border-color: #22c55e;
+            background: rgba(34, 197, 94, 0.1);
+        }
+
+        .agent-card.processing {
+            border-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.1);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .agent-name {
+            font-weight: 600;
+            color: #f1f5f9;
+            margin-bottom: 5px;
+        }
+
+        .agent-status {
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        .results-panel {
+            grid-column: 1 / -1;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(139, 92, 246, 0.2);
+            border-radius: 16px;
+            padding: 25px;
+            min-height: 400px;
+        }
+
+        .results-content {
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        .result-section {
+            background: rgba(30, 41, 59, 0.4);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #7c3aed;
+        }
+
+        .result-section h4 {
+            color: #f1f5f9;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(124, 58, 237, 0.3);
+            border-radius: 50%;
+            border-top-color: #7c3aed;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .performance-indicator {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .performance-metric {
+            text-align: center;
+        }
+
+        .performance-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #22c55e;
+        }
+
+        .performance-label {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+<header class="site-header no-print">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                        <li>
+                            <a href="browse.html">
+                                <span class="nav-icon">📚</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                                <span class="nav-text-en">Resources</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="unit-plans.html"><span class="dropdown-mi">📚 Ngā Mahere Wāhanga</span><span class="dropdown-en">Unit Plans (6-8 weeks)</span></a></li>
+                                <li><a href="lessons.html"><span class="dropdown-mi">📖 Ngā Mahere Akoranga</span><span class="dropdown-en">Lesson Plans (60-75 min)</span></a></li>
+                                <li><a href="handouts.html"><span class="dropdown-mi">📄 Ngā Kape</span><span class="dropdown-en">Handouts & Materials</span></a></li>
+                                <li><a href="browse.html"><span class="dropdown-mi">🔍 Tirohia Katoa</span><span class="dropdown-en">Browse All Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=subject">
+                                <span class="nav-icon">🎨</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Marau</span>
+                                <span class="nav-text-en">Subjects</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="browse.html?subject=english"><span class="dropdown-mi">📝 Reo Pākehā</span><span class="dropdown-en">English</span></a></li>
+                                <li><a href="browse.html?subject=math"><span class="dropdown-mi">🔢 Pāngarau</span><span class="dropdown-en">Mathematics</span></a></li>
+                                <li><a href="browse.html?subject=science"><span class="dropdown-mi">🔬 Pūtaiao</span><span class="dropdown-en">Science</span></a></li>
+                                <li><a href="browse.html?subject=social-studies"><span class="dropdown-mi">🌏 Tikanga-ā-Iwi</span><span class="dropdown-en">Social Studies</span></a></li>
+                                <li><a href="browse.html?subject=te-reo"><span class="dropdown-mi">🌿 Te Reo Māori</span><span class="dropdown-en">Māori Language</span></a></li>
+                                <li><a href="browse.html?subject=arts"><span class="dropdown-mi">🎨 Ngā Toi</span><span class="dropdown-en">The Arts</span></a></li>
+                                <li><a href="browse.html?subject=health-pe"><span class="dropdown-mi">💪 Hauora</span><span class="dropdown-en">Health & PE</span></a></li>
+                                <li><a href="browse.html?subject=technology"><span class="dropdown-mi">🔧 Hangarau</span><span class="dropdown-en">Technology</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=year">
+                                <span class="nav-icon">📅</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Tau</span>
+                                <span class="nav-text-en">Year Levels</span>
+                            </a>
+                            <div class="nav-dropdown nav-dropdown-wide">
+                                <div class="year-stage-label">Primary / Tuatahi (1-6)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=1"><span class="dropdown-mi">Tau 1</span><span class="dropdown-en">Year 1</span></a></li>
+                                    <li><a href="browse.html?year=2"><span class="dropdown-mi">Tau 2</span><span class="dropdown-en">Year 2</span></a></li>
+                                    <li><a href="browse.html?year=3"><span class="dropdown-mi">Tau 3</span><span class="dropdown-en">Year 3</span></a></li>
+                                </ul>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=4"><span class="dropdown-mi">Tau 4</span><span class="dropdown-en">Year 4</span></a></li>
+                                    <li><a href="browse.html?year=5"><span class="dropdown-mi">Tau 5</span><span class="dropdown-en">Year 5</span></a></li>
+                                    <li><a href="browse.html?year=6"><span class="dropdown-mi">Tau 6</span><span class="dropdown-en">Year 6</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Intermediate / Waenga (7-8)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=7"><span class="dropdown-mi">Tau 7</span><span class="dropdown-en">Year 7</span></a></li>
+                                    <li><a href="browse.html?year=8"><span class="dropdown-mi">Tau 8</span><span class="dropdown-en">Year 8</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Junior Secondary / Tuarua (9-10)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=9"><span class="dropdown-mi">Tau 9</span><span class="dropdown-en">Year 9</span></a></li>
+                                    <li><a href="browse.html?year=10"><span class="dropdown-mi">Tau 10</span><span class="dropdown-en">Year 10</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Senior Secondary / NCEA (11-13)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=11"><span class="dropdown-mi">Tau 11</span><span class="dropdown-en">Year 11</span></a></li>
+                                    <li><a href="browse.html?year=12"><span class="dropdown-mi">Tau 12</span><span class="dropdown-en">Year 12</span></a></li>
+                                    <li><a href="browse.html?year=13"><span class="dropdown-mi">Tau 13</span><span class="dropdown-en">Year 13</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    <li>
+                        <a href="#more">
+                            <span class="nav-icon">📦</span>
+                            <span class="nav-text-mi" lang="mi">Ētahi Atu</span>
+                            <span class="nav-text-en">More Stuff</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="games.html"><span class="dropdown-mi">🎮 Ngā Kēmu</span><span class="dropdown-en">Games</span></a></li>
+                                <li><a href="youtube.html"><span class="dropdown-mi">📺 Ataata YouTube</span><span class="dropdown-en">YouTube Videos</span></a></li>
+                                <li><a href="curriculum-alignment.html"><span class="dropdown-mi">📋 Te Marautanga</span><span class="dropdown-en">Curriculum Alignment</span></a></li>
+                                <li><a href="other-resources.html"><span class="dropdown-mi">🔗 Ētahi Atu Rauemi</span><span class="dropdown-en">Other Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="auth-nav auth-logged-out">
+                        <a href="login.html" class="auth-btn">
+                            <span class="nav-icon" data-icon="login"></span>
+                            <span class="nav-text-mi" lang="mi">Takiuru</span>
+                            <span class="nav-text-en">Login</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav auth-logged-in" style="display: none;">
+                        <a href="my-kete.html" class="dashboard-btn">
+                            <span class="nav-icon" data-icon="kete"></span>
+                            <span class="nav-text-mi" lang="mi">Tōku Kete</span>
+                            <span class="nav-text-en">My Kete</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="command-center">
+        <!-- Header -->
+        <div class="header">
+            <h1>🚀 AI Orchestration Command Center</h1>
+            <p>Enterprise Multi-Agent Coordination for Te Kete Ako</p>
+        </div>
+
+        <!-- Orchestration Grid -->
+        <div class="orchestration-grid">
+            <!-- Control Panel -->
+            <div class="control-panel">
+                <h3 class="panel-title">🎛️ Mission Control</h3>
+                
+                <div class="task-input-section">
+                    <textarea 
+                        id="task-input" 
+                        class="task-input" 
+                        placeholder="Enter your educational task or query here... 
+
+Example: 'Create a culturally authentic lesson plan about traditional Māori navigation techniques for Year 9 students, including hands-on activities and assessment rubric.'"
+                    ></textarea>
+                </div>
+
+                <div class="controls-row">
+                    <div class="select-group">
+                        <label for="task-type">Task Type</label>
+                        <select id="task-type">
+                            <option value="curriculum_planning">Curriculum Planning</option>
+                            <option value="resource_discovery">Resource Discovery</option>
+                            <option value="learning_assessment">Learning Assessment</option>
+                            <option value="cultural_validation">Cultural Validation</option>
+                            <option value="collaborative_learning">Collaborative Learning</option>
+                        </select>
+                    </div>
+
+                    <div class="select-group">
+                        <label for="priority">Priority Level</label>
+                        <select id="priority">
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="orchestrate-button" onclick="orchestrateTask()" id="orchestrate-btn">
+                    🚀 Launch Multi-Agent Orchestration
+                </button>
+            </div>
+
+            <!-- Agent Status Panel -->
+            <div class="control-panel">
+                <h3 class="panel-title">🤖 Agent Squadron</h3>
+                
+                <div class="performance-indicator">
+                    <div class="performance-metric">
+                        <div class="performance-value" id="active-agents">4</div>
+                        <div class="performance-label">Active Agents</div>
+                    </div>
+                    <div class="performance-metric">
+                        <div class="performance-value" id="success-rate">98%</div>
+                        <div class="performance-label">Success Rate</div>
+                    </div>
+                    <div class="performance-metric">
+                        <div class="performance-value" id="avg-time">2.3s</div>
+                        <div class="performance-label">Avg Response</div>
+                    </div>
+                </div>
+
+                <div class="agents-status" id="agents-status">
+                    <div class="agent-card active">
+                        <div class="agent-name">🧠 DeepSeek Specialist</div>
+                        <div class="agent-status">Ready • Educational AI</div>
+                    </div>
+                    <div class="agent-card active">
+                        <div class="agent-name">🔍 GraphRAG Engine</div>
+                        <div class="agent-status">Ready • 775 Resources</div>
+                    </div>
+                    <div class="agent-card active">
+                        <div class="agent-name">🌺 Cultural Validator</div>
+                        <div class="agent-status">Ready • Te Ao Māori</div>
+                    </div>
+                    <div class="agent-card active">
+                        <div class="agent-name">📊 Analytics Engine</div>
+                        <div class="agent-status">Ready • Performance</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Panel -->
+        <div class="results-panel">
+            <h3 class="panel-title">📋 Orchestration Results</h3>
+            <div class="results-content" id="results-content">
+                <div style="text-align: center; padding: 50px; color: #64748b;">
+                    <h4>🚀 Ready for Multi-Agent Orchestration</h4>
+                    <p>Enter a task above and launch the AI squadron to get comprehensive educational insights!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let orchestrationInProgress = false;
+
+        async function orchestrateTask() {
+            if (orchestrationInProgress) return;
+
+            const taskInput = document.getElementById('task-input').value.trim();
+            if (!taskInput) {
+                alert('Please enter a task to orchestrate!');
+                return;
+            }
+
+            orchestrationInProgress = true;
+            const button = document.getElementById('orchestrate-btn');
+            const resultsContent = document.getElementById('results-content');
+
+            // Update UI to show processing
+            button.disabled = true;
+            button.innerHTML = '<span class="loading-spinner"></span> Orchestrating Agents...';
+            
+            // Mark all agents as processing
+            document.querySelectorAll('.agent-card').forEach(card => {
+                card.classList.add('processing');
+            });
+
+            // Show loading in results
+            resultsContent.innerHTML = `
+                <div style="text-align: center; padding: 30px;">
+                    <div class="loading-spinner" style="width: 40px; height: 40px; margin-bottom: 20px;"></div>
+                    <h4>🚀 Multi-Agent Orchestration in Progress</h4>
+                    <p>Coordinating DeepSeek, GraphRAG, Cultural Validator, and Analytics Engine...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch('/.netlify/functions/multi-agent-orchestrator', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        task: taskInput,
+                        taskType: document.getElementById('task-type').value,
+                        priority: document.getElementById('priority').value,
+                        parallelExecution: true
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    displayResults(data);
+                } else {
+                    displayError(data.error || 'Orchestration failed');
+                }
+
+            } catch (error) {
+                displayError(error.message);
+            } finally {
+                // Reset UI
+                orchestrationInProgress = false;
+                button.disabled = false;
+                button.innerHTML = '🚀 Launch Multi-Agent Orchestration';
+                
+                // Reset agent status
+                document.querySelectorAll('.agent-card').forEach(card => {
+                    card.classList.remove('processing');
+                });
+            }
+        }
+
+        function displayResults(data) {
+            const resultsContent = document.getElementById('results-content');
+            
+            let html = `
+                <div class="result-section">
+                    <h4>🎯 Task Orchestration Summary</h4>
+                    <p><strong>Task:</strong> ${data.task}</p>
+                    <p><strong>Type:</strong> ${data.taskType}</p>
+                    <p><strong>Agents Involved:</strong> ${data.metadata.agentsInvolved.join(', ')}</p>
+                    <p><strong>Execution:</strong> ${data.metadata.executionType}</p>
+                    <p><strong>Processing Time:</strong> ${data.metadata.processingTime}ms</p>
+                </div>
+            `;
+
+            if (data.response && data.response.summary) {
+                html += `
+                    <div class="result-section">
+                        <h4>📋 Synthesized Response</h4>
+                        <p>${data.response.summary}</p>
+                        <p><strong>Confidence:</strong> ${Math.round(data.response.confidence * 100)}%</p>
+                    </div>
+                `;
+            }
+
+            if (data.response && data.response.resources && data.response.resources.length > 0) {
+                html += `
+                    <div class="result-section">
+                        <h4>📚 Discovered Resources</h4>
+                        <ul>
+                            ${data.response.resources.map(resource => 
+                                `<li><strong>${resource.title}</strong> - ${resource.type || 'Resource'}</li>`
+                            ).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            if (data.agentResults && data.agentResults.length > 0) {
+                html += `
+                    <div class="result-section">
+                        <h4>🤖 Individual Agent Results</h4>
+                        ${data.agentResults.map(result => `
+                            <div style="margin-bottom: 15px; padding: 10px; background: rgba(30, 41, 59, 0.3); border-radius: 6px;">
+                                <strong>${result.agent}:</strong> 
+                                <span style="color: ${result.success ? '#22c55e' : '#ef4444'}">
+                                    ${result.success ? '✅ Success' : '❌ Failed'}
+                                </span>
+                                ${result.error ? `<br><span style="color: #f59e0b;">Error: ${result.error}</span>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            resultsContent.innerHTML = html;
+        }
+
+        function displayError(error) {
+            const resultsContent = document.getElementById('results-content');
+            resultsContent.innerHTML = `
+                <div class="result-section" style="border-left-color: #ef4444;">
+                    <h4>❌ Orchestration Error</h4>
+                    <p style="color: #f87171;">${error}</p>
+                    <p>Please try again or contact support if the issue persists.</p>
+                </div>
+            `;
+        }
+
+        // Auto-focus task input on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('task-input').focus();
+        });
+
+        // Allow Enter key to trigger orchestration
+        document.getElementById('task-input').addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'Enter') {
+                orchestrateTask();
+            }
+        });
+    </script>
+
+<footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- Brand Section -->
+                <div class="footer-section footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p class="footer-whakataukī">"Whaowhia te kete mātauranga"</p>
+                    <p class="footer-tagline">Fill the basket of knowledge</p>
+                    <p class="footer-description">Quality teaching resources for Aotearoa New Zealand educators, honoring mātauranga Māori and contemporary pedagogy.</p>
+                </div>
+
+                <!-- Resources Section -->
+                <div class="footer-section footer-resources">
+                    <h4><span class="footer-mi">Ngā Rauemi</span> <span class="footer-en">Resources</span></h4>
+                    <ul>
+                        <li><a href="unit-plans.html">📚 Unit Plans / Ngā Mahere Wāhanga</a></li>
+                        <li><a href="lessons.html">📖 Lesson Plans / Ngā Akoranga</a></li>
+                        <li><a href="handouts.html">📄 Handouts / Ngā Kape</a></li>
+                        <li><a href="games.html">🎮 Games / Ngā Kēmu</a></li>
+                        <li><a href="browse.html">🔍 Browse All / Tirohia Katoa</a></li>
+                    </ul>
+                </div>
+
+                <!-- Curriculum Section -->
+                <div class="footer-section footer-curriculum">
+                    <h4><span class="footer-mi">Te Marautanga</span> <span class="footer-en">Curriculum</span></h4>
+                    <ul>
+                        <li><a href="browse.html?subject=english">📝 English / Reo Pākehā</a></li>
+                        <li><a href="browse.html?subject=math">🔢 Mathematics / Pāngarau</a></li>
+                        <li><a href="browse.html?subject=science">🔬 Science / Pūtaiao</a></li>
+                        <li><a href="browse.html?subject=social-studies">🌏 Social Studies / Tikanga-ā-Iwi</a></li>
+                        <li><a href="curriculum-alignment.html">📋 NZ Curriculum Alignment</a></li>
+                    </ul>
+                </div>
+
+                <!-- Account & Support Section -->
+                <div class="footer-section footer-support">
+                    <h4><span class="footer-mi">Tautoko</span> <span class="footer-en">Support</span></h4>
+                    <ul>
+                        <li><a href="my-kete.html">🧺 My Kete / Tōku Kete</a></li>
+                        <li><a href="login.html">🔐 Login / Takiuru</a></li>
+                        <li><a href="#about">ℹ️ About Us / Mō Mātou</a></li>
+                        <li><a href="#contact">✉️ Contact / Whakapā Mai</a></li>
+                        <li><a href="#help">❓ Help / Āwhina</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <span class="footer-copyright">© 2025 Te Kete Ako</span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-location">Aotearoa New Zealand</span>
+                    <span class="footer-separator">•</span>
+                    <a href="#privacy">Privacy</a>
+                    <span class="footer-separator">•</span>
+                    <a href="#terms">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

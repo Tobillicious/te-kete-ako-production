@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://supabase.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: https://placehold.co; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co https://supabase.com;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Educational Library | Te Kete Ako</title>
+    <meta name="description" content="Comprehensive YouTube educational video library with 1000+ hours of curriculum-aligned content for New Zealand schools. Culturally authentic, assessment-ready resources across all subjects.">
+    <meta name="keywords" content="educational videos, YouTube library, New Zealand curriculum, Te Ao Māori, STEM, literacy, assessment resources">
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://img.youtube.com">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/youtube-library.css">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="YouTube Educational Library | Te Kete Ako">
+    <meta property="og:description" content="Comprehensive educational video library with curriculum-aligned content for New Zealand schools">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://teketeako.netlify.app/youtube-library.html">
+    <meta property="og:image" content="https://teketeako.netlify.app/icons/icon-192x192.png">
+    
+    <!-- Structured Data for Educational Content -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        "name": "Te Kete Ako YouTube Library",
+        "description": "Comprehensive educational video library for New Zealand schools",
+        "url": "https://teketeako.netlify.app/youtube-library.html",
+        "educationalCredentialAwarded": "New Zealand Curriculum Alignment",
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Educational Video Library",
+            "itemListElement": [
+                {
+                    "@type": "Course",
+                    "name": "Te Ao Māori Cultural Content",
+                    "description": "Culturally authentic Māori educational videos"
+                },
+                {
+                    "@type": "Course", 
+                    "name": "STEM Education",
+                    "description": "Science, Technology, Engineering and Mathematics videos"
+                },
+                {
+                    "@type": "Course",
+                    "name": "Literacy and English",
+                    "description": "Reading, writing and communication skills development"
+                }
+            ]
+        }
+    }
+    </script>
+</head>
+<body data-auto-init="true" data-current-page="youtube-library">
+
+    <!-- Site Header -->
+                    <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                        <li>
+                            <a href="browse.html">
+                                <span class="nav-icon">📚</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                                <span class="nav-text-en">Resources</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="unit-plans.html"><span class="dropdown-mi">📚 Ngā Mahere Wāhanga</span><span class="dropdown-en">Unit Plans (6-8 weeks)</span></a></li>
+                                <li><a href="lessons.html"><span class="dropdown-mi">📖 Ngā Mahere Akoranga</span><span class="dropdown-en">Lesson Plans (60-75 min)</span></a></li>
+                                <li><a href="handouts.html"><span class="dropdown-mi">📄 Ngā Kape</span><span class="dropdown-en">Handouts & Materials</span></a></li>
+                                <li><a href="browse.html"><span class="dropdown-mi">🔍 Tirohia Katoa</span><span class="dropdown-en">Browse All Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=subject">
+                                <span class="nav-icon">🎨</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Marau</span>
+                                <span class="nav-text-en">Subjects</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="browse.html?subject=english"><span class="dropdown-mi">📝 Reo Pākehā</span><span class="dropdown-en">English</span></a></li>
+                                <li><a href="browse.html?subject=math"><span class="dropdown-mi">🔢 Pāngarau</span><span class="dropdown-en">Mathematics</span></a></li>
+                                <li><a href="browse.html?subject=science"><span class="dropdown-mi">🔬 Pūtaiao</span><span class="dropdown-en">Science</span></a></li>
+                                <li><a href="browse.html?subject=social-studies"><span class="dropdown-mi">🌏 Tikanga-ā-Iwi</span><span class="dropdown-en">Social Studies</span></a></li>
+                                <li><a href="browse.html?subject=te-reo"><span class="dropdown-mi">🌿 Te Reo Māori</span><span class="dropdown-en">Māori Language</span></a></li>
+                                <li><a href="browse.html?subject=arts"><span class="dropdown-mi">🎨 Ngā Toi</span><span class="dropdown-en">The Arts</span></a></li>
+                                <li><a href="browse.html?subject=health-pe"><span class="dropdown-mi">💪 Hauora</span><span class="dropdown-en">Health & PE</span></a></li>
+                                <li><a href="browse.html?subject=technology"><span class="dropdown-mi">🔧 Hangarau</span><span class="dropdown-en">Technology</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=year">
+                                <span class="nav-icon">📅</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Tau</span>
+                                <span class="nav-text-en">Year Levels</span>
+                            </a>
+                            <div class="nav-dropdown nav-dropdown-wide">
+                                <div class="year-stage-label">Primary / Tuatahi (1-6)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=1"><span class="dropdown-mi">Tau 1</span><span class="dropdown-en">Year 1</span></a></li>
+                                    <li><a href="browse.html?year=2"><span class="dropdown-mi">Tau 2</span><span class="dropdown-en">Year 2</span></a></li>
+                                    <li><a href="browse.html?year=3"><span class="dropdown-mi">Tau 3</span><span class="dropdown-en">Year 3</span></a></li>
+                                </ul>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=4"><span class="dropdown-mi">Tau 4</span><span class="dropdown-en">Year 4</span></a></li>
+                                    <li><a href="browse.html?year=5"><span class="dropdown-mi">Tau 5</span><span class="dropdown-en">Year 5</span></a></li>
+                                    <li><a href="browse.html?year=6"><span class="dropdown-mi">Tau 6</span><span class="dropdown-en">Year 6</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Intermediate / Waenga (7-8)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=7"><span class="dropdown-mi">Tau 7</span><span class="dropdown-en">Year 7</span></a></li>
+                                    <li><a href="browse.html?year=8"><span class="dropdown-mi">Tau 8</span><span class="dropdown-en">Year 8</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Junior Secondary / Tuarua (9-10)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=9"><span class="dropdown-mi">Tau 9</span><span class="dropdown-en">Year 9</span></a></li>
+                                    <li><a href="browse.html?year=10"><span class="dropdown-mi">Tau 10</span><span class="dropdown-en">Year 10</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Senior Secondary / NCEA (11-13)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=11"><span class="dropdown-mi">Tau 11</span><span class="dropdown-en">Year 11</span></a></li>
+                                    <li><a href="browse.html?year=12"><span class="dropdown-mi">Tau 12</span><span class="dropdown-en">Year 12</span></a></li>
+                                    <li><a href="browse.html?year=13"><span class="dropdown-mi">Tau 13</span><span class="dropdown-en">Year 13</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    <li>
+                        <a href="#more">
+                            <span class="nav-icon">📦</span>
+                            <span class="nav-text-mi" lang="mi">Ētahi Atu</span>
+                            <span class="nav-text-en">More Stuff</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="games.html"><span class="dropdown-mi">🎮 Ngā Kēmu</span><span class="dropdown-en">Games</span></a></li>
+                                <li><a href="youtube.html"><span class="dropdown-mi">📺 Ataata YouTube</span><span class="dropdown-en">YouTube Videos</span></a></li>
+                                <li><a href="curriculum-alignment.html"><span class="dropdown-mi">📋 Te Marautanga</span><span class="dropdown-en">Curriculum Alignment</span></a></li>
+                                <li><a href="other-resources.html"><span class="dropdown-mi">🔗 Ētahi Atu Rauemi</span><span class="dropdown-en">Other Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="auth-nav auth-logged-out">
+                        <a href="login.html" class="auth-btn">
+                            <span class="nav-icon" data-icon="login"></span>
+                            <span class="nav-text-mi" lang="mi">Takiuru</span>
+                            <span class="nav-text-en">Login</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav auth-logged-in" style="display: none;">
+                        <a href="my-kete.html" class="dashboard-btn">
+                            <span class="nav-icon" data-icon="kete"></span>
+                            <span class="nav-text-mi" lang="mi">Tōku Kete</span>
+                            <span class="nav-text-en">My Kete</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Left Sidebar -->
+        <aside class="left-sidebar no-print">
+            <div class="sidebar-widget">
+                <h3 class="sidebar-widget-title">Today's Whakataukī</h3>
+                <p style="font-style: italic; color: var(--color-secondary);">"Mā te kōrero, ka mōhio; mā te mōhio, ka mārama; mā te mārama, ka mātau; mā te mātau, ka ora."</p>
+                <p style="font-size: 0.9rem;">Through discussion comes awareness; through awareness comes understanding; through understanding comes knowledge; through knowledge comes life.</p>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3 class="sidebar-widget-title">Quick Filters</h3>
+                <ul>
+                    <li><a href="#" onclick="quickFilter('te-ao-maori')">🌟 Te Ao Māori Content</a></li>
+                    <li><a href="#" onclick="quickFilter('assessment-ready')">📋 Assessment Ready</a></li>
+                    <li><a href="#" onclick="quickFilter('curriculum-aligned')">✨ Curriculum Aligned</a></li>
+                    <li><a href="#" onclick="quickFilter('cultural-authentic')">🏛️ Culturally Authentic</a></li>
+                    <li><a href="#" onclick="quickFilter('quick-review')">⚡ Quick Reviews (5-10 min)</a></li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-widget cultural-accent">
+                <h3 class="sidebar-widget-title">Popular Categories</h3>
+                <ul>
+                    <li><a href="#" onclick="quickSubjectFilter('te-ao-maori')">Te Ao Māori (45 videos)</a></li>
+                    <li><a href="#" onclick="quickSubjectFilter('science')">Science & STEM (38 videos)</a></li>
+                    <li><a href="#" onclick="quickSubjectFilter('english')">English & Literacy (32 videos)</a></li>
+                    <li><a href="#" onclick="quickSubjectFilter('social-sciences')">Social Sciences (29 videos)</a></li>
+                    <li><a href="#" onclick="quickSubjectFilter('mathematics')">Mathematics (24 videos)</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3 class="sidebar-widget-title">Featured Collections</h3>
+                <ul>
+                    <li><a href="#" onclick="quickFilter('ted-talks')">🎤 TED Talks for Students</a></li>
+                    <li><a href="#" onclick="quickFilter('documentary')">📽️ Educational Documentaries</a></li>
+                    <li><a href="#" onclick="quickFilter('current-events')">📰 Current Events & Issues</a></li>
+                    <li><a href="#" onclick="quickFilter('environmental-studies')">🌱 Environmental Action</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Content Area -->
+        <main class="content-area">
+            <!-- Library Hero Section -->
+            <section class="library-hero">
+                <div class="library-hero-content">
+                    <h1>🏛️ YouTube Educational Library</h1>
+                    <p>"Whaowhia te kete mātauranga" - Fill the basket of knowledge with curated educational videos that inspire, educate, and celebrate our diverse learning community.</p>
+                    
+                    <div class="library-stats" id="library-stats">
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-number">1000+</div>
+                                <div class="stat-label">Educational Videos</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">85%</div>
+                                <div class="stat-label">Curriculum Aligned</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">65%</div>
+                                <div class="stat-label">Assessment Ready</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">200+</div>
+                                <div class="stat-label">Cultural Content</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Search and Filter Section -->
+            <section class="search-filter-section">
+                <div class="search-bar">
+                    <input 
+                        type="text" 
+                        id="video-search" 
+                        class="search-input" 
+                        placeholder="🔍 Search videos by title, topic, or keyword..."
+                        aria-label="Search educational videos"
+                    >
+                </div>
+
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label class="filter-label" for="subject-filter">Subject Area</label>
+                        <select class="filter-select" id="subject-filter" aria-label="Filter by subject">
+                            <option value="">All Subjects</option>
+                            <option value="te-ao-maori">Te Ao Māori</option>
+                            <option value="english">English & Literacy</option>
+                            <option value="mathematics">Mathematics</option>
+                            <option value="science">Science & STEM</option>
+                            <option value="social-sciences">Social Sciences</option>
+                            <option value="the-arts">The Arts</option>
+                            <option value="digital-technologies">Digital Technologies</option>
+                            <option value="environmental-studies">Environmental Studies</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label" for="type-filter">Content Type</label>
+                        <select class="filter-select" id="type-filter" aria-label="Filter by content type">
+                            <option value="">All Types</option>
+                            <option value="educational">Educational</option>
+                            <option value="cultural">Cultural</option>
+                            <option value="documentary">Documentary</option>
+                            <option value="ted-talks">TED Talks</option>
+                            <option value="current-events">Current Events</option>
+                            <option value="quick-review">Quick Review</option>
+                            <option value="historical">Historical</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label" for="year-filter">Year Level</label>
+                        <select class="filter-select" id="year-filter" aria-label="Filter by year level">
+                            <option value="">All Year Levels</option>
+                            <option value="7">Year 7</option>
+                            <option value="8">Year 8</option>
+                            <option value="9">Year 9</option>
+                            <option value="10">Year 10</option>
+                            <option value="11">Year 11</option>
+                            <option value="12">Year 12</option>
+                            <option value="13">Year 13</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label" for="duration-filter">Video Length</label>
+                        <select class="filter-select" id="duration-filter" aria-label="Filter by video duration">
+                            <option value="">All Durations</option>
+                            <option value="short">Short (0-10 min)</option>
+                            <option value="medium">Medium (10-30 min)</option>
+                            <option value="long">Long (30+ min)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label" for="cultural-filter">Cultural Content</label>
+                        <select class="filter-select" id="cultural-filter" aria-label="Filter by cultural content">
+                            <option value="">All Content</option>
+                            <option value="culturally-authentic">🌟 Culturally Authentic</option>
+                            <option value="te-ao-maori">🏛️ Te Ao Māori</option>
+                            <option value="pacific-content">🌺 Pacific Content</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label" for="curriculum-filter">Educational Features</label>
+                        <select class="filter-select" id="curriculum-filter" aria-label="Filter by educational features">
+                            <option value="">All Videos</option>
+                            <option value="curriculum-aligned">✨ Curriculum Aligned</option>
+                            <option value="assessment-ready">📋 Assessment Ready</option>
+                            <option value="handouts-available">📚 Resources Available</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="clear-filters-container">
+                    <button class="clear-filters-btn" onclick="clearAllFilters()" aria-label="Clear all filters">
+                        🔄 Clear All Filters
+                    </button>
+                </div>
+            </section>
+
+            <!-- Loading State -->
+            <div id="loading-state" style="display: none;">
+                <div class="video-grid">
+                    <div class="video-card-skeleton loading-skeleton"></div>
+                    <div class="video-card-skeleton loading-skeleton"></div>
+                    <div class="video-card-skeleton loading-skeleton"></div>
+                    <div class="video-card-skeleton loading-skeleton"></div>
+                </div>
+            </div>
+
+            <!-- Video Grid -->
+            <section class="video-library-content">
+                <div class="video-grid" id="video-grid" role="main" aria-live="polite">
+                    <!-- Videos will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Pagination -->
+            <nav class="pagination" id="pagination" role="navigation" aria-label="Video library pagination">
+                <!-- Pagination will be populated by JavaScript -->
+            </nav>
+        </main>
+    </div>
+
+    <!-- Site Footer -->
+                    <footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- Brand Section -->
+                <div class="footer-section footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p class="footer-whakataukī">"Whaowhia te kete mātauranga"</p>
+                    <p class="footer-tagline">Fill the basket of knowledge</p>
+                    <p class="footer-description">Quality teaching resources for Aotearoa New Zealand educators, honoring mātauranga Māori and contemporary pedagogy.</p>
+                </div>
+
+                <!-- Resources Section -->
+                <div class="footer-section footer-resources">
+                    <h4><span class="footer-mi">Ngā Rauemi</span> <span class="footer-en">Resources</span></h4>
+                    <ul>
+                        <li><a href="unit-plans.html">📚 Unit Plans / Ngā Mahere Wāhanga</a></li>
+                        <li><a href="lessons.html">📖 Lesson Plans / Ngā Akoranga</a></li>
+                        <li><a href="handouts.html">📄 Handouts / Ngā Kape</a></li>
+                        <li><a href="games.html">🎮 Games / Ngā Kēmu</a></li>
+                        <li><a href="browse.html">🔍 Browse All / Tirohia Katoa</a></li>
+                    </ul>
+                </div>
+
+                <!-- Curriculum Section -->
+                <div class="footer-section footer-curriculum">
+                    <h4><span class="footer-mi">Te Marautanga</span> <span class="footer-en">Curriculum</span></h4>
+                    <ul>
+                        <li><a href="browse.html?subject=english">📝 English / Reo Pākehā</a></li>
+                        <li><a href="browse.html?subject=math">🔢 Mathematics / Pāngarau</a></li>
+                        <li><a href="browse.html?subject=science">🔬 Science / Pūtaiao</a></li>
+                        <li><a href="browse.html?subject=social-studies">🌏 Social Studies / Tikanga-ā-Iwi</a></li>
+                        <li><a href="curriculum-alignment.html">📋 NZ Curriculum Alignment</a></li>
+                    </ul>
+                </div>
+
+                <!-- Account & Support Section -->
+                <div class="footer-section footer-support">
+                    <h4><span class="footer-mi">Tautoko</span> <span class="footer-en">Support</span></h4>
+                    <ul>
+                        <li><a href="my-kete.html">🧺 My Kete / Tōku Kete</a></li>
+                        <li><a href="login.html">🔐 Login / Takiuru</a></li>
+                        <li><a href="#about">ℹ️ About Us / Mō Mātou</a></li>
+                        <li><a href="#contact">✉️ Contact / Whakapā Mai</a></li>
+                        <li><a href="#help">❓ Help / Āwhina</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <span class="footer-copyright">© 2025 Te Kete Ako</span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-location">Aotearoa New Zealand</span>
+                    <span class="footer-separator">•</span>
+                    <a href="#privacy">Privacy</a>
+                    <span class="footer-separator">•</span>
+                    <a href="#terms">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Performance and Analytics Scripts -->
+    <script>
+        // Performance monitoring
+        if ('performance' in window) {
+            window.addEventListener('load', () => {
+                const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+                });
+        }
+
+        // Quick filter functions for sidebar
+        function quickFilter(filterType) {
+            const curriculumFilter = document.getElementById('curriculum-filter');
+            const typeFilter = document.getElementById('type-filter');
+            const culturalFilter = document.getElementById('cultural-filter');
+            
+            // Reset all filters first
+            document.getElementById('subject-filter').value = '';
+            typeFilter.value = '';
+            curriculumFilter.value = '';
+            culturalFilter.value = '';
+            
+            // Apply specific filter
+            switch(filterType) {
+                case 'te-ao-maori':
+                    document.getElementById('subject-filter').value = 'te-ao-maori';
+                    break;
+                case 'assessment-ready':
+                    curriculumFilter.value = 'assessment-ready';
+                    break;
+                case 'curriculum-aligned':
+                    curriculumFilter.value = 'curriculum-aligned';
+                    break;
+                case 'cultural-authentic':
+                    culturalFilter.value = 'culturally-authentic';
+                    break;
+                case 'quick-review':
+                    typeFilter.value = 'quick-review';
+                    break;
+                case 'ted-talks':
+                    typeFilter.value = 'ted-talks';
+                    break;
+                case 'documentary':
+                    typeFilter.value = 'documentary';
+                    break;
+                case 'current-events':
+                    typeFilter.value = 'current-events';
+                    break;
+                case 'environmental-studies':
+                    document.getElementById('subject-filter').value = 'environmental-studies';
+                    break;
+            }
+            
+            // Trigger filter update
+            if (window.youtubeLibrary) {
+                window.youtubeLibrary.updateFilters();
+                window.youtubeLibrary.applyFilters();
+            }
+        }
+
+        function quickSubjectFilter(subject) {
+            document.getElementById('subject-filter').value = subject;
+            if (window.youtubeLibrary) {
+                window.youtubeLibrary.updateFilters();
+                window.youtubeLibrary.applyFilters();
+            }
+        }
+
+        function clearAllFilters() {
+            if (window.youtubeLibrary) {
+                window.youtubeLibrary.clearAllFilters();
+            }
+        }
+
+        // Accessibility enhancements
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add keyboard navigation for video cards
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && e.target.classList.contains('video-card')) {
+                    const link = e.target.querySelector('.video-title a');
+                    if (link) link.click();
+                }
+            });
+
+            // Add focus management for filter interactions
+            const filters = document.querySelectorAll('.filter-select');
+            filters.forEach(filter => {
+                filter.addEventListener('change', () => {
+                    // Announce filter changes to screen readers
+                    const announcement = document.createElement('div');
+                    announcement.setAttribute('aria-live', 'polite');
+                    announcement.setAttribute('aria-atomic', 'true');
+                    announcement.className = 'sr-only';
+                    announcement.textContent = `Filter applied: ${filter.value || 'All items'}`;
+                    document.body.appendChild(announcement);
+                    
+                    setTimeout(() => {
+                        document.body.removeChild(announcement);
+                    }, 1000);
+                });
+            });
+        });
+    </script>
+
+    <!-- Core Scripts -->
+    <script src="js/shared-components.js"></script>
+    <script src="js/youtube-api.js"></script>
+    <script src="js/analytics-dashboard.js"></script>
+    <script src="js/advanced-analytics.js"></script>
+
+    <!-- Service Worker Registration - Temporarily disabled for CSP -->
+    <script>
+        // Service worker disabled to resolve CSP conflicts
+        // if ('serviceWorker' in navigator) {
+        //     navigator.serviceWorker.register('/sw.js')
+        //         .then(registration => console.log('SW registered'))
+        //         .catch(error => console.log('SW failed'));
+        // }
+    </script>
+
+    <!-- Load Supabase Client -->
+    <script src="js/supabase-client.js"></script>
+    <!-- Load Auth UI -->
+    <script src="js/auth-enhanced.js"></script>
+</body>
+</html>

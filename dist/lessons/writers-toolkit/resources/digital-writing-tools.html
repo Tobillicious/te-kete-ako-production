@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Writing Tools | Writers Toolkit | Te Kete Ako</title>
+    <meta name="description" content="Digital Writing Tools | Writers Toolkit | Te Kete Ako - Educational resource from Te Kete Ako">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../../css/main.css">
+    <style>
+        .tool-category {
+            background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 2px solid #2196f3;
+        }
+        .tool-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .tool-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .tool-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .tool-icon {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            background: var(--color-accent);
+            padding: 0.5rem;
+            border-radius: 8px;
+            color: white;
+        }
+        .tool-meta {
+            display: flex;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+            flex-wrap: wrap;
+        }
+        .tool-meta span {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+        .accessibility-note {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .implementation-guide {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .cultural-integration {
+            background: var(--color-cultural-light);
+            border: 2px solid var(--color-cultural);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .pros {
+            background: #e8f5e8;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #4caf50;
+        }
+        .cons {
+            background: #ffebee;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #f44336;
+        }
+    </style>
+</head>
+<body>
+                    <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                        <li>
+                            <a href="browse.html">
+                                <span class="nav-icon">📚</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                                <span class="nav-text-en">Resources</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="unit-plans.html"><span class="dropdown-mi">📚 Ngā Mahere Wāhanga</span><span class="dropdown-en">Unit Plans (6-8 weeks)</span></a></li>
+                                <li><a href="lessons.html"><span class="dropdown-mi">📖 Ngā Mahere Akoranga</span><span class="dropdown-en">Lesson Plans (60-75 min)</span></a></li>
+                                <li><a href="handouts.html"><span class="dropdown-mi">📄 Ngā Kape</span><span class="dropdown-en">Handouts & Materials</span></a></li>
+                                <li><a href="browse.html"><span class="dropdown-mi">🔍 Tirohia Katoa</span><span class="dropdown-en">Browse All Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=subject">
+                                <span class="nav-icon">🎨</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Marau</span>
+                                <span class="nav-text-en">Subjects</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="browse.html?subject=english"><span class="dropdown-mi">📝 Reo Pākehā</span><span class="dropdown-en">English</span></a></li>
+                                <li><a href="browse.html?subject=math"><span class="dropdown-mi">🔢 Pāngarau</span><span class="dropdown-en">Mathematics</span></a></li>
+                                <li><a href="browse.html?subject=science"><span class="dropdown-mi">🔬 Pūtaiao</span><span class="dropdown-en">Science</span></a></li>
+                                <li><a href="browse.html?subject=social-studies"><span class="dropdown-mi">🌏 Tikanga-ā-Iwi</span><span class="dropdown-en">Social Studies</span></a></li>
+                                <li><a href="browse.html?subject=te-reo"><span class="dropdown-mi">🌿 Te Reo Māori</span><span class="dropdown-en">Māori Language</span></a></li>
+                                <li><a href="browse.html?subject=arts"><span class="dropdown-mi">🎨 Ngā Toi</span><span class="dropdown-en">The Arts</span></a></li>
+                                <li><a href="browse.html?subject=health-pe"><span class="dropdown-mi">💪 Hauora</span><span class="dropdown-en">Health & PE</span></a></li>
+                                <li><a href="browse.html?subject=technology"><span class="dropdown-mi">🔧 Hangarau</span><span class="dropdown-en">Technology</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=year">
+                                <span class="nav-icon">📅</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Tau</span>
+                                <span class="nav-text-en">Year Levels</span>
+                            </a>
+                            <div class="nav-dropdown nav-dropdown-wide">
+                                <div class="year-stage-label">Primary / Tuatahi (1-6)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=1"><span class="dropdown-mi">Tau 1</span><span class="dropdown-en">Year 1</span></a></li>
+                                    <li><a href="browse.html?year=2"><span class="dropdown-mi">Tau 2</span><span class="dropdown-en">Year 2</span></a></li>
+                                    <li><a href="browse.html?year=3"><span class="dropdown-mi">Tau 3</span><span class="dropdown-en">Year 3</span></a></li>
+                                </ul>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=4"><span class="dropdown-mi">Tau 4</span><span class="dropdown-en">Year 4</span></a></li>
+                                    <li><a href="browse.html?year=5"><span class="dropdown-mi">Tau 5</span><span class="dropdown-en">Year 5</span></a></li>
+                                    <li><a href="browse.html?year=6"><span class="dropdown-mi">Tau 6</span><span class="dropdown-en">Year 6</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Intermediate / Waenga (7-8)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=7"><span class="dropdown-mi">Tau 7</span><span class="dropdown-en">Year 7</span></a></li>
+                                    <li><a href="browse.html?year=8"><span class="dropdown-mi">Tau 8</span><span class="dropdown-en">Year 8</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Junior Secondary / Tuarua (9-10)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=9"><span class="dropdown-mi">Tau 9</span><span class="dropdown-en">Year 9</span></a></li>
+                                    <li><a href="browse.html?year=10"><span class="dropdown-mi">Tau 10</span><span class="dropdown-en">Year 10</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Senior Secondary / NCEA (11-13)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=11"><span class="dropdown-mi">Tau 11</span><span class="dropdown-en">Year 11</span></a></li>
+                                    <li><a href="browse.html?year=12"><span class="dropdown-mi">Tau 12</span><span class="dropdown-en">Year 12</span></a></li>
+                                    <li><a href="browse.html?year=13"><span class="dropdown-mi">Tau 13</span><span class="dropdown-en">Year 13</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    <li>
+                        <a href="#more">
+                            <span class="nav-icon">📦</span>
+                            <span class="nav-text-mi" lang="mi">Ētahi Atu</span>
+                            <span class="nav-text-en">More Stuff</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="games.html"><span class="dropdown-mi">🎮 Ngā Kēmu</span><span class="dropdown-en">Games</span></a></li>
+                                <li><a href="youtube.html"><span class="dropdown-mi">📺 Ataata YouTube</span><span class="dropdown-en">YouTube Videos</span></a></li>
+                                <li><a href="curriculum-alignment.html"><span class="dropdown-mi">📋 Te Marautanga</span><span class="dropdown-en">Curriculum Alignment</span></a></li>
+                                <li><a href="other-resources.html"><span class="dropdown-mi">🔗 Ētahi Atu Rauemi</span><span class="dropdown-en">Other Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="auth-nav auth-logged-out">
+                        <a href="login.html" class="auth-btn">
+                            <span class="nav-icon" data-icon="login"></span>
+                            <span class="nav-text-mi" lang="mi">Takiuru</span>
+                            <span class="nav-text-en">Login</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav auth-logged-in" style="display: none;">
+                        <a href="my-kete.html" class="dashboard-btn">
+                            <span class="nav-icon" data-icon="kete"></span>
+                            <span class="nav-text-mi" lang="mi">Tōku Kete</span>
+                            <span class="nav-text-en">My Kete</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="breadcrumb">
+            <a href="../../../index.html">Home</a> > 
+            <a href="../../../lessons.html">Lessons</a> > 
+            <a href="../index.html">Writers Toolkit</a> > 
+            <span>Digital Writing Tools</span>
+        </div>
+
+        <section class="resource-header">
+            <h1>📱 Digital Writing Tools</h1>
+            <p class="resource-subtitle">Technology Integration Guide for Enhancing Writing Instruction with Digital Platforms</p>
+            
+            <div class="resource-meta">
+                <span class="meta-tag">Technology Integration</span>
+                <span class="meta-tag">Accessibility Focused</span>
+                <span class="meta-tag">Cultural Responsiveness</span>
+                <span class="meta-tag">All Devices</span>
+            </div>
+        </section>
+
+        <div class="cultural-integration">
+            <h2>🌿 Te Ao Māori Digital Framework: Tuakiri Matahiko</h2>
+            <p>Digital identity (tuakiri matahiko) in writing instruction must honor tikanga Māori while embracing technological advancement:</p>
+            <ul>
+                <li><strong>Manaakitanga:</strong> Tools should welcome and support all learners</li>
+                <li><strong>Whakatōhea:</strong> Enable collaboration and collective creation</li>
+                <li><strong>Kaitiakitanga:</strong> Protect student work and digital wellbeing</li>
+                <li><strong>Whakapapa:</strong> Connect digital tools to cultural identity and values</li>
+            </ul>
+        </div>
+
+        <div class="accessibility-note">
+            <h3>♿ Accessibility & Equity First</h3>
+            <p>All recommended tools prioritize accessibility and work across various devices and internet speeds. Special attention is given to tools that support:</p>
+            <ul>
+                <li>Screen readers and assistive technologies</li>
+                <li>Low-bandwidth/offline capabilities</li>
+                <li>Multiple language support including Te Reo Māori</li>
+                <li>Various learning differences and preferences</li>
+            </ul>
+        </div>
+
+        <section class="tool-categories">
+            <div class="tool-category">
+                <h2>✍️ Core Writing Platforms</h2>
+                <p>Essential tools for drafting, revising, and publishing student writing</p>
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">📝</div>
+                        <div>
+                            <h3>Google Docs</h3>
+                            <p>Collaborative word processing with real-time feedback</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-meta">
+                        <span>Free</span>
+                        <span>Collaborative</span>
+                        <span>Cloud-based</span>
+                        <span>Mobile-friendly</span>
+                    </div>
+
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ Strengths</h4>
+                            <ul>
+                                <li>Real-time collaboration</li>
+                                <li>Excellent commenting system</li>
+                                <li>Version history tracking</li>
+                                <li>Works on all devices</li>
+                                <li>Integrates with Google Classroom</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>⚠️ Considerations</h4>
+                            <ul>
+                                <li>Requires Google account</li>
+                                <li>Limited offline functionality</li>
+                                <li>Can be distracting with live cursors</li>
+                                <li>Formatting options are basic</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="implementation-guide">
+                        <h4>🛠️ Classroom Implementation</h4>
+                        <ul>
+                            <li><strong>Peer Review:</strong> Use suggesting mode for safe feedback</li>
+                            <li><strong>Teacher Feedback:</strong> Use comments for detailed guidance</li>
+                            <li><strong>Collaborative Writing:</strong> Assign different sections to different students</li>
+                            <li><strong>Portfolio Building:</strong> Create shared folders for ongoing work</li>
+                        </ul>
+                    </div>
+
+                    <div class="cultural-integration">
+                        <strong>🌿 Cultural Enhancement:</strong> Create templates with kupu Māori, encourage students to share whakapapa through collaborative family history documents, use for digital hui discussions.
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">📖</div>
+                        <div>
+                            <h3>Microsoft OneNote</h3>
+                            <p>Digital notebook with multimedia integration</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-meta">
+                        <span>Free</span>
+                        <span>Multimedia</span>
+                        <span>Handwriting support</span>
+                        <span>Cross-platform</span>
+                    </div>
+
+                    <div class="implementation-guide">
+                        <h4>🛠️ Best Uses for Writing</h4>
+                        <ul>
+                            <li><strong>Writing Journals:</strong> Combine text, images, and audio reflections</li>
+                            <li><strong>Research Organization:</strong> Clip web content directly into notebooks</li>
+                            <li><strong>Brainstorming:</strong> Use drawing tools for visual mind maps</li>
+                            <li><strong>Multimedia Stories:</strong> Embed videos and images in narratives</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">🌐</div>
+                        <div>
+                            <h3>Padlet</h3>
+                            <p>Virtual bulletin board for collaborative idea sharing</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-meta">
+                        <span>Freemium</span>
+                        <span>Visual</span>
+                        <span>Anonymous options</span>
+                        <span>Easy sharing</span>
+                    </div>
+
+                    <div class="implementation-guide">
+                        <h4>🛠️ Writing Applications</h4>
+                        <ul>
+                            <li><strong>Class Brainstorms:</strong> Collect ideas before writing</li>
+                            <li><strong>Feedback Walls:</strong> Anonymous peer suggestions</li>
+                            <li><strong>Poetry Galleries:</strong> Share and celebrate student work</li>
+                            <li><strong>Character Development:</strong> Visual character boards with quotes and images</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-category">
+                <h2>🎨 Creative Writing & Multimedia Tools</h2>
+                <p>Tools for innovative storytelling and creative expression</p>
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">📚</div>
+                        <div>
+                            <h3>Book Creator</h3>
+                            <p>Create multimedia books with text, images, and audio</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-meta">
+                        <span>Freemium</span>
+                        <span>Publishing</span>
+                        <span>Multimedia</span>
+                        <span>Student-friendly</span>
+                    </div>
+
+                    <div class="cultural-integration">
+                        <strong>🌿 Cultural Application:</strong> Perfect for creating digital purakau (stories), family history books with photos and audio recordings from kaumātua, or bilingual books combining English and Te Reo Māori.
+                    </div>
+
+                    <div class="implementation-guide">
+                        <h4>🛠️ Project Ideas</h4>
+                        <ul>
+                            <li><strong>Digital Purakau:</strong> Traditional stories with modern multimedia</li>
+                            <li><strong>Biography Projects:</strong> Student life stories with photos and narration</li>
+                            <li><strong>How-To Guides:</strong> Instructional writing with visual demonstrations</li>
+                            <li><strong>Poetry Collections:</strong> Illustrated student poetry anthologies</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">🎬</div>
+                        <div>
+                            <h3>Adobe Spark (Express)</h3>
+                            <p>Create videos, graphics, and web pages with integrated text</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-meta">
+                        <span>Free</span>
+                        <span>Professional quality</span>
+                        <span>Templates included</span>
+                        <span>Brand consistency</span>
+                    </div>
+
+                    <div class="implementation-guide">
+                        <h4>🛠️ Writing-Focused Projects</h4>
+                        <ul>
+                            <li><strong>Digital Essays:</strong> Transform traditional essays into engaging web pages</li>
+                            <li><strong>Persuasive Videos:</strong> Script writing for advocacy projects</li>
+                            <li><strong>Social Media Campaigns:</strong> Practice concise, persuasive writing</li>
+                            <li><strong>Book Trailers:</strong> Students create promotional content for literature</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-category">
+                <h2>🔍 Research & Organization Tools</h2>
+                <p>Digital tools to support the research and planning phases of writing</p>
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">🗂️</div>
+                        <div>
+                            <h3>Notion</h3>
+                            <p>All-in-one workspace for planning, research, and drafting</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-meta">
+                        <span>Freemium</span>
+                        <span>Database features</span>
+                        <span>Template rich</span>
+                        <span>Organizational</span>
+                    </div>
+
+                    <div class="implementation-guide">
+                        <h4>🛠️ Advanced Writing Support</h4>
+                        <ul>
+                            <li><strong>Writing Project Dashboards:</strong> Track multiple drafts and deadlines</li>
+                            <li><strong>Research Databases:</strong> Organize sources with tags and notes</li>
+                            <li><strong>Character/Setting Wikis:</strong> Detailed reference pages for creative writing</li>
+                            <li><strong>Reflection Journals:</strong> Track writing growth over time</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">🧠</div>
+                        <div>
+                            <h3>Milanote</h3>
+                            <p>Visual project organization with mood boards and notes</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-meta">
+                        <span>Freemium</span>
+                        <span>Visual planning</span>
+                        <span>Mood boards</span>
+                        <span>Creative focused</span>
+                    </div>
+
+                    <div class="implementation-guide">
+                        <h4>🛠️ Creative Writing Planning</h4>
+                        <ul>
+                            <li><strong>Story Planning Boards:</strong> Visual plot development with images and notes</li>
+                            <li><strong>Character Inspiration:</strong> Collect images, quotes, and personality traits</li>
+                            <li><strong>Setting Research:</strong> Gather location photos and descriptive notes</li>
+                            <li><strong>Writing Inspiration Collections:</strong> Save prompts, quotes, and ideas</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-category">
+                <h2>📊 Assessment & Feedback Tools</h2>
+                <p>Digital solutions for providing meaningful feedback and tracking progress</p>
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">🎯</div>
+                        <div>
+                            <h3>Flipgrid</h3>
+                            <p>Video discussion platform for verbal reflection and feedback</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-meta">
+                        <span>Free</span>
+                        <span>Video-based</span>
+                        <span>Student voice</span>
+                        <span>Safe sharing</span>
+                    </div>
+
+                    <div class="implementation-guide">
+                        <h4>🛠️ Writing Enhancement Uses</h4>
+                        <ul>
+                            <li><strong>Reading Aloud:</strong> Students record themselves reading their writing</li>
+                            <li><strong>Peer Feedback:</strong> Video responses to classmates' work</li>
+                            <li><strong>Writing Process Reflection:</strong> Students explain their writing choices</li>
+                            <li><strong>Character Voices:</strong> Practice dialogue by voicing characters</li>
+                        </ul>
+                    </div>
+
+                    <div class="cultural-integration">
+                        <strong>🌿 Cultural Enhancement:</strong> Perfect for practicing whaikōrero (speech-making) skills, sharing pūrākau in both English and Te Reo Māori, and building confidence in oral storytelling traditions.
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">📝</div>
+                        <div>
+                            <h3>Turnitin Draft Coach</h3>
+                            <p>Real-time writing feedback and plagiarism prevention</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-meta">
+                        <span>Paid/School license</span>
+                        <span>Integrity focused</span>
+                        <span>Instant feedback</span>
+                        <span>Citation help</span>
+                    </div>
+
+                    <div class="implementation-guide">
+                        <h4>🛠️ Academic Writing Support</h4>
+                        <ul>
+                            <li><strong>Citation Practice:</strong> Learn proper academic referencing</li>
+                            <li><strong>Originality Awareness:</strong> Understand plagiarism and academic integrity</li>
+                            <li><strong>Grammar Support:</strong> Real-time writing suggestions</li>
+                            <li><strong>Research Skills:</strong> Practice incorporating sources effectively</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-category">
+                <h2>♿ Accessibility & Support Tools</h2>
+                <p>Tools specifically designed to support diverse learners and accessibility needs</p>
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">🗣️</div>
+                        <div>
+                            <h3>Read&Write</h3>
+                            <p>Comprehensive literacy support with text-to-speech and prediction</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-meta">
+                        <span>Paid/School license</span>
+                        <span>Dyslexia support</span>
+                        <span>Text-to-speech</span>
+                        <span>Writing prediction</span>
+                    </div>
+
+                    <div class="accessibility-note">
+                        <h4>♿ Accessibility Features</h4>
+                        <ul>
+                            <li><strong>Text-to-Speech:</strong> Hear writing read aloud for editing</li>
+                            <li><strong>Word Prediction:</strong> Reduces typing burden for struggling writers</li>
+                            <li><strong>Vocabulary Support:</strong> Picture dictionaries and word definitions</li>
+                            <li><strong>Voice Notes:</strong> Capture ideas when typing is difficult</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">🎤</div>
+                        <div>
+                            <h3>Voice Typing (Google/Microsoft)</h3>
+                            <p>Built-in speech-to-text for hands-free writing</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-meta">
+                        <span>Free</span>
+                        <span>Built-in</span>
+                        <span>Multi-language</span>
+                        <span>No setup required</span>
+                    </div>
+
+                    <div class="implementation-guide">
+                        <h4>🛠️ Classroom Applications</h4>
+                        <ul>
+                            <li><strong>Brainstorming:</strong> Quickly capture ideas through speech</li>
+                            <li><strong>Drafting Support:</strong> Students with writing difficulties can focus on ideas</li>
+                            <li><strong>Revision Practice:</strong> Read writing aloud to catch errors</li>
+                            <li><strong>Multilingual Support:</strong> Write in Te Reo Māori or heritage languages</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="implementation-strategy">
+            <h2>🚀 Implementation Strategy for Schools</h2>
+            
+            <div class="implementation-guide">
+                <h3>Phase 1: Foundation (Weeks 1-2)</h3>
+                <ul>
+                    <li>Start with one core tool (Google Docs recommended)</li>
+                    <li>Train teachers on basic features</li>
+                    <li>Establish digital citizenship norms</li>
+                    <li>Test internet/device accessibility</li>
+                </ul>
+            </div>
+
+            <div class="implementation-guide">
+                <h3>Phase 2: Expansion (Weeks 3-6)</h3>
+                <ul>
+                    <li>Add one creative tool (Book Creator or Padlet)</li>
+                    <li>Introduce peer collaboration features</li>
+                    <li>Begin multimedia writing projects</li>
+                    <li>Gather student feedback on tool preferences</li>
+                </ul>
+            </div>
+
+            <div class="implementation-guide">
+                <h3>Phase 3: Integration (Weeks 7+)</h3>
+                <ul>
+                    <li>Students choose appropriate tools for different writing tasks</li>
+                    <li>Integrate assessment and feedback tools</li>
+                    <li>Connect to other subject areas</li>
+                    <li>Develop student digital portfolios</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="cultural-integration">
+            <h2>🌿 Cultural Responsiveness in Digital Writing</h2>
+            <h3>Honoring Te Ao Māori in Digital Spaces</h3>
+            <ul>
+                <li><strong>Digital Marae Protocols:</strong> Establish respectful online interaction norms</li>
+                <li><strong>Whakapapa Connections:</strong> Use tools to explore and share family/cultural histories</li>
+                <li><strong>Collective Creation:</strong> Emphasize collaboration over individual competition</li>
+                <li><strong>Storytelling Traditions:</strong> Blend traditional narrative forms with digital tools</li>
+                <li><strong>Language Preservation:</strong> Use technology to strengthen Te Reo Māori literacy</li>
+            </ul>
+        </div>
+
+        <section class="troubleshooting">
+            <h2>🔧 Common Challenges & Solutions</h2>
+            
+            <div class="tool-card">
+                <h3>Low Internet Connectivity</h3>
+                <ul>
+                    <li>Use offline-capable tools (Google Docs offline, Microsoft Word)</li>
+                    <li>Download content during high-connectivity periods</li>
+                    <li>Prepare backup paper-based activities</li>
+                    <li>Use mobile data sharing responsibly</li>
+                </ul>
+            </div>
+
+            <div class="tool-card">
+                <h3>Limited Device Access</h3>
+                <ul>
+                    <li>Implement device rotation schedules</li>
+                    <li>Use smartphones for basic writing tasks</li>
+                    <li>Create shared class accounts for tools</li>
+                    <li>Partner with local libraries for computer access</li>
+                </ul>
+            </div>
+
+            <div class="tool-card">
+                <h3>Digital Overwhelm</h3>
+                <ul>
+                    <li>Start with one tool and master it completely</li>
+                    <li>Provide clear step-by-step tutorials</li>
+                    <li>Use peer mentoring for support</li>
+                    <li>Always have a paper backup plan</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="print-friendly-note">
+            <p><strong>Print-Friendly Version:</strong> Tool guides and implementation checklists print clearly for offline reference.</p>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add interactive elements for tool comparison
+            const toolCards = document.querySelectorAll('.tool-card');
+            
+            // Add hover effects and click interactions
+            toolCards.forEach(card => {
+                const header = card.querySelector('h3');
+                if (header) {
+                    card.addEventListener('click', function() {
+                        console.log(`Selected tool: ${header.textContent}`);
+                        // Could expand to show more details or launch tutorials
+                    });
+                }
+            });
+        });
+    </script>
+
+<footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- Brand Section -->
+                <div class="footer-section footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p class="footer-whakataukī">"Whaowhia te kete mātauranga"</p>
+                    <p class="footer-tagline">Fill the basket of knowledge</p>
+                    <p class="footer-description">Quality teaching resources for Aotearoa New Zealand educators, honoring mātauranga Māori and contemporary pedagogy.</p>
+                </div>
+
+                <!-- Resources Section -->
+                <div class="footer-section footer-resources">
+                    <h4><span class="footer-mi">Ngā Rauemi</span> <span class="footer-en">Resources</span></h4>
+                    <ul>
+                        <li><a href="unit-plans.html">📚 Unit Plans / Ngā Mahere Wāhanga</a></li>
+                        <li><a href="lessons.html">📖 Lesson Plans / Ngā Akoranga</a></li>
+                        <li><a href="handouts.html">📄 Handouts / Ngā Kape</a></li>
+                        <li><a href="games.html">🎮 Games / Ngā Kēmu</a></li>
+                        <li><a href="browse.html">🔍 Browse All / Tirohia Katoa</a></li>
+                    </ul>
+                </div>
+
+                <!-- Curriculum Section -->
+                <div class="footer-section footer-curriculum">
+                    <h4><span class="footer-mi">Te Marautanga</span> <span class="footer-en">Curriculum</span></h4>
+                    <ul>
+                        <li><a href="browse.html?subject=english">📝 English / Reo Pākehā</a></li>
+                        <li><a href="browse.html?subject=math">🔢 Mathematics / Pāngarau</a></li>
+                        <li><a href="browse.html?subject=science">🔬 Science / Pūtaiao</a></li>
+                        <li><a href="browse.html?subject=social-studies">🌏 Social Studies / Tikanga-ā-Iwi</a></li>
+                        <li><a href="curriculum-alignment.html">📋 NZ Curriculum Alignment</a></li>
+                    </ul>
+                </div>
+
+                <!-- Account & Support Section -->
+                <div class="footer-section footer-support">
+                    <h4><span class="footer-mi">Tautoko</span> <span class="footer-en">Support</span></h4>
+                    <ul>
+                        <li><a href="my-kete.html">🧺 My Kete / Tōku Kete</a></li>
+                        <li><a href="login.html">🔐 Login / Takiuru</a></li>
+                        <li><a href="#about">ℹ️ About Us / Mō Mātou</a></li>
+                        <li><a href="#contact">✉️ Contact / Whakapā Mai</a></li>
+                        <li><a href="#help">❓ Help / Āwhina</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <span class="footer-copyright">© 2025 Te Kete Ako</span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-location">Aotearoa New Zealand</span>
+                    <span class="footer-separator">•</span>
+                    <a href="#privacy">Privacy</a>
+                    <span class="footer-separator">•</span>
+                    <a href="#terms">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

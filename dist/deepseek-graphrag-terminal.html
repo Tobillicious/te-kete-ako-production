@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://supabase.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: https://placehold.co; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co https://supabase.com;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 DeepSeek + GraphRAG Terminal | Te Kete Ako</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f172a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #00d4ff, #ff3366, #ffaa00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 2s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { opacity: 0.8; }
+            to { opacity: 1; }
+        }
+
+        .ai-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .ai-agent {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-agent::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: scan 2s infinite;
+        }
+
+        @keyframes scan {
+            0%, 100% { transform: translateY(-100%); }
+            50% { transform: translateY(100%); }
+        }
+
+        .deepseek { border-left-color: #ff3366; }
+        .graphrag { border-left-color: #00d4ff; }
+        .firebase { border-left-color: #ffaa00; }
+        .supabase { border-left-color: #3ecf8e; }
+
+        .chat-interface {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .query-input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .query-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .response-area {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 300px;
+            margin-top: 20px;
+            overflow-y: auto;
+        }
+
+        .response-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+
+        .user-message {
+            background: rgba(0, 212, 255, 0.1);
+            border-left-color: #00d4ff;
+        }
+
+        .ai-response {
+            background: rgba(255, 51, 102, 0.1);
+            border-left-color: #ff3366;
+        }
+
+        .graphrag-context {
+            background: rgba(62, 207, 142, 0.1);
+            border-left-color: #3ecf8e;
+            font-size: 0.9rem;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #00d4ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+
+        .options {
+            margin-bottom: 15px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+<header class="site-header no-print">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                        <li>
+                            <a href="browse.html">
+                                <span class="nav-icon">📚</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                                <span class="nav-text-en">Resources</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="unit-plans.html"><span class="dropdown-mi">📚 Ngā Mahere Wāhanga</span><span class="dropdown-en">Unit Plans (6-8 weeks)</span></a></li>
+                                <li><a href="lessons.html"><span class="dropdown-mi">📖 Ngā Mahere Akoranga</span><span class="dropdown-en">Lesson Plans (60-75 min)</span></a></li>
+                                <li><a href="handouts.html"><span class="dropdown-mi">📄 Ngā Kape</span><span class="dropdown-en">Handouts & Materials</span></a></li>
+                                <li><a href="browse.html"><span class="dropdown-mi">🔍 Tirohia Katoa</span><span class="dropdown-en">Browse All Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=subject">
+                                <span class="nav-icon">🎨</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Marau</span>
+                                <span class="nav-text-en">Subjects</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="browse.html?subject=english"><span class="dropdown-mi">📝 Reo Pākehā</span><span class="dropdown-en">English</span></a></li>
+                                <li><a href="browse.html?subject=math"><span class="dropdown-mi">🔢 Pāngarau</span><span class="dropdown-en">Mathematics</span></a></li>
+                                <li><a href="browse.html?subject=science"><span class="dropdown-mi">🔬 Pūtaiao</span><span class="dropdown-en">Science</span></a></li>
+                                <li><a href="browse.html?subject=social-studies"><span class="dropdown-mi">🌏 Tikanga-ā-Iwi</span><span class="dropdown-en">Social Studies</span></a></li>
+                                <li><a href="browse.html?subject=te-reo"><span class="dropdown-mi">🌿 Te Reo Māori</span><span class="dropdown-en">Māori Language</span></a></li>
+                                <li><a href="browse.html?subject=arts"><span class="dropdown-mi">🎨 Ngā Toi</span><span class="dropdown-en">The Arts</span></a></li>
+                                <li><a href="browse.html?subject=health-pe"><span class="dropdown-mi">💪 Hauora</span><span class="dropdown-en">Health & PE</span></a></li>
+                                <li><a href="browse.html?subject=technology"><span class="dropdown-mi">🔧 Hangarau</span><span class="dropdown-en">Technology</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=year">
+                                <span class="nav-icon">📅</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Tau</span>
+                                <span class="nav-text-en">Year Levels</span>
+                            </a>
+                            <div class="nav-dropdown nav-dropdown-wide">
+                                <div class="year-stage-label">Primary / Tuatahi (1-6)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=1"><span class="dropdown-mi">Tau 1</span><span class="dropdown-en">Year 1</span></a></li>
+                                    <li><a href="browse.html?year=2"><span class="dropdown-mi">Tau 2</span><span class="dropdown-en">Year 2</span></a></li>
+                                    <li><a href="browse.html?year=3"><span class="dropdown-mi">Tau 3</span><span class="dropdown-en">Year 3</span></a></li>
+                                </ul>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=4"><span class="dropdown-mi">Tau 4</span><span class="dropdown-en">Year 4</span></a></li>
+                                    <li><a href="browse.html?year=5"><span class="dropdown-mi">Tau 5</span><span class="dropdown-en">Year 5</span></a></li>
+                                    <li><a href="browse.html?year=6"><span class="dropdown-mi">Tau 6</span><span class="dropdown-en">Year 6</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Intermediate / Waenga (7-8)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=7"><span class="dropdown-mi">Tau 7</span><span class="dropdown-en">Year 7</span></a></li>
+                                    <li><a href="browse.html?year=8"><span class="dropdown-mi">Tau 8</span><span class="dropdown-en">Year 8</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Junior Secondary / Tuarua (9-10)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=9"><span class="dropdown-mi">Tau 9</span><span class="dropdown-en">Year 9</span></a></li>
+                                    <li><a href="browse.html?year=10"><span class="dropdown-mi">Tau 10</span><span class="dropdown-en">Year 10</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Senior Secondary / NCEA (11-13)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=11"><span class="dropdown-mi">Tau 11</span><span class="dropdown-en">Year 11</span></a></li>
+                                    <li><a href="browse.html?year=12"><span class="dropdown-mi">Tau 12</span><span class="dropdown-en">Year 12</span></a></li>
+                                    <li><a href="browse.html?year=13"><span class="dropdown-mi">Tau 13</span><span class="dropdown-en">Year 13</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    <li>
+                        <a href="#more">
+                            <span class="nav-icon">📦</span>
+                            <span class="nav-text-mi" lang="mi">Ētahi Atu</span>
+                            <span class="nav-text-en">More Stuff</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="games.html"><span class="dropdown-mi">🎮 Ngā Kēmu</span><span class="dropdown-en">Games</span></a></li>
+                                <li><a href="youtube.html"><span class="dropdown-mi">📺 Ataata YouTube</span><span class="dropdown-en">YouTube Videos</span></a></li>
+                                <li><a href="curriculum-alignment.html"><span class="dropdown-mi">📋 Te Marautanga</span><span class="dropdown-en">Curriculum Alignment</span></a></li>
+                                <li><a href="other-resources.html"><span class="dropdown-mi">🔗 Ētahi Atu Rauemi</span><span class="dropdown-en">Other Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="auth-nav auth-logged-out">
+                        <a href="login.html" class="auth-btn">
+                            <span class="nav-icon" data-icon="login"></span>
+                            <span class="nav-text-mi" lang="mi">Takiuru</span>
+                            <span class="nav-text-en">Login</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav auth-logged-in" style="display: none;">
+                        <a href="my-kete.html" class="dashboard-btn">
+                            <span class="nav-icon" data-icon="kete"></span>
+                            <span class="nav-text-mi" lang="mi">Tōku Kete</span>
+                            <span class="nav-text-en">My Kete</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="header">
+            <h1>🤖 DeepSeek + GraphRAG Terminal</h1>
+            <p>Multi-AI Coordination System | Te Kete Ako Platform</p>
+        </div>
+
+        <!-- AI Agent Status -->
+        <div class="ai-status">
+            <div class="ai-agent deepseek">
+                <h3>🧠 DeepSeek</h3>
+                <p>Reasoning & Generation</p>
+                <small id="deepseek-status">Ready</small>
+            </div>
+            <div class="ai-agent graphrag">
+                <h3>📚 GraphRAG Brain</h3>
+                <p>Institutional Memory</p>
+                <small id="graphrag-status">179 resources, 553 relationships</small>
+            </div>
+            <div class="ai-agent firebase">
+                <h3>🔐 Firebase Auth</h3>
+                <p>User Authentication</p>
+                <small id="firebase-status">Connected</small>
+            </div>
+            <div class="ai-agent supabase">
+                <h3>💾 Supabase</h3>
+                <p>Knowledge Storage</p>
+                <small id="supabase-status">Ready</small>
+            </div>
+        </div>
+
+        <!-- Chat Interface -->
+        <div class="chat-interface">
+            <input type="text" 
+                   class="query-input" 
+                   id="queryInput" 
+                   placeholder="Ask anything... DeepSeek will use GraphRAG institutional memory to enhance responses"
+                   maxlength="500">
+            
+            <div class="options">
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="useGraphRAG" checked>
+                        <label for="useGraphRAG">Use GraphRAG Brain</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="showContext">
+                        <label for="showContext">Show GraphRAG Context</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="culturalSafety" checked>
+                        <label for="culturalSafety">Cultural Safety Mode</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn btn-primary" onclick="sendQuery()">
+                    🚀 Ask DeepSeek + GraphRAG
+                </button>
+                <button class="btn btn-secondary" onclick="clearChat()">
+                    🗑️ Clear Chat
+                </button>
+                <button class="btn btn-secondary" onclick="showGraphRAGDemo()">
+                    📊 GraphRAG Demo
+                </button>
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>AI agents coordinating...</p>
+            </div>
+
+            <div class="response-area" id="responseArea">
+                <div class="response-item ai-response">
+                    <strong>🤖 System Ready</strong><br>
+                    Welcome to the DeepSeek + GraphRAG coordination terminal! Ask any educational question and watch how multiple AI agents work together:
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li><strong>DeepSeek</strong> provides reasoning and generation</li>
+                        <li><strong>GraphRAG</strong> provides institutional memory from 179+ educational resources</li>
+                        <li><strong>Cultural Safety</strong> ensures authentic Te Ao Māori representation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalQueries">0</div>
+                <div>Total Queries</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="graphragHits">0</div>
+                <div>GraphRAG Hits</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="culturalResources">0</div>
+                <div>Cultural Resources</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="aiCoordinations">0</div>
+                <div>AI Coordinations</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let queryCount = 0;
+        let totalGraphRAGHits = 0;
+        let totalCulturalResources = 0;
+        let totalCoordinations = 0;
+
+        // Handle Enter key in input
+        document.getElementById('queryInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendQuery();
+            }
+        });
+
+        async function sendQuery() {
+            const query = document.getElementById('queryInput').value.trim();
+            if (!query) return;
+
+            const useGraphRAG = document.getElementById('useGraphRAG').checked;
+            const showContext = document.getElementById('showContext').checked;
+            const culturalSafety = document.getElementById('culturalSafety').checked;
+
+            // Add user message to chat
+            addMessage(`🧑 User: ${query}`, 'user-message');
+
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('queryInput').value = '';
+
+            try {
+                // Call the DeepSeek-GraphRAG bridge
+                const response = await fetch('/.netlify/functions/deepseek-graphrag-bridge', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        query: query,
+                        use_graphrag: useGraphRAG,
+                        cultural_safety: culturalSafety,
+                        user_id: 'demo_user_' + Date.now()
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Show GraphRAG context if requested
+                    if (showContext && data.graphrag_context) {
+                        const contextMsg = `📚 GraphRAG Context: Found ${data.graphrag_context.resources_found} resources, ${data.graphrag_context.cultural_resources} cultural resources, ${data.graphrag_context.connections} connections`;
+                        addMessage(contextMsg, 'graphrag-context');
+                    }
+
+                    // Show AI response
+                    addMessage(`🤖 DeepSeek + GraphRAG: ${data.response}`, 'ai-response');
+
+                    // Update statistics
+                    queryCount++;
+                    if (data.graphrag_context) {
+                        totalGraphRAGHits += data.graphrag_context.resources_found || 0;
+                        totalCulturalResources += data.graphrag_context.cultural_resources || 0;
+                    }
+                    totalCoordinations++;
+                    updateStats();
+
+                    // Show coordination info
+                    if (data.ai_coordination) {
+                        const coordMsg = `🔗 AI Coordination: ${Object.entries(data.ai_coordination).map(([ai, role]) => `${ai} (${role})`).join(', ')}`;
+                        addMessage(coordMsg, 'graphrag-context');
+                    }
+
+                } else {
+                    addMessage(`❌ Error: ${data.error || 'Unknown error'}`, 'ai-response');
+                }
+
+            } catch (error) {
+                console.error('Query error:', error);
+                addMessage(`❌ Connection Error: ${error.message}`, 'ai-response');
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+
+        function addMessage(content, className) {
+            const responseArea = document.getElementById('responseArea');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `response-item ${className}`;
+            messageDiv.innerHTML = content;
+            responseArea.appendChild(messageDiv);
+            responseArea.scrollTop = responseArea.scrollHeight;
+        }
+
+        function clearChat() {
+            const responseArea = document.getElementById('responseArea');
+            responseArea.innerHTML = `
+                <div class="response-item ai-response">
+                    <strong>🤖 Chat Cleared</strong><br>
+                    Ready for new queries!
+                </div>
+            `;
+        }
+
+        function showGraphRAGDemo() {
+            addMessage(`📊 GraphRAG Demo Query: "Show me Te Ao Māori resources for mathematics"`, 'user-message');
+            
+            // Simulate a GraphRAG demo response
+            setTimeout(() => {
+                addMessage(`📚 GraphRAG Context: Found 12 resources, 8 cultural resources, 23 connections`, 'graphrag-context');
+                setTimeout(() => {
+                    addMessage(`🤖 DeepSeek + GraphRAG: Based on the institutional memory, I found several excellent Te Ao Māori mathematics resources:
+
+1. **Traditional Navigation Mathematics** - Uses Polynesian wayfinding techniques
+2. **Probability with Matauranga Integration** - Cultural probability concepts
+3. **Climate Science Traditional Knowledge** - Weather pattern mathematics
+
+The GraphRAG brain shows these resources connect to broader systems thinking and cultural assessment frameworks. This integration ensures mathematical learning honors indigenous knowledge systems while meeting curriculum standards.`, 'ai-response');
+                }, 1000);
+            }, 500);
+
+            // Update demo stats
+            totalGraphRAGHits += 12;
+            totalCulturalResources += 8;
+            totalCoordinations++;
+            queryCount++;
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('totalQueries').textContent = queryCount;
+            document.getElementById('graphragHits').textContent = totalGraphRAGHits;
+            document.getElementById('culturalResources').textContent = totalCulturalResources;
+            document.getElementById('aiCoordinations').textContent = totalCoordinations;
+        }
+
+        // Initialize
+        updateStats();
+    </script>
+
+    <!-- Load Supabase Client -->
+    <script src="js/supabase-client.js"></script>
+    <!-- Load Auth UI -->
+    <script src="js/auth-enhanced.js"></script>
+
+<footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- Brand Section -->
+                <div class="footer-section footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p class="footer-whakataukī">"Whaowhia te kete mātauranga"</p>
+                    <p class="footer-tagline">Fill the basket of knowledge</p>
+                    <p class="footer-description">Quality teaching resources for Aotearoa New Zealand educators, honoring mātauranga Māori and contemporary pedagogy.</p>
+                </div>
+
+                <!-- Resources Section -->
+                <div class="footer-section footer-resources">
+                    <h4><span class="footer-mi">Ngā Rauemi</span> <span class="footer-en">Resources</span></h4>
+                    <ul>
+                        <li><a href="unit-plans.html">📚 Unit Plans / Ngā Mahere Wāhanga</a></li>
+                        <li><a href="lessons.html">📖 Lesson Plans / Ngā Akoranga</a></li>
+                        <li><a href="handouts.html">📄 Handouts / Ngā Kape</a></li>
+                        <li><a href="games.html">🎮 Games / Ngā Kēmu</a></li>
+                        <li><a href="browse.html">🔍 Browse All / Tirohia Katoa</a></li>
+                    </ul>
+                </div>
+
+                <!-- Curriculum Section -->
+                <div class="footer-section footer-curriculum">
+                    <h4><span class="footer-mi">Te Marautanga</span> <span class="footer-en">Curriculum</span></h4>
+                    <ul>
+                        <li><a href="browse.html?subject=english">📝 English / Reo Pākehā</a></li>
+                        <li><a href="browse.html?subject=math">🔢 Mathematics / Pāngarau</a></li>
+                        <li><a href="browse.html?subject=science">🔬 Science / Pūtaiao</a></li>
+                        <li><a href="browse.html?subject=social-studies">🌏 Social Studies / Tikanga-ā-Iwi</a></li>
+                        <li><a href="curriculum-alignment.html">📋 NZ Curriculum Alignment</a></li>
+                    </ul>
+                </div>
+
+                <!-- Account & Support Section -->
+                <div class="footer-section footer-support">
+                    <h4><span class="footer-mi">Tautoko</span> <span class="footer-en">Support</span></h4>
+                    <ul>
+                        <li><a href="my-kete.html">🧺 My Kete / Tōku Kete</a></li>
+                        <li><a href="login.html">🔐 Login / Takiuru</a></li>
+                        <li><a href="#about">ℹ️ About Us / Mō Mātou</a></li>
+                        <li><a href="#contact">✉️ Contact / Whakapā Mai</a></li>
+                        <li><a href="#help">❓ Help / Āwhina</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <span class="footer-copyright">© 2025 Te Kete Ako</span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-location">Aotearoa New Zealand</span>
+                    <span class="footer-separator">•</span>
+                    <a href="#privacy">Privacy</a>
+                    <span class="footer-separator">•</span>
+                    <a href="#terms">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

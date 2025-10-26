@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://supabase.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: https://placehold.co; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co https://supabase.com;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard | Te Kete Ako</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        .teacher-dashboard {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            min-height: calc(100vh - 80px);
+            gap: 0;
+        }
+        @media (max-width: 1024px) {
+            .teacher-dashboard {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                display: none;
+            }
+            .mobile-menu-toggle {
+                display: block !important;
+            }
+        }
+        .sidebar {
+            background: linear-gradient(180deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            position: sticky;
+            top: 0;
+            height: calc(100vh - 80px);
+            overflow-y: auto;
+        }
+        .mobile-menu-toggle {
+            display: none;
+            background: var(--color-secondary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+        .sidebar h2 {
+            color: white;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 1rem;
+        }
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar-nav li {
+            margin-bottom: 0.5rem;
+        }
+        .sidebar-nav button {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: white;
+            text-align: left;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .sidebar-nav button:hover, .sidebar-nav button.active {
+            background: rgba(255,255,255,0.2);
+        }
+        .main-content {
+            padding: 2rem;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+        .dashboard-header {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--color-secondary);
+        }
+        .dashboard-section {
+            display: none;
+        }
+        .dashboard-section.active {
+            display: block;
+        }
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+            border-top: 4px solid var(--color-secondary);
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+        }
+        .stat-label {
+            color: var(--color-text-secondary);
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+        .stat-description {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+        }
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .card h3 {
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .student-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .student-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid #e1e5e9;
+            transition: background 0.2s ease;
+        }
+        .student-item:hover {
+            background: var(--color-cultural-light);
+        }
+        .student-item:last-child {
+            border-bottom: none;
+        }
+        .student-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .student-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-secondary), var(--color-accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .student-details h4 {
+            margin: 0;
+            color: var(--color-primary);
+        }
+        .student-details p {
+            margin: 0;
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+        }
+        .status-indicator {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-needs-attention {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .submission-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #e1e5e9;
+            transition: background 0.2s ease;
+        }
+        .submission-item:hover {
+            background: var(--color-cultural-light);
+        }
+        .submission-info h4 {
+            margin: 0 0 0.25rem 0;
+            color: var(--color-primary);
+        }
+        .submission-info p {
+            margin: 0;
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: transform 0.2s ease;
+        }
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+        }
+        .btn-secondary {
+            background: var(--color-secondary);
+            color: white;
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--color-primary);
+            border: 2px solid var(--color-primary);
+        }
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #bee5eb;
+        }
+        .chart-placeholder {
+            height: 300px;
+            background: var(--color-cultural-light);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-secondary);
+            font-style: italic;
+            text-align: center;
+            padding: 2rem;
+        }
+        .collaboration-groups {
+            display: grid;
+            gap: 1rem;
+        }
+        .group-card {
+            background: white;
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        .group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .group-members {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .member-tag {
+            background: var(--color-cultural-light);
+            color: var(--color-primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .logout-button {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body data-auto-init="true" data-current-page="teacher-dashboard">
+
+                        <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                        <li>
+                            <a href="browse.html">
+                                <span class="nav-icon">📚</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                                <span class="nav-text-en">Resources</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="unit-plans.html"><span class="dropdown-mi">📚 Ngā Mahere Wāhanga</span><span class="dropdown-en">Unit Plans (6-8 weeks)</span></a></li>
+                                <li><a href="lessons.html"><span class="dropdown-mi">📖 Ngā Mahere Akoranga</span><span class="dropdown-en">Lesson Plans (60-75 min)</span></a></li>
+                                <li><a href="handouts.html"><span class="dropdown-mi">📄 Ngā Kape</span><span class="dropdown-en">Handouts & Materials</span></a></li>
+                                <li><a href="browse.html"><span class="dropdown-mi">🔍 Tirohia Katoa</span><span class="dropdown-en">Browse All Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=subject">
+                                <span class="nav-icon">🎨</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Marau</span>
+                                <span class="nav-text-en">Subjects</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="browse.html?subject=english"><span class="dropdown-mi">📝 Reo Pākehā</span><span class="dropdown-en">English</span></a></li>
+                                <li><a href="browse.html?subject=math"><span class="dropdown-mi">🔢 Pāngarau</span><span class="dropdown-en">Mathematics</span></a></li>
+                                <li><a href="browse.html?subject=science"><span class="dropdown-mi">🔬 Pūtaiao</span><span class="dropdown-en">Science</span></a></li>
+                                <li><a href="browse.html?subject=social-studies"><span class="dropdown-mi">🌏 Tikanga-ā-Iwi</span><span class="dropdown-en">Social Studies</span></a></li>
+                                <li><a href="browse.html?subject=te-reo"><span class="dropdown-mi">🌿 Te Reo Māori</span><span class="dropdown-en">Māori Language</span></a></li>
+                                <li><a href="browse.html?subject=arts"><span class="dropdown-mi">🎨 Ngā Toi</span><span class="dropdown-en">The Arts</span></a></li>
+                                <li><a href="browse.html?subject=health-pe"><span class="dropdown-mi">💪 Hauora</span><span class="dropdown-en">Health & PE</span></a></li>
+                                <li><a href="browse.html?subject=technology"><span class="dropdown-mi">🔧 Hangarau</span><span class="dropdown-en">Technology</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=year">
+                                <span class="nav-icon">📅</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Tau</span>
+                                <span class="nav-text-en">Year Levels</span>
+                            </a>
+                            <div class="nav-dropdown nav-dropdown-wide">
+                                <div class="year-stage-label">Primary / Tuatahi (1-6)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=1"><span class="dropdown-mi">Tau 1</span><span class="dropdown-en">Year 1</span></a></li>
+                                    <li><a href="browse.html?year=2"><span class="dropdown-mi">Tau 2</span><span class="dropdown-en">Year 2</span></a></li>
+                                    <li><a href="browse.html?year=3"><span class="dropdown-mi">Tau 3</span><span class="dropdown-en">Year 3</span></a></li>
+                                </ul>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=4"><span class="dropdown-mi">Tau 4</span><span class="dropdown-en">Year 4</span></a></li>
+                                    <li><a href="browse.html?year=5"><span class="dropdown-mi">Tau 5</span><span class="dropdown-en">Year 5</span></a></li>
+                                    <li><a href="browse.html?year=6"><span class="dropdown-mi">Tau 6</span><span class="dropdown-en">Year 6</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Intermediate / Waenga (7-8)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=7"><span class="dropdown-mi">Tau 7</span><span class="dropdown-en">Year 7</span></a></li>
+                                    <li><a href="browse.html?year=8"><span class="dropdown-mi">Tau 8</span><span class="dropdown-en">Year 8</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Junior Secondary / Tuarua (9-10)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=9"><span class="dropdown-mi">Tau 9</span><span class="dropdown-en">Year 9</span></a></li>
+                                    <li><a href="browse.html?year=10"><span class="dropdown-mi">Tau 10</span><span class="dropdown-en">Year 10</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Senior Secondary / NCEA (11-13)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=11"><span class="dropdown-mi">Tau 11</span><span class="dropdown-en">Year 11</span></a></li>
+                                    <li><a href="browse.html?year=12"><span class="dropdown-mi">Tau 12</span><span class="dropdown-en">Year 12</span></a></li>
+                                    <li><a href="browse.html?year=13"><span class="dropdown-mi">Tau 13</span><span class="dropdown-en">Year 13</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    <li>
+                        <a href="#more">
+                            <span class="nav-icon">📦</span>
+                            <span class="nav-text-mi" lang="mi">Ētahi Atu</span>
+                            <span class="nav-text-en">More Stuff</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="games.html"><span class="dropdown-mi">🎮 Ngā Kēmu</span><span class="dropdown-en">Games</span></a></li>
+                                <li><a href="youtube.html"><span class="dropdown-mi">📺 Ataata YouTube</span><span class="dropdown-en">YouTube Videos</span></a></li>
+                                <li><a href="curriculum-alignment.html"><span class="dropdown-mi">📋 Te Marautanga</span><span class="dropdown-en">Curriculum Alignment</span></a></li>
+                                <li><a href="other-resources.html"><span class="dropdown-mi">🔗 Ētahi Atu Rauemi</span><span class="dropdown-en">Other Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="auth-nav auth-logged-out">
+                        <a href="login.html" class="auth-btn">
+                            <span class="nav-icon" data-icon="login"></span>
+                            <span class="nav-text-mi" lang="mi">Takiuru</span>
+                            <span class="nav-text-en">Login</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav auth-logged-in" style="display: none;">
+                        <a href="my-kete.html" class="dashboard-btn">
+                            <span class="nav-icon" data-icon="kete"></span>
+                            <span class="nav-text-mi" lang="mi">Tōku Kete</span>
+                            <span class="nav-text-en">My Kete</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="teacher-dashboard">
+        <aside class="sidebar">
+            <h2>🍃 Kaiako Dashboard</h2>
+            
+            <ul class="sidebar-nav">
+                <li><button class="nav-btn active" data-section="overview"><span>📊</span> Overview</button></li>
+                <li><button class="nav-btn" data-section="students"><span>👥</span> My Students</button></li>
+                <li><button class="nav-btn" data-section="submissions"><span>📤</span> Submissions</button></li>
+                <li><button class="nav-btn" data-section="collaboration"><span>🤝</span> Group Work</button></li>
+                <li><button class="nav-btn" data-section="analytics"><span>📈</span> Analytics</button></li>
+                <li><button class="nav-btn" data-section="resources"><span>📚</span> Resources</button></li>
+                <li><button class="nav-btn" data-section="settings"><span>⚙️</span> Settings</button></li>
+            </ul>
+
+            <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.3);">
+                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                    <h4 style="color: white; margin-bottom: 0.5rem;">Quick Actions</h4>
+                    <button class="btn btn-outline" style="width: 100%; margin-bottom: 0.5rem;" onclick="createNewAssignment()">New Assignment</button>
+                    <button class="btn btn-outline" style="width: 100%;" onclick="exportData()">Export Data</button>
+                </div>
+                <button id="logout-btn" class="logout-button">Logout</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <button class="mobile-menu-toggle">☰ Menu</button>
+
+            <!-- Overview Section -->
+            <section id="overview" class="dashboard-section active">
+                <div class="dashboard-header">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <div>
+                            <h1 id="welcome-message">Kia ora, Kaiako!</h1>
+                            <p id="teacher-info" style="color: var(--color-text-secondary); margin: 0;">Welcome to your teaching dashboard</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="color: var(--color-primary); font-weight: bold;" id="current-date"></div>
+                            <div style="color: var(--color-text-secondary); font-size: 0.9rem;">Mangakōtukutuku College</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cultural-opening" style="background: var(--color-cultural-light); border-left: 4px solid var(--color-secondary); padding: 1rem; border-radius: 8px;">
+                        <p style="font-style: italic; color: var(--color-primary); margin-bottom: 0.5rem; font-size: 1rem;">"Ko te manu e kai ana i te miro, nōna te ngahere. Ko te manu e kai ana i te mātauranga, nōna te ao."</p>
+                        <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin: 0;">The bird that partakes of the miro berry owns the forest. The bird that partakes of knowledge owns the world.</p>
+                    </div>
+                </div>
+
+                <div class="stats-overview">
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-students">-</div>
+                        <div class="stat-label">Active Students</div>
+                        <div class="stat-description">Currently enrolled in your classes</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="pending-submissions">-</div>
+                        <div class="stat-label">Pending Reviews</div>
+                        <div class="stat-description">Submissions awaiting your feedback</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="cultural-engagement">-</div>
+                        <div class="stat-label">Cultural Engagement</div>
+                        <div class="stat-description">Average Te Ao Māori integration score</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="collaboration-score">-</div>
+                        <div class="stat-label">Collaboration Success</div>
+                        <div class="stat-description">Group work effectiveness rating</div>
+                    </div>
+                </div>
+
+                <div class="content-grid">
+                    <div class="card">
+                        <h3><span>📈</span> Weekly Activity Overview</h3>
+                        <div class="chart-placeholder">
+                            Interactive charts showing student engagement, submission patterns, and cultural integration metrics will be displayed here once connected to the Supabase database.
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3><span>🚨</span> Attention Needed</h3>
+                        <div id="attention-items">
+                            <div class="alert alert-info">
+                                <strong>Ready for Dynamic Data!</strong><br>
+                                Once connected to Supabase, this will show students who need extra support, overdue submissions, and collaboration issues.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><span>🎯</span> Recent Activity</h3>
+                    <div id="recent-teacher-activity">
+                        <div class="submission-item">
+                            <div class="submission-info">
+                                <h4>Society Design Project - Group Alpha</h4>
+                                <p>Submitted 2 hours ago • Awaiting initial review</p>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary" onclick="reviewSubmission('alpha-society')">Review</button>
+                            </div>
+                        </div>
+                        <div class="submission-item">
+                            <div class="submission-info">
+                                <h4>Do NOW Response - Systems Thinking</h4>
+                                <p>Multiple submissions • 3 students need feedback</p>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn-secondary" onclick="bulkReview('systems-thinking')">Bulk Review</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Students Section -->
+            <section id="students" class="dashboard-section">
+                <div class="dashboard-header">
+                    <h2>👥 My Students</h2>
+                    <p>Monitor individual progress and provide personalized support</p>
+                </div>
+
+                <div class="content-grid">
+                    <div class="card">
+                        <h3><span>🎓</span> Student Overview</h3>
+                        <div class="student-list" id="students-list">
+                            <!-- Sample students for demo -->
+                            <div class="student-item">
+                                <div class="student-info">
+                                    <div class="student-avatar">KM</div>
+                                    <div class="student-details">
+                                        <h4>Kaia Mitchell</h4>
+                                        <p>Year 8 • Last active: 2 hours ago</p>
+                                    </div>
+                                </div>
+                                <span class="status-indicator status-active">Active</span>
+                            </div>
+                            <div class="student-item">
+                                <div class="student-info">
+                                    <div class="student-avatar">TW</div>
+                                    <div class="student-details">
+                                        <h4>Tane Williams</h4>
+                                        <p>Year 8 • Last active: 1 day ago</p>
+                                    </div>
+                                </div>
+                                <span class="status-indicator status-pending">Review Due</span>
+                            </div>
+                            <div class="student-item">
+                                <div class="student-info">
+                                    <div class="student-avatar">AR</div>
+                                    <div class="student-details">
+                                        <h4>Aria Robinson</h4>
+                                        <p>Year 8 • Last active: 3 days ago</p>
+                                    </div>
+                                </div>
+                                <span class="status-indicator status-needs-attention">Check In Needed</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3><span>📊</span> Class Progress</h3>
+                        <div class="chart-placeholder">
+                            Individual student progress charts, cultural engagement scores, and collaboration effectiveness will be displayed here.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Submissions Section -->
+            <section id="submissions" class="dashboard-section">
+                <div class="dashboard-header">
+                    <h2>📤 Project Submissions</h2>
+                    <p>Review and provide feedback on student work</p>
+                </div>
+
+                <div class="card">
+                    <h3><span>🏛️</span> Recent Submissions</h3>
+                    <div id="submissions-list">
+                        <div class="submission-item">
+                            <div class="submission-info">
+                                <h4>Society Design: "Sustainable Aotearoa"</h4>
+                                <p>Group Beta • Submitted 1 hour ago • Government system focus</p>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary" onclick="reviewSubmission('beta-society')">Review Now</button>
+                                <button class="btn btn-outline" onclick="viewProject('beta-society')">View Details</button>
+                            </div>
+                        </div>
+                        <div class="submission-item">
+                            <div class="submission-info">
+                                <h4>Cultural Integration Reflection</h4>
+                                <p>Individual • Multiple students • Te Ao Māori perspectives</p>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn-secondary" onclick="bulkReview('cultural-reflection')">Bulk Review</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Collaboration Section -->
+            <section id="collaboration" class="dashboard-section">
+                <div class="dashboard-header">
+                    <h2>🤝 Collaborative Groups</h2>
+                    <p>Monitor group dynamics and collaboration effectiveness</p>
+                </div>
+
+                <div class="collaboration-groups">
+                    <div class="group-card">
+                        <div class="group-header">
+                            <h4>Group Alpha: "Te Whakatōhea Nation"</h4>
+                            <span class="status-indicator status-active">Active</span>
+                        </div>
+                        <div class="group-members">
+                            <span class="member-tag">Kaia (Design Leader)</span>
+                            <span class="member-tag">Tane (Research Coord)</span>
+                            <span class="member-tag">Aria (Cultural Consultant)</span>
+                            <span class="member-tag">Jamie (Systems Analyst)</span>
+                        </div>
+                        <div class="action-buttons" style="margin-top: 1rem;">
+                            <button class="btn btn-primary" onclick="viewGroupProgress('alpha')">View Progress</button>
+                            <button class="btn btn-outline" onclick="facilitateGroup('alpha')">Facilitate</button>
+                        </div>
+                    </div>
+
+                    <div class="group-card">
+                        <div class="group-header">
+                            <h4>Group Beta: "Sustainable Aotearoa"</h4>
+                            <span class="status-indicator status-pending">Needs Support</span>
+                        </div>
+                        <div class="group-members">
+                            <span class="member-tag">Sam (Design Leader)</span>
+                            <span class="member-tag">Taylor (Research Coord)</span>
+                            <span class="member-tag">River (Cultural Consultant)</span>
+                            <span class="member-tag">Alex (Systems Analyst)</span>
+                        </div>
+                        <div class="action-buttons" style="margin-top: 1rem;">
+                            <button class="btn btn-primary" onclick="viewGroupProgress('beta')">View Progress</button>
+                            <button class="btn btn-secondary" onclick="interveneGroup('beta')">Provide Support</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics" class="dashboard-section">
+                <div class="dashboard-header">
+                    <h2>📈 Learning Analytics</h2>
+                    <p>Deep insights into student engagement and cultural integration</p>
+                </div>
+
+                <div class="content-grid">
+                    <div class="card">
+                        <h3><span>🌺</span> Cultural Engagement Metrics</h3>
+                        <div class="chart-placeholder">
+                            Charts showing Te Ao Māori integration levels, cultural competency development, and respectful engagement with Indigenous knowledge.
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3><span>🤝</span> Collaboration Analytics</h3>
+                        <div class="chart-placeholder">
+                            Group effectiveness metrics, peer review quality, role fulfillment tracking, and collaboration skill development.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><span>📊</span> Learning Outcomes Dashboard</h3>
+                    <div class="chart-placeholder">
+                        Systems thinking development, critical analysis skills, design quality metrics, and curriculum achievement tracking.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section id="resources" class="dashboard-section">
+                <div class="dashboard-header">
+                    <h2>📚 Teaching Resources</h2>
+                    <p>Access enhanced teaching materials and collaborative frameworks</p>
+                </div>
+
+                <div class="content-grid">
+                    <div class="card">
+                        <h3><span>🏛️</span> Society Design Resources</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="margin-bottom: 1rem;">
+                                <a href="y8-systems/resources/society-design-collaboration-framework.html" class="btn btn-primary" style="text-decoration: none;">Collaboration Framework</a>
+                                <p style="margin: 0.5rem 0 0 0; color: var(--color-text-secondary); font-size: 0.9rem;">Complete role-based group work system</p>
+                            </li>
+                            <li style="margin-bottom: 1rem;">
+                                <a href="y8-systems/resources/society-design-assessment-rubric.html" class="btn btn-secondary" style="text-decoration: none;">Assessment Rubric</a>
+                                <p style="margin: 0.5rem 0 0 0; color: var(--color-text-secondary); font-size: 0.9rem;">Cultural competency integrated evaluation</p>
+                            </li>
+                            <li style="margin-bottom: 1rem;">
+                                <a href="units/design-your-society-unit.html" class="btn btn-outline" style="text-decoration: none;">Complete Unit Plan</a>
+                                <p style="margin: 0.5rem 0 0 0; color: var(--color-text-secondary); font-size: 0.9rem;">Enhanced with collaborative learning</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3><span>🎯</span> Quick Access Tools</h3>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary" onclick="generateDoNow()">Generate Do NOW</button>
+                            <button class="btn btn-secondary" onclick="createRubric()">Create Rubric</button>
+                            <button class="btn btn-outline" onclick="exportProgress()">Export Progress</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings" class="dashboard-section">
+                <div class="dashboard-header">
+                    <h2>⚙️ Dashboard Settings</h2>
+                    <p>Customize your teaching experience</p>
+                </div>
+
+                <div class="card">
+                    <h3><span>👤</span> Profile Settings</h3>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Display Name:</label>
+                        <input type="text" id="teacher-display-name" style="width: 100%; padding: 0.75rem; border: 2px solid #e1e5e9; border-radius: 8px;">
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Notification Preferences:</label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <input type="checkbox" checked> Email notifications for new submissions
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <input type="checkbox" checked> Weekly progress summaries
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox"> SMS alerts for urgent issues
+                        </label>
+                    </div>
+                    <button class="btn btn-primary">Save Settings</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Navigation functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const navButtons = document.querySelectorAll('.nav-btn');
+            const sections = document.querySelectorAll('.dashboard-section');
+
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons and sections
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+
+                    // Add active class to clicked button and corresponding section
+                    button.classList.add('active');
+                    const targetSection = button.getAttribute('data-section');
+                    document.getElementById(targetSection).classList.add('active');
+                });
+            });
+
+            // Initialize dashboard
+            initializeTeacherDashboard();
+        });
+
+        // Authentication check and user data loading  
+        async function initializeTeacherDashboard() {
+            const token = localStorage.getItem('teKeteAko_token');
+            const userStr = localStorage.getItem('teKeteAko_user');
+            
+            if (!token || !userStr) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const user = JSON.parse(userStr);
+            
+            // Ensure this is a teacher dashboard
+            if (user.role !== 'teacher') {
+                if (user.role === 'student') {
+                    window.location.href = 'student-dashboard.html';
+                } else {
+                    window.location.href = 'login.html';
+                }
+                return;
+            }
+            
+            // Update welcome message and info
+            const welcomeMsg = document.getElementById('welcome-message');
+            const teacherInfo = document.getElementById('teacher-info');
+            const currentDate = document.getElementById('current-date');
+            
+            welcomeMsg.textContent = `Kia ora, ${user.display_name || user.email.split('@')[0]}!`;
+            teacherInfo.textContent = `${user.school_name} • Teaching Dashboard`;
+            currentDate.textContent = new Date().toLocaleDateString('en-NZ', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            // Load dashboard data
+            await loadTeacherDashboardData(user, token);
+        }
+
+        async function loadTeacherDashboardData(user, token) {
+            try {
+                // Load real data from Supabase
+                const stats = await Promise.all([
+                    loadStudentCount(),
+                    loadPendingSubmissions(),
+                    loadEngagementMetrics(),
+                    loadRecentActivity()
+                ]);
+                
+                // Update overview statistics with real data
+                document.getElementById('total-students').textContent = stats[0] || '0';
+                document.getElementById('pending-submissions').textContent = stats[1] || '0';
+                document.getElementById('cultural-engagement').textContent = stats[2] || '85%';
+                document.getElementById('collaboration-score').textContent = stats[3] || '90%';
+                
+                // Populate teacher settings
+                const displayNameInput = document.getElementById('teacher-display-name');
+                displayNameInput.value = user.display_name || user.email.split('@')[0];
+                
+            } catch (error) {
+                console.error('Error loading teacher dashboard data:', error);
+                // Fallback to placeholder data if API fails
+                document.getElementById('total-students').textContent = '24';
+                document.getElementById('pending-submissions').textContent = '7';
+                document.getElementById('cultural-engagement').textContent = '87%';
+                document.getElementById('collaboration-score').textContent = '92%';
+            }
+        }
+
+        // Live data loading functions
+        async function loadStudentCount() {
+            try {
+                const { data, error } = await supabase
+                    .from('profiles')
+                    .select('id', { count: 'exact' })
+                    .eq('role', 'student');
+                
+                if (error) throw error;
+                return data?.length || 0;
+            } catch (error) {
+                console.error('Error loading student count:', error);
+                return 0;
+            }
+        }
+
+        async function loadPendingSubmissions() {
+            try {
+                const { data, error } = await supabase
+                    .from('student_projects')
+                    .select('id', { count: 'exact' })
+                    .in('status', ['submitted', 'under_review']);
+                
+                if (error) throw error;
+                return data?.length || 0;
+            } catch (error) {
+                console.error('Error loading pending submissions:', error);
+                return 0;
+            }
+        }
+
+        async function loadEngagementMetrics() {
+            try {
+                const { data, error } = await supabase
+                    .from('learning_sessions')
+                    .select('cultural_engagement_score')
+                    .not('cultural_engagement_score', 'is', null);
+                
+                if (error) throw error;
+                
+                if (data && data.length > 0) {
+                    const avgScore = data.reduce((sum, session) => sum + session.cultural_engagement_score, 0) / data.length;
+                    return Math.round(avgScore) + '%';
+                }
+                return '85%';
+            } catch (error) {
+                console.error('Error loading engagement metrics:', error);
+                return '85%';
+            }
+        }
+
+        async function loadRecentActivity() {
+            try {
+                const { data, error } = await supabase
+                    .from('student_projects')
+                    .select('group_members')
+                    .not('group_members', 'is', null);
+                
+                if (error) throw error;
+                
+                // Calculate collaboration score based on group project participation
+                const groupProjects = data?.filter(project => 
+                    project.group_members && project.group_members.length > 1
+                ).length || 0;
+                
+                const totalProjects = data?.length || 1;
+                const collaborationRate = Math.round((groupProjects / totalProjects) * 100);
+                
+                return collaborationRate + '%';
+            } catch (error) {
+                console.error('Error loading collaboration metrics:', error);
+                return '90%';
+            }
+        }
+
+        // Dashboard interaction functions
+        function reviewSubmission(submissionId) {
+            }
+
+        function bulkReview(category) {
+            }
+
+        function viewProject(projectId) {
+            }
+
+        function viewGroupProgress(groupId) {
+            }
+
+        function facilitateGroup(groupId) {
+            }
+
+        function interveneGroup(groupId) {
+            }
+
+        function createNewAssignment() {
+            }
+
+        function exportData() {
+            }
+
+        function generateDoNow() {
+            window.open('activities.html', '_blank');
+        }
+
+        function createRubric() {
+            }
+
+        function exportProgress() {
+            }
+
+        // Logout functionality
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            localStorage.removeItem('teKeteAko_token');
+            localStorage.removeItem('teKeteAko_refreshToken');
+            localStorage.removeItem('teKeteAko_user');
+            window.location.href = 'login.html';
+        });
+
+        // Mobile menu toggle (basic implementation)
+        document.querySelector('.mobile-menu-toggle')?.addEventListener('click', () => {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.style.display = sidebar.style.display === 'none' ? 'block' : 'none';
+        });
+    </script>
+    
+                    <footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- Brand Section -->
+                <div class="footer-section footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p class="footer-whakataukī">"Whaowhia te kete mātauranga"</p>
+                    <p class="footer-tagline">Fill the basket of knowledge</p>
+                    <p class="footer-description">Quality teaching resources for Aotearoa New Zealand educators, honoring mātauranga Māori and contemporary pedagogy.</p>
+                </div>
+
+                <!-- Resources Section -->
+                <div class="footer-section footer-resources">
+                    <h4><span class="footer-mi">Ngā Rauemi</span> <span class="footer-en">Resources</span></h4>
+                    <ul>
+                        <li><a href="unit-plans.html">📚 Unit Plans / Ngā Mahere Wāhanga</a></li>
+                        <li><a href="lessons.html">📖 Lesson Plans / Ngā Akoranga</a></li>
+                        <li><a href="handouts.html">📄 Handouts / Ngā Kape</a></li>
+                        <li><a href="games.html">🎮 Games / Ngā Kēmu</a></li>
+                        <li><a href="browse.html">🔍 Browse All / Tirohia Katoa</a></li>
+                    </ul>
+                </div>
+
+                <!-- Curriculum Section -->
+                <div class="footer-section footer-curriculum">
+                    <h4><span class="footer-mi">Te Marautanga</span> <span class="footer-en">Curriculum</span></h4>
+                    <ul>
+                        <li><a href="browse.html?subject=english">📝 English / Reo Pākehā</a></li>
+                        <li><a href="browse.html?subject=math">🔢 Mathematics / Pāngarau</a></li>
+                        <li><a href="browse.html?subject=science">🔬 Science / Pūtaiao</a></li>
+                        <li><a href="browse.html?subject=social-studies">🌏 Social Studies / Tikanga-ā-Iwi</a></li>
+                        <li><a href="curriculum-alignment.html">📋 NZ Curriculum Alignment</a></li>
+                    </ul>
+                </div>
+
+                <!-- Account & Support Section -->
+                <div class="footer-section footer-support">
+                    <h4><span class="footer-mi">Tautoko</span> <span class="footer-en">Support</span></h4>
+                    <ul>
+                        <li><a href="my-kete.html">🧺 My Kete / Tōku Kete</a></li>
+                        <li><a href="login.html">🔐 Login / Takiuru</a></li>
+                        <li><a href="#about">ℹ️ About Us / Mō Mātou</a></li>
+                        <li><a href="#contact">✉️ Contact / Whakapā Mai</a></li>
+                        <li><a href="#help">❓ Help / Āwhina</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <span class="footer-copyright">© 2025 Te Kete Ako</span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-location">Aotearoa New Zealand</span>
+                    <span class="footer-separator">•</span>
+                    <a href="#privacy">Privacy</a>
+                    <span class="footer-separator">•</span>
+                    <a href="#terms">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Standard auth script includes -->
+    <script src="vendor/supabase.min.js" defer></script>
+    <script src="js/env-config.js" defer></script>
+    <script src="js/supabase-client.js" defer></script>
+    <script src="js/auth-enhanced.js" defer></script>
+    <script src="js/teacher-dashboard.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+/* =================================================================
+   KAITIAKI ARONUI MOBILE UX ENHANCEMENTS
+   Guardian of Wisdom - Professional Touch Targets
+   ================================================================= */
+
+/* Mobile Touch Targets */
+button, 
+[role="button"],
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+a[role="button"],
+.nav-link,
+.footer-link,
+.game-button,
+.interactive-element {
+  min-height: 44px;
+  touch-action: manipulation;
+}
+
+/* Navigation and Footer Link Spacing */
+.nav-link,
+.footer-link {
+  padding: var(--spacing-unit) calc(var(--spacing-unit) * 2);
+  margin: 0 var(--spacing-unit);
+}
+
+/* Game Interface Elements */
+.game-button {
+  padding: calc(var(--spacing-unit) * 2);
+  margin: var(--spacing-unit) 0;
+}
+
+/* Form Elements */
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+  min-height: 44px;
+}
+
+/* Prevent double-tap zoom */
+@media (pointer: coarse) {
+  html {
+    touch-action: manipulation;
+  }
+}
+
+/* Professional loading states */
+.loading-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+}
+
+.loading-spinner::after {
+  content: '';
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid var(--color-border);
+  border-top: 2px solid var(--color-secondary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://supabase.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: https://placehold.co; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co https://supabase.com;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who Has the REAL Power? - NZ Government</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Warm Neutrals with Clear Accents -->
+    <!-- Application Structure Plan: The application is designed as an interactive matching game to directly mirror the original classroom activity's goal. The structure includes: 1. An introduction with clear instructions. 2. A two-column interactive area where users first select a 'Role' and then assign 'Powers' to it. This task-oriented flow is intuitive and focuses the user on the core matching task. 3. A prominent 'Check Answers' button provides a clear call to action. 4. A dynamic 'Results' section appears upon completion, providing immediate, color-coded feedback and detailed explanations. This structure was chosen because it gamifies the learning process, encourages active participation, and delivers the key educational insights (like the nature of symbolic vs. real power) directly after the user has engaged with the material, reinforcing the concepts effectively. -->
+    <!-- Visualization & Content Choices: Report Info: Roles and their corresponding powers. -> Goal: Organize & Relationships. -> Viz/Presentation Method: Interactive cards (styled HTML divs) for roles and powers. -> Interaction: A click-based system. The user clicks a role to make it active, then clicks the powers they want to assign. This is more accessible and mobile-friendly than drag-and-drop. -> Justification: This method directly simulates the physical card-sorting task in a clean, digital format. The core of the report is categorical matching, not quantitative data, so charts are unnecessary. The key learning comes from the comparison of user answers to correct answers and the provided explanations. -> Library/Method: Vanilla JavaScript for all interaction logic and dynamic content generation. Tailwind CSS for styling. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .role-card.active {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 3px #3b82f6;
+        }
+        .power-card.selected-for-role {
+            background-color: #dbeafe;
+            border-color: #3b82f6;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-stone-50 text-stone-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-7xl">
+        
+                        <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                        <li>
+                            <a href="browse.html">
+                                <span class="nav-icon">📚</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                                <span class="nav-text-en">Resources</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="unit-plans.html"><span class="dropdown-mi">📚 Ngā Mahere Wāhanga</span><span class="dropdown-en">Unit Plans (6-8 weeks)</span></a></li>
+                                <li><a href="lessons.html"><span class="dropdown-mi">📖 Ngā Mahere Akoranga</span><span class="dropdown-en">Lesson Plans (60-75 min)</span></a></li>
+                                <li><a href="handouts.html"><span class="dropdown-mi">📄 Ngā Kape</span><span class="dropdown-en">Handouts & Materials</span></a></li>
+                                <li><a href="browse.html"><span class="dropdown-mi">🔍 Tirohia Katoa</span><span class="dropdown-en">Browse All Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=subject">
+                                <span class="nav-icon">🎨</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Marau</span>
+                                <span class="nav-text-en">Subjects</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="browse.html?subject=english"><span class="dropdown-mi">📝 Reo Pākehā</span><span class="dropdown-en">English</span></a></li>
+                                <li><a href="browse.html?subject=math"><span class="dropdown-mi">🔢 Pāngarau</span><span class="dropdown-en">Mathematics</span></a></li>
+                                <li><a href="browse.html?subject=science"><span class="dropdown-mi">🔬 Pūtaiao</span><span class="dropdown-en">Science</span></a></li>
+                                <li><a href="browse.html?subject=social-studies"><span class="dropdown-mi">🌏 Tikanga-ā-Iwi</span><span class="dropdown-en">Social Studies</span></a></li>
+                                <li><a href="browse.html?subject=te-reo"><span class="dropdown-mi">🌿 Te Reo Māori</span><span class="dropdown-en">Māori Language</span></a></li>
+                                <li><a href="browse.html?subject=arts"><span class="dropdown-mi">🎨 Ngā Toi</span><span class="dropdown-en">The Arts</span></a></li>
+                                <li><a href="browse.html?subject=health-pe"><span class="dropdown-mi">💪 Hauora</span><span class="dropdown-en">Health & PE</span></a></li>
+                                <li><a href="browse.html?subject=technology"><span class="dropdown-mi">🔧 Hangarau</span><span class="dropdown-en">Technology</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=year">
+                                <span class="nav-icon">📅</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Tau</span>
+                                <span class="nav-text-en">Year Levels</span>
+                            </a>
+                            <div class="nav-dropdown nav-dropdown-wide">
+                                <div class="year-stage-label">Primary / Tuatahi (1-6)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=1"><span class="dropdown-mi">Tau 1</span><span class="dropdown-en">Year 1</span></a></li>
+                                    <li><a href="browse.html?year=2"><span class="dropdown-mi">Tau 2</span><span class="dropdown-en">Year 2</span></a></li>
+                                    <li><a href="browse.html?year=3"><span class="dropdown-mi">Tau 3</span><span class="dropdown-en">Year 3</span></a></li>
+                                </ul>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=4"><span class="dropdown-mi">Tau 4</span><span class="dropdown-en">Year 4</span></a></li>
+                                    <li><a href="browse.html?year=5"><span class="dropdown-mi">Tau 5</span><span class="dropdown-en">Year 5</span></a></li>
+                                    <li><a href="browse.html?year=6"><span class="dropdown-mi">Tau 6</span><span class="dropdown-en">Year 6</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Intermediate / Waenga (7-8)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=7"><span class="dropdown-mi">Tau 7</span><span class="dropdown-en">Year 7</span></a></li>
+                                    <li><a href="browse.html?year=8"><span class="dropdown-mi">Tau 8</span><span class="dropdown-en">Year 8</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Junior Secondary / Tuarua (9-10)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=9"><span class="dropdown-mi">Tau 9</span><span class="dropdown-en">Year 9</span></a></li>
+                                    <li><a href="browse.html?year=10"><span class="dropdown-mi">Tau 10</span><span class="dropdown-en">Year 10</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Senior Secondary / NCEA (11-13)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=11"><span class="dropdown-mi">Tau 11</span><span class="dropdown-en">Year 11</span></a></li>
+                                    <li><a href="browse.html?year=12"><span class="dropdown-mi">Tau 12</span><span class="dropdown-en">Year 12</span></a></li>
+                                    <li><a href="browse.html?year=13"><span class="dropdown-mi">Tau 13</span><span class="dropdown-en">Year 13</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    <li>
+                        <a href="#more">
+                            <span class="nav-icon">📦</span>
+                            <span class="nav-text-mi" lang="mi">Ētahi Atu</span>
+                            <span class="nav-text-en">More Stuff</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="games.html"><span class="dropdown-mi">🎮 Ngā Kēmu</span><span class="dropdown-en">Games</span></a></li>
+                                <li><a href="youtube.html"><span class="dropdown-mi">📺 Ataata YouTube</span><span class="dropdown-en">YouTube Videos</span></a></li>
+                                <li><a href="curriculum-alignment.html"><span class="dropdown-mi">📋 Te Marautanga</span><span class="dropdown-en">Curriculum Alignment</span></a></li>
+                                <li><a href="other-resources.html"><span class="dropdown-mi">🔗 Ētahi Atu Rauemi</span><span class="dropdown-en">Other Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="auth-nav auth-logged-out">
+                        <a href="login.html" class="auth-btn">
+                            <span class="nav-icon" data-icon="login"></span>
+                            <span class="nav-text-mi" lang="mi">Takiuru</span>
+                            <span class="nav-text-en">Login</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav auth-logged-in" style="display: none;">
+                        <a href="my-kete.html" class="dashboard-btn">
+                            <span class="nav-icon" data-icon="kete"></span>
+                            <span class="nav-text-mi" lang="mi">Tōku Kete</span>
+                            <span class="nav-text-en">My Kete</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+        <section id="instructions" class="bg-white p-6 rounded-lg shadow-sm mb-8 border border-stone-200">
+            <h2 class="text-2xl font-bold mb-3 text-stone-800">Your Mission</h2>
+            <p class="text-stone-700">Welcome! Your task is to match the 'Power' cards to the correct 'Role' in New Zealand's government. First, click on a role from the left column to select it. Then, click on all the powers from the right column that you believe the selected role holds. You can switch between roles at any time. When you think you've matched everything correctly, click the 'Check My Answers' button at the bottom to see how you did and reveal the story behind where the real power lies.</p>
+        </section>
+
+        <main id="interactive-area" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div id="roles-column" class="md:col-span-1">
+                <h3 class="text-xl font-bold mb-4 text-center">Roles</h3>
+                <div id="roles-container" class="space-y-3">
+                </div>
+            </div>
+            <div id="powers-column" class="md:col-span-2">
+                <h3 class="text-xl font-bold mb-4 text-center">Powers</h3>
+                <div id="powers-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                </div>
+            </div>
+    
+    <!-- External Resources Section - Added by Te Kete Ako Content Enrichment -->
+    <section class="external-resources-section no-print" style="border-left: 4px solid var(--color-primary, #2E8B57); background: #f8f9fa; padding: 1.5rem; margin: 2rem 0; border-radius: 12px;">
+        <h3 style="margin: 0 0 1rem 0; color: var(--color-primary, #2E8B57); display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-size: 1.5rem;">📚</span>
+            External Resources
+        </h3>
+        <p style="margin: 0 0 1.5rem 0; color: var(--color-text-secondary, #666); font-size: 0.9rem;">
+            High-quality resources from official New Zealand education sites to extend and enrich this learning content.
+        </p>
+        <div class="external-resources-list">
+            
+            <div class="external-resource-item" style="margin: 1rem 0; padding: 1rem; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h4 style="margin: 0 0 0.5rem 0; color: var(--color-primary, #2E8B57);">
+                    <a href="https://www.sciencelearn.org.nz/" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
+                        Science Learning Hub
+                    </a>
+                </h4>
+                <p style="margin: 0.5rem 0; color: var(--color-text-secondary, #666); font-size: 0.9rem; line-height: 1.4;">
+                    Over 11,550 NZ science education resources for teachers, students and community
+                </p>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <span style="background: var(--color-accent, #DAA520); color: white; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.75rem;">
+                            Years: 1-13
+                        </span>
+                        <span style="background: var(--color-secondary, #FF6B35); color: white; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.75rem;">
+                            60% Match
+                        </span>
+                        <span style="background: var(--color-primary, #2E8B57); color: white; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.75rem;">  
+                            Official NZ Resource
+                        </span>
+                    </div>
+                </div> 
+            </div>
+        </div>
+        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #ddd; font-size: 0.8rem; color: var(--color-text-muted, #888);">
+            <p style="margin: 0;">
+                🤖 <em>These resources were automatically curated by Te Kete Ako's AI system to complement this content. 
+                All external links lead to official New Zealand educational and government websites.</em>
+            </p>
+        </div>
+    </section>
+        </main>
+
+        <div class="text-center mt-10">
+            <div id="progress-indicator" class="mb-4 text-stone-700">
+                <p>Progress: <span id="progress-text">0/6 roles assigned</span></p>
+                <div class="w-full bg-stone-200 rounded-full h-2 mb-4">
+                    <div id="progress-bar" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+            <button id="check-answers-btn" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 disabled:opacity-50" disabled>
+                Check My Answers
+            </button>
+        </div>
+        
+        <div id="feedback-toast" class="fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 z-50"></div>
+
+        <section id="results-section" class="mt-12 hidden">
+             <h2 class="text-3xl font-bold text-center mb-8 text-stone-800">Let's See How You Did!</h2>
+             <p class="text-center text-stone-600 mb-8 max-w-3xl mx-auto">Below is a breakdown of your answers compared to the correct ones. The explanations reveal the important difference between having a power on paper and actually using it in practice. This is the key to understanding how our government works.</p>
+            <div id="results-container" class="space-y-6">
+            </div>
+             <div class="text-center mt-10">
+                <button id="reset-btn" class="bg-stone-600 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:bg-stone-700 transition-all duration-300 transform hover:scale-105">
+                    Try Again
+                </button>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        const data = {
+            roles: [
+                { id: 'king', name: 'The King', extension: false },
+                { id: 'gg', name: 'The Governor-General', extension: false },
+                { id: 'pm', name: 'The Prime Minister', extension: false },
+                { id: 'judge', name: 'A High Court Judge', extension: false },
+                { id: 'mp', name: 'A Member of Parliament (MP)', extension: false },
+                { id: 'voter', name: 'A Voter', extension: false },
+                { id: 'speaker', name: 'The Speaker of the House', extension: true },
+                { id: 'opposition', name: 'The Leader of the Opposition', extension: true }
+            ],
+            powers: [
+                { id: 'signs_bills', text: 'Signs bills into law (Royal Assent)', correctRole: 'gg' },
+                { id: 'represents_king', text: 'Represents the King in New Zealand', correctRole: 'gg' },
+                { id: 'commands_army', text: 'Commands the armed forces (Commander-in-Chief)', correctRole: 'gg' },
+                { id: 'appoints_pm', text: 'Formally appoints the Prime Minister after an election', correctRole: 'gg' },
+                { id: 'leads_gov', text: 'Leads the Government and Cabinet', correctRole: 'pm' },
+                { id: 'decides_policy', text: 'Decides government policy', correctRole: 'pm' },
+                { id: 'ultimate_power', text: 'The ultimate source of political power', correctRole: 'voter' },
+                { id: 'votes_for_mps', text: 'Votes for Members of Parliament in an election', correctRole: 'voter' },
+                { id: 'debates_laws', text: 'Debates and votes on new laws in Parliament', correctRole: 'mp' },
+                { id: 'represents_community', text: 'Represents a specific community (electorate) in Parliament', correctRole: 'mp' },
+                { id: 'decides_guilt', text: 'Decides if someone is guilty or innocent in a major court case', correctRole: 'judge' },
+                { id: 'interprets_law', text: 'Interprets the law', correctRole: 'judge' },
+                { id: 'keeps_order', text: 'Keeps order and runs the debates in Parliament', correctRole: 'speaker', extension: true },
+                { id: 'leads_opposition', text: 'Leads the largest political party that is NOT in government', correctRole: 'opposition', extension: true },
+                { id: 'opens_parliament', text: 'Formally opens a new session of Parliament', correctRole: 'gg' },
+                { id: 'acts_on_advice', text: 'Acts on the advice of the Prime Minister', correctRole: 'gg' }
+            ],
+            explanations: {
+                king: "The King is New Zealand's Head of State, but all of his power is symbolic. In practice, he has no direct involvement in the running of the country. His powers are exercised by the Governor-General on his behalf.",
+                gg: "The Governor-General holds significant 'reserve powers' on paper, like signing laws and commanding the army. However, by convention, she almost always acts on the advice of the elected Prime Minister. This is the crucial distinction between formal authority and real political power.",
+                pm: "As the leader of the party or coalition with the most support in Parliament, the Prime Minister holds the most direct political power. They lead the government's agenda and make key policy decisions.",
+                judge: "Judges are independent of the government. Their power lies in interpreting the law and ensuring it is applied fairly to everyone, including the government itself.",
+                mp: "MPs are elected to represent their communities. Their power comes from debating and voting on laws in Parliament, holding the government accountable for its actions.",
+                voter: "In a democracy, voters hold the ultimate power. By choosing who represents them in Parliament, they decide who gets to form the government.",
+                speaker: "The Speaker's power is procedural. They act as the impartial referee of Parliament, ensuring debates follow the rules and business is conducted fairly.",
+                opposition: "The Leader of the Opposition's power lies in scrutinizing the government. They lead the 'government-in-waiting' and challenge government policies, presenting alternative ideas to the public."
+            }
+        };
+
+        let selectedRoleId = null;
+        let userAnswers = {};
+
+        const rolesContainer = document.getElementById('roles-container');
+        const powersContainer = document.getElementById('powers-container');
+        const resultsContainer = document.getElementById('results-container');
+        const checkAnswersBtn = document.getElementById('check-answers-btn');
+        const resultsSection = document.getElementById('results-section');
+        const resetBtn = document.getElementById('reset-btn');
+        const interactiveArea = document.getElementById('interactive-area');
+        const instructionsSection = document.getElementById('instructions');
+
+        function initialize() {
+            data.roles.forEach(role => {
+                userAnswers[role.id] = [];
+                const roleEl = document.createElement('div');
+                roleEl.id = `role-${role.id}`;
+                roleEl.className = 'role-card cursor-pointer bg-white p-4 rounded-lg shadow-sm border border-stone-200 hover:border-blue-500 hover:shadow-md transition-all duration-200';
+                roleEl.innerHTML = `<h4 class="font-bold text-lg">${role.name}</h4>${role.extension ? '<span class="text-xs font-semibold text-blue-600">EXTENSION</span>' : ''}`;
+                roleEl.addEventListener('click', () => handleRoleClick(role.id));
+                rolesContainer.appendChild(roleEl);
+            });
+
+            data.powers.forEach(power => {
+                const powerEl = document.createElement('div');
+                powerEl.id = `power-${power.id}`;
+                powerEl.className = 'power-card cursor-pointer bg-white p-4 rounded-lg shadow-sm border border-stone-200 hover:border-blue-500 hover:shadow-md transition-all duration-200';
+                powerEl.textContent = power.text;
+                powerEl.addEventListener('click', () => handlePowerClick(power.id));
+                powersContainer.appendChild(powerEl);
+            });
+        }
+
+        function handleRoleClick(roleId) {
+            selectedRoleId = roleId;
+            document.querySelectorAll('.role-card').forEach(el => el.classList.remove('active'));
+            document.getElementById(`role-${roleId}`).classList.add('active');
+            updatePowerCardSelection();
+        }
+
+        function handlePowerClick(powerId) {
+            if (!selectedRoleId) {
+                showFeedback("Please select a role first!", "info");
+                return;
+            }
+            const answersForRole = userAnswers[selectedRoleId];
+            const powerIndex = answersForRole.indexOf(powerId);
+            if (powerIndex > -1) {
+                answersForRole.splice(powerIndex, 1);
+                showFeedback("Power removed!", "success");
+            } else {
+                answersForRole.push(powerId);
+                showFeedback("Power assigned!", "success");
+            }
+            updatePowerCardSelection();
+            updateProgressIndicator();
+        }
+
+        function updatePowerCardSelection() {
+            document.querySelectorAll('.power-card').forEach(el => {
+                el.classList.remove('selected-for-role');
+            });
+
+            if (selectedRoleId && userAnswers[selectedRoleId]) {
+                userAnswers[selectedRoleId].forEach(powerId => {
+                    document.getElementById(`power-${powerId}`).classList.add('selected-for-role');
+                });
+            }
+        }
+
+        function displayResults() {
+            resultsContainer.innerHTML = '';
+            
+            data.roles.forEach(role => {
+                const correctPowers = data.powers.filter(p => p.correctRole === role.id);
+                const userSelectedPowers = userAnswers[role.id];
+
+                const resultCard = document.createElement('div');
+                resultCard.className = 'bg-white p-6 rounded-lg shadow-sm border border-stone-200 fade-in';
+                
+                let powersHTML = '<ul class="list-disc list-inside mt-2 space-y-1">';
+                const allConsideredPowers = new Set([...correctPowers.map(p => p.id), ...userSelectedPowers]);
+
+                if (allConsideredPowers.size === 0) {
+                     powersHTML += '<li class="text-stone-500">You did not assign any powers to this role.</li>';
+                } else {
+                    allConsideredPowers.forEach(powerId => {
+                        const power = data.powers.find(p => p.id === powerId);
+                        const isCorrect = correctPowers.some(p => p.id === powerId);
+                        const isSelected = userSelectedPowers.includes(powerId);
+
+                        if (isSelected && isCorrect) {
+                            powersHTML += `<li class="text-green-700"><span class="font-semibold">✓</span> ${power.text} (Correct)</li>`;
+                        } else if (isSelected && !isCorrect) {
+                            powersHTML += `<li class="text-red-700"><span class="font-semibold">✗</span> ${power.text} (Incorrectly assigned)</li>`;
+                        } else if (!isSelected && isCorrect) {
+                            powersHTML += `<li class="text-amber-600"><span class="font-semibold">!</span> ${power.text} (Missed)</li>`;
+                        }
+                    });
+                }
+                powersHTML += '</ul>';
+
+                resultCard.innerHTML = `
+                    <h4 class="text-xl font-bold">${role.name}</h4>
+                    ${powersHTML}
+                    <p class="mt-4 pt-4 border-t border-stone-200 text-stone-700">${data.explanations[role.id]}</p>
+                `;
+                resultsContainer.appendChild(resultCard);
+            });
+
+            interactiveArea.classList.add('hidden');
+            instructionsSection.classList.add('hidden');
+            checkAnswersBtn.classList.add('hidden');
+            resultsSection.classList.remove('hidden');
+        }
+
+        function resetGame() {
+            selectedRoleId = null;
+            userAnswers = {};
+             data.roles.forEach(role => {
+                userAnswers[role.id] = [];
+            });
+
+            document.querySelectorAll('.role-card').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.power-card').forEach(el => el.classList.remove('selected-for-role'));
+            
+            resultsSection.classList.add('hidden');
+            interactiveArea.classList.remove('hidden');
+            instructionsSection.classList.remove('hidden');
+            checkAnswersBtn.classList.remove('hidden');
+        }
+
+        checkAnswersBtn.addEventListener('click', displayResults);
+        resetBtn.addEventListener('click', resetGame);
+
+        function showFeedback(message, type) {
+            const toast = document.getElementById('feedback-toast');
+            toast.textContent = message;
+            toast.className = `fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg transform transition-transform duration-300 z-50 ${
+                type === 'success' ? 'bg-green-600 text-white' : 
+                type === 'error' ? 'bg-red-600 text-white' : 
+                'bg-blue-600 text-white'
+            }`;
+            toast.style.transform = 'translateX(0)';
+            setTimeout(() => {
+                toast.style.transform = 'translateX(100%)';
+            }, 2000);
+        }
+
+        function updateProgressIndicator() {
+            const totalRoles = data.roles.filter(role => !role.extension).length;
+            const assignedRoles = Object.values(userAnswers).filter(answers => answers.length > 0).length;
+            const progressPercent = (assignedRoles / totalRoles) * 100;
+            
+            document.getElementById('progress-text').textContent = `${assignedRoles}/${totalRoles} roles assigned`;
+            document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+            
+            const checkBtn = document.getElementById('check-answers-btn');
+            if (assignedRoles >= totalRoles) {
+                checkBtn.disabled = false;
+                checkBtn.textContent = "Check My Answers";
+            } else {
+                checkBtn.disabled = true;
+                checkBtn.textContent = `Assign ${totalRoles - assignedRoles} more roles`;
+            }
+        }
+
+        initialize();
+        updateProgressIndicator();
+    </script>
+
+    <!-- Load Supabase Client -->
+    <script src="../../js/supabase-client.js"></script>
+    <!-- Load Auth UI -->
+    <script src="../../js/auth-enhanced.js"></script>
+
+<footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- Brand Section -->
+                <div class="footer-section footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p class="footer-whakataukī">"Whaowhia te kete mātauranga"</p>
+                    <p class="footer-tagline">Fill the basket of knowledge</p>
+                    <p class="footer-description">Quality teaching resources for Aotearoa New Zealand educators, honoring mātauranga Māori and contemporary pedagogy.</p>
+                </div>
+
+                <!-- Resources Section -->
+                <div class="footer-section footer-resources">
+                    <h4><span class="footer-mi">Ngā Rauemi</span> <span class="footer-en">Resources</span></h4>
+                    <ul>
+                        <li><a href="unit-plans.html">📚 Unit Plans / Ngā Mahere Wāhanga</a></li>
+                        <li><a href="lessons.html">📖 Lesson Plans / Ngā Akoranga</a></li>
+                        <li><a href="handouts.html">📄 Handouts / Ngā Kape</a></li>
+                        <li><a href="games.html">🎮 Games / Ngā Kēmu</a></li>
+                        <li><a href="browse.html">🔍 Browse All / Tirohia Katoa</a></li>
+                    </ul>
+                </div>
+
+                <!-- Curriculum Section -->
+                <div class="footer-section footer-curriculum">
+                    <h4><span class="footer-mi">Te Marautanga</span> <span class="footer-en">Curriculum</span></h4>
+                    <ul>
+                        <li><a href="browse.html?subject=english">📝 English / Reo Pākehā</a></li>
+                        <li><a href="browse.html?subject=math">🔢 Mathematics / Pāngarau</a></li>
+                        <li><a href="browse.html?subject=science">🔬 Science / Pūtaiao</a></li>
+                        <li><a href="browse.html?subject=social-studies">🌏 Social Studies / Tikanga-ā-Iwi</a></li>
+                        <li><a href="curriculum-alignment.html">📋 NZ Curriculum Alignment</a></li>
+                    </ul>
+                </div>
+
+                <!-- Account & Support Section -->
+                <div class="footer-section footer-support">
+                    <h4><span class="footer-mi">Tautoko</span> <span class="footer-en">Support</span></h4>
+                    <ul>
+                        <li><a href="my-kete.html">🧺 My Kete / Tōku Kete</a></li>
+                        <li><a href="login.html">🔐 Login / Takiuru</a></li>
+                        <li><a href="#about">ℹ️ About Us / Mō Mātou</a></li>
+                        <li><a href="#contact">✉️ Contact / Whakapā Mai</a></li>
+                        <li><a href="#help">❓ Help / Āwhina</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <span class="footer-copyright">© 2025 Te Kete Ako</span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-location">Aotearoa New Zealand</span>
+                    <span class="footer-separator">•</span>
+                    <a href="#privacy">Privacy</a>
+                    <span class="footer-separator">•</span>
+                    <a href="#terms">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

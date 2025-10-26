@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://supabase.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: https://placehold.co; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co https://supabase.com;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Te Kete Ako | World's First AI-Enhanced Cultural Educational Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2C5F41">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Te Kete Ako">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    
+    <style>
+        /* Modern AI-focused homepage styles */
+        .modern-hero {
+            background: linear-gradient(135deg, #2C5F41 0%, #8FBC8F 50%, #2C5F41 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .modern-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .hero-content-modern {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .hero-title-modern {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 0 0 1rem 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.4rem;
+            margin: 0 0 0.5rem 0;
+            opacity: 0.95;
+        }
+        
+        .hero-ai-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 1rem 0 2rem 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .whakatauki-modern {
+            font-style: italic;
+            font-size: 1.3rem;
+            margin: 2rem 0 0.5rem 0;
+            opacity: 0.9;
+        }
+        
+        .whakatauki-translation-modern {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-bottom: 3rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        
+        .cta-btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .cta-primary {
+            background: white;
+            color: #2C5F41;
+        }
+        
+        .cta-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        
+        .cta-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .cta-secondary:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .features-showcase {
+            padding: 4rem 2rem;
+            background: #f9f9f9;
+        }
+        
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .features-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .features-header h2 {
+            color: #2C5F41;
+            font-size: 2.5rem;
+            margin: 0 0 1rem 0;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .feature-card h3 {
+            color: #2C5F41;
+            margin: 0 0 1rem 0;
+        }
+        
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-link {
+            color: #2C5F41;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .feature-link:hover {
+            text-decoration: underline;
+        }
+        
+        .resources-section {
+            padding: 4rem 2rem;
+            background: white;
+        }
+        
+        .resources-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .resource-category {
+            background: #f8f8f8;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #2C5F41;
+        }
+        
+        .resource-category h3 {
+            color: #2C5F41;
+            margin: 0 0 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .resource-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .resource-list li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .resource-list a {
+            color: #555;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .resource-list a:hover {
+            color: #2C5F41;
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title-modern {
+                font-size: 2.5rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .features-header h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body data-auto-init="true" data-current-page="home">
+                        <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                        <li>
+                            <a href="browse.html">
+                                <span class="nav-icon">📚</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                                <span class="nav-text-en">Resources</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="unit-plans.html"><span class="dropdown-mi">📚 Ngā Mahere Wāhanga</span><span class="dropdown-en">Unit Plans (6-8 weeks)</span></a></li>
+                                <li><a href="lessons.html"><span class="dropdown-mi">📖 Ngā Mahere Akoranga</span><span class="dropdown-en">Lesson Plans (60-75 min)</span></a></li>
+                                <li><a href="handouts.html"><span class="dropdown-mi">📄 Ngā Kape</span><span class="dropdown-en">Handouts & Materials</span></a></li>
+                                <li><a href="browse.html"><span class="dropdown-mi">🔍 Tirohia Katoa</span><span class="dropdown-en">Browse All Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=subject">
+                                <span class="nav-icon">🎨</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Marau</span>
+                                <span class="nav-text-en">Subjects</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="browse.html?subject=english"><span class="dropdown-mi">📝 Reo Pākehā</span><span class="dropdown-en">English</span></a></li>
+                                <li><a href="browse.html?subject=math"><span class="dropdown-mi">🔢 Pāngarau</span><span class="dropdown-en">Mathematics</span></a></li>
+                                <li><a href="browse.html?subject=science"><span class="dropdown-mi">🔬 Pūtaiao</span><span class="dropdown-en">Science</span></a></li>
+                                <li><a href="browse.html?subject=social-studies"><span class="dropdown-mi">🌏 Tikanga-ā-Iwi</span><span class="dropdown-en">Social Studies</span></a></li>
+                                <li><a href="browse.html?subject=te-reo"><span class="dropdown-mi">🌿 Te Reo Māori</span><span class="dropdown-en">Māori Language</span></a></li>
+                                <li><a href="browse.html?subject=arts"><span class="dropdown-mi">🎨 Ngā Toi</span><span class="dropdown-en">The Arts</span></a></li>
+                                <li><a href="browse.html?subject=health-pe"><span class="dropdown-mi">💪 Hauora</span><span class="dropdown-en">Health & PE</span></a></li>
+                                <li><a href="browse.html?subject=technology"><span class="dropdown-mi">🔧 Hangarau</span><span class="dropdown-en">Technology</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=year">
+                                <span class="nav-icon">📅</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Tau</span>
+                                <span class="nav-text-en">Year Levels</span>
+                            </a>
+                            <div class="nav-dropdown nav-dropdown-wide">
+                                <div class="year-stage-label">Primary / Tuatahi (1-6)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=1"><span class="dropdown-mi">Tau 1</span><span class="dropdown-en">Year 1</span></a></li>
+                                    <li><a href="browse.html?year=2"><span class="dropdown-mi">Tau 2</span><span class="dropdown-en">Year 2</span></a></li>
+                                    <li><a href="browse.html?year=3"><span class="dropdown-mi">Tau 3</span><span class="dropdown-en">Year 3</span></a></li>
+                                </ul>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=4"><span class="dropdown-mi">Tau 4</span><span class="dropdown-en">Year 4</span></a></li>
+                                    <li><a href="browse.html?year=5"><span class="dropdown-mi">Tau 5</span><span class="dropdown-en">Year 5</span></a></li>
+                                    <li><a href="browse.html?year=6"><span class="dropdown-mi">Tau 6</span><span class="dropdown-en">Year 6</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Intermediate / Waenga (7-8)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=7"><span class="dropdown-mi">Tau 7</span><span class="dropdown-en">Year 7</span></a></li>
+                                    <li><a href="browse.html?year=8"><span class="dropdown-mi">Tau 8</span><span class="dropdown-en">Year 8</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Junior Secondary / Tuarua (9-10)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=9"><span class="dropdown-mi">Tau 9</span><span class="dropdown-en">Year 9</span></a></li>
+                                    <li><a href="browse.html?year=10"><span class="dropdown-mi">Tau 10</span><span class="dropdown-en">Year 10</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Senior Secondary / NCEA (11-13)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=11"><span class="dropdown-mi">Tau 11</span><span class="dropdown-en">Year 11</span></a></li>
+                                    <li><a href="browse.html?year=12"><span class="dropdown-mi">Tau 12</span><span class="dropdown-en">Year 12</span></a></li>
+                                    <li><a href="browse.html?year=13"><span class="dropdown-mi">Tau 13</span><span class="dropdown-en">Year 13</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    <li>
+                        <a href="#more">
+                            <span class="nav-icon">📦</span>
+                            <span class="nav-text-mi" lang="mi">Ētahi Atu</span>
+                            <span class="nav-text-en">More Stuff</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="games.html"><span class="dropdown-mi">🎮 Ngā Kēmu</span><span class="dropdown-en">Games</span></a></li>
+                                <li><a href="youtube.html"><span class="dropdown-mi">📺 Ataata YouTube</span><span class="dropdown-en">YouTube Videos</span></a></li>
+                                <li><a href="curriculum-alignment.html"><span class="dropdown-mi">📋 Te Marautanga</span><span class="dropdown-en">Curriculum Alignment</span></a></li>
+                                <li><a href="other-resources.html"><span class="dropdown-mi">🔗 Ētahi Atu Rauemi</span><span class="dropdown-en">Other Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="auth-nav auth-logged-out">
+                        <a href="login.html" class="auth-btn">
+                            <span class="nav-icon" data-icon="login"></span>
+                            <span class="nav-text-mi" lang="mi">Takiuru</span>
+                            <span class="nav-text-en">Login</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav auth-logged-in" style="display: none;">
+                        <a href="my-kete.html" class="dashboard-btn">
+                            <span class="nav-icon" data-icon="kete"></span>
+                            <span class="nav-text-mi" lang="mi">Tōku Kete</span>
+                            <span class="nav-text-en">My Kete</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Modern AI-focused Hero Section -->
+        <section class="modern-hero">
+            <div class="hero-content-modern">
+                <h1 class="hero-title-modern">Te Kete Ako</h1>
+                <p class="hero-subtitle">World's First AI-Enhanced Cultural Educational Platform</p>
+                <div class="hero-ai-badge">🤖 Powered by Culturally-Grounded AI Agents</div>
+                
+                <div class="whakatauki-modern">"Whaowhia te kete mātauranga"</div>
+                <div class="whakatauki-translation-modern">Fill the basket of knowledge</div>
+                
+                <div class="cta-buttons">
+                    <a href="ai-hub.html" class="cta-btn cta-primary">
+                        🤖 Explore AI Features
+                    </a>
+                    <a href="register.html" class="cta-btn cta-secondary">
+                        📝 Start Learning
+                    </a>
+                    <a href="y8-systems/lessons/lesson-1-1.html" class="cta-btn cta-secondary">
+                        🌟 Gold Standard Unit
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Features Showcase -->
+        <section class="features-showcase">
+            <div class="features-container">
+                <div class="features-header">
+                    <h2>Revolutionary AI-Enhanced Learning</h2>
+                    <p>The first educational platform that strengthens cultural identity through technology</p>
+                </div>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <span class="feature-icon">🎓</span>
+                        <h3>AI Learning Companion</h3>
+                        <p>Culturally-aware AI assistant that connects academic learning to Te Ao Māori values, providing personalized support with whakataukī wisdom.</p>
+                        <a href="student-dashboard.html" class="feature-link">Access Student Dashboard →</a>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="feature-icon">👨‍🏫</span>
+                        <h3>Teacher AI Assistant</h3>
+                        <p>AI-powered support for developing culturally-responsive pedagogy and analyzing student engagement through a cultural lens.</p>
+                        <a href="teacher-dashboard.html" class="feature-link">Teacher Dashboard →</a>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="feature-icon">🛡️</span>
+                        <h3>Cultural Authenticity Guardian</h3>
+                        <p>AI agent that ensures all interactions honor Te Ao Māori principles and prevents cultural appropriation.</p>
+                        <a href="ai-hub.html" class="feature-link">Learn More →</a>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="feature-icon">🌟</span>
+                        <h3>Gold Standard Y8 Systems</h3>
+                        <p>Enhanced with specialist Kaiako agents, featuring culturally-appropriate whakataukī and comprehensive resources.</p>
+                        <a href="y8-systems/lessons/lesson-1-1.html" class="feature-link">Start Unit →</a>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="feature-icon">🔄</span>
+                        <h3>Continuous Enhancement</h3>
+                        <p>Parallel AI agents continuously improve content quality, cultural authenticity, and technical consistency.</p>
+                        <a href="ai-hub.html" class="feature-link">View AI Hub →</a>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="feature-icon">📊</span>
+                        <h3>Cultural Analytics</h3>
+                        <p>Track learning progress and cultural engagement with AI-powered insights that honor diverse forms of excellence.</p>
+                        <a href="teacher-dashboard.html" class="feature-link">View Analytics →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Educational Resources -->
+        <section class="resources-section">
+            <div class="resources-container">
+                <div class="features-header">
+                    <h2>Comprehensive Educational Resources</h2>
+                    <p>Over 400 culturally-enhanced resources for Mangakōtukutuku College and beyond</p>
+                </div>
+                
+                <div class="resources-grid">
+                    <div class="resource-category">
+                        <h3>📚 Unit Plans</h3>
+                        <ul class="resource-list">
+                            <li><a href="units/unit-1-te-ao-maori.html">Te Ao Māori Foundation</a></li>
+                            <li><a href="units/unit-2-decolonized-history.html">Decolonized History</a></li>
+                            <li><a href="units/unit-3-stem-matauranga.html">STEM & Mātauranga</a></li>
+                            <li><a href="y8-systems-unit.html">Y8 Systems (Gold Standard)</a></li>
+                            <li><a href="unit-plans.html">View All Units →</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="resource-category">
+                        <h3>📖 Lesson Plans</h3>
+                        <ul class="resource-list">
+                            <li><a href="lessons/vowel-sounds-lesson.html">Culturally-Responsive Literacy</a></li>
+                            <li><a href="handouts/design-thinking-process-handout.html">Design Thinking</a></li>
+                            <li><a href="lessons.html">Browse All Lessons →</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="resource-category">
+                        <h3>📄 Ready-to-Print Handouts</h3>
+                        <ul class="resource-list">
+                            <li><a href="handouts/treaty-of-waitangi-handout.html">Treaty of Waitangi</a></li>
+                            <li><a href="handouts/probability-handout.html">Probability & Mātauranga</a></li>
+                            <li><a href="handouts/media-literacy-comprehension-handout.html">Media Literacy</a></li>
+                            <li><a href="handouts.html">All Handouts →</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="resource-category">
+                        <h3>🎮 Interactive Games</h3>
+                        <ul class="resource-list">
+                            <li><a href="games/te-reo-wordle.html">Te Reo Māori Wordle</a></li>
+                            <li><a href="games/english-wordle.html">English Wordle</a></li>
+                            <li><a href="games/spelling-bee.html">Cultural Spelling Bee</a></li>
+                            <li><a href="games.html">All Games →</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="resource-category">
+                        <h3>⚡ 5-Minute Activities</h3>
+                        <ul class="resource-list">
+                            <li><a href="handouts/do-now-activities/whakatauki-wisdom-do-now.html">Whakataukī Wisdom</a></li>
+                            <li><a href="handouts/do-now-activities/political-cartoon-analysis-do-now.html">Political Analysis</a></li>
+                            <li><a href="activities.html">All Do Nows →</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="resource-category">
+                        <h3>📺 Curated Videos</h3>
+                        <ul class="resource-list">
+                            <li><a href="handouts/video-activities/bastion-point-video-activity.html">Bastion Point</a></li>
+                            <li><a href="handouts/video-activities/maui-video-activity.html">Māui Stories</a></li>
+                            <li><a href="youtube.html">Video Library →</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script src="js/shared-components.js"></script>
+    <script src="js/analytics-dashboard.js"></script>
+    <script src="js/pwa-registration.js"></script>                    <footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- Brand Section -->
+                <div class="footer-section footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p class="footer-whakataukī">"Whaowhia te kete mātauranga"</p>
+                    <p class="footer-tagline">Fill the basket of knowledge</p>
+                    <p class="footer-description">Quality teaching resources for Aotearoa New Zealand educators, honoring mātauranga Māori and contemporary pedagogy.</p>
+                </div>
+
+                <!-- Resources Section -->
+                <div class="footer-section footer-resources">
+                    <h4><span class="footer-mi">Ngā Rauemi</span> <span class="footer-en">Resources</span></h4>
+                    <ul>
+                        <li><a href="unit-plans.html">📚 Unit Plans / Ngā Mahere Wāhanga</a></li>
+                        <li><a href="lessons.html">📖 Lesson Plans / Ngā Akoranga</a></li>
+                        <li><a href="handouts.html">📄 Handouts / Ngā Kape</a></li>
+                        <li><a href="games.html">🎮 Games / Ngā Kēmu</a></li>
+                        <li><a href="browse.html">🔍 Browse All / Tirohia Katoa</a></li>
+                    </ul>
+                </div>
+
+                <!-- Curriculum Section -->
+                <div class="footer-section footer-curriculum">
+                    <h4><span class="footer-mi">Te Marautanga</span> <span class="footer-en">Curriculum</span></h4>
+                    <ul>
+                        <li><a href="browse.html?subject=english">📝 English / Reo Pākehā</a></li>
+                        <li><a href="browse.html?subject=math">🔢 Mathematics / Pāngarau</a></li>
+                        <li><a href="browse.html?subject=science">🔬 Science / Pūtaiao</a></li>
+                        <li><a href="browse.html?subject=social-studies">🌏 Social Studies / Tikanga-ā-Iwi</a></li>
+                        <li><a href="curriculum-alignment.html">📋 NZ Curriculum Alignment</a></li>
+                    </ul>
+                </div>
+
+                <!-- Account & Support Section -->
+                <div class="footer-section footer-support">
+                    <h4><span class="footer-mi">Tautoko</span> <span class="footer-en">Support</span></h4>
+                    <ul>
+                        <li><a href="my-kete.html">🧺 My Kete / Tōku Kete</a></li>
+                        <li><a href="login.html">🔐 Login / Takiuru</a></li>
+                        <li><a href="#about">ℹ️ About Us / Mō Mātou</a></li>
+                        <li><a href="#contact">✉️ Contact / Whakapā Mai</a></li>
+                        <li><a href="#help">❓ Help / Āwhina</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <span class="footer-copyright">© 2025 Te Kete Ako</span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-location">Aotearoa New Zealand</span>
+                    <span class="footer-separator">•</span>
+                    <a href="#privacy">Privacy</a>
+                    <span class="footer-separator">•</span>
+                    <a href="#terms">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Load Supabase Client -->
+    <script src="js/supabase-client.js"></script>
+    <!-- Load Auth UI -->
+    <script src="js/auth-enhanced.js"></script>
+</body>
+</html>

@@ -1,0 +1,336 @@
+/**
+ * 🖨️ PROFESSIONAL PRINT STYLES - TE KETE AKO
+ * Beautiful PDFs for printing/downloading lessons and handouts
+ */
+
+@media print {
+  /* ===================================
+       HIDE NON-ESSENTIAL ELEMENTS
+       =================================== */
+
+  /* Hide navigation, headers, footers */
+  nav,
+  header.site-header,
+  footer,
+  .site-footer,
+  #nav-container,
+  #footer-container,
+  #mobile-nav-bottom,
+  #fab-quick-actions,
+  .no-print,
+  .navigation,
+  .breadcrumbs,
+  .auth-buttons,
+  .login-button,
+  .signup-button,
+  #onboarding-overlay,
+  #assign-modal,
+  .assign-btn,
+  .share-button,
+  .feedback-button {
+    display: none !important;
+  }
+
+  /* ===================================
+       PAGE SETUP
+       =================================== */
+
+  @page {
+    size: A4;
+    margin: 2cm 1.5cm;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: "Georgia", "Times New Roman", serif;
+    font-size: 11pt;
+    line-height: 1.6;
+    color: #000;
+    background: white;
+  }
+
+  /* ===================================
+       PROFESSIONAL HEADER
+       =================================== */
+
+  /* Create a print header */
+  body::before {
+    content: "Te Kete Ako - Culturally Integrated Educational Resources";
+    display: block;
+    text-align: center;
+    font-size: 9pt;
+    color: #666;
+    padding-bottom: 1cm;
+    margin-bottom: 1cm;
+    border-bottom: 2px solid #1a4d2e;
+  }
+
+  /* ===================================
+       TYPOGRAPHY
+       =================================== */
+
+  h1 {
+    font-size: 20pt;
+    color: #1a4d2e;
+    margin-bottom: 0.5cm;
+    page-break-after: avoid;
+  }
+
+  h2 {
+    font-size: 16pt;
+    color: #2d5a3d;
+    margin-top: 0.8cm;
+    margin-bottom: 0.4cm;
+    page-break-after: avoid;
+  }
+
+  h3 {
+    font-size: 14pt;
+    color: #3d6b4d;
+    margin-top: 0.6cm;
+    margin-bottom: 0.3cm;
+    page-break-after: avoid;
+  }
+
+  h4,
+  h5,
+  h6 {
+    font-size: 12pt;
+    color: #333;
+    margin-top: 0.4cm;
+    margin-bottom: 0.2cm;
+    page-break-after: avoid;
+  }
+
+  p {
+    margin-bottom: 0.4cm;
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* ===================================
+       WHAKATAUKĪ STYLING
+       =================================== */
+
+  .whakatauki-banner,
+  .whakataukī-banner,
+  .whakatauki {
+    background: #f5e6d3 !important;
+    border-left: 4px solid #1a4d2e !important;
+    padding: 0.5cm !important;
+    margin: 0.5cm 0 !important;
+    page-break-inside: avoid;
+  }
+
+  .whakatauki-text,
+  .whakataukī-text {
+    font-style: italic;
+    font-weight: bold;
+    color: #0f2818 !important;
+    font-size: 11pt;
+  }
+
+  .whakatauki-meaning {
+    color: #4a6e2a !important;
+    font-size: 10pt;
+  }
+
+  /* ===================================
+       CONTENT BOXES & HIGHLIGHTS
+       =================================== */
+
+  .lesson-objectives,
+  .learning-objectives,
+  .success-criteria,
+  .key-concepts {
+    background: #f0fdf4 !important;
+    border: 2px solid #059669 !important;
+    padding: 0.4cm;
+    margin: 0.5cm 0;
+    page-break-inside: avoid;
+  }
+
+  .cultural-note,
+  .tikanga-note,
+  .te-ao-maori {
+    background: #fef3c7 !important;
+    border-left: 4px solid #f59e0b !important;
+    padding: 0.4cm;
+    margin: 0.5cm 0;
+    page-break-inside: avoid;
+  }
+
+  .activity,
+  .task,
+  .exercise {
+    background: #eff6ff !important;
+    border: 1px solid #3b82f6 !important;
+    padding: 0.4cm;
+    margin: 0.5cm 0;
+    page-break-inside: avoid;
+  }
+
+  /* ===================================
+       LISTS
+       =================================== */
+
+  ul,
+  ol {
+    margin-bottom: 0.4cm;
+    padding-left: 1cm;
+  }
+
+  li {
+    margin-bottom: 0.2cm;
+  }
+
+  /* ===================================
+       TABLES
+       =================================== */
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.5cm 0;
+    page-break-inside: avoid;
+  }
+
+  th {
+    background: #f3f4f6 !important;
+    border: 1px solid #000;
+    padding: 0.3cm;
+    font-weight: bold;
+    text-align: left;
+  }
+
+  td {
+    border: 1px solid #666;
+    padding: 0.3cm;
+  }
+
+  /* ===================================
+       IMAGES
+       =================================== */
+
+  img {
+    max-width: 100%;
+    page-break-inside: avoid;
+    page-break-after: avoid;
+  }
+
+  /* ===================================
+       CODE BLOCKS
+       =================================== */
+
+  pre,
+  code {
+    background: #f3f4f6 !important;
+    border: 1px solid #d1d5db !important;
+    padding: 0.2cm;
+    font-family: "Courier New", monospace;
+    font-size: 9pt;
+    page-break-inside: avoid;
+  }
+
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* ===================================
+       PAGE BREAKS
+       =================================== */
+
+  .page-break {
+    page-break-after: always;
+  }
+
+  .avoid-break {
+    page-break-inside: avoid;
+  }
+
+  /* Avoid orphaned headings */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    page-break-after: avoid;
+  }
+
+  /* Keep figures with captions */
+  figure {
+    page-break-inside: avoid;
+  }
+
+  /* ===================================
+       LINKS
+       =================================== */
+
+  a {
+    color: #1a4d2e;
+    text-decoration: underline;
+  }
+
+  /* Show URLs after links (optional - can be enabled) */
+  /* a[href^="http"]:after {
+        content: " (" attr(href) ")";
+        font-size: 8pt;
+        color: #666;
+    } */
+
+  /* ===================================
+       FOOTER WITH PAGE NUMBERS
+       =================================== */
+
+  @page {
+    @bottom-right {
+      content: counter(page) " of " counter(pages);
+      font-size: 9pt;
+      color: #666;
+    }
+
+    @bottom-center {
+      content: "Te Kete Ako | tekete.netlify.app";
+      font-size: 8pt;
+      color: #999;
+    }
+  }
+
+  /* ===================================
+       SPECIAL FORMATTING
+       =================================== */
+
+  blockquote {
+    border-left: 4px solid #1a4d2e;
+    padding-left: 0.5cm;
+    margin-left: 0;
+    font-style: italic;
+    color: #333;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 0.5cm 0;
+  }
+
+  /* ===================================
+       RESOURCE METADATA
+       =================================== */
+
+  .resource-meta {
+    font-size: 9pt;
+    color: #666;
+    margin-bottom: 0.5cm;
+    padding-bottom: 0.3cm;
+    border-bottom: 1px solid #e5e7eb;
+  }
+}

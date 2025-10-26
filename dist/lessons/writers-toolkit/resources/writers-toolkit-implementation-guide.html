@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/te-kete-professional.css">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://supabase.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: https://placehold.co; connect-src 'self' https://nlgldaqtubrlcqddppbq.supabase.co https://supabase.com;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Writers Toolkit Implementation Guide | Te Kete Ako</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../../css/main.css">
+    <style>
+        @media print {
+            .implementation-section { 
+                margin: 5mm 0; 
+                padding: 3mm; 
+                border: 1px solid #2E8B57; 
+                background: #f9fbff;
+            }
+            .lesson-timeline {
+                display: grid;
+                grid-template-columns: 1fr 2fr 1fr;
+                gap: 2mm;
+                border: 1px solid #ddd;
+                margin: 3mm 0;
+            }
+            .timeline-header {
+                background: #2E8B57;
+                color: white;
+                padding: 2mm;
+                font-weight: bold;
+                text-align: center;
+            }
+            .timeline-cell {
+                padding: 2mm;
+                border: 1px solid #ddd;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body class="printable-resource">
+    
+                    <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                        <li>
+                            <a href="browse.html">
+                                <span class="nav-icon">📚</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                                <span class="nav-text-en">Resources</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="unit-plans.html"><span class="dropdown-mi">📚 Ngā Mahere Wāhanga</span><span class="dropdown-en">Unit Plans (6-8 weeks)</span></a></li>
+                                <li><a href="lessons.html"><span class="dropdown-mi">📖 Ngā Mahere Akoranga</span><span class="dropdown-en">Lesson Plans (60-75 min)</span></a></li>
+                                <li><a href="handouts.html"><span class="dropdown-mi">📄 Ngā Kape</span><span class="dropdown-en">Handouts & Materials</span></a></li>
+                                <li><a href="browse.html"><span class="dropdown-mi">🔍 Tirohia Katoa</span><span class="dropdown-en">Browse All Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=subject">
+                                <span class="nav-icon">🎨</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Marau</span>
+                                <span class="nav-text-en">Subjects</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="browse.html?subject=english"><span class="dropdown-mi">📝 Reo Pākehā</span><span class="dropdown-en">English</span></a></li>
+                                <li><a href="browse.html?subject=math"><span class="dropdown-mi">🔢 Pāngarau</span><span class="dropdown-en">Mathematics</span></a></li>
+                                <li><a href="browse.html?subject=science"><span class="dropdown-mi">🔬 Pūtaiao</span><span class="dropdown-en">Science</span></a></li>
+                                <li><a href="browse.html?subject=social-studies"><span class="dropdown-mi">🌏 Tikanga-ā-Iwi</span><span class="dropdown-en">Social Studies</span></a></li>
+                                <li><a href="browse.html?subject=te-reo"><span class="dropdown-mi">🌿 Te Reo Māori</span><span class="dropdown-en">Māori Language</span></a></li>
+                                <li><a href="browse.html?subject=arts"><span class="dropdown-mi">🎨 Ngā Toi</span><span class="dropdown-en">The Arts</span></a></li>
+                                <li><a href="browse.html?subject=health-pe"><span class="dropdown-mi">💪 Hauora</span><span class="dropdown-en">Health & PE</span></a></li>
+                                <li><a href="browse.html?subject=technology"><span class="dropdown-mi">🔧 Hangarau</span><span class="dropdown-en">Technology</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="browse.html?filter=year">
+                                <span class="nav-icon">📅</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Tau</span>
+                                <span class="nav-text-en">Year Levels</span>
+                            </a>
+                            <div class="nav-dropdown nav-dropdown-wide">
+                                <div class="year-stage-label">Primary / Tuatahi (1-6)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=1"><span class="dropdown-mi">Tau 1</span><span class="dropdown-en">Year 1</span></a></li>
+                                    <li><a href="browse.html?year=2"><span class="dropdown-mi">Tau 2</span><span class="dropdown-en">Year 2</span></a></li>
+                                    <li><a href="browse.html?year=3"><span class="dropdown-mi">Tau 3</span><span class="dropdown-en">Year 3</span></a></li>
+                                </ul>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=4"><span class="dropdown-mi">Tau 4</span><span class="dropdown-en">Year 4</span></a></li>
+                                    <li><a href="browse.html?year=5"><span class="dropdown-mi">Tau 5</span><span class="dropdown-en">Year 5</span></a></li>
+                                    <li><a href="browse.html?year=6"><span class="dropdown-mi">Tau 6</span><span class="dropdown-en">Year 6</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Intermediate / Waenga (7-8)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=7"><span class="dropdown-mi">Tau 7</span><span class="dropdown-en">Year 7</span></a></li>
+                                    <li><a href="browse.html?year=8"><span class="dropdown-mi">Tau 8</span><span class="dropdown-en">Year 8</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Junior Secondary / Tuarua (9-10)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=9"><span class="dropdown-mi">Tau 9</span><span class="dropdown-en">Year 9</span></a></li>
+                                    <li><a href="browse.html?year=10"><span class="dropdown-mi">Tau 10</span><span class="dropdown-en">Year 10</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Senior Secondary / NCEA (11-13)</div>
+                                <ul class="year-grid">
+                                    <li><a href="browse.html?year=11"><span class="dropdown-mi">Tau 11</span><span class="dropdown-en">Year 11</span></a></li>
+                                    <li><a href="browse.html?year=12"><span class="dropdown-mi">Tau 12</span><span class="dropdown-en">Year 12</span></a></li>
+                                    <li><a href="browse.html?year=13"><span class="dropdown-mi">Tau 13</span><span class="dropdown-en">Year 13</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    <li>
+                        <a href="#more">
+                            <span class="nav-icon">📦</span>
+                            <span class="nav-text-mi" lang="mi">Ētahi Atu</span>
+                            <span class="nav-text-en">More Stuff</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="games.html"><span class="dropdown-mi">🎮 Ngā Kēmu</span><span class="dropdown-en">Games</span></a></li>
+                                <li><a href="youtube.html"><span class="dropdown-mi">📺 Ataata YouTube</span><span class="dropdown-en">YouTube Videos</span></a></li>
+                                <li><a href="curriculum-alignment.html"><span class="dropdown-mi">📋 Te Marautanga</span><span class="dropdown-en">Curriculum Alignment</span></a></li>
+                                <li><a href="other-resources.html"><span class="dropdown-mi">🔗 Ētahi Atu Rauemi</span><span class="dropdown-en">Other Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="auth-nav auth-logged-out">
+                        <a href="login.html" class="auth-btn">
+                            <span class="nav-icon" data-icon="login"></span>
+                            <span class="nav-text-mi" lang="mi">Takiuru</span>
+                            <span class="nav-text-en">Login</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav auth-logged-in" style="display: none;">
+                        <a href="my-kete.html" class="dashboard-btn">
+                            <span class="nav-icon" data-icon="kete"></span>
+                            <span class="nav-text-mi" lang="mi">Tōku Kete</span>
+                            <span class="nav-text-en">My Kete</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <main class="content-area">
+            
+            <div class="cultural-opening">
+                <h2>Whakataukī | Proverb</h2>
+                <p style="font-style: italic;">"Ko te kaiako he kaiwhangai, he kaiarahi, he kaiāwhina"</p>
+                <p>The teacher is a nurturer, a guide, and a helper.</p>
+                <p>This guide supports kaiako in implementing the Writers Toolkit with cultural responsiveness and pedagogical excellence.</p>
+            </div>
+
+            <div class="resource-header">
+                <h1>📚 Writers Toolkit Implementation Guide</h1>
+                <div class="resource-meta">
+                    <span class="meta-tag">Teacher Resource</span>
+                    <span class="meta-tag">Implementation Support</span>
+                    <span class="meta-tag">Years 9-13</span>
+                </div>
+            </div>
+
+            <div class="resource-content">
+                
+                <div class="implementation-section">
+                    <h3>🎯 Unit Overview - He Tirohanga Whānui</h3>
+                    <p><strong>Duration:</strong> 12 weeks (1 lesson per week) or 6 weeks (2 lessons per week)</p>
+                    <p><strong>Philosophy:</strong> Writing as whakatōhanga (connection) - students develop authentic voice while mastering technical skills</p>
+                    <p><strong>Assessment:</strong> Holistic, formative-focused with summative portfolio at end</p>
+                </div>
+
+                <div class="implementation-section">
+                    <h3>📅 Suggested Teaching Sequence</h3>
+                    
+                    <div class="lesson-timeline">
+                        <div class="timeline-header">Week</div>
+                        <div class="timeline-header">Focus & Activities</div>
+                        <div class="timeline-header">Resources Needed</div>
+                        
+                        <div class="timeline-cell"><strong>1-2</strong></div>
+                        <div class="timeline-cell">
+                            <strong>Hooks & PEEL Method</strong><br>
+                            Foundation skills - students need these for all subsequent writing
+                        </div>
+                        <div class="timeline-cell">
+                            Hook lesson plan<br>
+                            PEEL handout<br>
+                            Progress tracker
+                        </div>
+                        
+                        <div class="timeline-cell"><strong>3-4</strong></div>
+                        <div class="timeline-cell">
+                            <strong>Rhetorical Devices & Diction</strong><br>
+                            Power tools for persuasion and precision
+                        </div>
+                        <div class="timeline-cell">
+                            Rhetorical devices handout<br>
+                            Diction lesson plan<br>
+                            Student examples
+                        </div>
+                        
+                        <div class="timeline-cell"><strong>5-6</strong></div>
+                        <div class="timeline-cell">
+                            <strong>Voice & Show Don't Tell</strong><br>
+                            Authenticity and vivid writing
+                        </div>
+                        <div class="timeline-cell">
+                            Tone handout<br>
+                            Show don't tell examples<br>
+                            Cultural connection activities
+                        </div>
+                        
+                        <div class="timeline-cell"><strong>7-8</strong></div>
+                        <div class="timeline-cell">
+                            <strong>Advanced Techniques</strong><br>
+                            Analogies, suspense, sentence fluency
+                        </div>
+                        <div class="timeline-cell">
+                            Analogy handout<br>
+                            Suspense lesson plan<br>
+                            Fluency exercises
+                        </div>
+                        
+                        <div class="timeline-cell"><strong>9-10</strong></div>
+                        <div class="timeline-cell">
+                            <strong>Structure & Organization</strong><br>
+                            Informative structure, conclusions
+                        </div>
+                        <div class="timeline-cell">
+                            Structure templates<br>
+                            Conclusion examples<br>
+                            Organizational tools
+                        </div>
+                        
+                        <div class="timeline-cell"><strong>11-12</strong></div>
+                        <div class="timeline-cell">
+                            <strong>Revision & Portfolio</strong><br>
+                            Systematic improvement, final presentation
+                        </div>
+                        <div class="timeline-cell">
+                            Revision checklist<br>
+                            Assessment rubric<br>
+                            Portfolio guidelines
+                        </div>
+                    </div>
+                </div>
+
+                <div class="implementation-section">
+                    <h3>🔧 Practical Teaching Tips</h3>
+                    
+                    <h4>Station Rotation Model (50-minute periods):</h4>
+                    <ul>
+                        <li><strong>10 minutes:</strong> Whole class mini-lesson on new skill</li>
+                        <li><strong>30 minutes:</strong> Three 10-minute stations:
+                            <ul style="margin-left: 1rem;">
+                                <li>Station 1: Teacher-guided practice with target students</li>
+                                <li>Station 2: Independent practice with handout/activity</li>
+                                <li>Station 3: Peer collaboration or digital extension</li>
+                            </ul>
+                        </li>
+                        <li><strong>10 minutes:</strong> Share back and reflection</li>
+                    </ul>
+                    
+                    <h4>Cultural Integration Strategies:</h4>
+                    <ul>
+                        <li><strong>Whakatōhanga (Connection):</strong> Students write about their own experiences and cultural backgrounds</li>
+                        <li><strong>Te Reo Integration:</strong> Include Māori examples and vocabulary naturally in lessons</li>
+                        <li><strong>Multiple Perspectives:</strong> Use diverse authors and texts as models</li>
+                        <li><strong>Community Connections:</strong> Writing projects that connect to whānau and local issues</li>
+                    </ul>
+                </div>
+
+                <div class="implementation-section">
+                    <h3>📊 Assessment Strategies</h3>
+                    
+                    <h4>Formative Assessment (Ongoing):</h4>
+                    <ul>
+                        <li><strong>Progress Tracker:</strong> Students self-assess after each lesson</li>
+                        <li><strong>Quick Writes:</strong> 5-minute writing samples using new skills</li>
+                        <li><strong>Peer Feedback:</strong> Structured using rubric criteria</li>
+                        <li><strong>Teacher Conferences:</strong> 2-3 minutes per student weekly</li>
+                    </ul>
+                    
+                    <h4>Summative Assessment:</h4>
+                    <ul>
+                        <li><strong>Portfolio:</strong> 3-4 pieces showing growth across different text types</li>
+                        <li><strong>Reflection Essay:</strong> Students analyze their own writing journey</li>
+                        <li><strong>Peer Teaching:</strong> Students teach one skill to younger classes</li>
+                    </ul>
+                    
+                    <h4>NZ Curriculum Standards Mapping:</h4>
+                    <ul>
+                        <li><strong>Level 1 English:</strong> AS 1.1 (Unfamiliar texts), AS 1.4 (Writing portfolio), AS 1.7 (Visual/oral)</li>
+                        <li><strong>Level 2 English:</strong> AS 2.1 (Unfamiliar texts), AS 2.4 (Writing portfolio), AS 2.7 (Visual/oral)</li>
+                        <li><strong>Level 3 English:</strong> AS 3.1 (Unfamiliar texts), AS 3.4 (Writing portfolio), AS 3.7 (Visual/oral)</li>
+                    </ul>
+                </div>
+
+                <div class="implementation-section">
+                    <h3>🎪 Differentiation Strategies</h3>
+                    
+                    <h4>For Developing Writers:</h4>
+                    <ul>
+                        <li>Provide sentence starters and templates</li>
+                        <li>Use graphic organizers for PEEL structure</li>
+                        <li>Offer choice in topics that connect to student interests</li>
+                        <li>Break complex tasks into smaller steps</li>
+                    </ul>
+                    
+                    <h4>For Advanced Writers:</h4>
+                    <ul>
+                        <li>Provide mentor texts from published authors</li>
+                        <li>Encourage experimentation with form and style</li>
+                        <li>Offer leadership roles in peer feedback sessions</li>
+                        <li>Connect writing to real-world publication opportunities</li>
+                    </ul>
+                    
+                    <h4>For EAL (English as Additional Language) Students:</h4>
+                    <ul>
+                        <li>Provide vocabulary support and glossaries</li>
+                        <li>Use visual examples and graphic organizers</li>
+                        <li>Encourage use of first language in brainstorming</li>
+                        <li>Connect to students' cultural writing traditions</li>
+                    </ul>
+                </div>
+
+                <div class="implementation-section">
+                    <h3>🔗 Resource Connections</h3>
+                    <p><strong>Essential Resources for Each Lesson:</strong></p>
+                    <ul>
+                        <li>Teacher lesson plan (methodology and timing)</li>
+                        <li>Student handout (reference and practice)</li>
+                        <li>Assessment rubric (clear success criteria)</li>
+                        <li>Progress tracker (student self-monitoring)</li>
+                    </ul>
+                    
+                    <p><strong>Additional Support Materials:</strong></p>
+                    <ul>
+                        <li>Digital versions for accessibility</li>
+                        <li>Extension activities for early finishers</li>
+                        <li>Home practice suggestions for whānau engagement</li>
+                        <li>Cross-curricular writing connections</li>
+                    </ul>
+                </div>
+
+                <div class="implementation-section">
+                    <h3>💡 Troubleshooting Common Challenges</h3>
+                    
+                    <h4>Challenge: "My students hate writing"</h4>
+                    <ul>
+                        <li><strong>Solution:</strong> Start with topics they're passionate about. Use the voice and authenticity lessons early to help them find their writing identity.</li>
+                    </ul>
+                    
+                    <h4>Challenge: "They don't use the techniques in their own writing"</h4>
+                    <ul>
+                        <li><strong>Solution:</strong> Create checklists and require students to highlight where they've used each technique. Make it visible and celebrated.</li>
+                    </ul>
+                    
+                    <h4>Challenge: "Wide range of abilities in one class"</h4>
+                    <ul>
+                        <li><strong>Solution:</strong> Use the station rotation model with differentiated activities. Pair stronger and developing writers strategically.</li>
+                    </ul>
+                    
+                    <h4>Challenge: "Not enough time to teach everything"</h4>
+                    <ul>
+                        <li><strong>Solution:</strong> Focus on 2-3 core techniques thoroughly rather than covering everything superficially. Quality over quantity.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="../../../js/main.js"></script>
+
+    <!-- Load Supabase Client -->
+    <script src="../../../js/supabase-client.js"></script>
+    <!-- Load Auth UI -->
+    <script src="../../../js/auth-enhanced.js"></script>
+
+<footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- Brand Section -->
+                <div class="footer-section footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p class="footer-whakataukī">"Whaowhia te kete mātauranga"</p>
+                    <p class="footer-tagline">Fill the basket of knowledge</p>
+                    <p class="footer-description">Quality teaching resources for Aotearoa New Zealand educators, honoring mātauranga Māori and contemporary pedagogy.</p>
+                </div>
+
+                <!-- Resources Section -->
+                <div class="footer-section footer-resources">
+                    <h4><span class="footer-mi">Ngā Rauemi</span> <span class="footer-en">Resources</span></h4>
+                    <ul>
+                        <li><a href="unit-plans.html">📚 Unit Plans / Ngā Mahere Wāhanga</a></li>
+                        <li><a href="lessons.html">📖 Lesson Plans / Ngā Akoranga</a></li>
+                        <li><a href="handouts.html">📄 Handouts / Ngā Kape</a></li>
+                        <li><a href="games.html">🎮 Games / Ngā Kēmu</a></li>
+                        <li><a href="browse.html">🔍 Browse All / Tirohia Katoa</a></li>
+                    </ul>
+                </div>
+
+                <!-- Curriculum Section -->
+                <div class="footer-section footer-curriculum">
+                    <h4><span class="footer-mi">Te Marautanga</span> <span class="footer-en">Curriculum</span></h4>
+                    <ul>
+                        <li><a href="browse.html?subject=english">📝 English / Reo Pākehā</a></li>
+                        <li><a href="browse.html?subject=math">🔢 Mathematics / Pāngarau</a></li>
+                        <li><a href="browse.html?subject=science">🔬 Science / Pūtaiao</a></li>
+                        <li><a href="browse.html?subject=social-studies">🌏 Social Studies / Tikanga-ā-Iwi</a></li>
+                        <li><a href="curriculum-alignment.html">📋 NZ Curriculum Alignment</a></li>
+                    </ul>
+                </div>
+
+                <!-- Account & Support Section -->
+                <div class="footer-section footer-support">
+                    <h4><span class="footer-mi">Tautoko</span> <span class="footer-en">Support</span></h4>
+                    <ul>
+                        <li><a href="my-kete.html">🧺 My Kete / Tōku Kete</a></li>
+                        <li><a href="login.html">🔐 Login / Takiuru</a></li>
+                        <li><a href="#about">ℹ️ About Us / Mō Mātou</a></li>
+                        <li><a href="#contact">✉️ Contact / Whakapā Mai</a></li>
+                        <li><a href="#help">❓ Help / Āwhina</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <span class="footer-copyright">© 2025 Te Kete Ako</span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-location">Aotearoa New Zealand</span>
+                    <span class="footer-separator">•</span>
+                    <a href="#privacy">Privacy</a>
+                    <span class="footer-separator">•</span>
+                    <a href="#terms">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
