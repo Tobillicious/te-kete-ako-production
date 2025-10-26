@@ -270,8 +270,30 @@ class BrowseHeroes {
         const main = document.querySelector('main.content-area');
         if (!main) return;
 
+        // Rainbow color progression for years 1-13
+        const yearColors = {
+            '1': { start: '#8B3A62', mid: '#B85C7E', end: '#E699B8' },  // Deep Pink/Rose
+            '2': { start: '#A03D5E', mid: '#C66084', end: '#EB9FBA' },  // Pink-Purple
+            '3': { start: '#8B4789', mid: '#B169AE', end: '#D99FD3' },  // Purple
+            '4': { start: '#6B4C9A', mid: '#8F6EC2', end: '#BCA8E8' },  // Blue-Purple
+            '5': { start: '#4A5899', mid: '#6B7BC2', end: '#A8B8E8' },  // Blue
+            '6': { start: '#3D7BA3', mid: '#5E9CC7', end: '#9FCCEB' },  // Sky Blue
+            '7': { start: '#2F8B8B', mid: '#51AEAE', end: '#93D9D9' },  // Cyan
+            '8': { start: '#2F8B5E', mid: '#51AE84', end: '#93D9BA' },  // Teal
+            '9': { start: '#4A7C2F', mid: '#6CA651', end: '#A8D393' },  // Green
+            '10': { start: '#7C8B2F', mid: '#A6B851', end: '#D3E693' }, // Yellow-Green
+            '11': { start: '#B8932F', mid: '#DDB851', end: '#F5E693' }, // Yellow
+            '12': { start: '#C77A2F', mid: '#EB9F51', end: '#FFCC93' }, // Orange
+            '13': { start: '#B85C3A', mid: '#E67E5E', end: '#FFB299' }  // Orange-Red
+        };
+
+        const colors = yearColors[yearLevel] || yearColors['5'];
+
         const hero = document.createElement('div');
         hero.className = 'year-hero';
+        hero.style.setProperty('--year-color-start', colors.start);
+        hero.style.setProperty('--year-color-mid', colors.mid);
+        hero.style.setProperty('--year-color-end', colors.end);
         
         hero.innerHTML = `
             <div class="hero-year-badge">
