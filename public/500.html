@@ -1,243 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Server Error - Te Kete Ako</title>
-
-<!-- UNIFIED DESIGN SYSTEM -->
-<!-- PWA Manifest -->
-<link href="/manifest.json" rel="manifest"/>
-<meta content="#1a4d2e" name="theme-color"/>
-
-<!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
-<!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
-
-
-<!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
-
-
-
-<!-- ⭐ COMPONENT STYLES -->
-
-
-
-
-
-<!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
-
-
-
-<!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
-
-
-<!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
-
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-    // Wait for Supabase CDN to load before initializing singleton
-    window.addEventListener('DOMContentLoaded', () => {
-        if (!window.supabase) {
-            // Log to monitoring instead of console
-            if (window.posthog) {
-                posthog.capture('supabase_cdn_error', {
-                    message: 'Supabase CDN failed to load',
-                    url: window.location.pathname
-                });
-            }
-        }
-    });
-</script>
-<script src="/js/supabase-singleton.js"></script>
-<!-- My Kete Database Integration - loads after singleton -->
-<script src="/js/my-kete-database.js"></script>
-<!-- Navigation Loader Singleton - loads after supabase setup -->
-<script src="/js/navigation-loader.js"></script>
-<!-- Component Loader - centralized async component management -->
-<script src="/js/component-loader.js"></script>
-<meta name="mobile-web-app-capable" content="yes"/>
-<meta content="yes" name="apple-mobile-web-app-capable"/>
-<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
-<meta content="Te Kete Ako" name="apple-mobile-web-app-title"/>
-<link href="/icons/icon-192x192.png" rel="apple-touch-icon"/>
-<!-- ENHANCED SEARCH -->
-<script src="/js/enhanced-search.js" defer></script>
-<!-- MOBILE PERFORMANCE OPTIMIZER -->
-<script src="/js/mobile-performance-optimizer.js" defer></script>
-<!-- TOUCH TARGET AUDITOR -->
-<script src="/js/touch-target-auditor.js" defer></script>
-<!-- 🎨 ULTIMATE CULTURAL GESTURES - Framer Motion System -->
-<script src="/js/framer-cultural-gestures-ultimate.js" defer></script>
-<!-- Service Worker Registration -->
-<script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js')
-                    .then(registration => {
-                        console.log('✅ PWA: Service Worker registered!', registration);
-                    })
-                    .catch(error => {
-                        // Log to monitoring instead of console
-                        if (window.posthog) {
-                            posthog.capture('pwa_service_worker_error', {
-                                message: 'Service Worker registration failed',
-                                error: error.message,
-                                url: window.location.pathname
-                            });
-                        }
-                    });
-            });
-        }
-</script>
-
-<meta name="robots" content="index, follow"/>
-<meta name="googlebot" content="index, follow"/>
-<meta name="theme-color" content="#1a4d2e"/>
-
-
-
-<meta name="robots" content="index, follow"/>
-<meta name="googlebot" content="index, follow"/>
-<meta name="theme-color" content="#1a4d2e"/>
-
-
-    <meta name="format-detection" content="telephone=no">
-    <meta name="theme-color" content="#1b4332">
-    <meta name="color-scheme" content="light">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Te Kete Ako - Server Error">
+    <title>Server Error - Te Kete Ako</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<!-- UNIFIED DESIGN SYSTEM -->
-<!-- PWA Manifest -->
-<link href="/manifest.json" rel="manifest"/>
-<meta content="#1a4d2e" name="theme-color"/>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a4d2e 0%, #0f3a23 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 2rem;
+        }
 
-<!-- CSS - UNIFIED PROFESSIONAL DESIGN SYSTEM (CONSOLIDATED) -->
-<!-- ⭐ PROFESSIONAL SYSTEM FIRST - Core design tokens -->
+        .error-container {
+            max-width: 600px;
+            text-align: center;
+        }
 
+        .error-icon {
+            font-size: 8rem;
+            margin-bottom: 2rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
 
-<!-- ⭐ THEME SYSTEM (Tailwind + Ultimate Beauty) -->
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
 
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #ffd700;
+        }
 
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
 
-<!-- ⭐ COMPONENT STYLES -->
-    
-    
-    
-    
+        p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            opacity: 0.95;
+        }
 
-<!-- ⭐ PRINT STYLES (media="print" = only for printing) -->
-    
+        .actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
 
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
 
-<!-- ⭐ TAILWIND (Loads second-to-last - utilities only, NO DUPLICATES) -->
+        .btn-primary {
+            background: #ffd700;
+            color: #064e3b;
+        }
 
+        .btn-primary:hover {
+            background: #fbbf24;
+            transform: translateY(-2px);
+        }
 
-<!-- ⭐ CASCADE FIX (Loads LAST - overrides conflicting variables) -->
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+        }
 
-<body class="pattern-koru-subtle">
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.3);
+        }
 
-<!-- Navigation -->
-<header class="site-header no-print">
-    <div class="nav-container">
-        <a href="/index.html" class="nav-brand">Te Kete Ako</a>
-        <nav class="main-nav">
-            <ul>
-                <li><a href="/index.html" class="nav-link"><span class="nav-icon">🏠</span>Home</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
+        .error-details {
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            text-align: left;
+        }
 
-<div class="error-container">
-    <div class="error-content">
-        <div class="error-code">500</div>
-        <h1 class="error-title">Kua hapa te tūmau</h1>
-        <p class="error-message">
-            We're experiencing technical difficulties. Our team has been notified and is working to fix the issue. Please try again in a few moments.
+        .error-details h3 {
+            color: #ffd700;
+            margin-bottom: 1rem;
+        }
+
+        .error-details ul {
+            margin-left: 1.5rem;
+        }
+
+        .error-details li {
+            margin-bottom: 0.5rem;
+        }
+
+        .support-box {
+            background: rgba(255,255,255,0.15);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            border-left: 4px solid #ffd700;
+        }
+
+        @media (max-width: 640px) {
+            .error-icon {
+                font-size: 5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.2rem;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-icon">⚠️</div>
+        
+        <h1>500</h1>
+        <h2>Server Error</h2>
+        
+        <p>
+            Kia ora! We're experiencing technical difficulties. 
+            Our team has been automatically notified and is working to fix the issue.
         </p>
-        
-        <div class="error-actions">
-            <a href="/index.html" class="btn-primary">🏠 Return Home</a>
-            <a href="javascript:location.reload()" class="btn-secondary">🔄 Refresh Page</a>
+
+        <div class="actions">
+            <a href="/" class="btn btn-primary">← Back to Homepage</a>
+            <a href="#" onclick="location.reload()" class="btn btn-secondary">Try Again</a>
         </div>
         
-        <div class="quick-links">
-            <a href="/teachers/index.html" class="quick-link">
-                <strong>🧑‍🏫 Teacher Hub</strong><br>
-                <small>Access teacher resources</small>
-            </a>
-            <a href="/lessons.html" class="quick-link">
-                <strong>📚 Lessons</strong><br>
-                <small>Browse lesson plans</small>
-            </a>
-            <a href="/handouts.html" class="quick-link">
-                <strong>📄 Handouts</strong><br>
-                <small>View teaching resources</small>
-            </a>
+        <div class="error-details">
+            <h3>What You Can Do:</h3>
+            <ul>
+                <li>Wait a few minutes and try again</li>
+                <li>Clear your browser cache and reload</li>
+                <li>Try a different browser</li>
+                <li>Check our <a href="/help.html" style="color: #ffd700;">help page</a> for common issues</li>
+                <li>Contact support if the problem persists</li>
+            </ul>
         </div>
         
-        <div class="cultural-note">
-            <strong>Whakatauki:</strong> "Tōia mai te waka; ki te urunga te waka" - Draw the canoe to its resting place - We will work through this together.
-        </div>
-        
-        <div class="p-6 rounded-lg" >
-            <p class="m-0" >
-                <strong>🔧 Technical Status:</strong> Our engineers are investigating this issue. If this problem persists, please contact support.
+        <div class="support-box">
+            <p style="margin-bottom: 1rem;">
+                <strong>Need immediate help?</strong>
+            </p>
+            <p style="margin: 0;">
+                Email: <a href="mailto:support@tekete.co.nz" style="color: #ffd700;">support@tekete.co.nz</a><br>
+                We typically respond within 1-2 hours during business days.
             </p>
         </div>
-    </div>
+
+        <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.7;">
+            Error Reference: <span id="error-ref"></span>
+        </p>
 </div>
 
 <script>
-// Log error for monitoring
-if (typeof console !== 'undefined') {
-    // Log to monitoring instead of console
+        // Generate unique error reference for support
+        const errorRef = 'ERR-' + Date.now().toString(36).toUpperCase();
+        document.getElementById('error-ref').textContent = errorRef;
+
+        // Track error in PostHog if available
         if (window.posthog) {
-            posthog.capture('javascript_error', {
-                error: err.message,
-                url: window.location.pathname
-            }));
+            window.posthog.capture('500_error_page_viewed', {
+                error_ref: errorRef,
+                referrer: document.referrer
+            });
         }
-        // Show user-friendly message instead of error
-        .toISOString());
-}
 
-// Track 500 errors for analytics
-if (typeof gtag !== 'undefined') {
-    gtag('event', 'exception', {
-        description: '500 Server Error',
-        fatal: true
-    });
-}
-</script>
-
-<!-- Footer -->
-<div id="footer-container"></div>
-
-
-<!-- PARALLEL COMPONENT LOADING - No more 2-3s delay! -->
-<script>
-    // Load all components in parallel for instant page display
-    // PARALLEL COMPONENT LOADING - No more 2-3s delay!
-Promise.all([
-    // Components will be loaded here
-]).then(() => {
-    console.log('✅ All components loaded in parallel');
-}).catch(err => {
-    if (window.posthog) {
-        posthog.capture('component_loading_error', {
-            message: err.message,
-            url: window.location.pathname
-        });
+        // Send to Sentry if available
+        if (typeof Sentry !== 'undefined') {
+            Sentry.captureMessage('500 Error Page Viewed', {
+                level: 'error',
+                tags: {
+                    error_ref: errorRef,
+                    page: window.location.href
     }
 });
         }
-        // Show user-friendly message instead of error
-        });
 </script>
 </body>
 </html>
-
