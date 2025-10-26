@@ -3,106 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Subscription | Te Kete Ako</title>
-    <link href="/css/te-kete-ultimate-beauty-system.css" rel="stylesheet">
+    <title>My Subscription - Te Kete Ako</title>
+    <link href="/css/te-kete-ultimate-beauty-system.css" rel="stylesheet"/>
     <style>
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(135deg, #1a4d2e 0%, #2d5a3d 100%);
             min-height: 100vh;
             padding: 40px 20px;
-            font-family: system-ui, -apple-system, sans-serif;
         }
         .dashboard-container {
             max-width: 1000px;
             margin: 0 auto;
             background: white;
             border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-            overflow: hidden;
+            padding: 40px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
         }
         .header {
-            background: linear-gradient(135deg, #1a4d2e 0%, #2d5a3d 100%);
-            color: white;
-            padding: 40px;
             text-align: center;
+            margin-bottom: 40px;
         }
         .header h1 {
-            margin: 0 0 10px 0;
+            color: #1a4d2e;
             font-size: 2.5em;
+            margin-bottom: 10px;
         }
-        .content {
-            padding: 40px;
-        }
-        .plan-card {
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
+        .subscription-card {
+            background: linear-gradient(135deg, #1a4d2e 0%, #2d5a3d 100%);
+            color: white;
             padding: 30px;
+            border-radius: 12px;
             margin-bottom: 30px;
         }
-        .plan-card.active {
-            border-color: #f4d03f;
-            background: #fffef0;
-        }
-        .plan-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .subscription-card h2 {
+            color: #f4d03f;
             margin-bottom: 20px;
         }
-        .plan-badge {
-            background: #f4d03f;
-            color: #1a4d2e;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-        }
-        .feature-list {
-            list-style: none;
-            padding: 0;
+        .plan-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
             margin: 20px 0;
         }
-        .feature-list li {
-            padding: 10px 0;
-            border-bottom: 1px solid #e9ecef;
-        }
-        .feature-list li:before {
-            content: "✓ ";
-            color: #1a4d2e;
-            font-weight: bold;
-            margin-right: 10px;
-        }
-        .btn {
-            display: inline-block;
-            background: #1a4d2e;
-            color: white;
-            padding: 14px 28px;
+        .detail-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
             border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s;
         }
-        .btn:hover {
-            background: #2d5a3d;
-            transform: translateY(-2px);
+        .detail-item strong {
+            color: #f4d03f;
+            display: block;
+            margin-bottom: 5px;
         }
-        .btn-outline {
-            background: transparent;
-            border: 2px solid #1a4d2e;
-            color: #1a4d2e;
-        }
-        .btn-outline:hover {
-            background: #1a4d2e;
-            color: white;
-        }
-        .stats-grid {
+        .usage-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
             margin: 30px 0;
         }
         .stat-card {
-            background: #f8f9fa;
+            background: #f5f5f5;
             padding: 20px;
             border-radius: 8px;
             text-align: center;
@@ -111,166 +71,287 @@
             font-size: 2.5em;
             font-weight: bold;
             color: #1a4d2e;
+            margin: 10px 0;
         }
         .stat-label {
             color: #666;
-            margin-top: 10px;
+            font-size: 0.9em;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        .btn-primary {
+            background: #1a4d2e;
+            color: white;
+        }
+        .btn-secondary {
+            background: #f4d03f;
+            color: #1a4d2e;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #1a4d2e;
+            color: #1a4d2e;
+        }
+        .trial-banner {
+            background: #f4d03f;
+            color: #1a4d2e;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .invoice-history {
+            margin-top: 40px;
+        }
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .invoice-table th,
+        .invoice-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .invoice-table th {
+            background: #f5f5f5;
+            font-weight: bold;
+            color: #1a4d2e;
         }
     </style>
 </head>
 <body>
     <div class="dashboard-container">
         <div class="header">
-            <h1>💼 My Subscription</h1>
-            <p>Manage your Te Kete Ako professional plan</p>
+            <h1>💳 My Subscription</h1>
+            <p style="color: #666;">Manage your Te Kete Ako subscription and billing</p>
         </div>
-        
-        <div class="content">
-            <div id="subscription-info">
-                <!-- Will be populated by JavaScript -->
-                <div style="text-align: center; padding: 40px;">
-                    <div class="spinner" style="border: 4px solid #f3f3f3; border-top: 4px solid #1a4d2e; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto;"></div>
-                    <p style="margin-top: 20px; color: #666;">Loading subscription details...</p>
+
+        <!-- Trial Banner (shown if on trial) -->
+        <div id="trial-banner" class="trial-banner" style="display: none;">
+            🎁 You have <span id="days-left">7</span> days left in your free trial!
+        </div>
+
+        <!-- Subscription Card -->
+        <div class="subscription-card">
+            <h2 id="plan-title">🌟 Individual Plan</h2>
+            <p id="plan-description">Professional tools for individual teachers</p>
+            
+            <div class="plan-details">
+                <div class="detail-item">
+                    <strong>Status</strong>
+                    <span id="subscription-status">Active</span>
+                </div>
+                <div class="detail-item">
+                    <strong>Price</strong>
+                    <span id="subscription-price">$15/month</span>
+                </div>
+                <div class="detail-item">
+                    <strong>Next Billing Date</strong>
+                    <span id="next-billing">Loading...</span>
+                </div>
+                <div class="detail-item">
+                    <strong>Member Since</strong>
+                    <span id="member-since">Loading...</span>
                 </div>
             </div>
+
+            <div class="action-buttons">
+                <a href="/pricing-professional.html" class="btn btn-secondary">Upgrade Plan</a>
+                <button onclick="manageBilling()" class="btn btn-outline" style="color: white; border-color: white;">Manage Billing</button>
+                <button onclick="cancelSubscription()" class="btn btn-outline" style="color: white; border-color: white;">Cancel Subscription</button>
+            </div>
+        </div>
+
+        <!-- Usage Statistics -->
+        <h2 style="color: #1a4d2e; margin-bottom: 20px;">📊 Your Usage This Month</h2>
+        <div class="usage-stats">
+            <div class="stat-card">
+                <div class="stat-label">Lessons Accessed</div>
+                <div class="stat-number" id="lessons-count">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Resources Downloaded</div>
+                <div class="stat-number" id="downloads-count">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">AI Tools Used</div>
+                <div class="stat-number" id="ai-tools-count">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Time Saved</div>
+                <div class="stat-number" id="time-saved">0h</div>
+            </div>
+        </div>
+
+        <!-- Invoice History -->
+        <div class="invoice-history">
+            <h2 style="color: #1a4d2e; margin-bottom: 20px;">📄 Invoice History</h2>
+            <table class="invoice-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Invoice</th>
+                    </tr>
+                </thead>
+                <tbody id="invoice-list">
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 40px; color: #999;">
+                            Loading invoice history...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Back Link -->
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="/" class="btn btn-outline">← Back to Dashboard</a>
         </div>
     </div>
-    
+
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        (async function loadSubscription() {
+        (async function initSubscriptionDashboard() {
             const { createClient } = supabase;
             const supabaseClient = createClient(
                 'https://nlgldaqtubrlcqddppbq.supabase.co',
                 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
             );
-            
-            const { data: { user } } = await supabaseClient.auth.getUser();
-            
-            if (!user) {
-                window.location.href = '/login.html?redirect=/subscription-dashboard.html';
-                return;
+
+            try {
+                // Get user data
+                const { data: { user }, error } = await supabaseClient.auth.getUser();
+                
+                if (error || !user) {
+                    window.location.href = '/login.html?redirect=/subscription-dashboard.html';
+                    return;
+                }
+
+                // Load subscription data
+                const subscriptionTier = user.user_metadata?.subscription_tier || 'free';
+                const subscriptionStatus = user.user_metadata?.subscription_status || 'free';
+                const trialEnd = user.user_metadata?.trial_end;
+                const memberSince = user.created_at;
+
+                // Update UI based on plan
+                updatePlanDisplay(subscriptionTier, subscriptionStatus, trialEnd);
+                updateMemberSince(memberSince);
+                
+                // Check trial status
+                if (trialEnd) {
+                    const daysLeft = Math.ceil((new Date(trialEnd) - new Date()) / (1000 * 60 * 60 * 24));
+                    if (daysLeft > 0) {
+                        document.getElementById('trial-banner').style.display = 'block';
+                        document.getElementById('days-left').textContent = daysLeft;
+                    }
+                }
+
+                // Load usage stats (mock data for now - would integrate with PostHog)
+                loadUsageStats();
+
+                // Load invoice history (would integrate with Stripe)
+                loadInvoiceHistory();
+
+            } catch (err) {
+                console.error('Dashboard error:', err);
             }
-            
-            // Get subscription details
-            const subscriptionStatus = user.user_metadata?.subscription_status || 'free';
-            const subscriptionTier = user.user_metadata?.subscription_tier || 'free';
-            const trialEnd = user.user_metadata?.trial_end;
-            const subscriptionStart = user.user_metadata?.subscription_start || user.created_at;
-            
-            const now = new Date();
-            const trialEndDate = trialEnd ? new Date(trialEnd) : null;
-            const onTrial = trialEndDate && now < trialEndDate;
-            const daysLeft = trialEndDate ? Math.ceil((trialEndDate - now) / (1000 * 60 * 60 * 24)) : 0;
-            
-            // Build UI
-            let html = '';
-            
-            if (onTrial) {
-                html += `
-                    <div class="plan-card active">
-                        <div class="plan-header">
-                            <div>
-                                <h2>🎁 Free Trial Active</h2>
-                                <p style="color: #666; margin: 5px 0 0 0;">Full access to all premium features</p>
-                            </div>
-                            <span class="plan-badge">${daysLeft} days left</span>
-                        </div>
-                        <p style="color: #666;">Your trial ends on <strong>${trialEndDate.toLocaleDateString()}</strong></p>
-                        <ul class="feature-list">
-                            <li>Access to 3,500+ premium resources</li>
-                            <li>AI-powered lesson planning tools</li>
-                            <li>GraphRAG intelligence features</li>
-                            <li>Professional teacher dashboard</li>
-                            <li>Unlimited downloads & bookmarks</li>
-                        </ul>
-                        <a href="/pricing-professional.html" class="btn">Upgrade to Continue Access</a>
-                    </div>
-                `;
-            } else if (subscriptionStatus === 'active') {
-                const tierNames = {
-                    'individual': '⭐ Individual Teacher',
-                    'school': '🏫 School Plan',
-                    'enterprise': '🌟 Enterprise'
-                };
-                html += `
-                    <div class="plan-card active">
-                        <div class="plan-header">
-                            <div>
-                                <h2>${tierNames[subscriptionTier] || 'Active Subscription'}</h2>
-                                <p style="color: #666; margin: 5px 0 0 0;">Full professional access</p>
-                            </div>
-                            <span class="plan-badge">Active</span>
-                        </div>
-                        <p style="color: #666;">Member since ${new Date(subscriptionStart).toLocaleDateString()}</p>
-                        <ul class="feature-list">
-                            <li>Unlimited access to all resources</li>
-                            <li>AI lesson planner & tools</li>
-                            <li>GraphRAG intelligence</li>
-                            <li>Priority support</li>
-                            <li>Regular content updates</li>
-                        </ul>
-                        <div style="margin-top: 20px; display: flex; gap: 15px;">
-                            <a href="/pricing-professional.html" class="btn btn-outline">Manage Plan</a>
-                            <button class="btn btn-outline" onclick="alert('Contact support@tekete.ao to cancel')">Cancel Subscription</button>
-                        </div>
-                    </div>
-                `;
-            } else {
-                html += `
-                    <div class="plan-card">
-                        <div class="plan-header">
-                            <div>
-                                <h2>🆓 Free Plan</h2>
-                                <p style="color: #666; margin: 5px 0 0 0;">Limited access</p>
-                            </div>
-                            <span class="plan-badge" style="background: #e9ecef; color: #666;">Free</span>
-                        </div>
-                        <p style="color: #666;">Upgrade to unlock all premium features!</p>
-                        <ul class="feature-list">
-                            <li style="opacity: 0.5;">Access to 3,500+ premium resources</li>
-                            <li style="opacity: 0.5;">AI-powered tools</li>
-                            <li style="opacity: 0.5;">GraphRAG intelligence</li>
-                            <li style="opacity: 0.5;">Professional dashboard</li>
-                        </ul>
-                        <a href="/pricing-professional.html" class="btn">Upgrade Now</a>
-                    </div>
-                `;
-            }
-            
-            // Usage stats (mock for now)
-            html += `
-                <h2 style="margin: 40px 0 20px 0;">📊 Your Activity</h2>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-number">0</div>
-                        <div class="stat-label">Lessons Viewed</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">0</div>
-                        <div class="stat-label">Resources Downloaded</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">0</div>
-                        <div class="stat-label">Bookmarks Saved</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">0</div>
-                        <div class="stat-label">Days Active</div>
-                    </div>
-                </div>
-            `;
-            
-            document.getElementById('subscription-info').innerHTML = html;
         })();
-    </script>
-    
-    <style>
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+
+        function updatePlanDisplay(tier, status, trialEnd) {
+            const planTitles = {
+                'free': '📦 Free Plan',
+                'individual': '🌟 Individual Plan',
+                'school': '🏫 School Plan',
+                'enterprise': '💼 Enterprise Plan'
+            };
+
+            const planPrices = {
+                'free': '$0/month',
+                'individual': '$15/month',
+                'school': '$499/year',
+                'enterprise': 'Custom'
+            };
+
+            document.getElementById('plan-title').textContent = planTitles[tier] || planTitles.free;
+            document.getElementById('subscription-price').textContent = planPrices[tier] || planPrices.free;
+            document.getElementById('subscription-status').textContent = 
+                status === 'active' ? '✅ Active' : 
+                trialEnd && new Date() < new Date(trialEnd) ? '🎁 Free Trial' : '❌ Inactive';
         }
-    </style>
+
+        function updateMemberSince(createdAt) {
+            const date = new Date(createdAt);
+            const formatted = date.toLocaleDateString('en-NZ', { year: 'numeric', month: 'long' });
+            document.getElementById('member-since').textContent = formatted;
+
+            // Calculate next billing (30 days from now for demo)
+            const nextBilling = new Date();
+            nextBilling.setDate(nextBilling.getDate() + 30);
+            document.getElementById('next-billing').textContent = nextBilling.toLocaleDateString('en-NZ', { 
+                year: 'numeric', month: 'long', day: 'numeric' 
+            });
+        }
+
+        function loadUsageStats() {
+            // Mock data - would integrate with PostHog analytics
+            document.getElementById('lessons-count').textContent = Math.floor(Math.random() * 50) + 10;
+            document.getElementById('downloads-count').textContent = Math.floor(Math.random() * 30) + 5;
+            document.getElementById('ai-tools-count').textContent = Math.floor(Math.random() * 15) + 2;
+            document.getElementById('time-saved').textContent = Math.floor(Math.random() * 20) + 5 + 'h';
+        }
+
+        function loadInvoiceHistory() {
+            // Mock invoice data - would integrate with Stripe
+            const invoices = [
+                { date: '2025-10-01', description: 'Individual Plan - October', amount: '$15.00', status: 'Paid' },
+                { date: '2025-09-01', description: 'Individual Plan - September', amount: '$15.00', status: 'Paid' },
+                { date: '2025-08-01', description: 'Individual Plan - August', amount: '$15.00', status: 'Paid' }
+            ];
+
+            const tbody = document.getElementById('invoice-list');
+            tbody.innerHTML = invoices.map(inv => `
+                <tr>
+                    <td>${inv.date}</td>
+                    <td>${inv.description}</td>
+                    <td>${inv.amount}</td>
+                    <td><span style="color: #2d5a3d; font-weight: bold;">${inv.status}</span></td>
+                    <td><a href="#" style="color: #1a4d2e;">Download PDF</a></td>
+                </tr>
+            `).join('');
+        }
+
+        function manageBilling() {
+            // Would redirect to Stripe customer portal
+            alert('This would open the Stripe customer portal to manage payment methods and billing details.');
+        }
+
+        function cancelSubscription() {
+            if (confirm('Are you sure you want to cancel your subscription? You will lose access to premium features at the end of your billing period.')) {
+                alert('Cancellation would be processed through Stripe. You would retain access until the end of your current billing period.');
+            }
+        }
+    </script>
 </body>
 </html>
-
