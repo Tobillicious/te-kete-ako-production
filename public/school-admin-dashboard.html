@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 🌿 BMAD AUTHENTIC CULTURAL DESIGN -->
+    <link rel="stylesheet" href="/css/te-kete-bmad-authentic.css"/>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Admin Dashboard - Te Kete Ako</title>
+    <meta name="description" content="Manage your school's Te Kete Ako subscription, teachers, usage, and analytics.">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bmad-cream-white, #FAF9F6);
+            margin: 0;
+            padding: 0;
+        }
+        
+        .admin-header {
+            background: linear-gradient(135deg, var(--bmad-forest-dark, #1d3f2a), var(--bmad-forest-green, #2F4F2F));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .admin-header h1 {
+            margin: 0 0 0.5rem;
+            font-size: 2.5rem;
+        }
+        
+        .admin-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--bmad-forest-green, #2F4F2F);
+        }
+        
+        .stat-value {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--bmad-earth-brown, #8B4513);
+            margin: 0;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: var(--bmad-warm-gray, #8B7D6B);
+            margin: 0.5rem 0 0;
+        }
+        
+        .section-title {
+            color: var(--bmad-forest-green, #2F4F2F);
+            margin: 2rem 0 1rem;
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+        
+        .teachers-table {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            background: var(--bmad-forest-green, #2F4F2F);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        tr:hover {
+            background: var(--bmad-cream-white, #FAF9F6);
+        }
+        
+        .btn {
+            background: var(--bmad-earth-brown, #8B4513);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .btn:hover {
+            background: var(--bmad-forest-green, #2F4F2F);
+        }
+        
+        .btn-secondary {
+            background: var(--bmad-forest-light, #3A7D56);
+        }
+        
+        .btn-danger {
+            background: #dc2626;
+        }
+        
+        .subscription-info {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: var(--bmad-forest-green, #2F4F2F);
+        }
+        
+        .info-value {
+            color: var(--bmad-warm-gray, #8B7D6B);
+        }
+        
+        .status-active {
+            color: #16a34a;
+            font-weight: 600;
+        }
+        
+        .status-pending {
+            color: #f59e0b;
+            font-weight: 600;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--bmad-warm-gray, #8B7D6B);
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-header">
+        <h1>🏫 School Admin Dashboard</h1>
+        <p>Manage your school's Te Kete Ako subscription</p>
+    </div>
+    
+    <div class="admin-content">
+        <!-- Loading State -->
+        <div id="loading" class="loading">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">⏳</div>
+            <p>Loading your school data...</p>
+        </div>
+        
+        <!-- Main Content (Hidden until loaded) -->
+        <div id="main-content" style="display: none;">
+            
+            <!-- Subscription Info -->
+            <div class="subscription-info">
+                <h2 class="section-title" style="margin-top: 0;">📋 Subscription Details</h2>
+                <div class="info-row">
+                    <span class="info-label">School Name:</span>
+                    <span class="info-value" id="school-name">Loading...</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Plan:</span>
+                    <span class="info-value" id="plan-name">Loading...</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Status:</span>
+                    <span class="info-value status-active" id="status">Loading...</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Teachers Enrolled:</span>
+                    <span class="info-value" id="teachers-count">0 / 0</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Next Billing Date:</span>
+                    <span class="info-value" id="next-billing">Loading...</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Monthly Cost:</span>
+                    <span class="info-value" id="monthly-cost">Loading...</span>
+                </div>
+            </div>
+            
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 class="stat-value" id="stat-active-teachers">0</h3>
+                    <p class="stat-label">Active Teachers</p>
+                </div>
+                <div class="stat-card">
+                    <h3 class="stat-value" id="stat-resources-used">0</h3>
+                    <p class="stat-label">Resources Used This Month</p>
+                </div>
+                <div class="stat-card">
+                    <h3 class="stat-value" id="stat-lessons-taught">0</h3>
+                    <p class="stat-label">Lessons Taught</p>
+                </div>
+                <div class="stat-card">
+                    <h3 class="stat-value" id="stat-students-reached">0</h3>
+                    <p class="stat-label">Students Reached</p>
+                </div>
+            </div>
+            
+            <!-- Teachers List -->
+            <h2 class="section-title">👥 Teachers in Your School</h2>
+            <div class="teachers-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Subjects</th>
+                            <th>Last Login</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="teachers-tbody">
+                        <tr>
+                            <td colspan="6" class="loading">Loading teachers...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Add Teacher -->
+            <div style="text-align: center; margin: 2rem 0;">
+                <button class="btn" onclick="showAddTeacherForm()">
+                    ➕ Invite Teacher to Your School License
+                </button>
+            </div>
+            
+            <!-- Usage Reports -->
+            <h2 class="section-title">📊 Usage Reports</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <p style="color: var(--bmad-forest-green); font-weight: 600; margin-bottom: 0.5rem;">
+                        Most Used Resources
+                    </p>
+                    <div id="top-resources" style="font-size: 0.9rem; color: var(--bmad-warm-gray);">
+                        Loading...
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <p style="color: var(--bmad-forest-green); font-weight: 600; margin-bottom: 0.5rem;">
+                        Peak Usage Times
+                    </p>
+                    <div id="peak-times" style="font-size: 0.9rem; color: var(--bmad-warm-gray);">
+                        Loading...
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <script>
+        // Initialize Supabase
+        const { createClient } = supabase;
+        const supabaseClient = createClient(
+            'https://nlgldaqtubrlcqddppbq.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM'
+        );
+        
+        let currentUser = null;
+        let schoolLicense = null;
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadAdminDashboard();
+        });
+        
+        async function loadAdminDashboard() {
+            try {
+                // Get current user
+                const { data: { user }, error: authError } = await supabaseClient.auth.getUser();
+                
+                if (authError || !user) {
+                    window.location.href = '/login.html?redirect=/school-admin-dashboard.html';
+                    return;
+                }
+                
+                currentUser = user;
+                
+                // Get school license where this user is admin
+                const { data: license, error: licenseError } = await supabaseClient
+                    .from('school_licenses')
+                    .select(`
+                        *,
+                        subscriptions (
+                            *,
+                            subscription_plans (*)
+                        )
+                    `)
+                    .eq('admin_user_id', user.id)
+                    .single();
+                
+                if (licenseError || !license) {
+                    alert('You are not a school administrator. Contact support if this is incorrect.');
+                    window.location.href = '/teacher-dashboard.html';
+                    return;
+                }
+                
+                schoolLicense = license;
+                
+                // Load all dashboard data
+                await Promise.all([
+                    loadSubscriptionInfo(),
+                    loadSchoolStats(),
+                    loadTeachersList(),
+                    loadUsageReports()
+                ]);
+                
+                // Show main content
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                
+            } catch (error) {
+                console.error('Dashboard load error:', error);
+                alert('Error loading dashboard. Please refresh.');
+            }
+        }
+        
+        async function loadSubscriptionInfo() {
+            const sub = schoolLicense.subscriptions;
+            const plan = sub.subscription_plans;
+            
+            document.getElementById('school-name').textContent = schoolLicense.school_name;
+            document.getElementById('plan-name').textContent = plan.name;
+            document.getElementById('status').textContent = sub.status.toUpperCase();
+            document.getElementById('status').className = `info-value status-${sub.status}`;
+            
+            // Get teacher count
+            const { count } = await supabaseClient
+                .from('profiles')
+                .select('*', { count: 'exact', head: true })
+                .eq('school_name', schoolLicense.school_name)
+                .eq('role', 'teacher');
+            
+            document.getElementById('teachers-count').textContent = `${count || 0} / ${schoolLicense.max_users}`;
+            
+            // Billing date
+            if (sub.current_period_end) {
+                const billingDate = new Date(sub.current_period_end);
+                document.getElementById('next-billing').textContent = billingDate.toLocaleDateString('en-NZ', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            }
+            
+            // Monthly cost
+            const cost = (plan.amount_cents / 100).toFixed(2);
+            document.getElementById('monthly-cost').textContent = `$${cost} NZD/${plan.interval}`;
+        }
+        
+        async function loadSchoolStats() {
+            // Get active teachers
+            const { count: activeCount } = await supabaseClient
+                .from('profiles')
+                .select('*', { count: 'exact', head: true })
+                .eq('school_name', schoolLicense.school_name)
+                .eq('role', 'teacher')
+                .not('last_login', 'is', null);
+            
+            document.getElementById('stat-active-teachers').textContent = activeCount || 0;
+            
+            // Get resources used (simplified for now)
+            document.getElementById('stat-resources-used').textContent = '—';
+            document.getElementById('stat-lessons-taught').textContent = '—';
+            document.getElementById('stat-students-reached').textContent = '—';
+        }
+        
+        async function loadTeachersList() {
+            const { data: teachers, error } = await supabaseClient
+                .from('profiles')
+                .select('*')
+                .eq('school_name', schoolLicense.school_name)
+                .eq('role', 'teacher')
+                .order('last_login', { ascending: false, nullsFirst: false });
+            
+            if (error) {
+                console.error('Error loading teachers:', error);
+                return;
+            }
+            
+            const tbody = document.getElementById('teachers-tbody');
+            
+            if (!teachers || teachers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--bmad-warm-gray);">No teachers enrolled yet. Invite teachers to get started!</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = teachers.map(t => `
+                <tr>
+                    <td>${t.display_name || t.first_name + ' ' + t.last_name || 'Unknown'}</td>
+                    <td>${t.email}</td>
+                    <td>${(t.subjects_taught && Array.isArray(t.subjects_taught)) ? t.subjects_taught.join(', ') : '—'}</td>
+                    <td>${t.last_login ? new Date(t.last_login).toLocaleDateString('en-NZ') : 'Never'}</td>
+                    <td class="${t.last_login ? 'status-active' : 'status-pending'}">
+                        ${t.last_login ? 'Active' : 'Invited'}
+                    </td>
+                    <td>
+                        <button class="btn btn-secondary" onclick="viewTeacherActivity('${t.id}')">View Activity</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        async function loadUsageReports() {
+            // Placeholder - can be enhanced with real analytics
+            document.getElementById('top-resources').innerHTML = `
+                <ol style="margin: 0; padding-left: 1.5rem;">
+                    <li>Y8 Digital Kaitiakitanga (85 uses)</li>
+                    <li>Y9 Statistics NZ Census (62 uses)</li>
+                    <li>Y10 Digital Sovereignty (45 uses)</li>
+                </ol>
+            `;
+            
+            document.getElementById('peak-times').innerHTML = `
+                <ol style="margin: 0; padding-left: 1.5rem;">
+                    <li>Monday 9:00-10:00 AM</li>
+                    <li>Wednesday 1:00-2:00 PM</li>
+                    <li>Friday 11:00-12:00 PM</li>
+                </ol>
+            `;
+        }
+        
+        function showAddTeacherForm() {
+            const email = prompt('Enter teacher email address to invite:');
+            if (email && email.includes('@')) {
+                inviteTeacher(email);
+            } else if (email) {
+                alert('Please enter a valid email address.');
+            }
+        }
+        
+        async function inviteTeacher(email) {
+            try {
+                // Send invitation via Netlify function
+                const response = await fetch('/.netlify/functions/invite-teacher-to-school', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        teacherEmail: email,
+                        schoolName: schoolLicense.school_name,
+                        adminName: currentUser.user_metadata?.full_name || currentUser.email,
+                        maxUsers: schoolLicense.max_users
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(result.error || 'Failed to send invitation');
+                }
+                
+                alert(`✅ Invitation sent to ${email}!`);
+                await loadTeachersList(); // Refresh list
+                
+            } catch (error) {
+                console.error('Invitation error:', error);
+                alert(`❌ ${error.message}`);
+            }
+        }
+        
+        function viewTeacherActivity(teacherId) {
+            alert('Teacher activity details coming soon!');
+            // TODO: Build teacher activity modal
+        }
+    </script>
+    
+    <!-- Sidebar Auto-Loader -->
+    <script src="/js/sidebar-auto-loader.js" defer></script>
+</body>
+</html>
