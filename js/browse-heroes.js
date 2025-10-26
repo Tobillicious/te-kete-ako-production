@@ -214,24 +214,31 @@ class BrowseHeroes {
         hero.innerHTML = `
             <div class="hero-icon">${subject.icon}</div>
             <div class="hero-content">
-                <h1 class="hero-title">
-                    <span class="hero-title-mi">${subject.titleMi}</span>
-                    <span class="hero-title-en">${subject.titleEn}</span>
-                </h1>
-                <p class="hero-description-mi" lang="mi">${subject.descriptionMi}</p>
-                <p class="hero-description-en">${subject.descriptionEn}</p>
-                ${subject.quickLinks.length > 0 ? `
-                    <div class="hero-quick-links">
-                        <span class="quick-links-label">Quick Access:</span>
-                        ${subject.quickLinks.map(link => `
-                            <a href="${link.href}" class="quick-link">
-                                <span class="quick-link-icon">${link.icon}</span>
-                                <span class="quick-link-label">${link.label}</span>
-                            </a>
-                        `).join('')}
+                <div class="hero-main">
+                    <h1 class="hero-title">
+                        <span class="hero-title-mi">${subject.titleMi}</span>
+                        <span class="hero-title-en">${subject.titleEn}</span>
+                    </h1>
+                    <p class="hero-description-mi" lang="mi">${subject.descriptionMi}</p>
+                    <p class="hero-description-en">${subject.descriptionEn}</p>
+                </div>
+                <div class="hero-sidebar">
+                    ${subject.quickLinks.length > 0 ? `
+                        <div class="hero-quick-links">
+                            <span class="quick-links-label">Quick Access</span>
+                            ${subject.quickLinks.map(link => `
+                                <a href="${link.href}" class="quick-link">
+                                    <span class="quick-link-icon">${link.icon}</span>
+                                    <span class="quick-link-label">${link.label}</span>
+                                </a>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                    <div class="hero-pedagogy">
+                        <strong>Research-Based Pedagogy</strong>
+                        <p>${subject.pedagogy}</p>
                     </div>
-                ` : ''}
-                <p class="hero-pedagogy"><strong>Teaching Approach:</strong> ${subject.pedagogy}</p>
+                </div>
             </div>
         `;
 
