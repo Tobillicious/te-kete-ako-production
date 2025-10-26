@@ -121,7 +121,8 @@ class BrowseHeroes {
                 stage: 'Primary / Tuatahi',
                 focus: 'Building foundation skills through play, exploration, and cultural grounding',
                 development: 'Ages 5-6: Developing literacy, numeracy, and social skills. Learning through hands-on experiences and storytelling.',
-                pedagogy: '"Play is the work of the child" (Montessori, 1967). Zone of Proximal Development - learning occurs through supported interaction with more capable others (Vygotsky, 1978).'
+                pedagogy: 'Play as foundation: "Play is the work of the child" <cite>(<a href="https://amshq.org/About-Montessori/Inside-the-Classroom/Play" target="_blank" rel="noopener">Montessori, 1967</a>)</cite>. Zone of Proximal Development shows learning occurs through supported interaction with more capable others <cite>(<a href="https://www.marxists.org/archive/vygotsky/works/mind/index.htm" target="_blank" rel="noopener">Vygotsky, 1978</a>)</cite>.',
+                ministryLink: { href: 'https://nzcurriculum.tki.org.nz/The-New-Zealand-Curriculum', label: 'NZC: The New Zealand Curriculum' }
             },
             '2': {
                 stage: 'Primary / Tuatahi',
@@ -157,13 +158,15 @@ class BrowseHeroes {
                 stage: 'Intermediate / Waenga',
                 focus: 'Navigating early adolescence with cultural identity and academic challenge',
                 development: 'Ages 11-12: Rapid physical and emotional changes, seeking peer acceptance, questioning identity.',
-                pedagogy: '"Caring relationships and high expectations" (Bishop, 2003) - Te Kotahitanga effective teaching profile. Culturally responsive pedagogy centers student identity and voice (Gay, 2010).'
+                pedagogy: 'Responsive relationships: "Caring relationships and high expectations" define effective teaching <cite>(<a href="https://doi.org/10.18296/set.0452" target="_blank" rel="noopener">Bishop, 2003</a>)</cite>. Culturally responsive pedagogy centers student identity and voice, not deficit narratives <cite>(<a href="https://doi.org/10.4324/9780203594391" target="_blank" rel="noopener">Gay, 2010</a>)</cite>.',
+                ministryLink: { href: 'https://www.education.govt.nz/school/student-support/wellbeing-in-schools/', label: 'Ministry: Student Wellbeing' }
             },
             '8': {
                 stage: 'Intermediate / Waenga',
                 focus: 'Building critical thinking and preparing for secondary school transitions',
                 development: 'Ages 12-13: Developing abstract thinking, exploring values, preparing for increased academic demands.',
-                pedagogy: '"Problem-posing education" (Freire, 1970) - students as critical co-investigators. Adolescent identity formation requires authentic challenges and meaningful participation (Erikson, 1968).'
+                pedagogy: 'Critical consciousness: "Problem-posing education" frames students as critical co-investigators, not passive recipients <cite>(<a href="https://en.wikipedia.org/wiki/Pedagogy_of_the_Oppressed" target="_blank" rel="noopener">Freire, 1970</a>)</cite>. Adolescent identity formation requires authentic challenges and meaningful participation <cite>(<a href="https://www.verywellmind.com/erik-eriksons-stages-of-psychosocial-development-2795740" target="_blank" rel="noopener">Erikson, 1968</a>)</cite>.',
+                ministryLink: { href: 'https://www.education.govt.nz/school/running-a-school/curriculum/transition-from-primary-to-secondary/', label: 'Ministry: Primary to Secondary Transition' }
             },
             '9': {
                 stage: 'Junior Secondary / Tuarua',
@@ -181,19 +184,22 @@ class BrowseHeroes {
                 stage: 'Senior Secondary / NCEA',
                 focus: 'NCEA Level 1 - Building credits and exploring post-school pathways',
                 development: 'Ages 15-16: First year of NCEA, developing assessment skills, beginning to specialize in subject areas.',
-                pedagogy: 'Assessment for Learning (Black & Wiliam, 1998) - feedback that moves learning forward. Culturally located assessment honors diverse ways of demonstrating knowledge (Penetito, 2010).'
+                pedagogy: 'Assessment as learning: Feedback that moves learning forward, not just measures it <cite>(<a href="https://doi.org/10.1177/003172171009200119" target="_blank" rel="noopener">Black & Wiliam, 1998</a>)</cite>. Culturally located assessment honors diverse ways of demonstrating knowledge beyond Western written exams <cite>(<a href="https://nzareblog.wordpress.com/2010/06/16/wally-penetito/" target="_blank" rel="noopener">Penetito, 2010</a>)</cite>.',
+                ministryLink: { href: 'https://www.nzqa.govt.nz/ncea/', label: 'NZQA: NCEA Information' }
             },
             '12': {
                 stage: 'Senior Secondary / NCEA',
                 focus: 'NCEA Level 2 - Specializing and planning for post-school transitions',
                 development: 'Ages 16-17: Focused study, career planning, developing expertise in chosen areas.',
-                pedagogy: 'Funds of Knowledge (Moll et al., 1992) - drawing on students\' cultural and community resources as learning assets. Self-determination theory supports autonomy in pathway choices (Ryan & Deci, 2000).'
+                pedagogy: 'Cultural assets as strength: Funds of Knowledge draws on students\' cultural and community resources as learning assets, not deficits <cite>(<a href="https://doi.org/10.1177/003172170109200605" target="_blank" rel="noopener">Moll et al., 1992</a>)</cite>. Self-determination theory shows autonomy supports motivation and achievement <cite>(<a href="https://psycnet.apa.org/doi/10.1037/0003-066X.55.1.68" target="_blank" rel="noopener">Ryan & Deci, 2000</a>)</cite>.',
+                ministryLink: { href: 'https://www.careers.govt.nz/', label: 'Careers NZ: Pathway Planning' }
             },
             '13': {
                 stage: 'Senior Secondary / NCEA',
                 focus: 'NCEA Level 3 - Final year preparation for university, polytech, or workforce',
                 development: 'Ages 17-18: University entrance, scholarship opportunities, mature independent learners.',
-                pedagogy: '"Conscientização" - critical consciousness (Freire, 1970). Rangatiratanga in education: Māori self-determination and leadership in learning pathways (G.H. Smith, 1997).'
+                pedagogy: 'Liberation and leadership: "Conscientização" (critical consciousness) empowers students to read and transform their world <cite>(<a href="https://en.wikipedia.org/wiki/Pedagogy_of_the_Oppressed" target="_blank" rel="noopener">Freire, 1970</a>)</cite>. Rangatiratanga in education means Māori self-determination and leadership in learning pathways <cite>(<a href="https://doi.org/10.1080/0161956970180202" target="_blank" rel="noopener">G.H. Smith, 1997</a>)</cite>.',
+                ministryLink: { href: 'https://www.nzqa.govt.nz/qualifications-standards/awards/university-entrance/', label: 'NZQA: University Entrance' }
             }
         };
     }
@@ -270,21 +276,21 @@ class BrowseHeroes {
         const main = document.querySelector('main.content-area');
         if (!main) return;
 
-        // Rainbow color progression for years 1-13
+        // Rainbow color progression for years 1-13 (evenly spaced across spectrum)
         const yearColors = {
-            '1': { start: '#8B3A62', mid: '#B85C7E', end: '#E699B8' },  // Deep Pink/Rose
-            '2': { start: '#A03D5E', mid: '#C66084', end: '#EB9FBA' },  // Pink-Purple
-            '3': { start: '#8B4789', mid: '#B169AE', end: '#D99FD3' },  // Purple
-            '4': { start: '#6B4C9A', mid: '#8F6EC2', end: '#BCA8E8' },  // Blue-Purple
-            '5': { start: '#4A5899', mid: '#6B7BC2', end: '#A8B8E8' },  // Blue
-            '6': { start: '#3D7BA3', mid: '#5E9CC7', end: '#9FCCEB' },  // Sky Blue
-            '7': { start: '#2F8B8B', mid: '#51AEAE', end: '#93D9D9' },  // Cyan
-            '8': { start: '#2F8B5E', mid: '#51AE84', end: '#93D9BA' },  // Teal
-            '9': { start: '#4A7C2F', mid: '#6CA651', end: '#A8D393' },  // Green
-            '10': { start: '#7C8B2F', mid: '#A6B851', end: '#D3E693' }, // Yellow-Green
-            '11': { start: '#B8932F', mid: '#DDB851', end: '#F5E693' }, // Yellow
-            '12': { start: '#C77A2F', mid: '#EB9F51', end: '#FFCC93' }, // Orange
-            '13': { start: '#B85C3A', mid: '#E67E5E', end: '#FFB299' }  // Orange-Red
+            '1': { start: '#D1477A', mid: '#E56B9A', end: '#F5A5C4' },  // Bright Pink
+            '2': { start: '#B84E8E', mid: '#D172AC', end: '#EBA5D1' },  // Pink-Purple
+            '3': { start: '#9755A3', mid: '#B879C7', end: '#D9ACEB' },  // Purple
+            '4': { start: '#7660B7', mid: '#9884D1', end: '#C4B7EB' },  // Blue-Purple
+            '5': { start: '#556BC7', mid: '#778FDB', end: '#AABCF0' },  // Blue
+            '6': { start: '#3476CF', mid: '#5693DD', end: '#93C0F0' },  // Sky Blue
+            '7': { start: '#2B8AAA', mid: '#4DA8C7', end: '#8DD1E8' },  // Cyan
+            '8': { start: '#2A9B7E', mid: '#4CB99E', end: '#8DDDC8' },  // Teal-Green
+            '9': { start: '#3FA856', mid: '#62C478', end: '#9DE8B4' },  // Green
+            '10': { start: '#7AB83A', mid: '#9BD65E', end: '#C8F090' }, // Yellow-Green
+            '11': { start: '#C2B43A', mid: '#DDD25E', end: '#F5EB90' }, // Yellow
+            '12': { start: '#DB8E3A', mid: '#EFAD5E', end: '#FFD090' }, // Orange
+            '13': { start: '#D85A3A', mid: '#EF7E5E', end: '#FFB090' }  // Orange-Red
         };
 
         const colors = yearColors[yearLevel] || yearColors['5'];
@@ -315,6 +321,14 @@ class BrowseHeroes {
                 <div class="hero-pedagogy">
                     <strong>Research-Based Pedagogy</strong>
                     <p>${year.pedagogy}</p>
+                    ${year.ministryLink ? `
+                        <div class="ministry-resource">
+                            <a href="${year.ministryLink.href}" target="_blank" rel="noopener" class="ministry-link">
+                                <span class="ministry-icon">🏛️</span>
+                                ${year.ministryLink.label}
+                            </a>
+                        </div>
+                    ` : ''}
                 </div>
             </div>
         `;
