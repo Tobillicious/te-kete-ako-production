@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 🌿 BMAD AUTHENTIC CULTURAL DESIGN -->
+    <link rel="stylesheet" href="/css/te-kete-bmad-authentic.css"/>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Center - Te Kete Ako</title>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bmad-cream-white, #FAF9F6);
+        }
+        
+        .help-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        h1 {
+            color: var(--bmad-forest-green, #2F4F2F);
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+        
+        .search-box {
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--bmad-forest-green, #2F4F2F);
+            border-radius: 50px;
+            font-size: 1.1rem;
+        }
+        
+        .help-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .help-category {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .help-category:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .category-title {
+            color: var(--bmad-forest-green, #2F4F2F);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .help-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .help-links li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .help-links li:last-child {
+            border-bottom: none;
+        }
+        
+        .help-links a {
+            color: var(--bmad-earth-brown, #8B4513);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .help-links a:hover {
+            color: var(--bmad-forest-green, #2F4F2F);
+        }
+        
+        .contact-support {
+            background: linear-gradient(135deg, var(--bmad-forest-green, #2F4F2F), var(--bmad-forest-dark, #1d3f2a));
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+        }
+        
+        .contact-support h2 {
+            color: white;
+            margin: 0 0 1rem;
+        }
+        
+        .contact-support a {
+            display: inline-block;
+            background: white;
+            color: var(--bmad-forest-green, #2F4F2F);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="help-header">
+        <h1>💬 How Can We Help?</h1>
+        <p style="color: var(--bmad-warm-gray); font-size: 1.2rem;">
+            Find answers, guides, and support
+        </p>
+    </div>
+    
+    <div class="search-box">
+        <input type="text" placeholder="🔍 Search for help..." id="help-search" 
+               onkeyup="filterHelp()">
+    </div>
+    
+    <div class="help-grid">
+        <!-- Getting Started -->
+        <div class="help-category">
+            <div class="category-icon">🚀</div>
+            <h3 class="category-title">Getting Started</h3>
+            <ul class="help-links">
+                <li><a href="/teacher-onboarding-wizard.html">Quick Setup Wizard (2 min)</a></li>
+                <li><a href="/teacher-onboarding.html">Teacher Onboarding Guide</a></li>
+                <li><a href="/top-10-starter-pack.html">Top 10 Resources</a></li>
+                <li><a href="/collections.html">Curated Collections</a></li>
+                <li><a href="/emergency-lessons.html">Emergency Lessons</a></li>
+            </ul>
+        </div>
+        
+        <!-- Using Resources -->
+        <div class="help-category">
+            <div class="category-icon">📚</div>
+            <h3 class="category-title">Using Resources</h3>
+            <ul class="help-links">
+                <li><a href="#how-to-search">How to search effectively</a></li>
+                <li><a href="#download-print">Download & print resources</a></li>
+                <li><a href="#save-favorites">Save to My Kete</a></li>
+                <li><a href="#share-assign">Assign to students</a></li>
+                <li><a href="#customize">Customize lessons</a></li>
+            </ul>
+        </div>
+        
+        <!-- KAMAR Integration -->
+        <div class="help-category">
+            <div class="category-icon">📊</div>
+            <h3 class="category-title">KAMAR Integration</h3>
+            <ul class="help-links">
+                <li><a href="#kamar-setup">How to set up KAMAR</a></li>
+                <li><a href="/teacher-weekly-planner.html">Using Weekly Planner</a></li>
+                <li><a href="#kamar-sync">Syncing your timetable</a></li>
+                <li><a href="#kamar-troubleshoot">Troubleshooting KAMAR</a></li>
+                <li><a href="/request-kamar-addon.html">Request KAMAR Access</a></li>
+            </ul>
+        </div>
+        
+        <!-- Subscriptions & Billing -->
+        <div class="help-category">
+            <div class="category-icon">💳</div>
+            <h3 class="category-title">Subscriptions & Billing</h3>
+            <ul class="help-links">
+                <li><a href="/pricing.html">View pricing plans</a></li>
+                <li><a href="/my-subscription.html">Manage subscription</a></li>
+                <li><a href="#trial-info">Free trial information</a></li>
+                <li><a href="#cancel-guide">How to cancel</a></li>
+                <li><a href="#billing-questions">Billing questions</a></li>
+            </ul>
+        </div>
+        
+        <!-- School Administrators -->
+        <div class="help-category">
+            <div class="category-icon">🏫</div>
+            <h3 class="category-title">School Administrators</h3>
+            <ul class="help-links">
+                <li><a href="/school-admin-dashboard.html">Admin Dashboard</a></li>
+                <li><a href="#invite-teachers">Inviting teachers</a></li>
+                <li><a href="#manage-license">Managing licenses</a></li>
+                <li><a href="#usage-reports">Usage reports</a></li>
+                <li><a href="/enterprise-contact.html">Enterprise inquiries</a></li>
+            </ul>
+        </div>
+        
+        <!-- Technical Support -->
+        <div class="help-category">
+            <div class="category-icon">🔧</div>
+            <h3 class="category-title">Technical Support</h3>
+            <ul class="help-links">
+                <li><a href="#browser-support">Browser requirements</a></li>
+                <li><a href="#mobile-app">Mobile app guide</a></li>
+                <li><a href="#print-issues">Printing troubleshooting</a></li>
+                <li><a href="#login-problems">Login issues</a></li>
+                <li><a href="#bug-report">Report a bug</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="contact-support">
+        <h2>Still Need Help?</h2>
+        <p>Our support team is here for you!</p>
+        <a href="mailto:support@tekete.co.nz">📧 Email Support</a>
+    </div>
+    
+    <script>
+        function filterHelp() {
+            const search = document.getElementById('help-search').value.toLowerCase();
+            const categories = document.querySelectorAll('.help-category');
+            
+            categories.forEach(category => {
+                const text = category.textContent.toLowerCase();
+                category.style.display = text.includes(search) ? 'block' : 'none';
+            });
+        }
+    </script>
+    
+    <!-- Sidebar Auto-Loader -->
+    <script src="/js/sidebar-auto-loader.js" defer></script>
+</body>
+</html>
