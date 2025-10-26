@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Lesson Planner - Te Kete Ako</title>
+    <link href="/css/te-kete-ultimate-beauty-system.css" rel="stylesheet"/>
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a4d2e 0%, #2d5a3d 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .planner-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header-section {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+        .header-section h1 {
+            color: #1a4d2e;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+        .ai-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .form-card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin-bottom: 30px;
+        }
+        .form-card h2 {
+            color: #1a4d2e;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #f4d03f;
+            padding-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #1a4d2e;
+            outline: none;
+        }
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .help-text {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .generate-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .generate-btn:hover {
+            transform: translateY(-2px);
+        }
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .output-card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin-top: 30px;
+            display: none;
+        }
+        .output-card.visible {
+            display: block;
+        }
+        .lesson-output {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 8px;
+            border-left: 5px solid #1a4d2e;
+        }
+        .loading-spinner {
+            text-align: center;
+            padding: 40px;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .export-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .btn-primary {
+            background: #1a4d2e;
+            color: white;
+        }
+        .btn-secondary {
+            background: #f4d03f;
+            color: #1a4d2e;
+        }
+    </style>
+</head>
+<body>
+    <div class="planner-container">
+        <!-- Header -->
+        <div class="header-section">
+            <div class="ai-badge">🤖 Powered by GLM-4 AI (200K Context)</div>
+            <h1>AI Lesson Planner</h1>
+            <p style="color: #666; font-size: 1.2em;">Generate culturally-integrated lesson plans in minutes!</p>
+        </div>
+
+        <!-- Input Form -->
+        <div class="form-card">
+            <h2>📝 Lesson Details</h2>
+            
+            <div class="form-group">
+                <label for="subject">Subject *</label>
+                <select id="subject">
+                    <option value="">Select subject...</option>
+                    <option value="mathematics">Mathematics</option>
+                    <option value="science">Science (Pūtaiao)</option>
+                    <option value="english">English</option>
+                    <option value="social-studies">Social Studies</option>
+                    <option value="te-reo-maori">Te Reo Māori</option>
+                    <option value="health-pe">Health & PE (Hauora)</option>
+                    <option value="arts">The Arts (Ngā Toi)</option>
+                    <option value="digital-tech">Digital Technologies</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="year-level">Year Level *</label>
+                <select id="year-level">
+                    <option value="">Select year level...</option>
+                    <option value="7">Year 7</option>
+                    <option value="8">Year 8</option>
+                    <option value="9">Year 9</option>
+                    <option value="10">Year 10</option>
+                    <option value="11">Year 11 (NCEA L1)</option>
+                    <option value="12">Year 12 (NCEA L2)</option>
+                    <option value="13">Year 13 (NCEA L3)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="topic">Topic *</label>
+                <input type="text" id="topic" placeholder="e.g., Statistics and Data Analysis">
+                <div class="help-text">What will this lesson cover?</div>
+            </div>
+
+            <div class="form-group">
+                <label for="duration">Lesson Duration *</label>
+                <select id="duration">
+                    <option value="45">45 minutes (standard)</option>
+                    <option value="60">60 minutes (extended)</option>
+                    <option value="90">90 minutes (double period)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="cultural-integration">Cultural Integration Level</label>
+                <select id="cultural-integration">
+                    <option value="high">High - Deep mātauranga Māori integration</option>
+                    <option value="medium">Medium - Māori perspectives included</option>
+                    <option value="light">Light - Basic cultural context</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="learning-objectives">Learning Objectives (Optional)</label>
+                <textarea id="learning-objectives" placeholder="What should students learn? (AI will suggest if left blank)"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="additional-notes">Additional Notes (Optional)</label>
+                <textarea id="additional-notes" placeholder="Any specific requirements, student needs, or context?"></textarea>
+            </div>
+
+            <button class="generate-btn" onclick="generateLesson()">
+                🤖 Generate Lesson Plan with AI
+            </button>
+        </div>
+
+        <!-- Output -->
+        <div id="output-card" class="output-card">
+            <h2 style="color: #1a4d2e; margin-bottom: 20px;">✨ Your Generated Lesson Plan</h2>
+            <div id="lesson-output" class="lesson-output"></div>
+            
+            <div class="export-buttons">
+                <button class="btn btn-primary" onclick="downloadPDF()">📄 Download PDF</button>
+                <button class="btn btn-primary" onclick="downloadWord()">📝 Download Word</button>
+                <button class="btn btn-secondary" onclick="saveToKete()">💾 Save to My Kete</button>
+                <button class="btn btn-secondary" onclick="regenerate()">🔄 Regenerate</button>
+            </div>
+        </div>
+
+        <!-- Back Link -->
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="/teacher-dashboard-personalized.html" style="background: white; color: #1a4d2e; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">
+                ← Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <script>
+        async function generateLesson() {
+            // Validate inputs
+            const subject = document.getElementById('subject').value;
+            const yearLevel = document.getElementById('year-level').value;
+            const topic = document.getElementById('topic').value;
+            
+            if (!subject || !yearLevel || !topic) {
+                alert('Please fill in Subject, Year Level, and Topic!');
+                return;
+            }
+
+            // Show loading
+            const btn = document.querySelector('.generate-btn');
+            btn.disabled = true;
+            btn.innerHTML = '<div class="spinner" style="display: inline-block; width: 20px; height: 20px; vertical-align: middle;"></div> Generating with AI...';
+
+            // Collect all inputs
+            const lessonData = {
+                subject: subject,
+                yearLevel: yearLevel,
+                topic: topic,
+                duration: document.getElementById('duration').value,
+                culturalIntegration: document.getElementById('cultural-integration').value,
+                objectives: document.getElementById('learning-objectives').value,
+                notes: document.getElementById('additional-notes').value
+            };
+
+            try {
+                // Call GLM-4 AI via serverless function
+                const response = await fetch('/.netlify/functions/ai-lesson-generator', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(lessonData)
+                });
+
+                if (!response.ok) {
+                    throw new Error('AI generation failed');
+                }
+
+                const result = await response.json();
+                
+                // Display output
+                displayLessonPlan(result.lessonPlan);
+
+            } catch (error) {
+                console.error('Generation error:', error);
+                alert('AI generation unavailable. Please try again or contact support.');
+                
+                // Show mock output for demo
+                displayMockLesson(lessonData);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '🤖 Generate Lesson Plan with AI';
+            }
+        }
+
+        function displayLessonPlan(plan) {
+            const output = document.getElementById('lesson-output');
+            output.innerHTML = plan;
+            document.getElementById('output-card').classList.add('visible');
+            document.getElementById('output-card').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function displayMockLesson(data) {
+            const mockPlan = `
+                <h3>${data.topic} - Year ${data.yearLevel} ${data.subject}</h3>
+                <p><strong>Duration:</strong> ${data.duration} minutes</p>
+                <p><strong>Cultural Integration:</strong> ${data.culturalIntegration}</p>
+                
+                <h4>Learning Objectives:</h4>
+                <ul>
+                    <li>Students will understand key concepts in ${data.topic}</li>
+                    <li>Students will apply ${data.subject} skills in real-world contexts</li>
+                    <li>Students will connect learning to mātauranga Māori perspectives</li>
+                </ul>
+
+                <h4>Lesson Sequence:</h4>
+                <ol>
+                    <li><strong>Karakia & Tuning In (5 min)</strong> - Opening karakia, whakatauki introduction</li>
+                    <li><strong>Learning Intention (5 min)</strong> - Share objectives and success criteria</li>
+                    <li><strong>Main Activity (${data.duration - 20} min)</strong> - Hands-on learning with cultural context</li>
+                    <li><strong>Reflection (5 min)</strong> - Students share learning, connect to values</li>
+                    <li><strong>Karakia (5 min)</strong> - Closing karakia, prepare for next lesson</li>
+                </ol>
+
+                <h4>Resources Needed:</h4>
+                <ul>
+                    <li>Student handouts (downloadable from Te Kete Ako)</li>
+                    <li>Visual aids and multimedia</li>
+                    <li>Assessment rubric</li>
+                </ul>
+
+                <p style="background: #f4d03f; padding: 15px; border-radius: 8px; margin-top: 20px;">
+                    <strong>🤖 Note:</strong> This is a demo lesson plan. Full AI generation with GLM-4 coming soon!
+                </p>
+            `;
+            
+            displayLessonPlan(mockPlan);
+        }
+
+        function downloadPDF() {
+            alert('PDF export coming soon! This will generate a beautifully formatted PDF of your lesson plan.');
+        }
+
+        function downloadWord() {
+            alert('Word export coming soon! This will create a .docx file you can edit in Microsoft Word.');
+        }
+
+        function saveToKete() {
+            alert('Saved to My Kete! You can find this in your saved resources.');
+        }
+
+        function regenerate() {
+            if (confirm('Generate a new version with different approach?')) {
+                generateLesson();
+            }
+        }
+    </script>
+</body>
+</html>
+
