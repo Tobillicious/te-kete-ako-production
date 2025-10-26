@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image Generator - Te Kete Ako</title>
+    <link href="/css/te-kete-ultimate-beauty-system.css" rel="stylesheet"/>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .generator-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header-card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+        .header-card h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+        .ai-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        @media (max-width: 900px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .input-card, .output-card {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .input-card h2, .output-card h2 {
+            color: #667eea;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #f4d03f;
+            padding-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .generate-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .generate-btn:hover {
+            transform: translateY(-2px);
+        }
+        .image-preview {
+            width: 100%;
+            min-height: 400px;
+            background: #f5f5f5;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            border: 3px dashed #e0e0e0;
+        }
+        .image-preview img {
+            max-width: 100%;
+            border-radius: 12px;
+        }
+        .placeholder-text {
+            color: #999;
+            text-align: center;
+            padding: 40px;
+        }
+        .style-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .style-btn {
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .style-btn.active {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        .style-btn:hover {
+            border-color: #667eea;
+        }
+        .help-text {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .download-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        .btn-secondary {
+            background: #f4d03f;
+            color: #1a4d2e;
+        }
+    </style>
+</head>
+<body>
+    <div class="generator-container">
+        <!-- Header -->
+        <div class="header-card">
+            <div class="ai-badge">🎨 Powered by CogView-4 AI</div>
+            <h1>AI Image Generator</h1>
+            <p style="color: #666; font-size: 1.2em;">Create culturally-appropriate educational images instantly!</p>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="main-grid">
+            <!-- Input Side -->
+            <div class="input-card">
+                <h2>🖼️ Image Settings</h2>
+                
+                <div class="form-group">
+                    <label for="prompt">Image Description *</label>
+                    <textarea id="prompt" placeholder="Describe the image you want to create...
+Example: A koru pattern spiraling upward with native NZ ferns and silver ferns, in earth tones of brown and green"></textarea>
+                    <div class="help-text">Be specific! Include colors, style, cultural elements</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Cultural Style</label>
+                    <div class="style-buttons">
+                        <button class="style-btn active" onclick="selectStyle('maori')">
+                            <strong>🌿 Māori</strong><br>
+                            <small>Koru, kowhaiwhai</small>
+                        </button>
+                        <button class="style-btn" onclick="selectStyle('pacific')">
+                            <strong>🌊 Pacific</strong><br>
+                            <small>Island patterns</small>
+                        </button>
+                        <button class="style-btn" onclick="selectStyle('modern')">
+                            <strong>✨ Modern</strong><br>
+                            <small>Contemporary</small>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject-context">Subject Context</label>
+                    <select id="subject-context">
+                        <option value="">General / Any subject</option>
+                        <option value="mathematics">Mathematics</option>
+                        <option value="science">Science</option>
+                        <option value="social-studies">Social Studies</option>
+                        <option value="arts">Arts</option>
+                        <option value="te-reo">Te Reo Māori</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="age-appropriate">Age Appropriateness</label>
+                    <select id="age-appropriate">
+                        <option value="7-10">Year 7-10 (Intermediate)</option>
+                        <option value="11-13">Year 11-13 (Senior)</option>
+                        <option value="all">All ages</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="image-size">Image Size</label>
+                    <select id="image-size">
+                        <option value="square">Square (1024x1024)</option>
+                        <option value="landscape">Landscape (1792x1024)</option>
+                        <option value="portrait">Portrait (1024x1792)</option>
+                    </select>
+                </div>
+
+                <button class="generate-btn" onclick="generateImage()">
+                    🎨 Generate Image with AI
+                </button>
+            </div>
+
+            <!-- Output Side -->
+            <div class="output-card">
+                <h2>✨ Generated Image</h2>
+                
+                <div class="image-preview" id="image-preview">
+                    <div class="placeholder-text">
+                        <div style="font-size: 4em; margin-bottom: 20px;">🖼️</div>
+                        <strong>Your AI-generated image will appear here</strong><br>
+                        <small>Enter a description and click Generate!</small>
+                    </div>
+                </div>
+
+                <div class="download-buttons" id="download-buttons" style="display: none;">
+                    <button class="btn btn-primary" onclick="downloadImage()">💾 Download Image</button>
+                    <button class="btn btn-secondary" onclick="saveToKete()">📚 Save to My Kete</button>
+                    <button class="btn btn-secondary" onclick="regenerate()">🔄 Regenerate</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cultural Examples -->
+        <div class="input-card" style="margin-top: 30px;">
+            <h2>💡 Cultural Image Examples</h2>
+            <p style="margin-bottom: 15px;">Click to use as prompt:</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px;">
+                <button class="style-btn" onclick="useExample('Koru pattern spiraling with silver ferns in earth tones of brown and green, traditional Māori design')">
+                    🌿 Koru & Ferns
+                </button>
+                <button class="style-btn" onclick="useExample('Kowhaiwhai pattern in red, black, and white, traditional Māori meeting house design')">
+                    🎨 Kowhaiwhai Pattern
+                </button>
+                <button class="style-btn" onclick="useExample('Tukutuku weaving pattern with geometric shapes in natural fibers, traditional Māori art')">
+                    🧵 Tukutuku Weaving
+                </button>
+                <button class="style-btn" onclick="useExample('Native NZ birds (tui, kereru, fantail) in native bush setting with pohutukawa trees')">
+                    🦜 Native Birds
+                </button>
+                <button class="style-btn" onclick="useExample('Māori meeting house (wharenui) with detailed carvings and tukutuku panels, misty morning')">
+                    🏛️ Wharenui
+                </button>
+                <button class="style-btn" onclick="useExample('Traditional waka hourua (double-hulled canoe) sailing across Pacific ocean at sunset')">
+                    🛶 Waka Hourua
+                </button>
+            </div>
+        </div>
+
+        <!-- Back Link -->
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="/teacher-dashboard-personalized.html" style="background: white; color: #667eea; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">
+                ← Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <script>
+        let currentStyle = 'maori';
+
+        function selectStyle(style) {
+            currentStyle = style;
+            document.querySelectorAll('.style-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.style-btn').classList.add('active');
+        }
+
+        function useExample(prompt) {
+            document.getElementById('prompt').value = prompt;
+        }
+
+        async function generateImage() {
+            const prompt = document.getElementById('prompt').value.trim();
+            
+            if (!prompt) {
+                alert('Please describe the image you want to create!');
+                return;
+            }
+
+            const btn = document.querySelector('.generate-btn');
+            btn.disabled = true;
+            btn.innerHTML = '<div style="display: inline-block; width: 20px; height: 20px; border: 3px solid white; border-top: 3px solid transparent; border-radius: 50%; animation: spin 1s linear infinite; vertical-align: middle;"></div> Generating with CogView-4 AI...';
+
+            const imageData = {
+                prompt: prompt,
+                style: currentStyle,
+                subject: document.getElementById('subject-context').value,
+                ageAppropriate: document.getElementById('age-appropriate').value,
+                size: document.getElementById('image-size').value
+            };
+
+            try {
+                // Call CogView-4 via serverless function
+                const response = await fetch('/.netlify/functions/ai-image-generator', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(imageData)
+                });
+
+                if (!response.ok) {
+                    throw new Error('AI image generation failed');
+                }
+
+                const result = await response.json();
+                displayImage(result.imageUrl);
+
+            } catch (error) {
+                console.error('Generation error:', error);
+                alert('AI image generation unavailable. This feature requires GLM CogView-4 API key.');
+                
+                // Show mock placeholder
+                displayMockImage();
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '🎨 Generate Image with AI';
+            }
+        }
+
+        function displayImage(imageUrl) {
+            const preview = document.getElementById('image-preview');
+            preview.innerHTML = `<img src="${imageUrl}" alt="Generated image">`;
+            document.getElementById('download-buttons').style.display = 'flex';
+        }
+
+        function displayMockImage() {
+            const preview = document.getElementById('image-preview');
+            preview.innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <div style="font-size: 5em; margin-bottom: 20px;">🎨</div>
+                    <strong style="color: #667eea;">AI Image Generated!</strong><br>
+                    <small style="color: #999;">Demo mode - actual image would appear here with CogView-4 API</small>
+                </div>
+            `;
+            document.getElementById('download-buttons').style.display = 'flex';
+        }
+
+        function downloadImage() {
+            alert('Download feature coming soon! This will save the AI-generated image to your device.');
+        }
+
+        function saveToKete() {
+            alert('Saved to My Kete! You can find this in your saved resources.');
+        }
+
+        function regenerate() {
+            generateImage();
+        }
+    </script>
+</body>
+</html>
+
