@@ -388,40 +388,40 @@
                 emptyElement.style.display = 'none';
                 gridElement.style.display = 'none';
 
-                // Wait a moment for bookmarks system to be ready
-                setTimeout(() => {
-                    if (window.simpleBookmarks) {
-                        const bookmarks = window.simpleBookmarks.getBookmarks();
-                        const stats = window.simpleBookmarks.getBookmarkStats();
+                // Query Supabase for user's saved resources
+                const { data: savedResources, error } = await supabase
+                    .from('user_saved_resources')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .order('saved_at', { ascending: false });
 
-                        // Update statistics
-                        document.getElementById('total-resources').textContent = stats.total;
-                        document.getElementById('handouts-count').textContent = (stats.byType.resource || []).filter(b => b.url.includes('handouts')).length;
-                        document.getElementById('lessons-count').textContent = (stats.byType.resource || []).filter(b => b.url.includes('lessons')).length;
-                        document.getElementById('games-count').textContent = (stats.byType.resource || []).filter(b => b.url.includes('games')).length;
+                if (error) throw error;
 
-                        loadingElement.style.display = 'none';
+                // Calculate statistics
+                const stats = {
+                    total: savedResources.length,
+                    handouts: savedResources.filter(r => r.resource_type === 'handout').length,
+                    lessons: savedResources.filter(r => r.resource_type === 'lesson').length,
+                    games: savedResources.filter(r => r.resource_type === 'game').length
+                };
 
-                        if (bookmarks.length === 0) {
-                            emptyElement.style.display = 'block';
-                        } else {
-                            renderBookmarkedResources(bookmarks);
-                            gridElement.style.display = 'grid';
-                        }
-                    } else {
-                        // Fallback if bookmarks system not ready
-                        loadingElement.style.display = 'none';
-                        emptyElement.style.display = 'block';
-                        document.getElementById('total-resources').textContent = '0';
-                        document.getElementById('handouts-count').textContent = '0';
-                        document.getElementById('lessons-count').textContent = '0';
-                        document.getElementById('games-count').textContent = '0';
-                    }
-                }, 500);
+                // Update statistics display
+                document.getElementById('total-resources').textContent = stats.total;
+                document.getElementById('handouts-count').textContent = stats.handouts;
+                document.getElementById('lessons-count').textContent = stats.lessons;
+                document.getElementById('games-count').textContent = stats.games;
 
-                console.log('My Kete page loaded successfully');
+                loadingElement.style.display = 'none';
+
+                if (savedResources.length === 0) {
+                    emptyElement.style.display = 'block';
+                } else {
+                    renderBookmarkedResources(savedResources);
+                    gridElement.style.display = 'grid';
+                }
             } catch (error) {
                 console.error('Error loading saved resources:', error);
+                loadingElement.style.display = 'none';
                 loadingElement.innerHTML = `
                     <p style="color: var(--color-error); text-align: center;">
                         ❌ Error loading your saved resources. Please try refreshing the page.
@@ -440,7 +440,7 @@
             });
         }
 
-        function createBookmarkCard(bookmark) {
+        function createBookmarkCard(resource) {
             const card = document.createElement('div');
             card.className = 'resource-card';
             card.style.cssText = `
@@ -452,15 +452,17 @@
                 transition: transform 0.2s ease, box-shadow 0.2s ease;
             `;
 
-            // Determine icon based on URL
-            let icon = '📄';
-            if (bookmark.url.includes('games')) icon = '🎮';
-            else if (bookmark.url.includes('lessons')) icon = '📖';
-            else if (bookmark.url.includes('activities')) icon = '⚡';
-            else if (bookmark.url.includes('handouts')) icon = '📄';
-            else if (bookmark.url.includes('unit-plans')) icon = '📚';
+            // Determine icon based on resource type
+            const iconMap = {
+                'game': '🎮',
+                'lesson': '📖',
+                'handout': '📄',
+                'unit-plan': '📚',
+                'activity': '⚡'
+            };
+            const icon = iconMap[resource.resource_type] || '📄';
 
-            const savedDate = new Date(bookmark.savedAt).toLocaleDateString('en-NZ', {
+            const savedDate = new Date(resource.saved_at).toLocaleDateString('en-NZ', {
                 year: 'numeric',
                 month: 'short',
                 day: 'numeric'
@@ -469,20 +471,20 @@
             card.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
                     <h3 style="margin: 0; color: var(--color-primary); font-size: 1.1rem;">
-                        ${icon} ${bookmark.title}
+                        ${icon} ${resource.resource_title}
                     </h3>
-                    <button class="remove-bookmark-btn" 
-                            data-url="${bookmark.url}"
+                    <button class="remove-resource-btn" 
+                            data-id="${resource.id}"
                             style="background: none; border: none; color: #dc3545; font-size: 1.2rem; cursor: pointer; padding: 0.2rem;"
                             title="Remove from kete">
                         🗑️
                     </button>
                 </div>
                 
-                ${bookmark.description ? `<p style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.4; margin-bottom: 1rem;">${bookmark.description}</p>` : ''}
+                ${resource.notes ? `<p style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.4; margin-bottom: 1rem;">${resource.notes}</p>` : ''}
                 
                 <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 1rem;">
-                    <a href="${bookmark.url}" 
+                    <a href="${resource.resource_url}" 
                        style="background: var(--color-primary); color: white; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; font-weight: 500;">
                         View Resource
                     </a>
@@ -493,11 +495,23 @@
             `;
 
             // Add remove functionality
-            const removeBtn = card.querySelector('.remove-bookmark-btn');
-            removeBtn.addEventListener('click', () => {
-                if (confirm(`Remove "${bookmark.title}" from your kete?`)) {
-                    window.simpleBookmarks.removeBookmark(bookmark.url);
-                    loadSavedResources(); // Refresh the display
+            const removeBtn = card.querySelector('.remove-resource-btn');
+            removeBtn.addEventListener('click', async () => {
+                if (confirm(`Remove "${resource.resource_title}" from your kete?`)) {
+                    try {
+                        const { error } = await supabase
+                            .from('user_saved_resources')
+                            .delete()
+                            .eq('id', resource.id);
+                        
+                        if (error) throw error;
+                        
+                        // Refresh the display
+                        await loadSavedResources();
+                    } catch (error) {
+                        console.error('Error removing resource:', error);
+                        alert('Failed to remove resource. Please try again.');
+                    }
                 }
             });
 

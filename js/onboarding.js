@@ -243,8 +243,24 @@ function validateCurrentStep() {
                 return false;
             }
             
+            // Validate password strength (Supabase requirements)
             if (password.length < 8) {
                 showStepMessage('Password must be at least 8 characters', 'error', 1);
+                return false;
+            }
+            
+            if (!/[a-z]/.test(password)) {
+                showStepMessage('Password must contain at least one lowercase letter', 'error', 1);
+                return false;
+            }
+            
+            if (!/[A-Z]/.test(password)) {
+                showStepMessage('Password must contain at least one uppercase letter', 'error', 1);
+                return false;
+            }
+            
+            if (!/[0-9]/.test(password)) {
+                showStepMessage('Password must contain at least one number', 'error', 1);
                 return false;
             }
             
@@ -412,7 +428,21 @@ async function submitRegistration() {
         
         if (authError) throw authError;
         
+        if (!authData.user) {
+            throw new Error('Registration failed. Please try again.');
+        }
+        
         const userId = authData.user.id;
+        
+        // IMPORTANT: Set the session so RLS policies work correctly
+        if (authData.session) {
+            await supabase.auth.setSession({
+                access_token: authData.session.access_token,
+                refresh_token: authData.session.refresh_token
+            });
+        } else {
+            throw new Error('Session not established. Please try logging in.');
+        }
         
         // 2. Create comprehensive profile
         const profileData = {

@@ -5,8 +5,6 @@
 
 // Initialize Te Kete Ako when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🌟 Te Kete Ako initialized - World\'s first culturally-grounded AI educational platform');
-    
     // Initialize components
     initializeNavigation();
     initializeAuth();
@@ -46,7 +44,6 @@ function initializeNavigation() {
 async function initializeAuth() {
     // Wait for Supabase client to be available
     if (typeof supabase === 'undefined') {
-        console.log('Supabase client not yet available, waiting...');
         setTimeout(initializeAuth, 100);
         return;
     }
@@ -63,7 +60,7 @@ async function initializeAuth() {
             updateAuthState(null);
         }
     } catch (error) {
-        console.log('Auth check failed:', error);
+        // Silent fail - just show logged-out state
         updateAuthState(null);
     }
 }
@@ -113,10 +110,10 @@ function initializePWA() {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js')
             .then(registration => {
-                console.log('📱 PWA: Service Worker registered successfully');
+                // Service worker registered successfully
             })
             .catch(error => {
-                console.log('❌ PWA: Service Worker registration failed:', error);
+                // Service worker registration failed (not critical)
             });
     }
 }
@@ -137,7 +134,7 @@ async function initializeAnalytics() {
                 trackPageView();
             }
         } catch (error) {
-            console.log('Analytics auth check failed:', error);
+            // Analytics auth check failed - track anonymously
             trackPageView();
         }
     } else {
@@ -157,7 +154,7 @@ function trackPageView(user = null) {
     };
     
     // Send to analytics endpoint (if implemented)
-    console.log('📊 Page view tracked:', pageData);
+    // Future: POST to /api/analytics
 }
 
 function trackSiteInteractions() {
@@ -173,7 +170,7 @@ function trackSiteInteractions() {
                 timestamp: new Date().toISOString()
             };
             
-            console.log('🖱️ Interaction tracked:', interactionData);
+            // Future: POST to /api/analytics
         }
     });
 }
@@ -305,5 +302,3 @@ window.TeKeteAko = {
     logout,
     trackPageView
 };
-
-console.log('🚀 Te Kete Ako main.js loaded successfully');
