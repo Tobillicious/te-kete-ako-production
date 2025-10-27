@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Te Kete Ako | Registration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body data-auto-init="true" data-current-page="register">
+
+    <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <main class="content-area">
+            <!-- Progress Indicator -->
+            <div class="onboarding-progress">
+                <div class="progress-step active" data-step="1">
+                    <div class="progress-circle">1</div>
+                    <div class="progress-label">Basics</div>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="2">
+                    <div class="progress-circle">2</div>
+                    <div class="progress-label">Role</div>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="3">
+                    <div class="progress-circle">3</div>
+                    <div class="progress-label">Profile</div>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="4">
+                    <div class="progress-circle">4</div>
+                    <div class="progress-label">Cultural</div>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="5">
+                    <div class="progress-circle">5</div>
+                    <div class="progress-label">Complete</div>
+                </div>
+            </div>
+
+            <!-- Cultural Opening -->
+            <div class="cultural-opening">
+                <h2>Whakataukī | Proverb</h2>
+                <p>"Mā te huruhuru ka rere ai te manu"</p>
+                <p>Adorn the bird with feathers so it may fly.</p>
+                <p>Equip yourself with knowledge so you may soar in learning.</p>
+            </div>
+
+            <!-- Multi-step Form Container -->
+            <div class="onboarding-container">
+                <form id="onboarding-form">
+                    
+                    <!-- STEP 1: Basic Information -->
+                    <div class="onboarding-step active" data-step="1">
+                        <h1>Welcome to Te Kete Ako</h1>
+                        <p class="step-description">Let's start by creating your account</p>
+                        
+                        <div id="step1-message" class="message" style="display: none;"></div>
+                        
+                        <div class="form-group">
+                            <label for="full_name">Full Name *</label>
+                            <input type="text" id="full_name" name="full_name" required 
+                                   placeholder="e.g., Aroha Smith">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required 
+                                   placeholder="your.email@school.nz">
+                            <small class="form-help">We'll use this to sign you in</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password *</label>
+                            <input type="password" id="password" name="password" required 
+                                   minlength="6" placeholder="At least 6 characters">
+                            <small class="form-help">Minimum 6 characters</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password_confirm">Confirm Password *</label>
+                            <input type="password" id="password_confirm" name="password_confirm" required 
+                                   minlength="6" placeholder="Re-enter your password">
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="window.location.href='/login.html'">
+                                Already have an account?
+                            </button>
+                            <button type="button" class="btn-primary" onclick="nextStep(2)">
+                                Next →
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: Role Selection -->
+                    <div class="onboarding-step" data-step="2">
+                        <h1>What brings you to Te Kete Ako?</h1>
+                        <p class="step-description">This helps us personalize your experience</p>
+                        
+                        <div class="role-cards">
+                            <div class="role-card" data-role="teacher" onclick="selectRole('teacher')">
+                                <div class="role-icon">👨‍🏫</div>
+                                <h3>I'm a Teacher</h3>
+                                <p>Kaiako accessing resources for my students</p>
+                                <div class="role-check">✓</div>
+                            </div>
+
+                            <div class="role-card" data-role="student" onclick="selectRole('student')">
+                                <div class="role-icon">🎓</div>
+                                <h3>I'm a Student</h3>
+                                <p>Ākonga using resources for my learning</p>
+                                <div class="role-check">✓</div>
+                            </div>
+                        </div>
+
+                        <input type="hidden" id="role" name="role">
+
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="prevStep(1)">
+                                ← Back
+                            </button>
+                            <button type="button" class="btn-primary" id="role-next-btn" disabled onclick="nextStepFromRole()">
+                                Next →
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3a: Teacher Profile -->
+                    <div class="onboarding-step" data-step="3" data-role="teacher">
+                        <h1>Tell us about your teaching</h1>
+                        <p class="step-description">This helps us recommend relevant resources</p>
+                        
+                        <div class="form-group">
+                            <label for="school_name">School / Kura *</label>
+                            <input type="text" id="school_name" name="school_name" 
+                                   placeholder="Start typing to search NZ schools..."
+                                   list="schools-list">
+                            <datalist id="schools-list">
+                                <!-- Populated by JS -->
+                            </datalist>
+                            <small class="form-help">Can't find yours? Type it in anyway</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="teacher_role">Your Role</label>
+                            <select id="teacher_role" name="teacher_role">
+                                <option value="">Select a role (optional)</option>
+                                <option value="Classroom Teacher">Classroom Teacher</option>
+                                <option value="HOD">Head of Department (HOD)</option>
+                                <option value="HOF">Head of Faculty (HOF)</option>
+                                <option value="DP">Deputy Principal (DP)</option>
+                                <option value="AP">Assistant Principal (AP)</option>
+                                <option value="Principal">Principal</option>
+                                <option value="Tutor">Tutor / Learning Support</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>What subjects do you teach? *</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="subjects" value="English"> 📝 English / Reo Pākehā
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="subjects" value="Mathematics"> 🔢 Mathematics / Pāngarau
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="subjects" value="Science"> 🔬 Science / Pūtaiao
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="subjects" value="Social Studies"> 🌏 Social Studies / Tikanga-ā-Iwi
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="subjects" value="Te Reo Māori"> 🌿 Te Reo Māori
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="subjects" value="Arts"> 🎨 The Arts / Ngā Toi
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="subjects" value="Health & PE"> 💪 Health & PE / Hauora
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="subjects" value="Technology"> 🔧 Technology / Hangarau
+                                </label>
+                            </div>
+                            <small class="form-help">Select all that apply</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label>What year levels do you teach? *</label>
+                            <div class="year-level-grid">
+                                <label class="year-level-btn">
+                                    <input type="checkbox" name="year_levels" value="7">
+                                    <span>Year 7</span>
+                                </label>
+                                <label class="year-level-btn">
+                                    <input type="checkbox" name="year_levels" value="8">
+                                    <span>Year 8</span>
+                                </label>
+                                <label class="year-level-btn">
+                                    <input type="checkbox" name="year_levels" value="9">
+                                    <span>Year 9</span>
+                                </label>
+                                <label class="year-level-btn">
+                                    <input type="checkbox" name="year_levels" value="10">
+                                    <span>Year 10</span>
+                                </label>
+                                <label class="year-level-btn">
+                                    <input type="checkbox" name="year_levels" value="11">
+                                    <span>Year 11</span>
+                                </label>
+                                <label class="year-level-btn">
+                                    <input type="checkbox" name="year_levels" value="12">
+                                    <span>Year 12</span>
+                                </label>
+                                <label class="year-level-btn">
+                                    <input type="checkbox" name="year_levels" value="13">
+                                    <span>Year 13</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="prevStep(2)">
+                                ← Back
+                            </button>
+                            <button type="button" class="btn-primary" onclick="nextStep(4)">
+                                Next →
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3b: Student Profile -->
+                    <div class="onboarding-step" data-step="3" data-role="student">
+                        <h1>Tell us about yourself</h1>
+                        <p class="step-description">This helps us show you the right resources</p>
+                        
+                        <div class="form-group">
+                            <label for="student_year_level">What year are you in? *</label>
+                            <select id="student_year_level" name="student_year_level">
+                                <option value="">Select your year level</option>
+                                <option value="7">Year 7</option>
+                                <option value="8">Year 8</option>
+                                <option value="9">Year 9</option>
+                                <option value="10">Year 10</option>
+                                <option value="11">Year 11</option>
+                                <option value="12">Year 12</option>
+                                <option value="13">Year 13</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="student_school">School / Kura (Optional)</label>
+                            <input type="text" id="student_school" name="student_school" 
+                                   placeholder="e.g., Hamilton Girls High School">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="parent_email">Parent/Whānau Email (Optional)</label>
+                            <input type="email" id="parent_email" name="parent_email" 
+                                   placeholder="parent@email.com">
+                            <small class="form-help">For progress updates (if you'd like)</small>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="prevStep(2)">
+                                ← Back
+                            </button>
+                            <button type="button" class="btn-primary" onclick="nextStep(4)">
+                                Next →
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 4: Cultural Context (OPTIONAL) -->
+                    <div class="onboarding-step" data-step="4">
+                        <h1>Cultural Context</h1>
+                        <p class="step-description">Help us personalize your experience (all optional)</p>
+                        
+                        <div class="optional-section">
+                            <p class="optional-notice">
+                                <strong>🌺 These questions are entirely optional.</strong><br>
+                                They help us provide culturally relevant resources and te reo Māori content when appropriate.
+                                You can skip any or all of these.
+                            </p>
+
+                            <div class="form-group">
+                                <label for="cultural_identity">Cultural Identity</label>
+                                <input type="text" id="cultural_identity" name="cultural_identity" 
+                                       placeholder="e.g., NZ European, Māori, Pasifika, Asian...">
+                                <small class="form-help">Feel free to share if comfortable</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="iwi_affiliation">Iwi Affiliation(s)</label>
+                                <input type="text" id="iwi_affiliation" name="iwi_affiliation" 
+                                       placeholder="e.g., Ngāti Porou, Tainui, Ngāpuhi...">
+                                <small class="form-help">If you have them (list multiple separated by commas)</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="preferred_language">Preferred Language for Resources</label>
+                                <select id="preferred_language" name="preferred_language">
+                                    <option value="English">English</option>
+                                    <option value="Te Reo Māori">Te Reo Māori</option>
+                                    <option value="Both">Both / Bilingual</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="prevStep(3)">
+                                ← Back
+                            </button>
+                            <button type="button" class="btn-primary" onclick="nextStep(5)">
+                                Next →
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 5: Terms & Complete -->
+                    <div class="onboarding-step" data-step="5">
+                        <h1>Almost there!</h1>
+                        <p class="step-description">Just a couple of final things</p>
+                        
+                        <div id="step5-message" class="message" style="display: none;"></div>
+
+                        <div class="terms-box">
+                            <div class="form-group-checkbox">
+                                <label class="checkbox-label-block">
+                                    <input type="checkbox" id="terms_accepted" name="terms_accepted" required>
+                                    <span>I accept the <a href="/terms.html" target="_blank">Terms of Service</a> *</span>
+                                </label>
+                            </div>
+
+                            <div class="form-group-checkbox">
+                                <label class="checkbox-label-block">
+                                    <input type="checkbox" id="privacy_accepted" name="privacy_accepted" required>
+                                    <span>I accept the <a href="/privacy.html" target="_blank">Privacy Policy</a> *</span>
+                                </label>
+                            </div>
+
+                            <div class="form-group-checkbox">
+                                <label class="checkbox-label-block">
+                                    <input type="checkbox" id="marketing_consent" name="marketing_consent">
+                                    <span>Send me updates about new resources and features (optional)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="prevStep(4)">
+                                ← Back
+                            </button>
+                            <button type="submit" class="btn-primary btn-large" id="submit-btn">
+                                <span class="loading-spinner" id="submit-spinner"></span>
+                                <span id="submit-text">🧺 Create My Account</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- Already have account link -->
+            <div class="auth-links">
+                <p>Already have an account? <a href="/login.html">Sign in here</a></p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Supabase CDN -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <!-- Supabase Client -->
+    <script src="js/supabase-client.js"></script>
+    
+    <!-- Onboarding JavaScript -->
+    <script src="js/onboarding.js"></script>
+
+    <footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-section footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p class="footer-whakataukī">"Whaowhia te kete mātauranga"</p>
+                    <p class="footer-tagline">Fill the basket of knowledge</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <span class="footer-copyright">© 2025 Te Kete Ako</span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-location">Aotearoa New Zealand</span>
+                    <span class="footer-separator">•</span>
+                    <a href="/privacy.html">Privacy</a>
+                    <span class="footer-separator">•</span>
+                    <a href="/terms.html">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+
