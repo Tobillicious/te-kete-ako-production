@@ -680,16 +680,12 @@
 
                 return `
                     <div class="resource-card" style="
-                        background: linear-gradient(145deg, #ffffff 0%, #fafbfc 100%); 
-                        border-radius: 16px; 
-                        border: 1px solid rgba(0,0,0,0.06);
-                        border-left: 5px solid ${subjectColor};
+                        background: white; 
+                        border-radius: 12px; 
+                        border-left: 4px solid ${subjectColor};
                         padding: 0; 
-                        box-shadow: 
-                            0 4px 20px rgba(0,0,0,0.08),
-                            0 1px 3px rgba(0,0,0,0.05),
-                            inset 0 1px 0 rgba(255,255,255,0.8); 
-                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+                        box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
+                        transition: all 0.2s ease; 
                         cursor: pointer; 
                         position: relative; 
                         overflow: hidden; 
@@ -699,40 +695,36 @@
                          onclick="window.location.href='${resource.url || '#'}'">
                         
                         <!-- Year badge (top-right corner) -->
-                        <div style="position: absolute; top: 1rem; right: 1rem; background: ${yearColor}; color: white; padding: 0.35rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+                        <div style="position: absolute; top: 1rem; right: 1rem; background: ${yearColor}; color: white; padding: 0.3rem 0.7rem; border-radius: 16px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.3px;">
                             ${yearRange}
                         </div>
                         
                         <!-- Main content area -->
-                        <div style="padding: 1.5rem; padding-right: 7rem; flex: 1; display: flex; flex-direction: column;">
-                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; font-size: 2rem;">
-                                <span style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">${typeIcon}</span>
-                                <div style="width: 2px; height: 32px; background: linear-gradient(180deg, #D4AF37 0%, #F4E4A6 50%, #D4AF37 100%); box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);"></div>
-                                <span style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">${subjectIcon}</span>
+                        <div style="padding: 1.5rem; padding-right: 6rem; flex: 1; display: flex; flex-direction: column;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; font-size: 1.8rem;">
+                                <span>${typeIcon}</span>
+                                <div style="width: 2px; height: 28px; background: linear-gradient(180deg, #D4AF37 0%, #F4E4A6 50%, #D4AF37 100%);"></div>
+                                <span>${subjectIcon}</span>
                             </div>
                             
-                            <h3 style="color: var(--color-text); margin: 0 0 0.75rem 0; font-size: 1.25rem; font-weight: 700; line-height: 1.3;">
+                            <h3 style="color: var(--color-primary); margin: 0 0 0.5rem 0; font-size: 1.2rem; font-weight: 600; line-height: 1.3;">
                                 ${resource.title}
                             </h3>
                             
-                            <p style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0; flex: 1;">
+                            <p style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.5; margin: 0; flex: 1;">
                                 ${resource.description}
                             </p>
                         </div>
                         
-                        <!-- Subject footer (full-width, NZC color with gradient shine) -->
+                        <!-- Subject footer (full-width, NZC color) -->
                         <div style="
                             background: ${subjectColor}; 
-                            background-image: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 50%, rgba(0,0,0,0.1) 100%);
                             color: white; 
-                            padding: 0.75rem 1.5rem; 
+                            padding: 0.65rem 1rem; 
                             text-align: center; 
-                            font-size: 0.9rem; 
+                            font-size: 0.85rem; 
                             font-weight: 600; 
-                            letter-spacing: 0.8px; 
-                            text-transform: uppercase;
-                            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-                            border-top: 1px solid rgba(255,255,255,0.1);">
+                            letter-spacing: 0.5px;">
                             ${subjectLabel}
                         </div>
                     </div>
@@ -742,18 +734,12 @@
             // Add hover effects
             document.querySelectorAll('.resource-card').forEach(card => {
                 card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-8px) scale(1.02)';
-                    this.style.boxShadow = `
-                        0 12px 40px rgba(0,0,0,0.12),
-                        0 4px 12px rgba(0,0,0,0.08),
-                        inset 0 1px 0 rgba(255,255,255,0.9)`;
+                    this.style.transform = 'translateY(-4px)';
+                    this.style.boxShadow = '0 6px 16px rgba(0,0,0,0.15)';
                 });
                 card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0) scale(1)';
-                    this.style.boxShadow = `
-                        0 4px 20px rgba(0,0,0,0.08),
-                        0 1px 3px rgba(0,0,0,0.05),
-                        inset 0 1px 0 rgba(255,255,255,0.8)`;
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
                 });
             });
         }
