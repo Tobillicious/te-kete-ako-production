@@ -3,7 +3,7 @@
 
 // Initialize Supabase client - using actual project credentials
 const supabaseUrl = 'https://nlgldaqtubrlcqddppbq.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjE2NzM2MDQsImV4cCI6MjAzNzI0OTYwNH0.8tJj0dBaFKHKZQQP_5K_bSkU6W3yl4dj-mJ9V8XGmU8';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sZ2xkYXF0dWJybGNxZGRwcGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwODkzMzksImV4cCI6MjA2ODY2NTMzOX0.IFaWqep1MBSofARiCUuzvAReC44hwGnmKOMNSd55nIM';
 
 // Create the global supabase client using the CDN-loaded library
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);

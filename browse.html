@@ -325,8 +325,12 @@
         </div>
     </footer>
 
-    <script src="js/firebase-config.js"></script>
-    <script src="js/auth.js"></script>
+    <!-- Supabase CDN -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <!-- Supabase Client -->
+    <script src="js/supabase-client.js"></script>
+    
+    <!-- Browse page functionality -->
     <script src="js/browse-heroes.js"></script>
     <script type="module">
         let allResources = [];
@@ -356,17 +360,37 @@
             const loadingMessage = document.getElementById('loading-message');
 
             try {
-                // Try to fetch from Netlify function first
-                const response = await fetch('/.netlify/functions/get-resources');
-                if (!response.ok) throw new Error(`API request failed: ${response.status}`);
+                // Try to fetch directly from Supabase
+                console.log('📊 Fetching resources from Supabase...');
                 
-                const data = await response.json();
-                if (!data.success || !data.resources) throw new Error('Invalid data format from API');
+                const { data, error } = await supabase
+                    .from('resources')
+                    .select('id, title, description, type, path, subject, level, tags, featured')
+                    .eq('is_active', true)
+                    .order('title', { ascending: true });
 
-                allResources = data.resources;
+                if (error) {
+                    console.error('Supabase query error:', error);
+                    throw error;
+                }
+
+                console.log(`✅ Loaded ${data.length} resources from Supabase`);
+                
+                // Transform Supabase data to match expected format
+                allResources = data.map(resource => ({
+                    id: resource.id,
+                    title: resource.title || 'Untitled Resource',
+                    description: resource.description || '',
+                    type: resource.type || 'other',
+                    subject: resource.subject || 'general',
+                    year_levels: parseYearLevel(resource.level),
+                    url: resource.path || '#',
+                    tags: resource.tags || [],
+                    featured: resource.featured || false
+                }));
                 
             } catch (error) {
-                console.error('Failed to fetch from API, using fallback data:', error);
+                console.error('Failed to fetch from Supabase, using fallback data:', error);
                 
                 // Fallback: Create sample resource data
                 allResources = generateFallbackResources();
@@ -374,6 +398,24 @@
 
             filterAndRender();
             loadingMessage.style.display = 'none';
+        }
+        
+        // Helper to parse year level string to array
+        function parseYearLevel(level) {
+            if (!level) return [];
+            // Handle formats like "7-10", "Y8", "Year 9", etc
+            const match = level.match(/\d+/g);
+            if (!match) return [];
+            
+            if (match.length === 1) {
+                return [parseInt(match[0])];
+            } else if (match.length === 2) {
+                // Range like "7-10"
+                const start = parseInt(match[0]);
+                const end = parseInt(match[1]);
+                return Array.from({length: end - start + 1}, (_, i) => start + i);
+            }
+            return match.map(n => parseInt(n));
         }
 
         function generateFallbackResources() {
