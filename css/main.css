@@ -280,13 +280,19 @@ a:hover {
 }
 
 .left-sidebar {
-  width: 280px; /* Fixed width for sidebar */
+  width: 280px;
   flex-shrink: 0;
   padding-right: calc(var(--spacing-unit) * 3);
+  align-self: flex-start; /* Start at top of container */
   position: sticky;
   top: calc(var(--spacing-unit) * 3);
-  align-self: stretch; /* EXTENDS TO MATCH CONTENT HEIGHT */
-  min-height: 100%; /* Ensures it extends fully */
+  max-height: calc(
+    100vh - var(--spacing-unit) * 6
+  ); /* Viewport height minus spacing */
+  overflow-y: auto; /* Scroll if content exceeds viewport */
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing-unit) * 2);
 }
 
 .content-area {
@@ -296,17 +302,22 @@ a:hover {
   border-radius: 8px;
   border: 1px solid var(--color-border);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  max-width: none; /* Allow content to grow */
+  max-width: none;
+  min-height: 100vh; /* Ensures main content is at least viewport height */
 }
 
 .right-sidebar {
-  width: 320px; /* Slightly wider than left for differentiation content */
+  width: 320px;
   flex-shrink: 0;
   padding-left: calc(var(--spacing-unit) * 3);
+  align-self: flex-start;
   position: sticky;
   top: calc(var(--spacing-unit) * 3);
-  align-self: stretch; /* EXTENDS TO MATCH CONTENT HEIGHT */
-  min-height: 100%; /* Ensures it extends fully */
+  max-height: 600px; /* Nice fixed height - matches left sidebar */
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing-unit) * 2);
 }
 
 /* =================================================================
