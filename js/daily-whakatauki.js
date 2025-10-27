@@ -63,15 +63,58 @@ class DailyWhakatauki {
             {
                 mi: "Tūturu whakamaua kia tina! Haumi e, hui e, tāiki e!",
                 en: "Stand fast, be determined! Join together, gather as one!"
+            },
+            {
+                mi: "E kore au e ngaro, he kākano i ruia mai i Rangiātea.",
+                en: "I will never be lost, for I am a seed sown from Rangiātea."
+            },
+            {
+                mi: "Kāore te kūmara e kōrero mō tōna ake reka.",
+                en: "The kūmara does not speak of its own sweetness (true greatness is humble)."
+            },
+            {
+                mi: "Waiho i te toipoto, kaua i te toiroa.",
+                en: "Let us keep close together, not far apart."
+            },
+            {
+                mi: "He toka tū moana.",
+                en: "A rock standing in the ocean (someone who stands firm in adversity)."
+            },
+            {
+                mi: "Aroha mai, aroha atu.",
+                en: "Love received, love given."
             }
         ];
     }
 
-    // Get today's whakataukī based on day of year (changes daily)
+    // Get whakataukī based on page and day
+    // Each page has a subset that rotates daily for variety
     getTodaysWhakatauki() {
+        const page = this.getCurrentPage();
         const dayOfYear = this.getDayOfYear();
-        const index = dayOfYear % this.whakatauki.length;
+        
+        // Define which whakataukī fit which pages best
+        const pageSubsets = {
+            'unit-plans': [0, 1, 6, 11, 13, 15],     // Planning & knowledge
+            'lessons': [1, 4, 5, 8, 10, 16],         // Teaching & growth
+            'handouts': [3, 7, 9, 12, 17],           // Collaboration & resources
+            'games': [2, 5, 8, 14, 18, 19],          // Togetherness & resilience
+            'default': [0, 2, 3, 6, 10, 13]          // Homepage & others
+        };
+        
+        const subset = pageSubsets[page] || pageSubsets.default;
+        const index = subset[dayOfYear % subset.length];
         return this.whakatauki[index];
+    }
+    
+    // Determine current page from URL
+    getCurrentPage() {
+        const path = window.location.pathname;
+        if (path.includes('unit-plans')) return 'unit-plans';
+        if (path.includes('lessons')) return 'lessons';
+        if (path.includes('handouts')) return 'handouts';
+        if (path.includes('games')) return 'games';
+        return 'default';
     }
 
     // Calculate day of year (1-365/366)
