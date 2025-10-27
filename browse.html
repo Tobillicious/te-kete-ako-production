@@ -621,6 +621,21 @@
             return normalizedResource.includes(normalizedFilter) || normalizedFilter.includes(normalizedResource);
         }
 
+        // Get rainbow year badge color based on year range
+        function getYearColor(year_levels) {
+            if (!year_levels || year_levels.length === 0) return 'rgba(0,0,0,0.1)';
+            
+            const avgYear = year_levels.reduce((a, b) => a + b, 0) / year_levels.length;
+            
+            // NZC Rainbow Progression (Y1-13)
+            if (avgYear <= 2) return 'linear-gradient(135deg, #e63946, #f77f88)'; // Red (Y1-2)
+            if (avgYear <= 4) return 'linear-gradient(135deg, #f4a261, #f9c74f)'; // Orange (Y3-4)
+            if (avgYear <= 6) return 'linear-gradient(135deg, #f9c74f, #90be6d)'; // Yellow (Y5-6)
+            if (avgYear <= 8) return 'linear-gradient(135deg, #2b8aaa, #2a9b7e)'; // Cyan-Teal (Y7-8)
+            if (avgYear <= 10) return 'linear-gradient(135deg, #3fa856, #7ab83a)'; // Green (Y9-10)
+            return 'linear-gradient(135deg, #c2b43a, #db8e3a)'; // Yellow-Orange (Y11-13)
+        }
+        
         function renderResources(resources) {
             const container = document.getElementById('resource-grid-container');
             const countElement = document.getElementById('count-number');
@@ -658,7 +673,8 @@
                 const yearRange = resource.year_levels 
                     ? `Year ${Math.min(...resource.year_levels)}-${Math.max(...resource.year_levels)}`
                     : 'All Years';
-
+                    
+                const yearColor = getYearColor(resource.year_levels);
                 const subjectColor = getSubjectColor(resource.subject);
                 const subjectLabel = formatSubjectLabel(resource.subject);
 
@@ -679,7 +695,7 @@
                          onclick="window.location.href='${resource.url || '#'}'">
                         
                         <!-- Year badge (top-right corner) -->
-                        <div style="position: absolute; top: 1rem; right: 1rem; background: rgba(0,0,0,0.06); backdrop-filter: blur(8px); padding: 0.35rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; color: var(--color-text-secondary); letter-spacing: 0.5px;">
+                        <div style="position: absolute; top: 1rem; right: 1rem; background: ${yearColor}; color: white; padding: 0.35rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
                             ${yearRange}
                         </div>
                         
