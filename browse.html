@@ -211,14 +211,16 @@
                     </label>
                     <select id="subject-filter" class="filter-dropdown" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--color-border); font-size: 0.95rem; background: white;">
                         <option value="">All Subjects</option>
+                        <option value="te-ao-maori">Te Ao Māori</option>
                         <option value="english">English / Reo Pākehā</option>
-                        <option value="math">Mathematics / Pāngarau</option>
+                        <option value="mathematics">Mathematics / Pāngarau</option>
                         <option value="science">Science / Pūtaiao</option>
                         <option value="social-studies">Social Studies / Tikanga-ā-Iwi</option>
                         <option value="te-reo">Te Reo Māori</option>
                         <option value="arts">The Arts / Ngā Toi</option>
                         <option value="health-pe">Health & PE / Hauora</option>
                         <option value="technology">Technology / Hangarau</option>
+                        <option value="cross-curricular">Cross-Curricular / Marau Whakawhiti</option>
                     </select>
                 </div>
 
@@ -500,7 +502,10 @@
                      resource.tags?.join(' ').toLowerCase().includes(searchTerm))
                     : true;
 
-                const matchesSubject = selectedSubject ? resource.subject === selectedSubject : true;
+                // Subject matching - handle compound subjects (e.g., "English + Social Studies")
+                const matchesSubject = selectedSubject ? 
+                    matchSubject(resource.subject, selectedSubject) : true;
+                    
                 const matchesType = selectedType ? resource.type === selectedType : true;
                 const matchesYear = selectedYear ? resource.year_levels?.includes(parseInt(selectedYear)) : true;
 
@@ -508,6 +513,26 @@
             });
 
             renderResources(filteredResources);
+        }
+        
+        // Helper to match subjects (handles compound subjects)
+        function matchSubject(resourceSubject, filterValue) {
+            if (!resourceSubject) return false;
+            
+            const normalizedResource = resourceSubject.toLowerCase();
+            const normalizedFilter = filterValue.toLowerCase();
+            
+            // Exact match
+            if (normalizedResource === normalizedFilter) return true;
+            
+            // Check if filter subject is one of multiple subjects (separated by + or ,)
+            if (normalizedResource.includes('+') || normalizedResource.includes(',')) {
+                const subjects = normalizedResource.split(/[+,]/).map(s => s.trim());
+                return subjects.some(sub => sub.includes(normalizedFilter) || normalizedFilter.includes(sub));
+            }
+            
+            // Partial match for variations (e.g., "social studies" matches "social-studies")
+            return normalizedResource.includes(normalizedFilter) || normalizedFilter.includes(normalizedResource);
         }
 
         function renderResources(resources) {
