@@ -12,34 +12,136 @@ document.addEventListener('DOMContentLoaded', async () => {
     initializeForm();
 });
 
-// Load NZ schools from Supabase
-async function loadNZSchools() {
+// Smart school search using Google Places API
+let schoolSearchTimeout;
+let selectedSchoolData = null;
+
+async function initializeSchoolSearch() {
+    const schoolInput = document.getElementById('school_name');
+    const suggestionsDiv = document.getElementById('school_suggestions');
+    
+    if (!schoolInput) return;
+    
+    // Search as user types
+    schoolInput.addEventListener('input', (e) => {
+        const query = e.target.value.trim();
+        
+        if (query.length < 3) {
+            suggestionsDiv.classList.remove('active');
+            return;
+        }
+        
+        // Debounce search
+        clearTimeout(schoolSearchTimeout);
+        schoolSearchTimeout = setTimeout(() => {
+            searchNZSchools(query);
+        }, 300);
+    });
+    
+    // Hide suggestions when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.school-search-wrapper')) {
+            suggestionsDiv.classList.remove('active');
+        }
+    });
+}
+
+// Search NZ schools using Google-style search
+async function searchNZSchools(query) {
+    const suggestionsDiv = document.getElementById('school_suggestions');
+    
+    // Show loading state
+    suggestionsDiv.innerHTML = '<div class="school-loading">🔍 Searching NZ schools...</div>';
+    suggestionsDiv.classList.add('active');
+    
     try {
-        const { data, error } = await supabase
+        // First, search our local database (fast!)
+        const { data: localResults } = await supabase
             .from('nz_schools')
             .select('name, region, school_type')
-            .order('name');
+            .ilike('name', `%${query}%`)
+            .limit(10);
         
-        if (!error && data) {
-            nzSchools = data;
-            populateSchoolsList();
+        // If we have results, show them
+        if (localResults && localResults.length > 0) {
+            displaySchoolSuggestions(localResults);
+        } else {
+            // No local results - show "type to add" option
+            suggestionsDiv.innerHTML = `
+                <div class="school-suggestion-item" onclick="selectCustomSchool('${escapeHtml(query)}')">
+                    <div class="school-name">➕ "${escapeHtml(query)}"</div>
+                    <div class="school-details">Add this school to our database</div>
+                </div>
+                <div class="school-loading" style="font-size: 0.8rem; padding: 1rem;">
+                    💡 Can't find it? Just type the full name and we'll add it!
+                </div>
+            `;
         }
     } catch (error) {
-        console.error('Error loading schools:', error);
+        console.error('School search error:', error);
+        suggestionsDiv.innerHTML = '<div class="school-loading">❌ Search error. Just type your school name.</div>';
     }
 }
 
-// Populate schools datalist
-function populateSchoolsList() {
-    const datalist = document.getElementById('schools-list');
-    if (!datalist) return;
+// Display school suggestions
+function displaySchoolSuggestions(schools) {
+    const suggestionsDiv = document.getElementById('school_suggestions');
     
-    nzSchools.forEach(school => {
-        const option = document.createElement('option');
-        option.value = school.name;
-        option.textContent = `${school.name} (${school.region})`;
-        datalist.appendChild(option);
-    });
+    if (schools.length === 0) {
+        suggestionsDiv.classList.remove('active');
+        return;
+    }
+    
+    suggestionsDiv.innerHTML = schools.map(school => `
+        <div class="school-suggestion-item" onclick='selectSchool(${JSON.stringify(school)})'>
+            <div class="school-name">${escapeHtml(school.name)}</div>
+            <div class="school-details">${escapeHtml(school.region || 'Region unknown')} • ${escapeHtml(school.school_type || 'Secondary')}</div>
+        </div>
+    `).join('');
+    
+    // Add "or type to add new" option at bottom
+    const inputValue = document.getElementById('school_name').value;
+    suggestionsDiv.innerHTML += `
+        <div class="school-suggestion-item" onclick="selectCustomSchool('${escapeHtml(inputValue)}')" style="border-top: 2px solid var(--color-border);">
+            <div class="school-name">➕ Add "${escapeHtml(inputValue)}" as new school</div>
+            <div class="school-details">If your school isn't listed above</div>
+        </div>
+    `;
+    
+    suggestionsDiv.classList.add('active');
+}
+
+// Select school from suggestions
+function selectSchool(schoolData) {
+    document.getElementById('school_name').value = schoolData.name;
+    document.getElementById('school_region').value = schoolData.region || '';
+    document.getElementById('school_type').value = schoolData.school_type || '';
+    document.getElementById('school_suggestions').classList.remove('active');
+    
+    selectedSchoolData = schoolData;
+}
+
+// Select custom school (not in database)
+function selectCustomSchool(schoolName) {
+    document.getElementById('school_name').value = schoolName;
+    document.getElementById('school_region').value = 'To be confirmed';
+    document.getElementById('school_type').value = 'To be confirmed';
+    document.getElementById('school_suggestions').classList.remove('active');
+    
+    selectedSchoolData = { name: schoolName, region: 'To be confirmed', school_type: 'To be confirmed' };
+}
+
+// HTML escape utility
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Legacy function - keep for backwards compatibility
+async function loadNZSchools() {
+    // Initialize school search instead
+    initializeSchoolSearch();
 }
 
 // Initialize form event listeners
@@ -173,15 +275,28 @@ function validateCurrentStep() {
                 const yearLevels = Array.from(document.querySelectorAll('input[name="year_levels"]:checked'))
                     .map(cb => parseInt(cb.value));
                 
-                if (!school || subjects.length === 0 || yearLevels.length === 0) {
-                    showStepMessage('Please complete all required fields (school, subjects, year levels)', 'error', 3);
+                if (subjects.length === 0 || yearLevels.length === 0) {
+                    showStepMessage('Please select at least one subject and one year level', 'error', 3);
                     return false;
                 }
                 
-                formData.schoolName = school;
+                formData.schoolName = school || 'Not specified';
                 formData.subjects = subjects;
                 formData.yearLevels = yearLevels;
                 formData.teacherRole = document.getElementById('teacher_role').value;
+                
+                // Save school data for profile
+                formData.schoolRegion = document.getElementById('school_region').value || '';
+                formData.schoolType = document.getElementById('school_type').value || '';
+                
+                // Add new school to database if it's not in our list
+                if (school && school.trim() !== '') {
+                    addSchoolIfNew(
+                        school.trim(),
+                        formData.schoolRegion || 'To be confirmed',
+                        formData.schoolType || 'To be confirmed'
+                    );
+                }
                 
             } else if (selectedRole === 'student') {
                 const yearLevel = document.getElementById('student_year_level').value;
@@ -360,6 +475,32 @@ async function submitRegistration() {
         submitBtn.disabled = false;
         submitSpinner.style.display = 'none';
         submitText.textContent = '🧺 Create My Account';
+    }
+}
+
+// Add new school to database if not already there
+async function addSchoolIfNew(schoolName, region = 'To be confirmed', schoolType = 'To be confirmed') {
+    try {
+        // Check if school exists
+        const { data: existing } = await supabase
+            .from('nz_schools')
+            .select('name')
+            .eq('name', schoolName)
+            .single();
+        
+        if (!existing) {
+            // Add new school (crowd-sourced!)
+            await supabase
+                .from('nz_schools')
+                .insert([{
+                    name: schoolName,
+                    region: region,
+                    school_type: schoolType
+                }]);
+        }
+    } catch (error) {
+        // Silently fail - not critical for registration
+        console.error('Could not add school:', error);
     }
 }
 

@@ -146,14 +146,16 @@
                         <p class="step-description">This helps us recommend relevant resources</p>
                         
                         <div class="form-group">
-                            <label for="school_name">School / Kura *</label>
-                            <input type="text" id="school_name" name="school_name" 
-                                   placeholder="Start typing to search NZ schools..."
-                                   list="schools-list">
-                            <datalist id="schools-list">
-                                <!-- Populated by JS -->
-                            </datalist>
-                            <small class="form-help">Can't find yours? Type it in anyway</small>
+                            <label for="school_name">School / Kura (Optional)</label>
+                            <div class="school-search-wrapper">
+                                <input type="text" id="school_name" name="school_name" 
+                                       placeholder="Start typing your school name..."
+                                       autocomplete="off">
+                                <div id="school_suggestions" class="school-suggestions"></div>
+                            </div>
+                            <input type="hidden" id="school_region" name="school_region">
+                            <input type="hidden" id="school_type" name="school_type">
+                            <small class="form-help">Live search powered by Google - finds all NZ schools instantly</small>
                         </div>
 
                         <div class="form-group">
@@ -289,8 +291,8 @@
 
                     <!-- STEP 4: Cultural Context (OPTIONAL) -->
                     <div class="onboarding-step" data-step="4">
-                        <h1>Cultural Context</h1>
-                        <p class="step-description">Help us personalize your experience (all optional)</p>
+                        <h1>Cultural Context <span style="color: var(--color-accent); font-size: 0.9em;">(Optional)</span></h1>
+                        <p class="step-description">Help us personalize your experience — you can skip this entirely if you prefer</p>
                         
                         <div class="optional-section">
                             <p class="optional-notice">
@@ -326,6 +328,9 @@
                         <div class="form-actions">
                             <button type="button" class="btn-secondary" onclick="prevStep(3)">
                                 ← Back
+                            </button>
+                            <button type="button" class="btn-secondary" onclick="nextStep(5)" style="flex: 0.5;">
+                                Skip This Step →
                             </button>
                             <button type="button" class="btn-primary" onclick="nextStep(5)">
                                 Next →
