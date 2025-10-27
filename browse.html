@@ -515,6 +515,49 @@
             renderResources(filteredResources);
         }
         
+        // Get subject-specific emoji based on content
+        function getSubjectEmoji(subject, title) {
+            const titleLower = (title || '').toLowerCase();
+            const subjectLower = (subject || '').toLowerCase();
+            
+            // Content-specific emojis (check title first for more specific matches)
+            if (titleLower.includes('treaty') || titleLower.includes('tiriti') || titleLower.includes('waitangi')) return '📜';
+            if (titleLower.includes('haka')) return '💪';
+            if (titleLower.includes('māori') || titleLower.includes('maori')) return '🌿';
+            if (titleLower.includes('wordle')) return '🔤';
+            if (titleLower.includes('spelling')) return '🔡';
+            if (titleLower.includes('countdown') || titleLower.includes('letters')) return '⏱️';
+            if (titleLower.includes('categories')) return '🎯';
+            if (titleLower.includes('writing') || titleLower.includes('peel')) return '✍️';
+            if (titleLower.includes('media') || titleLower.includes('literacy')) return '📰';
+            if (titleLower.includes('climate') || titleLower.includes('environment')) return '🌍';
+            if (titleLower.includes('science') || titleLower.includes('stem')) return '🔬';
+            if (titleLower.includes('mātauranga') || titleLower.includes('matauranga')) return '🌟';
+            if (titleLower.includes('probability') || titleLower.includes('math')) return '🎲';
+            if (titleLower.includes('graphs') || titleLower.includes('data')) return '📊';
+            if (titleLower.includes('ai') || titleLower.includes('technology')) return '🤖';
+            if (titleLower.includes('ethics')) return '⚖️';
+            if (titleLower.includes('history') || titleLower.includes('decoloni')) return '📖';
+            if (titleLower.includes('economic') || titleLower.includes('justice')) return '💰';
+            if (titleLower.includes('global') || titleLower.includes('connection')) return '🌐';
+            if (titleLower.includes('rangatiratanga') || titleLower.includes('action')) return '🚀';
+            if (titleLower.includes('system')) return '⚙️';
+            if (titleLower.includes('battalion') || titleLower.includes('war')) return '🎖️';
+            
+            // Subject fallbacks
+            if (subjectLower.includes('te-reo') || subjectLower.includes('te-ao-maori')) return '🌿';
+            if (subjectLower.includes('english')) return '📝';
+            if (subjectLower.includes('mathematics') || subjectLower.includes('math')) return '➗';
+            if (subjectLower.includes('science')) return '🔬';
+            if (subjectLower.includes('social')) return '🌏';
+            if (subjectLower.includes('technology')) return '💻';
+            if (subjectLower.includes('arts')) return '🎨';
+            if (subjectLower.includes('health') || subjectLower.includes('pe')) return '💪';
+            if (subjectLower.includes('cross-curricular')) return '🌈';
+            
+            return '📌'; // Default
+        }
+        
         // Helper to match subjects (handles compound subjects)
         function matchSubject(resourceSubject, filterValue) {
             if (!resourceSubject) return false;
@@ -557,12 +600,17 @@
             }
 
             container.innerHTML = resources.map(resource => {
+                // Type emoji (resource format)
                 const typeIcon = {
                     'unit-plan': '📚',
                     'lesson': '📖',
                     'handout': '📄',
+                    'game': '🎮',
                     'activity': '⚡'
                 }[resource.type] || '📋';
+
+                // Subject emoji (content-specific)
+                const subjectIcon = getSubjectEmoji(resource.subject, resource.title);
 
                 const yearRange = resource.year_levels 
                     ? `Year ${Math.min(...resource.year_levels)}-${Math.max(...resource.year_levels)}`
@@ -571,7 +619,13 @@
                 return `
                     <div class="resource-card" style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;" 
                          onclick="window.location.href='${resource.url || '#'}'">
-                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">${typeIcon}</div>
+                        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; font-size: 1.8rem;">
+                            <span>${typeIcon}</span>
+                            <div style="width: 2px; height: 28px; background: linear-gradient(180deg, #D4AF37 0%, #F4E4A6 50%, #D4AF37 100%);"></div>
+                            <span>${subjectIcon}</span>
+                            <div style="flex: 1;"></div>
+                            <div style="width: 32px; height: 32px; opacity: 0.2;"></div>
+                        </div>
                         <h3 style="color: var(--color-primary); margin-bottom: 0.5rem; font-size: 1.2rem;">${resource.title}</h3>
                         <p style="color: var(--color-text-secondary); font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.5;">${resource.description}</p>
                         <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto;">
