@@ -211,16 +211,16 @@
                     </label>
                     <select id="subject-filter" class="filter-dropdown" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--color-border); font-size: 0.95rem; background: white;">
                         <option value="">All Subjects</option>
-                        <option value="te-ao-maori">Te Ao Māori</option>
+                        <option value="cross-curricular">Cross-Curricular / Marau Whakawhiti</option>
                         <option value="english">English / Reo Pākehā</option>
+                        <option value="health-pe">Health & PE / Hauora</option>
                         <option value="mathematics">Mathematics / Pāngarau</option>
                         <option value="science">Science / Pūtaiao</option>
                         <option value="social-studies">Social Studies / Tikanga-ā-Iwi</option>
+                        <option value="te-ao-maori">Te Ao Māori</option>
                         <option value="te-reo">Te Reo Māori</option>
-                        <option value="arts">The Arts / Ngā Toi</option>
-                        <option value="health-pe">Health & PE / Hauora</option>
                         <option value="technology">Technology / Hangarau</option>
-                        <option value="cross-curricular">Cross-Curricular / Marau Whakawhiti</option>
+                        <option value="arts">The Arts / Ngā Toi</option>
                     </select>
                 </div>
 
@@ -525,7 +525,7 @@
             // Exact match
             if (normalizedResource === normalizedFilter) return true;
             
-            // Check if filter subject is one of multiple subjects (separated by + or ,)
+            // Check if resource has multiple subjects (separated by + or ,)
             if (normalizedResource.includes('+') || normalizedResource.includes(',')) {
                 const subjects = normalizedResource.split(/[+,]/).map(s => s.trim());
                 return subjects.some(sub => sub.includes(normalizedFilter) || normalizedFilter.includes(sub));
