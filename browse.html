@@ -370,7 +370,8 @@
                     .from('resources')
                     .select('id, title, description, type, path, subject, level, tags, featured')
                     .eq('is_active', true)
-                    .order('title', { ascending: true });
+                    .order('title', { ascending: true })
+                    .limit(1000);
 
                 if (error) {
                     console.error('Supabase query error:', error);
