@@ -25,12 +25,10 @@ class AuthUI {
             
             // Listen for auth state changes
             supabase.auth.onAuthStateChange((event, session) => {
-                console.log('Auth state changed:', event, session?.user?.email);
                 this.handleAuthStateChange(event, session);
             });
 
             this.isInitialized = true;
-            console.log('Auth UI initialized successfully');
         } catch (error) {
             console.error('Error initializing Auth UI:', error);
         }
@@ -65,7 +63,7 @@ class AuthUI {
                 this.showNotification('You have been signed out.', 'info');
                 break;
             case 'TOKEN_REFRESHED':
-                console.log('Session token refreshed');
+                // Token refreshed silently
                 break;
         }
     }
@@ -111,59 +109,19 @@ class AuthUI {
         const userName = userEmail.split('@')[0]; // Use part before @ as display name
         
         return `
-            <div class="user-menu" style="position: relative;">
-                <button class="user-menu-toggle" style="
-                    background: none; 
-                    border: none; 
-                    color: inherit; 
-                    font: inherit; 
-                    cursor: pointer;
-                    display: flex;
-                    align-items: center;
-                    gap: 0.5rem;
-                ">
+            <div class="user-menu">
+                <button class="user-menu-toggle">
                     <span class="nav-icon">👤</span>
                     <span class="nav-text-en">${userName}</span>
                     <span style="font-size: 0.8em;">▼</span>
                 </button>
-                <div class="user-dropdown" style="
-                    display: none;
-                    position: absolute;
-                    top: 100%;
-                    right: 0;
-                    background: white;
-                    border: 1px solid #ddd;
-                    border-radius: 8px;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                    min-width: 180px;
-                    z-index: 1000;
-                    margin-top: 0.5rem;
-                ">
-                    <div style="padding: 1rem; border-bottom: 1px solid #eee;">
-                        <div style="font-weight: bold; color: var(--color-primary);">${userName}</div>
-                        <div style="font-size: 0.85em; color: #666;">${userEmail}</div>
+                <div class="user-dropdown">
+                    <div class="user-dropdown-header">
+                        <div class="user-dropdown-name">${userName}</div>
+                        <div class="user-dropdown-email">${userEmail}</div>
                     </div>
-                    <a href="my-kete.html" style="
-                        display: block;
-                        padding: 0.75rem 1rem;
-                        color: var(--color-text);
-                        text-decoration: none;
-                        border-bottom: 1px solid #eee;
-                    ">
-                        🧺 My Kete
-                    </a>
-                    <button class="logout-btn" style="
-                        width: 100%;
-                        text-align: left;
-                        padding: 0.75rem 1rem;
-                        background: none;
-                        border: none;
-                        color: #dc3545;
-                        cursor: pointer;
-                        font: inherit;
-                    ">
-                        🚪 Sign Out
-                    </button>
+                    <a href="my-kete.html">🧺 My Kete</a>
+                    <button class="logout-btn">🚪 Sign Out</button>
                 </div>
             </div>
         `;
@@ -243,11 +201,14 @@ class AuthUI {
         // Create notification element
         const notification = document.createElement('div');
         notification.className = `auth-notification auth-notification-${type}`;
+        
+        // Set type-specific class for styling
+        const bgColor = type === 'error' ? '#f56565' : type === 'success' ? '#48bb78' : '#4299e1';
         notification.style.cssText = `
             position: fixed;
             top: 20px;
             right: 20px;
-            background: ${type === 'error' ? '#f56565' : type === 'success' ? '#48bb78' : '#4299e1'};
+            background: ${bgColor};
             color: white;
             padding: 1rem 1.5rem;
             border-radius: 8px;
@@ -256,17 +217,18 @@ class AuthUI {
             font-weight: 500;
             max-width: 300px;
             animation: slideInRight 0.3s ease-out;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         `;
 
         notification.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <span>${type === 'error' ? '❌' : type === 'success' ? '✅' : 'ℹ️'}</span>
-                <span>${message}</span>
-                <button onclick="this.parentElement.parentElement.remove()" 
-                        style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer; margin-left: auto;">
-                    ×
-                </button>
-            </div>
+            <span>${type === 'error' ? '❌' : type === 'success' ? '✅' : 'ℹ️'}</span>
+            <span>${message}</span>
+            <button onclick="this.parentElement.remove()" 
+                    style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer; margin-left: auto;">
+                ×
+            </button>
         `;
 
         document.body.appendChild(notification);

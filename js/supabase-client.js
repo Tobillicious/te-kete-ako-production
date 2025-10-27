@@ -26,5 +26,3 @@ window.authHelpers = {
     return !!user;
   }
 };
-
-console.log('Supabase client initialized successfully');
