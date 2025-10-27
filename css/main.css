@@ -710,17 +710,21 @@ a:hover {
   min-width: 280px;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 0.3s;
   z-index: 9999;
   margin-top: 0.5rem;
   backdrop-filter: blur(20px);
   overflow: hidden;
+  pointer-events: none;
 }
 
 .main-nav li:hover .nav-dropdown {
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(0);
+  transition-delay: 0s, 0s, 0s;
+  pointer-events: auto;
 }
 
 /* Cascade animation for dropdown items */
@@ -803,7 +807,7 @@ a:hover {
   height: auto;
   color: var(--color-text-primary);
   font-size: 0.9rem;
-  transition: all 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: flex-start;
   gap: 0.5rem;
@@ -812,6 +816,7 @@ a:hover {
   text-shadow: none;
   flex-direction: column;
   justify-content: flex-start;
+  position: relative;
 }
 
 .nav-dropdown a::before {
@@ -826,9 +831,9 @@ a:hover {
     var(--color-cultural-teal)
   );
   color: white;
-  transform: translateX(5px) scale(1.02);
+  transform: translateX(4px);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 2px 8px rgba(245, 166, 35, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 176, 185, 0.25);
 }
 
 /* Dropdown Bilingual Styling - Te Reo Prominent */
