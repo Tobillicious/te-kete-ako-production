@@ -515,6 +515,49 @@
             renderResources(filteredResources);
         }
         
+        // Get NZC learning area colors
+        function getSubjectColor(subject) {
+            const subjectLower = (subject || '').toLowerCase();
+            
+            if (subjectLower.includes('english')) return '#FF6B6B';
+            if (subjectLower.includes('te-reo') || subjectLower.includes('te-ao-maori')) return '#40B5AD';
+            if (subjectLower.includes('mathematics') || subjectLower.includes('math')) return '#4ECDC4';
+            if (subjectLower.includes('science')) return '#95E1D3';
+            if (subjectLower.includes('social')) return '#F9A826';
+            if (subjectLower.includes('technology')) return '#AA96DA';
+            if (subjectLower.includes('arts')) return '#FCBAD3';
+            if (subjectLower.includes('health') || subjectLower.includes('pe')) return '#FFFFD2';
+            if (subjectLower.includes('cross-curricular')) return 'linear-gradient(90deg, #FF6B6B, #4ECDC4, #95E1D3, #F9A826)';
+            
+            return 'var(--color-primary)'; // Default
+        }
+        
+        // Format subject label for display
+        function formatSubjectLabel(subject) {
+            if (!subject) return 'General';
+            
+            const labels = {
+                'english': 'English / Reo Pākehā',
+                'te-reo': 'Te Reo Māori',
+                'te-ao-maori': 'Te Ao Māori',
+                'mathematics': 'Mathematics / Pāngarau',
+                'science': 'Science / Pūtaiao',
+                'social-studies': 'Social Studies / Tikanga-ā-Iwi',
+                'technology': 'Technology / Hangarau',
+                'arts': 'The Arts / Ngā Toi',
+                'health-pe': 'Health & PE / Hauora',
+                'cross-curricular': 'Cross-Curricular / Marau Whakawhiti'
+            };
+            
+            // Handle compound subjects
+            if (subject.includes('+')) {
+                const parts = subject.split('+').map(s => s.trim());
+                return parts.map(p => labels[p] || p).join(' + ');
+            }
+            
+            return labels[subject] || subject.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        }
+        
         // Get subject-specific emoji based on content
         function getSubjectEmoji(subject, title) {
             const titleLower = (title || '').toLowerCase();
@@ -616,8 +659,11 @@
                     ? `Year ${Math.min(...resource.year_levels)}-${Math.max(...resource.year_levels)}`
                     : 'All Years';
 
+                const subjectColor = getSubjectColor(resource.subject);
+                const subjectLabel = formatSubjectLabel(resource.subject);
+
                 return `
-                    <div class="resource-card" style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;" 
+                    <div class="resource-card" style="background: white; border-radius: 12px; padding: 1.5rem 1.5rem 0 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; position: relative; overflow: hidden; display: flex; flex-direction: column;" 
                          onclick="window.location.href='${resource.url || '#'}'">
                         <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; font-size: 1.8rem;">
                             <span>${typeIcon}</span>
@@ -627,14 +673,14 @@
                             <div style="width: 32px; height: 32px; opacity: 0.2;"></div>
                         </div>
                         <h3 style="color: var(--color-primary); margin-bottom: 0.5rem; font-size: 1.2rem;">${resource.title}</h3>
-                        <p style="color: var(--color-text-secondary); font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.5;">${resource.description}</p>
-                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto;">
+                        <p style="color: var(--color-text-secondary); font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.5; flex: 1;">${resource.description}</p>
+                        <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
                             <span style="background: var(--color-background-light); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem; color: var(--color-text);">
                                 ${yearRange}
                             </span>
-                            <span style="background: linear-gradient(135deg, var(--color-primary), var(--color-secondary)); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem; color: white;">
-                                ${resource.subject?.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) || 'General'}
-                            </span>
+                        </div>
+                        <div style="background: ${subjectColor}; color: white; padding: 0.5rem 1rem; margin: 0 -1.5rem; text-align: center; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.5px;">
+                            ${subjectLabel}
                         </div>
                     </div>
                 `;
