@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & FAQ | Āwhina | Te Kete Ako</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css?v=24">
+    <link rel="stylesheet" href="css/maori-icons.css?v=3">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2C5F41">
+    <style>
+        .faq-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 4px solid var(--color-secondary);
+        }
+        .faq-question {
+            color: var(--color-primary);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .faq-answer {
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+        }
+        .faq-answer ul {
+            margin-top: 0.5rem;
+            padding-left: 1.5rem;
+        }
+        .faq-answer li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body data-auto-init="true" data-current-page="help">
+
+    <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                        <li>
+                            <a href="/browse.html">
+                                <span class="nav-icon">📚</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                                <span class="nav-text-en">Resources</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="/unit-plans.html"><span class="dropdown-mi">📚 Ngā Mahere Wāhanga</span><span class="dropdown-en">Unit Plans (6-8 weeks)</span></a></li>
+                                <li><a href="/lessons.html"><span class="dropdown-mi">📖 Ngā Mahere Akoranga</span><span class="dropdown-en">Lesson Plans (60-75 min)</span></a></li>
+                                <li><a href="/handouts.html"><span class="dropdown-mi">📄 Ngā Kape</span><span class="dropdown-en">Handouts & Materials</span></a></li>
+                                <li><a href="/browse.html"><span class="dropdown-mi">🔍 Tirohia Katoa</span><span class="dropdown-en">Browse All Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="/browse.html?filter=subject">
+                                <span class="nav-icon">🎨</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Marau</span>
+                                <span class="nav-text-en">Subjects</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="/browse.html?subject=english"><span class="dropdown-mi">📝 Reo Pākehā</span><span class="dropdown-en">English</span></a></li>
+                                <li><a href="/browse.html?subject=math"><span class="dropdown-mi">🔢 Pāngarau</span><span class="dropdown-en">Mathematics</span></a></li>
+                                <li><a href="/browse.html?subject=science"><span class="dropdown-mi">🔬 Pūtaiao</span><span class="dropdown-en">Science</span></a></li>
+                                <li><a href="/browse.html?subject=social-studies"><span class="dropdown-mi">🌏 Tikanga-ā-Iwi</span><span class="dropdown-en">Social Studies</span></a></li>
+                                <li><a href="/browse.html?subject=te-reo"><span class="dropdown-mi">🌿 Te Reo Māori</span><span class="dropdown-en">Māori Language</span></a></li>
+                                <li><a href="/browse.html?subject=arts"><span class="dropdown-mi">🎨 Ngā Toi</span><span class="dropdown-en">The Arts</span></a></li>
+                                <li><a href="/browse.html?subject=health-pe"><span class="dropdown-mi">💪 Hauora</span><span class="dropdown-en">Health & PE</span></a></li>
+                                <li><a href="/browse.html?subject=technology"><span class="dropdown-mi">🔧 Hangarau</span><span class="dropdown-en">Technology</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="/browse.html?filter=year">
+                                <span class="nav-icon">📅</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Tau</span>
+                                <span class="nav-text-en">Year Levels</span>
+                            </a>
+                            <div class="nav-dropdown nav-dropdown-wide">
+                                <div class="year-stage-label">Primary / Tuatahi (1-6)</div>
+                                <ul class="year-grid">
+                                    <li><a href="/browse.html?year=1"><span class="dropdown-mi">Tau 1</span><span class="dropdown-en">Year 1</span></a></li>
+                                    <li><a href="/browse.html?year=2"><span class="dropdown-mi">Tau 2</span><span class="dropdown-en">Year 2</span></a></li>
+                                    <li><a href="/browse.html?year=3"><span class="dropdown-mi">Tau 3</span><span class="dropdown-en">Year 3</span></a></li>
+                                </ul>
+                                <ul class="year-grid">
+                                    <li><a href="/browse.html?year=4"><span class="dropdown-mi">Tau 4</span><span class="dropdown-en">Year 4</span></a></li>
+                                    <li><a href="/browse.html?year=5"><span class="dropdown-mi">Tau 5</span><span class="dropdown-en">Year 5</span></a></li>
+                                    <li><a href="/browse.html?year=6"><span class="dropdown-mi">Tau 6</span><span class="dropdown-en">Year 6</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Intermediate / Waenga (7-8)</div>
+                                <ul class="year-grid">
+                                    <li><a href="/browse.html?year=7"><span class="dropdown-mi">Tau 7</span><span class="dropdown-en">Year 7</span></a></li>
+                                    <li><a href="/browse.html?year=8"><span class="dropdown-mi">Tau 8</span><span class="dropdown-en">Year 8</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Junior Secondary / Tuarua (9-10)</div>
+                                <ul class="year-grid">
+                                    <li><a href="/browse.html?year=9"><span class="dropdown-mi">Tau 9</span><span class="dropdown-en">Year 9</span></a></li>
+                                    <li><a href="/browse.html?year=10"><span class="dropdown-mi">Tau 10</span><span class="dropdown-en">Year 10</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Senior Secondary / NCEA (11-13)</div>
+                                <ul class="year-grid">
+                                    <li><a href="/browse.html?year=11"><span class="dropdown-mi">Tau 11</span><span class="dropdown-en">Year 11</span></a></li>
+                                    <li><a href="/browse.html?year=12"><span class="dropdown-mi">Tau 12</span><span class="dropdown-en">Year 12</span></a></li>
+                                    <li><a href="/browse.html?year=13"><span class="dropdown-mi">Tau 13</span><span class="dropdown-en">Year 13</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    <li>
+                        <a href="javascript:void(0)">
+                            <span class="nav-icon">📦</span>
+                            <span class="nav-text-mi" lang="mi">Ētahi Atu</span>
+                            <span class="nav-text-en">More Stuff</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="/games.html"><span class="dropdown-mi">🎮 Ngā Kēmu</span><span class="dropdown-en">Games</span></a></li>
+                                <li><a href="/youtube.html"><span class="dropdown-mi">📺 Ataata YouTube</span><span class="dropdown-en">YouTube Videos</span></a></li>
+                                <li><a href="/curriculum-alignment.html"><span class="dropdown-mi">📋 Te Marautanga</span><span class="dropdown-en">Curriculum Alignment</span></a></li>
+                                <li><a href="/other-resources.html"><span class="dropdown-mi">🔗 Ētahi Atu Rauemi</span><span class="dropdown-en">Other Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="auth-nav auth-logged-out">
+                        <a href="/login.html" class="auth-btn">
+                            <span class="nav-icon" data-icon="login"></span>
+                            <span class="nav-text-mi" lang="mi">Takiuru</span>
+                            <span class="nav-text-en">Login</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav auth-logged-in" style="display: none;">
+                        <a href="/my-kete.html" class="dashboard-btn">
+                            <span class="nav-icon" data-icon="kete"></span>
+                            <span class="nav-text-mi" lang="mi">Tōku Kete</span>
+                            <span class="nav-text-en">My Kete</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <aside class="left-sidebar no-print">
+            <!-- Whakataukī will be injected by daily-whakatauki.js -->
+            
+            <div class="sidebar-widget" style="margin-top: 2rem;">
+                <h3 class="sidebar-widget-title">
+                    <span class="sidebar-icon">🔗</span>
+                    <span>Quick Links</span>
+                </h3>
+                <ul>
+                    <li><a href="/about.html">ℹ️ About Us</a></li>
+                    <li><a href="/contact.html">✉️ Contact</a></li>
+                    <li><a href="/browse.html">🔍 Browse Resources</a></li>
+                    <li><a href="/register-simple.html">🚀 Create Account</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="content-area">
+            <div class="page-hero" style="background: linear-gradient(135deg, #f5a623 0%, #f4e4a6 100%); padding: 3rem 2rem; margin-bottom: 2rem; border-radius: 12px;">
+                <h1 style="color: var(--color-primary); margin-bottom: 0.5rem; font-size: 2.5rem;">
+                    <span style="display: block; font-size: 1.2rem; font-weight: 400; opacity: 0.8; margin-bottom: 0.5rem;">❓ Āwhina</span>
+                    Help & FAQ
+                </h1>
+                <p style="color: var(--color-text-primary); font-size: 1.2rem; max-width: 800px; line-height: 1.6;">
+                    Frequently Asked Questions and helpful tips for using Te Kete Ako
+                </p>
+            </div>
+
+            <section style="margin-bottom: 3rem;">
+                <h2 style="color: var(--color-primary); margin-bottom: 1.5rem; font-size: 1.8rem;">Getting Started | Tīmata Mai</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span style="color: var(--color-secondary); font-size: 1.3rem;">Q:</span>
+                        What is Te Kete Ako?
+                    </div>
+                    <div class="faq-answer">
+                        <strong>A:</strong> Te Kete Ako ("The Basket of Knowledge") is a free collection of high-quality educational resources for teachers and students in Aotearoa New Zealand. We provide unit plans, lesson plans, handouts, and interactive materials - all NZ Curriculum aligned and honoring Te Ao Māori perspectives.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span style="color: var(--color-secondary); font-size: 1.3rem;">Q:</span>
+                        Do I need an account to use the resources?
+                    </div>
+                    <div class="faq-answer">
+                        <strong>A:</strong> No! You can browse and download all resources without creating an account. However, having a free account lets you save favorite resources to "My Kete" for easy access later.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span style="color: var(--color-secondary); font-size: 1.3rem;">Q:</span>
+                        How do I create an account?
+                    </div>
+                    <div class="faq-answer">
+                        <strong>A:</strong> Click the "Login" button in the top navigation, then select "Create Account". You'll need an email address and password. Creating an account is free and takes less than a minute.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span style="color: var(--color-secondary); font-size: 1.3rem;">Q:</span>
+                        How much does it cost?
+                    </div>
+                    <div class="faq-answer">
+                        <strong>A:</strong> Te Kete Ako is completely free for all teachers and students in Aotearoa. We believe quality educational resources should be accessible to everyone.
+                    </div>
+                </div>
+            </section>
+
+            <section style="margin-bottom: 3rem;">
+                <h2 style="color: var(--color-primary); margin-bottom: 1.5rem; font-size: 1.8rem;">Using Resources | Whakamahi Rauemi</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span style="color: var(--color-secondary); font-size: 1.3rem;">Q:</span>
+                        How do I print resources?
+                    </div>
+                    <div class="faq-answer">
+                        <strong>A:</strong> All our handouts and lesson plans are optimized for A4 printing. Simply use your browser's print function (Cmd+P or Ctrl+P). The page will automatically hide navigation and adjust formatting for beautiful printouts.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span style="color: var(--color-secondary); font-size: 1.3rem;">Q:</span>
+                        Can I modify the resources for my classroom?
+                    </div>
+                    <div class="faq-answer">
+                        <strong>A:</strong> Yes! Feel free to adapt any resources to suit your students' needs. We encourage teachers to modify, remix, and personalize materials. Please maintain attribution to Te Kete Ako if sharing modified versions.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span style="color: var(--color-secondary); font-size: 1.3rem;">Q:</span>
+                        Are resources aligned to the NZ Curriculum?
+                    </div>
+                    <div class="faq-answer">
+                        <strong>A:</strong> Yes! Every resource includes explicit connections to NZ Curriculum Achievement Objectives. You'll find curriculum alignment information at the top of each lesson plan and handout.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span style="color: var(--color-secondary); font-size: 1.3rem;">Q:</span>
+                        How do I find resources for my year level or subject?
+                    </div>
+                    <div class="faq-answer">
+                        <strong>A:</strong> Use the navigation menus at the top to browse by:
+                        <ul>
+                            <li><strong>Subject:</strong> Click "Subjects" to see resources for English, Math, Science, Social Studies, etc.</li>
+                            <li><strong>Year Level:</strong> Click "Year Levels" to filter for Years 1-13</li>
+                            <li><strong>Type:</strong> Click "Resources" to browse Unit Plans, Lesson Plans, or Handouts</li>
+                        </ul>
+                        You can also use the "Browse All Resources" page with filtering options.
+                    </div>
+                </div>
+            </section>
+
+            <section style="margin-bottom: 3rem;">
+                <h2 style="color: var(--color-primary); margin-bottom: 1.5rem; font-size: 1.8rem;">Technical Questions | Ngā Pātai Hangarau</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span style="color: var(--color-secondary); font-size: 1.3rem;">Q:</span>
+                        The page isn't loading properly. What should I do?
+                    </div>
+                    <div class="faq-answer">
+                        <strong>A:</strong> Try these steps:
+                        <ul>
+                            <li>Refresh your browser (Cmd+R or F5)</li>
+                            <li>Clear your browser cache</li>
+                            <li>Try a different browser (we support Chrome, Firefox, Safari, Edge)</li>
+                            <li>Check your internet connection</li>
+                        </ul>
+                        If problems persist, please <a href="/contact.html" style="color: var(--color-secondary); font-weight: 600;">contact us</a>.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span style="color: var(--color-secondary); font-size: 1.3rem;">Q:</span>
+                        Can I use Te Kete Ako on my phone or tablet?
+                    </div>
+                    <div class="faq-answer">
+                        <strong>A:</strong> Yes! Te Kete Ako is fully responsive and works on phones, tablets, and desktop computers. For the best experience on mobile, consider adding the site to your home screen (it works as a Progressive Web App).
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span style="color: var(--color-secondary); font-size: 1.3rem;">Q:</span>
+                        I forgot my password. How do I reset it?
+                    </div>
+                    <div class="faq-answer">
+                        <strong>A:</strong> On the login page, click "Forgot Password". Enter your email address and you'll receive instructions to reset your password.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span style="color: var(--color-secondary); font-size: 1.3rem;">Q:</span>
+                        Can I access resources offline?
+                    </div>
+                    <div class="faq-answer">
+                        <strong>A:</strong> Te Kete Ako works as a Progressive Web App (PWA). Once you've visited pages, they'll be cached for offline access. For guaranteed offline use, we recommend printing or saving PDFs of resources you need.
+                    </div>
+                </div>
+            </section>
+
+            <section style="margin-bottom: 3rem;">
+                <h2 style="color: var(--color-primary); margin-bottom: 1.5rem; font-size: 1.8rem;">Teaching & Pedagogy | Ako me te Whakaako</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span style="color: var(--color-secondary); font-size: 1.3rem;">Q:</span>
+                        What makes Te Kete Ako different from other teaching resources?
+                    </div>
+                    <div class="faq-answer">
+                        <strong>A:</strong> Our resources are:
+                        <ul>
+                            <li><strong>Culturally authentic:</strong> Mātauranga Māori is integrated as foundational knowledge, not an add-on</li>
+                            <li><strong>Research-based:</strong> Grounded in critical pedagogy and culturally responsive teaching</li>
+                            <li><strong>NZ-specific:</strong> Built for Aotearoa's unique educational context</li>
+                            <li><strong>Print-optimized:</strong> Beautiful A4 printouts, not just screen-based</li>
+                            <li><strong>Teacher-created:</strong> Made by practicing teachers who understand classroom realities</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span style="color: var(--color-secondary); font-size: 1.3rem;">Q:</span>
+                        How do I integrate mātauranga Māori in my teaching?
+                    </div>
+                    <div class="faq-answer">
+                        <strong>A:</strong> Our resources model authentic integration. Look for:
+                        <ul>
+                            <li>Whakataukī (proverbs) that connect to learning concepts</li>
+                            <li>Te Ao Māori perspectives in every subject area</li>
+                            <li>Connections between mātauranga Māori and contemporary knowledge</li>
+                            <li>Cultural responsiveness notes in lesson plans</li>
+                        </ul>
+                        Remember: Integration is about honoring Māori ways of knowing as sophisticated, legitimate knowledge systems - not just "including" token cultural elements.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span style="color: var(--color-secondary); font-size: 1.3rem;">Q:</span>
+                        Can I contribute my own resources?
+                    </div>
+                    <div class="faq-answer">
+                        <strong>A:</strong> Yes! We welcome contributions from teachers. Please <a href="/contact.html" style="color: var(--color-secondary); font-weight: 600;">contact us</a> with your materials. All contributors retain ownership of their work and are properly credited.
+                    </div>
+                </div>
+            </section>
+
+            <section style="background: linear-gradient(135deg, var(--color-cultural-light) 0%, var(--color-cultural-accent) 100%); padding: 2.5rem; border-radius: 12px; text-align: center; margin-bottom: 2rem;">
+                <h2 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.6rem;">Still Have Questions?</h2>
+                <p style="font-size: 1.05rem; line-height: 1.7; color: var(--color-text-secondary); max-width: 700px; margin: 0 auto 1.5rem;">
+                    We're here to help! If you can't find the answer you're looking for, please get in touch.
+                </p>
+                <a href="/contact.html" style="background: var(--color-secondary); color: white; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-block; box-shadow: 0 4px 12px rgba(0,176,185,0.3);">
+                    ✉️ Contact Us
+                </a>
+            </section>
+
+            <section style="background: white; padding: 2rem; border-radius: 12px; box-shadow: var(--shadow-light); text-align: center;">
+                <p style="font-style: italic; color: var(--color-text-muted); font-family: var(--font-special); font-size: 1.1rem; margin-bottom: 0.5rem;">
+                    "Nāu te rourou, nāku te rourou, ka ora ai te iwi"
+                </p>
+                <p style="color: var(--color-text-secondary); font-size: 0.95rem;">
+                    With your basket and my basket, the people will prosper
+                </p>
+            </section>
+        </main>
+    </div>
+
+    <footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <!-- Brand Section -->
+                <div class="footer-section footer-brand">
+                    <h3>🧺 Te Kete Ako</h3>
+                    <p class="footer-whakataukī">"Whaowhia te kete mātauranga"</p>
+                    <p class="footer-tagline">Fill the basket of knowledge</p>
+                    <p class="footer-description">Quality teaching resources for Aotearoa New Zealand educators, honoring mātauranga Māori and contemporary pedagogy.</p>
+                </div>
+
+                <!-- Resources Section -->
+                <div class="footer-section footer-resources">
+                    <h4><span class="footer-mi">Ngā Rauemi</span> <span class="footer-en">Resources</span></h4>
+                    <ul>
+                        <li><a href="/unit-plans.html">📚 Unit Plans / Ngā Mahere Wāhanga</a></li>
+                        <li><a href="/lessons.html">📖 Lesson Plans / Ngā Akoranga</a></li>
+                        <li><a href="/handouts.html">📄 Handouts / Ngā Kape</a></li>
+                        <li><a href="/games.html">🎮 Games / Ngā Kēmu</a></li>
+                        <li><a href="/browse.html">🔍 Browse All / Tirohia Katoa</a></li>
+                    </ul>
+                </div>
+
+                <!-- Curriculum Section -->
+                <div class="footer-section footer-curriculum">
+                    <h4><span class="footer-mi">Te Marautanga</span> <span class="footer-en">Curriculum</span></h4>
+                    <ul>
+                        <li><a href="/browse.html?subject=english">📝 English / Reo Pākehā</a></li>
+                        <li><a href="/browse.html?subject=math">🔢 Mathematics / Pāngarau</a></li>
+                        <li><a href="/browse.html?subject=science">🔬 Science / Pūtaiao</a></li>
+                        <li><a href="/browse.html?subject=social-studies">🌏 Social Studies / Tikanga-ā-Iwi</a></li>
+                        <li><a href="/curriculum-alignment.html">📋 NZ Curriculum Alignment</a></li>
+                    </ul>
+                </div>
+
+                <!-- Account & Support Section -->
+                <div class="footer-section footer-support">
+                    <h4><span class="footer-mi">Tautoko</span> <span class="footer-en">Support</span></h4>
+                    <ul>
+                        <li><a href="/my-kete.html">🧺 My Kete / Tōku Kete</a></li>
+                        <li><a href="/login.html">🔐 Login / Takiuru</a></li>
+                        <li><a href="/about.html">ℹ️ About Us / Mō Mātou</a></li>
+                        <li><a href="/contact.html">✉️ Contact / Whakapā Mai</a></li>
+                        <li><a href="/help.html">❓ Help / Āwhina</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <span class="footer-copyright">© 2025 Te Kete Ako</span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-location">Aotearoa New Zealand</span>
+                    <span class="footer-separator">•</span>
+                    <a href="/privacy.html">Privacy</a>
+                    <span class="footer-separator">•</span>
+                    <a href="/terms.html">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Supabase CDN -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
+    <script src="js/auth-ui.js"></script>
+    <script src="js/shared-components.js"></script>
+    <script src="js/daily-whakatauki.js"></script>
+</body>
+</html>
+

@@ -223,11 +223,11 @@ class BrowseHeroes {
 
     renderSubjectHero(subjectKey) {
         const subject = this.subjects[subjectKey];
-        const main = document.querySelector('main.content-area');
-        if (!main) return;
+        const mainContainer = document.querySelector('.main-container');
+        if (!mainContainer) return;
 
         const hero = document.createElement('div');
-        hero.className = 'subject-hero';
+        hero.className = 'subject-hero browse-page-hero';
         hero.style.setProperty('--subject-color', subject.color);
         
         hero.innerHTML = `
@@ -257,20 +257,21 @@ class BrowseHeroes {
             </div>
         `;
 
-        main.insertBefore(hero, main.firstChild);
+        // Insert BEFORE main-container to span full width
+        mainContainer.parentNode.insertBefore(hero, mainContainer);
         
-        // Add pedagogy section separately after the hero
+        // Add pedagogy section separately after the hero (but still before main-container)
         if (subject.pedagogy) {
             const pedagogyBox = document.createElement('div');
-            pedagogyBox.className = 'hero-pedagogy-box';
+            pedagogyBox.className = 'hero-pedagogy-box browse-page-hero';
             pedagogyBox.innerHTML = `
                 <div class="hero-pedagogy">
-                    <strong>Research-Based Pedagogy</strong>
+                    <strong><span class="pedagogy-icon">🧺</span> Research-Based Pedagogy</strong>
                     <p>${subject.pedagogy}</p>
                     ${subject.culturalNote ? `<p class="cultural-note"><strong>Cultural Responsiveness:</strong> ${subject.culturalNote}</p>` : ''}
                 </div>
             `;
-            main.insertBefore(pedagogyBox, hero.nextSibling);
+            mainContainer.parentNode.insertBefore(pedagogyBox, mainContainer);
         }
         
         console.log(`[Browse Heroes] Rendered subject hero for ${subjectKey}`);
@@ -278,8 +279,8 @@ class BrowseHeroes {
 
     renderYearHero(yearLevel) {
         const year = this.yearLevels[yearLevel];
-        const main = document.querySelector('main.content-area');
-        if (!main) return;
+        const mainContainer = document.querySelector('.main-container');
+        if (!mainContainer) return;
 
         // Rainbow color progression for years 1-13 (evenly spaced across spectrum)
         const yearColors = {
@@ -301,7 +302,7 @@ class BrowseHeroes {
         const colors = yearColors[yearLevel] || yearColors['5'];
 
         const hero = document.createElement('div');
-        hero.className = 'year-hero';
+        hero.className = 'year-hero browse-page-hero';
         hero.style.setProperty('--year-color-start', colors.start);
         hero.style.setProperty('--year-color-mid', colors.mid);
         hero.style.setProperty('--year-color-end', colors.end);
@@ -344,7 +345,8 @@ class BrowseHeroes {
             </div>
         `;
 
-        main.insertBefore(hero, main.firstChild);
+        // Insert BEFORE main-container to span full width
+        mainContainer.parentNode.insertBefore(hero, mainContainer);
         console.log(`[Browse Heroes] Rendered year hero for Year ${yearLevel}`);
     }
 }
