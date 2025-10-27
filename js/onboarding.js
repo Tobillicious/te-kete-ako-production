@@ -141,8 +141,8 @@ function validateCurrentStep() {
                 return false;
             }
             
-            if (password.length < 6) {
-                showStepMessage('Password must be at least 6 characters', 'error', 1);
+            if (password.length < 8) {
+                showStepMessage('Password must be at least 8 characters', 'error', 1);
                 return false;
             }
             
