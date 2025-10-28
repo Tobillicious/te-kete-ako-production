@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories Challenge | Te Kete Ako Games</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #2C5F41, #40E0D0);
+            min-height: 100vh;
+            font-family: 'Lato', sans-serif;
+        }
+        
+        .game-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 1000px;
+            margin: 2rem auto;
+            overflow: hidden;
+        }
+        
+        .game-header {
+            background: linear-gradient(135deg, #B8860B, #2C5F41);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .game-content {
+            padding: 2rem;
+        }
+        
+        .category-display {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border: 3px solid var(--color-accent);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .category-text {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+        }
+        
+        .timer-display {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--color-secondary);
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .teams-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .team-card {
+            background: white;
+            border: 2px solid var(--color-accent);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .team-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-score {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--color-secondary);
+        }
+        
+        .answer-input-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .answer-input {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+            border: 2px solid var(--color-accent);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .answers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .answer-item {
+            background: white;
+            border: 2px solid #28a745;
+            border-radius: 8px;
+            padding: 0.75rem;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .answer-item.invalid {
+            border-color: #dc3545;
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .answer-item.cultural {
+            border-color: var(--color-cultural);
+            background: var(--color-cultural-light);
+        }
+        
+        .answer-item .points {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--color-secondary);
+        }
+        
+        .remove-answer {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .validation-message {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center;
+            font-weight: bold;
+            color: #856404;
+        }
+        
+        .validation-message.error {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        
+        .validation-message.success {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        
+        .game-btn {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .game-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .controls {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .round-display {
+            background: var(--color-cultural-light);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: bold;
+            color: var(--color-primary);
+        }
+        
+        .cultural-intro {
+            background: linear-gradient(135deg, #f0f8ff, #e6f3ff);
+            border: 3px solid #4a90e2;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+        
+        .examples-section {
+            background: #e8f5e8;
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .examples-title {
+            font-weight: bold;
+            color: #2c5aa0;
+            margin-bottom: 0.5rem;
+        }
+        
+        .examples-list {
+            font-size: 0.9rem;
+            color: #4a5568;
+            line-height: 1.4;
+        }
+        
+        @media (max-width: 768px) {
+            .game-container {
+                margin: 1rem;
+            }
+            
+            .category-text {
+                font-size: 1.5rem;
+            }
+            
+            .timer-display {
+                font-size: 2rem;
+            }
+            
+            .teams-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body data-auto-init="true" data-current-page="games-page" data-breadcrumb-path="games">
+    
+    <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                    <li>
+                        <a href="/browse.html">
+                            <span class="nav-icon">📚</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                            <span class="nav-text-en">Resources</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="/unit-plans.html"><span class="dropdown-mi">📚 Ngā Mahere Wāhanga</span><span class="dropdown-en">Unit Plans (6-8 weeks)</span></a></li>
+                                <li><a href="/lessons.html"><span class="dropdown-mi">📖 Ngā Mahere Akoranga</span><span class="dropdown-en">Lesson Plans (60-75 min)</span></a></li>
+                                <li><a href="/handouts.html"><span class="dropdown-mi">📄 Ngā Kape</span><span class="dropdown-en">Handouts & Materials</span></a></li>
+                                <li><a href="/browse.html"><span class="dropdown-mi">🔍 Tirohia Katoa</span><span class="dropdown-en">Browse All Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="/browse.html?filter=subject">
+                            <span class="nav-icon">🎨</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Marau</span>
+                            <span class="nav-text-en">Subjects</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="/browse.html?subject=english"><span class="dropdown-mi">📝 Reo Pākehā</span><span class="dropdown-en">English</span></a></li>
+                                <li><a href="/browse.html?subject=math"><span class="dropdown-mi">🔢 Pāngarau</span><span class="dropdown-en">Mathematics</span></a></li>
+                                <li><a href="/browse.html?subject=science"><span class="dropdown-mi">🔬 Pūtaiao</span><span class="dropdown-en">Science</span></a></li>
+                                <li><a href="/browse.html?subject=social-studies"><span class="dropdown-mi">🌏 Tikanga-ā-Iwi</span><span class="dropdown-en">Social Studies</span></a></li>
+                                <li><a href="/browse.html?subject=te-reo"><span class="dropdown-mi">🌿 Te Reo Māori</span><span class="dropdown-en">Māori Language</span></a></li>
+                                <li><a href="/browse.html?subject=arts"><span class="dropdown-mi">🎨 Ngā Toi</span><span class="dropdown-en">The Arts</span></a></li>
+                                <li><a href="/browse.html?subject=health-pe"><span class="dropdown-mi">💪 Hauora</span><span class="dropdown-en">Health & PE</span></a></li>
+                                <li><a href="/browse.html?subject=technology"><span class="dropdown-mi">🔧 Hangarau</span><span class="dropdown-en">Technology</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="/browse.html?filter=year">
+                            <span class="nav-icon">📅</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Tau</span>
+                            <span class="nav-text-en">Year Levels</span>
+                        </a>
+                        <div class="nav-dropdown nav-dropdown-wide">
+                            <div class="year-stage-label">Primary / Tuatahi (1-6)</div>
+                            <ul class="year-grid">
+                                <li><a href="/browse.html?year=1"><span class="dropdown-mi">Tau 1</span><span class="dropdown-en">Year 1</span></a></li>
+                                <li><a href="/browse.html?year=2"><span class="dropdown-mi">Tau 2</span><span class="dropdown-en">Year 2</span></a></li>
+                                <li><a href="/browse.html?year=3"><span class="dropdown-mi">Tau 3</span><span class="dropdown-en">Year 3</span></a></li>
+                            </ul>
+                            <ul class="year-grid">
+                                <li><a href="/browse.html?year=4"><span class="dropdown-mi">Tau 4</span><span class="dropdown-en">Year 4</span></a></li>
+                                <li><a href="/browse.html?year=5"><span class="dropdown-mi">Tau 5</span><span class="dropdown-en">Year 5</span></a></li>
+                                <li><a href="/browse.html?year=6"><span class="dropdown-mi">Tau 6</span><span class="dropdown-en">Year 6</span></a></li>
+                            </ul>
+                            <div class="year-stage-label">Intermediate / Waenga (7-8)</div>
+                            <ul class="year-grid">
+                                <li><a href="/browse.html?year=7"><span class="dropdown-mi">Tau 7</span><span class="dropdown-en">Year 7</span></a></li>
+                                <li><a href="/browse.html?year=8"><span class="dropdown-mi">Tau 8</span><span class="dropdown-en">Year 8</span></a></li>
+                            </ul>
+                            <div class="year-stage-label">Junior Secondary / Tuarua (9-10)</div>
+                            <ul class="year-grid">
+                                <li><a href="/browse.html?year=9"><span class="dropdown-mi">Tau 9</span><span class="dropdown-en">Year 9</span></a></li>
+                                <li><a href="/browse.html?year=10"><span class="dropdown-mi">Tau 10</span><span class="dropdown-en">Year 10</span></a></li>
+                            </ul>
+                            <div class="year-stage-label">Senior Secondary / NCEA (11-13)</div>
+                            <ul class="year-grid">
+                                <li><a href="/browse.html?year=11"><span class="dropdown-mi">Tau 11</span><span class="dropdown-en">Year 11</span></a></li>
+                                <li><a href="/browse.html?year=12"><span class="dropdown-mi">Tau 12</span><span class="dropdown-en">Year 12</span></a></li>
+                                <li><a href="/browse.html?year=13"><span class="dropdown-mi">Tau 13</span><span class="dropdown-en">Year 13</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#more">
+                            <span class="nav-icon">📦</span>
+                            <span class="nav-text-mi" lang="mi">Ētahi Atu</span>
+                            <span class="nav-text-en">More Stuff</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="/games.html"><span class="dropdown-mi">🎮 Ngā Kēmu</span><span class="dropdown-en">Games</span></a></li>
+                                <li><a href="/youtube.html"><span class="dropdown-mi">📺 Ataata YouTube</span><span class="dropdown-en">YouTube Videos</span></a></li>
+                                <li><a href="/curriculum-alignment.html"><span class="dropdown-mi">📋 Te Marautanga</span><span class="dropdown-en">Curriculum Alignment</span></a></li>
+                                <li><a href="/other-resources.html"><span class="dropdown-mi">🔗 Ētahi Atu Rauemi</span><span class="dropdown-en">Other Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="auth-nav auth-logged-out">
+                        <a href="/login.html" class="auth-btn">
+                            <span class="nav-icon" data-icon="login"></span>
+                            <span class="nav-text-mi" lang="mi">Takiuru</span>
+                            <span class="nav-text-en">Login</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav auth-logged-in" style="display: none;">
+                        <a href="/my-kete.html" class="dashboard-btn">
+                            <span class="nav-icon" data-icon="kete"></span>
+                            <span class="nav-text-mi" lang="mi">Tōku Kete</span>
+                            <span class="nav-text-en">My Kete</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="game-container">
+        <div class="game-header">
+            <h1>🎯 Categories Challenge</h1>
+            <p>Think fast and name things in different categories!</p>
+        </div>
+
+        <div class="cultural-intro">
+            <h3>🌿 Whakataukī</h3>
+            <p><em>"He kai kei a koe, he kai kei a au"</em></p>
+            <p>You have food, I have food - we both contribute to the feast</p>
+            <p>Like sharing kai, this game is about everyone contributing their knowledge to create something greater together.</p>
+        </div>
+
+        <div class="game-content">
+            <div class="category-display">
+                <div class="category-text" id="category-text">Pick a category to start!</div>
+                <div class="timer-display" id="timer">60</div>
+            </div>
+
+            <div class="examples-section" id="examples-section" style="display: none;">
+                <div class="examples-title">Examples for this category:</div>
+                <div class="examples-list" id="examples-list"></div>
+            </div>
+
+            <div class="answer-input-section" id="input-section" style="display: none;">
+                <h3>Enter items that fit the category:</h3>
+                <input type="text" id="answer-input" class="answer-input" placeholder="Type your answer and press Enter">
+                <div style="margin-bottom: 1rem;">
+                    <label>
+                        <input type="checkbox" id="cultural-bonus"> 
+                        This is a Te Reo Māori term (double points!)
+                    </label>
+                </div>
+                <button class="game-btn" id="add-answer">Add Answer</button>
+                
+                <div id="validation-message"></div>
+                
+                <div class="answers-grid" id="answers-grid">
+                    <!-- Valid answers will appear here -->
+                </div>
+                
+                <div class="controls">
+                    <button class="game-btn" id="finish-round">Finish Round</button>
+                    <button class="game-btn" id="new-category">New Category</button>
+                </div>
+            </div>
+
+            <div class="controls" id="start-controls">
+                <button class="game-btn" id="start-game">Start Game</button>
+                <a href="/games.html" class="game-btn">Back to Games</a>
+            </div>
+
+            <div class="teams-section" id="score-display" style="display: none;">
+                <div class="team-card">
+                    <div class="team-name">Your Score</div>
+                    <div class="team-score" id="player-score">0</div>
+                </div>
+                <div class="team-card">
+                    <div class="team-name">Valid Answers</div>
+                    <div class="team-score" id="valid-count">0</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/daily-whakatauki.js"></script>
+    <script src="../js/main.js"></script>
+
+    <script>
+        // Game state
+        let currentCategory = null;
+        let playerAnswers = [];
+        let score = 0;
+        let validAnswers = 0;
+        let gameTimer = null;
+        let timeLeft = 60;
+
+        // Comprehensive answer database for validation
+        const CATEGORY_ANSWERS = {
+            "Animals": {
+                examples: ["cat, dog, elephant, bird, fish"],
+                answers: new Set([
+                    "cat", "dog", "elephant", "bird", "fish", "lion", "tiger", "bear", "wolf", "fox",
+                    "rabbit", "mouse", "rat", "hamster", "guinea pig", "horse", "cow", "pig", "sheep", "goat",
+                    "chicken", "duck", "goose", "turkey", "eagle", "hawk", "owl", "parrot", "penguin", "ostrich",
+                    "shark", "whale", "dolphin", "octopus", "jellyfish", "crab", "lobster", "shrimp", "salmon", "tuna",
+                    "snake", "lizard", "turtle", "frog", "toad", "crocodile", "alligator", "spider", "bee", "ant",
+                    "butterfly", "moth", "dragonfly", "grasshopper", "cricket", "beetle", "ladybug", "fly", "mosquito",
+                    "kangaroo", "koala", "panda", "giraffe", "zebra", "hippopotamus", "rhinoceros", "cheetah", "leopard"
+                ]),
+                maori: new Set([
+                    "kuri", "ika", "manu", "poaka", "hipi", "kau", "hoiho", "kekeno", "tohora", "kiore", "pekapeka"
+                ])
+            },
+            "Food": {
+                examples: ["apple, bread, rice, pizza, salad"],
+                answers: new Set([
+                    "apple", "banana", "orange", "grape", "strawberry", "pineapple", "mango", "peach", "pear", "plum",
+                    "bread", "rice", "pasta", "pizza", "burger", "sandwich", "salad", "soup", "stew", "curry",
+                    "chicken", "beef", "pork", "fish", "egg", "cheese", "milk", "yogurt", "butter", "cream",
+                    "potato", "carrot", "broccoli", "spinach", "lettuce", "tomato", "cucumber", "onion", "garlic", "ginger",
+                    "cake", "cookie", "chocolate", "ice cream", "candy", "pie", "donut", "muffin", "pancake", "waffle"
+                ]),
+                maori: new Set([
+                    "kumara", "rewena", "hangi", "boil up", "kai", "ika", "miti", "puha", "watakaka", "pikopiko",
+                    "kamokamo", "taewa", "riwai", "paraoa", "hupa", "miraka"
+                ])
+            },
+            "Colors": {
+                examples: ["red, blue, green, yellow, purple"],
+                answers: new Set([
+                    "red", "blue", "green", "yellow", "purple", "orange", "pink", "brown", "black", "white",
+                    "gray", "grey", "silver", "gold", "maroon", "navy", "teal", "lime", "olive", "aqua",
+                    "fuchsia", "magenta", "cyan", "indigo", "violet", "crimson", "scarlet", "turquoise", "beige", "tan"
+                ]),
+                maori: new Set([
+                    "whero", "kikorangi", "kakariki", "kowhai", "waiporoporo", "karaka", "ma", "mangu", "kiwikiwi", "aukati"
+                ])
+            },
+            "Countries": {
+                examples: ["New Zealand, Australia, Japan, France, Brazil"],
+                answers: new Set([
+                    "new zealand", "australia", "japan", "france", "brazil", "united states", "usa", "canada", "mexico",
+                    "united kingdom", "uk", "england", "scotland", "wales", "ireland", "germany", "italy", "spain",
+                    "portugal", "netherlands", "belgium", "denmark", "sweden", "norway", "finland", "russia", "china",
+                    "india", "thailand", "vietnam", "south korea", "philippines", "indonesia", "malaysia", "singapore",
+                    "egypt", "south africa", "kenya", "nigeria", "morocco", "argentina", "chile", "peru", "colombia"
+                ]),
+                maori: new Set([
+                    "aotearoa", "ahitereiria", "tiamana", "wiwi", "kapene", "ingarangi", "kina", "hapani"
+                ])
+            },
+            "Sports": {
+                examples: ["rugby, soccer, basketball, swimming, tennis"],
+                answers: new Set([
+                    "rugby", "soccer", "football", "basketball", "swimming", "tennis", "cricket", "golf", "volleyball",
+                    "baseball", "softball", "hockey", "netball", "badminton", "squash", "table tennis", "ping pong",
+                    "boxing", "wrestling", "martial arts", "karate", "judo", "taekwondo", "running", "jogging",
+                    "cycling", "skiing", "snowboarding", "surfing", "sailing", "rowing", "gymnastics", "athletics",
+                    "track and field", "shot put", "javelin", "discus", "hammer throw", "pole vault", "high jump", "long jump"
+                ]),
+                maori: new Set([
+                    "whutupaoro", "whutuporo", "ki o rahi", "tapawai", "hauhunga", "kori", "kauhoe", "kōpere"
+                ])
+            },
+            "School Subjects": {
+                examples: ["math, english, science, social studies, art"],
+                answers: new Set([
+                    "math", "mathematics", "english", "science", "social studies", "art", "music", "physical education",
+                    "pe", "health", "technology", "te reo maori", "history", "geography", "biology", "chemistry",
+                    "physics", "economics", "psychology", "philosophy", "literature", "drama", "dance", "media studies",
+                    "computer science", "programming", "statistics", "calculus", "algebra", "geometry"
+                ]),
+                maori: new Set([
+                    "pangarau", "reo pakeha", "putaiao", "tikanga-a-iwi", "toi", "puoro", "hauora", "hangarau", "te reo maori"
+                ])
+            }
+        };
+
+        // Categories list
+        const CATEGORIES = Object.keys(CATEGORY_ANSWERS);
+
+        function startGame() {
+            document.getElementById('start-controls').style.display = 'none';
+            document.getElementById('score-display').style.display = 'grid';
+            newCategory();
+        }
+
+        function newCategory() {
+            // Reset game state
+            playerAnswers = [];
+            timeLeft = 60;
+            updateAnswersDisplay();
+            clearValidationMessage();
+            
+            // Pick random category
+            currentCategory = CATEGORIES[Math.floor(Math.random() * CATEGORIES.length)];
+            const categoryData = CATEGORY_ANSWERS[currentCategory];
+            
+            // Update display
+            document.getElementById('category-text').textContent = currentCategory;
+            document.getElementById('examples-list').textContent = categoryData.examples;
+            document.getElementById('examples-section').style.display = 'block';
+            document.getElementById('input-section').style.display = 'block';
+            document.getElementById('answer-input').focus();
+            
+            // Start timer
+            startTimer();
+        }
+
+        function startTimer() {
+            gameTimer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').textContent = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    endRound();
+                }
+            }, 1000);
+        }
+
+        function endRound() {
+            clearInterval(gameTimer);
+            document.getElementById('input-section').style.display = 'none';
+            showValidationMessage(`Time's up! You scored ${score} points with ${validAnswers} valid answers.`, 'success');
+        }
+
+        function addAnswer() {
+            const input = document.getElementById('answer-input');
+            const answer = input.value.trim().toLowerCase();
+            const isCultural = document.getElementById('cultural-bonus').checked;
+            
+            if (!answer) return;
+            
+            // Check for duplicates
+            if (playerAnswers.some(a => a.text === answer)) {
+                showValidationMessage('You already entered that answer!', 'error');
+                return;
+            }
+            
+            // Validate answer
+            const categoryData = CATEGORY_ANSWERS[currentCategory];
+            const isValid = categoryData.answers.has(answer) || categoryData.maori.has(answer);
+            const isMaoriTerm = categoryData.maori.has(answer);
+            
+            if (!isValid) {
+                showValidationMessage(`"${answer}" is not a valid answer for ${currentCategory}. Try something else!`, 'error');
+                return;
+            }
+            
+            // Add answer
+            const points = (isCultural && isMaoriTerm) ? 3 : (isCultural || isMaoriTerm) ? 2 : 1;
+            const answerObj = {
+                text: answer,
+                cultural: isCultural || isMaoriTerm,
+                points: points,
+                valid: true
+            };
+            
+            playerAnswers.push(answerObj);
+            score += points;
+            validAnswers++;
+            
+            // Show success
+            showValidationMessage(`Great! "${answer}" is valid. +${points} points!`, 'success');
+            
+            // Update display
+            updateAnswersDisplay();
+            updateScore();
+            
+            // Clear input
+            input.value = '';
+            document.getElementById('cultural-bonus').checked = false;
+            input.focus();
+        }
+
+        function updateAnswersDisplay() {
+            const grid = document.getElementById('answers-grid');
+            grid.innerHTML = '';
+            
+            playerAnswers.forEach((answer, index) => {
+                const answerDiv = document.createElement('div');
+                answerDiv.className = `answer-item ${answer.cultural ? 'cultural' : ''}`;
+                answerDiv.innerHTML = `
+                    <div>${answer.text}</div>
+                    <div class="points">+${answer.points} points</div>
+                    <button class="remove-answer" onclick="removeAnswer(${index})">×</button>
+                `;
+                grid.appendChild(answerDiv);
+            });
+        }
+
+        function removeAnswer(index) {
+            const removed = playerAnswers.splice(index, 1)[0];
+            score -= removed.points;
+            validAnswers--;
+            updateAnswersDisplay();
+            updateScore();
+        }
+
+        function updateScore() {
+            document.getElementById('player-score').textContent = score;
+            document.getElementById('valid-count').textContent = validAnswers;
+        }
+
+        function showValidationMessage(text, type) {
+            const messageDiv = document.getElementById('validation-message');
+            messageDiv.textContent = text;
+            messageDiv.className = `validation-message ${type}`;
+            
+            setTimeout(() => {
+                messageDiv.textContent = '';
+                messageDiv.className = 'validation-message';
+            }, 3000);
+        }
+
+        function clearValidationMessage() {
+            const messageDiv = document.getElementById('validation-message');
+            messageDiv.textContent = '';
+            messageDiv.className = 'validation-message';
+        }
+
+        // Event listeners
+        document.getElementById('start-game').addEventListener('click', startGame);
+        document.getElementById('new-category').addEventListener('click', newCategory);
+        document.getElementById('finish-round').addEventListener('click', endRound);
+        document.getElementById('add-answer').addEventListener('click', addAnswer);
+        
+        document.getElementById('answer-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                addAnswer();
+            }
+        });
+    </script>
+
+</body>
+</html>

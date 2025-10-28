@@ -4,40 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Māori Astronomy and Navigation Handout</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Māori Astronomy and Navigation | Te Kete Ako</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Lato:wght@400;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/main.css">
     <style>
         @media print {
-            @page {
-                size: A4;
-                margin: 8mm;
+            .question-block,
+            .analysis-item,
+            .activity-section,
+            section > div {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
             }
-
-            body {
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
+            h2, h3, h4 {
+                page-break-after: avoid !important;
             }
-        }
-
-        body {
-            font-family: 'Lato', sans-serif;
-        }
-
-        h1,
-        h2,
-        h3 {
-            font-family: 'Montserrat', sans-serif;
         }
     </style>
 </head>
 
-<body class="bg-gray-100">
+<body data-auto-init="true" data-current-page="handout-page">
 <header class="site-header no-print">
         <div class="nav-container">
             <a href="/index.html" class="nav-brand">
@@ -152,13 +140,7 @@
         </div>
     </header>
 
-    <div class="page-container">
-        <header class="text-center border-b-2 border-gray-200 pb-4 mb-6">
-            <h1 class="text-3xl font-bold text-gray-800">He Kōrero mō ngā Whetū: Māori Astronomy & Navigation</h1>
-            <p class="text-lg text-gray-600 mt-1">The Science of Reading the Stars</p>
-        </header>
-
-        <div class="no-print" style="background-color: var(--color-surface); padding: 1rem; border-radius: 8px; margin-bottom: 2rem; text-align: center; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+    <div class="no-print" style="background-color: var(--color-surface); padding: 1rem; border-radius: 8px; margin-bottom: 2rem; text-align: center; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
             <button 
                 data-save-resource 
                 data-resource-url="/handouts/maori-astronomy-navigation-handout.html"
@@ -173,7 +155,28 @@
             </button>
         </div>
 
-        <main>
+    <div class="main-container">
+        <!-- LEFT SIDEBAR: Whakataukī + Related Resources -->
+        <aside class="left-sidebar no-print">
+            <!-- Whakataukī: Auto-injected by daily-whakatauki.js - DO NOT ADD MANUALLY -->
+            
+            <!-- Related Resources Widget -->
+            <div class="sidebar-widget">
+                <h3 class="sidebar-widget-title">
+                    <span class="sidebar-icon">🌟</span>
+                    <span>Ngā Rauemi Hono / Related Resources</span>
+                </h3>
+                <ul>
+                    <li><a href="/handouts/traditional-navigation-mathematics-handout.html">📄 Traditional Navigation Mathematics</a></li>
+                    <li><a href="/handouts/traditional-ecological-indicators-handout.html">📄 Traditional Ecological Indicators</a></li>
+                    <li><a href="/handouts.html">📚 All Handouts</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="content-area">
+            <h1 style="color: var(--color-primary); border-bottom: 3px solid var(--color-secondary); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">He Kōrero mō ngā Whetū: Māori Astronomy & Navigation</h1>
+            <p style="font-size: 1.1rem; color: var(--color-text-secondary); margin-bottom: 2rem;">The Science of Reading the Stars</p>
             <section class="mb-6">
                 <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-200">
                     <h2 class="text-xl font-bold text-indigo-800 mb-2">A Science Written in the Sky</h2>
@@ -447,6 +450,7 @@
             </div>
         </div>
     </footer>
+    <script src="../js/daily-whakatauki.js"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="../js/supabase-client.js"></script>
     <script src="../js/save-resource.js"></script>

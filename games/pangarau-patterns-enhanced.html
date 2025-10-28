@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pāngarau Patterns Enhanced | Te Kete Ako Games</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        :root {
+            --primary-green: #2C5F41;
+            --accent-blue: #4a90e2;
+            --cultural-gold: #B8860B;
+            --success-green: #28a745;
+            --error-red: #dc3545;
+            --warning-orange: #ff9800;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-green), var(--accent-blue), #00b0b9);
+            min-height: 100vh;
+            font-family: 'Lato', sans-serif;
+            margin: 0;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Floating cultural patterns background */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><pattern id="koru" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M25,10 Q35,5 35,15 Q35,25 25,25 Q15,25 15,15 Q15,5 25,10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="200" height="200" fill="url(%23koru)"/></svg>') repeat;
+            opacity: 0.6;
+            animation: drift 60s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes drift {
+            0%, 100% { transform: translateX(-10px) translateY(-10px) rotate(0deg); }
+            25% { transform: translateX(10px) translateY(-5px) rotate(1deg); }
+            50% { transform: translateX(5px) translateY(10px) rotate(-1deg); }
+            75% { transform: translateX(-5px) translateY(5px) rotate(0.5deg); }
+        }
+        
+        .game-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 1000px;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .game-header {
+            background: linear-gradient(135deg, var(--cultural-gold), var(--primary-green));
+            color: white;
+            padding: 2.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .game-header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="tukutuku" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><rect width="20" height="20" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/><path d="M0,0 L20,20 M20,0 L0,20" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23tukutuku)"/></svg>') repeat;
+            opacity: 0.4;
+            animation: headerFloat 25s ease-in-out infinite;
+        }
+        
+        @keyframes headerFloat {
+            0%, 100% { transform: translateX(-3px) translateY(-3px) rotate(0deg); }
+            33% { transform: translateX(3px) translateY(-2px) rotate(0.5deg); }
+            66% { transform: translateX(-2px) translateY(3px) rotate(-0.5deg); }
+        }
+        
+        .game-title {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from { text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+            to { text-shadow: 2px 2px 8px rgba(255,255,255,0.3); }
+        }
+        
+        .game-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .cultural-intro {
+            background: linear-gradient(135deg, #f0f8ff, #e6f3ff);
+            border: 3px solid var(--accent-blue);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .cultural-intro:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(74, 144, 226, 0.3);
+        }
+        
+        .cultural-intro::before {
+            content: "🌿";
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-blue);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+        
+        .achievement-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--success-green), #20c997);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+            transform: translateX(400px);
+            transition: all 0.5s ease;
+            z-index: 1000;
+            font-weight: bold;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .achievement-toast.show {
+            transform: translateX(0);
+        }
+
+        .achievement-toast::before {
+            content: "🏆";
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .game-content {
+            padding: 2.5rem;
+        }
+        
+        .game-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 3px solid #dee2e6;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--accent-blue), var(--cultural-gold), var(--primary-green));
+            border-radius: 15px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+        
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: var(--cultural-gold);
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover .stat-number {
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        .stat-label {
+            font-size: 0.95rem;
+            color: #6c757d;
+            margin-top: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .stat-card:hover .stat-label {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e9ecef;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .progress-bar::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+            animation: shimmer 2s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success-green), #20c997, var(--accent-blue));
+            border-radius: 8px;
+            transition: width 0.8s ease;
+            width: 0%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+            animation: progressGlow 1.5s ease-in-out infinite;
+        }
+
+        @keyframes progressGlow {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+        }
+        
+        .pattern-display {
+            background: linear-gradient(135deg, #fff3e0, #f1f8e9);
+            border: 4px solid var(--warning-orange);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            min-height: 240px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(255, 152, 0, 0.2);
+            transition: all 0.4s ease;
+        }
+
+        .pattern-display:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 152, 0, 0.3);
+        }
+        
+        .pattern-title {
+            font-size: 1.7rem;
+            font-weight: bold;
+            color: #e65100;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .pattern-grid {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+        }
+        
+        .pattern-element {
+            width: 70px;
+            height: 70px;
+            border: 4px solid var(--accent-blue);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            font-weight: bold;
+            background: white;
+            transition: all 0.4s ease;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
+            animation: elementPulse 2s ease-in-out infinite;
+            animation-delay: calc(var(--delay) * 0.1s);
+        }
+
+        @keyframes elementPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .pattern-element.missing {
+            background: linear-gradient(45deg, #fff 25%, #f0f0f0 25%, #f0f0f0 50%, #fff 50%, #fff 75%, #f0f0f0 75%);
+            border-style: dashed;
+            color: #999;
+            animation: missingBounce 1.5s ease-in-out infinite;
+        }
+
+        @keyframes missingBounce {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(2deg); }
+        }
+        
+        .pattern-element.missing::after {
+            content: "?";
+            font-size: 2.5rem;
+            color: #666;
+            animation: questionGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes questionGlow {
+            from { color: #666; text-shadow: none; }
+            to { color: #999; text-shadow: 0 0 8px rgba(102, 102, 102, 0.5); }
+        }
+        
+        .choices-section {
+            margin: 2.5rem 0;
+        }
+        
+        .choices-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-blue);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .choices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+            gap: 1.5rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .choice-button {
+            width: 90px;
+            height: 90px;
+            border: 4px solid var(--accent-blue);
+            border-radius: 15px;
+            background: white;
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: var(--accent-blue);
+            cursor: pointer;
+            transition: all 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.2);
+        }
+
+        .choice-button::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(74, 144, 226, 0.3) 0%, transparent 70%);
+            transition: all 0.4s ease;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+        }
+        
+        .choice-button:hover {
+            background: var(--accent-blue);
+            color: white;
+            transform: scale(1.08) rotateZ(3deg);
+            box-shadow: 0 12px 35px rgba(74, 144, 226, 0.4);
+            border-color: white;
+        }
+
+        .choice-button:hover::before {
+            width: 200px;
+            height: 200px;
+        }
+        
+        .choice-button.correct {
+            background: var(--success-green);
+            color: white;
+            border-color: var(--success-green);
+            animation: correctCelebration 0.8s ease;
+            box-shadow: 0 0 30px rgba(40, 167, 69, 0.6);
+        }
+
+        @keyframes correctCelebration {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.2) rotate(5deg); }
+            50% { transform: scale(1.1) rotate(-3deg); }
+            75% { transform: scale(1.15) rotate(2deg); }
+            100% { transform: scale(1); }
+        }
+        
+        .choice-button.incorrect {
+            background: var(--error-red);
+            color: white;
+            border-color: var(--error-red);
+            animation: incorrectVibrate 0.8s ease;
+        }
+
+        @keyframes incorrectVibrate {
+            0%, 100% { transform: translateX(0); }
+            10% { transform: translateX(-8px) rotate(-2deg); }
+            20% { transform: translateX(8px) rotate(2deg); }
+            30% { transform: translateX(-6px) rotate(-1deg); }
+            40% { transform: translateX(6px) rotate(1deg); }
+            50% { transform: translateX(-4px); }
+            60% { transform: translateX(4px); }
+            70% { transform: translateX(-2px); }
+            80% { transform: translateX(2px); }
+            90% { transform: translateX(-1px); }
+        }
+        
+        .game-controls {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin: 2.5rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            position: relative;
+            overflow: hidden;
+            text-transform: none;
+        }
+
+        .btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue), #2c5aa0);
+            color: white;
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(74, 144, 226, 0.4);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--warning-orange), #e65100);
+            color: white;
+            box-shadow: 0 6px 20px rgba(255, 152, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(255, 152, 0, 0.4);
+        }
+
+        .btn-hint {
+            background: linear-gradient(135deg, var(--cultural-gold), #cd7f32);
+            color: white;
+            box-shadow: 0 6px 20px rgba(184, 134, 11, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-hint:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(184, 134, 11, 0.4);
+        }
+        
+        .message {
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin: 1.5rem 0;
+            text-align: center;
+            font-weight: bold;
+            transition: all 0.5s ease;
+            transform: scale(0.9) translateY(20px);
+            opacity: 0;
+            font-size: 1.1rem;
+            border: 3px solid transparent;
+        }
+        
+        .message.show {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+        
+        .message.success {
+            background: linear-gradient(135deg, #d4edda, #a3d5a7);
+            color: #155724;
+            border-color: var(--success-green);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.2);
+        }
+        
+        .message.error {
+            background: linear-gradient(135deg, #f8d7da, #f5a3a9);
+            color: #721c24;
+            border-color: var(--error-red);
+            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.2);
+        }
+
+        .message.info {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            color: #0d47a1;
+            border-color: var(--accent-blue);
+            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.2);
+        }
+        
+        .level-badge {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: linear-gradient(135deg, var(--cultural-gold), var(--warning-orange));
+            color: white;
+            padding: 0.8rem 1.2rem;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1rem;
+            box-shadow: 0 6px 20px rgba(184, 134, 11, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .level-badge:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(184, 134, 11, 0.5);
+        }
+
+        .combo-indicator {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: linear-gradient(135deg, var(--success-green), #20c997);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.3s ease;
+        }
+
+        .combo-indicator.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .streak-fire::before {
+            content: "🔥 ";
+        }
+
+        /* Enhanced mobile responsiveness */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .game-header {
+                padding: 2rem 1rem;
+            }
+            
+            .game-title {
+                font-size: 2.2rem;
+            }
+            
+            .game-content {
+                padding: 1.5rem;
+            }
+            
+            .pattern-element {
+                width: 60px;
+                height: 60px;
+                font-size: 1.4rem;
+            }
+            
+            .choice-button {
+                width: 80px;
+                height: 80px;
+                font-size: 1.4rem;
+            }
+            
+            .cultural-intro {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+
+            .game-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .stat-card {
+                padding: 1rem;
+            }
+
+            .stat-number {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Special visual effects for celebrations */
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--cultural-gold);
+            animation: confettiFall 3s linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Audio control button */
+        .audio-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--primary-green));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .audio-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4);
+        }
+
+        .audio-toggle.muted {
+            background: linear-gradient(135deg, #6c757d, #495057);
+        }
+    </style>
+</head>
+
+<body data-auto-init="true" data-current-page="games-page" data-breadcrumb-path="games">
+    
+    <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                    <li>
+                        <a href="/browse.html">
+                            <span class="nav-icon">📚</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                            <span class="nav-text-en">Resources</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="/unit-plans.html"><span class="dropdown-mi">📚 Ngā Mahere Wāhanga</span><span class="dropdown-en">Unit Plans (6-8 weeks)</span></a></li>
+                                <li><a href="/lessons.html"><span class="dropdown-mi">📖 Ngā Mahere Akoranga</span><span class="dropdown-en">Lesson Plans (60-75 min)</span></a></li>
+                                <li><a href="/handouts.html"><span class="dropdown-mi">📄 Ngā Kape</span><span class="dropdown-en">Handouts & Materials</span></a></li>
+                                <li><a href="/browse.html"><span class="dropdown-mi">🔍 Tirohia Katoa</span><span class="dropdown-en">Browse All Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="/browse.html?filter=subject">
+                            <span class="nav-icon">🎨</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Marau</span>
+                            <span class="nav-text-en">Subjects</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="/browse.html?subject=english"><span class="dropdown-mi">📝 Reo Pākehā</span><span class="dropdown-en">English</span></a></li>
+                                <li><a href="/browse.html?subject=math"><span class="dropdown-mi">🔢 Pāngarau</span><span class="dropdown-en">Mathematics</span></a></li>
+                                <li><a href="/browse.html?subject=science"><span class="dropdown-mi">🔬 Pūtaiao</span><span class="dropdown-en">Science</span></a></li>
+                                <li><a href="/browse.html?subject=social-studies"><span class="dropdown-mi">🌏 Tikanga-ā-Iwi</span><span class="dropdown-en">Social Studies</span></a></li>
+                                <li><a href="/browse.html?subject=te-reo"><span class="dropdown-mi">🌿 Te Reo Māori</span><span class="dropdown-en">Māori Language</span></a></li>
+                                <li><a href="/browse.html?subject=arts"><span class="dropdown-mi">🎨 Ngā Toi</span><span class="dropdown-en">The Arts</span></a></li>
+                                <li><a href="/browse.html?subject=health-pe"><span class="dropdown-mi">💪 Hauora</span><span class="dropdown-en">Health & PE</span></a></li>
+                                <li><a href="/browse.html?subject=technology"><span class="dropdown-mi">🔧 Hangarau</span><span class="dropdown-en">Technology</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="/browse.html?filter=year">
+                            <span class="nav-icon">📅</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Tau</span>
+                            <span class="nav-text-en">Year Levels</span>
+                        </a>
+                        <div class="nav-dropdown nav-dropdown-wide">
+                            <div class="year-stage-label">Primary / Tuatahi (1-6)</div>
+                            <ul class="year-grid">
+                                <li><a href="/browse.html?year=1"><span class="dropdown-mi">Tau 1</span><span class="dropdown-en">Year 1</span></a></li>
+                                <li><a href="/browse.html?year=2"><span class="dropdown-mi">Tau 2</span><span class="dropdown-en">Year 2</span></a></li>
+                                <li><a href="/browse.html?year=3"><span class="dropdown-mi">Tau 3</span><span class="dropdown-en">Year 3</span></a></li>
+                            </ul>
+                            <ul class="year-grid">
+                                <li><a href="/browse.html?year=4"><span class="dropdown-mi">Tau 4</span><span class="dropdown-en">Year 4</span></a></li>
+                                <li><a href="/browse.html?year=5"><span class="dropdown-mi">Tau 5</span><span class="dropdown-en">Year 5</span></a></li>
+                                <li><a href="/browse.html?year=6"><span class="dropdown-mi">Tau 6</span><span class="dropdown-en">Year 6</span></a></li>
+                            </ul>
+                            <div class="year-stage-label">Intermediate / Waenga (7-8)</div>
+                            <ul class="year-grid">
+                                <li><a href="/browse.html?year=7"><span class="dropdown-mi">Tau 7</span><span class="dropdown-en">Year 7</span></a></li>
+                                <li><a href="/browse.html?year=8"><span class="dropdown-mi">Tau 8</span><span class="dropdown-en">Year 8</span></a></li>
+                            </ul>
+                            <div class="year-stage-label">Junior Secondary / Tuarua (9-10)</div>
+                            <ul class="year-grid">
+                                <li><a href="/browse.html?year=9"><span class="dropdown-mi">Tau 9</span><span class="dropdown-en">Year 9</span></a></li>
+                                <li><a href="/browse.html?year=10"><span class="dropdown-mi">Tau 10</span><span class="dropdown-en">Year 10</span></a></li>
+                            </ul>
+                            <div class="year-stage-label">Senior Secondary / NCEA (11-13)</div>
+                            <ul class="year-grid">
+                                <li><a href="/browse.html?year=11"><span class="dropdown-mi">Tau 11</span><span class="dropdown-en">Year 11</span></a></li>
+                                <li><a href="/browse.html?year=12"><span class="dropdown-mi">Tau 12</span><span class="dropdown-en">Year 12</span></a></li>
+                                <li><a href="/browse.html?year=13"><span class="dropdown-mi">Tau 13</span><span class="dropdown-en">Year 13</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#more">
+                            <span class="nav-icon">📦</span>
+                            <span class="nav-text-mi" lang="mi">Ētahi Atu</span>
+                            <span class="nav-text-en">More Stuff</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="/games.html"><span class="dropdown-mi">🎮 Ngā Kēmu</span><span class="dropdown-en">Games</span></a></li>
+                                <li><a href="/youtube.html"><span class="dropdown-mi">📺 Ataata YouTube</span><span class="dropdown-en">YouTube Videos</span></a></li>
+                                <li><a href="/curriculum-alignment.html"><span class="dropdown-mi">📋 Te Marautanga</span><span class="dropdown-en">Curriculum Alignment</span></a></li>
+                                <li><a href="/other-resources.html"><span class="dropdown-mi">🔗 Ētahi Atu Rauemi</span><span class="dropdown-en">Other Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="auth-nav auth-logged-out">
+                        <a href="/login.html" class="auth-btn">
+                            <span class="nav-icon" data-icon="login"></span>
+                            <span class="nav-text-mi" lang="mi">Takiuru</span>
+                            <span class="nav-text-en">Login</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav auth-logged-in" style="display: none;">
+                        <a href="/my-kete.html" class="dashboard-btn">
+                            <span class="nav-icon" data-icon="kete"></span>
+                            <span class="nav-text-mi" lang="mi">Tōku Kete</span>
+                            <span class="nav-text-en">My Kete</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="game-container">
+        <div class="game-header">
+            <div class="level-badge" id="levelBadge">Level 1</div>
+            <div class="combo-indicator" id="comboIndicator">Combo x1</div>
+            <h1 class="game-title">🧮 Pāngarau Patterns</h1>
+            <p class="game-subtitle">Enhanced Mathematics & Māori Geometric Patterns</p>
+        </div>
+
+        <div class="cultural-intro">
+            <h3>Whakataukī | Proverb</h3>
+            <p class="whakatauki">"Tūwhitia te hopo, kia māia"</p>
+            <p class="translation">Feel the fear and be brave anyway.</p>
+            <p class="connection">Mathematical patterns exist everywhere in Te Taiao (the natural world). Like our tīpuna who used geometric patterns in their weaving and carving, we discover the mathematical relationships that create beauty and meaning in our world.</p>
+        </div>
+
+        <div class="game-content">
+            <div class="game-stats">
+                <div class="stat-card">
+                    <span class="stat-number" id="scoreDisplay">0</span>
+                    <span class="stat-label">Kaute / Score</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="streakDisplay">0</span>
+                    <span class="stat-label">Raina / Streak</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="completedDisplay">0</span>
+                    <span class="stat-label">Oti / Completed</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="accuracyDisplay">100%</span>
+                    <span class="stat-label">Tika / Accuracy</span>
+                </div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="pattern-display" id="patternDisplay">
+                <div class="pattern-title" id="patternTitle">Loading pattern...</div>
+                <div class="pattern-grid" id="patternGrid">
+                    <!-- Pattern elements will be generated here -->
+                </div>
+            </div>
+
+            <div class="choices-section">
+                <div class="choices-title">He aha te mea mutunga? / What comes next?</div>
+                <div class="choices-grid" id="choicesGrid">
+                    <!-- Choice buttons will be generated here -->
+                </div>
+            </div>
+
+            <div id="messageContainer"></div>
+
+            <div class="game-controls">
+                <button class="btn btn-primary" onclick="newPattern()">🔄 He Tauira Hōu / New Pattern</button>
+                <button class="btn btn-hint" onclick="showHint()">💡 Āwhina / Hint</button>
+                <button class="btn btn-secondary" onclick="resetGame()">🌟 Reset Game</button>
+                <a href="/games.html" class="btn btn-secondary">⬅️ Hoki / Back to Games</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Achievement Toast -->
+    <div class="achievement-toast" id="achievementToast"></div>
+    
+    <!-- Audio Toggle -->
+    <button class="audio-toggle" id="audioToggle" onclick="toggleAudio()">🔊</button>
+    
+    <!-- Celebration Container -->
+    <div class="celebration" id="celebrationContainer"></div>
+
+    <script src="../js/daily-whakatauki.js"></script>
+    <script src="../js/main.js"></script>
+
+    <script>
+        // Game state
+        let currentLevel = 1;
+        let score = 0;
+        let streak = 0;
+        let completed = 0;
+        let attempted = 0;
+        let currentPattern = null;
+        let currentAnswer = null;
+        let hintsUsed = 0;
+        let soundEnabled = true;
+        let achievements = [];
+
+        // Enhanced pattern types with more cultural context
+        const PATTERN_TYPES = {
+            arithmetic: {
+                name: "Tatauranga Tawhiti / Arithmetic Sequence",
+                description: "Numbers that increase or decrease by the same amount",
+                culturalNote: "Like counting pounamu stones in equal groups",
+                minLevel: 1,
+                maxLevel: 10,
+                emoji: "📊"
+            },
+            geometric: {
+                name: "Tukutuku Tawhiti / Geometric Sequence", 
+                description: "Numbers that multiply by the same amount",
+                culturalNote: "Like the growth patterns in nature - koru spirals",
+                minLevel: 2,
+                maxLevel: 10,
+                emoji: "🌿"
+            },
+            fibonacci: {
+                name: "Koru Tawhiti / Spiral Sequence",
+                description: "Each number is the sum of the two before",
+                culturalNote: "Like the unfurling of pikopiko ferns",
+                minLevel: 4,
+                maxLevel: 10,
+                emoji: "🌀"
+            },
+            squares: {
+                name: "Tapatoru / Square Numbers",
+                description: "Numbers multiplied by themselves",
+                culturalNote: "Like the four sides of a marae ātea",
+                minLevel: 2,
+                maxLevel: 8,
+                emoji: "⬛"
+            },
+            cubes: {
+                name: "Tapawhā / Cube Numbers",
+                description: "Numbers multiplied by themselves three times",
+                culturalNote: "Like stacking kupu blocks in perfect cubes",
+                minLevel: 5,
+                maxLevel: 8,
+                emoji: "🧊"
+            },
+            triangular: {
+                name: "Tapatoru Tipu / Triangular Numbers",
+                description: "Numbers that form triangular patterns",
+                culturalNote: "Like arranging poi in triangular formations",
+                minLevel: 3,
+                maxLevel: 9,
+                emoji: "🔺"
+            },
+            prime: {
+                name: "Tau Motuhake / Prime Numbers",
+                description: "Numbers divisible only by 1 and themselves",
+                culturalNote: "Like unique whakapapa lines that cannot be divided",
+                minLevel: 6,
+                maxLevel: 10,
+                emoji: "💎"
+            },
+            visual: {
+                name: "Atahua Tawhiti / Visual Patterns",
+                description: "Patterns using Māori symbols and shapes",
+                culturalNote: "Like traditional kowhaiwhai and tukutuku designs",
+                minLevel: 1,
+                maxLevel: 10,
+                emoji: "🎨"
+            }
+        };
+
+        // Enhanced visual symbols with cultural meaning
+        const VISUAL_SYMBOLS = {
+            traditional: ['◗', '◐', '◑', '●', '◯', '▲', '▼', '♦', '◆', '★'],
+            maori: ['🌿', '🌀', '⭕', '🔷', '🔸', '🔺', '🔻', '⬢', '⬡', '✦'],
+            nature: ['🌱', '🍃', '🌊', '🏔️', '⭐', '☀️', '🌙', '🔥', '💧', '🌈']
+        };
+
+        // Achievement system
+        const ACHIEVEMENTS = {
+            'first_correct': { name: 'Tīmata Pai', description: 'First correct answer!', icon: '🌟' },
+            'streak_5': { name: 'Raina 5', description: '5 correct in a row!', icon: '🔥' },
+            'streak_10': { name: 'Raina 10', description: '10 correct in a row!', icon: '⚡' },
+            'level_5': { name: 'Level 5 Rangatira', description: 'Reached Level 5!', icon: '👑' },
+            'level_10': { name: 'Pāngarau Master', description: 'Maximum Level reached!', icon: '🏆' },
+            'perfectionist': { name: 'Tika Katoa', description: '100% accuracy for 20 questions!', icon: '💯' },
+            'pattern_master': { name: 'Pattern Rangatira', description: 'Mastered all pattern types!', icon: '🧠' }
+        };
+        
+        // Initialize game
+        function initGame() {
+            updateDisplay();
+            newPattern();
+            loadAchievements();
+        }
+
+        function updateDisplay() {
+            document.getElementById('scoreDisplay').textContent = score;
+            document.getElementById('streakDisplay').textContent = streak;
+            document.getElementById('completedDisplay').textContent = completed;
+            document.getElementById('levelBadge').textContent = `Level ${currentLevel}`;
+            
+            // Calculate and display accuracy
+            const accuracy = attempted > 0 ? Math.round((completed / attempted) * 100) : 100;
+            document.getElementById('accuracyDisplay').textContent = accuracy + '%';
+            
+            // Update progress bar (8 patterns per level)
+            const progress = (completed % 8) * 12.5;
+            document.getElementById('progressFill').style.width = progress + '%';
+
+            // Update combo indicator
+            const comboIndicator = document.getElementById('comboIndicator');
+            if (streak >= 3) {
+                comboIndicator.textContent = `🔥 Combo x${streak}`;
+                comboIndicator.classList.add('show', 'streak-fire');
+            } else {
+                comboIndicator.classList.remove('show', 'streak-fire');
+            }
+        }
+
+        function getAvailablePatternTypes() {
+            return Object.keys(PATTERN_TYPES).filter(type => 
+                PATTERN_TYPES[type].minLevel <= currentLevel && 
+                PATTERN_TYPES[type].maxLevel >= currentLevel
+            );
+        }
+
+        function generateArithmeticPattern() {
+            const startValue = Math.floor(Math.random() * 20) + 1;
+            const difference = Math.floor(Math.random() * 8) + 1;
+            const length = Math.min(4 + Math.floor(currentLevel / 2), 7);
+            
+            const sequence = [];
+            for (let i = 0; i < length; i++) {
+                sequence.push(startValue + (i * difference));
+            }
+            
+            return {
+                sequence: sequence.slice(0, -1),
+                answer: sequence[sequence.length - 1],
+                type: 'arithmetic',
+                hint: `Each number increases by ${difference}`,
+                difficulty: Math.ceil(difference / 2)
+            };
+        }
+
+        function generateGeometricPattern() {
+            const startValue = Math.floor(Math.random() * 5) + 2;
+            const ratio = Math.floor(Math.random() * 3) + 2;
+            const length = Math.min(3 + Math.floor(currentLevel / 3), 5);
+            
+            const sequence = [];
+            for (let i = 0; i < length; i++) {
+                sequence.push(startValue * Math.pow(ratio, i));
+            }
+            
+            return {
+                sequence: sequence.slice(0, -1),
+                answer: sequence[sequence.length - 1],
+                type: 'geometric',
+                hint: `Each number is multiplied by ${ratio}`,
+                difficulty: ratio
+            };
+        }
+
+        function generateFibonacciPattern() {
+            const start1 = Math.floor(Math.random() * 5) + 1;
+            const start2 = Math.floor(Math.random() * 5) + 1;
+            const length = Math.min(4 + Math.floor(currentLevel / 4), 6);
+            
+            const sequence = [start1, start2];
+            for (let i = 2; i < length; i++) {
+                sequence.push(sequence[i-1] + sequence[i-2]);
+            }
+            
+            return {
+                sequence: sequence.slice(0, -1),
+                answer: sequence[sequence.length - 1],
+                type: 'fibonacci',
+                hint: `Each number is the sum of the two before it`,
+                difficulty: 3
+            };
+        }
+
+        function generateSquarePattern() {
+            const startNum = Math.floor(Math.random() * 5) + 1;
+            const length = Math.min(3 + Math.floor(currentLevel / 3), 5);
+            
+            const sequence = [];
+            for (let i = 0; i < length; i++) {
+                const num = startNum + i;
+                sequence.push(num * num);
+            }
+            
+            return {
+                sequence: sequence.slice(0, -1),
+                answer: sequence[sequence.length - 1],
+                type: 'squares',
+                hint: `These are square numbers: each number × itself`,
+                difficulty: 2
+            };
+        }
+
+        function generateCubePattern() {
+            const startNum = Math.floor(Math.random() * 4) + 1;
+            const length = Math.min(3 + Math.floor(currentLevel / 5), 4);
+            
+            const sequence = [];
+            for (let i = 0; i < length; i++) {
+                const num = startNum + i;
+                sequence.push(num * num * num);
+            }
+            
+            return {
+                sequence: sequence.slice(0, -1),
+                answer: sequence[sequence.length - 1],
+                type: 'cubes',
+                hint: `These are cube numbers: each number × itself × itself`,
+                difficulty: 4
+            };
+        }
+
+        function generateTriangularPattern() {
+            const startNum = Math.floor(Math.random() * 4) + 1;
+            const length = Math.min(3 + Math.floor(currentLevel / 4), 5);
+            
+            const sequence = [];
+            for (let i = 0; i < length; i++) {
+                const n = startNum + i;
+                sequence.push((n * (n + 1)) / 2);
+            }
+            
+            return {
+                sequence: sequence.slice(0, -1),
+                answer: sequence[sequence.length - 1],
+                type: 'triangular',
+                hint: `Triangular numbers: n × (n + 1) ÷ 2`,
+                difficulty: 3
+            };
+        }
+
+        function generatePrimePattern() {
+            const primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47];
+            const startIndex = Math.floor(Math.random() * 3);
+            const length = Math.min(3 + Math.floor(currentLevel / 6), 5);
+            
+            const sequence = primes.slice(startIndex, startIndex + length);
+            
+            return {
+                sequence: sequence.slice(0, -1),
+                answer: sequence[sequence.length - 1],
+                type: 'prime',
+                hint: `These are prime numbers - only divisible by 1 and themselves`,
+                difficulty: 5
+            };
+        }
+
+        function generateVisualPattern() {
+            const symbolSets = Object.keys(VISUAL_SYMBOLS);
+            const chosenSet = symbolSets[Math.floor(Math.random() * symbolSets.length)];
+            const symbols = VISUAL_SYMBOLS[chosenSet];
+            
+            const patternLength = Math.floor(Math.random() * 3) + 2; // 2-4 symbol pattern
+            const repetitions = Math.floor(Math.random() * 2) + 2; // 2-3 full repetitions
+            const chosenSymbols = symbols.slice(0, patternLength);
+            
+            const sequence = [];
+            for (let i = 0; i < repetitions; i++) {
+                sequence.push(...chosenSymbols);
+            }
+            
+            // Add partial last repetition
+            const partialLength = Math.floor(Math.random() * (patternLength - 1)) + 1;
+            sequence.push(...chosenSymbols.slice(0, partialLength));
+            
+            const answer = chosenSymbols[partialLength % chosenSymbols.length];
+            
+            return {
+                sequence: sequence,
+                answer: answer,
+                type: 'visual',
+                hint: `The pattern repeats every ${patternLength} symbols`,
+                isVisual: true,
+                difficulty: 1
+            };
+        }
+
+        function newPattern() {
+            clearMessage();
+            
+            const availableTypes = getAvailablePatternTypes();
+            const randomType = availableTypes[Math.floor(Math.random() * availableTypes.length)];
+            
+            let pattern;
+            switch(randomType) {
+                case 'arithmetic':
+                    pattern = generateArithmeticPattern();
+                    break;
+                case 'geometric':
+                    pattern = generateGeometricPattern();
+                    break;
+                case 'fibonacci':
+                    pattern = generateFibonacciPattern();
+                    break;
+                case 'squares':
+                    pattern = generateSquarePattern();
+                    break;
+                case 'cubes':
+                    pattern = generateCubePattern();
+                    break;
+                case 'triangular':
+                    pattern = generateTriangularPattern();
+                    break;
+                case 'prime':
+                    pattern = generatePrimePattern();
+                    break;
+                case 'visual':
+                    pattern = generateVisualPattern();
+                    break;
+            }
+            
+            currentPattern = pattern;
+            currentAnswer = pattern.answer;
+            
+            displayPattern(pattern);
+            generateChoices(pattern);
+            attempted++;
+        }
+
+        function displayPattern(pattern) {
+            const typeInfo = PATTERN_TYPES[pattern.type];
+            const title = `${typeInfo.emoji} ${typeInfo.name}`;
+            document.getElementById('patternTitle').textContent = title;
+            
+            const grid = document.getElementById('patternGrid');
+            grid.innerHTML = '';
+            
+            // Display sequence with staggered animation
+            pattern.sequence.forEach((item, index) => {
+                const element = document.createElement('div');
+                element.className = 'pattern-element';
+                element.textContent = item;
+                element.style.setProperty('--delay', index);
+                grid.appendChild(element);
+            });
+            
+            // Add missing element placeholder
+            const missingElement = document.createElement('div');
+            missingElement.className = 'pattern-element missing';
+            missingElement.style.setProperty('--delay', pattern.sequence.length);
+            grid.appendChild(missingElement);
+        }
+
+        function generateChoices(pattern) {
+            const choices = new Set();
+            choices.add(pattern.answer);
+            
+            // Generate more sophisticated wrong answers
+            while (choices.size < 4) {
+                let wrongAnswer;
+                if (pattern.isVisual) {
+                    const allSymbols = Object.values(VISUAL_SYMBOLS).flat();
+                    wrongAnswer = allSymbols[Math.floor(Math.random() * allSymbols.length)];
+                } else {
+                    // Generate contextually appropriate wrong answers
+                    const variation = Math.floor(Math.random() * 10) + 1;
+                    const operations = [
+                        pattern.answer + variation,
+                        pattern.answer - variation,
+                        pattern.answer * 2,
+                        Math.floor(pattern.answer / 2)
+                    ];
+                    wrongAnswer = operations[Math.floor(Math.random() * operations.length)];
+                    if (wrongAnswer <= 0) wrongAnswer = Math.abs(wrongAnswer) + 1;
+                }
+                choices.add(wrongAnswer);
+            }
+            
+            const choicesArray = Array.from(choices).sort(() => Math.random() - 0.5);
+            
+            const grid = document.getElementById('choicesGrid');
+            grid.innerHTML = '';
+            
+            choicesArray.forEach(choice => {
+                const button = document.createElement('button');
+                button.className = 'choice-button';
+                button.textContent = choice;
+                button.onclick = () => checkAnswer(choice, button);
+                grid.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedAnswer, buttonElement) {
+            const allButtons = document.querySelectorAll('.choice-button');
+            allButtons.forEach(btn => btn.style.pointerEvents = 'none');
+            
+            if (selectedAnswer === currentAnswer) {
+                buttonElement.classList.add('correct');
+                const basePints = 10;
+                const difficultyBonus = (currentPattern.difficulty || 1) * 2;
+                const streakBonus = streak * 3;
+                const hintPenalty = hintsUsed * 2;
+                const levelBonus = currentLevel * 5;
+                
+                const points = Math.max(basePints + difficultyBonus + streakBonus + levelBonus - hintPenalty, 5);
+                score += points;
+                streak++;
+                completed++;
+                
+                if (soundEnabled) playSuccessSound();
+                showMessage(`Ka rawe! Tika! / Excellent! Correct! +${points} points`, 'success');
+                
+                // Check for achievements
+                checkAchievements();
+                
+                // Level up every 8 patterns
+                if (completed % 8 === 0 && currentLevel < 10) {
+                    currentLevel++;
+                    createCelebration();
+                    showAchievement(`🎉 Level ${currentLevel} achieved! Ka rawe!`);
+                    if (soundEnabled) playLevelUpSound();
+                }
+                
+                setTimeout(() => {
+                    newPattern();
+                }, 1800);
+            } else {
+                buttonElement.classList.add('incorrect');
+                streak = 0;
+                if (soundEnabled) playErrorSound();
+                showMessage(`Kāore, he hē. The answer was ${currentAnswer}. Whakamātau anō! / Try again!`, 'error');
+                
+                setTimeout(() => {
+                    newPattern();
+                }, 2800);
+            }
+            
+            hintsUsed = 0;
+            updateDisplay();
+        }
+
+        function showHint() {
+            if (currentPattern && currentPattern.hint) {
+                showMessage(`💡 Hint: ${currentPattern.hint}`, 'info');
+                hintsUsed++;
+                if (soundEnabled) playHintSound();
+            }
+        }
+
+        function checkAchievements() {
+            // First correct answer
+            if (completed === 1 && !achievements.includes('first_correct')) {
+                unlockAchievement('first_correct');
+            }
+            
+            // Streak achievements
+            if (streak === 5 && !achievements.includes('streak_5')) {
+                unlockAchievement('streak_5');
+            }
+            if (streak === 10 && !achievements.includes('streak_10')) {
+                unlockAchievement('streak_10');
+            }
+            
+            // Level achievements
+            if (currentLevel === 5 && !achievements.includes('level_5')) {
+                unlockAchievement('level_5');
+            }
+            if (currentLevel === 10 && !achievements.includes('level_10')) {
+                unlockAchievement('level_10');
+            }
+            
+            // Accuracy achievement
+            const accuracy = attempted > 0 ? (completed / attempted) * 100 : 0;
+            if (accuracy === 100 && attempted >= 20 && !achievements.includes('perfectionist')) {
+                unlockAchievement('perfectionist');
+            }
+        }
+
+        function unlockAchievement(achievementId) {
+            achievements.push(achievementId);
+            saveAchievements();
+            const achievement = ACHIEVEMENTS[achievementId];
+            showAchievement(`${achievement.icon} ${achievement.name}: ${achievement.description}`);
+            createCelebration();
+            if (soundEnabled) playAchievementSound();
+        }
+
+        function showAchievement(text) {
+            const toast = document.getElementById('achievementToast');
+            toast.textContent = text;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        function createCelebration() {
+            const container = document.getElementById('celebrationContainer');
+            const colors = ['#B8860B', '#4a90e2', '#28a745', '#ff9800', '#2C5F41'];
+            
+            for (let i = 0; i < 20; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 3000);
+            }
+        }
+
+        function resetGame() {
+            if (confirm('Are you sure you want to reset your progress? / He pono koe ki te tīmata anō?')) {
+                currentLevel = 1;
+                score = 0;
+                streak = 0;
+                completed = 0;
+                attempted = 0;
+                achievements = [];
+                saveAchievements();
+                updateDisplay();
+                newPattern();
+                showMessage('Game reset! / Kua tīmata anō!', 'info');
+            }
+        }
+
+        function showMessage(text, type) {
+            const container = document.getElementById('messageContainer');
+            container.innerHTML = '';
+            
+            const message = document.createElement('div');
+            message.className = `message ${type}`;
+            message.textContent = text;
+            container.appendChild(message);
+            
+            setTimeout(() => {
+                message.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                message.classList.remove('show');
+                setTimeout(() => {
+                    if (message.parentNode) {
+                        message.remove();
+                    }
+                }, 500);
+            }, 4000);
+        }
+
+        function clearMessage() {
+            const container = document.getElementById('messageContainer');
+            container.innerHTML = '';
+        }
+
+        // Audio functions
+        function toggleAudio() {
+            soundEnabled = !soundEnabled;
+            const button = document.getElementById('audioToggle');
+            button.textContent = soundEnabled ? '🔊' : '🔇';
+            button.classList.toggle('muted', !soundEnabled);
+        }
+
+        function playSuccessSound() {
+            playTone(523.25, 100); // C5
+            setTimeout(() => playTone(659.25, 100), 100); // E5
+            setTimeout(() => playTone(783.99, 200), 200); // G5
+        }
+
+        function playErrorSound() {
+            playTone(220, 300); // A3
+        }
+
+        function playLevelUpSound() {
+            const notes = [261.63, 329.63, 392, 523.25]; // C4, E4, G4, C5
+            notes.forEach((note, index) => {
+                setTimeout(() => playTone(note, 150), index * 100);
+            });
+        }
+
+        function playAchievementSound() {
+            const notes = [523.25, 659.25, 783.99, 1046.5]; // C5, E5, G5, C6
+            notes.forEach((note, index) => {
+                setTimeout(() => playTone(note, 200), index * 150);
+            });
+        }
+
+        function playHintSound() {
+            playTone(440, 200); // A4
+        }
+
+        function playTone(frequency, duration) {
+            if (!soundEnabled) return;
+            
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = frequency;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + duration / 1000);
+            } catch (e) {
+                // Audio not supported, fail silently
+            }
+        }
+
+        // Save/load achievements
+        function saveAchievements() {
+            localStorage.setItem('pangarau_achievements', JSON.stringify(achievements));
+        }
+
+        function loadAchievements() {
+            const saved = localStorage.getItem('pangarau_achievements');
+            if (saved) {
+                achievements = JSON.parse(saved);
+            }
+        }
+
+        // Initialize game when page loads
+        document.addEventListener('DOMContentLoaded', initGame);
+    </script>
+
+</body>
+</html>

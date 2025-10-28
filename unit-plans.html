@@ -125,18 +125,162 @@
         </div>
     </header>
 
-    <div class="main-container">
-        <aside class="left-sidebar no-print">
-            
+    <!-- 🌟 ULTIMATE UNIT PLANS HERO - Command Center -->
+    <div class="unit-plans-hero-wrapper no-print">
+        <div class="unit-plans-hero">
+            <!-- Hero Header with Stats -->
+            <div class="hero-header">
+                <div class="hero-title-section">
+                    <h1 class="hero-main-title">
+                        <span class="title-icon">📚</span>
+                        <span class="title-text">
+                            <span class="title-mi" lang="mi">Ngā Mahere Wāhanga</span>
+                            <span class="title-en">Unit Plans Command Center</span>
+                        </span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        <span lang="mi">Whakamahere, Tirohia, Whakahaere</span> • 
+                        Plan, Discover, Deploy comprehensive learning units
+                    </p>
+                </div>
+                <div class="hero-stats-grid">
+                    <div class="stat-card" data-stat="units">
+                        <div class="stat-number">9</div>
+                        <div class="stat-label">Active Units</div>
+                    </div>
+                    <div class="stat-card" data-stat="lessons">
+                        <div class="stat-number">48</div>
+                        <div class="stat-label">Lessons</div>
+                    </div>
+                    <div class="stat-card" data-stat="handouts">
+                        <div class="stat-number">65</div>
+                        <div class="stat-label">Handouts</div>
+                    </div>
+                    <div class="stat-card" data-stat="subjects">
+                        <div class="stat-number">8</div>
+                        <div class="stat-label">Subjects</div>
+                    </div>
                 </div>
             </div>
 
-            <div class="filter-bar no-print">
-                <select class="filter-dropdown"><option>All Subjects</option></select>
-                <select class="filter-dropdown"><option>All Year Levels</option></select>
+            <!-- Hero Content Area with Blue Background -->
+            <div class="hero-content-area">
+                <!-- Interactive Unit Views -->
+                <div class="hero-network-section">
+                <div class="network-header">
+                    <h2 class="section-title">
+                        <span class="section-icon">🗺️</span>
+                        <span>Unit Plans Overview</span>
+                    </h2>
+                    <div class="network-controls">
+                        <button class="network-btn active" data-view="timeline">Timeline</button>
+                        <button class="network-btn" data-view="subjects">By Subject</button>
+                    </div>
+                </div>
+                <div class="network-canvas" id="unit-network-canvas">
+                    <!-- Interactive visualization will be rendered here -->
+                </div>
             </div>
 
-            <div class="resource-grid">
+            <!-- Smart Discovery & Filters -->
+            <div class="hero-discovery-section">
+                <div class="discovery-header">
+                    <h2 class="section-title">
+                        <span class="section-icon">🔍</span>
+                        <span>Smart Unit Discovery</span>
+                    </h2>
+                </div>
+                <div class="discovery-content">
+                    <div class="search-box-hero">
+                        <input type="text" 
+                               id="hero-search" 
+                               placeholder="Search units by title, subject, year level, or learning area..."
+                               class="hero-search-input">
+                        <span class="search-icon">🔍</span>
+                    </div>
+                    <div class="discovery-filters">
+                        <div class="filter-group-hero">
+                            <label>📅 Year Level</label>
+                            <select id="hero-year-filter" class="hero-filter-select">
+                                <option value="">All Years (1-13)</option>
+                                <option value="primary">Primary (1-6)</option>
+                                <option value="intermediate">Intermediate (7-8)</option>
+                                <option value="junior-secondary">Junior Secondary (9-10)</option>
+                                <option value="senior-secondary">Senior Secondary (11-13)</option>
+                            </select>
+                        </div>
+                        <div class="filter-group-hero">
+                            <label>🎨 Subject Area</label>
+                            <select id="hero-subject-filter" class="hero-filter-select">
+                                <option value="">All Subjects</option>
+                                <option value="english">English / Reo Pākehā</option>
+                                <option value="science">Science / Pūtaiao</option>
+                                <option value="social-studies">Social Studies / Tikanga-ā-Iwi</option>
+                                <option value="technology">Technology / Hangarau</option>
+                                <option value="te-ao-maori">Te Ao Māori</option>
+                                <option value="cross-curricular">Cross-Curricular</option>
+                            </select>
+                        </div>
+                        <div class="filter-group-hero">
+                            <label>⏱️ Duration</label>
+                            <select id="hero-duration-filter" class="hero-filter-select">
+                                <option value="">Any Duration</option>
+                                <option value="short">4-6 weeks</option>
+                                <option value="medium">6-8 weeks</option>
+                                <option value="long">8-10 weeks</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="quick-tags">
+                        <span class="tag-label">Popular:</span>
+                        <button class="quick-tag" data-tag="decolonized">🔥 Decolonized</button>
+                        <button class="quick-tag" data-tag="stem">🔬 STEM</button>
+                        <button class="quick-tag" data-tag="ai">🤖 AI & Tech</button>
+                        <button class="quick-tag" data-tag="justice">⚖️ Justice</button>
+                        <button class="quick-tag" data-tag="rangatiratanga">🚀 Rangatiratanga</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Action Center -->
+            <div class="hero-actions-section">
+                <h2 class="section-title">
+                    <span class="section-icon">⚡</span>
+                    <span>Quick Actions</span>
+                </h2>
+                <div class="actions-grid">
+                    <button class="action-card" onclick="window.location.href='#create'">
+                        <span class="action-icon">➕</span>
+                        <span class="action-title">Create New Unit</span>
+                        <span class="action-desc">Build from scratch</span>
+                    </button>
+                    <button class="action-card" onclick="window.scrollTo({top: document.querySelector('.resource-grid').offsetTop, behavior: 'smooth'})">
+                        <span class="action-icon">👀</span>
+                        <span class="action-title">Browse All Units</span>
+                        <span class="action-desc">Explore the collection</span>
+                    </button>
+                    <button class="action-card" onclick="alert('Export functionality coming soon!')">
+                        <span class="action-icon">📦</span>
+                        <span class="action-title">Export Unit Package</span>
+                        <span class="action-desc">Download as ZIP</span>
+                    </button>
+                    <button class="action-card" onclick="window.print()">
+                        <span class="action-icon">🖨️</span>
+                        <span class="action-title">Print Overview</span>
+                        <span class="action-desc">Printer-friendly view</span>
+                    </button>
+                </div>
+            </div>
+            </div><!-- End hero-content-area -->
+        </div>
+    </div>
+
+    <div class="filter-bar no-print">
+        <select class="filter-dropdown"><option>All Subjects</option></select>
+        <select class="filter-dropdown"><option>All Year Levels</option></select>
+    </div>
+
+    <div class="resource-grid">
                 <a href="units/unit-1-te-ao-maori.html" class="resource-card unit-card" style="border-left: 4px solid #40B5AD;">
                     <span class="year-badge" data-years="7-10">Y7-10</span>
                     <span class="unit-code">TAM-01</span>
@@ -208,8 +352,6 @@
                     <div class="unit-meta">6-8 weeks • Reo Pākehā / English + Tikanga-ā-Iwi / Social Sciences <span style="opacity: 0.7;">(Planned)</span></div>
                 </div>
             </div>
-        </main>
-    </div>
 
     <!-- Supabase CDN -->
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
@@ -227,6 +369,9 @@
     <!-- <script src="js/footer.js"></script> -->
     <script src="js/analytics-dashboard.js"></script>
     <script src="js/advanced-analytics.js"></script>
+    
+    <!-- Load Unit Plans Hero -->
+    <script src="js/unit-plans-hero.js"></script>
     
     <!-- Load enhanced header and footer systems -->
     <!-- <script src="js/enhanced-header.js"></script> --> <!-- DISABLED: Conflicts with new clean header design -->
@@ -299,12 +444,6 @@
         </div>
     </footer>
     
-    <!-- Supabase CDN -->
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <!-- Supabase Client -->
-    <script src="js/supabase-client.js"></script>
-    <!-- Auth UI -->
-    <script src="js/auth-ui.js"></script>
     <!-- Load main functionality -->
     <script src="js/main.js"></script>
 </body>

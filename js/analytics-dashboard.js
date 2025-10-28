@@ -52,7 +52,7 @@ class TeKeteAkoAnalytics {
             right: 20px;
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, var(--color-accent), var(--color-primary));
+            background: linear-gradient(135deg, #E67E22, #D35400);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -62,15 +62,15 @@ class TeKeteAkoAnalytics {
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
             transition: all 0.3s ease;
             color: white;
-            font-size: 1.5rem;
+            font-size: 2rem;
         `;
-        overlay.innerHTML = '📊';
-        overlay.title = 'Learning Analytics Dashboard';
+        overlay.innerHTML = '🐛';
+        overlay.title = 'Report a Bug (Beta)';
         
-        overlay.addEventListener('click', () => this.openAnalyticsDashboard());
+        overlay.addEventListener('click', () => this.openBugReportForm());
         overlay.addEventListener('mouseenter', () => {
             overlay.style.transform = 'scale(1.1)';
-            overlay.style.boxShadow = '0 6px 25px rgba(64, 224, 208, 0.4)';
+            overlay.style.boxShadow = '0 6px 25px rgba(230, 126, 34, 0.5)';
         });
         overlay.addEventListener('mouseleave', () => {
             overlay.style.transform = 'scale(1)';
@@ -78,6 +78,232 @@ class TeKeteAkoAnalytics {
         });
         
         document.body.appendChild(overlay);
+    }
+
+    openBugReportForm() {
+        // Create bug report modal
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            padding: 2rem;
+        `;
+
+        modal.innerHTML = `
+            <div style="background: white; border-radius: 12px; padding: 2rem; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h2 style="color: #E67E22; margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+                        🐛 <span>Report a Bug</span>
+                    </h2>
+                    <button onclick="this.closest('div[style*=\"position: fixed\"]').remove()" 
+                            style="background: none; border: none; font-size: 2rem; cursor: pointer; color: #999; line-height: 1;">
+                        ×
+                    </button>
+                </div>
+                
+                <p style="color: #666; margin-bottom: 1.5rem;">
+                    Help us improve Te Kete Ako! Report any bugs, issues, or unexpected behavior you encounter.
+                </p>
+
+                <form id="bug-report-form" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">
+                            What type of issue is this?
+                        </label>
+                        <select required style="width: 100%; padding: 0.75rem; border: 2px solid #ddd; border-radius: 6px; font-size: 1rem;">
+                            <option value="">Select issue type...</option>
+                            <option value="display">Display/Layout Issue</option>
+                            <option value="functionality">Feature Not Working</option>
+                            <option value="data">Data/Content Error</option>
+                            <option value="performance">Performance/Speed Issue</option>
+                            <option value="accessibility">Accessibility Issue</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">
+                            Where did this happen?
+                        </label>
+                        <input type="text" required placeholder="Page URL or location" 
+                               value="${window.location.href}"
+                               style="width: 100%; padding: 0.75rem; border: 2px solid #ddd; border-radius: 6px; font-size: 1rem;">
+                    </div>
+
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">
+                            Describe the bug
+                        </label>
+                        <textarea required placeholder="What happened? What did you expect to happen?" 
+                                  rows="5"
+                                  style="width: 100%; padding: 0.75rem; border: 2px solid #ddd; border-radius: 6px; font-size: 1rem; resize: vertical; font-family: inherit;"></textarea>
+                    </div>
+
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">
+                            Steps to reproduce (optional)
+                        </label>
+                        <textarea placeholder="1. Go to...&#10;2. Click on...&#10;3. See error" 
+                                  rows="3"
+                                  style="width: 100%; padding: 0.75rem; border: 2px solid #ddd; border-radius: 6px; font-size: 1rem; resize: vertical; font-family: inherit;"></textarea>
+                    </div>
+
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">
+                            Your email (optional - for follow-up)
+                        </label>
+                        <input type="email" placeholder="your.email@example.com"
+                               style="width: 100%; padding: 0.75rem; border: 2px solid #ddd; border-radius: 6px; font-size: 1rem;">
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                        <button type="submit" 
+                                style="flex: 1; padding: 1rem; background: linear-gradient(135deg, #E67E22, #D35400); color: white; border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+                            🐛 Submit Bug Report
+                        </button>
+                        <button type="button" onclick="this.closest('div[style*=\"position: fixed\"]').remove()"
+                                style="padding: 1rem 1.5rem; background: #f0f0f0; color: #666; border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer;">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+
+                <div style="margin-top: 1.5rem; padding: 1rem; background: #f8f9fa; border-radius: 6px; border-left: 4px solid #E67E22;">
+                    <p style="margin: 0; font-size: 0.9rem; color: #666;">
+                        <strong>🔒 Privacy:</strong> Bug reports help us improve Te Kete Ako. Technical details (browser, page) are automatically included.
+                    </p>
+                </div>
+            </div>
+        `;
+
+        // Close modal when clicking outside
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.remove();
+            }
+        });
+
+        modal.querySelector('#bug-report-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ Submitting...';
+            
+            try {
+                // Get form data
+                const issueType = form.querySelector('select').value;
+                const pageUrl = form.querySelectorAll('input')[0].value;
+                const description = form.querySelectorAll('textarea')[0].value;
+                const stepsToReproduce = form.querySelectorAll('textarea')[1]?.value || null;
+                const email = form.querySelectorAll('input')[1]?.value || null;
+                
+                // Get browser info
+                const browserInfo = {
+                    userAgent: navigator.userAgent,
+                    platform: navigator.platform,
+                    language: navigator.language,
+                    screenResolution: `${window.screen.width}x${window.screen.height}`,
+                    viewport: `${window.innerWidth}x${window.innerHeight}`,
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Get current user ID if logged in
+                const { data: { user } } = await window.supabaseClient?.auth?.getUser() || { data: { user: null } };
+                
+                // Insert bug report into Supabase
+                const { data, error } = await window.supabaseClient
+                    .from('bug_reports')
+                    .insert({
+                        user_id: user?.id || null,
+                        issue_type: issueType,
+                        page_url: pageUrl,
+                        description: description,
+                        steps_to_reproduce: stepsToReproduce,
+                        email: email,
+                        user_agent: navigator.userAgent,
+                        browser_info: browserInfo,
+                        status: 'new',
+                        priority: 'medium'
+                    })
+                    .select()
+                    .single();
+                
+                if (error) throw error;
+                
+                // Show success message
+                modal.innerHTML = `
+                    <div style="background: white; border-radius: 12px; padding: 3rem; max-width: 500px; text-align: center;">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
+                        <h2 style="color: #27ae60; margin-bottom: 1rem;">Bug Report Submitted!</h2>
+                        <p style="color: #666; margin-bottom: 0.5rem;">
+                            <strong>Ngā mihi!</strong> Thank you for helping us improve Te Kete Ako.
+                        </p>
+                        <p style="color: #999; font-size: 0.9rem; margin-bottom: 2rem;">
+                            Report ID: ${data.id.substring(0, 8)}...
+                        </p>
+                        ${email ? `<p style="color: #666; font-size: 0.9rem; margin-bottom: 2rem;">We'll email you at <strong>${email}</strong> with updates.</p>` : ''}
+                        <button id="close-success-btn"
+                                style="padding: 1rem 2rem; background: #27ae60; color: white; border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer;">
+                            Close
+                        </button>
+                    </div>
+                `;
+                
+                // Add close button functionality
+                modal.querySelector('#close-success-btn').addEventListener('click', () => {
+                    modal.remove();
+                });
+                
+                console.log('✅ Bug report saved to database:', data.id);
+                
+            } catch (error) {
+                console.error('Error submitting bug report:', error);
+                
+                // Show error message
+                modal.innerHTML = `
+                    <div style="background: white; border-radius: 12px; padding: 3rem; max-width: 500px; text-align: center;">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">⚠️</div>
+                        <h2 style="color: #e74c3c; margin-bottom: 1rem;">Submission Error</h2>
+                        <p style="color: #666; margin-bottom: 2rem;">
+                            Oops! There was a problem submitting your bug report. Please try again or contact us directly.
+                        </p>
+                        <div style="display: flex; gap: 1rem; justify-content: center;">
+                            <button id="retry-btn"
+                                    style="padding: 1rem 2rem; background: #3498db; color: white; border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer;">
+                                Try Again
+                            </button>
+                            <button id="close-error-btn"
+                                    style="padding: 1rem 2rem; background: #95a5a6; color: white; border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer;">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                modal.querySelector('#retry-btn').addEventListener('click', () => {
+                    modal.remove();
+                    // Reopen the form
+                    setTimeout(() => this.openBugReportForm(), 100);
+                });
+                
+                modal.querySelector('#close-error-btn').addEventListener('click', () => {
+                    modal.remove();
+                });
+            }
+        });
+
+        document.body.appendChild(modal);
     }
 
     trackPageInteractions() {

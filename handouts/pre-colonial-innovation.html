@@ -3,11 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pre-Colonial Innovation</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Pre-Colonial Māori Innovation | Te Kete Ako</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/main.css">
+    <style>
+        @media print {
+            .question-block,
+            .analysis-item,
+            .activity-section,
+            section > div {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            h2, h3, h4 {
+                page-break-after: avoid !important;
+            }
+        }
+    </style>
 </head>
-<body class="bg-gray-100">
+<body data-auto-init="true" data-current-page="handout-page">
 <header class="site-header no-print">
         <div class="nav-container">
             <a href="/index.html" class="nav-brand">
@@ -137,12 +153,28 @@
             </button>
         </div>
 
-    <div class="page-container" data-tags="history,te-ao-maori,stem">
-        <header class="text-center border-b-2 border-gray-200 pb-4 mb-6">
-            <h1 class="text-3xl font-bold text-gray-800">He Toi Whaihanga: Pre-Colonial Māori Innovation</h1>
-            <p class="text-lg text-gray-600 mt-1">A Legacy of Adaptation and Engineering</p>
-        </header>
-        <main>
+    <div class="main-container">
+        <!-- LEFT SIDEBAR: Whakataukī + Related Resources -->
+        <aside class="left-sidebar no-print">
+            <!-- Whakataukī: Auto-injected by daily-whakatauki.js - DO NOT ADD MANUALLY -->
+            
+            <!-- Related Resources Widget -->
+            <div class="sidebar-widget">
+                <h3 class="sidebar-widget-title">
+                    <span class="sidebar-icon">🌟</span>
+                    <span>Ngā Rauemi Hono / Related Resources</span>
+                </h3>
+                <ul>
+                    <li><a href="/handouts/maori-astronomy-navigation-handout.html">📄 Māori Astronomy & Navigation</a></li>
+                    <li><a href="/handouts/traditional-navigation-mathematics-handout.html">📄 Traditional Navigation Mathematics</a></li>
+                    <li><a href="/handouts.html">📚 All Handouts</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="content-area">
+            <h1 style="color: var(--color-primary); border-bottom: 3px solid var(--color-secondary); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">He Toi Whaihanga: Pre-Colonial Māori Innovation</h1>
+            <p style="font-size: 1.1rem; color: var(--color-text-secondary); margin-bottom: 2rem;">A Legacy of Adaptation and Engineering</p>
             <section class="mb-6">
                 <div class="bg-green-50 p-4 rounded-xl border border-green-200">
                     <h2 class="text-xl font-bold text-green-800 mb-2">Science and Survival</h2>
@@ -240,6 +272,7 @@
             </div>
         </div>
     </footer>
+    <script src="../js/daily-whakatauki.js"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="../js/supabase-client.js"></script>
     <script src="../js/save-resource.js"></script>

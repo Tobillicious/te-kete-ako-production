@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pāngarau Patterns | Te Kete Ako Games</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #2C5F41, #4a90e2, #00b0b9);
+            min-height: 100vh;
+            font-family: 'Lato', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .game-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            max-width: 900px;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .game-header {
+            background: linear-gradient(135deg, #B8860B, #2C5F41);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .game-header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="tukutuku" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><rect width="20" height="20" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/><path d="M0,0 L20,20 M20,0 L0,20" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23tukutuku)"/></svg>') repeat;
+            opacity: 0.3;
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateX(-2px) translateY(-2px); }
+            50% { transform: translateX(2px) translateY(2px); }
+        }
+        
+        .game-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .game-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .cultural-intro {
+            background: linear-gradient(135deg, #f0f8ff, #e6f3ff);
+            border: 3px solid #4a90e2;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .cultural-intro::before {
+            content: "🌿";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #4a90e2;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        
+        .cultural-intro h3 {
+            color: #2c5aa0;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+        
+        .whakatauki {
+            font-style: italic;
+            font-size: 1.125rem;
+            color: #1e3a8a;
+            font-weight: 600;
+            margin: 0.5rem 0;
+        }
+        
+        .translation {
+            font-weight: 500;
+            color: #3730a3;
+            margin: 0.5rem 0;
+        }
+        
+        .connection {
+            color: #4a5568;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-top: 1rem;
+        }
+        
+        .game-content {
+            padding: 2rem;
+        }
+        
+        .game-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            border: 2px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #B8860B;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-top: 0.25rem;
+        }
+        
+        .pattern-display {
+            background: linear-gradient(135deg, #fff3e0, #f1f8e9);
+            border: 3px solid #ff9800;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .pattern-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #e65100;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .pattern-grid {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+        
+        .pattern-element {
+            width: 60px;
+            height: 60px;
+            border: 3px solid #2c5aa0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: white;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .pattern-element.missing {
+            background: linear-gradient(45deg, #fff 25%, #f0f0f0 25%, #f0f0f0 50%, #fff 50%, #fff 75%, #f0f0f0 75%);
+            border-style: dashed;
+            color: #999;
+        }
+        
+        .pattern-element.missing::after {
+            content: "?";
+            font-size: 2rem;
+            color: #666;
+        }
+        
+        .choices-section {
+            margin: 2rem 0;
+        }
+        
+        .choices-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2c5aa0;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .choices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .choice-button {
+            width: 80px;
+            height: 80px;
+            border: 3px solid #4a90e2;
+            border-radius: 12px;
+            background: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c5aa0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .choice-button:hover {
+            background: #4a90e2;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.3);
+        }
+        
+        .choice-button.correct {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+            animation: correctPulse 0.6s ease;
+        }
+        
+        .choice-button.incorrect {
+            background: #dc3545;
+            color: white;
+            border-color: #dc3545;
+            animation: incorrectShake 0.6s ease;
+        }
+        
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes incorrectShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .game-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #4a90e2, #2c5aa0);
+            color: white;
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #ff9800, #e65100);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 152, 0, 0.4);
+        }
+        
+        .message {
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            text-align: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            transform: scale(0.95);
+            opacity: 0;
+        }
+        
+        .message.show {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        .message.success {
+            background: linear-gradient(135deg, #d4edda, #a3d5a7);
+            color: #155724;
+            border: 2px solid #28a745;
+        }
+        
+        .message.error {
+            background: linear-gradient(135deg, #f8d7da, #f5a3a9);
+            color: #721c24;
+            border: 2px solid #dc3545;
+        }
+        
+        .level-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: linear-gradient(135deg, #B8860B, #ff9800);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 12px rgba(184, 134, 11, 0.3);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+        
+        @media (max-width: 768px) {
+            .game-header {
+                padding: 1.5rem 1rem;
+            }
+            
+            .game-title {
+                font-size: 2rem;
+            }
+            
+            .game-content {
+                padding: 1rem;
+            }
+            
+            .pattern-element {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+            
+            .choice-button {
+                width: 70px;
+                height: 70px;
+                font-size: 1.2rem;
+            }
+            
+            .cultural-intro {
+                margin: 1rem;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body data-auto-init="true" data-current-page="games-page" data-breadcrumb-path="games">
+    
+    <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                        <li>
+                            <a href="/browse.html">
+                                <span class="nav-icon">📚</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                                <span class="nav-text-en">Resources</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="/unit-plans.html"><span class="dropdown-mi">📚 Ngā Mahere Wāhanga</span><span class="dropdown-en">Unit Plans (6-8 weeks)</span></a></li>
+                                <li><a href="/lessons.html"><span class="dropdown-mi">📖 Ngā Mahere Akoranga</span><span class="dropdown-en">Lesson Plans (60-75 min)</span></a></li>
+                                <li><a href="/handouts.html"><span class="dropdown-mi">📄 Ngā Kape</span><span class="dropdown-en">Handouts & Materials</span></a></li>
+                                <li><a href="/browse.html"><span class="dropdown-mi">🔍 Tirohia Katoa</span><span class="dropdown-en">Browse All Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="/browse.html?filter=subject">
+                                <span class="nav-icon">🎨</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Marau</span>
+                                <span class="nav-text-en">Subjects</span>
+                            </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="/browse.html?subject=english"><span class="dropdown-mi">📝 Reo Pākehā</span><span class="dropdown-en">English</span></a></li>
+                                <li><a href="/browse.html?subject=math"><span class="dropdown-mi">🔢 Pāngarau</span><span class="dropdown-en">Mathematics</span></a></li>
+                                <li><a href="/browse.html?subject=science"><span class="dropdown-mi">🔬 Pūtaiao</span><span class="dropdown-en">Science</span></a></li>
+                                <li><a href="/browse.html?subject=social-studies"><span class="dropdown-mi">🌏 Tikanga-ā-Iwi</span><span class="dropdown-en">Social Studies</span></a></li>
+                                <li><a href="/browse.html?subject=te-reo"><span class="dropdown-mi">🌿 Te Reo Māori</span><span class="dropdown-en">Māori Language</span></a></li>
+                                <li><a href="/browse.html?subject=arts"><span class="dropdown-mi">🎨 Ngā Toi</span><span class="dropdown-en">The Arts</span></a></li>
+                                <li><a href="/browse.html?subject=health-pe"><span class="dropdown-mi">💪 Hauora</span><span class="dropdown-en">Health & PE</span></a></li>
+                                <li><a href="/browse.html?subject=technology"><span class="dropdown-mi">🔧 Hangarau</span><span class="dropdown-en">Technology</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                        <li>
+                            <a href="/browse.html?filter=year">
+                                <span class="nav-icon">📅</span>
+                                <span class="nav-text-mi" lang="mi">Ngā Tau</span>
+                                <span class="nav-text-en">Year Levels</span>
+                            </a>
+                            <div class="nav-dropdown nav-dropdown-wide">
+                                <div class="year-stage-label">Primary / Tuatahi (1-6)</div>
+                                <ul class="year-grid">
+                                    <li><a href="/browse.html?year=1"><span class="dropdown-mi">Tau 1</span><span class="dropdown-en">Year 1</span></a></li>
+                                    <li><a href="/browse.html?year=2"><span class="dropdown-mi">Tau 2</span><span class="dropdown-en">Year 2</span></a></li>
+                                    <li><a href="/browse.html?year=3"><span class="dropdown-mi">Tau 3</span><span class="dropdown-en">Year 3</span></a></li>
+                                </ul>
+                                <ul class="year-grid">
+                                    <li><a href="/browse.html?year=4"><span class="dropdown-mi">Tau 4</span><span class="dropdown-en">Year 4</span></a></li>
+                                    <li><a href="/browse.html?year=5"><span class="dropdown-mi">Tau 5</span><span class="dropdown-en">Year 5</span></a></li>
+                                    <li><a href="/browse.html?year=6"><span class="dropdown-mi">Tau 6</span><span class="dropdown-en">Year 6</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Intermediate / Waenga (7-8)</div>
+                                <ul class="year-grid">
+                                    <li><a href="/browse.html?year=7"><span class="dropdown-mi">Tau 7</span><span class="dropdown-en">Year 7</span></a></li>
+                                    <li><a href="/browse.html?year=8"><span class="dropdown-mi">Tau 8</span><span class="dropdown-en">Year 8</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Junior Secondary / Tuarua (9-10)</div>
+                                <ul class="year-grid">
+                                    <li><a href="/browse.html?year=9"><span class="dropdown-mi">Tau 9</span><span class="dropdown-en">Year 9</span></a></li>
+                                    <li><a href="/browse.html?year=10"><span class="dropdown-mi">Tau 10</span><span class="dropdown-en">Year 10</span></a></li>
+                                </ul>
+                                <div class="year-stage-label">Senior Secondary / NCEA (11-13)</div>
+                                <ul class="year-grid">
+                                    <li><a href="/browse.html?year=11"><span class="dropdown-mi">Tau 11</span><span class="dropdown-en">Year 11</span></a></li>
+                                    <li><a href="/browse.html?year=12"><span class="dropdown-mi">Tau 12</span><span class="dropdown-en">Year 12</span></a></li>
+                                    <li><a href="/browse.html?year=13"><span class="dropdown-mi">Tau 13</span><span class="dropdown-en">Year 13</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    <li>
+                        <a href="#more">
+                            <span class="nav-icon">📦</span>
+                            <span class="nav-text-mi" lang="mi">Ētahi Atu</span>
+                            <span class="nav-text-en">More Stuff</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="/games.html"><span class="dropdown-mi">🎮 Ngā Kēmu</span><span class="dropdown-en">Games</span></a></li>
+                                <li><a href="/youtube.html"><span class="dropdown-mi">📺 Ataata YouTube</span><span class="dropdown-en">YouTube Videos</span></a></li>
+                                <li><a href="/curriculum-alignment.html"><span class="dropdown-mi">📋 Te Marautanga</span><span class="dropdown-en">Curriculum Alignment</span></a></li>
+                                <li><a href="/other-resources.html"><span class="dropdown-mi">🔗 Ētahi Atu Rauemi</span><span class="dropdown-en">Other Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="auth-nav auth-logged-out">
+                        <a href="/login.html" class="auth-btn">
+                            <span class="nav-icon" data-icon="login"></span>
+                            <span class="nav-text-mi" lang="mi">Takiuru</span>
+                            <span class="nav-text-en">Login</span>
+                        </a>
+                    </li>
+                    <li class="auth-nav auth-logged-in" style="display: none;">
+                        <a href="/my-kete.html" class="dashboard-btn">
+                            <span class="nav-icon" data-icon="kete"></span>
+                            <span class="nav-text-mi" lang="mi">Tōku Kete</span>
+                            <span class="nav-text-en">My Kete</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="game-container">
+        <div class="game-header">
+            <div class="level-badge" id="levelBadge">Level 1</div>
+            <h1 class="game-title">🧮 Pāngarau Patterns</h1>
+            <p class="game-subtitle">Mathematics & Māori Geometric Patterns</p>
+        </div>
+
+        <div class="cultural-intro">
+            <h3>Whakataukī | Proverb</h3>
+            <p class="whakatauki">"Tūwhitia te hopo, kia māia"</p>
+            <p class="translation">Feel the fear and be brave anyway.</p>
+            <p class="connection">Mathematical patterns exist everywhere in Te Taiao (the natural world). Like our tīpuna who used geometric patterns in their weaving and carving, we discover the mathematical relationships that create beauty and meaning in our world.</p>
+        </div>
+
+        <div class="game-content">
+            <div class="game-stats">
+                <div class="stat-card">
+                    <span class="stat-number" id="scoreDisplay">0</span>
+                    <span class="stat-label">Kaute / Score</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="streakDisplay">0</span>
+                    <span class="stat-label">Raina / Streak</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="completedDisplay">0</span>
+                    <span class="stat-label">Oti / Completed</span>
+                </div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="pattern-display" id="patternDisplay">
+                <div class="pattern-title" id="patternTitle">Loading pattern...</div>
+                <div class="pattern-grid" id="patternGrid">
+                    <!-- Pattern elements will be generated here -->
+                </div>
+            </div>
+
+            <div class="choices-section">
+                <div class="choices-title">He aha te mea mutunga? / What comes next?</div>
+                <div class="choices-grid" id="choicesGrid">
+                    <!-- Choice buttons will be generated here -->
+                </div>
+            </div>
+
+            <div id="messageContainer"></div>
+
+            <div class="game-controls">
+                <button class="btn btn-primary" onclick="newPattern()">🔄 He Tauira Hōu / New Pattern</button>
+                <button class="btn btn-secondary" onclick="showHint()">💡 Āwhina / Hint</button>
+                <a href="/games.html" class="btn btn-secondary">⬅️ Hoki / Back to Games</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/daily-whakatauki.js"></script>
+    <script src="../js/main.js"></script>
+
+    <script>
+        // Game state
+        let currentLevel = 1;
+        let score = 0;
+        let streak = 0;
+        let completed = 0;
+        let currentPattern = null;
+        let currentAnswer = null;
+        let hintsUsed = 0;
+
+        // Pattern types with Māori names and cultural context
+        const PATTERN_TYPES = {
+            arithmetic: {
+                name: "Tatauranga Tawhiti / Arithmetic Sequence",
+                description: "Numbers that increase or decrease by the same amount",
+                culturalNote: "Like counting pounamu in groups",
+                minLevel: 1,
+                maxLevel: 10
+            },
+            geometric: {
+                name: "Tukutuku Tawhiti / Geometric Sequence", 
+                description: "Numbers that multiply by the same amount",
+                culturalNote: "Like the growth patterns in nature",
+                minLevel: 3,
+                maxLevel: 10
+            },
+            fibonacci: {
+                name: "Koru Tawhiti / Spiral Sequence",
+                description: "Each number is the sum of the two before",
+                culturalNote: "Like the unfurling of pikopiko ferns",
+                minLevel: 5,
+                maxLevel: 10
+            },
+            squares: {
+                name: "Tapatoru / Square Numbers",
+                description: "Numbers multiplied by themselves",
+                culturalNote: "Like the four sides of a marae ātea",
+                minLevel: 2,
+                maxLevel: 8
+            },
+            visual: {
+                name: "Atahua Tawhiti / Visual Patterns",
+                description: "Patterns using Māori symbols",
+                culturalNote: "Like traditional kowhaiwhai designs",
+                minLevel: 1,
+                maxLevel: 10
+            }
+        };
+
+        // Visual symbols for patterns
+        const VISUAL_SYMBOLS = ['◗', '◐', '◑', '●', '◯', '▲', '▼', '♦', '◆', '★', '✦', '⬢', '⬡'];
+        
+        // Initialize game
+        function initGame() {
+            updateDisplay();
+            newPattern();
+        }
+
+        function updateDisplay() {
+            document.getElementById('scoreDisplay').textContent = score;
+            document.getElementById('streakDisplay').textContent = streak;
+            document.getElementById('completedDisplay').textContent = completed;
+            document.getElementById('levelBadge').textContent = `Level ${currentLevel}`;
+            
+            // Update progress bar (10 patterns per level)
+            const progress = (completed % 10) * 10;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function getAvailablePatternTypes() {
+            return Object.keys(PATTERN_TYPES).filter(type => 
+                PATTERN_TYPES[type].minLevel <= currentLevel && 
+                PATTERN_TYPES[type].maxLevel >= currentLevel
+            );
+        }
+
+        function generateArithmeticPattern() {
+            const startValue = Math.floor(Math.random() * 20) + 1;
+            const difference = Math.floor(Math.random() * 8) + 1;
+            const length = Math.min(4 + Math.floor(currentLevel / 2), 7);
+            
+            const sequence = [];
+            for (let i = 0; i < length; i++) {
+                sequence.push(startValue + (i * difference));
+            }
+            
+            return {
+                sequence: sequence.slice(0, -1),
+                answer: sequence[sequence.length - 1],
+                type: 'arithmetic',
+                hint: `Each number increases by ${difference}`
+            };
+        }
+
+        function generateGeometricPattern() {
+            const startValue = Math.floor(Math.random() * 5) + 2;
+            const ratio = Math.floor(Math.random() * 3) + 2;
+            const length = Math.min(3 + Math.floor(currentLevel / 3), 5);
+            
+            const sequence = [];
+            for (let i = 0; i < length; i++) {
+                sequence.push(startValue * Math.pow(ratio, i));
+            }
+            
+            return {
+                sequence: sequence.slice(0, -1),
+                answer: sequence[sequence.length - 1],
+                type: 'geometric',
+                hint: `Each number is multiplied by ${ratio}`
+            };
+        }
+
+        function generateFibonacciPattern() {
+            const start1 = Math.floor(Math.random() * 5) + 1;
+            const start2 = Math.floor(Math.random() * 5) + 1;
+            const length = Math.min(4 + Math.floor(currentLevel / 4), 6);
+            
+            const sequence = [start1, start2];
+            for (let i = 2; i < length; i++) {
+                sequence.push(sequence[i-1] + sequence[i-2]);
+            }
+            
+            return {
+                sequence: sequence.slice(0, -1),
+                answer: sequence[sequence.length - 1],
+                type: 'fibonacci',
+                hint: `Each number is the sum of the two before it`
+            };
+        }
+
+        function generateSquarePattern() {
+            const startNum = Math.floor(Math.random() * 5) + 1;
+            const length = Math.min(3 + Math.floor(currentLevel / 3), 5);
+            
+            const sequence = [];
+            for (let i = 0; i < length; i++) {
+                const num = startNum + i;
+                sequence.push(num * num);
+            }
+            
+            return {
+                sequence: sequence.slice(0, -1),
+                answer: sequence[sequence.length - 1],
+                type: 'squares',
+                hint: `These are square numbers: each number × itself`
+            };
+        }
+
+        function generateVisualPattern() {
+            const patternLength = Math.floor(Math.random() * 3) + 2; // 2-4 symbol pattern
+            const repetitions = Math.floor(Math.random() * 2) + 2; // 2-3 full repetitions
+            const symbols = VISUAL_SYMBOLS.slice(0, patternLength);
+            
+            const sequence = [];
+            for (let i = 0; i < repetitions; i++) {
+                sequence.push(...symbols);
+            }
+            
+            // Add partial last repetition
+            const partialLength = Math.floor(Math.random() * (patternLength - 1)) + 1;
+            sequence.push(...symbols.slice(0, partialLength));
+            
+            const answer = symbols[partialLength % symbols.length];
+            
+            return {
+                sequence: sequence,
+                answer: answer,
+                type: 'visual',
+                hint: `The pattern repeats every ${patternLength} symbols`,
+                isVisual: true
+            };
+        }
+
+        function newPattern() {
+            clearMessage();
+            
+            const availableTypes = getAvailablePatternTypes();
+            const randomType = availableTypes[Math.floor(Math.random() * availableTypes.length)];
+            
+            let pattern;
+            switch(randomType) {
+                case 'arithmetic':
+                    pattern = generateArithmeticPattern();
+                    break;
+                case 'geometric':
+                    pattern = generateGeometricPattern();
+                    break;
+                case 'fibonacci':
+                    pattern = generateFibonacciPattern();
+                    break;
+                case 'squares':
+                    pattern = generateSquarePattern();
+                    break;
+                case 'visual':
+                    pattern = generateVisualPattern();
+                    break;
+            }
+            
+            currentPattern = pattern;
+            currentAnswer = pattern.answer;
+            
+            displayPattern(pattern);
+            generateChoices(pattern);
+        }
+
+        function displayPattern(pattern) {
+            const typeInfo = PATTERN_TYPES[pattern.type];
+            document.getElementById('patternTitle').textContent = typeInfo.name;
+            
+            const grid = document.getElementById('patternGrid');
+            grid.innerHTML = '';
+            
+            // Display sequence
+            pattern.sequence.forEach(item => {
+                const element = document.createElement('div');
+                element.className = 'pattern-element';
+                element.textContent = item;
+                grid.appendChild(element);
+            });
+            
+            // Add missing element placeholder
+            const missingElement = document.createElement('div');
+            missingElement.className = 'pattern-element missing';
+            grid.appendChild(missingElement);
+        }
+
+        function generateChoices(pattern) {
+            const choices = new Set();
+            choices.add(pattern.answer);
+            
+            // Generate wrong answers based on pattern type
+            while (choices.size < 4) {
+                let wrongAnswer;
+                if (pattern.isVisual) {
+                    wrongAnswer = VISUAL_SYMBOLS[Math.floor(Math.random() * VISUAL_SYMBOLS.length)];
+                } else {
+                    const variation = Math.floor(Math.random() * 20) + 1;
+                    wrongAnswer = pattern.answer + (Math.random() > 0.5 ? variation : -variation);
+                    if (wrongAnswer <= 0) wrongAnswer = Math.abs(wrongAnswer) + 1;
+                }
+                choices.add(wrongAnswer);
+            }
+            
+            const choicesArray = Array.from(choices).sort(() => Math.random() - 0.5);
+            
+            const grid = document.getElementById('choicesGrid');
+            grid.innerHTML = '';
+            
+            choicesArray.forEach(choice => {
+                const button = document.createElement('button');
+                button.className = 'choice-button';
+                button.textContent = choice;
+                button.onclick = () => checkAnswer(choice, button);
+                grid.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedAnswer, buttonElement) {
+            const allButtons = document.querySelectorAll('.choice-button');
+            allButtons.forEach(btn => btn.style.pointerEvents = 'none');
+            
+            if (selectedAnswer === currentAnswer) {
+                buttonElement.classList.add('correct');
+                const points = Math.max(10 - hintsUsed * 3, 5) + (streak * 2);
+                score += points;
+                streak++;
+                completed++;
+                
+                showMessage(`Pai! Tika! / Great! Correct! +${points} points`, 'success');
+                
+                // Level up every 10 patterns
+                if (completed % 10 === 0 && currentLevel < 10) {
+                    currentLevel++;
+                    showMessage(`Ka rawe! Level ${currentLevel} achieved!`, 'success');
+                }
+                
+                setTimeout(() => {
+                    newPattern();
+                }, 1500);
+            } else {
+                buttonElement.classList.add('incorrect');
+                streak = 0;
+                showMessage(`Kāore, he hē. The answer was ${currentAnswer}. Try the next one!`, 'error');
+                
+                setTimeout(() => {
+                    newPattern();
+                }, 2500);
+            }
+            
+            hintsUsed = 0;
+            updateDisplay();
+        }
+
+        function showHint() {
+            if (currentPattern && currentPattern.hint) {
+                showMessage(`💡 Hint: ${currentPattern.hint}`, 'info');
+                hintsUsed++;
+            }
+        }
+
+        function showMessage(text, type) {
+            const container = document.getElementById('messageContainer');
+            container.innerHTML = '';
+            
+            const message = document.createElement('div');
+            message.className = `message ${type}`;
+            message.textContent = text;
+            container.appendChild(message);
+            
+            setTimeout(() => {
+                message.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                message.classList.remove('show');
+            }, 3000);
+        }
+
+        function clearMessage() {
+            const container = document.getElementById('messageContainer');
+            container.innerHTML = '';
+        }
+
+        // Initialize game when page loads
+        document.addEventListener('DOMContentLoaded', initGame);
+    </script>
+
+</body>
+</html>

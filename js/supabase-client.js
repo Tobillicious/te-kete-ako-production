@@ -8,6 +8,9 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 // Create the global supabase client using the CDN-loaded library
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
+// Also expose as window.supabaseClient for easier access
+window.supabaseClient = supabase;
+
 // Global authentication helper functions
 window.authHelpers = {
   async getCurrentUser() {

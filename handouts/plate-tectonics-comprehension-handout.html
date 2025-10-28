@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plate Tectonics Reading Comprehension</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Plate Tectonics Reading Comprehension | Te Kete Ako</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Lato:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/main.css">
     <style>
         @media print {
             @page {
@@ -90,11 +90,23 @@
             background-color: #f3f4f6;
             border-color: #9ca3af;
         }
+        
+        @media print {
+            .question-block,
+            .analysis-item,
+            .activity-section,
+            section > div {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            h2, h3, h4 {
+                page-break-after: avoid !important;
+            }
+        }
     </style>
-    <link rel="stylesheet" href="../css/main.css">
 </head>
 
-<body class="flex flex-col items-center">
+<body data-auto-init="true" data-current-page="handout-page">
 <header class="site-header no-print">
         <div class="nav-container">
             <a href="/index.html" class="nav-brand">
@@ -224,23 +236,27 @@
             </button>
         </div>
 
-    <!-- Print Button for user convenience -->
-    <div class="no-print my-4 p-4 bg-white rounded-lg shadow-md w-[210mm]">
-        <p class="text-center text-gray-700 mb-2">This is a print-ready A4 handout for Year 10 Science.</p>
-        <button onclick="window.print()"
-            class="w-full bg-orange-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-orange-700 transition-colors">
-            Print or Save as PDF
-        </button>
-    </div>
+    <div class="main-container">
+        <!-- LEFT SIDEBAR: Whakataukī + Related Resources -->
+        <aside class="left-sidebar no-print">
+            <!-- Whakataukī: Auto-injected by daily-whakatauki.js - DO NOT ADD MANUALLY -->
+            
+            <!-- Related Resources Widget -->
+            <div class="sidebar-widget">
+                <h3 class="sidebar-widget-title">
+                    <span class="sidebar-icon">🌟</span>
+                    <span>Ngā Rauemi Hono / Related Resources</span>
+                </h3>
+                <ul>
+                    <li><a href="/handouts/science-of-sleep-comprehension-handout.html">📄 Science of Sleep</a></li>
+                    <li><a href="/handouts.html">📚 All Handouts</a></li>
+                </ul>
+            </div>
+        </aside>
 
-    <!-- A4 Page Container -->
-    <div class="page">
-        <header class="border-b-2 border-gray-200 pb-3 mb-6">
-            <h1 class="text-3xl text-gray-900">Reading Comprehension: Aotearoa's Shaky Ground</h1>
-            <p class="text-md text-gray-600 mt-1">asTTle-Style Analysis of Plate Tectonics and Geothermal Energy</p>
-        </header>
-
-        <main>
+        <main class="content-area">
+            <h1 style="color: var(--color-primary); border-bottom: 3px solid var(--color-secondary); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">Aotearoa's Shaky Ground</h1>
+            <p style="font-size: 1.1rem; color: var(--color-text-secondary); margin-bottom: 2rem;">Reading Comprehension - Plate Tectonics and Geothermal Energy</p>
             <!-- Cultural Opening -->
             <div class="cultural-opening">
                 <h2>Whakataukī | Proverb</h2>
@@ -393,6 +409,7 @@
             </div>
         </div>
     </footer>
+    <script src="../js/daily-whakatauki.js"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="../js/supabase-client.js"></script>
     <script src="../js/save-resource.js"></script>
