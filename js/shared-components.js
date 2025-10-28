@@ -897,5 +897,51 @@ document.addEventListener('DOMContentLoaded', function() {
         initializeCurriculumEnhancedFilter();
     }
     
+    // Initialize Beta Bug Report Widget (always visible during beta)
+    initializeBugReportWidget();
+    
     console.log('Te Kete Ako loaded with curriculum enhancement features');
 });
+
+/**
+ * Initialize Bug Report Widget for Beta Testing
+ * Loads the analytics-dashboard.js dynamically to inject the 🐛 bug report button
+ * on every page consistently during beta phase.
+ */
+function initializeBugReportWidget() {
+    // Check if analytics dashboard is already loaded
+    if (typeof TeKeteAkoAnalytics !== 'undefined') {
+        // Already loaded, just initialize
+        if (!window.teKeteAnalytics) {
+            window.teKeteAnalytics = new TeKeteAkoAnalytics();
+        }
+        return;
+    }
+    
+    // Dynamically load analytics-dashboard.js if not already loaded
+    const existingScript = document.querySelector('script[src*="analytics-dashboard.js"]');
+    if (existingScript) {
+        // Script tag exists, wait for it to load
+        if (typeof TeKeteAkoAnalytics !== 'undefined') {
+            window.teKeteAnalytics = new TeKeteAkoAnalytics();
+        }
+        return;
+    }
+    
+    // Create and load the script
+    const script = document.createElement('script');
+    script.src = '/js/analytics-dashboard.js';
+    script.async = true;
+    script.onload = function() {
+        // Initialize the bug report system once loaded
+        if (typeof TeKeteAkoAnalytics !== 'undefined') {
+            window.teKeteAnalytics = new TeKeteAkoAnalytics();
+            console.log('🐛 Bug Report Widget loaded - Beta testing mode');
+        }
+    };
+    script.onerror = function() {
+        console.warn('Bug report widget failed to load - continuing without it');
+    };
+    
+    document.head.appendChild(script);
+}
