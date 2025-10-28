@@ -414,43 +414,127 @@ async function submitRegistration() {
     submitText.textContent = 'Creating your account...';
     
     try {
-        // 1. Create Supabase auth user
+        // Use the fixed registration function if available
+        if (window.authFixes && window.authFixes.fixedRegistrationSubmit) {
+            console.log('Using fixed registration method...');
+            const result = await window.authFixes.fixedRegistrationSubmit(formData);
+            
+            if (result.success) {
+                if (result.requiresEmailVerification) {
+                    showStepMessage(
+                        '📧 Account created! Redirecting to email verification...',
+                        'success',
+                        5
+                    );
+                    
+                    setTimeout(() => {
+                        window.location.href = `/verify-email.html?email=${encodeURIComponent(formData.email)}`;
+                    }, 2000);
+                } else {
+                    showStepMessage('Account created successfully! Redirecting to your kete...', 'success', 5);
+                    
+                    setTimeout(() => {
+                        window.location.href = '/my-kete.html';
+                    }, 2000);
+                }
+                return;
+            }
+        }
+        
+        // Fallback to original method
+        console.log('Using original registration method...');
+        
+        // 1. Ensure role is valid
+        if (!formData.role || !['teacher', 'student', 'admin'].includes(formData.role)) {
+            throw new Error('Invalid role specified. Must be teacher, student, or admin.');
+        }
+        
+        // 2. Create Supabase auth user
         const { data: authData, error: authError } = await supabase.auth.signUp({
             email: formData.email,
             password: formData.password,
             options: {
                 data: {
                     full_name: formData.fullName,
-                    role: formData.role
+                    role: formData.role,
+                    school_name: formData.schoolName || 'Mangakōtukutuku College'
                 }
             }
         });
         
-        if (authError) throw authError;
-        
-        if (!authData.user) {
-            throw new Error('Registration failed. Please try again.');
+        if (authError) {
+            console.error('Auth signup error:', authError);
+            throw authError;
         }
         
-        const userId = authData.user.id;
+        if (!authData.user) {
+            throw new Error('Registration failed - no user created');
+        }
         
-        // IMPORTANT: Set the session so RLS policies work correctly
+        console.log('User created successfully:', authData.user.id);
+        
+        // 3. Wait a moment for any potential triggers to run
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // 4. Check if profile already exists (in case trigger worked)
+        const { data: existingProfile } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('user_id', authData.user.id)
+            .single();
+            
+        if (existingProfile) {
+            console.log('Profile already exists from trigger:', existingProfile);
+            
+            if (authData.session) {
+                showStepMessage('Account created successfully! Redirecting to your kete...', 'success', 5);
+                setTimeout(() => {
+                    window.location.href = '/my-kete.html';
+                }, 2000);
+            } else {
+                showStepMessage(
+                    '📧 Account created! Redirecting to email verification...',
+                    'success',
+                    5
+                );
+                setTimeout(() => {
+                    window.location.href = `/verify-email.html?email=${encodeURIComponent(formData.email)}`;
+                }, 2000);
+            }
+            return;
+        }
+        
+        // 5. No profile exists, create it manually
+        console.log('Creating profile manually...');
+        
+        // Set session first so RLS policies work
         if (authData.session) {
             await supabase.auth.setSession({
                 access_token: authData.session.access_token,
                 refresh_token: authData.session.refresh_token
             });
         } else {
-            throw new Error('Session not established. Please try logging in.');
+            // No session - likely email confirmation required
+            showStepMessage(
+                '📧 Account created! Redirecting to email verification...',
+                'success',
+                5
+            );
+            
+            // Redirect to verify-email page with email param
+            setTimeout(() => {
+                window.location.href = `/verify-email.html?email=${encodeURIComponent(formData.email)}`;
+            }, 2000);
+            return; // Stop here - can't create profile without session
         }
         
-        // 2. Create comprehensive profile
+        // 6. Create comprehensive profile
         const profileData = {
-            user_id: userId,
+            user_id: authData.user.id,
             email: formData.email,
-            role: formData.role,
+            role: formData.role,  // Ensure this is exactly 'teacher', 'student', or 'admin'
             display_name: formData.fullName,
-            school_name: formData.schoolName || formData.studentSchool || null,
+            school_name: formData.schoolName || formData.studentSchool || 'Mangakōtukutuku College',
             preferred_language: formData.preferredLanguage || 'English',
             onboarding_completed: true,
             terms_accepted_at: new Date().toISOString()
@@ -480,17 +564,27 @@ async function submitRegistration() {
             profileData.iwi_affiliation = formData.iwiAffiliation;
         }
         
-        // 3. Insert profile into database
-        const { error: profileError } = await supabase
-            .from('profiles')
-            .insert([profileData]);
+        console.log('Attempting to create profile with data:', profileData);
         
+        // 7. Insert profile into database
+        const { data: profileResult, error: profileError } = await supabase
+            .from('profiles')
+            .insert(profileData)
+            .select()
+            .single();
+            
         if (profileError) {
             console.error('Profile creation error:', profileError);
-            throw new Error('Account created but profile setup failed. Please contact support.');
+            
+            // If profile creation fails, clean up the auth user
+            await supabase.auth.signOut();
+            
+            throw new Error(`Profile creation failed: ${profileError.message}`);
         }
         
-        // 4. Success! Show message and redirect
+        console.log('Profile created successfully:', profileResult);
+        
+        // 8. Success! Show message and redirect
         showStepMessage('Account created successfully! Redirecting to your kete...', 'success', 5);
         
         setTimeout(() => {

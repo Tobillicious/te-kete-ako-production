@@ -66,40 +66,12 @@ async function initializeAuth() {
 }
 
 function updateAuthState(user) {
-    // Update navigation for logged-in users
-    const authNavItems = document.querySelectorAll('.auth-nav');
-    
-    authNavItems.forEach(item => {
-        if (user) {
-            // Replace login/register with user info and logout
-            item.innerHTML = `
-                <a href="#" onclick="window.TeKeteAko.logout(); return false;">
-                    <span class="nav-icon">👤</span>
-                    <span class="nav-text-en">${user.email.split('@')[0]}</span>
-                    <span class="nav-text-mi" lang="mi">Whakatere</span>
-                </a>
-            `;
-        } else {
-            // Show login/register buttons for non-authenticated users
-            if (item.querySelector('.login-btn')) {
-                item.innerHTML = `
-                    <a href="login.html" class="login-btn">
-                        <span class="nav-icon">🔐</span>
-                        <span class="nav-text-en">Login</span>
-                        <span class="nav-text-mi" lang="mi">Takiuru</span>
-                    </a>
-                `;
-            } else if (item.querySelector('.register-btn')) {
-                item.innerHTML = `
-                    <a href="register.html" class="register-btn">
-                        <span class="nav-icon">📝</span>
-                        <span class="nav-text-en">Register</span>
-                        <span class="nav-text-mi" lang="mi">Rēhita</span>
-                    </a>
-                `;
-            }
-        }
-    });
+    // Auth navigation is now handled by auth-ui.js (AuthUI class)
+    // This function is deprecated but kept for backwards compatibility
+    // The AuthUI class in auth-ui.js handles:
+    // - User menu dropdown with profile
+    // - My Kete link visibility
+    // - Logout functionality
 }
 
 /**

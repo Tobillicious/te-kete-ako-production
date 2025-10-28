@@ -74,32 +74,47 @@ class AuthUI {
     }
 
     updateNavigation() {
-        const authNavItems = document.querySelectorAll('.auth-nav');
-        const myKeteLink = document.querySelector('.my-kete-link');
+        const loggedOutNav = document.querySelector('.auth-nav.auth-logged-out');
+        const loggedInNav = document.querySelector('.auth-nav.auth-logged-in');
         
         if (this.currentUser) {
             // User is logged in
-            authNavItems.forEach(item => {
-                const link = item.querySelector('a');
-                if (link) {
-                    if (link.classList.contains('login-btn') || link.classList.contains('register-btn')) {
-                        // Replace login/register with user info and logout
-                        item.innerHTML = this.createUserMenuHTML();
-                    }
+            // Hide login button
+            if (loggedOutNav) {
+                loggedOutNav.style.display = 'none';
+            }
+            
+            // Hide the separate My Kete button (redundant - it's in the user dropdown)
+            if (loggedInNav) {
+                loggedInNav.style.display = 'none';
+            }
+            
+            // Add user menu (if not already exists)
+            if (!document.querySelector('.user-menu-nav')) {
+                const nav = document.querySelector('.main-nav ul');
+                if (nav) {
+                    const userMenuItem = document.createElement('li');
+                    userMenuItem.className = 'user-menu-nav';
+                    userMenuItem.innerHTML = this.createUserMenuHTML();
+                    nav.appendChild(userMenuItem);
                 }
-            });
-
-            // Show My Kete link
-            if (myKeteLink) {
-                myKeteLink.style.display = 'block';
             }
         } else {
             // User is not logged in
-            this.resetNavigationToDefault();
+            // Show login button
+            if (loggedOutNav) {
+                loggedOutNav.style.display = 'block';
+            }
             
-            // Hide My Kete link
-            if (myKeteLink) {
-                myKeteLink.style.display = 'none';
+            // Hide My Kete button
+            if (loggedInNav) {
+                loggedInNav.style.display = 'none';
+            }
+            
+            // Remove user menu
+            const userMenuItem = document.querySelector('.user-menu-nav');
+            if (userMenuItem) {
+                userMenuItem.remove();
             }
         }
     }
@@ -108,21 +123,20 @@ class AuthUI {
         const userEmail = this.currentUser.email;
         const userName = userEmail.split('@')[0]; // Use part before @ as display name
         
+        // Match the exact structure of other nav items
         return `
-            <div class="user-menu">
-                <button class="user-menu-toggle">
-                    <span class="nav-icon">👤</span>
-                    <span class="nav-text-en">${userName}</span>
-                    <span style="font-size: 0.8em;">▼</span>
-                </button>
-                <div class="user-dropdown">
-                    <div class="user-dropdown-header">
-                        <div class="user-dropdown-name">${userName}</div>
-                        <div class="user-dropdown-email">${userEmail}</div>
-                    </div>
-                    <a href="my-kete.html">🧺 My Kete</a>
-                    <button class="logout-btn">🚪 Sign Out</button>
+            <a href="#">
+                <span class="nav-icon">👤</span>
+                <span class="nav-text-en">${userName}</span>
+                <span class="nav-text-mi" lang="mi">Whakatere</span>
+            </a>
+            <div class="nav-dropdown user-dropdown">
+                <div class="user-dropdown-header">
+                    <div class="user-dropdown-name">${userName}</div>
+                    <div class="user-dropdown-email">${userEmail}</div>
                 </div>
+                <a href="/my-kete.html"><span class="dropdown-mi">🧺 Tōku Kete</span><span class="dropdown-en">My Kete</span></a>
+                <a href="#" class="logout-btn"><span class="dropdown-mi">🚪 Puta</span><span class="dropdown-en">Sign Out</span></a>
             </div>
         `;
     }
@@ -261,25 +275,12 @@ let authUI;
 document.addEventListener('DOMContentLoaded', () => {
     authUI = new AuthUI();
     
-    // Set up event delegation for dynamic elements
+    // Set up event delegation for logout button
     document.addEventListener('click', (e) => {
-        if (e.target.classList.contains('user-menu-toggle')) {
-            e.preventDefault();
-            const dropdown = e.target.nextElementSibling;
-            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-        }
-        
-        if (e.target.classList.contains('logout-btn')) {
+        // Handle logout button click (including parent elements with dropdown-en/dropdown-mi)
+        if (e.target.classList.contains('logout-btn') || e.target.closest('.logout-btn')) {
             e.preventDefault();
             authUI.signOut();
-        }
-        
-        // Close dropdown when clicking outside
-        if (!e.target.closest('.user-menu')) {
-            const dropdowns = document.querySelectorAll('.user-dropdown');
-            dropdowns.forEach(dropdown => {
-                dropdown.style.display = 'none';
-            });
         }
     });
 });

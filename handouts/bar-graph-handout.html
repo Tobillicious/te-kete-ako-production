@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bar Graph Worksheet</title>
+    <title>Bar Graph Construction & Analysis | Te Kete Ako</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,7 @@
         @media print {
             @page {
                 size: A4;
-                margin: 8mm;
+                margin: 10mm;
             }
 
             body {
@@ -25,16 +25,26 @@
                 padding: 0 !important;
             }
 
-            .no-print {
+            .no-print,
+            .site-header,
+            .site-footer,
+            .left-sidebar {
                 display: none !important;
             }
 
-            .page {
-                box-shadow: none !important;
-                margin: 0 !important;
-                padding: 8mm !important;
+            .main-container {
+                display: block !important;
                 width: 100% !important;
-                min-height: auto !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .content-area {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 10mm !important;
             }
 
             .bg-blue-50,
@@ -54,6 +64,40 @@
 
             section {
                 page-break-inside: avoid;
+            }
+
+            h1, h2, h3 {
+                page-break-after: avoid;
+            }
+
+            /* Chart-specific print optimizations */
+            .chart-container {
+                width: 100% !important;
+                max-width: 170mm !important; /* A4 width minus margins */
+                height: 120mm !important; /* Smaller height for A4 */
+                margin: 0 auto !important;
+                page-break-inside: avoid !important;
+            }
+
+            .chart-container canvas {
+                width: 100% !important;
+                height: 100% !important;
+                max-width: 170mm !important;
+                max-height: 120mm !important;
+            }
+
+            /* Ensure chart sections fit properly */
+            .mb-4 {
+                margin-bottom: 15mm !important;
+            }
+
+            /* Make text smaller for better fit */
+            .text-sm {
+                font-size: 10pt !important;
+            }
+
+            .text-lg {
+                font-size: 12pt !important;
             }
         }
 
@@ -88,7 +132,7 @@
     <link rel="stylesheet" href="../css/main.css">
 </head>
 
-<body class="bg-gray-100 flex flex-col items-center">
+<body data-auto-init="true" data-current-page="handout-page" data-breadcrumb-path="handout" data-subject="math">
 <header class="site-header no-print">
         <div class="nav-container">
             <a href="/index.html" class="nav-brand">
@@ -203,25 +247,57 @@
         </div>
     </header>
 
-
-    <!-- Print Button for user convenience -->
-    <div class="no-print my-4 p-4 bg-white rounded-lg shadow-md">
-        <p class="text-center text-gray-700 mb-2">This is a print-ready A4 bar graph worksheet.</p>
-        <button onclick="window.print()"
-            class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
-            Print or Save as PDF
+    <!-- Save Button -->
+    <div class="no-print" style="background-color: var(--color-surface); padding: 1rem; border-radius: 8px; margin-bottom: 2rem; text-align: center; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <button 
+            data-save-resource 
+            data-resource-url="/handouts/bar-graph-handout.html"
+            data-resource-title="Bar Graph Construction & Analysis"
+            data-resource-type="handout"
+            class="btn-primary" 
+            style="flex-grow: 1; max-width: 250px;">
+            ⭐ Save to My Kete
+        </button>
+        <button onclick="window.print()" class="btn-secondary" style="flex-grow: 1; max-width: 250px;">
+            🖨️ Print or Save as PDF
         </button>
     </div>
 
-    <!-- A4 Page Container -->
-    <div class="page">
-        <header class="text-center border-b-2 border-gray-200 pb-3 mb-4">
-            <h1 class="text-3xl font-bold text-gray-800">📊 Mangakōtukutuku College Data Analysis</h1>
-            <p class="text-sm text-gray-600 mt-1">Level 4: Collect, display and count data using simple frequency tables
-                and bar graphs</p>
-        </header>
+    <!-- Notification Area -->
+    <div id="notification-area" style="position: fixed; top: 1rem; right: 1rem; z-index: 10000;"></div>
 
-        <main>
+    <div class="main-container">
+
+        <aside class="left-sidebar no-print">
+
+            <!-- Whakataukī auto-injected by daily-whakatauki.js -->
+
+            <div class="sidebar-widget">
+                <h3 class="sidebar-widget-title">
+                    <span class="sidebar-icon">🌟</span>
+                    <span>Ngā Rauemi Hono / Related Resources</span>
+                </h3>
+                <ul>
+                    <li><a href="/handouts.html">📄 All Handouts</a></li>
+                    <li><a href="statistical-investigation-handout.html">📊 Statistical Investigation</a></li>
+                    <li><a href="probability-handout.html">🎲 Probability</a></li>
+                    <li><a href="misleading-graphs-comprehension-handout.html">📉 Misleading Graphs</a></li>
+                    <li><a href="/browse.html?subject=math">🔢 Mathematics Resources</a></li>
+                    <li><a href="/unit-plans.html">📚 Unit Plans</a></li>
+                </ul>
+            </div>
+
+        </aside>
+
+        <main class="content-area">
+            <!-- Cultural Opening -->
+            <div class="cultural-opening">
+                <h2>Whakataukī | Proverb</h2>
+                <p>"Ehara taku toa i te toa takitahi, engari he toa takitini"</p>
+                <p>Success is not the work of one, but the work of many.</p>
+                <p>Data tells stories when we work together to interpret patterns and share insights. Like our tīpuna who used collective observations to understand their world, we gather data points from many sources to create meaningful graphs that reveal truths about our communities.</p>
+            </div>
+            
             <!-- Instructions Section -->
             <section class="mb-4">
                 <div class="bg-blue-50 p-4 rounded-xl border border-blue-200">
@@ -330,6 +406,7 @@
                 </div>
             </section>
         </main>
+
     </div>
 
     <script>
@@ -441,15 +518,17 @@
         });
     </script>
 
-    <!-- Related Resources Script -->
-    <script src="../js/related-resources.js"></script>
-    <script>
-        // Initialize related resources sidebar for this handout
-        document.addEventListener('DOMContentLoaded', function() {
-            initRelatedResources('bar-graph-handout.html');
-        });
-    </script>
-
+    <!-- Supabase CDN -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <!-- Supabase Client -->
+    <script src="../js/supabase-client.js"></script>
+    <!-- Save Resource Functionality -->
+    <script src="../js/save-resource.js"></script>
+    
+    <!-- Load shared components and main functionality -->
+    <script src="../js/shared-components.js"></script>
+    <script src="../js/daily-whakatauki.js"></script>
+    <script src="../js/main.js"></script>
 
 <footer class="site-footer no-print">
         <div class="footer-content">

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your Email | Te Kete Ako</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body data-auto-init="true" data-current-page="verify-email">
+
+    <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <main class="content-area">
+            <div class="cultural-opening">
+                <h2>Whakataukī | Proverb</h2>
+                <p>"Kia kaha, kia māia, kia manawanui"</p>
+                <p>Be strong, be brave, be steadfast.</p>
+                <p>Your learning journey begins with a single step.</p>
+            </div>
+
+            <div class="auth-container">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">📧</div>
+                    <h1>Check Your Email!</h1>
+                    <p style="font-size: 1.1rem; color: var(--color-text-muted);">
+                        We've sent a verification link to<br>
+                        <strong id="user-email" style="color: var(--color-primary);">your email</strong>
+                    </p>
+                </div>
+
+                <div id="verify-message" class="message" style="display: none;"></div>
+
+                <!-- Instructions -->
+                <div style="background: var(--color-surface); padding: 2rem; border-radius: 12px; margin-bottom: 2rem;">
+                    <h3 style="margin: 0 0 1rem 0; color: var(--color-primary);">📬 What to do next:</h3>
+                    <ol style="margin: 0; padding-left: 1.5rem; line-height: 2;">
+                        <li>Check your <strong>inbox</strong> for an email from Te Kete Ako</li>
+                        <li>Click the <strong>verification link</strong> in the email</li>
+                        <li>Return here and <strong>log in</strong> to start learning!</li>
+                    </ol>
+                    
+                    <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--color-border);">
+                        <p style="margin: 0 0 0.5rem 0; font-size: 0.9rem; color: var(--color-text-muted);">
+                            <strong>📁 Check your spam folder</strong> if you don't see the email within 2-3 minutes
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Resend Email Button -->
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <button 
+                        id="resend-btn" 
+                        class="auth-button"
+                        style="background: var(--color-accent); width: 100%; max-width: 400px;">
+                        <div class="loading-spinner" id="resend-spinner"></div>
+                        <span id="resend-text">📨 Resend Verification Email</span>
+                    </button>
+                    <p id="resend-timer" style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--color-text-muted);"></p>
+                </div>
+
+                <!-- Already Verified -->
+                <div style="text-align: center; padding-top: 2rem; border-top: 2px solid var(--color-border);">
+                    <p style="margin-bottom: 1rem; color: var(--color-text-muted);">Already verified your email?</p>
+                    <a href="/login.html" class="auth-button" style="display: inline-block; text-decoration: none; max-width: 300px;">
+                        🔐 Sign in now
+                    </a>
+                </div>
+
+                <!-- Troubleshooting -->
+                <div style="margin-top: 2rem; padding: 1.5rem; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ffc107;">
+                    <h4 style="margin: 0 0 0.5rem 0; color: #856404;">💡 Not receiving emails?</h4>
+                    <ul style="margin: 0; padding-left: 1.5rem; font-size: 0.9rem; color: #856404; line-height: 1.8;">
+                        <li>Check your spam/junk folder</li>
+                        <li>Add <strong>noreply@tekete.co.nz</strong> to your contacts</li>
+                        <li>Make sure you entered the correct email address</li>
+                        <li>Wait 2-3 minutes before requesting a new email</li>
+                    </ul>
+                    <p style="margin: 1rem 0 0 0; font-size: 0.9rem;">
+                        <strong>Still having issues?</strong> 
+                        <a href="/contact.html" style="color: #856404; text-decoration: underline;">Contact support</a>
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="site-footer no-print">
+        <div class="footer-content">
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <span class="footer-copyright">© 2025 Te Kete Ako</span>
+                    <span class="footer-separator">•</span>
+                    <span class="footer-location">Aotearoa New Zealand</span>
+                    <span class="footer-separator">•</span>
+                    <a href="/privacy.html">Privacy</a>
+                    <span class="footer-separator">•</span>
+                    <a href="/terms.html">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Supabase CDN -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <!-- Supabase Client -->
+    <script src="js/supabase-client.js"></script>
+
+    <script>
+        let resendCooldown = 0;
+        let cooldownInterval;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Get email from URL params or logged-in user
+            const urlParams = new URLSearchParams(window.location.search);
+            const emailFromUrl = urlParams.get('email');
+            
+            if (emailFromUrl) {
+                document.getElementById('user-email').textContent = emailFromUrl;
+            } else {
+                // Try to get from current user
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user && user.email) {
+                    document.getElementById('user-email').textContent = user.email;
+                }
+            }
+
+            // Resend button handler
+            document.getElementById('resend-btn').addEventListener('click', async () => {
+                if (resendCooldown > 0) {
+                    return; // Still in cooldown
+                }
+
+                const btn = document.getElementById('resend-btn');
+                const spinner = document.getElementById('resend-spinner');
+                const text = document.getElementById('resend-text');
+                const messageDiv = document.getElementById('verify-message');
+
+                btn.disabled = true;
+                spinner.style.display = 'inline-block';
+                text.textContent = 'Sending...';
+                messageDiv.style.display = 'none';
+
+                try {
+                    const email = document.getElementById('user-email').textContent;
+                    
+                    const { error } = await supabase.auth.resend({
+                        type: 'signup',
+                        email: email
+                    });
+
+                    if (error) throw error;
+
+                    // Show success message
+                    messageDiv.textContent = '✅ Verification email sent! Check your inbox (and spam folder).';
+                    messageDiv.className = 'message success';
+                    messageDiv.style.display = 'block';
+
+                    // Start cooldown (60 seconds)
+                    resendCooldown = 60;
+                    startCooldown();
+
+                } catch (error) {
+                    console.error('Resend error:', error);
+                    messageDiv.textContent = '❌ Failed to resend email. Please try again or contact support.';
+                    messageDiv.className = 'message error';
+                    messageDiv.style.display = 'block';
+                    
+                    btn.disabled = false;
+                    spinner.style.display = 'none';
+                    text.textContent = '📨 Resend Verification Email';
+                }
+            });
+        });
+
+        function startCooldown() {
+            const btn = document.getElementById('resend-btn');
+            const spinner = document.getElementById('resend-spinner');
+            const text = document.getElementById('resend-text');
+            const timer = document.getElementById('resend-timer');
+
+            cooldownInterval = setInterval(() => {
+                resendCooldown--;
+                
+                if (resendCooldown > 0) {
+                    timer.textContent = `Wait ${resendCooldown}s before resending`;
+                    btn.disabled = true;
+                } else {
+                    clearInterval(cooldownInterval);
+                    timer.textContent = '';
+                    btn.disabled = false;
+                    spinner.style.display = 'none';
+                    text.textContent = '📨 Resend Verification Email';
+                }
+            }, 1000);
+        }
+    </script>
+    
+    <!-- Load main functionality -->
+    <script src="js/main.js"></script>
+</body>
+</html>
+

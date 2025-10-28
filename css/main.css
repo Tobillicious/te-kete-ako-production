@@ -733,7 +733,7 @@ a:hover {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 0.3s;
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 0.5s; /* FORGIVENESS: 500ms delay before hiding */
   z-index: 9999;
   margin-top: 0.5rem;
   backdrop-filter: blur(20px);
@@ -743,12 +743,66 @@ a:hover {
 
 /* Keep dropdown visible when hovering nav item OR dropdown itself */
 .main-nav li:hover .nav-dropdown,
-.nav-dropdown:hover {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0);
-  transition-delay: 0s, 0s, 0s;
-  pointer-events: auto;
+.nav-dropdown:hover,
+.user-menu-nav:hover .nav-dropdown {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateX(-50%) translateY(0) !important;
+  transition-delay: 0s, 0s, 0s !important; /* Show instantly */
+  pointer-events: auto !important;
+}
+
+/* User Dropdown Specific Styling */
+.user-dropdown {
+  min-width: 240px;
+  padding: 0;
+}
+
+.user-dropdown-header {
+  padding: 1rem 1.5rem;
+  border-bottom: 2px solid var(--color-border);
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.user-dropdown-name {
+  font-weight: 700;
+  color: var(--color-primary);
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.user-dropdown-email {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.user-dropdown a {
+  display: block;
+  padding: 0.875rem 1.5rem;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.user-dropdown a:last-child {
+  border-bottom: none;
+}
+
+.user-dropdown a:hover {
+  background: var(--color-surface);
+  color: var(--color-primary);
+}
+
+.user-dropdown .logout-btn {
+  color: #dc3545;
+  font-weight: 600;
+}
+
+.user-dropdown .logout-btn:hover {
+  background: #fff5f5;
+  color: #c82333;
 }
 
 /* Cascade animation for dropdown items */
@@ -6945,5 +6999,40 @@ button:focus-visible {
   .onboarding-container,
   .onboarding-progress {
     display: none !important;
+  }
+}
+
+/* =================================================================
+   MY KETE PRINT STYLES
+   ================================================================= */
+@media print {
+  /* Hide interactive elements */
+  .kete-actions,
+  .delete-btn,
+  button:not(.no-print-hide) {
+    display: none !important;
+  }
+
+  /* Optimize saved resources grid for print */
+  .saved-resources-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem !important;
+  }
+
+  /* Resource cards for print */
+  .resource-card {
+    border: 1px solid #ccc !important;
+    padding: 1rem !important;
+    page-break-inside: avoid;
+    margin-bottom: 0.5rem !important;
+  }
+
+  /* Stats section for print */
+  .kete-stats {
+    margin-bottom: 1.5rem !important;
+    padding: 1rem !important;
+    border: 1px solid #ddd !important;
+    page-break-after: avoid;
   }
 }
