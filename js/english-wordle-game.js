@@ -1,4 +1,4 @@
-// English Wordle Game
+// Simple English Wordle Game
 class EnglishWordleGame {
     constructor() {
         this.targetWord = '';
@@ -13,56 +13,52 @@ class EnglishWordleGame {
             'AGENT', 'AGREE', 'AHEAD', 'ALARM', 'ALBUM', 'ALERT', 'ALIEN', 'ALIGN', 'ALIKE', 'ALIVE',
             'ALLOW', 'ALONE', 'ALONG', 'ALTER', 'AMONG', 'ANGER', 'ANGLE', 'ANGRY', 'APART', 'APPLE',
             'APPLY', 'ARENA', 'ARGUE', 'ARISE', 'ARRAY', 'ASIDE', 'ASSET', 'AUDIO', 'AVOID', 'AWAKE',
-            'AWARD', 'AWARE', 'BADLY', 'BASIC', 'BEACH', 'BEGAN', 'BEGIN', 'BEING', 'BELOW', 'BENCH',
-            'BILLY', 'BIRTH', 'BLACK', 'BLAME', 'BLANK', 'BLAST', 'BLIND', 'BLOCK', 'BLOOD', 'BOARD',
-            'BOAST', 'BOOST', 'BOOTH', 'BOUND', 'BRAIN', 'BRAND', 'BRASS', 'BRAVE', 'BREAD', 'BREAK',
-            'BREED', 'BRIEF', 'BRING', 'BROAD', 'BROKE', 'BROWN', 'BUILD', 'BUILT', 'BURST', 'BUYER',
-            'CABLE', 'CARRY', 'CATCH', 'CAUSE', 'CHAIN', 'CHAIR', 'CHAOS', 'CHARM', 'CHART', 'CHASE',
-            'CHEAP', 'CHECK', 'CHEST', 'CHILD', 'CHINA', 'CHOSE', 'CIVIL', 'CLAIM', 'CLASS', 'CLEAN',
-            'CLEAR', 'CLICK', 'CLIMB', 'CLOCK', 'CLOSE', 'CLOUD', 'COACH', 'COAST', 'COULD', 'COUNT',
-            'COURT', 'COVER', 'CRAFT', 'CRASH', 'CRAZY', 'CREAM', 'CRIME', 'CROSS', 'CROWD', 'CROWN',
-            'CRUDE', 'CURVE', 'CYCLE', 'DAILY', 'DANCE', 'DATED', 'DEALT', 'DEATH', 'DEBUT', 'DELAY',
-            'DEPTH', 'DOING', 'DOUBT', 'DOZEN', 'DRAFT', 'DRAMA', 'DRANK', 'DRAWN', 'DREAM', 'DRESS',
-            'DRILL', 'DRINK', 'DRIVE', 'DROVE', 'DYING', 'EAGER', 'EARLY', 'EARTH', 'EIGHT', 'ELITE',
-            'EMPTY', 'ENEMY', 'ENJOY', 'ENTER', 'ENTRY', 'EQUAL', 'ERROR', 'EVENT', 'EVERY', 'EXACT',
-            'EXIST', 'EXTRA', 'FAITH', 'FALSE', 'FAULT', 'FIBER', 'FIELD', 'FIFTH', 'FIFTY', 'FIGHT',
-            'FINAL', 'FIRST', 'FIXED', 'FLASH', 'FLEET', 'FLOOR', 'FLUID', 'FOCUS', 'FORCE', 'FORTH',
-            'FORTY', 'FORUM', 'FOUND', 'FRAME', 'FRANK', 'FRAUD', 'FRESH', 'FRONT', 'FROST', 'FUNNY',
-            'GHOST', 'GIANT', 'GIVEN', 'GLASS', 'GLOBE', 'GLORY', 'GOODS', 'GRACE', 'GRADE', 'GRAIN',
-            'GRAND', 'GRANT', 'GRASS', 'GRAVE', 'GREAT', 'GREEN', 'GROSS', 'GROUP', 'GROWN', 'GUARD',
-            'GUESS', 'GUEST', 'GUIDE', 'HAPPY', 'HARSH', 'HEART', 'HEAVY', 'HENCE', 'HORSE', 'HOTEL',
-            'HOUSE', 'HUMAN', 'IDEAL', 'IMAGE', 'INDEX', 'INNER', 'INPUT', 'ISSUE', 'JAPAN', 'JOINT',
-            'JUDGE', 'KNIFE', 'KNOCK', 'KNOWN', 'LABEL', 'LARGE', 'LASER', 'LATER', 'LAUGH', 'LAYER',
-            'LEARN', 'LEASE', 'LEAST', 'LEAVE', 'LEGAL', 'LEVEL', 'LIGHT', 'LIMIT', 'LIVED', 'LOCAL',
-            'LOOSE', 'LOWER', 'LUCKY', 'LUNCH', 'LYING', 'MAGIC', 'MAJOR', 'MAKER', 'MARCH', 'MATCH',
-            'MAYBE', 'MAYOR', 'MEANT', 'MEDAL', 'MEDIA', 'METAL', 'METER', 'MIGHT', 'MINOR', 'MINUS',
-            'MIXED', 'MODEL', 'MONEY', 'MONTH', 'MORAL', 'MOTOR', 'MOUNT', 'MOUSE', 'MOUTH', 'MOVED',
-            'MOVIE', 'MUSIC', 'NEEDS', 'NEVER', 'NEWLY', 'NIGHT', 'NOISE', 'NORTH', 'NOTED', 'NOVEL',
-            'NURSE', 'OCEAN', 'OFFER', 'OFTEN', 'ORDER', 'OTHER', 'OUGHT', 'PAINT', 'PANEL', 'PAPER',
-            'PARTY', 'PEACE', 'PETER', 'PHASE', 'PHONE', 'PHOTO', 'PIANO', 'PIECE', 'PILOT', 'PITCH',
-            'PLACE', 'PLAIN', 'PLANE', 'PLANT', 'PLATE', 'POINT', 'POUND', 'POWER', 'PRESS', 'PRICE',
-            'PRIDE', 'PRIME', 'PRINT', 'PRIOR', 'PRIZE', 'PROOF', 'PROUD', 'PROVE', 'QUEEN', 'QUICK',
-            'QUIET', 'QUITE', 'RADIO', 'RAISE', 'RANGE', 'RAPID', 'RATIO', 'REACH', 'READY', 'REALM',
-            'REBEL', 'REFER', 'RELAX', 'REPAY', 'REPLY', 'RIGHT', 'RIGID', 'RIVAL', 'RIVER', 'ROBOT',
-            'ROCKY', 'ROMAN', 'ROUGH', 'ROUND', 'ROUTE', 'ROYAL', 'RURAL', 'SCALE', 'SCENE', 'SCOPE',
-            'SCORE', 'SENSE', 'SERVE', 'SETUP', 'SEVEN', 'SHALL', 'SHAPE', 'SHARE', 'SHARP', 'SHEET',
-            'SHELF', 'SHELL', 'SHIFT', 'SHINE', 'SHIRT', 'SHOCK', 'SHOOT', 'SHORT', 'SHOWN', 'SIGHT',
-            'SILLY', 'SINCE', 'SIXTH', 'SIXTY', 'SIZED', 'SKILL', 'SLEEP', 'SLIDE', 'SMALL', 'SMART',
-            'SMILE', 'SMOKE', 'SNAKE', 'SNOW', 'SOLID', 'SOLVE', 'SORRY', 'SOUND', 'SOUTH', 'SPACE',
-            'SPARE', 'SPEAK', 'SPEED', 'SPEND', 'SPENT', 'SPLIT', 'SPOKE', 'SPORT', 'STAFF', 'STAGE',
-            'STAKE', 'STAND', 'START', 'STATE', 'STEAM', 'STEEL', 'STEEP', 'STICK', 'STILL', 'STOCK',
-            'STONE', 'STOOD', 'STORE', 'STORM', 'STORY', 'STRIP', 'STUCK', 'STUDY', 'STUFF', 'STYLE',
-            'SUGAR', 'SUITE', 'SUPER', 'SWEET', 'SWIFT', 'SWING', 'SWORD', 'TABLE', 'TAKEN', 'TASTE',
-            'TAXES', 'TEACH', 'TEAMS', 'TEETH', 'TEMPO', 'TENDS', 'TERMS', 'TESTS', 'THANK', 'THEFT',
-            'THEIR', 'THEME', 'THERE', 'THESE', 'THICK', 'THING', 'THINK', 'THIRD', 'THOSE', 'THREE',
-            'THREW', 'THROW', 'THUMB', 'TIGHT', 'TILED', 'TIMER', 'TIMES', 'TIRED', 'TITLE', 'TODAY',
-            'TOKEN', 'TOTAL', 'TOUCH', 'TOUGH', 'TOWER', 'TRACK', 'TRADE', 'TRAIN', 'TREAT', 'TREND',
-            'TRIAL', 'TRIBE', 'TRICK', 'TRIED', 'TRIES', 'TRULY', 'TRUNK', 'TRUST', 'TRUTH', 'TWICE',
-            'TWIST', 'TYPED', 'UNDER', 'UNDUE', 'UNION', 'UNITY', 'UNTIL', 'UPPER', 'UPSET', 'URBAN',
-            'USAGE', 'USUAL', 'VALUE', 'VIDEO', 'VIRUS', 'VISIT', 'VITAL', 'VOCAL', 'VOICE', 'WASTE',
-            'WATCH', 'WATER', 'WHEEL', 'WHERE', 'WHICH', 'WHILE', 'WHITE', 'WHOLE', 'WHOSE', 'WOMAN',
-            'WOMEN', 'WORLD', 'WORRY', 'WORSE', 'WORST', 'WORTH', 'WOULD', 'WRITE', 'WRONG', 'WROTE',
-            'YOUNG', 'YOUTH'
+            'AWARD', 'AWARE', 'BASIC', 'BEACH', 'BEGIN', 'BEING', 'BELOW', 'BENCH', 'BIRTH', 'BLACK',
+            'BLAME', 'BLANK', 'BLAST', 'BLIND', 'BLOCK', 'BLOOD', 'BOARD', 'BOOST', 'BOOTH', 'BOUND',
+            'BRAIN', 'BRAND', 'BRAVE', 'BREAD', 'BREAK', 'BREED', 'BRIEF', 'BRING', 'BROAD', 'BROWN',
+            'BUILD', 'BUILT', 'BURST', 'CARRY', 'CATCH', 'CAUSE', 'CHAIN', 'CHAIR', 'CHAOS', 'CHARM',
+            'CHART', 'CHASE', 'CHEAP', 'CHECK', 'CHEST', 'CHILD', 'CHINA', 'CHOSE', 'CIVIL', 'CLAIM',
+            'CLASS', 'CLEAN', 'CLEAR', 'CLICK', 'CLIMB', 'CLOCK', 'CLOSE', 'CLOUD', 'COACH', 'COAST',
+            'COULD', 'COUNT', 'COURT', 'COVER', 'CRAFT', 'CRASH', 'CRAZY', 'CREAM', 'CRIME', 'CROSS',
+            'CROWD', 'CROWN', 'CURVE', 'CYCLE', 'DAILY', 'DANCE', 'DEATH', 'DEBUT', 'DELAY', 'DEPTH',
+            'DOUBT', 'DOZEN', 'DRAFT', 'DRAMA', 'DREAM', 'DRESS', 'DRINK', 'DRIVE', 'EARLY', 'EARTH',
+            'EIGHT', 'EMPTY', 'ENEMY', 'ENJOY', 'ENTER', 'ENTRY', 'EQUAL', 'ERROR', 'EVENT', 'EVERY',
+            'EXACT', 'EXIST', 'EXTRA', 'FAITH', 'FALSE', 'FAULT', 'FIELD', 'FIFTH', 'FIFTY', 'FIGHT',
+            'FINAL', 'FIRST', 'FIXED', 'FLASH', 'FLOOR', 'FOCUS', 'FORCE', 'FORTH', 'FORTY', 'FOUND',
+            'FRAME', 'FRESH', 'FRONT', 'FUNNY', 'GHOST', 'GIANT', 'GIVEN', 'GLASS', 'GLOBE', 'GLORY',
+            'GRACE', 'GRADE', 'GRAIN', 'GRAND', 'GRANT', 'GRASS', 'GRAVE', 'GREAT', 'GREEN', 'GROUP',
+            'GROWN', 'GUARD', 'GUESS', 'GUEST', 'GUIDE', 'HAPPY', 'HARSH', 'HEART', 'HEAVY', 'HENCE',
+            'HORSE', 'HOTEL', 'HOUSE', 'HUMAN', 'IDEAL', 'IMAGE', 'INDEX', 'INNER', 'INPUT', 'ISSUE',
+            'JAPAN', 'JOINT', 'JUDGE', 'KNIFE', 'KNOCK', 'KNOWN', 'LABEL', 'LARGE', 'LASER', 'LATER',
+            'LAUGH', 'LAYER', 'LEARN', 'LEASE', 'LEAST', 'LEAVE', 'LEGAL', 'LEVEL', 'LIGHT', 'LIMIT',
+            'LOCAL', 'LOWER', 'LUCKY', 'LUNCH', 'MAGIC', 'MAJOR', 'MAKER', 'MARCH', 'MATCH', 'MAYBE',
+            'MAYOR', 'MEANT', 'MEDAL', 'MEDIA', 'METAL', 'METER', 'MIGHT', 'MINOR', 'MINUS', 'MIXED',
+            'MODEL', 'MONEY', 'MONTH', 'MORAL', 'MOTOR', 'MOUNT', 'MOUSE', 'MOUTH', 'MOVED', 'MOVIE',
+            'MUSIC', 'NEEDS', 'NEVER', 'NEWLY', 'NIGHT', 'NOISE', 'NORTH', 'NOTED', 'NOVEL', 'NURSE',
+            'OCEAN', 'OFFER', 'OFTEN', 'ORDER', 'OTHER', 'OUGHT', 'PAINT', 'PANEL', 'PAPER', 'PARTY',
+            'PEACE', 'PHASE', 'PHONE', 'PHOTO', 'PIANO', 'PIECE', 'PILOT', 'PITCH', 'PLACE', 'PLAIN',
+            'PLANE', 'PLANT', 'PLATE', 'POINT', 'POUND', 'POWER', 'PRESS', 'PRICE', 'PRIDE', 'PRIME',
+            'PRINT', 'PRIOR', 'PRIZE', 'PROOF', 'PROUD', 'PROVE', 'QUEEN', 'QUICK', 'QUIET', 'QUITE',
+            'RADIO', 'RAISE', 'RANGE', 'RAPID', 'RATIO', 'REACH', 'READY', 'REALM', 'REBEL', 'REFER',
+            'RELAX', 'REPAY', 'REPLY', 'RIGHT', 'RIGID', 'RIVAL', 'RIVER', 'ROBOT', 'ROCKY', 'ROMAN',
+            'ROUGH', 'ROUND', 'ROUTE', 'ROYAL', 'RURAL', 'SCALE', 'SCENE', 'SCOPE', 'SCORE', 'SENSE',
+            'SERVE', 'SETUP', 'SEVEN', 'SHALL', 'SHAPE', 'SHARE', 'SHARP', 'SHEET', 'SHELF', 'SHELL',
+            'SHIFT', 'SHINE', 'SHIRT', 'SHOCK', 'SHOOT', 'SHORT', 'SHOWN', 'SIGHT', 'SILLY', 'SINCE',
+            'SIXTH', 'SIXTY', 'SIZED', 'SKILL', 'SLEEP', 'SLIDE', 'SMALL', 'SMART', 'SMILE', 'SMOKE',
+            'SNAKE', 'SOLID', 'SOLVE', 'SORRY', 'SOUND', 'SOUTH', 'SPACE', 'SPARE', 'SPEAK', 'SPEED',
+            'SPEND', 'SPENT', 'SPLIT', 'SPOKE', 'SPORT', 'STAFF', 'STAGE', 'STAKE', 'STAND', 'START',
+            'STATE', 'STEAM', 'STEEL', 'STEEP', 'STICK', 'STILL', 'STOCK', 'STONE', 'STOOD', 'STORE',
+            'STORM', 'STORY', 'STRIP', 'STUCK', 'STUDY', 'STUFF', 'STYLE', 'SUGAR', 'SUITE', 'SUPER',
+            'SWEET', 'SWIFT', 'SWING', 'SWORD', 'TABLE', 'TAKEN', 'TASTE', 'TAXES', 'TEACH', 'TEAMS',
+            'TEETH', 'TEMPO', 'TENDS', 'TERMS', 'TESTS', 'THANK', 'THEFT', 'THEIR', 'THEME', 'THERE',
+            'THESE', 'THICK', 'THING', 'THINK', 'THIRD', 'THOSE', 'THREE', 'THREW', 'THROW', 'THUMB',
+            'TIGHT', 'TIMER', 'TIMES', 'TIRED', 'TITLE', 'TODAY', 'TOKEN', 'TOTAL', 'TOUCH', 'TOUGH',
+            'TOWER', 'TRACK', 'TRADE', 'TRAIN', 'TREAT', 'TREND', 'TRIAL', 'TRIBE', 'TRICK', 'TRIED',
+            'TRIES', 'TRULY', 'TRUNK', 'TRUST', 'TRUTH', 'TWICE', 'TWIST', 'TYPED', 'UNDER', 'UNION',
+            'UNITY', 'UNTIL', 'UPPER', 'UPSET', 'URBAN', 'USAGE', 'USUAL', 'VALUE', 'VIDEO', 'VIRUS',
+            'VISIT', 'VITAL', 'VOCAL', 'VOICE', 'WASTE', 'WATCH', 'WATER', 'WHEEL', 'WHERE', 'WHICH',
+            'WHILE', 'WHITE', 'WHOLE', 'WHOSE', 'WOMAN', 'WOMEN', 'WORLD', 'WORRY', 'WORSE', 'WORST',
+            'WORTH', 'WOULD', 'WRITE', 'WRONG', 'WROTE', 'YOUNG', 'YOUTH'
         ];
         
         // Word definitions
@@ -572,30 +568,20 @@ class EnglishWordleGame {
     }
     
     initializeGame() {
-        try {
-            console.log('🔄 Initializing English Wordle game...');
-            
-            this.selectRandomWord();
-            this.updateStatsDisplay();
-            this.clearBoard();
-            this.resetKeyboard();
-            this.currentRow = 0;
-            this.currentCol = 0;
-            this.gameOver = false;
-            this.guesses = [];
-            
-            // Hide completion elements (with safety checks)
-            const gameComplete = document.getElementById('game-complete');
-            const wordDefinition = document.getElementById('word-definition');
-            
-            if (gameComplete) gameComplete.style.display = 'none';
-            if (wordDefinition) wordDefinition.style.display = 'none';
-            
-            console.log('✅ English Wordle game initialized successfully');
-        } catch (error) {
-            console.error('❌ Error in initializeGame:', error);
-            this.showError('Failed to initialize game. Please refresh the page.');
-        }
+        this.selectRandomWord();
+        this.updateStatsDisplay();
+        this.currentRow = 0;
+        this.currentCol = 0;
+        this.gameOver = false;
+        this.guesses = [];
+        
+        // Hide word info
+        const wordInfo = document.getElementById('wordInfo');
+        if (wordInfo) wordInfo.style.display = 'none';
+        
+        // Clear message
+        const messageEl = document.getElementById('message');
+        if (messageEl) messageEl.innerHTML = '';
     }
     
     selectRandomWord() {
@@ -692,7 +678,7 @@ class EnglishWordleGame {
         for (let i = 0; i < 5; i++) {
             if (guessLetters[i] === targetLetters[i]) {
                 result[i] = 'correct';
-                targetLetters[i] = null; // Mark as used
+                targetLetters[i] = null;
                 guessLetters[i] = null;
             }
         }
@@ -741,9 +727,8 @@ class EnglishWordleGame {
         this.updateStatsDisplay();
         
         setTimeout(() => {
-            this.showMessage('Excellent! 🎉', 'success');
-            this.showGameComplete(true);
-            this.showWordDefinition();
+            this.showMessage('Congratulations! 🎉', 'win');
+            this.showWordInfo();
         }, 1000);
     }
     
@@ -755,105 +740,37 @@ class EnglishWordleGame {
         this.updateStatsDisplay();
         
         setTimeout(() => {
-            this.showMessage(`The word was ${this.targetWord}`, 'error');
-            this.showGameComplete(false);
-            this.showWordDefinition();
+            this.showMessage(`The word was ${this.targetWord}`, 'lose');
+            this.showWordInfo();
         }, 1000);
     }
     
-    async showGameComplete(won) {
-        const completeDiv = document.getElementById('game-complete');
-        const messageEl = document.getElementById('completion-message');
-        const wordRevealEl = document.getElementById('word-reveal');
-        
-        // Check for Māori word bonuses
-        let maoriWordBonus = 0;
-        let totalMaoriWords = 0;
-        
-        if (window.maoriDictionaryAPI) {
-            for (const guess of this.guesses) {
-                const isMaori = await window.maoriDictionaryAPI.validateMaoriWord(guess);
-                if (isMaori) {
-                    totalMaoriWords++;
-                    maoriWordBonus += 100; // Bonus for using Māori words
-                }
-            }
-        }
-        
-        if (won) {
-            let message = `Congratulations! You guessed it in ${this.currentRow + 1} tries!`;
-            if (totalMaoriWords > 0) {
-                message += ` 🌟 Māori Word Bonus: ${totalMaoriWords} words = +${maoriWordBonus} points!`;
-            }
-            messageEl.textContent = message;
-        } else {
-            let message = 'Better luck next time!';
-            if (totalMaoriWords > 0) {
-                message += ` 🌟 Māori Word Bonus: ${totalMaoriWords} words = +${maoriWordBonus} points for trying!`;
-            }
-            messageEl.textContent = message;
-        }
-        
-        wordRevealEl.textContent = `The word was: ${this.targetWord}`;
-        completeDiv.style.display = 'block';
-        
-        // Report to gamification system with Māori bonus
-        if (window.reportGameCompletion) {
-            const baseScore = won ? (500 + Math.max(0, (7 - (this.currentRow + 1)) * 100)) : 100;
-            const finalScore = baseScore + maoriWordBonus;
-            
-            const result = window.reportGameCompletion(
-                'english-wordle',
-                finalScore,
-                this.gameTime || 0,
-                totalMaoriWords > 0, // Cultural bonus if any Māori words used
-                0, // No hints in current version
-                this.currentRow + 1, // Number of attempts
-                won // Completion status
-            );
-            
-            if (result && result.newAchievements && result.newAchievements.length > 0) {
-                this.showAchievementNotification(result);
-            }
-        }
-    }
-    
-    showWordDefinition() {
-        const definitionDiv = document.getElementById('word-definition');
-        const definitionText = document.getElementById('definition-text');
+    showWordInfo() {
+        const wordInfo = document.getElementById('wordInfo');
+        const wordDisplay = document.getElementById('wordDisplay');
+        const meaningDisplay = document.getElementById('meaningDisplay');
         
         const definition = this.definitions[this.targetWord] || 'Definition not available.';
-        definitionText.innerHTML = `<strong>${this.targetWord}:</strong> ${definition}`;
-        definitionDiv.style.display = 'block';
+        wordDisplay.textContent = this.targetWord;
+        meaningDisplay.textContent = definition;
+        wordInfo.style.display = 'block';
     }
     
     showMessage(text, type) {
         const messageEl = document.getElementById('message');
-        messageEl.textContent = text;
-        messageEl.className = `message ${type} show`;
+        messageEl.innerHTML = `<div class="message ${type}">${text}</div>`;
         
-        setTimeout(() => {
-            messageEl.classList.remove('show');
-        }, 3000);
+        if (type === 'error') {
+            setTimeout(() => {
+                messageEl.innerHTML = '';
+            }, 3000);
+        }
     }
     
     getTile(row, col) {
         const rows = document.querySelectorAll('.row');
         const tiles = rows[row].querySelectorAll('.tile');
         return tiles[col];
-    }
-    
-    clearBoard() {
-        document.querySelectorAll('.tile').forEach(tile => {
-            tile.textContent = '';
-            tile.className = 'tile';
-        });
-    }
-    
-    resetKeyboard() {
-        document.querySelectorAll('.key').forEach(key => {
-            key.classList.remove('correct', 'present', 'absent');
-        });
     }
     
     loadStats() {
@@ -881,17 +798,6 @@ class EnglishWordleGame {
         document.getElementById('current-streak').textContent = this.stats.currentStreak;
         document.getElementById('max-streak').textContent = this.stats.maxStreak;
     }
-    
-    showError(message) {
-        const messageEl = document.getElementById('message');
-        if (messageEl) {
-            messageEl.textContent = message;
-            messageEl.className = 'message error show';
-        } else {
-            // Fallback to console if no message element
-            console.error('Game Error:', message);
-        }
-    }
 }
 
 // Global function for new game button
@@ -899,26 +805,9 @@ function newGame() {
     window.englishWordleGame.initializeGame();
 }
 
-// Initialize game when page loads with error handling
+// Initialize game when page loads
 document.addEventListener('DOMContentLoaded', () => {
-    try {
-        console.log('🎮 Initializing English Wordle...');
-        window.englishWordleGame = new EnglishWordleGame();
-        console.log('✅ English Wordle initialized successfully');
-    } catch (error) {
-        console.error('❌ Error initializing English Wordle:', error);
-        // Show error message to user
-        const gameArea = document.querySelector('.game-container');
-        if (gameArea) {
-            gameArea.innerHTML = `
-                <div style="text-align: center; padding: 2rem; color: red;">
-                    <h2>Game Loading Error</h2>
-                    <p>There was an error loading the English Wordle game.</p>
-                    <button onclick="location.reload()" style="padding: 0.5rem 1rem; margin-top: 1rem;">
-                        Refresh Page
-                    </button>
-                </div>
-            `;
-        }
-    }
+    console.log('🎮 Initializing English Wordle...');
+    window.englishWordleGame = new EnglishWordleGame();
+    console.log('✅ English Wordle initialized successfully');
 });

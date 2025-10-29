@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Settings | Te Kete Ako</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        .settings-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .settings-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .settings-header h1 {
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+        }
+        .settings-header p {
+            color: var(--color-text-secondary);
+        }
+        .settings-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .settings-section h2 {
+            color: var(--color-primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            border-bottom: 2px solid var(--color-cultural-light);
+            padding-bottom: 0.5rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--color-text);
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: 'Lato', sans-serif;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(44, 95, 65, 0.1);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .form-group small {
+            display: block;
+            margin-top: 0.25rem;
+            color: var(--color-text-secondary);
+            font-size: 0.875rem;
+        }
+        .readonly-field {
+            background: #f5f5f5;
+            cursor: not-allowed;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+        }
+        .btn-primary:hover {
+            background: var(--color-secondary);
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .info-item:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            font-weight: 600;
+            color: var(--color-text);
+        }
+        .info-value {
+            color: var(--color-text-secondary);
+        }
+        .danger-zone {
+            border: 2px solid #dc3545;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+        .danger-zone h3 {
+            color: #dc3545;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+        .message {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .message.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .modal-content h3 {
+            margin-top: 0;
+            color: var(--color-primary);
+        }
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            justify-content: flex-end;
+        }
+        .auth-required {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: none;
+        }
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--color-text-secondary);
+        }
+    </style>
+</head>
+<body data-auto-init="true" data-current-page="settings">
+
+    <!-- Header (same structure as my-kete.html) -->
+    <header class="site-header no-print">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                    <li>
+                        <a href="/browse.html">
+                            <span class="nav-icon">📚</span>
+                            <span class="nav-text-mi" lang="mi">Ngā Rauemi</span>
+                            <span class="nav-text-en">Resources</span>
+                        </a>
+                        <div class="nav-dropdown">
+                            <ul>
+                                <li><a href="/unit-plans.html"><span class="dropdown-mi">📚 Ngā Mahere Wāhanga</span><span class="dropdown-en">Unit Plans (6-8 weeks)</span></a></li>
+                                <li><a href="/lessons.html"><span class="dropdown-mi">📖 Ngā Mahere Akoranga</span><span class="dropdown-en">Lesson Plans (60-75 min)</span></a></li>
+                                <li><a href="/handouts.html"><span class="dropdown-mi">📄 Ngā Kape</span><span class="dropdown-en">Handouts & Materials</span></a></li>
+                                <li><a href="/browse.html"><span class="dropdown-mi">🔍 Tirohia Katoa</span><span class="dropdown-en">Browse All Resources</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="auth-nav auth-logged-out">
+                        <a href="/login.html" class="auth-btn">
+                            <span class="nav-icon">🔐</span>
+                            <span class="nav-text-mi" lang="mi">Takiuru</span>
+                            <span class="nav-text-en">Login</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Auth Required Message -->
+    <div class="settings-container">
+        <div class="auth-required" id="auth-required">
+            <h2>🔐 Login Required</h2>
+            <p>You need to be logged in to access account settings.</p>
+            <a href="/login.html" class="btn btn-primary" style="display: inline-block; text-decoration: none; margin-top: 1rem;">Go to Login</a>
+        </div>
+
+        <!-- Loading State -->
+        <div class="loading" id="loading">
+            <p>Loading your settings...</p>
+        </div>
+
+        <!-- Settings Content (hidden until loaded) -->
+        <div id="settings-content" style="display: none;">
+            <div class="settings-header">
+                <h1>⚙️ Account Settings</h1>
+                <p>Manage your Te Kete Ako account</p>
+            </div>
+
+            <!-- Messages -->
+            <div id="message" class="message"></div>
+
+            <!-- Profile Information Section -->
+            <div class="settings-section">
+                <h2>👤 Profile Information</h2>
+                <form id="profile-form">
+                    <div class="form-group">
+                        <label for="display-name">Display Name *</label>
+                        <input type="text" id="display-name" name="display_name" required placeholder="Your name">
+                        <small>This name will be shown on your profile and saved resources</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="school">School / Organization</label>
+                        <input type="text" id="school" name="school_name" placeholder="Optional">
+                        <small>Where do you teach?</small>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary">Save Profile Changes</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Account Information Section -->
+            <div class="settings-section">
+                <h2>📧 Account Information</h2>
+                
+                <div class="info-item">
+                    <span class="info-label">Email Address:</span>
+                    <span class="info-value" id="user-email">Loading...</span>
+                </div>
+                
+                <div class="info-item">
+                    <span class="info-label">Account Created:</span>
+                    <span class="info-value" id="account-created">Loading...</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">Last Login:</span>
+                    <span class="info-value" id="last-login">Loading...</span>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary" id="change-email-btn">Change Email</button>
+                </div>
+            </div>
+
+            <!-- Security Section -->
+            <div class="settings-section">
+                <h2>🔐 Security</h2>
+                
+                <p>Keep your account secure by using a strong, unique password.</p>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" id="change-password-btn">Change Password</button>
+                </div>
+            </div>
+
+            <!-- Subscription Section (Future) -->
+            <div class="settings-section">
+                <h2>💳 Subscription</h2>
+                
+                <div class="info-item">
+                    <span class="info-label">Current Plan:</span>
+                    <span class="info-value">Beta (Free)</span>
+                </div>
+
+                <p style="margin-top: 1rem; color: var(--color-text-secondary);">
+                    You're currently on the free beta plan. Paid tiers coming soon!
+                </p>
+            </div>
+
+            <!-- Danger Zone -->
+            <div class="settings-section">
+                <h2>⚠️ Danger Zone</h2>
+                
+                <div class="danger-zone">
+                    <h3>Delete Account</h3>
+                    <p>Once you delete your account, there is no going back. Your saved resources and profile will be permanently deleted.</p>
+                    <button type="button" class="btn btn-danger" id="delete-account-btn" style="margin-top: 1rem;">Delete My Account</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="modal">
+        <div class="modal-content">
+            <h3>⚠️ Confirm Account Deletion</h3>
+            <p>Are you absolutely sure you want to delete your account? This action cannot be undone.</p>
+            <p><strong>This will permanently delete:</strong></p>
+            <ul>
+                <li>Your profile information</li>
+                <li>All saved resources (My Kete)</li>
+                <li>Your account history</li>
+            </ul>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" id="cancel-delete-btn">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirm-delete-btn">Yes, Delete My Account</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <!-- Supabase CDN (must load FIRST) -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <!-- Supabase Client -->
+    <script src="js/supabase-client.js"></script>
+    <!-- Auth UI -->
+    <script src="js/auth-ui.js"></script>
+    <script>
+        // Account Settings Manager
+        class AccountSettings {
+            constructor() {
+                this.currentUser = null;
+                this.userProfile = null;
+                this.init();
+            }
+
+            async init() {
+                try {
+                    // Wait for Supabase to be available
+                    if (typeof supabase === 'undefined') {
+                        setTimeout(() => this.init(), 100);
+                        return;
+                    }
+
+                    // Check authentication
+                    await this.checkAuth();
+                    
+                    // Setup event listeners
+                    this.setupEventListeners();
+                } catch (error) {
+                    console.error('Error initializing settings:', error);
+                    this.showError('Failed to load settings. Please refresh the page.');
+                }
+            }
+
+            async checkAuth() {
+                const { data: { session }, error } = await supabase.auth.getSession();
+                
+                if (error || !session) {
+                    // Not logged in
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('auth-required').style.display = 'block';
+                    return;
+                }
+
+                this.currentUser = session.user;
+                await this.loadUserData();
+            }
+
+            async loadUserData() {
+                try {
+                    // Load profile from database
+                    const { data: profile, error } = await supabase
+                        .from('profiles')
+                        .select('*')
+                        .eq('user_id', this.currentUser.id)
+                        .single();
+
+                    if (error) throw error;
+
+                    this.userProfile = profile || {};
+                    
+                    // Hide loading, show content
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('settings-content').style.display = 'block';
+
+                    // Populate form fields
+                    this.populateFields();
+                } catch (error) {
+                    console.error('Error loading user data:', error);
+                    this.showError('Failed to load your profile data.');
+                }
+            }
+
+            populateFields() {
+                // Profile fields
+                document.getElementById('display-name').value = this.userProfile.display_name || '';
+                document.getElementById('school').value = this.userProfile.school_name || '';
+
+                // Account info
+                document.getElementById('user-email').textContent = this.currentUser.email;
+                
+                // Format dates
+                const createdDate = new Date(this.currentUser.created_at).toLocaleDateString('en-NZ', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                document.getElementById('account-created').textContent = createdDate;
+
+                const lastLogin = this.currentUser.last_sign_in_at 
+                    ? new Date(this.currentUser.last_sign_in_at).toLocaleDateString('en-NZ', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    })
+                    : 'Never';
+                document.getElementById('last-login').textContent = lastLogin;
+            }
+
+            setupEventListeners() {
+                // Profile form submission
+                document.getElementById('profile-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.saveProfile();
+                });
+
+                // Change email button
+                document.getElementById('change-email-btn').addEventListener('click', () => {
+                    this.changeEmail();
+                });
+
+                // Change password button
+                document.getElementById('change-password-btn').addEventListener('click', () => {
+                    this.changePassword();
+                });
+
+                // Delete account button
+                document.getElementById('delete-account-btn').addEventListener('click', () => {
+                    this.showDeleteModal();
+                });
+
+                // Delete modal buttons
+                document.getElementById('cancel-delete-btn').addEventListener('click', () => {
+                    this.hideDeleteModal();
+                });
+
+                document.getElementById('confirm-delete-btn').addEventListener('click', () => {
+                    this.deleteAccount();
+                });
+            }
+
+            async saveProfile() {
+                try {
+                    const displayName = document.getElementById('display-name').value.trim();
+                    const school = document.getElementById('school').value.trim();
+
+                    if (!displayName) {
+                        this.showError('Display name is required');
+                        return;
+                    }
+
+                    // Update profile in database
+                    const { error } = await supabase
+                        .from('profiles')
+                        .update({
+                            display_name: displayName,
+                            school_name: school || null,
+                            updated_at: new Date().toISOString()
+                        })
+                        .eq('user_id', this.currentUser.id);
+
+                    if (error) throw error;
+
+                    this.showSuccess('Profile updated successfully!');
+                    
+                    // Reload profile
+                    await this.loadUserData();
+                } catch (error) {
+                    console.error('Error saving profile:', error);
+                    this.showError('Failed to save profile changes. Please try again.');
+                }
+            }
+
+            async changeEmail() {
+                const newEmail = prompt('Enter your new email address:');
+                
+                if (!newEmail) return;
+
+                try {
+                    const { error } = await supabase.auth.updateUser({
+                        email: newEmail
+                    });
+
+                    if (error) throw error;
+
+                    this.showInfo('Check your new email for a confirmation link. Your email will be updated once you click the link.');
+                } catch (error) {
+                    console.error('Error changing email:', error);
+                    this.showError('Failed to update email. Please try again.');
+                }
+            }
+
+            async changePassword() {
+                // Trigger password reset email
+                try {
+                    const { error } = await supabase.auth.resetPasswordForEmail(
+                        this.currentUser.email,
+                        {
+                            redirectTo: `${window.location.origin}/reset-password.html`
+                        }
+                    );
+
+                    if (error) throw error;
+
+                    this.showInfo('Password reset email sent! Check your inbox for instructions.');
+                } catch (error) {
+                    console.error('Error sending reset email:', error);
+                    this.showError('Failed to send password reset email. Please try again.');
+                }
+            }
+
+            showDeleteModal() {
+                document.getElementById('delete-modal').style.display = 'flex';
+            }
+
+            hideDeleteModal() {
+                document.getElementById('delete-modal').style.display = 'none';
+            }
+
+            async deleteAccount() {
+                try {
+                    // Delete user profile first
+                    const { error: profileError } = await supabase
+                        .from('profiles')
+                        .delete()
+                        .eq('user_id', this.currentUser.id);
+
+                    if (profileError) throw profileError;
+
+                    // Delete user account (NOTE: This requires admin privileges in Supabase)
+                    // For now, we'll sign them out and show instructions
+                    await supabase.auth.signOut();
+
+                    alert('Your profile has been deleted. Please contact support to fully delete your account.');
+                    window.location.href = '/index.html';
+                } catch (error) {
+                    console.error('Error deleting account:', error);
+                    this.showError('Failed to delete account. Please contact support.');
+                    this.hideDeleteModal();
+                }
+            }
+
+            showSuccess(message) {
+                this.showMessage(message, 'success');
+            }
+
+            showError(message) {
+                this.showMessage(message, 'error');
+            }
+
+            showInfo(message) {
+                this.showMessage(message, 'info');
+            }
+
+            showMessage(message, type) {
+                const messageEl = document.getElementById('message');
+                messageEl.textContent = message;
+                messageEl.className = `message ${type}`;
+                messageEl.style.display = 'block';
+
+                // Scroll to message
+                messageEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+                // Auto-hide after 5 seconds
+                setTimeout(() => {
+                    messageEl.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            new AccountSettings();
+        });
+    </script>
+
+    <!-- Bug Widget (if exists) -->
+    <script src="js/analytics-dashboard.js"></script>
+</body>
+</html>
+

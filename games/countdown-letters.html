@@ -104,9 +104,98 @@
         }
         
         .letter-tile.selected {
-            background: var(--color-accent);
+            background: linear-gradient(135deg, #B8860B, #DAA520);
             color: white;
             transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(184, 134, 11, 0.4);
+            animation: pulse-selected 0.3s ease-out;
+        }
+        
+        @keyframes pulse-selected {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1.1); }
+        }
+        
+        .letter-tile.flash-success {
+            animation: flash-green 0.6s ease-out;
+        }
+        
+        @keyframes flash-green {
+            0% { background: var(--color-secondary); transform: scale(1); }
+            50% { background: #00ff88; transform: scale(1.15); box-shadow: 0 0 20px rgba(0, 255, 136, 0.6); }
+            100% { background: var(--color-secondary); transform: scale(1); }
+        }
+        
+        .current-word {
+            transition: all 0.3s ease;
+        }
+        
+        .current-word.typing {
+            animation: typing-glow 1s ease-in-out infinite alternate;
+        }
+        
+        @keyframes typing-glow {
+            from { box-shadow: 0 0 5px rgba(44, 95, 65, 0.3); }
+            to { box-shadow: 0 0 15px rgba(44, 95, 65, 0.6); }
+        }
+        
+        .word-success {
+            animation: word-celebration 0.8s ease-out;
+        }
+        
+        @keyframes word-celebration {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1) rotate(2deg); }
+            50% { transform: scale(1.2) rotate(-1deg); }
+            75% { transform: scale(1.1) rotate(1deg); }
+            100% { transform: scale(1); }
+        }
+        
+        .maori-word-bonus {
+            animation: maori-celebration 1s ease-out;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            background-size: 300% 300%;
+        }
+        
+        @keyframes maori-celebration {
+            0% { 
+                background-position: 0% 50%;
+                transform: scale(1) rotate(0deg);
+            }
+            25% { 
+                background-position: 25% 50%;
+                transform: scale(1.05) rotate(1deg);
+            }
+            50% { 
+                background-position: 50% 50%;
+                transform: scale(1.1) rotate(-1deg);
+            }
+            75% { 
+                background-position: 75% 50%;
+                transform: scale(1.05) rotate(0.5deg);
+            }
+            100% { 
+                background-position: 100% 50%;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+        
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+        
+        .shuffle-animation {
+            animation: shuffle-spin 0.5s ease-in-out;
+        }
+        
+        @keyframes shuffle-spin {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(90deg) scale(0.8); }
+            50% { transform: rotate(180deg) scale(0.6); }
+            75% { transform: rotate(270deg) scale(0.8); }
+            100% { transform: rotate(360deg) scale(1); }
         }
         
         .word-building {
@@ -472,7 +561,7 @@
                     <div class="current-word" id="currentWord">Click letters to build words</div>
                     <div class="word-controls">
                         <button class="btn secondary" onclick="clearWord()">Clear</button>
-                        <button class="btn" onclick="submitWord()">Submit Word</button>
+                        <button class="btn" onclick="submitWordWithValidation()">Submit Word</button>
                         <button class="btn secondary" onclick="shuffleLetters()">Shuffle Letters</button>
                     </div>
                 </div>
@@ -530,11 +619,19 @@
                     <h4>How to Play:</h4>
                     <ol>
                         <li>Click <strong>Start Game</strong> to begin the 30-second timer</li>
-                        <li>Click letters to build words (minimum 3 letters)</li>
-                        <li>Submit words before time runs out</li>
+                        <li><strong>Click letters</strong> or <strong>type on keyboard</strong> to build words (minimum 3 letters)</li>
+                        <li>Press <strong>Enter</strong> to submit words, or click Submit button</li>
                         <li>Te Reo Māori words earn <strong>double points</strong>!</li>
                         <li>Try to find the longest possible word</li>
                     </ol>
+                    
+                    <h4>⌨️ Keyboard Shortcuts:</h4>
+                    <ul>
+                        <li><strong>Type letters:</strong> Add letters to your word</li>
+                        <li><strong>Enter:</strong> Submit current word</li>
+                        <li><strong>Backspace:</strong> Remove last letter</li>
+                        <li><strong>Escape:</strong> Clear entire word</li>
+                    </ul>
                 </div>
             </div>
         </main>
@@ -703,7 +800,7 @@
             });
         }
 
-        // Select a letter
+        // Select a letter with tactile feedback
         function selectLetter(index) {
             if (!gameActive || gamePaused) return;
             
@@ -714,12 +811,28 @@
             currentWord += gameLetters[index];
             tile.classList.add('selected');
             
+            // Add subtle feedback
+            hapticFeedback('light');
+            
             updateCurrentWord();
         }
 
-        // Update current word display
+        // Update current word display with flashy effects
         function updateCurrentWord() {
-            document.getElementById('currentWord').textContent = currentWord || 'Click letters to build words';
+            const display = document.getElementById('currentWord');
+            if (currentWord) {
+                display.textContent = currentWord;
+                display.style.fontSize = '2rem';
+                display.style.fontWeight = 'bold';
+                display.style.color = '#2C5F41';
+                display.classList.add('typing');
+            } else {
+                display.textContent = 'Click letters or type to build words';
+                display.style.fontSize = '1.2rem';
+                display.style.fontWeight = 'normal';
+                display.style.color = '#666';
+                display.classList.remove('typing');
+            }
         }
 
         // Clear current word
@@ -769,10 +882,29 @@
                 tile.classList.remove('selected');
             });
             
-            // Show success message
+            // Trigger letter celebration animations
+            selectedLetters.forEach((index, delay) => {
+                setTimeout(() => {
+                    const tile = document.getElementById(`letter-${index}`);
+                    tile.classList.add('flash-success');
+                    setTimeout(() => tile.classList.remove('flash-success'), 600);
+                }, delay * 100);
+            });
+            
+            // Trigger word celebration
+            const display = document.getElementById('currentWord');
+            if (isMaori) {
+                display.classList.add('maori-word-bonus');
+                setTimeout(() => display.classList.remove('maori-word-bonus'), 1000);
+            } else {
+                display.classList.add('word-success');
+                setTimeout(() => display.classList.remove('word-success'), 800);
+            }
+            
+            // Show success message with excitement
             const message = isMaori ? 
-                `Ka rawe! "${currentWord}" is Te Reo Māori - ${points} points (doubled)!` :
-                `Great! "${currentWord}" - ${points} points!`;
+                `🌿 Ka rawe! "${currentWord}" is Te Reo Māori - ${points} points (doubled)!` :
+                `✨ Great! "${currentWord}" - ${points} points!`;
             showMessage(message, 'success');
             
             // Reset for next word
@@ -792,6 +924,12 @@
 
         // Start game
         function startGame() {
+            // If button says "New Game", call newGame instead
+            if (document.getElementById('startBtn').textContent === 'New Game') {
+                newGame();
+                return;
+            }
+            
             gameActive = true;
             gamePaused = false;
             gameTime = 30;
@@ -832,30 +970,90 @@
 
         // New game
         function newGame() {
+            // Stop any running timer
             if (gameTimer) clearInterval(gameTimer);
+            
+            // Reset game state completely
+            gameActive = false;
+            gamePaused = false;
+            gameTime = 30;
+            
+            // Clear all animations and classes
+            document.querySelectorAll('.letter-tile').forEach(tile => {
+                tile.classList.remove('selected', 'used', 'flash-success');
+            });
+            
+            // Reset timer styling
+            const timerElement = document.getElementById('timer');
+            timerElement.style.color = '#2C5F41';
+            timerElement.style.fontSize = '2rem';
+            timerElement.style.animation = 'none';
+            
+            // Reset current word display
+            const display = document.getElementById('currentWord');
+            display.classList.remove('typing', 'word-success', 'maori-word-bonus');
+            
+            // Initialize fresh game
             initGame();
             document.getElementById('startBtn').textContent = 'Start Game';
             clearMessage();
         }
 
-        // Shuffle letters
+        // Shuffle letters with flashy animation
         function shuffleLetters() {
-            for (let i = gameLetters.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [gameLetters[i], gameLetters[j]] = [gameLetters[j], gameLetters[i]];
-            }
-            renderLetters();
-            clearWord();
+            const grid = document.getElementById('lettersGrid');
+            grid.classList.add('shuffle-animation');
+            
+            setTimeout(() => {
+                for (let i = gameLetters.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [gameLetters[i], gameLetters[j]] = [gameLetters[j], gameLetters[i]];
+                }
+                renderLetters();
+                clearWord();
+                grid.classList.remove('shuffle-animation');
+            }, 250);
         }
 
-        // Update timer display
+        // Update timer display with excitement effects
         function updateTimer() {
-            document.getElementById('timer').textContent = gameTime;
+            const timerElement = document.getElementById('timer');
+            timerElement.textContent = gameTime;
+            
+            // Add urgency effects as time runs out
+            if (gameTime <= 5 && gameTime > 0) {
+                timerElement.style.color = '#ff4757';
+                timerElement.style.fontSize = '3rem';
+                timerElement.style.animation = 'pulse 0.5s ease-in-out infinite alternate';
+            } else if (gameTime <= 10) {
+                timerElement.style.color = '#ffa502';
+                timerElement.style.fontSize = '2.5rem';
+            } else {
+                timerElement.style.color = '#2C5F41';
+                timerElement.style.fontSize = '2rem';
+                timerElement.style.animation = 'none';
+            }
+        }
+
+        // Animated score counter
+        function animateScore(newScore) {
+            const scoreElement = document.getElementById('totalScore');
+            const currentScore = parseInt(scoreElement.textContent) || 0;
+            const increment = Math.ceil((newScore - currentScore) / 10);
+            
+            function updateScore() {
+                const current = parseInt(scoreElement.textContent) || 0;
+                if (current < newScore) {
+                    scoreElement.textContent = Math.min(current + increment, newScore);
+                    setTimeout(updateScore, 50);
+                }
+            }
+            updateScore();
         }
 
         // Update score and words display
         function updateDisplay() {
-            document.getElementById('totalScore').textContent = score;
+            animateScore(score);
             document.getElementById('wordsFound').textContent = foundWords.length;
             
             const longestWordLength = foundWords.length > 0 ? 
@@ -901,10 +1099,33 @@
             });
         }
 
-        // Show message
+        // Haptic feedback simulation
+        function hapticFeedback(type = 'light') {
+            if (navigator.vibrate) {
+                switch(type) {
+                    case 'success': navigator.vibrate([100, 50, 100]); break;
+                    case 'error': navigator.vibrate([200]); break;
+                    case 'light': navigator.vibrate([10]); break;
+                }
+            }
+        }
+
+        // Sound effect placeholders (could add actual sounds later)
+        function playSound(type) {
+            // Future: Add actual sound effects
+            console.log(`🔊 Playing ${type} sound`);
+        }
+
+        // Show message with effects
         function showMessage(text, type) {
             const messageDiv = document.getElementById('message');
             messageDiv.innerHTML = `<div class="message ${type}">${text}</div>`;
+            
+            // Add haptic feedback
+            hapticFeedback(type);
+            
+            // Add sound feedback
+            playSound(type);
             
             if (type === 'error' || type === 'success') {
                 setTimeout(() => {
@@ -920,12 +1141,144 @@
 
         // Show instructions
         function showInstructions() {
-            showMessage('Build words from the 9 letters provided. Te Reo Māori words earn double points! Try to find the longest word possible. You have 30 seconds once you start the timer.', 'info');
+            showMessage('Build words from the 9 letters provided. Click letters or type on keyboard! Te Reo Māori words earn double points! Press Enter to submit, Backspace to undo, Escape to clear. You have 30 seconds once you start the timer.', 'info');
+        }
+
+        // Keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (!gameActive || gamePaused) return;
+            
+            const key = e.key.toUpperCase();
+            
+            // Handle letter input
+            if (key.match(/[A-Z]/) && key.length === 1) {
+                const letterIndex = gameLetters.findIndex((letter, index) => 
+                    letter === key && !document.getElementById(`letter-${index}`).classList.contains('used')
+                );
+                if (letterIndex !== -1) {
+                    selectLetter(letterIndex);
+                } else {
+                    // Give feedback when typing unavailable letters
+                    showMessage(`Letter "${key}" is not available or already used!`, 'error');
+                    setTimeout(() => clearMessage(), 1500);
+                }
+            }
+            
+            // Handle special keys
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                submitWordWithValidation();
+            } else if (e.key === 'Backspace' || e.key === 'Delete') {
+                e.preventDefault();
+                if (selectedLetters.length > 0) {
+                    const lastIndex = selectedLetters.pop();
+                    const tile = document.getElementById(`letter-${lastIndex}`);
+                    tile.classList.remove('selected');
+                    currentWord = currentWord.slice(0, -1);
+                    updateCurrentWord();
+                }
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                clearWord();
+            }
+        });
+
+        // Check if word can be formed from available letters
+        function canFormWord(word) {
+            const wordLetters = word.toUpperCase().split('');
+            const availableLetters = [...gameLetters]; // Copy array
+            
+            for (const letter of wordLetters) {
+                const index = availableLetters.indexOf(letter);
+                if (index === -1) {
+                    return false; // Letter not available
+                }
+                availableLetters.splice(index, 1); // Remove used letter
+            }
+            
+            return true; // All letters available
+        }
+
+        // Word validation using dictionary API
+        async function validateWord(word) {
+            if (word.length < 3) return false;
+            
+            // CRITICAL: First check if word can be formed from available letters
+            if (!canFormWord(word)) {
+                return false;
+            }
+            
+            // Check against our Māori word list first
+            if (MAORI_WORDS.includes(word.toLowerCase())) {
+                return true;
+            }
+            
+            // Use the Māori dictionary API for validation
+            if (window.maoriDictionaryAPI) {
+                try {
+                    const isValid = await window.maoriDictionaryAPI.validateWord(word);
+                    return isValid;
+                } catch (error) {
+                    console.warn('Dictionary API error:', error);
+                }
+            }
+            
+            // Common English words dictionary (curated list for Countdown)
+            const commonEnglishWords = [
+                // 3-letter words
+                'the', 'and', 'for', 'are', 'but', 'not', 'you', 'all', 'can', 'had', 'her', 'was', 'one', 'our', 'out', 'day', 'get', 'has', 'him', 'his', 'how', 'man', 'new', 'now', 'old', 'see', 'two', 'way', 'who', 'boy', 'did', 'its', 'let', 'put', 'say', 'she', 'too', 'use',
+                
+                // 4-letter words
+                'that', 'with', 'have', 'this', 'will', 'your', 'from', 'they', 'know', 'want', 'been', 'good', 'much', 'some', 'time', 'very', 'when', 'come', 'here', 'just', 'like', 'long', 'make', 'many', 'over', 'such', 'take', 'than', 'them', 'well', 'work', 'back', 'call', 'came', 'each', 'find', 'give', 'hand', 'high', 'keep', 'last', 'left', 'life', 'live', 'look', 'made', 'most', 'move', 'must', 'name', 'need', 'next', 'open', 'part', 'play', 'said', 'same', 'seem', 'show', 'side', 'tell', 'turn', 'used', 'want', 'ways', 'week', 'went', 'were', 'what', 'word', 'year',
+                
+                // 5-letter words
+                'which', 'their', 'would', 'there', 'could', 'other', 'after', 'first', 'never', 'these', 'think', 'where', 'being', 'every', 'great', 'might', 'shall', 'still', 'those', 'under', 'while', 'about', 'again', 'before', 'found', 'going', 'house', 'right', 'small', 'sound', 'still', 'three', 'water', 'words', 'years', 'place', 'state', 'thing', 'through', 'world', 'young',
+                
+                // 6+ letter words
+                'should', 'around', 'because', 'between', 'during', 'follow', 'little', 'number', 'people', 'public', 'school', 'second', 'system', 'without', 'another', 'example', 'government', 'important', 'information', 'different', 'national', 'question', 'complete', 'however', 'nothing', 'program', 'problem', 'several', 'special', 'usually', 'against', 'company', 'general', 'perhaps', 'picture', 'service', 'through', 'together', 'various', 'working'
+            ];
+            
+            return commonEnglishWords.includes(word.toLowerCase());
+        }
+
+        // Enhanced submit word with validation
+        async function submitWordWithValidation() {
+            if (!gameActive || currentWord.length < 3) {
+                showMessage('Words must be at least 3 letters long!', 'error');
+                return;
+            }
+            
+            if (foundWords.find(w => w.word === currentWord.toLowerCase())) {
+                showMessage('You already found that word!', 'error');
+                clearWord();
+                return;
+            }
+            
+            // Show validation feedback
+            showMessage('Checking word...', 'info');
+            
+            // Check if word can be formed first (faster check)
+            if (!canFormWord(currentWord)) {
+                showMessage(`"${currentWord}" uses letters you don't have! Use only the available letters.`, 'error');
+                clearWord();
+                return;
+            }
+            
+            const isValid = await validateWord(currentWord);
+            if (!isValid) {
+                showMessage(`"${currentWord}" is not in our dictionary. Try common English words or Te Reo Māori!`, 'error');
+                clearWord();
+                return;
+            }
+            
+            // Word is valid, proceed with original submit logic
+            submitWord();
         }
 
         // Initialize game when page loads
         document.addEventListener('DOMContentLoaded', initGame);
     </script>
+    <script src="../js/maori-dictionary-api.js"></script>
     <script src="../js/daily-whakatauki.js"></script>
 
     <!-- Bug Report Widget for Beta Testing -->

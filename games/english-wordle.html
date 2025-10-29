@@ -9,11 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/main.css">
     <style>
-        body {
-            min-height: 100vh;
-            font-family: 'Lato', sans-serif;
-        }
-
         .game-container {
             max-width: 500px;
             margin: 0 auto;
@@ -22,49 +17,31 @@
             width: 100%;
         }
         
-        .back-link {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            text-decoration: none;
-            backdrop-filter: blur(10px);
-        }
-        
         .game-header {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2rem;
-            margin: 2rem 0;
-            color: white;
+            margin-bottom: 2rem;
         }
         
         .game-title {
             font-size: 2.5rem;
             font-weight: bold;
+            color: var(--color-primary);
             margin-bottom: 0.5rem;
         }
         
         .game-subtitle {
+            color: var(--color-text-secondary);
             font-size: 1.1rem;
-            opacity: 0.9;
         }
         
         .stats-container {
             display: flex;
             justify-content: space-around;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
             padding: clamp(0.5rem, 2vw, 1rem);
             margin-bottom: 2rem;
             gap: 0.5rem;
             flex-wrap: wrap;
-            color: white;
         }
         
         .stat-item {
@@ -79,27 +56,23 @@
         
         .stat-label {
             font-size: 0.8rem;
-            opacity: 0.8;
+            color: var(--color-text-secondary);
         }
         
         .game-board {
             margin: 2rem 0;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 2rem 1rem;
         }
         
         .row {
             display: flex;
             justify-content: center;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
         
         .tile {
             width: clamp(45px, 10vw, 60px);
             height: clamp(45px, 10vw, 60px);
-            border: 2px solid rgba(255,255,255,0.3);
+            border: 2px solid #d3d6da;
             margin: 0 clamp(1px, 0.5vw, 2px);
             display: flex;
             align-items: center;
@@ -108,33 +81,46 @@
             font-weight: bold;
             text-transform: uppercase;
             transition: all 0.3s ease;
-            background: rgba(255,255,255,0.9);
-            color: var(--color-primary);
-            border-radius: 8px;
-        }
-        
-        .tile.correct {
-            background: #28a745;
-            color: white;
-            border-color: #28a745;
-        }
-        
-        .tile.present {
-            background: #ffc107;
-            color: white;
-            border-color: #ffc107;
-        }
-        
-        .tile.absent {
-            background: #6c757d;
-            color: white;
-            border-color: #6c757d;
+            background: white;
+            border-radius: 4px;
         }
         
         .tile.filled {
-            border-color: var(--color-accent);
-            background: white;
-            color: var(--color-primary);
+            border-color: #878a8c;
+            animation: pop 0.1s ease-in-out;
+        }
+        
+        .tile.correct {
+            background: var(--color-secondary);
+            border-color: var(--color-secondary);
+            color: white;
+            animation: flip 0.6s ease-in-out;
+        }
+        
+        .tile.present {
+            background: #c9b458;
+            border-color: #c9b458;
+            color: white;
+            animation: flip 0.6s ease-in-out;
+        }
+        
+        .tile.absent {
+            background: #787c7e;
+            border-color: #787c7e;
+            color: white;
+            animation: flip 0.6s ease-in-out;
+        }
+        
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes flip {
+            0% { transform: rotateX(0); }
+            50% { transform: rotateX(90deg); }
+            100% { transform: rotateX(0); }
         }
         
         .keyboard {
@@ -145,79 +131,169 @@
             display: flex;
             justify-content: center;
             margin-bottom: 8px;
-            gap: 3px;
         }
         
         .key {
-            background: rgba(255,255,255,0.2);
-            color: white;
+            background: #d3d6da;
             border: none;
-            padding: 12px 8px;
             border-radius: 4px;
-            font-weight: bold;
+            color: var(--color-text);
             cursor: pointer;
-            transition: all 0.2s;
-            min-width: 25px;
-            font-size: 0.9rem;
+            font-size: clamp(12px, 2.5vw, 14px);
+            font-weight: bold;
+            height: clamp(44px, 8vw, 58px);
+            margin: 0 clamp(2px, 0.5vw, 3px);
+            min-width: clamp(35px, 7vw, 43px);
+            padding: 0;
+            text-transform: uppercase;
+            transition: background-color 0.1s ease;
+            touch-action: manipulation;
+            user-select: none;
         }
         
         .key:hover {
-            background: rgba(255,255,255,0.3);
+            background: #bbb;
+            transform: translateY(-1px);
+        }
+        
+        .key:active {
+            transform: translateY(0);
+            background: #aaa;
+        }
+        
+        .key:focus {
+            outline: 2px solid var(--color-secondary);
+            outline-offset: 2px;
         }
         
         .key.wide {
-            min-width: 60px;
-            font-size: 0.8rem;
+            min-width: clamp(55px, 12vw, 65px);
+            font-size: clamp(10px, 2vw, 12px);
         }
         
         .key.correct {
-            background: #28a745;
+            background: var(--color-secondary);
+            color: white;
         }
         
         .key.present {
-            background: #ffc107;
+            background: #c9b458;
+            color: white;
         }
         
         .key.absent {
-            background: #6c757d;
+            background: #787c7e;
+            color: white;
         }
         
         .message {
-            margin: 1rem 0;
             padding: 1rem;
+            margin: 1rem 0;
             border-radius: 8px;
             font-weight: bold;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            color: white;
-            opacity: 0;
-            transition: opacity 0.3s;
+            text-align: center;
         }
         
-        .message.show {
-            opacity: 1;
+        .message.win {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
         }
         
-        .message.success {
-            background: rgba(40, 167, 69, 0.3);
-            border: 2px solid #28a745;
+        .message.lose {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
         
         .message.error {
-            background: rgba(220, 53, 69, 0.3);
-            border: 2px solid #dc3545;
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
         }
         
-        .game-complete {
+        .message.success {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #b6d4da;
+        }
+        
+        .word-info {
+            background: var(--color-cultural-light);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            text-align: left;
+            display: none;
+        }
+        
+        .buttons {
+            margin: 2rem 0;
+        }
+        
+        .btn {
+            background: var(--color-secondary);
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 0 0.5rem;
+            padding: 12px 24px;
+            transition: background-color 0.2s ease;
+        }
+        
+        .btn:hover {
+            background: #2c5f3f;
+        }
+        
+        .btn.secondary {
+            background: #6c757d;
+        }
+        
+        .btn.secondary:hover {
+            background: #5a6268;
+        }
+        
+        .game-settings {
             background: rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 2rem;
-            margin: 2rem 0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
             color: white;
         }
         
-        .word-definition {
+        .setting-item {
+            margin-bottom: 1rem;
+        }
+        
+        .setting-label {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 0.5rem;
+        }
+        
+        .setting-label input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--color-secondary);
+        }
+        
+        .setting-text {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .setting-description {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-left: 1.5rem;
+        }
+        
+        .game-help {
             background: rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
             border-radius: 12px;
@@ -227,27 +303,64 @@
             text-align: left;
         }
         
-        .controls {
-            margin: 2rem 0;
+        .game-help h3, .game-help h4 {
+            color: var(--color-accent);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .game-help h3:first-child {
+            margin-top: 0;
+        }
+        
+        .game-help ul {
+            margin: 0.5rem 0 1rem 1.5rem;
+        }
+        
+        .game-help li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .help-examples {
             display: flex;
-            justify-content: center;
+            align-items: center;
             gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
         }
         
-        .game-btn {
-            background: var(--color-secondary);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 25px;
+        .help-tile {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
+            border-radius: 4px;
+            font-size: 1.2rem;
         }
         
-        .game-btn:hover {
-            background: var(--color-primary);
-            transform: translateY(-2px);
+        .help-tile.correct {
+            background: #28a745;
+            color: white;
+        }
+        
+        .help-tile.present {
+            background: #ffc107;
+            color: white;
+        }
+        
+        .help-tile.absent {
+            background: #6c757d;
+            color: white;
+        }
+        
+        kbd {
+            background: rgba(255,255,255,0.2);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255,255,255,0.3);
         }
         
         @media (max-width: 480px) {
@@ -411,26 +524,30 @@
                 <div class="stat-number" id="max-streak">0</div>
                 <div class="stat-label">Max Streak</div>
             </div>
+            <div class="stat-item">
+                <div class="stat-number" id="game-timer">0:00</div>
+                <div class="stat-label">Time</div>
+            </div>
         </div>
         
-        <div class="game-board" id="game-board">
-            <div class="row">
-                <div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div>
+        <div class="game-board" id="game-board" role="grid" aria-label="Wordle game board">
+            <div class="row" role="row">
+                <div class="tile" role="gridcell" aria-label="Row 1, Letter 1"></div><div class="tile" role="gridcell" aria-label="Row 1, Letter 2"></div><div class="tile" role="gridcell" aria-label="Row 1, Letter 3"></div><div class="tile" role="gridcell" aria-label="Row 1, Letter 4"></div><div class="tile" role="gridcell" aria-label="Row 1, Letter 5"></div>
             </div>
-            <div class="row">
-                <div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div>
+            <div class="row" role="row">
+                <div class="tile" role="gridcell" aria-label="Row 2, Letter 1"></div><div class="tile" role="gridcell" aria-label="Row 2, Letter 2"></div><div class="tile" role="gridcell" aria-label="Row 2, Letter 3"></div><div class="tile" role="gridcell" aria-label="Row 2, Letter 4"></div><div class="tile" role="gridcell" aria-label="Row 2, Letter 5"></div>
             </div>
-            <div class="row">
-                <div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div>
+            <div class="row" role="row">
+                <div class="tile" role="gridcell" aria-label="Row 3, Letter 1"></div><div class="tile" role="gridcell" aria-label="Row 3, Letter 2"></div><div class="tile" role="gridcell" aria-label="Row 3, Letter 3"></div><div class="tile" role="gridcell" aria-label="Row 3, Letter 4"></div><div class="tile" role="gridcell" aria-label="Row 3, Letter 5"></div>
             </div>
-            <div class="row">
-                <div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div>
+            <div class="row" role="row">
+                <div class="tile" role="gridcell" aria-label="Row 4, Letter 1"></div><div class="tile" role="gridcell" aria-label="Row 4, Letter 2"></div><div class="tile" role="gridcell" aria-label="Row 4, Letter 3"></div><div class="tile" role="gridcell" aria-label="Row 4, Letter 4"></div><div class="tile" role="gridcell" aria-label="Row 4, Letter 5"></div>
             </div>
-            <div class="row">
-                <div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div>
+            <div class="row" role="row">
+                <div class="tile" role="gridcell" aria-label="Row 5, Letter 1"></div><div class="tile" role="gridcell" aria-label="Row 5, Letter 2"></div><div class="tile" role="gridcell" aria-label="Row 5, Letter 3"></div><div class="tile" role="gridcell" aria-label="Row 5, Letter 4"></div><div class="tile" role="gridcell" aria-label="Row 5, Letter 5"></div>
             </div>
-            <div class="row">
-                <div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div>
+            <div class="row" role="row">
+                <div class="tile" role="gridcell" aria-label="Row 6, Letter 1"></div><div class="tile" role="gridcell" aria-label="Row 6, Letter 2"></div><div class="tile" role="gridcell" aria-label="Row 6, Letter 3"></div><div class="tile" role="gridcell" aria-label="Row 6, Letter 4"></div><div class="tile" role="gridcell" aria-label="Row 6, Letter 5"></div>
             </div>
         </div>
         
@@ -471,21 +588,16 @@
             </div>
         </div>
         
-        <div class="message" id="message"></div>
+        <div id="message"></div>
         
-        <div class="controls">
-            <button class="game-btn" onclick="newGame()">New Game</button>
+        <div id="wordInfo" class="word-info">
+            <h3>Word Definition</h3>
+            <p><strong>Word:</strong> <span id="wordDisplay"></span></p>
+            <p><strong>Meaning:</strong> <span id="meaningDisplay"></span></p>
         </div>
-        
-        <div class="word-definition" id="word-definition" style="display: none;">
-            <h3>Word Definition:</h3>
-            <p id="definition-text"></p>
-        </div>
-        
-        <div class="game-complete" id="game-complete" style="display: none;">
-            <h3>Game Complete!</h3>
-            <p id="completion-message"></p>
-            <p id="word-reveal"></p>
+
+        <div class="buttons">
+            <button class="btn" onclick="newGame()">New Game</button>
         </div>
     </div>
     
