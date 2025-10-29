@@ -373,6 +373,18 @@
                     <div id="saved-resources-grid" class="saved-resources-grid" style="display: none;">
                         <!-- Resources will be loaded here dynamically -->
                     </div>
+
+                    <!-- Recently Viewed Section -->
+                    <div id="recently-viewed-section" style="margin-top: 3rem; display: none;">
+                        <h2 style="color: var(--color-primary); margin-bottom: 1.5rem; font-size: 1.4rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>👁️</span>
+                            <span>Recently Viewed</span>
+                            <span style="font-size: 0.9rem; color: var(--color-text-secondary); font-weight: normal;">| Tata Tiro</span>
+                        </h2>
+                        <div id="recently-viewed-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;">
+                            <!-- Recently viewed resources will be inserted here -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
@@ -417,6 +429,7 @@
                 currentUser = user;
                 showKeteContent();
                 await loadSavedResources();
+                loadRecentlyViewed(); // Load recently viewed resources
             } catch (error) {
                 console.error('Error initializing My Kete page:', error);
                 showAuthRequired();
@@ -651,6 +664,89 @@
             if (countElement) {
                 countElement.textContent = count;
             }
+        }
+        
+        // Load recently viewed resources from localStorage
+        function loadRecentlyViewed() {
+            const recentlyViewed = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
+            
+            if (recentlyViewed.length === 0) {
+                return; // Don't show section if no history
+            }
+            
+            // Show the section
+            const sectionElement = document.getElementById('recently-viewed-section');
+            const gridElement = document.getElementById('recently-viewed-grid');
+            
+            if (!sectionElement || !gridElement) return;
+            
+            sectionElement.style.display = 'block';
+            gridElement.innerHTML = '';
+            
+            // Show last 6 viewed resources
+            const recentItems = recentlyViewed.slice(0, 6);
+            
+            recentItems.forEach(item => {
+                const card = createRecentlyViewedCard(item);
+                gridElement.appendChild(card);
+            });
+        }
+        
+        // Create a card for recently viewed resource
+        function createRecentlyViewedCard(item) {
+            const card = document.createElement('a');
+            card.href = item.url;
+            card.style.cssText = `
+                display: block;
+                background: white;
+                border: 1px solid #e1e5e9;
+                border-radius: 12px;
+                padding: 1.25rem;
+                text-decoration: none;
+                color: inherit;
+                transition: all 0.2s ease;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            `;
+            
+            // Determine icon based on URL
+            let icon = '📄';
+            if (item.url.includes('lesson')) icon = '📖';
+            else if (item.url.includes('unit')) icon = '📚';
+            else if (item.url.includes('game')) icon = '🎮';
+            else if (item.url.includes('video')) icon = '📺';
+            
+            // Format viewed date
+            const viewedDate = item.timestamp ? new Date(item.timestamp).toLocaleDateString('en-NZ', {
+                month: 'short',
+                day: 'numeric'
+            }) : 'Recently';
+            
+            card.innerHTML = `
+                <div style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.5rem;">
+                    <span style="font-size: 1.8rem; line-height: 1;">${icon}</span>
+                    <h3 style="color: var(--color-primary); font-size: 1rem; margin: 0; line-height: 1.4;">
+                        ${item.title}
+                    </h3>
+                </div>
+                <p style="font-size: 0.8rem; color: var(--color-text-secondary); margin: 0;">
+                    Viewed ${viewedDate}
+                </p>
+            `;
+            
+            // Add hover effect
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-2px)';
+                card.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+                card.style.borderColor = 'var(--color-primary)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+                card.style.boxShadow = '0 2px 4px rgba(0,0,0,0.05)';
+                card.style.borderColor = '#e1e5e9';
+            });
+            
+            return card;
         }
 
         // Listen for auth state changes
