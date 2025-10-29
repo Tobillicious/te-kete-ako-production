@@ -308,6 +308,55 @@
                         </div>
                     </div>
 
+                    <!-- Filters -->
+                    <div class="kete-filters" style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem; display: none;" id="kete-filters">
+                        <h3 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.1rem;">🔍 Filter Your Collection</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                            <div>
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--color-text); font-size: 0.9rem;">📋 Type</label>
+                                <select id="filter-type" style="width: 100%; padding: 0.5rem; border: 2px solid var(--color-border); border-radius: 8px; font-size: 0.95rem;">
+                                    <option value="">All Types</option>
+                                    <option value="handout">📄 Handouts</option>
+                                    <option value="lesson">📖 Lessons</option>
+                                    <option value="game">🎮 Games</option>
+                                    <option value="unit-plan">📚 Unit Plans</option>
+                                    <option value="video">📺 Videos</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--color-text); font-size: 0.9rem;">🎨 Subject</label>
+                                <select id="filter-subject" style="width: 100%; padding: 0.5rem; border: 2px solid var(--color-border); border-radius: 8px; font-size: 0.95rem;">
+                                    <option value="">All Subjects</option>
+                                    <option value="English">📝 English</option>
+                                    <option value="Mathematics">🔢 Mathematics</option>
+                                    <option value="Science">🔬 Science</option>
+                                    <option value="Social Studies">🌏 Social Studies</option>
+                                    <option value="Te Reo Māori">🌿 Te Reo Māori</option>
+                                    <option value="Te Ao Māori">💚 Te Ao Māori</option>
+                                    <option value="Arts">🎨 The Arts</option>
+                                    <option value="Technology">🔧 Technology</option>
+                                    <option value="Health">💪 Health & PE</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--color-text); font-size: 0.9rem;">📅 Year Level</label>
+                                <select id="filter-year" style="width: 100%; padding: 0.5rem; border: 2px solid var(--color-border); border-radius: 8px; font-size: 0.95rem;">
+                                    <option value="">All Years</option>
+                                    <option value="7">Year 7</option>
+                                    <option value="8">Year 8</option>
+                                    <option value="9">Year 9</option>
+                                    <option value="10">Year 10</option>
+                                    <option value="11">Year 11</option>
+                                    <option value="12">Year 12</option>
+                                    <option value="13">Year 13</option>
+                                </select>
+                            </div>
+                        </div>
+                        <p style="text-align: center; margin-top: 1rem; color: var(--color-text-secondary); font-size: 0.85rem;">
+                            Showing <span id="filtered-count" style="font-weight: 600; color: var(--color-primary);">0</span> resources
+                        </p>
+                    </div>
+
                     <!-- Loading State -->
                     <div id="kete-loading" class="loading-message">
                         <p>📚 Loading your saved resources...</p>
@@ -348,10 +397,12 @@
     <script>
         // My Kete functionality
         let currentUser = null;
+        let allSavedResources = []; // Store all resources for filtering
 
         // Initialize page when DOM loads
         document.addEventListener('DOMContentLoaded', async () => {
             await initMyKetePage();
+            setupFilters();
         });
 
         async function initMyKetePage() {
@@ -420,8 +471,13 @@
                 if (savedResources.length === 0) {
                     emptyElement.style.display = 'block';
                 } else {
+                    allSavedResources = savedResources; // Store for filtering
                     renderBookmarkedResources(savedResources);
                     gridElement.style.display = 'grid';
+                    
+                    // Show filters if there are resources
+                    document.getElementById('kete-filters').style.display = 'block';
+                    updateFilteredCount(savedResources.length);
                 }
             } catch (error) {
                 console.error('Error loading saved resources:', error);
@@ -531,6 +587,70 @@
             });
 
             return card;
+        }
+
+        // Setup filter event listeners
+        function setupFilters() {
+            const typeFilter = document.getElementById('filter-type');
+            const subjectFilter = document.getElementById('filter-subject');
+            const yearFilter = document.getElementById('filter-year');
+            
+            if (typeFilter) typeFilter.addEventListener('change', applyFilters);
+            if (subjectFilter) subjectFilter.addEventListener('change', applyFilters);
+            if (yearFilter) yearFilter.addEventListener('change', applyFilters);
+        }
+        
+        // Apply filters to saved resources
+        function applyFilters() {
+            const typeFilter = document.getElementById('filter-type').value;
+            const subjectFilter = document.getElementById('filter-subject').value;
+            const yearFilter = document.getElementById('filter-year').value;
+            
+            let filtered = allSavedResources;
+            
+            // Filter by type
+            if (typeFilter) {
+                filtered = filtered.filter(r => r.resource_type === typeFilter);
+            }
+            
+            // Filter by subject (case-insensitive, partial match)
+            if (subjectFilter) {
+                filtered = filtered.filter(r => 
+                    r.resource_subject && r.resource_subject.toLowerCase().includes(subjectFilter.toLowerCase())
+                );
+            }
+            
+            // Filter by year level (check if year is in the resource's year_level string)
+            if (yearFilter) {
+                filtered = filtered.filter(r => 
+                    r.resource_year_level && r.resource_year_level.includes(yearFilter)
+                );
+            }
+            
+            // Re-render with filtered resources
+            renderBookmarkedResources(filtered);
+            updateFilteredCount(filtered.length);
+            
+            // Show/hide empty state
+            const gridElement = document.getElementById('saved-resources-grid');
+            const emptyElement = document.getElementById('kete-empty');
+            
+            if (filtered.length === 0) {
+                gridElement.style.display = 'none';
+                emptyElement.style.display = 'block';
+                emptyElement.innerHTML = '<p>🔍 No resources match your filters</p><p>Try adjusting your filter settings or <a href="/browse.html">browse for new resources</a>.</p>';
+            } else {
+                gridElement.style.display = 'grid';
+                emptyElement.style.display = 'none';
+            }
+        }
+        
+        // Update filtered count display
+        function updateFilteredCount(count) {
+            const countElement = document.getElementById('filtered-count');
+            if (countElement) {
+                countElement.textContent = count;
+            }
         }
 
         // Listen for auth state changes
