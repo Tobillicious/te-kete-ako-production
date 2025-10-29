@@ -775,41 +775,49 @@
     <script src="../js/gamification-system.js"></script>
     <script src="../js/adaptive-difficulty-system.js"></script>
     <script>
-        // Te Reo Māori word database with meanings and cultural context
+        // Te Reo Māori word database with meanings and cultural context - 5 letters only
         const MAORI_WORDS = [
             // Basic vocabulary - everyday words
             { word: 'AROHA', meaning: 'Love, compassion, empathy', example: 'Aroha atu ki a koe - Love to you', category: 'emotions' },
             { word: 'WHARE', meaning: 'House, building, home', example: 'Kei te whare au - I am at home', category: 'places' },
             { word: 'MAURI', meaning: 'Life force, vital essence', example: 'Kia mauri ora - Be well, be healthy', category: 'spiritual' },
             { word: 'TAIAO', meaning: 'Environment, natural world', example: 'Tiaki i te taiao - Care for the environment', category: 'nature' },
-            { word: 'KAIAKO', meaning: 'Teacher, educator', example: 'He kaiako pai ia - They are a good teacher', category: 'people' },
             { word: 'RANGI', meaning: 'Sky, heaven, day', example: 'He rangi ataahua - A beautiful day', category: 'nature' },
             { word: 'MOANA', meaning: 'Ocean, sea, large lake', example: 'Kei te moana mātou - We are at the ocean', category: 'nature' },
             { word: 'MANA', meaning: 'Power, authority, prestige', example: 'He mana tō - You have power/authority', category: 'spiritual' },
-            { word: 'TAONGA', meaning: 'Treasure, precious thing', example: 'He taonga tēnei - This is a treasure', category: 'cultural' },
-            { word: 'WAIRUA', meaning: 'Spirit, soul', example: 'He wairua pai - A good spirit', category: 'spiritual' },
             
             // Family and relationships - whānau
             { word: 'MATUA', meaning: 'Parent, father, elder', example: 'Ko taku matua - My father', category: 'whanau' },
             { word: 'WHAEA', meaning: 'Mother, aunt, female elder', example: 'Ko taku whaea - My mother', category: 'whanau' },
-            { word: 'WHANAU', meaning: 'Family, extended family group', example: 'Ko taku whānau - My family', category: 'whanau' },
+            { word: 'TEINA', meaning: 'Younger sibling or cousin', example: 'Ko taku teina - My younger sibling', category: 'whanau' },
+            { word: 'TUAKA', meaning: 'Older sibling or cousin', example: 'Ko taku tuakana - My older sibling', category: 'whanau' },
             
             // Cultural concepts - tikanga
             { word: 'HONGI', meaning: 'Traditional greeting - touching noses', example: 'Hongi mai - Come and hongi', category: 'cultural' },
             { word: 'HANGI', meaning: 'Earth oven, traditional cooking method', example: 'Hangi kai - Earth oven food', category: 'cultural' },
+            { word: 'MARAE', meaning: 'Ceremonial meeting place', example: 'Ki te marae - To the marae', category: 'cultural' },
+            { word: 'HAKA', meaning: 'Ceremonial dance, challenge', example: 'Haka pō - Night haka', category: 'cultural' },
+            { word: 'TAPU', meaning: 'Sacred, forbidden, restricted', example: 'He tapu - It is sacred', category: 'cultural' },
             
             // Nature and environment - taiao
-            { word: 'WHENUA', meaning: 'Land, country, birth place', example: 'Taku whenua - My land', category: 'nature' },
-            { word: 'KOWHAI', meaning: 'Golden native tree', example: 'He rākau kōwhai - A kowhai tree', category: 'nature' },
             { word: 'KAURI', meaning: 'Native tree species', example: 'He kauri rākau - A kauri tree', category: 'nature' },
-            { word: 'MAUNGA', meaning: 'Mountain', example: 'Te maunga - The mountain', category: 'nature' },
+            { word: 'ROTO', meaning: 'Lake, inside', example: 'Te roto - The lake', category: 'nature' },
+            { word: 'RAKAU', meaning: 'Tree, wood, stick', example: 'He rākau - A tree', category: 'nature' },
+            { word: 'RATA', meaning: 'Native flowering tree', example: 'He rātā - A rata tree', category: 'nature' },
+            { word: 'RIMU', meaning: 'Native coniferous tree', example: 'He rimu - A rimu tree', category: 'nature' },
+            
+            // Animals - kararehe
+            { word: 'KIWI', meaning: 'Flightless native bird', example: 'He kiwi - A kiwi bird', category: 'animals' },
+            { word: 'KAKA', meaning: 'Native forest parrot', example: 'He kākā - A kaka parrot', category: 'animals' },
+            { word: 'RURU', meaning: 'Native owl, morepork', example: 'He ruru - An owl', category: 'animals' },
+            { word: 'KURI', meaning: 'Dog (traditional)', example: 'He kurī - A dog', category: 'animals' },
+            { word: 'POAKA', meaning: 'Pig', example: 'He poaka - A pig', category: 'animals' },
+            { word: 'HIPI', meaning: 'Sheep', example: 'He hipi - A sheep', category: 'animals' },
             
             // Actions and movement - mahi
             { word: 'HAERE', meaning: 'Go, come, travel', example: 'Haere mai - Come here', category: 'actions' },
             { word: 'NOHO', meaning: 'Sit, stay, remain', example: 'Noho mai - Stay here', category: 'actions' },
-            { word: 'TITIRO', meaning: 'Look, watch', example: 'Titiro mai - Look here', category: 'actions' },
-            
-            // Time and seasons - taima
+            { word: 'MAHI', meaning: 'Work, do, make', example: 'Mahi pai - Good work', category: 'actions' },
             
             // Colors - nga tae
             { word: 'WHERO', meaning: 'Red', example: 'He whero - Red', category: 'colors' },
@@ -817,25 +825,154 @@
             
             // Food - kai
             { word: 'PIPI', meaning: 'Small shellfish', example: 'Ngā pipi - The pipi', category: 'food' },
-            { word: 'KINA', meaning: 'Sea urchin', example: 'He kina - Sea urchin', category: 'food' }
+            { word: 'KINA', meaning: 'Sea urchin', example: 'He kina - Sea urchin', category: 'food' },
+            { word: 'PAUA', meaning: 'Abalone shellfish', example: 'He paua - Abalone', category: 'food' },
+            { word: 'TUNA', meaning: 'Eel', example: 'He tuna - An eel', category: 'food' },
+            { word: 'HOKI', meaning: 'Blue grenadier fish', example: 'He hoki - Hoki fish', category: 'food' },
+            
+            // Body parts - tinana
+            { word: 'MATA', meaning: 'Face, eyes', example: 'Taku mata - My face', category: 'body' },
+            { word: 'RINGA', meaning: 'Hand, arm', example: 'Taku ringa - My hand', category: 'body' },
+            { word: 'WAHA', meaning: 'Mouth', example: 'Taku waha - My mouth', category: 'body' },
+            { word: 'PUKU', meaning: 'Stomach, belly', example: 'Taku puku - My stomach', category: 'body' },
+            { word: 'UPOKO', meaning: 'Head', example: 'Taku upoko - My head', category: 'body' },
+            
+            // Emotions and feelings - kare-a-roto
+            { word: 'KARE', meaning: 'Love, affection', example: 'He kare - Love', category: 'emotions' },
+            { word: 'HARI', meaning: 'Happy, joyful', example: 'Kei te hari au - I am happy', category: 'emotions' },
+            { word: 'RIRI', meaning: 'Angry', example: 'Kei te riri au - I am angry', category: 'emotions' },
+            { word: 'WEHI', meaning: 'Fear, afraid', example: 'Kei te wehi au - I am afraid', category: 'emotions' },
+            { word: 'MAMAE', meaning: 'Pain, hurt', example: 'He mamae - Pain', category: 'emotions' },
+            { word: 'KINO', meaning: 'Bad, evil', example: 'He kino - Bad', category: 'emotions' },
+            
+            // Learning and education - matauranga
+            { word: 'KURA', meaning: 'School', example: 'Ki te kura - To school', category: 'education' },
+            { word: 'TUHI', meaning: 'Write', example: 'Tuhi mai - Write to me', category: 'education' },
+            { word: 'PANUI', meaning: 'Read, notice', example: 'Pānui mai - Read this', category: 'education' },
+            { word: 'TATAU', meaning: 'Count, number', example: 'Tatau mai - Count', category: 'education' },
+            { word: 'NAMA', meaning: 'Number', example: 'He nama - A number', category: 'education' },
+            { word: 'KUPU', meaning: 'Word', example: 'He kupu - A word', category: 'education' },
+            
+            // Additional 5-letter words
+            { word: 'WHIO', meaning: 'Blue duck', example: 'He whio - A blue duck', category: 'animals' },
+            { word: 'ATUA', meaning: 'God, deity, ancestor', example: 'Ngā atua - The gods', category: 'spiritual' },
+            { word: 'TANE', meaning: 'Man, male, husband', example: 'He tāne - A man', category: 'people' },
+            { word: 'PAPA', meaning: 'Earth, flat, board', example: 'Te papa - The earth', category: 'nature' },
+            { word: 'KETE', meaning: 'Basket', example: 'He kete - A basket', category: 'cultural' },
+            { word: 'WAKA', meaning: 'Canoe, vehicle', example: 'He waka - A canoe', category: 'cultural' },
+            { word: 'KORU', meaning: 'Spiral fern frond', example: 'He koru - A spiral', category: 'cultural' },
+            { word: 'RONGO', meaning: 'Hear, news, peace', example: 'Rongo mai - Listen', category: 'actions' },
+            { word: 'HUNGA', meaning: 'Group of people', example: 'Te hunga - The group', category: 'people' },
+            { word: 'REHUA', meaning: 'Antares star', example: 'Ko Rehua - Antares', category: 'nature' },
+            { word: 'KAWE', meaning: 'Carry, bear', example: 'Kawe mai - Bring here', category: 'actions' },
+            { word: 'AWHI', meaning: 'Embrace, support', example: 'Awhi mai - Embrace', category: 'actions' },
+            { word: 'KATA', meaning: 'Laugh', example: 'Kei te kata - Laughing', category: 'emotions' },
+            { word: 'HINE', meaning: 'Girl, daughter', example: 'He hine - A girl', category: 'people' },
+            { word: 'NUKU', meaning: 'Move, shift', example: 'Nuku atu - Move away', category: 'actions' },
+            { word: 'RAUA', meaning: 'They two', example: 'A raua - Those two', category: 'people' },
+            { word: 'HORA', meaning: 'Spread out, extend', example: 'Hora mai - Spread out', category: 'actions' },
+            { word: 'RAHI', meaning: 'Large, many', example: 'He rahi - Many', category: 'quantity' },
+            { word: 'MAKO', meaning: 'Shark', example: 'He mako - A shark', category: 'animals' },
+            { word: 'NOKO', meaning: 'Remain, stay', example: 'Noko ai - Remain there', category: 'actions' },
+            { word: 'KURU', meaning: 'Breadfruit', example: 'He kuru - Breadfruit', category: 'food' },
+            { word: 'PURE', meaning: 'Prayer, blessing', example: 'He pure - A blessing', category: 'spiritual' },
+            { word: 'PARA', meaning: 'Sediment, rubbish', example: 'He para - Rubbish', category: 'nature' },
+            { word: 'KAHA', meaning: 'Strong, strength', example: 'Kia kaha - Be strong', category: 'emotions' },
+            { word: 'TITI', meaning: 'Muttonbird', example: 'He tītī - A muttonbird', category: 'animals' },
+            { word: 'HUHU', meaning: 'Native beetle', example: 'He huhu - A huhu beetle', category: 'animals' },
+            { word: 'WETA', meaning: 'Native insect', example: 'He wētā - A weta', category: 'animals' },
+            { word: 'PEPE', meaning: 'Butterfly', example: 'He pepe - A butterfly', category: 'animals' },
+            { word: 'HOPE', meaning: 'Hip, waist', example: 'Te hope - The hip', category: 'body' },
+            { word: 'MOKO', meaning: 'Tattoo, lizard', example: 'He moko - A tattoo', category: 'cultural' },
+            { word: 'KEKE', meaning: 'Cake', example: 'He kēke - A cake', category: 'food' },
+            { word: 'KOPE', meaning: 'Coffee', example: 'He kōpī - Coffee', category: 'food' },
+            { word: 'MIRO', meaning: 'Native tree', example: 'He miro - A miro tree', category: 'nature' },
+            { word: 'TARO', meaning: 'Taro plant', example: 'He taro - Taro', category: 'food' },
+            { word: 'KONO', meaning: 'Gather, collect', example: 'Kono mai - Gather', category: 'actions' },
+            
+            // Tainui dialect words (double vowels replacing macrons)
+            { word: 'WHAAU', meaning: 'Bay, inlet (Tainui: whāu)', example: 'Ki te whāu - To the bay', category: 'nature' },
+            { word: 'MAAUA', meaning: 'We two (Tainui: māua)', example: 'Ko māua - We two', category: 'people' },
+            { word: 'KOOTOU', meaning: 'You (plural, Tainui: kōtou)', example: 'Kia ora kōtou - Hello you all', category: 'people' },
+            { word: 'RAAUA', meaning: 'They two (Tainui: rāua)', example: 'Ko rāua - They two', category: 'people' },
+            { word: 'TAAUA', meaning: 'We two (inc. you, Tainui: tāua)', example: 'Ko tāua - We two', category: 'people' },
+            { word: 'MAAKU', meaning: 'Mine (Tainui: māku)', example: 'He māku - It is mine', category: 'possession' },
+            { word: 'TAAKU', meaning: 'Yours (Tainui: tāku)', example: 'He tāku - It is yours', category: 'possession' },
+            { word: 'NAAKU', meaning: 'Mine (Tainui: nāku)', example: 'Nāku tēnei - This is mine', category: 'possession' },
+            { word: 'NAANA', meaning: 'His/hers (Tainui: nāna)', example: 'Nāna tēnei - This is his/hers', category: 'possession' },
+            { word: 'MAANA', meaning: 'His/hers (Tainui: māna)', example: 'Māna tēnei - This is his/hers', category: 'possession' },
+            
+            // Proper nouns - iwi, hapū, places
+            { word: 'NGATI', meaning: 'Tribe, iwi prefix', example: 'Ngāti Tūwharetoa - Tūwharetoa tribe', category: 'iwi' },
+            { word: 'TAINUI', meaning: 'Major iwi confederation', example: 'Te iwi o Tainui - The Tainui people', category: 'iwi' },
+            { word: 'NGAATI', meaning: 'Tribe (Tainui: Ngāti)', example: 'Ngāti Maniapoto', category: 'iwi' },
+            { word: 'WAIKATO', meaning: 'Major river and region', example: 'Te awa o Waikato - The Waikato river', category: 'places' },
+            { word: 'TAUPO', meaning: 'Lake and town (Taupō)', example: 'Roto Taupō - Lake Taupō', category: 'places' },
+            { word: 'ROTORUA', meaning: 'Lake and city', example: 'Rotorua - Second lake', category: 'places' },
+            { word: 'TARANAKI', meaning: 'Mountain and region', example: 'Maunga Taranaki', category: 'places' },
+            { word: 'AOTEAROA', meaning: 'New Zealand (long white cloud)', example: 'Aotearoa - New Zealand', category: 'places' },
+            
+            // Māori mythology and spiritual beings
+            { word: 'TANGAROA', meaning: 'God of the sea', example: 'Tangaroa - Sea deity', category: 'spiritual' },
+            { word: 'TANE', meaning: 'God of forests', example: 'Tāne Mahuta - Forest god', category: 'spiritual' },
+            { word: 'RONGO', meaning: 'God of peace and crops', example: 'Rongo - Peace deity', category: 'spiritual' },
+            { word: 'TAWHIRI', meaning: 'God of weather', example: 'Tāwhiri - Weather deity', category: 'spiritual' },
+            { word: 'TUMATAUENGA', meaning: 'God of war', example: 'Tū - War deity', category: 'spiritual' },
+            { word: 'HAUMIA', meaning: 'God of wild foods', example: 'Haumia - Food deity', category: 'spiritual' },
+            { word: 'PAPATUU', meaning: 'Earth mother (Papatūānuku)', example: 'Papa - Earth mother', category: 'spiritual' },
+            
+            // Common 4-letter words that work as Tainui 5-letter
+            { word: 'MAAKU', meaning: 'Mine (Tainui dialect)', example: 'He māku tēnei - This is mine', category: 'possession' },
+            { word: 'KOOTU', meaning: 'You all (Tainui: kōtou)', example: 'Kōtou katoa - All of you', category: 'people' },
+            { word: 'PAAKAA', meaning: 'Dry (Tainui: pākā)', example: 'He pākā - It is dry', category: 'nature' },
+            { word: 'KIIKII', meaning: 'Key (Tainui)', example: 'Te kīkī - The key', category: 'objects' },
+            { word: 'PUURU', meaning: 'Bull (Tainui: pūru)', example: 'He pūru - A bull', category: 'animals' },
+            { word: 'HIINAA', meaning: 'Grey/silver (Tainui: hīnā)', example: 'He hīnā - Grey', category: 'colors' },
+            { word: 'KUURU', meaning: 'Gourd (Tainui: kūru)', example: 'He kūru - A gourd', category: 'objects' },
+            
+            // Place names continuing
+            { word: 'KAIKOURA', meaning: 'Coastal town (eat crayfish)', example: 'Kaikōura - Crayfish eating place', category: 'places' },
+            { word: 'WAITOMO', meaning: 'Caves region (water hole)', example: 'Waitomo - Water hole', category: 'places' },
+            { word: 'HUNTLY', meaning: 'Waikato town', example: 'Te taone o Huntly', category: 'places' },
+            { word: 'RAGLAN', meaning: 'Coastal town (Whāingaroa)', example: 'Raglan/Whāingaroa', category: 'places' },
+            { word: 'HAMILTON', meaning: 'Waikato city (Kirikiriroa)', example: 'Hamilton/Kirikiriroa', category: 'places' },
+            
+            // More cultural terms
+            { word: 'KOTAHA', meaning: 'Unity, oneness', example: 'Kotahitanga - Unity', category: 'cultural' },
+            { word: 'MAATAA', meaning: 'Raw, uncooked (Tainui: mātā)', example: 'He mātā - Raw', category: 'food' },
+            { word: 'PAATUU', meaning: 'Touch, land (Tainui: pātū)', example: 'Pātū mai - Touch', category: 'actions' },
+            { word: 'KAAORE', meaning: 'No, not (Tainui: kāore)', example: 'Kāore - No', category: 'responses' },
+            { word: 'HAAPUU', meaning: 'Pregnant (Tainui: hāpū)', example: 'He hāpū - Pregnant', category: 'whanau' },
+            { word: 'RAANEE', meaning: 'Or (Tainui: rānei)', example: 'Koe rānei - Or you', category: 'grammar' },
+            { word: 'TEINA', meaning: 'Younger relative', example: 'Taku teina - My younger sibling', category: 'whanau' },
+            { word: 'TUUAA', meaning: 'Back, behind (Tainui: tuā)', example: 'Ki tuā - Behind', category: 'directions' },
+            { word: 'MUURI', meaning: 'Rear, back (Tainui: mūri)', example: 'Ki mūri - To the back', category: 'directions' },
+            { word: 'MAAUU', meaning: 'Carried (Tainui: māu)', example: 'Māu e kawe - You carry', category: 'actions' }
         ];
 
         // Comprehensive list of valid 5-letter Māori words for guess validation
         const VALID_MAORI_WORDS = [
             // From the main word list
-            'AROHA', 'WHARE', 'MAURI', 'TAIAO', 'RANGI', 'MOANA', 'MANA', 'WAIRUA',
-            'MATUA', 'WHAEA', 'HONGI', 'HANGI', 'KAURI', 'HAERE', 'NOHO', 'WHERO',
-            'MANGU', 'KINA', 'PIPI',
+            'AROHA', 'WHARE', 'MAURI', 'TAIAO', 'RANGI', 'MOANA', 'MANA',
+            'MATUA', 'WHAEA', 'TEINA', 'TUAKA', 'HONGI', 'HANGI', 'MARAE', 'HAKA', 'TAPU',
+            'KAURI', 'ROTO', 'RAKAU', 'RATA', 'RIMU', 'KIWI', 'KAKA', 'RURU', 'KURI', 'POAKA', 'HIPI',
+            'HAERE', 'NOHO', 'MAHI', 'WHERO', 'MANGU', 'PIPI', 'KINA', 'PAUA', 'TUNA', 'HOKI',
+            'MATA', 'RINGA', 'WAHA', 'PUKU', 'UPOKO', 'KARE', 'HARI', 'RIRI', 'WEHI', 'MAMAE', 'KINO',
+            'KURA', 'TUHI', 'PANUI', 'TATAU', 'NAMA', 'KUPU', 'WHIO', 'ATUA', 'TANE', 'PAPA',
+            'KETE', 'WAKA', 'KORU', 'RONGO', 'HUNGA', 'REHUA', 'KAWE', 'AWHI', 'KATA', 'HINE',
+            'NUKU', 'RAUA', 'HORA', 'RAHI', 'MAKO', 'NOKO', 'KURU', 'PURE', 'PARA', 'KAHA',
+            'TITI', 'HUHU', 'WETA', 'PEPE', 'HOPE', 'MOKO', 'KEKE', 'KOPE', 'MIRO', 'TARO', 'KONO',
             
-            // Additional common 5-letter words
-            'MARAE', 'MAORI', 'NGATI', 'HAPUU', 'RONGO', 'REHUA', 'RAKAU', 'POAKA',
-            'HUNGA', 'KAWE', 'AWHI', 'KATA', 'KETE', 'KORU', 'RATA', 'RIMU',
-            'TANE', 'HINE', 'PAPA', 'NUKU', 'RAUA', 'MAHI', 'HORA', 'RAHI',
-            'PAUA', 'TUNA', 'MAKO', 'HOKI', 'TAPU', 'NOKO',
-            'KURU', 'PURE', 'PARA', 'KAHA', 'KINO', 'NGARO', 'RURU', 'KIWI', 
-            'TITI', 'KAKA', 'HUHU', 'WETA', 'PEPE', 'TERA', 'TENEI', 'KOIA', 
-            'RANEI', 'PUKU', 'MATA', 'RINGA', 'WAHA', 'HOPE', 'MOKO',
-            'KEKE', 'KOPE', 'KETE', 'MIRO', 'TARO', 'KONO', 'KURA', 'HAKA'
+            // Tainui dialect words (double vowels)
+            'WHAAU', 'MAAUA', 'RAAUA', 'TAAUA', 'MAAKU', 'TAAKU', 'NAAKU', 'NAANA', 'MAANA',
+            'KOOTU', 'MAATAA', 'PAATUU', 'KAAORE', 'HAAPUU', 'RAANEE', 'TUUAA', 'MUURI', 'MAAUU',
+            'PAAKAA', 'HIINAA', 'KUURU',
+            
+            // Proper nouns - iwi and places (5 letters only)
+            'NGATI', 'TAUPO', 'RAGLAN',
+            
+            // Additional common 5-letter words not in main list
+            'MAORI', 'HAPUU', 'NGARO', 'TERA', 'TENEI', 'KOIA', 'RANEI'
         ];
 
         // Function to normalize Māori text (handle macrons)
@@ -1588,5 +1725,14 @@
             window.teKeteAnalytics = new TeKeteAkoAnalytics();
         }
     </script>
+    <!-- Supabase CDN -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <!-- Supabase Client -->
+    <script src="js/supabase-client.js"></script>
+    <!-- Auth UI -->
+    <script src="js/auth-ui.js"></script>
+    <!-- Load main functionality -->
+    <script src="js/main.js"></script>
+
 </body>
 </html>
