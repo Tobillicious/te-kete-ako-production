@@ -719,12 +719,12 @@ a:hover {
   overflow: hidden !important;
 }
 
-/* Enhanced Dropdown Navigation Menus - EXTRA FORGIVING for trackpad users */
+/* Enhanced Dropdown Navigation Menus - BEST OF BOTH WORLDS! */
 .nav-dropdown {
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%) translateY(0); /* No initial offset - dropdown right at edge */
+  transform: translateX(-50%) translateY(0);
   background: white;
   border: none;
   border-radius: 12px;
@@ -733,13 +733,24 @@ a:hover {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 1.2s; /* EXTRA FORGIVENESS: 1.2s delay before hiding */
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 1.2s; /* FORGIVENESS: 1.2s delay */
   z-index: 9999;
-  margin-top: 0; /* Remove gap - dropdown touches nav item */
-  padding-top: 0.5rem; /* Add internal padding instead for visual spacing */
+  margin-top: 0.5rem; /* Visual gap restored for aesthetics */
   backdrop-filter: blur(20px);
-  overflow: hidden;
+  overflow: visible; /* Allow ::before to extend above */
   pointer-events: none;
+}
+
+/* MAGIC: Invisible bridge fills the gap - best of both worlds! */
+.nav-dropdown::before {
+  content: "";
+  position: absolute;
+  top: -0.5rem; /* Extends up to fill the gap */
+  left: 0;
+  right: 0;
+  height: 0.5rem; /* Matches margin-top gap */
+  background: transparent; /* Invisible but hoverable */
+  pointer-events: auto; /* Allows hover over gap */
 }
 
 /* Keep dropdown visible when hovering nav item OR dropdown itself */
