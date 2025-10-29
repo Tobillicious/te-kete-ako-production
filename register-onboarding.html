@@ -157,7 +157,7 @@
                             </div>
                             <input type="hidden" id="school_region" name="school_region">
                             <input type="hidden" id="school_type" name="school_type">
-                            <small class="form-help">Live search powered by Google - finds all NZ schools instantly</small>
+                            <small class="form-help">254 NZ schools in our database • Add yours if not listed!</small>
                         </div>
 
                         <div class="form-group">
@@ -396,9 +396,23 @@
     <!-- Supabase Client -->
     <script src="js/supabase-client.js"></script>
     
+    <!-- School Autocomplete Component -->
+    <script src="js/school-autocomplete.js"></script>
+    
     <!-- Onboarding JavaScript -->
     <script src="js/auth-fixes.js"></script>
     <script src="js/onboarding.js"></script>
+    
+    <!-- Initialize School Autocomplete -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize school autocomplete for registration
+            if (document.getElementById('school_name')) {
+                window.schoolAutocomplete = new SchoolAutocomplete('school_name', supabase);
+                console.log('✅ School autocomplete initialized for registration');
+            }
+        });
+    </script>
 
     <footer class="site-footer no-print">
         <div class="footer-content">
