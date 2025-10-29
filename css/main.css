@@ -719,12 +719,12 @@ a:hover {
   overflow: hidden !important;
 }
 
-/* Enhanced Dropdown Navigation Menus */
+/* Enhanced Dropdown Navigation Menus - EXTRA FORGIVING for trackpad users */
 .nav-dropdown {
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%) translateY(-10px);
+  transform: translateX(-50%) translateY(0); /* No initial offset - dropdown right at edge */
   background: white;
   border: none;
   border-radius: 12px;
@@ -732,16 +732,18 @@ a:hover {
   min-width: 280px;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 0.5s; /* FORGIVENESS: 500ms delay before hiding */
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 1.2s; /* EXTRA FORGIVENESS: 1.2s delay before hiding */
   z-index: 9999;
-  margin-top: 0.5rem;
+  margin-top: 0; /* Remove gap - dropdown touches nav item */
+  padding-top: 0.5rem; /* Add internal padding instead for visual spacing */
   backdrop-filter: blur(20px);
   overflow: hidden;
   pointer-events: none;
 }
 
 /* Keep dropdown visible when hovering nav item OR dropdown itself */
+/* TRACKPAD FRIENDLY: Dropdown stays open even when mouse briefly leaves */
 .main-nav li:hover .nav-dropdown,
 .nav-dropdown:hover,
 .user-menu-nav:hover .nav-dropdown {
@@ -751,6 +753,18 @@ a:hover {
   transform: translateX(-50%) translateY(0) !important;
   transition-delay: 0s, 0s, 0s !important; /* Show instantly */
   pointer-events: auto !important;
+}
+
+/* CRITICAL: Add safe hover zone between nav item and dropdown */
+.main-nav li:hover::after,
+.user-menu-nav:hover::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 20px; /* 20px safe zone for mouse travel */
+  z-index: 9998;
 }
 
 /* User Dropdown Specific Styling */
