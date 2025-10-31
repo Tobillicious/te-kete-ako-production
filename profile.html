@@ -9,111 +9,234 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
     <style>
+        /* ============================================================
+           PROFILE PAGE - TE KETE AKO DESIGN SYSTEM
+           Beautiful, Professional, Cultural
+           ============================================================ */
+        
         .profile-container {
             max-width: 900px;
-            margin: 2rem auto;
+            margin: 2rem auto 4rem;
             padding: 0 2rem;
         }
+
+        /* Cultural Opening */
+        .cultural-opening {
+            background: var(--color-cultural-light);
+            border-left: 4px solid var(--color-forest);
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+            border-radius: var(--radius-md);
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .cultural-opening h2 {
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .cultural-opening .whakatauki {
+            font-style: italic;
+            color: var(--color-forest);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            font-family: var(--font-special);
+        }
+
+        .cultural-opening .translation,
+        .cultural-opening .context {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Beautiful Gradient Header */
         .profile-header {
-            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            background: linear-gradient(135deg, var(--color-forest), var(--color-secondary));
             color: white;
             padding: 3rem 2rem;
-            border-radius: 12px;
+            border-radius: var(--radius-lg);
             text-align: center;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 2.5rem;
+            box-shadow: var(--shadow-medium);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeInUp 0.6s 0.1s ease forwards;
         }
+
+        .profile-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
         .profile-avatar {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             background: white;
-            color: var(--color-primary);
+            color: var(--color-forest);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 3rem;
             margin: 0 auto 1rem;
-            border: 4px solid rgba(255,255,255,0.5);
+            border: 4px solid rgba(255,255,255,0.8);
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
         }
+
         .profile-name {
             font-size: 2rem;
             font-weight: bold;
             margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
         }
+
         .profile-email {
             opacity: 0.9;
             font-size: 1rem;
+            position: relative;
+            z-index: 1;
         }
+
+        .profile-role-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(255,255,255,0.2);
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Sections with Cultural Backgrounds & Animations */
         .profile-section {
-            background: white;
+            background: var(--color-surface);
             padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-light);
             margin-bottom: 2rem;
+            border-left: 4px solid var(--color-forest);
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
         }
+
+        .profile-section:nth-child(3) { animation-delay: 0.2s; }
+        .profile-section:nth-child(4) { animation-delay: 0.3s; background: var(--color-cultural-light); }
+        .profile-section:nth-child(5) { animation-delay: 0.4s; }
+        .profile-section:nth-child(6) { animation-delay: 0.5s; background: var(--color-warmth); }
+
         .profile-section h2 {
             color: var(--color-primary);
             margin-bottom: 1.5rem;
             font-size: 1.5rem;
-            border-bottom: 2px solid var(--color-cultural-light);
-            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--color-border-light);
+            padding-bottom: 0.75rem;
+            font-family: var(--font-headings);
         }
+
         .info-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
         }
+
         .info-card {
-            padding: 1rem;
-            background: var(--color-cultural-light);
-            border-radius: 8px;
+            padding: 1.25rem;
+            background: white;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border-light);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
+        .info-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
         .info-label {
             font-weight: 600;
-            color: var(--color-text);
+            color: var(--color-primary);
             display: block;
             margin-bottom: 0.5rem;
             font-size: 0.9rem;
+            font-family: var(--font-headings);
         }
+
         .info-value {
-            color: var(--color-text-secondary);
+            color: var(--color-text);
             font-size: 1.1rem;
         }
-        .bio-text {
-            line-height: 1.6;
-            color: var(--color-text);
-        }
+
+        /* Professional Buttons */
         .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 6px;
+            padding: 0.875rem 2rem;
+            border-radius: var(--radius-md);
             border: none;
             font-weight: 600;
             cursor: pointer;
             font-size: 1rem;
-            transition: all 0.2s ease;
+            font-family: var(--font-headings);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
             display: inline-block;
+            position: relative;
+            z-index: 1;
         }
+
         .btn-primary {
-            background: var(--color-primary);
+            background: rgba(255,255,255,0.2);
             color: white;
+            border: 2px solid rgba(255,255,255,0.8);
         }
+
         .btn-primary:hover {
-            background: var(--color-secondary);
+            background: white;
+            color: var(--color-forest);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
+
         .auth-required {
             text-align: center;
             padding: 3rem;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-light);
             display: none;
         }
+
         .loading {
             text-align: center;
             padding: 2rem;
             color: var(--color-text-secondary);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
@@ -157,6 +280,14 @@
     </header>
 
     <div class="profile-container">
+        <!-- Cultural Opening -->
+        <div class="cultural-opening no-print">
+            <h2>Whakataukī | Proverb</h2>
+            <p class="whakatauki">"Ko au ko koe, ko koe ko au"</p>
+            <p class="translation">I am you, you are me</p>
+            <p class="context">We are all connected in this learning journey. Your profile reflects your unique contribution to our teaching community.</p>
+        </div>
+
         <div class="auth-required" id="auth-required">
             <h2>🔐 Login Required</h2>
             <p>You need to be logged in to view your profile.</p>
@@ -168,13 +299,16 @@
         </div>
 
         <div id="profile-content" style="display: none;">
+            <!-- Beautiful Gradient Hero Header -->
             <div class="profile-header">
                 <div class="profile-avatar" id="avatar">👤</div>
                 <div class="profile-name" id="display-name">Loading...</div>
                 <div class="profile-email" id="user-email">Loading...</div>
-                <a href="/account-settings.html" class="btn btn-primary" style="margin-top: 1rem;">⚙️ Edit Profile</a>
+                <div class="profile-role-badge" id="role-badge" style="margin-top: 0.75rem; display: none;"></div>
+                <a href="/account-settings.html" class="btn btn-primary" style="margin-top: 1.5rem;">⚙️ Edit Profile</a>
             </div>
 
+            <!-- Profile Information Section -->
             <div class="profile-section">
                 <h2>📋 Profile Information</h2>
                 <div class="info-grid">
@@ -193,12 +327,55 @@
                 </div>
             </div>
 
+            <!-- Teaching Details Section (for teachers) -->
+            <div class="profile-section" id="teaching-section" style="display: none;">
+                <h2>📚 Teaching Details</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <span class="info-label">Subjects Taught</span>
+                        <span class="info-value" id="subjects-taught">Not set</span>
+                    </div>
+                    <div class="info-card">
+                        <span class="info-label">Year Levels</span>
+                        <span class="info-value" id="year-levels-taught">Not set</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cultural Connection Section (if provided) -->
+            <div class="profile-section" id="cultural-section" style="display: none;">
+                <h2>🌿 Cultural Connection</h2>
+                <div class="info-grid">
+                    <div class="info-card" id="cultural-identity-card" style="display: none;">
+                        <span class="info-label">Cultural Identity</span>
+                        <span class="info-value" id="cultural-identity">Not set</span>
+                    </div>
+                    <div class="info-card" id="iwi-card" style="display: none;">
+                        <span class="info-label">Iwi Affiliation</span>
+                        <span class="info-value" id="iwi-affiliation">Not set</span>
+                    </div>
+                    <div class="info-card" id="language-card" style="display: none;">
+                        <span class="info-label">Preferred Language</span>
+                        <span class="info-value" id="preferred-language">Not set</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enhanced Kete Stats Section -->
             <div class="profile-section">
                 <h2>🧺 My Kete Stats</h2>
                 <div class="info-grid">
                     <div class="info-card">
-                        <span class="info-label">Saved Resources</span>
+                        <span class="info-label">Total Saved</span>
                         <span class="info-value" id="saved-count">0</span>
+                    </div>
+                    <div class="info-card">
+                        <span class="info-label">Handouts</span>
+                        <span class="info-value" id="handouts-count">0</span>
+                    </div>
+                    <div class="info-card">
+                        <span class="info-label">Lessons</span>
+                        <span class="info-value" id="lessons-count">0</span>
                     </div>
                     <div class="info-card">
                         <span class="info-label">Recently Saved</span>
@@ -259,9 +436,21 @@
                     const displayName = profile?.display_name || this.currentUser.email.split('@')[0];
                     const initials = displayName.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
 
+                    // Avatar & Basic Info
                     document.getElementById('avatar').textContent = initials || '👤';
                     document.getElementById('display-name').textContent = displayName;
                     document.getElementById('user-email').textContent = this.currentUser.email;
+                    
+                    // Role Badge
+                    if (profile?.role) {
+                        const roleBadge = document.getElementById('role-badge');
+                        const roleEmojis = { teacher: '👨‍🏫', student: '🎓', admin: '⚙️' };
+                        const roleNames = { teacher: 'Teacher', student: 'Student', admin: 'Administrator' };
+                        roleBadge.innerHTML = `${roleEmojis[profile.role] || '👤'} ${roleNames[profile.role] || profile.role}`;
+                        roleBadge.style.display = 'inline-block';
+                    }
+
+                    // Profile Information
                     document.getElementById('profile-display-name').textContent = profile?.display_name || 'Not set';
                     document.getElementById('profile-school').textContent = profile?.school_name || 'Not set';
 
@@ -272,6 +461,44 @@
                     });
                     document.getElementById('member-since').textContent = memberSince;
 
+                    // Teaching Details (for teachers)
+                    if (profile?.role === 'teacher') {
+                        const teachingSection = document.getElementById('teaching-section');
+                        teachingSection.style.display = 'block';
+                        
+                        if (profile.subjects_taught && profile.subjects_taught.length > 0) {
+                            document.getElementById('subjects-taught').textContent = profile.subjects_taught.join(', ');
+                        }
+                        
+                        if (profile.year_levels_taught && profile.year_levels_taught.length > 0) {
+                            document.getElementById('year-levels-taught').textContent = 'Years ' + profile.year_levels_taught.join(', ');
+                        }
+                    }
+
+                    // Cultural Connection (if any provided)
+                    const hasCultural = profile?.cultural_identity || profile?.iwi_affiliation || profile?.preferred_language;
+                    if (hasCultural) {
+                        const culturalSection = document.getElementById('cultural-section');
+                        culturalSection.style.display = 'block';
+                        
+                        if (profile.cultural_identity) {
+                            document.getElementById('cultural-identity-card').style.display = 'block';
+                            document.getElementById('cultural-identity').textContent = Array.isArray(profile.cultural_identity) 
+                                ? profile.cultural_identity.join(', ') 
+                                : profile.cultural_identity;
+                        }
+                        
+                        if (profile.iwi_affiliation) {
+                            document.getElementById('iwi-card').style.display = 'block';
+                            document.getElementById('iwi-affiliation').textContent = profile.iwi_affiliation;
+                        }
+                        
+                        if (profile.preferred_language) {
+                            document.getElementById('language-card').style.display = 'block';
+                            document.getElementById('preferred-language').textContent = profile.preferred_language;
+                        }
+                    }
+
                     await this.loadStats();
                 } catch (error) {
                     console.error('Error loading profile:', error);
@@ -281,17 +508,26 @@
             async loadStats() {
                 try {
                     const { data: saved, error } = await supabase
-                        .from('saved_resources')
+                        .from('user_saved_resources')
                         .select('*')
                         .eq('user_id', this.currentUser.id)
-                        .order('created_at', { ascending: false });
+                        .order('saved_at', { ascending: false });
 
                     if (error) throw error;
 
+                    // Total count
                     document.getElementById('saved-count').textContent = saved?.length || 0;
 
+                    // Breakdown by type
+                    const handoutsCount = saved?.filter(r => r.resource_type === 'handout' || r.resource_type === 'Handout').length || 0;
+                    const lessonsCount = saved?.filter(r => r.resource_type === 'lesson' || r.resource_type === 'Lesson').length || 0;
+                    
+                    document.getElementById('handouts-count').textContent = handoutsCount;
+                    document.getElementById('lessons-count').textContent = lessonsCount;
+
+                    // Most recent save date
                     if (saved && saved.length > 0) {
-                        const recentDate = new Date(saved[0].created_at).toLocaleDateString('en-NZ', {
+                        const recentDate = new Date(saved[0].saved_at).toLocaleDateString('en-NZ', {
                             month: 'short',
                             day: 'numeric',
                             year: 'numeric'
