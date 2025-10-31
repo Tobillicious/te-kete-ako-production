@@ -136,6 +136,7 @@ class AuthUI {
                     <div class="user-dropdown-email">${userEmail}</div>
                 </div>
                 <a href="/my-kete.html"><span class="dropdown-mi">🧺 Tōku Kete</span><span class="dropdown-en">My Kete</span></a>
+                <a href="/profile.html"><span class="dropdown-mi">👤 Kōtaha</span><span class="dropdown-en">Profile</span></a>
                 <a href="/account-settings.html"><span class="dropdown-mi">⚙️ Ngā Tautuhinga</span><span class="dropdown-en">Account Settings</span></a>
                 <a href="#" class="logout-btn"><span class="dropdown-mi">🚪 Puta</span><span class="dropdown-en">Sign Out</span></a>
             </div>
