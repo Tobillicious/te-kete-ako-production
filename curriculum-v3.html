@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NZ Curriculum Browser | Te Kete Ako</title>
+    <meta name="description" content="Browse all NZ Curriculum versions - 2007 NZC, Te Mātaiaho 2025, and Draft 2025. Perfect curriculum integration for teaching resources.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧺</text></svg>">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Scripts -->
+    <script src="js/supabase-client.js" defer></script>
+    <script src="js/curriculum-api.js" defer></script>
+    <script src="js/daily-whakatauki.js" defer></script>
+    
+    <style>
+        /* Curriculum-specific styles */
+        .curriculum-container {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding: calc(var(--spacing-unit) * 3);
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: calc(var(--spacing-unit) * 4);
+            min-height: calc(100vh - var(--header-height) - 100px);
+        }
+        
+        /* Sidebar Navigation */
+        .curriculum-sidebar {
+            position: sticky;
+            top: calc(var(--header-height) + 20px);
+            height: fit-content;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: calc(var(--spacing-unit) * 3);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .curriculum-sidebar h2 {
+            font-size: 1.25rem;
+            margin-bottom: calc(var(--spacing-unit) * 2);
+            color: var(--color-primary);
+            border-bottom: 2px solid var(--color-secondary);
+            padding-bottom: calc(var(--spacing-unit));
+        }
+        
+        .filter-group {
+            margin-bottom: calc(var(--spacing-unit) * 3);
+        }
+        
+        .filter-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--color-text-primary);
+            margin-bottom: calc(var(--spacing-unit));
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .filter-group select {
+            width: 100%;
+            padding: calc(var(--spacing-unit) * 1.5);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            background: white;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .filter-group select:hover {
+            border-color: var(--color-secondary);
+        }
+        
+        .filter-group select:focus {
+            outline: none;
+            border-color: var(--color-secondary);
+            box-shadow: 0 0 0 3px rgba(0, 176, 185, 0.1);
+        }
+        
+        .stat-badge {
+            display: inline-block;
+            background: var(--color-cultural-accent);
+            color: var(--color-secondary);
+            padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 1.5);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: calc(var(--spacing-unit));
+        }
+        
+        /* Main Content Area */
+        .curriculum-main {
+            background: white;
+        }
+        
+        .curriculum-header {
+            background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-cultural-teal) 100%);
+            color: white;
+            padding: calc(var(--spacing-unit) * 4);
+            border-radius: var(--radius-lg);
+            margin-bottom: calc(var(--spacing-unit) * 4);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .curriculum-header h1 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: calc(var(--spacing-unit));
+        }
+        
+        .curriculum-header p {
+            font-size: 1.125rem;
+            opacity: 0.95;
+            margin-bottom: calc(var(--spacing-unit) * 2);
+        }
+        
+        .version-tabs {
+            display: flex;
+            gap: calc(var(--spacing-unit) * 2);
+            flex-wrap: wrap;
+        }
+        
+        .version-tab {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 3);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            border: 2px solid transparent;
+            font-weight: 500;
+        }
+        
+        .version-tab:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .version-tab.active {
+            background: white;
+            color: var(--color-secondary);
+            border-color: white;
+            font-weight: 700;
+        }
+        
+        .version-tab .badge {
+            display: inline-block;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-left: 8px;
+        }
+        
+        .version-tab.active .badge {
+            background: var(--color-accent);
+            color: white;
+        }
+        
+        /* Search Bar */
+        .search-container {
+            margin-bottom: calc(var(--spacing-unit) * 3);
+        }
+        
+        .search-box {
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 6);
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            font-size: 1rem;
+            transition: all var(--transition-fast);
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--color-secondary);
+            box-shadow: 0 0 0 4px rgba(0, 176, 185, 0.1);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: calc(var(--spacing-unit) * 2);
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.25rem;
+        }
+        
+        /* Statements Grid */
+        .statements-container {
+            display: grid;
+            gap: calc(var(--spacing-unit) * 2);
+        }
+        
+        .statement-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: calc(var(--spacing-unit) * 3);
+            transition: all var(--transition-medium);
+            border-left: 4px solid var(--color-secondary);
+        }
+        
+        .statement-card:hover {
+            box-shadow: var(--shadow-strong);
+            transform: translateY(-2px);
+            border-left-color: var(--color-accent);
+        }
+        
+        .statement-meta {
+            display: flex;
+            gap: calc(var(--spacing-unit));
+            margin-bottom: calc(var(--spacing-unit) * 2);
+            flex-wrap: wrap;
+        }
+        
+        .meta-badge {
+            padding: calc(var(--spacing-unit) * 0.5) calc(var(--spacing-unit) * 1.5);
+            border-radius: 16px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .badge-phase {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+        
+        .badge-strand {
+            background: #f0fdf4;
+            color: #15803d;
+        }
+        
+        .badge-element-knowledge {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .badge-element-practices {
+            background: #fce7f3;
+            color: #9f1239;
+        }
+        
+        .badge-years {
+            background: #f3e8ff;
+            color: #6b21a8;
+        }
+        
+        .statement-text {
+            font-size: 1.0625rem;
+            line-height: 1.75;
+            color: var(--color-text-primary);
+            margin-bottom: calc(var(--spacing-unit) * 2);
+        }
+        
+        .statement-actions {
+            display: flex;
+            gap: calc(var(--spacing-unit) * 2);
+            padding-top: calc(var(--spacing-unit) * 2);
+            border-top: 1px solid var(--color-border-light);
+        }
+        
+        .action-btn {
+            padding: calc(var(--spacing-unit)) calc(var(--spacing-unit) * 2);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            background: white;
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all var(--transition-fast);
+        }
+        
+        .action-btn:hover {
+            background: var(--color-cultural-accent);
+            border-color: var(--color-secondary);
+            color: var(--color-secondary);
+        }
+        
+        /* Loading & Empty States */
+        .loading-state,
+        .empty-state {
+            text-align: center;
+            padding: calc(var(--spacing-unit) * 8);
+            color: var(--color-text-muted);
+        }
+        
+        .loading-spinner {
+            border: 3px solid var(--color-border);
+            border-top: 3px solid var(--color-secondary);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto calc(var(--spacing-unit) * 2);
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .results-summary {
+            background: var(--color-cultural-light);
+            padding: calc(var(--spacing-unit) * 2);
+            border-radius: var(--radius-md);
+            margin-bottom: calc(var(--spacing-unit) * 3);
+            border-left: 4px solid var(--color-forest);
+        }
+        
+        .results-summary h3 {
+            font-size: 1rem;
+            margin-bottom: calc(var(--spacing-unit));
+            color: var(--color-forest);
+        }
+        
+        .results-count {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-secondary);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .curriculum-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .curriculum-sidebar {
+                position: static;
+                max-width: 600px;
+                margin: 0 auto calc(var(--spacing-unit) * 4);
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .curriculum-header h1 {
+                font-size: 2rem;
+            }
+            
+            .version-tabs {
+                flex-direction: column;
+            }
+            
+            .version-tab {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header will be injected by shared-components.js -->
+    <div id="site-header"></div>
+    
+    <!-- Main Content -->
+    <main class="curriculum-container">
+        <!-- Sidebar Filters -->
+        <aside class="curriculum-sidebar">
+            <h2>🔍 Filter Curriculum</h2>
+            
+            <div class="filter-group">
+                <label for="filter-version">Curriculum Version</label>
+                <select id="filter-version">
+                    <option value="temataiaho_2025">Te Mātaiaho 2025 (Mandatory)</option>
+                    <option value="draft_2025">Draft 2025 (Consultation)</option>
+                    <option value="2007_nzc">2007 NZC (Legacy)</option>
+                </select>
+                <span class="stat-badge" id="version-count">Loading...</span>
+            </div>
+            
+            <div class="filter-group">
+                <label for="filter-subject">Learning Area</label>
+                <select id="filter-subject">
+                    <option value="">All Subjects</option>
+                </select>
+                <span class="stat-badge" id="subject-count">-</span>
+            </div>
+            
+            <div class="filter-group">
+                <label for="filter-phase">Phase / Level</label>
+                <select id="filter-phase">
+                    <option value="">All Phases</option>
+                </select>
+                <span class="stat-badge" id="phase-count">-</span>
+            </div>
+            
+            <div class="filter-group">
+                <label for="filter-strand">Strand</label>
+                <select id="filter-strand">
+                    <option value="">All Strands</option>
+                </select>
+                <span class="stat-badge" id="strand-count">-</span>
+            </div>
+            
+            <div class="filter-group">
+                <label for="filter-element">Element</label>
+                <select id="filter-element">
+                    <option value="">All Elements</option>
+                    <option value="Knowledge">Knowledge</option>
+                    <option value="Practices">Practices</option>
+                </select>
+            </div>
+            
+            <button onclick="resetFilters()" style="width: 100%; padding: 12px; background: var(--color-border); border: none; border-radius: var(--radius-md); cursor: pointer; font-weight: 600; margin-top: 16px;">
+                🔄 Reset Filters
+            </button>
+        </aside>
+        
+        <!-- Main Content -->
+        <div class="curriculum-main">
+            <!-- Hero Header -->
+            <div class="curriculum-header">
+                <h1>🏔️ NZ Curriculum Browser</h1>
+                <p>Navigate the constantly changing NZ Curriculum with ease. All versions, all subjects, perfectly organized.</p>
+                
+                <div class="version-tabs" id="version-tabs">
+                    <div class="version-tab active" data-version="temataiaho_2025">
+                        <span>Te Mātaiaho 2025</span>
+                        <span class="badge">Mandatory Jan 1</span>
+                    </div>
+                    <div class="version-tab" data-version="draft_2025">
+                        <span>Draft 2025</span>
+                        <span class="badge">Consultation</span>
+                    </div>
+                    <div class="version-tab" data-version="2007_nzc">
+                        <span>2007 NZC</span>
+                        <span class="badge">Legacy</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Search -->
+            <div class="search-container">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input 
+                        type="text" 
+                        id="search-input" 
+                        placeholder="Search curriculum statements..."
+                        aria-label="Search curriculum"
+                    >
+                </div>
+            </div>
+            
+            <!-- Results Summary -->
+            <div class="results-summary" id="results-summary">
+                <h3>Showing Results</h3>
+                <div class="results-count" id="results-count">Loading...</div>
+                <p id="results-filters">Loading curriculum...</p>
+            </div>
+            
+            <!-- Statements -->
+            <div id="statements-container">
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>Loading curriculum statements...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer will be injected -->
+    <div id="site-footer"></div>
+    
+    <script>
+        // State
+        let currentFilters = {
+            version: 'temataiaho_2025',
+            learningArea: '',
+            phase: '',
+            strand: '',
+            element: ''
+        };
+        
+        let allStatements = [];
+        let searchTimeout;
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadInitialData();
+            setupEventListeners();
+        });
+        
+        async function loadInitialData() {
+            try {
+                // Load subjects for default version
+                await loadSubjects();
+                
+                // Load statements
+                await loadStatements();
+                
+                // Update stats
+                updateStats();
+            } catch (err) {
+                console.error('Initialization error:', err);
+                showError('Failed to load curriculum data. Please refresh the page.');
+            }
+        }
+        
+        async function loadSubjects() {
+            const subjects = await CurriculumAPI.getLearningAreas(currentFilters.version);
+            
+            const select = document.getElementById('filter-subject');
+            select.innerHTML = '<option value="">All Subjects</option>';
+            
+            subjects.forEach(subject => {
+                const option = document.createElement('option');
+                option.value = subject;
+                option.textContent = subject;
+                select.appendChild(option);
+            });
+        }
+        
+        async function loadPhases() {
+            if (!currentFilters.learningArea) {
+                document.getElementById('filter-phase').innerHTML = '<option value="">All Phases</option>';
+                return;
+            }
+            
+            const phases = await CurriculumAPI.getPhases(currentFilters.learningArea, currentFilters.version);
+            
+            const select = document.getElementById('filter-phase');
+            select.innerHTML = '<option value="">All Phases</option>';
+            
+            phases.forEach(phaseData => {
+                const option = document.createElement('option');
+                option.value = phaseData.phase;
+                option.textContent = `${phaseData.phase} (Years ${phaseData.years.join(', ')})`;
+                select.appendChild(option);
+            });
+        }
+        
+        async function loadStrands() {
+            if (!currentFilters.learningArea || !currentFilters.phase) {
+                document.getElementById('filter-strand').innerHTML = '<option value="">All Strands</option>';
+                return;
+            }
+            
+            const strands = await CurriculumAPI.getStrands(
+                currentFilters.learningArea,
+                currentFilters.phase,
+                currentFilters.version
+            );
+            
+            const select = document.getElementById('filter-strand');
+            select.innerHTML = '<option value="">All Strands</option>';
+            
+            strands.forEach(strand => {
+                const option = document.createElement('option');
+                option.value = strand;
+                option.textContent = strand;
+                select.appendChild(option);
+            });
+        }
+        
+        async function loadStatements() {
+            showLoading();
+            
+            try {
+                const statements = await CurriculumAPI.getStatements(currentFilters);
+                allStatements = statements;
+                
+                renderStatements(statements);
+                updateResultsSummary(statements.length);
+            } catch (err) {
+                console.error('Error loading statements:', err);
+                showError('Failed to load statements. Please try again.');
+            }
+        }
+        
+        function renderStatements(statements) {
+            const container = document.getElementById('statements-container');
+            
+            if (statements.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3 style="font-size: 1.5rem; margin-bottom: 16px;">No statements found</h3>
+                        <p>Try adjusting your filters or search term.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = `
+                <div class="statements-container">
+                    ${statements.map(stmt => createStatementCard(stmt)).join('')}
+                </div>
+            `;
+        }
+        
+        function createStatementCard(stmt) {
+            const yearsText = stmt.year_levels && stmt.year_levels.length > 0
+                ? `Years ${stmt.year_levels.join(', ')}`
+                : '';
+            
+            return `
+                <div class="statement-card" data-id="${stmt.id}">
+                    <div class="statement-meta">
+                        ${stmt.phase ? `<span class="meta-badge badge-phase">${stmt.phase}</span>` : ''}
+                        ${stmt.strand ? `<span class="meta-badge badge-strand">${stmt.strand}</span>` : ''}
+                        ${stmt.element ? `<span class="meta-badge badge-element-${stmt.element.toLowerCase()}">${stmt.element}</span>` : ''}
+                        ${yearsText ? `<span class="meta-badge badge-years">${yearsText}</span>` : ''}
+                    </div>
+                    
+                    <div class="statement-text">${stmt.statement_text}</div>
+                    
+                    <div class="statement-actions">
+                        <button class="action-btn" onclick="viewResources(${stmt.id})">
+                            📚 View Resources
+                        </button>
+                        <button class="action-btn" onclick="compareVersions(${stmt.id})">
+                            🔄 Compare Versions
+                        </button>
+                        <button class="action-btn" onclick="copyStatement(${stmt.id})">
+                            📋 Copy
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function setupEventListeners() {
+            // Version tabs
+            document.querySelectorAll('.version-tab').forEach(tab => {
+                tab.addEventListener('click', async () => {
+                    const version = tab.dataset.version;
+                    currentFilters.version = version;
+                    currentFilters.learningArea = '';
+                    currentFilters.phase = '';
+                    currentFilters.strand = '';
+                    
+                    // Update active tab
+                    document.querySelectorAll('.version-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // Update UI
+                    document.getElementById('filter-version').value = version;
+                    await loadSubjects();
+                    await loadStatements();
+                });
+            });
+            
+            // Filter changes
+            document.getElementById('filter-version').addEventListener('change', async (e) => {
+                currentFilters.version = e.target.value;
+                currentFilters.learningArea = '';
+                currentFilters.phase = '';
+                currentFilters.strand = '';
+                
+                await loadSubjects();
+                await loadStatements();
+            });
+            
+            document.getElementById('filter-subject').addEventListener('change', async (e) => {
+                currentFilters.learningArea = e.target.value;
+                currentFilters.phase = '';
+                currentFilters.strand = '';
+                
+                await loadPhases();
+                await loadStatements();
+            });
+            
+            document.getElementById('filter-phase').addEventListener('change', async (e) => {
+                currentFilters.phase = e.target.value;
+                currentFilters.strand = '';
+                
+                await loadStrands();
+                await loadStatements();
+            });
+            
+            document.getElementById('filter-strand').addEventListener('change', async (e) => {
+                currentFilters.strand = e.target.value;
+                await loadStatements();
+            });
+            
+            document.getElementById('filter-element').addEventListener('change', async (e) => {
+                currentFilters.element = e.target.value;
+                await loadStatements();
+            });
+            
+            // Search
+            document.getElementById('search-input').addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    handleSearch(e.target.value);
+                }, 300);
+            });
+        }
+        
+        async function handleSearch(term) {
+            if (term.trim().length < 3) {
+                // Show filtered statements
+                renderStatements(allStatements);
+                return;
+            }
+            
+            showLoading();
+            
+            try {
+                const results = await CurriculumAPI.search(term);
+                renderStatements(results);
+                updateResultsSummary(results.length, `Search: "${term}"`);
+            } catch (err) {
+                console.error('Search error:', err);
+                showError('Search failed. Please try again.');
+            }
+        }
+        
+        function updateResultsSummary(count, customText = null) {
+            document.getElementById('results-count').textContent = count;
+            
+            const filterParts = [];
+            if (currentFilters.learningArea) filterParts.push(currentFilters.learningArea);
+            if (currentFilters.phase) filterParts.push(currentFilters.phase);
+            if (currentFilters.strand) filterParts.push(currentFilters.strand);
+            if (currentFilters.element) filterParts.push(currentFilters.element);
+            
+            const filterText = customText || (filterParts.length > 0
+                ? filterParts.join(' → ')
+                : 'All curriculum statements');
+            
+            document.getElementById('results-filters').textContent = filterText;
+        }
+        
+        async function updateStats() {
+            const stats = await CurriculumAPI.getStats();
+            if (!stats) return;
+            
+            document.getElementById('version-count').textContent = `${stats.total} total`;
+        }
+        
+        function resetFilters() {
+            currentFilters = {
+                version: 'temataiaho_2025',
+                learningArea: '',
+                phase: '',
+                strand: '',
+                element: ''
+            };
+            
+            document.getElementById('filter-version').value = 'temataiaho_2025';
+            document.getElementById('filter-subject').value = '';
+            document.getElementById('filter-phase').value = '';
+            document.getElementById('filter-strand').value = '';
+            document.getElementById('filter-element').value = '';
+            document.getElementById('search-input').value = '';
+            
+            loadStatements();
+        }
+        
+        function showLoading() {
+            document.getElementById('statements-container').innerHTML = `
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>Loading curriculum statements...</p>
+                </div>
+            `;
+        }
+        
+        function showError(message) {
+            document.getElementById('statements-container').innerHTML = `
+                <div class="empty-state">
+                    <h3 style="color: var(--color-maori-red); font-size: 1.5rem; margin-bottom: 16px;">⚠️ Error</h3>
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+        
+        // Action functions
+        async function viewResources(statementId) {
+            alert('Resource integration coming soon! This will show all teaching resources tagged to this curriculum statement.');
+        }
+        
+        async function compareVersions(statementId) {
+            alert('Version comparison coming soon! This will show equivalent statements from 2007 NZC and other versions.');
+        }
+        
+        async function copyStatement(statementId) {
+            const stmt = allStatements.find(s => s.id === statementId);
+            if (stmt) {
+                const text = `${stmt.statement_text}\n\n— ${stmt.learning_area}, ${stmt.phase}, ${stmt.strand} (${stmt.element})`;
+                await navigator.clipboard.writeText(text);
+                
+                // Show feedback
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            }
+        }
+    </script>
+    
+    <!-- Shared Components -->
+    <script src="js/shared-components.js" defer></script>
+    <script src="js/footer.js" defer></script>
+</body>
+</html>
+

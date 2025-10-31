@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template Gallery | Te Kete Ako</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@0,400;1,300&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/te-kete-bmad-authentic.css">
+    <link rel="stylesheet" href="css/navigation-standard.css">
+    <link rel="stylesheet" href="css/mobile-revolution.css">
+    <style>
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+        .template-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .template-card:hover {
+            border-color: #00b0b9;
+            box-shadow: 0 8px 16px rgba(0,176,185,0.15);
+            transform: translateY(-2px);
+        }
+        .template-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .template-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+        .template-subtitle {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+        .template-description {
+            color: #495057;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        .template-features {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+        .template-features li {
+            padding: 0.4rem 0;
+            color: #495057;
+            font-size: 0.9rem;
+        }
+        .template-features li::before {
+            content: "✓ ";
+            color: #2C5F41;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        .template-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .btn-view, .btn-download {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .btn-view {
+            background: #00b0b9;
+            color: white;
+        }
+        .btn-view:hover {
+            background: #008891;
+            transform: scale(1.02);
+        }
+        .btn-download {
+            background: #f8f9fa;
+            color: #495057;
+            border: 2px solid #dee2e6;
+        }
+        .btn-download:hover {
+            background: #e9ecef;
+            border-color: #adb5bd;
+        }
+        .page-hero {
+            background: linear-gradient(135deg, #00b0b9 0%, #2C5F41 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .page-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .page-hero p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .whakatauki-box {
+            background: #f8f9fa;
+            border-left: 4px solid #f5a623;
+            padding: 1.5rem;
+            margin: 2rem auto;
+            max-width: 800px;
+            font-style: italic;
+        }
+        .whakatauki-maori {
+            font-size: 1.2rem;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+        .whakatauki-english {
+            color: #6c757d;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .status-perfect {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-good {
+            background: #cce5ff;
+            color: #004085;
+        }
+    </style>
+</head>
+<body data-auto-init="true" data-current-page="templates">
+    <!-- Header -->
+    <header class="site-header">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-brand">
+                <span class="brand-logo">🧺</span>
+                <span class="brand-text">
+                    <span class="brand-main">Te Kete Ako</span>
+                </span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/browse.html">
+                        <span class="nav-icon">📚</span>
+                        <span class="nav-text-mi">Ngā Rauemi</span>
+                        <span class="nav-text-en">Resources</span>
+                    </a></li>
+                    <li><a href="/about.html">
+                        <span class="nav-icon">ℹ️</span>
+                        <span class="nav-text-mi">Mō Mātou</span>
+                        <span class="nav-text-en">About</span>
+                    </a></li>
+                </ul>
+            </nav>
+            <div class="auth-section">
+                <a href="/login.html" class="auth-link login-link">
+                    <span class="auth-icon">🔐</span>
+                    <span class="auth-text">Login</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Hero -->
+    <div class="page-hero">
+        <h1>📋 Template Gallery</h1>
+        <p>Ngā Tauira - Professional templates for creating culturally-grounded educational resources</p>
+    </div>
+
+    <!-- Whakataukī -->
+    <div class="whakatauki-box">
+        <div class="whakatauki-maori">Toi te kupu, toi te mana, toi te whenua</div>
+        <div class="whakatauki-english">The art of language, the art of prestige, the art of the land - Excellence in all we create</div>
+    </div>
+
+    <!-- Template Grid -->
+    <div class="template-grid">
+        
+        <!-- Handout Template - Simple A4 -->
+        <div class="template-card">
+            <div class="template-icon">📄</div>
+            <div class="status-badge status-perfect">✨ PERFECT</div>
+            <h2 class="template-title">Simple A4 Handout</h2>
+            <div class="template-subtitle">Print-focused worksheets with NO sidebar</div>
+            <p class="template-description">
+                Clean, minimalist template designed for print. Perfect for math worksheets, 
+                fill-in-the-blank activities, and simple exercises that students will complete on paper.
+            </p>
+            <ul class="template-features">
+                <li>Print-optimized layout</li>
+                <li>No sidebar distractions</li>
+                <li>A4 page formatting</li>
+                <li>Cultural opening section</li>
+                <li>Header hidden on print</li>
+            </ul>
+            <div class="template-actions">
+                <a href="/templates/handout-simple-a4-template-PERFECT.html" class="btn-view" target="_blank">👁️ View</a>
+                <a href="/templates/handout-simple-a4-template-PERFECT.html" download class="btn-download">⬇️ Download</a>
+            </div>
+        </div>
+
+        <!-- Handout Template - With Sidebar -->
+        <div class="template-card">
+            <div class="template-icon">📋</div>
+            <div class="status-badge status-perfect">✨ PERFECT</div>
+            <h2 class="template-title">Handout with Sidebar</h2>
+            <div class="template-subtitle">Content-rich handouts for screen reading</div>
+            <p class="template-description">
+                Comprehensive template with left sidebar for related resources. Ideal for 
+                content-heavy materials, analysis guides, and resources meant to be viewed on screen.
+            </p>
+            <ul class="template-features">
+                <li>Left sidebar for navigation</li>
+                <li>Related resources section</li>
+                <li>Whakataukī integration</li>
+                <li>Responsive design</li>
+                <li>Print-friendly (sidebar hidden)</li>
+            </ul>
+            <div class="template-actions">
+                <a href="/templates/handout-with-sidebar-template-PERFECT.html" class="btn-view" target="_blank">👁️ View</a>
+                <a href="/templates/handout-with-sidebar-template-PERFECT.html" download class="btn-download">⬇️ Download</a>
+            </div>
+        </div>
+
+        <!-- Standard Handout Template -->
+        <div class="template-card">
+            <div class="template-icon">📝</div>
+            <div class="status-badge status-good">✓ Good</div>
+            <h2 class="template-title">Standard Handout</h2>
+            <div class="template-subtitle">General-purpose handout template</div>
+            <p class="template-description">
+                Flexible handout template suitable for most teaching materials. Includes example boxes, 
+                technique boxes, and practice activities with NZ Curriculum alignment.
+            </p>
+            <ul class="template-features">
+                <li>Example and technique boxes</li>
+                <li>Practice activities section</li>
+                <li>Reflection questions</li>
+                <li>NZ Curriculum alignment</li>
+                <li>Cultural integration</li>
+            </ul>
+            <div class="template-actions">
+                <a href="/templates/handout-template.html" class="btn-view" target="_blank">👁️ View</a>
+                <a href="/templates/handout-template.html" download class="btn-download">⬇️ Download</a>
+            </div>
+        </div>
+
+        <!-- Lesson Template -->
+        <div class="template-card">
+            <div class="template-icon">📖</div>
+            <div class="status-badge status-perfect">✨ PERFECT</div>
+            <h2 class="template-title">Lesson Plan</h2>
+            <div class="template-subtitle">45-60 minute lesson structure</div>
+            <p class="template-description">
+                Complete lesson plan template with cultural opening, learning intentions, 
+                activities, and assessment. Perfect for individual lessons within a unit.
+            </p>
+            <ul class="template-features">
+                <li>Whakatūwhera (Cultural opening)</li>
+                <li>Ngā Whāinga Ako (Learning intentions)</li>
+                <li>Structured activity sections</li>
+                <li>Assessment guidance</li>
+                <li>Sidebar navigation</li>
+            </ul>
+            <div class="template-actions">
+                <a href="/templates/lesson-template-PERFECT.html" class="btn-view" target="_blank">👁️ View</a>
+                <a href="/templates/lesson-template-PERFECT.html" download class="btn-download">⬇️ Download</a>
+            </div>
+        </div>
+
+        <!-- Unit Template -->
+        <div class="template-card">
+            <div class="template-icon">📚</div>
+            <div class="status-badge status-good">✓ Good</div>
+            <h2 class="template-title">Unit Plan</h2>
+            <div class="template-subtitle">Multi-week teaching unit (3-6 weeks)</div>
+            <p class="template-description">
+                Comprehensive unit plan template for extended learning sequences. Includes 
+                unit context bar, week-by-week organization, and complete curriculum alignment.
+            </p>
+            <ul class="template-features">
+                <li>Unit context bar</li>
+                <li>Week-by-week lesson organization</li>
+                <li>Resources section</li>
+                <li>Assessment framework</li>
+                <li>Full curriculum alignment</li>
+            </ul>
+            <div class="template-actions">
+                <a href="/templates/unit-template.html" class="btn-view" target="_blank">👁️ View</a>
+                <a href="/templates/unit-template.html" download class="btn-download">⬇️ Download</a>
+            </div>
+        </div>
+
+        <!-- Game Template -->
+        <div class="template-card">
+            <div class="template-icon">🎮</div>
+            <div class="status-badge status-good">✓ Good</div>
+            <h2 class="template-title">Educational Game</h2>
+            <div class="template-subtitle">Interactive learning activities</div>
+            <p class="template-description">
+                Template for creating interactive educational games. Includes game container 
+                layout, stats tracking, instructions, and cultural connection sections.
+            </p>
+            <ul class="template-features">
+                <li>Game container layout</li>
+                <li>Stats tracking (localStorage)</li>
+                <li>Instructions section</li>
+                <li>Cultural connection box</li>
+                <li>Inline CSS for custom styles</li>
+            </ul>
+            <div class="template-actions">
+                <a href="/templates/game-template.html" class="btn-view" target="_blank">👁️ View</a>
+                <a href="/templates/game-template.html" download class="btn-download">⬇️ Download</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Usage Guide Section -->
+    <div style="max-width: 1000px; margin: 4rem auto; padding: 0 2rem;">
+        <h2 style="text-align: center; font-size: 2rem; margin-bottom: 2rem; color: #1a1a1a;">📖 How to Use These Templates</h2>
+        
+        <div style="background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
+            <h3 style="color: #00b0b9; margin-bottom: 1rem;">Method 1: Copy & Fill (Recommended)</h3>
+            <ol style="line-height: 2; color: #495057;">
+                <li>Click "Download" on the template you need</li>
+                <li>Save to appropriate directory (<code>/handouts/</code>, <code>/lessons/</code>, or <code>/units/</code>)</li>
+                <li>Replace all <code>[PLACEHOLDERS]</code> with your content</li>
+                <li>Update CSS paths if needed (add <code>../</code> for subdirectories)</li>
+                <li>Fill in cultural elements (whakataukī, Te Reo)</li>
+                <li>Test locally at <code>http://localhost:8001</code></li>
+            </ol>
+
+            <h3 style="color: #00b0b9; margin: 2rem 0 1rem;">Method 2: View & Reference</h3>
+            <ol style="line-height: 2; color: #495057;">
+                <li>Click "View" to see the template in action</li>
+                <li>Use browser's "View Source" to see HTML structure</li>
+                <li>Copy the sections you need into your existing file</li>
+                <li>Adapt to your specific needs</li>
+            </ol>
+
+            <h3 style="color: #2C5F41; margin: 2rem 0 1rem;">⚠️ Important Notes</h3>
+            <ul style="line-height: 2; color: #495057;">
+                <li><strong>CSS Paths:</strong> All templates use BMAD Authentic design system. Adjust paths based on file location.</li>
+                <li><strong>Cultural Elements:</strong> Always include meaningful whakataukī that connect to your content.</li>
+                <li><strong>Print Testing:</strong> Press Cmd+P (or Ctrl+P) to test print layout before publishing.</li>
+                <li><strong>One Design System:</strong> Do NOT add additional CSS files or Tailwind to these templates.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="background: #1a1a1a; color: white; padding: 3rem 2rem; margin-top: 5rem; text-align: center;">
+        <p style="margin-bottom: 1rem;">📚 Te Kete Ako - Whaowhia te kete mātauranga</p>
+        <p style="color: #adb5bd; font-size: 0.9rem;">Templates extracted from July 27, 2025 commit (7b1c43f90) - User-approved, working code</p>
+        <p style="color: #6c757d; font-size: 0.8rem; margin-top: 1rem;">
+            <a href="/templates/README.md" style="color: #00b0b9; text-decoration: none;">📖 Read Full Documentation</a> | 
+            <a href="/templates/HANDOUT-TEMPLATE-GUIDE.md" style="color: #00b0b9; text-decoration: none;">📋 Handout Guide</a>
+        </p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/supabase-client.js"></script>
+    <script src="js/auth-ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
+
